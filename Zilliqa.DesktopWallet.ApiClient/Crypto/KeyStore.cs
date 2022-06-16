@@ -1,15 +1,14 @@
-﻿using MusZil_Core.Crypto;
-using System;
+﻿using System;
 using System.Text;
-using Org.BouncyCastle.Crypto.Digests;
-using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Crypto.Generators;
-using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Security;
-using MusZil_Core.Utils;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Digests;
+using Org.BouncyCastle.Crypto.Generators;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Security;
+using Zilliqa.DesktopWallet.ApiClient.Utils;
 
-namespace MusZil_Core
+namespace Zilliqa.DesktopWallet.ApiClient.Crypto
 {
     public class KeyStore
     {

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace MusZil_Core.Transactions
+namespace Zilliqa.DesktopWallet.ApiClient.Transactions
 {
     public class Receipt
     {

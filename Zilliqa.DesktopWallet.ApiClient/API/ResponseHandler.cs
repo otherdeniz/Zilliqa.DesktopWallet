@@ -1,14 +1,7 @@
-﻿using MusZil_Core.Accounts;
-using MusZil_Core.Contracts;
-using MusZil_Core.Enums;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using static MusZil_Core.Address;
+﻿using Newtonsoft.Json.Linq;
+using Zilliqa.DesktopWallet.ApiClient.Enums;
 
-namespace MusZil_Core.API
+namespace Zilliqa.DesktopWallet.ApiClient.API
 {
     public class ResponseHandler 
     {

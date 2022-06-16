@@ -1,9 +1,8 @@
-﻿using MusZil_Core;
-using MusZil_Core.Accounts;
-using MusZil_Core.API;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using Zilliqa.DesktopWallet.ApiClient.Accounts;
+using Zilliqa.DesktopWallet.ApiClient.API;
 
-namespace NUnitTestMusZIL
+namespace Zilliqa.DesktopWallet.ApiClient.Test
 {
     /// <summary>
     /// Uses a wallet generated at https://dev-wallet.zilliqa.com/generate 

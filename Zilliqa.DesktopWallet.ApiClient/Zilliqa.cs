@@ -1,15 +1,15 @@
-﻿using MusZil_Core.API;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MusZil_Core.Accounts;
-using MusZil_Core.Contracts;
-using MusZil_Core.Blockchain;
 using Newtonsoft.Json.Linq;
-using MusZil_Core.Transactions;
-using Newtonsoft.Json;
+using Zilliqa.DesktopWallet.ApiClient.Accounts;
+using Zilliqa.DesktopWallet.ApiClient.API;
+using Zilliqa.DesktopWallet.ApiClient.Blockchain;
+using Zilliqa.DesktopWallet.ApiClient.Contracts;
+using Zilliqa.DesktopWallet.ApiClient.Interfaces;
+using Zilliqa.DesktopWallet.ApiClient.Transactions;
 
-namespace MusZil_Core
+namespace Zilliqa.DesktopWallet.ApiClient
 {
 	public class Zilliqa
     {

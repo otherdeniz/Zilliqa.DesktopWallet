@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace MusZil_Core.API
+namespace Zilliqa.DesktopWallet.ApiClient.Interfaces
 {
     public interface IZilliqaAPIClient<T>
     {

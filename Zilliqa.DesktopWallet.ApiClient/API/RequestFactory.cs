@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MusZil_Core.API
+﻿namespace Zilliqa.DesktopWallet.ApiClient.API
 {
     public class RequestFactory
     {

@@ -1,7 +1,7 @@
-﻿using MusZil_Core.Enums;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Zilliqa.DesktopWallet.ApiClient.Enums;
 
-namespace MusZil_Core
+namespace Zilliqa.DesktopWallet.ApiClient
 {
     public class Balance
     {

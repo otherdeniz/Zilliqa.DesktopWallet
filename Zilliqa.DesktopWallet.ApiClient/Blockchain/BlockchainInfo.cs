@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace MusZil_Core.Blockchain
+namespace Zilliqa.DesktopWallet.ApiClient.Blockchain
 {
     public class BlockchainInfo
     {

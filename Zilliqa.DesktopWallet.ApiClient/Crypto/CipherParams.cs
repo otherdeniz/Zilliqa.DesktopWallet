@@ -1,4 +1,4 @@
-﻿namespace MusZil_Core.Crypto
+﻿namespace Zilliqa.DesktopWallet.ApiClient.Crypto
 {
     public class CipherParams
     {

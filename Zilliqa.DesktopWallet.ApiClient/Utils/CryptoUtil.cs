@@ -1,26 +1,14 @@
-﻿using MusZil_Core.Crypto;
-using Newtonsoft.Json;
-using Org.BouncyCastle.Asn1.X9;
-using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Crypto.Digests;
+﻿using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 using Org.BouncyCastle.Crypto.EC;
-using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
-using Org.BouncyCastle.Math.EC;
 using Org.BouncyCastle.Math.EC.Multiplier;
 using Org.BouncyCastle.Security;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Xml;
-using System.Xml.Linq;
+using Zilliqa.DesktopWallet.ApiClient.Crypto;
 using ECPoint = Org.BouncyCastle.Math.EC.ECPoint;
 
-namespace MusZil_Core.Utils
+namespace Zilliqa.DesktopWallet.ApiClient.Utils
 {
     public class CryptoUtil
     {

@@ -1,11 +1,10 @@
-﻿using MusZil_Core.Crypto;
-using MusZil_Core.Utils;
-using Org.BouncyCastle.Math;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Text;
+using Org.BouncyCastle.Math;
+using Zilliqa.DesktopWallet.ApiClient.Crypto;
+using Zilliqa.DesktopWallet.ApiClient.Utils;
 
-namespace MusZil_Core.Accounts
+namespace Zilliqa.DesktopWallet.ApiClient.Accounts
 {
     public class Account
     {

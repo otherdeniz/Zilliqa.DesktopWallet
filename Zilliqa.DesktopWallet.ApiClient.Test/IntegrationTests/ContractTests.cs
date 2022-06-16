@@ -1,15 +1,10 @@
-﻿using MusZil_Core;
-using MusZil_Core.API;
-using MusZil_Core.Contracts;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Zilliqa.DesktopWallet.ApiClient.Contracts;
 
-namespace NUnitTestMusZIL.IntegrationTests
+namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
 {
     public class ContractTests : MusTest
     {

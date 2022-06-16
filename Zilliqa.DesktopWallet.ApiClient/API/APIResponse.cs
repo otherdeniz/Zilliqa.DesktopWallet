@@ -1,11 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
 
-namespace MusZil_Core.API
+namespace Zilliqa.DesktopWallet.ApiClient.API
 {
     public class APIResponse
     {

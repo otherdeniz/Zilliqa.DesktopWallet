@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 
-namespace MusZil_Core.Utils
+namespace Zilliqa.DesktopWallet.ApiClient.Utils
 {
     public class MusBech32
     {

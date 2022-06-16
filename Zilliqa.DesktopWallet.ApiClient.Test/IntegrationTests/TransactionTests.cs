@@ -1,13 +1,10 @@
-﻿using MusZil_Core.Accounts;
-using MusZil_Core.Transactions;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
+using Zilliqa.DesktopWallet.ApiClient.Transactions;
 
-namespace NUnitTestMusZIL.IntegrationTests
+namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
 {
     public class TransactionTests : MusTest
     {

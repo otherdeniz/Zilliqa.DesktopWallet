@@ -1,14 +1,12 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Zilliqa.DesktopWallet.ApiClient.Interfaces;
 
-namespace MusZil_Core.API
+namespace Zilliqa.DesktopWallet.ApiClient.API
 {
 	public class MusZil_APIClient : IZilliqaAPIClient<MusResult>
 	{

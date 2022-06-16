@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MusZil_Core.Contracts;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using Zilliqa.DesktopWallet.ApiClient.Contracts;
 
-namespace NUnitTestMusZIL.Contracts
+namespace Zilliqa.DesktopWallet.ApiClient.Test.Contracts
 {
     public class ContractTests
     {

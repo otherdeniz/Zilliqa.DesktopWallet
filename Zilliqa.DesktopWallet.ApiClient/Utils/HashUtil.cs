@@ -1,11 +1,9 @@
-﻿using Org.BouncyCastle.Crypto.Digests;
+﻿using System;
+using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Macs;
 using Org.BouncyCastle.Crypto.Parameters;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace MusZil_Core.Utils
+namespace Zilliqa.DesktopWallet.ApiClient.Utils
 {
     public class HashUtil
     {

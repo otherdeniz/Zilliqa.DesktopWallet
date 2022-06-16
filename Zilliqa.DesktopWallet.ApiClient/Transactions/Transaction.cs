@@ -1,9 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using Newtonsoft.Json;
 
-namespace MusZil_Core.Transactions
+namespace Zilliqa.DesktopWallet.ApiClient.Transactions
 {
     public class Transaction
     {

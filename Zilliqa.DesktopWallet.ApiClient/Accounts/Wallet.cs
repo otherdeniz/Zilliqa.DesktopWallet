@@ -1,11 +1,9 @@
-﻿using MusZil_Core.Crypto;
-using MusZil_Core.Transactions;
-using MusZil_Core.Utils;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using Zilliqa.DesktopWallet.ApiClient.Crypto;
+using Zilliqa.DesktopWallet.ApiClient.Transactions;
+using Zilliqa.DesktopWallet.ApiClient.Utils;
 
-namespace MusZil_Core.Accounts
+namespace Zilliqa.DesktopWallet.ApiClient.Accounts
 {
     public class Wallet
     {

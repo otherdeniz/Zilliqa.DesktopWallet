@@ -1,14 +1,9 @@
-﻿using MusZil_Core.Blockchain;
-using Newtonsoft.Json;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Resources;
-using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
-namespace NUnitTestMusZIL.IntegrationTests
+namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
 {
     public class BlockchainTests:MusTest
     {

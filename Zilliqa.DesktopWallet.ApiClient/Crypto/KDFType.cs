@@ -1,4 +1,4 @@
-﻿namespace MusZil_Core
+﻿namespace Zilliqa.DesktopWallet.ApiClient.Crypto
 {
     public enum KDFType
     {

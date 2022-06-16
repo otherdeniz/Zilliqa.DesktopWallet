@@ -1,13 +1,13 @@
-﻿using Org.BouncyCastle.Asn1.X9;
+﻿using System;
+using System.Linq;
+using Org.BouncyCastle.Asn1.X9;
 using Org.BouncyCastle.Crypto.EC;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Math.EC;
 using Org.BouncyCastle.Math.EC.Multiplier;
-using System;
-using System.Linq;
 
-namespace MusZil_Core.Crypto
+namespace Zilliqa.DesktopWallet.ApiClient.Crypto
 {
     public class ECKeyPair
     {

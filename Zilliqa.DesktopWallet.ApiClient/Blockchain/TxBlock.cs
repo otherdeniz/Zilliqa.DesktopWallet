@@ -1,9 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
-namespace MusZil_Core.Blockchain
+namespace Zilliqa.DesktopWallet.ApiClient.Blockchain
 {
     public class TxBlock : BlockInfo
     {

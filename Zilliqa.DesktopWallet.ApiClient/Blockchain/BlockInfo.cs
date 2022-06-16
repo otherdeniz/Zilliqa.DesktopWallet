@@ -1,4 +1,4 @@
-﻿namespace MusZil_Core.Blockchain
+﻿namespace Zilliqa.DesktopWallet.ApiClient.Blockchain
 {
     public class BlockInfo
     {

@@ -1,9 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
-namespace MusZil_Core.Contracts
+namespace Zilliqa.DesktopWallet.ApiClient.Contracts
 {
     public class SmartContract
     {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MusZil_Core.Enums
+﻿namespace Zilliqa.DesktopWallet.ApiClient.Enums
 {
     public enum Unit
     {

@@ -1,11 +1,11 @@
 ﻿using Google.Protobuf;
-using MusZil_Core.Utils;
 using MusZilCore.Proto;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Utilities;
+using Zilliqa.DesktopWallet.ApiClient.Utils;
 
-namespace MusZil_Core.Transactions
+namespace Zilliqa.DesktopWallet.ApiClient.Transactions
 {
     public class TransactionPayload
     {

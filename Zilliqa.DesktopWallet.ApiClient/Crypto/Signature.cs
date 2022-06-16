@@ -1,10 +1,7 @@
-﻿using MusZil_Core.Utils;
-using Org.BouncyCastle.Math;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Org.BouncyCastle.Math;
+using Zilliqa.DesktopWallet.ApiClient.Utils;
 
-namespace MusZil_Core.Crypto
+namespace Zilliqa.DesktopWallet.ApiClient.Crypto
 {
     public class Signature
     {

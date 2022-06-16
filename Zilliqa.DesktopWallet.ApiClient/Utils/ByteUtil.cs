@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Numerics;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace MusZil_Core.Utils
+namespace Zilliqa.DesktopWallet.ApiClient.Utils
 {
     public class ByteUtil
     {

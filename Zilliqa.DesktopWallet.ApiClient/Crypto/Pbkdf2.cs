@@ -1,11 +1,9 @@
-﻿using Org.BouncyCastle.Crypto.Digests;
+﻿using System.Text;
+using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace MusZil_Core.Crypto
+namespace Zilliqa.DesktopWallet.ApiClient.Crypto
 {
     public class Pbkdf2 : KDFParams
     {

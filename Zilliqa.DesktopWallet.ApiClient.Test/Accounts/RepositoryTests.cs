@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MusZil_Core.Accounts;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using Zilliqa.DesktopWallet.ApiClient.Accounts;
 
-namespace NUnitTestMusZIL.Accounts
+namespace Zilliqa.DesktopWallet.ApiClient.Test.Accounts
 {
     public class RepositoryTests
     {
