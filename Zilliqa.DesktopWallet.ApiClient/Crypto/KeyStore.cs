@@ -178,9 +178,9 @@ namespace Zilliqa.DesktopWallet.ApiClient.Crypto
             return JsonConvert.SerializeObject(key);
         }
       
-        public string DecryptPrivateKey(string encryptJson, string passphrase)
+        public string DecryptPrivateKey(string keyStoreJson, string passphrase)
         {
-            KeyStore keystore = JsonConvert.DeserializeObject<KeyStore>(encryptJson);
+            KeyStore keystore = JsonConvert.DeserializeObject<KeyStore>(keyStoreJson);
 
             byte[] ciphertext = ByteUtil.HexStringToByteArray(keystore.Crypto.Ciphertext);
             byte[] iv = ByteUtil.HexStringToByteArray(keystore.Crypto.Cipherparams.Iv);

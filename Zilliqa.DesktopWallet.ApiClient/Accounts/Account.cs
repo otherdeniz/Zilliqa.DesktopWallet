@@ -9,8 +9,11 @@ namespace Zilliqa.DesktopWallet.ApiClient.Accounts
     public class Account
     {
         public Balance Balance { get; set; }
+
         public Address Address { get; set; }
+
         public ECKeyPair KeyPair { get; set; }
+
         public Account(string privateKey)
         {
             if (String.IsNullOrWhiteSpace(privateKey))
@@ -18,9 +21,9 @@ namespace Zilliqa.DesktopWallet.ApiClient.Accounts
 
             InitializeAccount(privateKey);
         }
-        public Account(string file, string passphrase)
+        public Account(string keyStoreJson, string passphrase)
         {
-            string privateKey = CryptoUtil.DecryptPrivateKey(file, passphrase);
+            string privateKey = CryptoUtil.DecryptPrivateKey(keyStoreJson, passphrase);
             InitializeAccount(privateKey);
         }
         

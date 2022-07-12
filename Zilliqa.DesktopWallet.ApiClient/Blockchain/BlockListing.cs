@@ -6,6 +6,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Blockchain
     { 
         [JsonProperty("data")]
         public BlockInfo[] Data { get; set; }
+
         [JsonProperty("maxPages")]
         public int MaxPages { get; set; }
     }

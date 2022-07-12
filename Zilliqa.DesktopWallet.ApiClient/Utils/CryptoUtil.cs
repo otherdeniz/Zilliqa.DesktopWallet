@@ -78,9 +78,9 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
             return new FixedPointCombMultiplier().Multiply(CURVE.G, privateKeyPoint);
         }
 
-        public static string DecryptPrivateKey(string file, string passphrase)
+        public static string DecryptPrivateKey(string keyStoreJson, string passphrase)
         {
-            return keystore.DecryptPrivateKey(file, passphrase);
+            return keystore.DecryptPrivateKey(keyStoreJson, passphrase);
         }
 
         public static string EncryptPrivateKey(string privateKey, string passphrase, KDFType type)

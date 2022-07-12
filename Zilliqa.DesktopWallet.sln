@@ -9,7 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.ApiCl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.Core", "Zilliqa.DesktopWallet.Core\Zilliqa.DesktopWallet.Core.csproj", "{03B2CEDD-79A2-43A6-B62E-A0D592803115}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zilliqa.DesktopWallet.Gui.WinForms", "Zilliqa.DesktopWallet.Gui.WinForms\Zilliqa.DesktopWallet.Gui.WinForms.csproj", "{C6F55CAE-D21F-4A2D-ABD6-DC36FF0D94EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.Gui.WinForms", "Zilliqa.DesktopWallet.Gui.WinForms\Zilliqa.DesktopWallet.Gui.WinForms.csproj", "{C6F55CAE-D21F-4A2D-ABD6-DC36FF0D94EE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaksaCsharp", "LaksaCsharp\LaksaCsharp.csproj", "{F6B81A7B-3649-4A16-BAED-458E8581A106}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaksaTest", "LaksaTest\LaksaTest.csproj", "{D2E60F40-0529-4C56-97EF-F85D778A6811}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{C6F55CAE-D21F-4A2D-ABD6-DC36FF0D94EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6F55CAE-D21F-4A2D-ABD6-DC36FF0D94EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6F55CAE-D21F-4A2D-ABD6-DC36FF0D94EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6B81A7B-3649-4A16-BAED-458E8581A106}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6B81A7B-3649-4A16-BAED-458E8581A106}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6B81A7B-3649-4A16-BAED-458E8581A106}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6B81A7B-3649-4A16-BAED-458E8581A106}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2E60F40-0529-4C56-97EF-F85D778A6811}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2E60F40-0529-4C56-97EF-F85D778A6811}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2E60F40-0529-4C56-97EF-F85D778A6811}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2E60F40-0529-4C56-97EF-F85D778A6811}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

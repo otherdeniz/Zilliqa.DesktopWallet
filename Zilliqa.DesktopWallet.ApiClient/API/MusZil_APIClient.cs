@@ -342,10 +342,9 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
 				var response = await httpClient.PostAsync(Url, data);
 				result = response.Content.ReadAsStringAsync().Result;
 			}
-			var musres = JsonConvert.DeserializeObject<APIResponse>(result);
-
-			return musres;
+			return JsonConvert.DeserializeObject<APIResponse>(result);
 		}
+
 		#endregion
 	}
 }

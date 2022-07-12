@@ -35,7 +35,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "MainBlockchainBrowserControl";
-            this.Size = new System.Drawing.Size(664, 394);
+            this.Size = new System.Drawing.Size(830, 587);
             this.ResumeLayout(false);
 
         }
