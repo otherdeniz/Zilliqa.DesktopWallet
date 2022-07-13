@@ -29,9 +29,6 @@
         private void InitializeComponent()
         {
             this.panelPage1 = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.buttonPage1Next = new System.Windows.Forms.Button();
-            this.buttonPage1Cancel = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -39,12 +36,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panelPage1.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelPage1
             // 
-            this.panelPage1.Controls.Add(this.panel1);
             this.panelPage1.Controls.Add(this.textBox2);
             this.panelPage1.Controls.Add(this.label3);
             this.panelPage1.Controls.Add(this.label4);
@@ -56,37 +51,6 @@
             this.panelPage1.Name = "panelPage1";
             this.panelPage1.Size = new System.Drawing.Size(569, 284);
             this.panelPage1.TabIndex = 0;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.buttonPage1Next);
-            this.panel1.Controls.Add(this.buttonPage1Cancel);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 257);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(569, 27);
-            this.panel1.TabIndex = 7;
-            // 
-            // buttonPage1Next
-            // 
-            this.buttonPage1Next.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonPage1Next.Location = new System.Drawing.Point(491, 0);
-            this.buttonPage1Next.Name = "buttonPage1Next";
-            this.buttonPage1Next.Size = new System.Drawing.Size(75, 23);
-            this.buttonPage1Next.TabIndex = 0;
-            this.buttonPage1Next.Text = "Save";
-            this.buttonPage1Next.UseVisualStyleBackColor = true;
-            // 
-            // buttonPage1Cancel
-            // 
-            this.buttonPage1Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonPage1Cancel.Location = new System.Drawing.Point(410, 0);
-            this.buttonPage1Cancel.Name = "buttonPage1Cancel";
-            this.buttonPage1Cancel.Size = new System.Drawing.Size(75, 23);
-            this.buttonPage1Cancel.TabIndex = 1;
-            this.buttonPage1Cancel.Text = "Cancel";
-            this.buttonPage1Cancel.UseVisualStyleBackColor = true;
-            this.buttonPage1Cancel.Click += new System.EventHandler(this.buttonPage1Cancel_Click);
             // 
             // textBox2
             // 
@@ -157,7 +121,6 @@
             this.Text = "Create new Wallet";
             this.panelPage1.ResumeLayout(false);
             this.panelPage1.PerformLayout();
-            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -171,8 +134,5 @@
         private TextBox textBox1;
         private Label label2;
         private Label label1;
-        private Button buttonPage1Next;
-        private Button buttonPage1Cancel;
-        private Panel panel1;
     }
 }

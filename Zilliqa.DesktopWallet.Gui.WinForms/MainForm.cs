@@ -1,3 +1,6 @@
+using Zilliqa.DesktopWallet.Core.Data.Files;
+using Zilliqa.DesktopWallet.Gui.WinForms.Forms;
+
 namespace Zilliqa.DesktopWallet.Gui.WinForms
 {
     public partial class MainForm : Form
@@ -7,9 +10,29 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             InitializeComponent();
         }
 
+        private bool LoadWallet()
+        {
+            if (!WalletDat.Exists)
+            {
+                var walletPassword = CreatePasswordForm.Execute(this);
+                if (walletPassword == null)
+                {
+                    return false;
+                }
+                var wallet = WalletDat.CreateNew();
+                wallet.PasswordHash = walletPassword.Hash;
+                //wallet.MyAccounts.Add();
+            }
+
+            return true;
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
-            ShowMainControl(mainBlockchainBrowserControl, buttonBlockchain);
+            if (LoadWallet())
+            {
+                ShowMainControl(mainBlockchainBrowserControl, buttonBlockchain);
+            }
         }
 
         private void buttonWallet_Click(object sender, EventArgs e)

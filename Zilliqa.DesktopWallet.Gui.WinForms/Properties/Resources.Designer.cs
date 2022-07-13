@@ -59,5 +59,23 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong password. Please provide the correct wallet password..
+        /// </summary>
+        internal static string EnterPasswordForm_WrongPassword_Text {
+            get {
+                return ResourceManager.GetString("EnterPasswordForm_WrongPassword_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong password..
+        /// </summary>
+        internal static string EnterPasswordForm_WrongPassword_Title {
+            get {
+                return ResourceManager.GetString("EnterPasswordForm_WrongPassword_Title", resourceCulture);
+            }
+        }
     }
 }
