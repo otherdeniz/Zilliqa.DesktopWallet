@@ -6,6 +6,7 @@ using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Math.EC;
 using Org.BouncyCastle.Math.EC.Multiplier;
+using Zilliqa.DesktopWallet.ApiClient.Utils;
 
 namespace Zilliqa.DesktopWallet.ApiClient.Crypto
 {
@@ -24,21 +25,13 @@ namespace Zilliqa.DesktopWallet.ApiClient.Crypto
             this.publicKey = publicKey;
         }
 
-        public BigInteger PrivateKey
-        {
-            get
-            {
-                return privateKey;
-            }
-        }
+        public BigInteger PrivateKey => privateKey;
 
-        public BigInteger PublicKey
-        {
-            get
-            {
-                return publicKey;
-            }
-        }
+        public string PrivateKeyHex => ByteUtil.ByteArrayToHexString(PrivateKey.ToByteArray());
+
+        public BigInteger PublicKey => publicKey;
+
+        public string PublicKeyHex => ByteUtil.ByteArrayToHexString(PublicKey.ToByteArray());
 
         public static ECKeyPair Create(BigInteger privateKey)
         {

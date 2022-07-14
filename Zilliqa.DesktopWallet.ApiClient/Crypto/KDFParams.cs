@@ -1,4 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System.Security.Cryptography;
+using System.Text;
+using Newtonsoft.Json;
+using Org.BouncyCastle.Crypto.Digests;
+using Org.BouncyCastle.Crypto.Generators;
+using Org.BouncyCastle.Crypto.Parameters;
 
 namespace Zilliqa.DesktopWallet.ApiClient.Crypto
 {
@@ -23,6 +28,15 @@ namespace Zilliqa.DesktopWallet.ApiClient.Crypto
         public override string Salt { get; set; }
         public int DkLen { get; set; }
         public int Count { get; set; }
+
+        public byte[] GetDerivedKey(string password)
+        {
+            var pdb = new Rfc2898DeriveBytes(password, Encoding.UTF8.GetBytes(Salt));
+            return pdb.GetBytes(DkLen * 8);
+            //Pkcs5S2ParametersGenerator generator = new Pkcs5S2ParametersGenerator(new Sha256Digest());
+            //generator.Init(password, Encoding.UTF8.GetBytes(Salt), Count);
+            //return ((KeyParameter)generator.GenerateDerivedParameters("pbkdf2", DkLen * 8)).GetKey();
+        }
     }
 
 

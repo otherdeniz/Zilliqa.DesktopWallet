@@ -2,9 +2,9 @@
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.ViewModel
 {
-    internal class CreateWalletResult
+    public class CreateWalletResult
     {
-        public PasswordGuiViewModel Password { get; set; }
+        public PasswordInfo Password { get; set; }
 
         public string AccountName { get; set; }
     }

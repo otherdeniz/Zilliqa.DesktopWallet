@@ -2,9 +2,9 @@
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
-    public class PasswordGuiViewModel
+    public class PasswordInfo
     {
-        public PasswordGuiViewModel(string password)
+        public PasswordInfo(string password)
         {
             Password = password;
             Hash = EncryptionUtils.CreatePasswordHash(password);

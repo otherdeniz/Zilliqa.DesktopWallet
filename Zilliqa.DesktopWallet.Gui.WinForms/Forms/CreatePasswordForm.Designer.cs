@@ -101,6 +101,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textPassword2.Location = new System.Drawing.Point(3, 176);
             this.textPassword2.Name = "textPassword2";
+            this.textPassword2.PasswordChar = '*';
             this.textPassword2.Size = new System.Drawing.Size(582, 23);
             this.textPassword2.TabIndex = 2;
             this.textPassword2.TextChanged += new System.EventHandler(this.textPassword2_TextChanged);

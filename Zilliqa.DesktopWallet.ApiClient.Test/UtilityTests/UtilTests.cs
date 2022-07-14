@@ -1,12 +1,35 @@
 ﻿using System;
 using NUnit.Framework;
+using Zilliqa.DesktopWallet.ApiClient.Accounts;
+using Zilliqa.DesktopWallet.ApiClient.Crypto;
 using Zilliqa.DesktopWallet.ApiClient.Utils;
 
 namespace Zilliqa.DesktopWallet.ApiClient.Test.UtilityTests
 {
     public class UtilTests
     {
+        [Test]
+        public void CreateAccountSaveAndLoadJson()
+        {
+            var password = "password1234567890";
+            var account = new Account(Schnorr.GenerateKeyPair());
+            var json = account.ToJson(password, KDFType.PBKDF2);
+            var loadedAccount = new Account(json, password);
+            Assert.AreEqual(account.GetPublicKey(), loadedAccount.GetPublicKey());
+            Assert.AreEqual(account.GetPrivateKey(), loadedAccount.GetPrivateKey());
+        }
+
+        [Test]
+        public void ByteUtilHexToByteArrayAndBack()
+        {
+            var hex = "888DB13C7B1513BD824558C0AD2D566FE114155B54D6E125E402BEF8C4187A5266";
+            var byteArray = ByteUtil.HexStringToByteArray(hex);
+            var hex2 = ByteUtil.ByteArrayToHexString(byteArray);
+            Assert.AreEqual(hex, hex2);
+        }
+
         #region Encode/Decode
+
         [Test]
         public void AddressEncode()
         {

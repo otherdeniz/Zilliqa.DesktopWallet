@@ -14,13 +14,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         public string Password { get; private set; } = string.Empty;
 
-        public static PasswordGuiViewModel? Execute(Form parentForm)
+        public static PasswordInfo? Execute(Form parentForm)
         {
             using (var form = new EnterPasswordForm())
             {
                 if (form.ShowDialog(parentForm) == DialogResult.OK)
                 {
-                    return new PasswordGuiViewModel(form.Password);
+                    return new PasswordInfo(form.Password);
                 }
             }
 

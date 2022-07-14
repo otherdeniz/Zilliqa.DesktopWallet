@@ -30,15 +30,15 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStripMain = new System.Windows.Forms.ToolStrip();
-            this.buttonWallet = new System.Windows.Forms.ToolStripButton();
             this.buttonBlockchain = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.buttonWallet = new System.Windows.Forms.ToolStripButton();
             this.buttonExit = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonSettings = new System.Windows.Forms.ToolStripButton();
             this.panelMain = new System.Windows.Forms.Panel();
             this.mainBlockchainBrowserControl = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.MainBlockchainBrowserControl();
             this.mainWalletControl = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.MainWalletControl();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripMain.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.SuspendLayout();
@@ -59,15 +59,6 @@
             this.toolStripMain.TabIndex = 0;
             this.toolStripMain.Text = "toolStrip1";
             // 
-            // buttonWallet
-            // 
-            this.buttonWallet.Image = ((System.Drawing.Image)(resources.GetObject("buttonWallet.Image")));
-            this.buttonWallet.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.buttonWallet.Name = "buttonWallet";
-            this.buttonWallet.Size = new System.Drawing.Size(68, 28);
-            this.buttonWallet.Text = "Wallet";
-            this.buttonWallet.Click += new System.EventHandler(this.buttonWallet_Click);
-            // 
             // buttonBlockchain
             // 
             this.buttonBlockchain.Image = ((System.Drawing.Image)(resources.GetObject("buttonBlockchain.Image")));
@@ -76,6 +67,23 @@
             this.buttonBlockchain.Size = new System.Drawing.Size(138, 28);
             this.buttonBlockchain.Text = "Blockchain Browser";
             this.buttonBlockchain.Click += new System.EventHandler(this.buttonBlockchain_Click);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(122, 28);
+            this.toolStripButton1.Text = "toolStripButton1";
+            // 
+            // buttonWallet
+            // 
+            this.buttonWallet.Image = ((System.Drawing.Image)(resources.GetObject("buttonWallet.Image")));
+            this.buttonWallet.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonWallet.Name = "buttonWallet";
+            this.buttonWallet.Size = new System.Drawing.Size(68, 28);
+            this.buttonWallet.Text = "Wallet";
+            this.buttonWallet.Click += new System.EventHandler(this.buttonWallet_Click);
             // 
             // buttonExit
             // 
@@ -133,14 +141,6 @@
             this.mainWalletControl.TabIndex = 0;
             this.mainWalletControl.Visible = false;
             // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(122, 28);
-            this.toolStripButton1.Text = "toolStripButton1";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -149,6 +149,7 @@
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.toolStripMain);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Zilliqa - Other Desktop Wallet";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.toolStripMain.ResumeLayout(false);

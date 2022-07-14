@@ -14,9 +14,17 @@ namespace Zilliqa.DesktopWallet.ApiClient.Accounts
 
         public ECKeyPair KeyPair { get; set; }
 
+        public Account(ECKeyPair keyPair)
+        {
+            if (string.IsNullOrWhiteSpace(keyPair?.PrivateKeyHex))
+                throw new ArgumentException("Private key is empty");
+
+            InitializeAccount(keyPair.PrivateKeyHex);
+        }
+
         public Account(string privateKey)
         {
-            if (String.IsNullOrWhiteSpace(privateKey))
+            if (string.IsNullOrWhiteSpace(privateKey))
                 throw new ArgumentException("Private key is empty");
 
             InitializeAccount(privateKey);
@@ -27,9 +35,9 @@ namespace Zilliqa.DesktopWallet.ApiClient.Accounts
             InitializeAccount(privateKey);
         }
         
-        public string ToJsonFile(string privateKey, string passphrase, KDFType type)
+        public string ToJson(string passphrase, KDFType type)
         {
-            return CryptoUtil.EncryptPrivateKey(privateKey, passphrase, type);
+            return CryptoUtil.EncryptPrivateKey(GetPrivateKey(), passphrase, type);
         }
 
         public string GetPublicKey()

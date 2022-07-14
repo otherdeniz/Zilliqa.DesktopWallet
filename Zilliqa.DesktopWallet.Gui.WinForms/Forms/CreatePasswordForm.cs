@@ -1,4 +1,5 @@
 ﻿using Zilliqa.DesktopWallet.Core.ViewModel;
+using Zilliqa.DesktopWallet.Gui.WinForms.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 {
@@ -9,15 +10,21 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             InitializeComponent();
         }
 
+        public string AccountName { get; private set; } = string.Empty;
+
         public string Password { get; private set; } = string.Empty;
 
-        public static PasswordGuiViewModel? Execute(Form parentForm)
+        public static CreateWalletResult? Execute(Form parentForm)
         {
             using (var form = new CreatePasswordForm())
             {
                 if (form.ShowDialog(parentForm) == DialogResult.OK)
                 {
-                    return new PasswordGuiViewModel(form.Password);
+                    return new CreateWalletResult
+                    {
+                        Password = new PasswordInfo(form.Password),
+                        AccountName = form.AccountName
+                    };
                 }
             }
 
@@ -39,6 +46,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         {
             if (CheckPassword())
             {
+                AccountName = textWalletName.Text;
                 Password = textPassword1.Text;
             }
             return true;

@@ -17,7 +17,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.Accounts
         [Test]
         public void AccountExportToJson()
         {
-            var json = _account.ToJsonFile("a8f8f4c1e76e09c61dfeac0e1f73cf48c58bff0de81243a20a1ff087dc5fa08a","Tester42",KDFType.PBKDF2);
+            var json = _account.ToJson("Tester123", KDFType.PBKDF2);
             Assert.IsTrue(json.Length > 0);
         }
     }

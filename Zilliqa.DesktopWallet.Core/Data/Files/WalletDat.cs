@@ -1,12 +1,13 @@
 ﻿using System.Text;
 using Newtonsoft.Json;
 using Zilliqa.DesktopWallet.Core.Data.Model;
+using Zilliqa.DesktopWallet.Core.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Core.Data.Files
 {
     public class WalletDat
     {
-        private static readonly Lazy<string> localDataFile = new Lazy<string>(() => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "wallet.dat"));
+        private static readonly Lazy<string> localDataFile = new Lazy<string>(() => DataPathBuilder.GetFilePath("wallet.dat"));
 
         public static bool Exists => File.Exists(localDataFile.Value);
 
@@ -24,10 +25,12 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
 
         #endregion
 
-        public static WalletDat CreateNew()
+        public static WalletDat CreateNew(PasswordInfo password, string firstAccountName)
         {
             var wallet = new WalletDat();
             wallet.CreatedDateUtc = DateTime.UtcNow;
+            wallet.PasswordHash = password.Hash;
+            wallet.MyAccounts.Add(MyAccount.Create(firstAccountName, password.Password));
             return wallet;
         }
 
@@ -47,11 +50,16 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
 
         }
 
+        public void InitialiseLoad(PasswordInfo password)
+        {
+            Instance.MyAccounts.ForEach(a => a.Load(password.Password));
+        }
+
         public void Save()
         {
             using (var fileStream = File.OpenWrite(localDataFile.Value))
             {
-                using (var fileWriter = new StreamWriter(fileStream))
+                using (var fileWriter = new StreamWriter(fileStream, Encoding.UTF8, leaveOpen:true))
                 {
                     fileWriter.Write(JsonConvert.SerializeObject(this));
                     fileWriter.Flush();

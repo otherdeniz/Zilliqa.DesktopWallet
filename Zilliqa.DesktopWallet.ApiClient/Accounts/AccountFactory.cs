@@ -6,9 +6,10 @@
         {
             return new Account(pk);
         }
-        public static Account FromJsonFile(string file, string passPhrase)
+
+        public static Account FromJson(string keyStoreJson, string passPhrase)
         {
-            return new Account(file, passPhrase);
+            return new Account(keyStoreJson, passPhrase);
         }
     }
 }

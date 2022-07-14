@@ -14,14 +14,24 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
         {
             if (!WalletDat.Exists)
             {
-                var walletPassword = CreatePasswordForm.Execute(this);
+                var createWalletResult = CreatePasswordForm.Execute(this);
+                if (createWalletResult == null)
+                {
+                    return false;
+                }
+                var wallet = WalletDat.CreateNew(createWalletResult.Password, createWalletResult.AccountName);
+                wallet.Save();
+            }
+            else
+            {
+                var wallet = WalletDat.Load();
+                var walletPassword = EnterPasswordForm.Execute(this);
                 if (walletPassword == null)
                 {
                     return false;
                 }
-                var wallet = WalletDat.CreateNew();
-                wallet.PasswordHash = walletPassword.Hash;
-                //wallet.MyAccounts.Add();
+
+                wallet.InitialiseLoad(walletPassword);
             }
 
             return true;

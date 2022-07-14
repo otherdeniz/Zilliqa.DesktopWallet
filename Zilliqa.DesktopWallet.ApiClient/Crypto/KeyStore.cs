@@ -105,18 +105,17 @@ namespace Zilliqa.DesktopWallet.ApiClient.Crypto
             return Encoding.UTF8.GetBytes(password);
         }
 
-        public byte[] GetDerivedKey(byte[] password, KDFParams parameters)
+        public byte[] GetDerivedKey(string password, KDFParams parameters)
         {
-            if (parameters is Pbkdf2)
+            if (parameters is PBKDF2Params pbkdf2Params)
             {
-                var pbkdf2Params = (Pbkdf2)parameters;
                 return pbkdf2Params.GetDerivedKey(password);
             }
-            else if(parameters is KDFParams)
-            {
+            //else if(parameters is KDFParams)
+            //{
                 
-                return GenerateDerivedScryptKey(Encoding.UTF8.GetString(password));
-            }
+            //    return GenerateDerivedScryptKey(password);
+            //}
             else
             {
                 throw new Exception("unsupport kdf params");
@@ -128,28 +127,8 @@ namespace Zilliqa.DesktopWallet.ApiClient.Crypto
             string address = CryptoUtil.GetAddressFromPrivateKey(privateKey);
             byte[] iv = CryptoUtil.GenerateRandomBytes(16);
             byte[] salt = CryptoUtil.GenerateRandomBytes(32);
-            byte[] derivedKey;
-            if (type == KDFType.PBKDF2)
-            {
-                PBKDF2Params pbkdf2Params = new PBKDF2Params();
-
-                pbkdf2Params.Salt = ByteUtil.ByteArrayToHexString(salt);
-                pbkdf2Params.DkLen = 32;
-                pbkdf2Params.Count = 262144;
-                derivedKey = GetDerivedKey(Encoding.Default.GetBytes(passphrase), pbkdf2Params);
-            }
-            else
-            {
-                var scryptParams = new KDFParams();
-
-                scryptParams.Salt = ByteUtil.ByteArrayToHexString(salt);
-
-                scryptParams.dklen = 32;
-                scryptParams.p = 1;
-                scryptParams.r = 8;
-                scryptParams.n = 8192;
-                derivedKey = GetDerivedKey(Encoding.Default.GetBytes(passphrase), scryptParams);
-            }
+            var saltHex = ByteUtil.ByteArrayToHexString(salt);
+            var derivedKey = GetDerivedKeyByteArray(passphrase, type, saltHex);
 
             byte[] encryptKey = new byte[16];
             Array.Copy(derivedKey, encryptKey, 16);
@@ -160,14 +139,13 @@ namespace Zilliqa.DesktopWallet.ApiClient.Crypto
             CipherParams cipherParams = new CipherParams();
             cipherParams.Iv = ByteUtil.ByteArrayToHexString(iv);
 
-            var kp = new KDFParams() { Salt = Encoding.UTF8.GetString(salt)};
             var crypto = new MusCipher();
             crypto.Cipher = "aes-128-ctr";
             crypto.Cipherparams = cipherParams;
             crypto.Ciphertext = ByteUtil.ByteArrayToHexString(ciphertext);
             crypto.Kdf = (type == KDFType.PBKDF2 ? "pbkdf2" : "scrypt");
-            crypto.KdfParams = kp;
-            crypto.Mac = Encoding.UTF8.GetString(HashUtil.GenerateMac(derivedKey,ciphertext));
+            crypto.KdfParams = new KDFParams() { Salt = saltHex };
+            crypto.Mac = ByteUtil.ByteArrayToHexString(HashUtil.GenerateMac(derivedKey,ciphertext));
 
             KeyStore key = new KeyStore();
             key.Address = "0x" + address;
@@ -177,7 +155,35 @@ namespace Zilliqa.DesktopWallet.ApiClient.Crypto
 
             return JsonConvert.SerializeObject(key);
         }
-      
+
+        private byte[] GetDerivedKeyByteArray(string passphrase, KDFType type, string saltHex)
+        {
+            byte[] derivedKey;
+            if (type == KDFType.PBKDF2)
+            {
+                PBKDF2Params pbkdf2Params = new PBKDF2Params();
+
+                pbkdf2Params.Salt = saltHex;
+                pbkdf2Params.DkLen = 32;
+                pbkdf2Params.Count = 262144;
+                derivedKey = GetDerivedKey(passphrase, pbkdf2Params);
+            }
+            else
+            {
+                var scryptParams = new KDFParams();
+
+                scryptParams.Salt = saltHex;
+
+                scryptParams.dklen = 32;
+                scryptParams.p = 1;
+                scryptParams.r = 8;
+                scryptParams.n = 8192;
+                derivedKey = GetDerivedKey(passphrase, scryptParams);
+            }
+
+            return derivedKey;
+        }
+
         public string DecryptPrivateKey(string keyStoreJson, string passphrase)
         {
             KeyStore keystore = JsonConvert.DeserializeObject<KeyStore>(keyStoreJson);
@@ -186,26 +192,26 @@ namespace Zilliqa.DesktopWallet.ApiClient.Crypto
             byte[] iv = ByteUtil.HexStringToByteArray(keystore.Crypto.Cipherparams.Iv);
             KDFParams kp = keystore.Crypto.KdfParams;
             string kdf = keystore.Crypto.Kdf;
-            byte[] derivedKey;
-            if (kdf == "pbkdf2")
-            {
-                PBKDF2Params pbkdf2Params = new PBKDF2Params();
-                pbkdf2Params.Salt = ByteUtil.ByteArrayToHexString(Encoding.UTF8.GetBytes(kp.Salt));
-                pbkdf2Params.DkLen = 32;
-                pbkdf2Params.Count = 262144;
-                derivedKey = GetDerivedKey(Encoding.Default.GetBytes(passphrase), pbkdf2Params);
-            }
-            else
-            {
-                KDFParams scryptParams = new KDFParams();
-                scryptParams.Salt = ByteUtil.ByteArrayToHexString(Encoding.UTF8.GetBytes(kp.Salt));
-                scryptParams.dklen = 32;
-                scryptParams.p = 1;
-                scryptParams.r = 8;
-                scryptParams.n = 8192;
+            byte[] derivedKey = GetDerivedKeyByteArray(passphrase, kdf == "pbkdf2" ? KDFType.PBKDF2 : KDFType.Scrypt, kp.Salt); 
+            //if (kdf == "pbkdf2")
+            //{
+            //    PBKDF2Params pbkdf2Params = new PBKDF2Params();
+            //    pbkdf2Params.Salt = kp.Salt;
+            //    pbkdf2Params.DkLen = 32;
+            //    pbkdf2Params.Count = 262144;
+            //    derivedKey = GetDerivedKey(Encoding.Default.GetBytes(passphrase), pbkdf2Params);
+            //}
+            //else
+            //{
+            //    KDFParams scryptParams = new KDFParams();
+            //    scryptParams.Salt = kp.Salt;
+            //    scryptParams.dklen = 32;
+            //    scryptParams.p = 1;
+            //    scryptParams.r = 8;
+            //    scryptParams.n = 8192;
 
-                derivedKey = GetDerivedKey(Encoding.Default.GetBytes(passphrase), scryptParams);
-            }
+            //    derivedKey = GetDerivedKey(Encoding.Default.GetBytes(passphrase), scryptParams);
+            //}
             string mac = ByteUtil.ByteArrayToHexString(HashUtil.GenerateMac(derivedKey, ciphertext));
             if (mac.ToUpper() != keystore.Crypto.Mac)
             {
