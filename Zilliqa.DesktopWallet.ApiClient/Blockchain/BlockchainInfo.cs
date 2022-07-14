@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Zilliqa.DesktopWallet.ApiClient.Blockchain
 {
@@ -13,7 +14,10 @@ namespace Zilliqa.DesktopWallet.ApiClient.Blockchain
         public string NumTxBlocks { get; set; }
         public string NumTxnsDSEpoch { get; set; }
         public string NumTxnsTxEpoch { get; set; }
+
+        [Browsable(false)]
         public ShardingStructure ShardingStructure { get; set; }
+        public IList<int> ShardingPeers => ShardingStructure.NumPeers;
     }
     public class ShardingStructure
     {
