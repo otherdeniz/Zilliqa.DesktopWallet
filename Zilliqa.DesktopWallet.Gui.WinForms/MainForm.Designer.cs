@@ -37,8 +37,8 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonSettings = new System.Windows.Forms.ToolStripButton();
             this.panelMain = new System.Windows.Forms.Panel();
-            this.mainBlockchainBrowserControl = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.MainBlockchainBrowserControl();
             this.mainWalletControl = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.MainWalletControl();
+            this.mainBlockchainBrowserControl = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.MainBlockchainBrowserControl();
             this.toolStripMain.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.SuspendLayout();
@@ -113,9 +113,9 @@
             // 
             // panelMain
             // 
-            this.panelMain.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.panelMain.Controls.Add(this.mainBlockchainBrowserControl);
+            this.panelMain.BackColor = System.Drawing.SystemColors.Control;
             this.panelMain.Controls.Add(this.mainWalletControl);
+            this.panelMain.Controls.Add(this.mainBlockchainBrowserControl);
             this.panelMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMain.Location = new System.Drawing.Point(0, 31);
             this.panelMain.Name = "panelMain";
@@ -123,23 +123,21 @@
             this.panelMain.Size = new System.Drawing.Size(1093, 652);
             this.panelMain.TabIndex = 1;
             // 
-            // mainBlockchainBrowserControl
-            // 
-            this.mainBlockchainBrowserControl.BackColor = System.Drawing.SystemColors.Control;
-            this.mainBlockchainBrowserControl.Location = new System.Drawing.Point(94, 174);
-            this.mainBlockchainBrowserControl.Name = "mainBlockchainBrowserControl";
-            this.mainBlockchainBrowserControl.Size = new System.Drawing.Size(412, 236);
-            this.mainBlockchainBrowserControl.TabIndex = 1;
-            this.mainBlockchainBrowserControl.Visible = false;
-            // 
             // mainWalletControl
             // 
-            this.mainWalletControl.BackColor = System.Drawing.SystemColors.Control;
-            this.mainWalletControl.Location = new System.Drawing.Point(25, 30);
+            this.mainWalletControl.BackColor = System.Drawing.Color.White;
+            this.mainWalletControl.Location = new System.Drawing.Point(451, 274);
             this.mainWalletControl.Name = "mainWalletControl";
-            this.mainWalletControl.Size = new System.Drawing.Size(328, 194);
-            this.mainWalletControl.TabIndex = 0;
-            this.mainWalletControl.Visible = false;
+            this.mainWalletControl.Size = new System.Drawing.Size(475, 299);
+            this.mainWalletControl.TabIndex = 1;
+            // 
+            // mainBlockchainBrowserControl
+            // 
+            this.mainBlockchainBrowserControl.BackColor = System.Drawing.Color.White;
+            this.mainBlockchainBrowserControl.Location = new System.Drawing.Point(43, 36);
+            this.mainBlockchainBrowserControl.Name = "mainBlockchainBrowserControl";
+            this.mainBlockchainBrowserControl.Size = new System.Drawing.Size(449, 214);
+            this.mainBlockchainBrowserControl.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -169,8 +167,8 @@
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripButton buttonSettings;
         private Panel panelMain;
-        private Controls.Main.MainBlockchainBrowserControl mainBlockchainBrowserControl;
-        private Controls.Main.MainWalletControl mainWalletControl;
         private ToolStripButton toolStripButton1;
+        private Controls.Main.MainWalletControl mainWalletControl;
+        private Controls.Main.MainBlockchainBrowserControl mainBlockchainBrowserControl;
     }
 }

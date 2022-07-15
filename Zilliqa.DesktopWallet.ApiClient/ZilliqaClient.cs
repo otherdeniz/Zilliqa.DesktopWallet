@@ -11,15 +11,15 @@ using Zilliqa.DesktopWallet.ApiClient.Transactions;
 
 namespace Zilliqa.DesktopWallet.ApiClient
 {
-	public class Zilliqa
+	public class ZilliqaClient
     {
         private IZilliqaAPIClient<MusResult> _client;
 		public static readonly string TESTNET = "https://dev-api.zilliqa.com/";
 		public static readonly string MAINNET = "https://api.zilliqa.com/";
-		public Zilliqa(bool test = true) {
+		public ZilliqaClient(bool test = true) {
 			_client = test ?  new MusZil_APIClient(TESTNET): new MusZil_APIClient(MAINNET);
 		}
-        public Zilliqa(string APIURL)
+        public ZilliqaClient(string APIURL)
         {
             _client = new MusZil_APIClient(APIURL);
         }

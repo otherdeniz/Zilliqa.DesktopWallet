@@ -17,7 +17,7 @@
             {
                 components.Dispose();
             }
-            _viewModel.Dispose();
+            _viewModel?.Dispose();
             base.Dispose(disposing);
         }
 
@@ -75,6 +75,7 @@
             this.propertyGridBlockchainInfo.HelpVisible = false;
             this.propertyGridBlockchainInfo.Location = new System.Drawing.Point(3, 19);
             this.propertyGridBlockchainInfo.Name = "propertyGridBlockchainInfo";
+            this.propertyGridBlockchainInfo.PropertySort = System.Windows.Forms.PropertySort.NoSort;
             this.propertyGridBlockchainInfo.Size = new System.Drawing.Size(194, 565);
             this.propertyGridBlockchainInfo.TabIndex = 0;
             this.propertyGridBlockchainInfo.ToolbarVisible = false;

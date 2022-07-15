@@ -41,18 +41,21 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
         {
             if (LoadWallet())
             {
+                mainBlockchainBrowserControl.Initialize();
                 ShowMainControl(mainBlockchainBrowserControl, buttonBlockchain);
             }
         }
 
         private void buttonWallet_Click(object sender, EventArgs e)
         {
+            mainWalletControl.Initialize();
             ShowMainControl(mainWalletControl, buttonWallet);
 
         }
 
         private void buttonBlockchain_Click(object sender, EventArgs e)
         {
+            mainBlockchainBrowserControl.Initialize();
             ShowMainControl(mainBlockchainBrowserControl, buttonBlockchain);
         }
 
@@ -68,6 +71,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
 
         private void ShowMainControl(Control showControl, ToolStripButton button)
         {
+            if (button.Checked)
+            {
+                return;
+            }
             buttonBlockchain.Checked = false;
             buttonWallet.Checked = false;
             button.Checked = true;

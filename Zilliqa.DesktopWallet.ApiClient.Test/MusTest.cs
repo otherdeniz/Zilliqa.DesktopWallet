@@ -14,7 +14,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test
         protected MusZil_APIClient _client;
         protected Address _address;
         protected Account _account;
-        protected Zilliqa _zil;
+        protected ZilliqaClient _zil;
         protected Wallet _wallet;
         private string _pk = "a8f8f4c1e76e09c61dfeac0e1f73cf48c58bff0de81243a20a1ff087dc5fa08a";
 
@@ -31,7 +31,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test
             _address = new Address("zil1fs6jhg4axvj9ekscq6v7ddwxxd9tthpxl7820q");
             _account = AccountFactory.New(_pk);
             _wallet = new Wallet(_account);
-            _zil = new Zilliqa();
+            _zil = new ZilliqaClient();
         }
     }
 }

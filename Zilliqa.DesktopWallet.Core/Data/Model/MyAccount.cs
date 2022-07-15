@@ -10,7 +10,10 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
 
         public static MyAccount Create(string name, string pasword)
         {
-            var result = new MyAccount();
+            var result = new MyAccount
+            {
+                Id = Guid.NewGuid().ToString()
+            };
             var keyPair = Schnorr.GenerateKeyPair();
             result.AccountDetails = new Account(keyPair);
             result.KeyEncrypted = result.AccountDetails.ToJson(pasword, KDFType.PBKDF2);

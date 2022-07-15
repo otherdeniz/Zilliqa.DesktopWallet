@@ -8,13 +8,13 @@ namespace Zilliqa.DesktopWallet.ApiClient.Accounts
     public class Wallet
     {
         private AccountsRepository _repo;
-        private Zilliqa _zil;
+        private ZilliqaClient _zil;
         private Account _curr;
         public Wallet(Account acc = null,bool test = true)
         {
             _repo = new AccountsRepository();
             _repo.Add(acc);
-            _zil = test ? new Zilliqa() : new Zilliqa(Zilliqa.MAINNET);
+            _zil = test ? new ZilliqaClient() : new ZilliqaClient(ZilliqaClient.MAINNET);
             _curr = acc;
         }
         public void AddAccount(Account acc)

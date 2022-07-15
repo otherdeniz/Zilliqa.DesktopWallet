@@ -6,14 +6,8 @@ using System.Text;
 
 namespace Zilliqa.DesktopWallet.ApiClient.Utils
 {
-    public class MusBech32
+    public static class MusBech32
     {
-        private string _hrp;
-        private string[] INVALID_DATA;
-
-        private const int DMIN_LENGTH = 6;
-        private const int DMAX_LENGTH = 6;
-        private const string SEPARATOR = "1";
         public const string HRP = "zil";
 
         /**
@@ -37,7 +31,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
 
         #region public methods
 
-        public static string Bech32ToBase16Address(string address)
+        public static string Bech32ToBase16Address(this string address)
         {
             var res = "0x";
             bool lower = false, upper = false;
@@ -79,12 +73,12 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
             return res;
         }
 
-        public static string Base16ToBech32Address(string address)
+        public static string Base16ToBech32Address(this string hexAddress)
         {
 
-            address = address.ToLower().Replace("0x", "");
+            hexAddress = hexAddress.ToLower().Replace("0x", "");
 
-            List<int> bits = ByteUtil.ConvertBits(ByteUtil.HexStringToByteArray(address), 8, 5, false);
+            List<int> bits = ByteUtil.ConvertBits(ByteUtil.HexStringToByteArray(hexAddress), 8, 5, false);
 
             byte[] addrBz = new byte[bits.Count];
 

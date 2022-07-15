@@ -31,6 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWalletControl));
             this.splitContainerWallet = new System.Windows.Forms.SplitContainer();
             this.panelWalletList = new System.Windows.Forms.Panel();
+            this.panelWatchedAccounts = new System.Windows.Forms.Panel();
+            this.walletListItemControl2 = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet.WalletListItemControl();
+            this.panelMyAccounts = new System.Windows.Forms.Panel();
             this.walletListItemControl1 = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet.WalletListItemControl();
             this.toolStripWalletList = new System.Windows.Forms.ToolStrip();
             this.buttonCreate = new System.Windows.Forms.ToolStripButton();
@@ -39,6 +42,8 @@
             this.splitContainerWallet.Panel1.SuspendLayout();
             this.splitContainerWallet.SuspendLayout();
             this.panelWalletList.SuspendLayout();
+            this.panelWatchedAccounts.SuspendLayout();
+            this.panelMyAccounts.SuspendLayout();
             this.toolStripWalletList.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,21 +64,56 @@
             // 
             // panelWalletList
             // 
-            this.panelWalletList.Controls.Add(this.walletListItemControl1);
+            this.panelWalletList.AutoScroll = true;
+            this.panelWalletList.Controls.Add(this.panelWatchedAccounts);
+            this.panelWalletList.Controls.Add(this.panelMyAccounts);
             this.panelWalletList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelWalletList.Location = new System.Drawing.Point(0, 31);
             this.panelWalletList.Name = "panelWalletList";
             this.panelWalletList.Size = new System.Drawing.Size(200, 460);
             this.panelWalletList.TabIndex = 1;
             // 
+            // panelWatchedAccounts
+            // 
+            this.panelWatchedAccounts.AutoSize = true;
+            this.panelWatchedAccounts.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panelWatchedAccounts.Controls.Add(this.walletListItemControl2);
+            this.panelWatchedAccounts.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelWatchedAccounts.Location = new System.Drawing.Point(0, 56);
+            this.panelWatchedAccounts.Name = "panelWatchedAccounts";
+            this.panelWatchedAccounts.Size = new System.Drawing.Size(200, 56);
+            this.panelWatchedAccounts.TabIndex = 2;
+            // 
+            // walletListItemControl2
+            // 
+            this.walletListItemControl2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.walletListItemControl2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.walletListItemControl2.IsSelected = false;
+            this.walletListItemControl2.Location = new System.Drawing.Point(0, 0);
+            this.walletListItemControl2.Name = "walletListItemControl2";
+            this.walletListItemControl2.Size = new System.Drawing.Size(200, 56);
+            this.walletListItemControl2.TabIndex = 1;
+            // 
+            // panelMyAccounts
+            // 
+            this.panelMyAccounts.AutoSize = true;
+            this.panelMyAccounts.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panelMyAccounts.Controls.Add(this.walletListItemControl1);
+            this.panelMyAccounts.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelMyAccounts.Location = new System.Drawing.Point(0, 0);
+            this.panelMyAccounts.Name = "panelMyAccounts";
+            this.panelMyAccounts.Size = new System.Drawing.Size(200, 56);
+            this.panelMyAccounts.TabIndex = 1;
+            // 
             // walletListItemControl1
             // 
             this.walletListItemControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.walletListItemControl1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.walletListItemControl1.IsSelected = false;
             this.walletListItemControl1.Location = new System.Drawing.Point(0, 0);
             this.walletListItemControl1.Name = "walletListItemControl1";
             this.walletListItemControl1.Size = new System.Drawing.Size(200, 56);
-            this.walletListItemControl1.TabIndex = 0;
+            this.walletListItemControl1.TabIndex = 1;
             // 
             // toolStripWalletList
             // 
@@ -116,6 +156,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerWallet)).EndInit();
             this.splitContainerWallet.ResumeLayout(false);
             this.panelWalletList.ResumeLayout(false);
+            this.panelWalletList.PerformLayout();
+            this.panelWatchedAccounts.ResumeLayout(false);
+            this.panelMyAccounts.ResumeLayout(false);
             this.toolStripWalletList.ResumeLayout(false);
             this.toolStripWalletList.PerformLayout();
             this.ResumeLayout(false);
@@ -126,9 +169,12 @@
 
         private SplitContainer splitContainerWallet;
         private Panel panelWalletList;
-        private Wallet.WalletListItemControl walletListItemControl1;
         private ToolStrip toolStripWalletList;
         private ToolStripButton buttonCreate;
         private ToolStripButton toolImport;
+        private Panel panelWatchedAccounts;
+        private Wallet.WalletListItemControl walletListItemControl2;
+        private Panel panelMyAccounts;
+        private Wallet.WalletListItemControl walletListItemControl1;
     }
 }
