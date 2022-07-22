@@ -61,7 +61,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
 
         private void buttonSettings_Click(object sender, EventArgs e)
         {
-
+            SettingsForm.Execute(this);
         }
 
         private void buttonExit_Click(object sender, EventArgs e)

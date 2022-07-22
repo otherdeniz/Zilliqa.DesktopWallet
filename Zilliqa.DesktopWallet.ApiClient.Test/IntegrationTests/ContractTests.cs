@@ -91,7 +91,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
         public async Task GetAddressGetSmartContractState()
         {
             var zilClient = new ZilliqaClient(false); // mainnet
-            var address = "zil19e22jmsaeud6nx09q4fp8sadlfgzwucl98gn8a".FromBech32ToBase16Address(false);
+            var address = "zil1xxxx".FromBech32ToBase16Address(false);
             var res = await zilClient.GetSmartContractState(address);
             var zilBalance = res.Balance.GetBalance();
             Assert.IsTrue(zilBalance > 0);

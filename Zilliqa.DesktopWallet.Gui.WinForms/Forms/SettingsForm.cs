@@ -9,6 +9,14 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             InitializeComponent();
         }
 
+        public static void Execute(Form parentForm)
+        {
+            using (var form = new SettingsForm())
+            {
+                form.ShowDialog(parentForm);
+            }
+        }
+
         private void LoadSettings()
         {
             textViewblockApiKey.Text = SettingsDat.Instance.ViewBlockApiKey;

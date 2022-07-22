@@ -1,4 +1,7 @@
-﻿using Zilliqa.DesktopWallet.Core.ViewModel;
+﻿using Zilliqa.DesktopWallet.ApiClient;
+using Zilliqa.DesktopWallet.ApiClient.Enums;
+using Zilliqa.DesktopWallet.ApiClient.Utils;
+using Zilliqa.DesktopWallet.Core.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 {
@@ -32,5 +35,27 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             }, null);
         }
 
+        private void buttonQueryAddr_Click(object sender, EventArgs e)
+        {
+            var zilClient = new ZilliqaClient(false);
+
+            textApiResult.Text = "(quering balance...)";
+            this.Refresh();
+            Application.DoEvents();
+
+            string resultText = "";
+
+            Task.Run(async () =>
+            {
+                var balance = await zilClient.GetBalance(textBoxQueryAddr.Text.FromBech32ToBase16Address(false));
+                resultText = $"Balance = {balance.GetBalance(Unit.ZIL)}\r\n";
+
+                var contractBalance = await zilClient.GetContractBalance(textBoxQueryAddr.Text.FromBech32ToBase16Address(false));
+                resultText += $"Contract Balance = {contractBalance.GetBalance(Unit.ZIL)}\r\n";
+
+            }).GetAwaiter().GetResult();
+
+            textApiResult.Text = $"{resultText}";
+        }
     }
 }

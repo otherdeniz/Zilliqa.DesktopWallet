@@ -62,6 +62,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                     {
                         Dock = DockStyle.Top
                     };
+                    control.ButtonClicked += (sender, args) => ShowWalletAccount(control);
                     control.AssignAccount(a);
                     panelMyAccounts.Controls.Add(control);
                 }
@@ -69,5 +70,35 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             //panelWalletList.Controls.ForEach(c => );
         }
 
+        private void ShowWalletAccount(WalletListItemControl walletListItemControl)
+        {
+            if (walletListItemControl.IsSelected)
+            {
+                return;
+            }
+
+            panelMyAccounts.Controls.OfType<WalletListItemControl>().ForEach(c => c.IsSelected = false);
+            walletListItemControl.IsSelected = true;
+
+            groupAccountDetails.Visible = true;
+            groupAccountDetails.Text = walletListItemControl.Account.AccountData.Name;
+
+            if (panelAccountDetails.Controls.Count > 0)
+            {
+                var oldControl = panelAccountDetails.Controls[0];
+                panelAccountDetails.Controls.Clear();
+                oldControl.Dispose();
+            }
+
+            var addControl = new WalletAddressDetails
+            {
+                Dock = DockStyle.Top,
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink
+            };
+            addControl.LoadAccount(walletListItemControl.Account);
+
+            panelAccountDetails.Controls.Add(addControl);
+        }
     }
 }

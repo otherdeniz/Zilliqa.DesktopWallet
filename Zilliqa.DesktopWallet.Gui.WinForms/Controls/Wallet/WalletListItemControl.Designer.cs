@@ -41,6 +41,7 @@
             this.labelName.Size = new System.Drawing.Size(120, 21);
             this.labelName.TabIndex = 1;
             this.labelName.Text = "[Name] (Type)";
+            this.labelName.Click += new System.EventHandler(this.labelName_Click);
             // 
             // labelAmount
             // 
@@ -51,6 +52,7 @@
             this.labelAmount.Size = new System.Drawing.Size(41, 19);
             this.labelAmount.TabIndex = 2;
             this.labelAmount.Text = "0 ZIL";
+            this.labelAmount.Click += new System.EventHandler(this.labelAmount_Click);
             // 
             // WalletListItemControl
             // 
@@ -62,6 +64,7 @@
             this.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Name = "WalletListItemControl";
             this.Size = new System.Drawing.Size(366, 56);
+            this.Click += new System.EventHandler(this.WalletListItemControl_Click);
             this.ResumeLayout(false);
             this.PerformLayout();
 
