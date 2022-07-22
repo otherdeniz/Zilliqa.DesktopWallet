@@ -21,10 +21,13 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
 
         [JsonProperty("id")]
         public string Id { get; set; }
+
         [JsonProperty("jsonrpc")]
         public string Jsonrpc { get; set; }
+
         [JsonProperty("method")]
         public string Method { get; set; }
+
         [JsonProperty("params")]
         public object[] Parameters { get; set; }
 

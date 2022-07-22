@@ -1,5 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
+using Zilliqa.DesktopWallet.ApiClient.Utils;
+using Zilliqa.DesktopWallet.ApiClient.ViewblockApi;
 
 namespace Zilliqa.DesktopWallet.ApiClient.Test.Accounts
 {
@@ -19,5 +21,14 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.Accounts
             Console.WriteLine($"Balance is {amount}");
             Assert.AreNotEqual(-1, amount);
         }
+
+        //[Test]
+        //public void GetAddressTransactions()
+        //{
+        //    var client = new ViewBlockApiClient(true);
+        //    var transactions =
+        //        client.GetTransactionsForAddress("zil1xxxxxx".FromBech32ToBase16Address());
+        //    Assert.IsTrue(transactions.Count > 0);
+        //}
     }
 }

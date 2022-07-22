@@ -35,8 +35,8 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.UtilityTests
         {
             var address = "0x551AA8653Aa7b75D9fDD75f5D4D41d0647F734E8"; 
             var address2 = "0xFd154D1340e4d0c5F443eEB37891aC0e4EC25605";
-            var bech = MusBech32.Base16ToBech32Address(address);
-            var bech2 = MusBech32.Base16ToBech32Address(address2);
+            var bech = MusBech32.FromBase16ToBech32Address(address);
+            var bech2 = MusBech32.FromBase16ToBech32Address(address2);
 
             Assert.IsTrue(bech.StartsWith("zil") && bech2.StartsWith("zil"));
             Console.WriteLine("Starts with zil");
@@ -51,7 +51,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.UtilityTests
         {
             var encStr = "zil1fs6jhg4axvj9ekscq6v7ddwxxd9tthpxl7820q";
 
-            var dec = MusBech32.Bech32ToBase16Address(encStr);
+            var dec = MusBech32.FromBech32ToBase16Address(encStr);
 
             Assert.AreEqual("0x" + "4C352ba2Bd33245CDA180699e6B5c6334AB5dC26".ToUpper(), dec);
         }

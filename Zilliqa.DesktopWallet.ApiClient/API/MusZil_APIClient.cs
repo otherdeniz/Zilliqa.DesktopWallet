@@ -17,6 +17,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
 		private readonly object requestLock = new object();
 
 		public string Url { get; private set; }
+
 		public MusZil_APIClient(string url = DEV_URL)
 		{
 			Url = url;

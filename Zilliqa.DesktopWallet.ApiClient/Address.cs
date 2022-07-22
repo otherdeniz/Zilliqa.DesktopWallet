@@ -51,11 +51,11 @@ namespace Zilliqa.DesktopWallet.ApiClient
         }
         public void Base16ToBech32Address()
         {
-            Raw = MusBech32.Base16ToBech32Address(Raw);
+            Raw = MusBech32.FromBase16ToBech32Address(Raw);
         }
         public void Bech32ToBase16Address()
         {
-            Raw = MusBech32.Bech32ToBase16Address(Raw);
+            Raw = MusBech32.FromBech32ToBase16Address(Raw);
         }
         /// <summary>
         /// Changes Current encoding of address (default base16)

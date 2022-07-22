@@ -3,12 +3,14 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using Zilliqa.DesktopWallet.ApiClient.Contracts;
+using Zilliqa.DesktopWallet.ApiClient.Utils;
 
 namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
 {
     public class ContractTests : MusTest
     {
         private SmartContract _contract;
+
         [SetUp]
         public override void SetUp()
         {
@@ -16,30 +18,35 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
             _address.Raw = "0x96b324cbdacbf7087f1fb1cdbbe6601a6e8c04c5";
             _contract = new SmartContract(_address);
         }
+
         [Test]
         public async Task GetBalance()
         {
             var res = await _zil.GetContractBalance(_address);
             Assert.AreNotEqual(-1, res.GetBalance());
         }
+
         [Test]
         public async Task GetCodeNotEmpty()
         {
             var res = await _zil.GetSmartContractCode(_address);
             Assert.AreNotEqual("", res);
         }
+
         [Test]
         public async Task GetInitNotEmpty()
         {
             var res = await _zil.GetSmartContractInit(_address.Raw);
             Assert.AreNotEqual(null, res);
         }
+
         [Test]
         public async Task GetStateNotEmpty()
         {
             var res = await _zil.GetSmartContractState(_address.Raw);
             Assert.AreNotEqual(null, res);
         }
+
         [Test]
         public async Task GetStateGivesAllValues()
         {
@@ -47,6 +54,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
             var valuesJson = ((JToken)res.AllValues).ToString();
             Assert.AreNotEqual("", valuesJson);
         }
+
         [Test]
         public async Task GetSubSateNotEmpty()
         {
@@ -54,12 +62,14 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
             var res = await _zil.GetSmartContractSubState(parameters);
             Assert.AreNotEqual("", res);
         }
+
         [Test]
         public async Task GetContractsNotEmpty()
         {
             var res = await _zil.GetSmartContracts(_account);
             Assert.IsTrue(res.Any());
         }
+
         [Test]
         public async Task GetContractAddressFromTransactionIDNotEmpty()
         {
@@ -67,6 +77,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
             var res = await _client.GetContractAddressFromTransactionID(_address.Raw);
             Assert.AreNotEqual("", res.Result);
         }
+
         [Test]
         public async Task GetStateFromContract()
         {
@@ -75,5 +86,16 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
 
             Assert.AreNotEqual(null, res0.State);
         }
+
+        [Test]
+        public async Task GetAddressGetSmartContractState()
+        {
+            var zilClient = new ZilliqaClient(false); // mainnet
+            var address = "zil19e22jmsaeud6nx09q4fp8sadlfgzwucl98gn8a".FromBech32ToBase16Address(false);
+            var res = await zilClient.GetSmartContractState(address);
+            var zilBalance = res.Balance.GetBalance();
+            Assert.IsTrue(zilBalance > 0);
+        }
+
     }
 }

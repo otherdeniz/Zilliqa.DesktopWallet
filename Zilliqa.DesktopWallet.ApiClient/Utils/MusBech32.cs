@@ -31,9 +31,9 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
 
         #region public methods
 
-        public static string Bech32ToBase16Address(this string address)
+        public static string FromBech32ToBase16Address(this string address, bool prefix0x = true)
         {
-            var res = "0x";
+            var res = prefix0x ? "0x" : string.Empty;
             bool lower = false, upper = false;
 
             Bech32 data = Decode(address);
@@ -73,7 +73,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
             return res;
         }
 
-        public static string Base16ToBech32Address(this string hexAddress)
+        public static string FromBase16ToBech32Address(this string hexAddress)
         {
 
             hexAddress = hexAddress.ToLower().Replace("0x", "");
