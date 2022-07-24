@@ -128,9 +128,24 @@ namespace Zilliqa.DesktopWallet.Core.Cryptography
             return GetRandomString(possible, length);
         }
 
-        public static string GetMD5(string textToHash)
+        public static string GetMD5(this string textToHash)
         {
             return GetMD5(Encoding.Default.GetBytes(textToHash));
+        }
+
+        public static string GetMD5(this byte[] input)
+        {
+            using (MD5 md5Hash = MD5.Create())
+            {
+                byte[] data = md5Hash.ComputeHash(input);
+
+                var sBuilder = new StringBuilder();
+                for (int i = 0; i < data.Length; i++)
+                {
+                    sBuilder.Append(i.ToString("x2"));
+                }
+                return sBuilder.ToString();
+            }
         }
 
         /// <summary>
@@ -290,21 +305,6 @@ namespace Zilliqa.DesktopWallet.Core.Cryptography
                 cs.Close();
                 byte[] decryptedData = ms.ToArray();
                 return decryptedData;
-            }
-        }
-
-        private static string GetMD5(byte[] input)
-        {
-            using (MD5 md5Hash = MD5.Create())
-            {
-                byte[] data = md5Hash.ComputeHash(input);
-
-                var sBuilder = new StringBuilder();
-                for (int i = 0; i < data.Length; i++)
-                {
-                    sBuilder.Append(i.ToString("x2"));
-                }
-                return sBuilder.ToString();
             }
         }
 
