@@ -77,7 +77,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             while (!cancellationToken.IsCancellationRequested)
             {
 
-                AfterRefresh.Invoke(this, EventArgs.Empty);
+                AfterRefresh?.Invoke(this, EventArgs.Empty);
 
                 await Task.Delay(30000, cancellationToken);
             }

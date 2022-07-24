@@ -12,7 +12,7 @@ namespace Zilliqa.DesktopWallet.Core.Extensions
             return MappingService.Instance.Mapper.Map<TSource, TTarget>(source);
         }
 
-        public static Image GetIconImage(this TokenModel model)
+        public static IconModel GetTokenIcon(this TokenModel model)
         {
             return DiskCacheIcons.Instance.GetIcon(model.IconUrl);
         }

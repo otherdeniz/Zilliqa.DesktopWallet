@@ -1,5 +1,7 @@
 ﻿using System.Drawing;
 using System.Runtime.Caching;
+using Svg;
+using Zilliqa.DesktopWallet.Core.Data.Model;
 
 namespace Zilliqa.DesktopWallet.Core.Data.DiskCache
 {
@@ -13,27 +15,51 @@ namespace Zilliqa.DesktopWallet.Core.Data.DiskCache
         {
         }
 
-        public Image GetIcon(string downloadUrl, bool cacheInMemory = true)
+        public IconModel GetIcon(string downloadUrl, bool cacheInMemory = true)
         {
             if (cacheInMemory && _iconsCache.Contains(downloadUrl))
             {
-                return (Image)_iconsCache.Get(downloadUrl);
+                return (IconModel)_iconsCache.Get(downloadUrl);
             }
             var iconBytes = GetItemData(downloadUrl, () => DownloadFile(downloadUrl));
             using (var imageStream = new MemoryStream(iconBytes))
             {
                 // you can enable support for non-Windows platforms by setting the System.Drawing.EnableUnixSupport runtime configuration switch to true in the runtimeconfig.json file
-                var result = Image.FromStream(imageStream);
+                Image? image = null;
                 try
                 {
-                    _iconsCache.Add(downloadUrl, result, DateTimeOffset.Now.AddHours(1));
+                    image = Image.FromStream(imageStream);
+                }
+                catch (Exception)
+                {
+                    // skip
+                }
+                try
+                {
+                    var svgDocument = SvgDocument.Open<SvgDocument>(imageStream);
+                    image = svgDocument.Draw();
+                }
+                catch (Exception)
+                {
+                    // skip
+                }
+
+                var iconModel = new IconModel();
+                if (image != null)
+                {
+                    iconModel.Icon16 = image.GetThumbnailImage(16, 16, null, IntPtr.Zero);
+                    iconModel.Icon48 = image.GetThumbnailImage(48, 48, null, IntPtr.Zero);
+                }
+                try
+                {
+                    _iconsCache.Add(downloadUrl, iconModel, DateTimeOffset.Now.AddHours(1));
                 }
                 catch (Exception)
                 {
                     // failed to add, ignore
                 }
 
-                return result;
+                return iconModel;
             }
         }
 

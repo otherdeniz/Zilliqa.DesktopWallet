@@ -130,21 +130,21 @@ namespace Zilliqa.DesktopWallet.Core.Cryptography
 
         public static string GetMD5(this string textToHash)
         {
-            return GetMD5(Encoding.Default.GetBytes(textToHash));
-        }
-
-        public static string GetMD5(this byte[] input)
-        {
-            using (MD5 md5Hash = MD5.Create())
+            // Use input string to calculate MD5 hash
+            using (MD5 md5 = MD5.Create())
             {
-                byte[] data = md5Hash.ComputeHash(input);
+                byte[] inputBytes = Encoding.ASCII.GetBytes(textToHash);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
 
-                var sBuilder = new StringBuilder();
-                for (int i = 0; i < data.Length; i++)
-                {
-                    sBuilder.Append(i.ToString("x2"));
-                }
-                return sBuilder.ToString();
+                return Convert.ToHexString(hashBytes); // .NET 5 +
+
+                // Convert the byte array to hexadecimal string prior to .NET 5
+                // StringBuilder sb = new System.Text.StringBuilder();
+                // for (int i = 0; i < hashBytes.Length; i++)
+                // {
+                //     sb.Append(hashBytes[i].ToString("X2"));
+                // }
+                // return sb.ToString();
             }
         }
 

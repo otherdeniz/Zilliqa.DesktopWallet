@@ -1,10 +1,13 @@
 using Zilliqa.DesktopWallet.Core.Data.Files;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main;
 using Zilliqa.DesktopWallet.Gui.WinForms.Forms;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms
 {
     public partial class MainForm : Form
     {
+        private Control? _mainTransientControl;
+
         public MainForm()
         {
             InitializeComponent();
@@ -42,21 +45,26 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             if (LoadWallet())
             {
                 mainBlockchainBrowserControl.Initialize();
-                ShowMainControl(mainBlockchainBrowserControl, buttonBlockchain);
+                ShowMainControl(() => mainBlockchainBrowserControl, buttonBlockchain);
             }
         }
 
         private void buttonWallet_Click(object sender, EventArgs e)
         {
             mainWalletControl.Initialize();
-            ShowMainControl(mainWalletControl, buttonWallet);
+            ShowMainControl(() => mainWalletControl, buttonWallet);
 
         }
 
         private void buttonBlockchain_Click(object sender, EventArgs e)
         {
             mainBlockchainBrowserControl.Initialize();
-            ShowMainControl(mainBlockchainBrowserControl, buttonBlockchain);
+            ShowMainControl(() => mainBlockchainBrowserControl, buttonBlockchain);
+        }
+
+        private void buttonTokens_Click(object sender, EventArgs e)
+        {
+            ShowMainControl(() => new MainTokensControl(), buttonTokens, true);
         }
 
         private void buttonSettings_Click(object sender, EventArgs e)
@@ -69,7 +77,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             Application.Exit();
         }
 
-        private void ShowMainControl(Control showControl, ToolStripButton button)
+        private void ShowMainControl(Func<Control> getMainControl, ToolStripButton button, bool isTransient = false)
         {
             if (button.Checked)
             {
@@ -77,6 +85,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             }
             buttonBlockchain.Checked = false;
             buttonWallet.Checked = false;
+            buttonTokens.Checked = false;
             button.Checked = true;
 
             foreach (Control panelMainControl in panelMain.Controls)
@@ -84,8 +93,24 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
                 panelMainControl.Visible = false;
             }
 
+            if (_mainTransientControl != null)
+            {
+                panelMain.Controls.Remove(_mainTransientControl);
+                _mainTransientControl.Dispose();
+                _mainTransientControl = null;
+            }
+
+            var showControl = getMainControl();
             showControl.Dock = DockStyle.Fill;
+
+            if (isTransient)
+            {
+                _mainTransientControl = showControl;
+                panelMain.Controls.Add(showControl);
+            }
+
             showControl.Visible = true;
         }
+
     }
 }
