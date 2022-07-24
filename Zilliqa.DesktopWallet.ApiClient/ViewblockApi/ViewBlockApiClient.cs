@@ -34,8 +34,10 @@ namespace Zilliqa.DesktopWallet.ApiClient.ViewblockApi
                     var responseContent = string.Empty;
                     try
                     {
-                        var response = client.Execute(new RestRequest($"addresses/{addressHex}/txs?network={NetworkParameter}&page={pageNumber}",
-                            Method.Get));
+                        var request = new RestRequest(
+                            $"addresses/{addressHex}/txs?network={NetworkParameter}&page={pageNumber}",
+                            Method.Get);
+                        var response = client.Execute(request);
                         responseContent = response.Content;
                         var responseTransactions = JsonConvert.DeserializeObject<List<ViewBlockTransaction>>(response.Content ?? throw new Exception("Content is null"));
                         result.AddRange(responseTransactions);
