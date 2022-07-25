@@ -208,9 +208,10 @@
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelBottom);
             this.Controls.Add(this.toolStripMain);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Zilliqa - Other Desktop Wallet";
+            this.Text = "Zilliqa Desktop Wallet";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.toolStripMain.ResumeLayout(false);
             this.toolStripMain.PerformLayout();

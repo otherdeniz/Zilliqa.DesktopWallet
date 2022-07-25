@@ -29,41 +29,25 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.dataGridViewTokens = new System.Windows.Forms.DataGridView();
             this.panelLoading = new System.Windows.Forms.Panel();
             this.labelLoading = new System.Windows.Forms.Label();
             this.panelLoaded = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.gridViewTokens = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl();
             this.groupBoxTokenDetails = new System.Windows.Forms.GroupBox();
+            this.labelSymbol = new System.Windows.Forms.Label();
+            this.labelName = new System.Windows.Forms.Label();
+            this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
             this.timerStartLoading = new System.Windows.Forms.Timer(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTokens)).BeginInit();
             this.panelLoading.SuspendLayout();
             this.panelLoaded.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.groupBoxTokenDetails.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
             this.SuspendLayout();
-            // 
-            // dataGridViewTokens
-            // 
-            this.dataGridViewTokens.AllowUserToAddRows = false;
-            this.dataGridViewTokens.AllowUserToDeleteRows = false;
-            this.dataGridViewTokens.AllowUserToResizeRows = false;
-            this.dataGridViewTokens.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            this.dataGridViewTokens.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewTokens.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewTokens.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dataGridViewTokens.Location = new System.Drawing.Point(0, 0);
-            this.dataGridViewTokens.MultiSelect = false;
-            this.dataGridViewTokens.Name = "dataGridViewTokens";
-            this.dataGridViewTokens.ReadOnly = true;
-            this.dataGridViewTokens.RowTemplate.Height = 25;
-            this.dataGridViewTokens.RowTemplate.ReadOnly = true;
-            this.dataGridViewTokens.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewTokens.ShowEditingIcon = false;
-            this.dataGridViewTokens.Size = new System.Drawing.Size(284, 377);
-            this.dataGridViewTokens.TabIndex = 0;
             // 
             // panelLoading
             // 
@@ -103,7 +87,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.dataGridViewTokens);
+            this.splitContainer1.Panel1.Controls.Add(this.gridViewTokens);
             // 
             // splitContainer1.Panel2
             // 
@@ -112,8 +96,20 @@
             this.splitContainer1.SplitterDistance = 284;
             this.splitContainer1.TabIndex = 1;
             // 
+            // gridViewTokens
+            // 
+            this.gridViewTokens.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridViewTokens.Location = new System.Drawing.Point(0, 0);
+            this.gridViewTokens.Name = "gridViewTokens";
+            this.gridViewTokens.Size = new System.Drawing.Size(284, 377);
+            this.gridViewTokens.TabIndex = 1;
+            this.gridViewTokens.RowSelected += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.RowSelectionEventArgs>(this.gridViewTokens_RowSelected);
+            // 
             // groupBoxTokenDetails
             // 
+            this.groupBoxTokenDetails.Controls.Add(this.labelSymbol);
+            this.groupBoxTokenDetails.Controls.Add(this.labelName);
+            this.groupBoxTokenDetails.Controls.Add(this.pictureBoxIcon);
             this.groupBoxTokenDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxTokenDetails.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.groupBoxTokenDetails.Location = new System.Drawing.Point(0, 0);
@@ -122,6 +118,36 @@
             this.groupBoxTokenDetails.TabIndex = 0;
             this.groupBoxTokenDetails.TabStop = false;
             this.groupBoxTokenDetails.Text = "Token Details";
+            this.groupBoxTokenDetails.Visible = false;
+            // 
+            // labelSymbol
+            // 
+            this.labelSymbol.AutoSize = true;
+            this.labelSymbol.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelSymbol.Location = new System.Drawing.Point(60, 43);
+            this.labelSymbol.Name = "labelSymbol";
+            this.labelSymbol.Size = new System.Drawing.Size(31, 21);
+            this.labelSymbol.TabIndex = 1;
+            this.labelSymbol.Text = "ZIL";
+            // 
+            // labelName
+            // 
+            this.labelName.AutoSize = true;
+            this.labelName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelName.Location = new System.Drawing.Point(60, 22);
+            this.labelName.Name = "labelName";
+            this.labelName.Size = new System.Drawing.Size(59, 21);
+            this.labelName.TabIndex = 1;
+            this.labelName.Text = "Zilliqa";
+            // 
+            // pictureBoxIcon
+            // 
+            this.pictureBoxIcon.Location = new System.Drawing.Point(6, 22);
+            this.pictureBoxIcon.Name = "pictureBoxIcon";
+            this.pictureBoxIcon.Size = new System.Drawing.Size(48, 48);
+            this.pictureBoxIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxIcon.TabIndex = 0;
+            this.pictureBoxIcon.TabStop = false;
             // 
             // timerStartLoading
             // 
@@ -137,25 +163,29 @@
             this.Name = "MainTokensControl";
             this.Size = new System.Drawing.Size(535, 422);
             this.Load += new System.EventHandler(this.MainTokensControl_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTokens)).EndInit();
             this.panelLoading.ResumeLayout(false);
             this.panelLoaded.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.groupBoxTokenDetails.ResumeLayout(false);
+            this.groupBoxTokenDetails.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private DataGridView dataGridViewTokens;
         private Panel panelLoading;
         private Label labelLoading;
         private Panel panelLoaded;
         private System.Windows.Forms.Timer timerStartLoading;
         private SplitContainer splitContainer1;
         private GroupBox groupBoxTokenDetails;
+        private GridView.GridViewControl gridViewTokens;
+        private Label labelSymbol;
+        private Label labelName;
+        private PictureBox pictureBoxIcon;
     }
 }

@@ -100,6 +100,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
                 _mainTransientControl = null;
             }
 
+            this.Focus();
+
             var showControl = getMainControl();
             showControl.Dock = DockStyle.Fill;
 

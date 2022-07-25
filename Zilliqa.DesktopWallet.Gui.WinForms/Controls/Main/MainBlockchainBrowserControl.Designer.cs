@@ -30,22 +30,22 @@
         private void InitializeComponent()
         {
             this.panelCenter = new System.Windows.Forms.Panel();
-            this.splitter1 = new System.Windows.Forms.Splitter();
+            this.textDbResult = new System.Windows.Forms.TextBox();
+            this.textApiResult = new System.Windows.Forms.TextBox();
+            this.buttonAddrInDb = new System.Windows.Forms.Button();
+            this.buttonQueryAddr = new System.Windows.Forms.Button();
+            this.textAddrInDb = new System.Windows.Forms.TextBox();
+            this.textBoxQueryAddr = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.labelDbInfo = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.labelCrawlerStatus = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.buttonStartCrawler = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.propertyGridBlockchainInfo = new System.Windows.Forms.PropertyGrid();
-            this.buttonStartCrawler = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.labelCrawlerStatus = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.labelDbInfo = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBoxQueryAddr = new System.Windows.Forms.TextBox();
-            this.buttonQueryAddr = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textAddrInDb = new System.Windows.Forms.TextBox();
-            this.buttonAddrInDb = new System.Windows.Forms.Button();
-            this.textApiResult = new System.Windows.Forms.TextBox();
-            this.textDbResult = new System.Windows.Forms.TextBox();
+            this.splitter1 = new System.Windows.Forms.Splitter();
             this.panelCenter.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -65,23 +65,139 @@
             this.panelCenter.Controls.Add(this.labelCrawlerStatus);
             this.panelCenter.Controls.Add(this.label1);
             this.panelCenter.Controls.Add(this.buttonStartCrawler);
-            this.panelCenter.Controls.Add(this.splitter1);
-            this.panelCenter.Controls.Add(this.groupBox1);
             this.panelCenter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelCenter.Location = new System.Drawing.Point(0, 0);
             this.panelCenter.Name = "panelCenter";
-            this.panelCenter.Size = new System.Drawing.Size(830, 587);
+            this.panelCenter.Size = new System.Drawing.Size(625, 587);
             this.panelCenter.TabIndex = 2;
             // 
-            // splitter1
+            // textDbResult
             // 
-            this.splitter1.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.splitter1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.splitter1.Location = new System.Drawing.Point(625, 0);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(5, 587);
-            this.splitter1.TabIndex = 3;
-            this.splitter1.TabStop = false;
+            this.textDbResult.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textDbResult.Location = new System.Drawing.Point(20, 343);
+            this.textDbResult.Multiline = true;
+            this.textDbResult.Name = "textDbResult";
+            this.textDbResult.ReadOnly = true;
+            this.textDbResult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textDbResult.Size = new System.Drawing.Size(585, 90);
+            this.textDbResult.TabIndex = 11;
+            // 
+            // textApiResult
+            // 
+            this.textApiResult.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textApiResult.Location = new System.Drawing.Point(20, 194);
+            this.textApiResult.Multiline = true;
+            this.textApiResult.Name = "textApiResult";
+            this.textApiResult.ReadOnly = true;
+            this.textApiResult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textApiResult.Size = new System.Drawing.Size(585, 90);
+            this.textApiResult.TabIndex = 10;
+            // 
+            // buttonAddrInDb
+            // 
+            this.buttonAddrInDb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonAddrInDb.Location = new System.Drawing.Point(530, 313);
+            this.buttonAddrInDb.Name = "buttonAddrInDb";
+            this.buttonAddrInDb.Size = new System.Drawing.Size(75, 23);
+            this.buttonAddrInDb.TabIndex = 9;
+            this.buttonAddrInDb.Text = "Execute";
+            this.buttonAddrInDb.UseVisualStyleBackColor = true;
+            // 
+            // buttonQueryAddr
+            // 
+            this.buttonQueryAddr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonQueryAddr.Location = new System.Drawing.Point(530, 164);
+            this.buttonQueryAddr.Name = "buttonQueryAddr";
+            this.buttonQueryAddr.Size = new System.Drawing.Size(75, 23);
+            this.buttonQueryAddr.TabIndex = 9;
+            this.buttonQueryAddr.Text = "Execute";
+            this.buttonQueryAddr.UseVisualStyleBackColor = true;
+            this.buttonQueryAddr.Click += new System.EventHandler(this.buttonQueryAddr_Click);
+            // 
+            // textAddrInDb
+            // 
+            this.textAddrInDb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textAddrInDb.Location = new System.Drawing.Point(20, 314);
+            this.textAddrInDb.Name = "textAddrInDb";
+            this.textAddrInDb.Size = new System.Drawing.Size(504, 23);
+            this.textAddrInDb.TabIndex = 8;
+            // 
+            // textBoxQueryAddr
+            // 
+            this.textBoxQueryAddr.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxQueryAddr.Location = new System.Drawing.Point(20, 165);
+            this.textBoxQueryAddr.Name = "textBoxQueryAddr";
+            this.textBoxQueryAddr.Size = new System.Drawing.Size(504, 23);
+            this.textBoxQueryAddr.TabIndex = 8;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(20, 296);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(115, 15);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Query Address in DB";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(20, 147);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(122, 15);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Query Address on API";
+            // 
+            // labelDbInfo
+            // 
+            this.labelDbInfo.AutoSize = true;
+            this.labelDbInfo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelDbInfo.Location = new System.Drawing.Point(128, 89);
+            this.labelDbInfo.Name = "labelDbInfo";
+            this.labelDbInfo.Size = new System.Drawing.Size(62, 15);
+            this.labelDbInfo.TabIndex = 6;
+            this.labelDbInfo.Text = "Not Exists";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(20, 89);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(82, 15);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Database Info:";
+            // 
+            // labelCrawlerStatus
+            // 
+            this.labelCrawlerStatus.AutoSize = true;
+            this.labelCrawlerStatus.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelCrawlerStatus.Location = new System.Drawing.Point(128, 56);
+            this.labelCrawlerStatus.Name = "labelCrawlerStatus";
+            this.labelCrawlerStatus.Size = new System.Drawing.Size(52, 15);
+            this.labelCrawlerStatus.TabIndex = 6;
+            this.labelCrawlerStatus.Text = "Inactive";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(20, 56);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(85, 15);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Crawler Status:";
+            // 
+            // buttonStartCrawler
+            // 
+            this.buttonStartCrawler.Location = new System.Drawing.Point(20, 19);
+            this.buttonStartCrawler.Name = "buttonStartCrawler";
+            this.buttonStartCrawler.Size = new System.Drawing.Size(120, 23);
+            this.buttonStartCrawler.TabIndex = 4;
+            this.buttonStartCrawler.Text = "Start Crawler";
+            this.buttonStartCrawler.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -106,139 +222,23 @@
             this.propertyGridBlockchainInfo.TabIndex = 0;
             this.propertyGridBlockchainInfo.ToolbarVisible = false;
             // 
-            // buttonStartCrawler
+            // splitter1
             // 
-            this.buttonStartCrawler.Location = new System.Drawing.Point(20, 19);
-            this.buttonStartCrawler.Name = "buttonStartCrawler";
-            this.buttonStartCrawler.Size = new System.Drawing.Size(120, 23);
-            this.buttonStartCrawler.TabIndex = 4;
-            this.buttonStartCrawler.Text = "Start Crawler";
-            this.buttonStartCrawler.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(20, 56);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 15);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Crawler Status:";
-            // 
-            // labelCrawlerStatus
-            // 
-            this.labelCrawlerStatus.AutoSize = true;
-            this.labelCrawlerStatus.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelCrawlerStatus.Location = new System.Drawing.Point(128, 56);
-            this.labelCrawlerStatus.Name = "labelCrawlerStatus";
-            this.labelCrawlerStatus.Size = new System.Drawing.Size(52, 15);
-            this.labelCrawlerStatus.TabIndex = 6;
-            this.labelCrawlerStatus.Text = "Inactive";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(20, 89);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(82, 15);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Database Info:";
-            // 
-            // labelDbInfo
-            // 
-            this.labelDbInfo.AutoSize = true;
-            this.labelDbInfo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelDbInfo.Location = new System.Drawing.Point(128, 89);
-            this.labelDbInfo.Name = "labelDbInfo";
-            this.labelDbInfo.Size = new System.Drawing.Size(62, 15);
-            this.labelDbInfo.TabIndex = 6;
-            this.labelDbInfo.Text = "Not Exists";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 147);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(122, 15);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Query Address on API";
-            // 
-            // textBoxQueryAddr
-            // 
-            this.textBoxQueryAddr.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxQueryAddr.Location = new System.Drawing.Point(20, 165);
-            this.textBoxQueryAddr.Name = "textBoxQueryAddr";
-            this.textBoxQueryAddr.Size = new System.Drawing.Size(507, 23);
-            this.textBoxQueryAddr.TabIndex = 8;
-            // 
-            // buttonQueryAddr
-            // 
-            this.buttonQueryAddr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonQueryAddr.Location = new System.Drawing.Point(533, 165);
-            this.buttonQueryAddr.Name = "buttonQueryAddr";
-            this.buttonQueryAddr.Size = new System.Drawing.Size(75, 23);
-            this.buttonQueryAddr.TabIndex = 9;
-            this.buttonQueryAddr.Text = "Execute";
-            this.buttonQueryAddr.UseVisualStyleBackColor = true;
-            this.buttonQueryAddr.Click += new System.EventHandler(this.buttonQueryAddr_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 296);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(115, 15);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Query Address in DB";
-            // 
-            // textAddrInDb
-            // 
-            this.textAddrInDb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textAddrInDb.Location = new System.Drawing.Point(20, 314);
-            this.textAddrInDb.Name = "textAddrInDb";
-            this.textAddrInDb.Size = new System.Drawing.Size(507, 23);
-            this.textAddrInDb.TabIndex = 8;
-            // 
-            // buttonAddrInDb
-            // 
-            this.buttonAddrInDb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAddrInDb.Location = new System.Drawing.Point(533, 314);
-            this.buttonAddrInDb.Name = "buttonAddrInDb";
-            this.buttonAddrInDb.Size = new System.Drawing.Size(75, 23);
-            this.buttonAddrInDb.TabIndex = 9;
-            this.buttonAddrInDb.Text = "Execute";
-            this.buttonAddrInDb.UseVisualStyleBackColor = true;
-            // 
-            // textApiResult
-            // 
-            this.textApiResult.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textApiResult.Location = new System.Drawing.Point(20, 194);
-            this.textApiResult.Multiline = true;
-            this.textApiResult.Name = "textApiResult";
-            this.textApiResult.ReadOnly = true;
-            this.textApiResult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textApiResult.Size = new System.Drawing.Size(588, 90);
-            this.textApiResult.TabIndex = 10;
-            // 
-            // textDbResult
-            // 
-            this.textDbResult.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textDbResult.Location = new System.Drawing.Point(20, 343);
-            this.textDbResult.Multiline = true;
-            this.textDbResult.Name = "textDbResult";
-            this.textDbResult.ReadOnly = true;
-            this.textDbResult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textDbResult.Size = new System.Drawing.Size(588, 90);
-            this.textDbResult.TabIndex = 11;
+            this.splitter1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.splitter1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.splitter1.Location = new System.Drawing.Point(625, 0);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(5, 587);
+            this.splitter1.TabIndex = 4;
+            this.splitter1.TabStop = false;
             // 
             // MainBlockchainBrowserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panelCenter);
+            this.Controls.Add(this.splitter1);
+            this.Controls.Add(this.groupBox1);
             this.Name = "MainBlockchainBrowserControl";
             this.Size = new System.Drawing.Size(830, 587);
             this.panelCenter.ResumeLayout(false);
@@ -251,7 +251,6 @@
         #endregion
 
         private Panel panelCenter;
-        private Splitter splitter1;
         private GroupBox groupBox1;
         private PropertyGrid propertyGridBlockchainInfo;
         private Button buttonQueryAddr;
@@ -267,5 +266,6 @@
         private Label label4;
         private TextBox textDbResult;
         private TextBox textApiResult;
+        private Splitter splitter1;
     }
 }

@@ -6,10 +6,12 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>Zilliqa-icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="..\Zilliqa-icon.ico" Link="Zilliqa-icon.ico" />
+    <Content Include="Zilliqa-icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
