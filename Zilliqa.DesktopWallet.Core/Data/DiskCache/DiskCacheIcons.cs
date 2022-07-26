@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Imaging;
 using System.Runtime.Caching;
 using Svg;
 using Zilliqa.DesktopWallet.Core.Data.Model;
@@ -15,7 +16,7 @@ namespace Zilliqa.DesktopWallet.Core.Data.DiskCache
         {
         }
 
-        public IconModel GetIcon(string downloadUrl, bool cacheInMemory = true)
+        public IconModel GetIcon(string downloadUrl, bool cacheInMemory = true, string? iconLabel = null)
         {
             if (cacheInMemory && _iconsCache.Contains(downloadUrl))
             {
@@ -53,6 +54,11 @@ namespace Zilliqa.DesktopWallet.Core.Data.DiskCache
                 try
                 {
                     _iconsCache.Add(downloadUrl, iconModel, DateTimeOffset.Now.AddHours(1));
+                    if (!string.IsNullOrEmpty(iconLabel))
+                    {
+                        iconModel.Icon16?.Save(DataPathBuilder.GetSubFolderFilePath($"{iconLabel}_16.png"), ImageFormat.Png);
+                        iconModel.Icon48?.Save(DataPathBuilder.GetSubFolderFilePath($"{iconLabel}_48.png"), ImageFormat.Png);
+                    }
                 }
                 catch (Exception)
                 {

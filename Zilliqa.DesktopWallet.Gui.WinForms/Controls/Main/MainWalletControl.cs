@@ -92,9 +92,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 
             var addControl = new WalletAddressDetails
             {
-                Dock = DockStyle.Top,
-                AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink
+                Dock = DockStyle.Fill
             };
             addControl.LoadAccount(walletListItemControl.Account);
 

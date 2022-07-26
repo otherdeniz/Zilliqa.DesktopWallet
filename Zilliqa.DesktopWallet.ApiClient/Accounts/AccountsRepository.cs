@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace Zilliqa.DesktopWallet.ApiClient.Accounts
 {
+    [Obsolete("to be refactored")]
     public class AccountsRepository
     {
         private List<Account> _accounts;

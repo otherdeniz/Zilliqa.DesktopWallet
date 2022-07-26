@@ -5,6 +5,7 @@ using Zilliqa.DesktopWallet.ApiClient.Utils;
 
 namespace Zilliqa.DesktopWallet.ApiClient.Accounts
 {
+    [Obsolete("to be refactored")]
     public class Wallet
     {
         private AccountsRepository _repo;

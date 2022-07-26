@@ -1,5 +1,5 @@
 ﻿using Zilliqa.DesktopWallet.Core.Extensions;
-using Zilliqa.DesktopWallet.Core.Repository;
+using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Gui.WinForms.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
@@ -22,7 +22,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
         private void timerStartLoading_Tick(object sender, EventArgs e)
         {
             timerStartLoading.Enabled = false;
-            var tokensList = TokenRepository.Instance.GetTokens()
+            var tokensList = TokenDataService.Instance.GetTokens()
                 .OrderByDescending(t => t.Symbol == "ZIL" ? decimal.MaxValue : t.MarketData.FullyDilutedValuationUsd)
                 .Select(t => new TokenGridRowViewModel(t)).ToList();
             gridViewTokens.LoadData(tokensList, typeof(TokenGridRowViewModel));

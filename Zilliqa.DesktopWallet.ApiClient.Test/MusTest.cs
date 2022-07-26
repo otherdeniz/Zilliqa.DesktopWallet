@@ -29,7 +29,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test
             _client = new MusZil_APIClient(DEV_URL);
             _repo = new AccountsRepository();
             _address = new Address("zil1fs6jhg4axvj9ekscq6v7ddwxxd9tthpxl7820q");
-            _account = AccountFactory.New(_pk);
+            _account = new Account(_pk);
             _wallet = new Wallet(_account);
             _zil = new ZilliqaClient();
         }

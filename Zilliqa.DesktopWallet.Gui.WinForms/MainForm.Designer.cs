@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStripMain = new System.Windows.Forms.ToolStrip();
             this.buttonBlockchain = new System.Windows.Forms.ToolStripButton();
@@ -44,6 +45,7 @@
             this.panelNotifications = new System.Windows.Forms.Panel();
             this.groupBoxStatus = new System.Windows.Forms.GroupBox();
             this.panelStatus = new System.Windows.Forms.Panel();
+            this.timerInit = new System.Windows.Forms.Timer(this.components);
             this.toolStripMain.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.panelBottom.SuspendLayout();
@@ -123,6 +125,8 @@
             // panelMain
             // 
             this.panelMain.BackColor = System.Drawing.SystemColors.Control;
+            this.panelMain.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panelMain.BackgroundImage")));
+            this.panelMain.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.panelMain.Controls.Add(this.mainWalletControl);
             this.panelMain.Controls.Add(this.mainBlockchainBrowserControl);
             this.panelMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -135,18 +139,20 @@
             // mainWalletControl
             // 
             this.mainWalletControl.BackColor = System.Drawing.Color.White;
-            this.mainWalletControl.Location = new System.Drawing.Point(451, 274);
+            this.mainWalletControl.Location = new System.Drawing.Point(498, 91);
             this.mainWalletControl.Name = "mainWalletControl";
             this.mainWalletControl.Size = new System.Drawing.Size(475, 299);
             this.mainWalletControl.TabIndex = 1;
+            this.mainWalletControl.Visible = false;
             // 
             // mainBlockchainBrowserControl
             // 
             this.mainBlockchainBrowserControl.BackColor = System.Drawing.Color.White;
-            this.mainBlockchainBrowserControl.Location = new System.Drawing.Point(43, 36);
+            this.mainBlockchainBrowserControl.Location = new System.Drawing.Point(21, 38);
             this.mainBlockchainBrowserControl.Name = "mainBlockchainBrowserControl";
             this.mainBlockchainBrowserControl.Size = new System.Drawing.Size(449, 214);
             this.mainBlockchainBrowserControl.TabIndex = 0;
+            this.mainBlockchainBrowserControl.Visible = false;
             // 
             // panelBottom
             // 
@@ -200,6 +206,12 @@
             this.panelStatus.Size = new System.Drawing.Size(194, 78);
             this.panelStatus.TabIndex = 0;
             // 
+            // timerInit
+            // 
+            this.timerInit.Enabled = true;
+            this.timerInit.Interval = 10;
+            this.timerInit.Tick += new System.EventHandler(this.timerInit_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -241,5 +253,6 @@
         private Panel panelNotifications;
         private GroupBox groupBoxStatus;
         private Panel panelStatus;
+        private System.Windows.Forms.Timer timerInit;
     }
 }

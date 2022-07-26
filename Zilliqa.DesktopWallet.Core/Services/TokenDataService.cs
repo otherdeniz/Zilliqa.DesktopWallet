@@ -3,11 +3,11 @@ using Zilliqa.DesktopWallet.ApiClient.ZilstreamApi.Model;
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.Extensions;
 
-namespace Zilliqa.DesktopWallet.Core.Repository
+namespace Zilliqa.DesktopWallet.Core.Services
 {
-    public class TokenRepository
+    public class TokenDataService
     {
-        public static TokenRepository Instance { get; } = new TokenRepository();
+        public static TokenDataService Instance { get; } = new TokenDataService();
 
         public IEnumerable<TokenModel> GetTokens()
         {

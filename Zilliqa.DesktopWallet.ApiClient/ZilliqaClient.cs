@@ -360,14 +360,5 @@ namespace Zilliqa.DesktopWallet.ApiClient
 
 		#endregion
 
-
-
-		#region Custom Functions not part of API
-		public static Account MakeAccount(string address)
-		{
-			return AccountFactory.New(address);
-		}
-        #endregion
-
     }
 }

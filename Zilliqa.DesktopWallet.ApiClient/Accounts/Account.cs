@@ -8,6 +8,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Accounts
 {
     public class Account
     {
+        [Obsolete("balance will not be stored here")]
         public Balance Balance { get; set; }
 
         public Address Address { get; set; }
@@ -60,18 +61,17 @@ namespace Zilliqa.DesktopWallet.ApiClient.Accounts
             address = address.ToLower().Replace("0x", "");
             string hash = ByteUtil.ByteArrayToHexString(HashUtil.CalculateSha256Hash(ByteUtil.HexStringToByteArray(address)));
             StringBuilder ret = new StringBuilder("0x");
-            byte[] x = ByteUtil.HexStringToByteArray(hash);
             BigInteger v = new BigInteger(ByteUtil.HexStringToByteArray(hash));
             for (int i = 0; i < address.Length; i++)
             {
-                if ("1234567890".IndexOf(address.ToCharArray()[i]) != -1)
+                if ("1234567890".IndexOf(address[i]) != -1)
                 {
-                    ret.Append(address.ToCharArray()[i]);
+                    ret.Append(address[i]);
                 }
                 else
                 {
                     BigInteger checker = v.And(BigInteger.ValueOf(2).Pow(255 - 6 * i));
-                    ret.Append(checker.CompareTo(BigInteger.ValueOf(1)) < 0 ? address.ToCharArray()[i].ToString().ToLower() : address.ToCharArray()[i].ToString().ToUpper());
+                    ret.Append(checker.CompareTo(BigInteger.ValueOf(1)) < 0 ? address[i].ToString().ToLower() : address[i].ToString().ToUpper());
                 }
             }
             return ret.ToString();

@@ -8,6 +8,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.ViewModel
     public class TokenGridRowViewModel
     {
         private readonly TokenModel _model;
+        private Image? _icon;
 
         public TokenGridRowViewModel(TokenModel model)
         {
@@ -17,7 +18,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.ViewModel
         [Browsable(false)]
         public TokenModel Model => _model;
 
-        public Image? Icon => _model.GetTokenIcon().Icon16;
+        public Image? Icon => _icon ??= _model.GetTokenIcon().Icon16;
 
         public string Symbol => _model.Symbol;
 

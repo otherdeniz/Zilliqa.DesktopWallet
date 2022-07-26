@@ -13,6 +13,21 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             InitializeComponent();
         }
 
+        private void StartupGui()
+        {
+            if (LoadWallet())
+            {
+                mainBlockchainBrowserControl.Initialize();
+                ShowMainControl(() => mainBlockchainBrowserControl, buttonBlockchain);
+            }
+        }
+
+        private void timerInit_Tick(object sender, EventArgs e)
+        {
+            timerInit.Enabled = false;
+            StartupGui();
+        }
+
         private bool LoadWallet()
         {
             if (!WalletDat.Exists)
@@ -42,11 +57,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            if (LoadWallet())
-            {
-                mainBlockchainBrowserControl.Initialize();
-                ShowMainControl(() => mainBlockchainBrowserControl, buttonBlockchain);
-            }
         }
 
         private void buttonWallet_Click(object sender, EventArgs e)

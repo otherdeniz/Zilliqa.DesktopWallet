@@ -1,4 +1,5 @@
-﻿using Zilliqa.DesktopWallet.Core.ViewModel;
+﻿using Zilliqa.DesktopWallet.Core.Extensions;
+using Zilliqa.DesktopWallet.Core.ViewModel;
 using SystemColors = System.Drawing.SystemColors;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
@@ -35,7 +36,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             _accountViewModel = account;
             Tag = account;
             labelName.Text = account.AccountData.Name;
-            labelAmount.Text = account.AccountData.AddressBech32;
+            labelAmount.Text = account.AccountData.AddressBech32.FromBech32ToShortReadable();
         }
 
         private void OnAnyClick()
