@@ -4,8 +4,7 @@ namespace Zilligraph.Database.Storage
 {
     public class DatabaseInstanceFileBasedManager
     {
-        private readonly string _storageFolder;
-        private readonly string _key;
+        private readonly string _databasePath;
 
         /// <summary>
         /// creates the root object to access a DB.
@@ -14,12 +13,17 @@ namespace Zilligraph.Database.Storage
         /// <param name="key">the unique key of this DB, could be a publickey or a guid or any unique string</param>
         public DatabaseInstanceFileBasedManager(string storageFolder, string key)
         {
-            _storageFolder = storageFolder;
-            _key = key;
             if (!Directory.Exists(storageFolder))
             {
                 Directory.CreateDirectory(storageFolder);
             }
+
+            _databasePath = Path.Combine(storageFolder, key);
+            if (!Directory.Exists(_databasePath))
+            {
+                Directory.CreateDirectory(_databasePath);
+            }
+
         }
 
         public DatabaseInstanceRepository<TRecordModel> LoadRepository<TRecordModel>() where TRecordModel : class, new()
@@ -32,8 +36,8 @@ namespace Zilligraph.Database.Storage
 
         private Stream GetFileStream(string fileType)
         {
-            var filePath = Path.Combine(_storageFolder, $"{_key}_{fileType}.db");
-            return File.Open(filePath, FileMode.OpenOrCreate);
+            var filePath = Path.Combine(_databasePath, $"{fileType}.db");
+            return File.Open(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
         }
     }
 }

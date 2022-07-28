@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Zilligraph.Database.Storage.DbFiles
+﻿namespace Zilligraph.Database.Storage.StorageModel
 {
     public class DataFile
     {
+        private readonly string _filePath;
+
+        public DataFile(string filePath)
+        {
+            _filePath = filePath;
+        }
+
 
     }
 }
