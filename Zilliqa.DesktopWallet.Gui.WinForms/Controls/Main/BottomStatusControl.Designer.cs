@@ -190,6 +190,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panelRowDbSize);
             this.Controls.Add(this.panelRowStatus);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Name = "BottomStatusControl";
             this.Size = new System.Drawing.Size(276, 112);
             this.panelRowStatus.ResumeLayout(false);

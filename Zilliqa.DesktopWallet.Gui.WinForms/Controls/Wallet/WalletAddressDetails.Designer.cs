@@ -141,9 +141,9 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.panel8);
             this.panel5.Controls.Add(this.panel6);
             this.panel5.Controls.Add(this.panel7);
-            this.panel5.Controls.Add(this.panel8);
             this.panel5.Controls.Add(this.pictureBox2);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel5.Location = new System.Drawing.Point(3, 42);
@@ -158,17 +158,17 @@
             this.panel6.Controls.Add(this.label7);
             this.panel6.Controls.Add(this.label8);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel6.Location = new System.Drawing.Point(287, 0);
+            this.panel6.Location = new System.Drawing.Point(184, 0);
             this.panel6.Name = "panel6";
-            this.panel6.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.panel6.Size = new System.Drawing.Size(152, 23);
+            this.panel6.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.panel6.Size = new System.Drawing.Size(180, 23);
             this.panel6.TabIndex = 3;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label7.Location = new System.Drawing.Point(93, 0);
+            this.label7.Location = new System.Drawing.Point(111, 0);
             this.label7.Name = "label7";
             this.label7.Padding = new System.Windows.Forms.Padding(3);
             this.label7.Size = new System.Drawing.Size(59, 21);
@@ -179,12 +179,12 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label8.Location = new System.Drawing.Point(10, 0);
+            this.label8.Location = new System.Drawing.Point(0, 0);
             this.label8.Name = "label8";
             this.label8.Padding = new System.Windows.Forms.Padding(3);
-            this.label8.Size = new System.Drawing.Size(83, 21);
+            this.label8.Size = new System.Drawing.Size(111, 21);
             this.label8.TabIndex = 1;
-            this.label8.Text = "Tokens Value:";
+            this.label8.Text = "Total Tokens Value:";
             // 
             // panel7
             // 
@@ -193,17 +193,17 @@
             this.panel7.Controls.Add(this.label9);
             this.panel7.Controls.Add(this.label10);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel7.Location = new System.Drawing.Point(155, 0);
+            this.panel7.Location = new System.Drawing.Point(24, 0);
             this.panel7.Name = "panel7";
-            this.panel7.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.panel7.Size = new System.Drawing.Size(132, 23);
+            this.panel7.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.panel7.Size = new System.Drawing.Size(160, 23);
             this.panel7.TabIndex = 2;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label9.Location = new System.Drawing.Point(73, 0);
+            this.label9.Location = new System.Drawing.Point(91, 0);
             this.label9.Name = "label9";
             this.label9.Padding = new System.Windows.Forms.Padding(3);
             this.label9.Size = new System.Drawing.Size(59, 21);
@@ -214,12 +214,12 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label10.Location = new System.Drawing.Point(10, 0);
+            this.label10.Location = new System.Drawing.Point(0, 0);
             this.label10.Name = "label10";
             this.label10.Padding = new System.Windows.Forms.Padding(3);
-            this.label10.Size = new System.Drawing.Size(63, 21);
+            this.label10.Size = new System.Drawing.Size(91, 21);
             this.label10.TabIndex = 1;
-            this.label10.Text = "ZIL Value:";
+            this.label10.Text = "Total ZIL Value:";
             // 
             // panel8
             // 
@@ -228,16 +228,17 @@
             this.panel8.Controls.Add(this.label11);
             this.panel8.Controls.Add(this.label12);
             this.panel8.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel8.Location = new System.Drawing.Point(24, 0);
+            this.panel8.Location = new System.Drawing.Point(364, 0);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(131, 23);
+            this.panel8.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.panel8.Size = new System.Drawing.Size(204, 23);
             this.panel8.TabIndex = 1;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label11.Location = new System.Drawing.Point(72, 0);
+            this.label11.Location = new System.Drawing.Point(135, 0);
             this.label11.Name = "label11";
             this.label11.Padding = new System.Windows.Forms.Padding(3);
             this.label11.Size = new System.Drawing.Size(59, 21);
@@ -251,9 +252,9 @@
             this.label12.Location = new System.Drawing.Point(0, 0);
             this.label12.Name = "label12";
             this.label12.Padding = new System.Windows.Forms.Padding(3);
-            this.label12.Size = new System.Drawing.Size(72, 21);
+            this.label12.Size = new System.Drawing.Size(135, 21);
             this.label12.TabIndex = 1;
-            this.label12.Text = "Total Value:";
+            this.label12.Text = "Total ZIL+Tokens Value:";
             // 
             // pictureBox2
             // 

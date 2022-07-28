@@ -20,7 +20,7 @@ namespace Zilliqa.DesktopWallet.Core.Extensions
         {
             if (bech32.Length > 10)
             {
-                return $"{bech32.Substring(0, 4)} {bech32.Substring(4, 3)}...{bech32.Substring(bech32.Length - 4, 3)}";
+                return $"{bech32.Substring(0, 4)} {bech32.Substring(4, 3)}...{bech32.Substring(bech32.Length - 3, 3)}";
             }
 
             return bech32;

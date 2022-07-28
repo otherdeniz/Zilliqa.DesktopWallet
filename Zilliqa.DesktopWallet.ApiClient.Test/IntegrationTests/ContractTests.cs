@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using NUnit.Framework.Internal.Execution;
 using Zilliqa.DesktopWallet.ApiClient.Contracts;
 using Zilliqa.DesktopWallet.ApiClient.Utils;
 
@@ -18,7 +19,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
             _address.Raw = "0x96b324cbdacbf7087f1fb1cdbbe6601a6e8c04c5";
             _contract = new SmartContract(_address);
         }
-
+        
         [Test]
         public async Task GetBalance()
         {

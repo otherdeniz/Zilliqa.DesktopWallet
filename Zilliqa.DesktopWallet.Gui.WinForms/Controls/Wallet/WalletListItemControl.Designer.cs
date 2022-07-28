@@ -38,20 +38,20 @@
             this.labelName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelName.Location = new System.Drawing.Point(3, 0);
             this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(120, 21);
+            this.labelName.Size = new System.Drawing.Size(68, 21);
             this.labelName.TabIndex = 1;
-            this.labelName.Text = "[Name] (Type)";
+            this.labelName.Text = "[Name]";
             this.labelName.Click += new System.EventHandler(this.labelName_Click);
             // 
             // labelAmount
             // 
             this.labelAmount.AutoSize = true;
-            this.labelAmount.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelAmount.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelAmount.Location = new System.Drawing.Point(3, 25);
             this.labelAmount.Name = "labelAmount";
-            this.labelAmount.Size = new System.Drawing.Size(41, 19);
+            this.labelAmount.Size = new System.Drawing.Size(169, 19);
             this.labelAmount.TabIndex = 2;
-            this.labelAmount.Text = "0 ZIL";
+            this.labelAmount.Text = "0 ZIL + 0 Tokens = 0 USD";
             this.labelAmount.Click += new System.EventHandler(this.labelAmount_Click);
             // 
             // WalletListItemControl

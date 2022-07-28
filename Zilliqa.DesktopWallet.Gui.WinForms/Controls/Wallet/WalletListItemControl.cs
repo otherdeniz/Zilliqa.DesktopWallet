@@ -35,8 +35,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         {
             _accountViewModel = account;
             Tag = account;
-            labelName.Text = account.AccountData.Name;
-            labelAmount.Text = account.AccountData.AddressBech32.FromBech32ToShortReadable();
+            labelName.Text = $"{account.AccountData.Name} ({account.AccountData.AddressBech32.FromBech32ToShortReadable()})";
+            labelAmount.Text = "0 ZIL + 0 Tokens = 0 USD";
         }
 
         private void OnAnyClick()
