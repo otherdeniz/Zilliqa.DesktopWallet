@@ -35,11 +35,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilligraph.Database.Generic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilligraph.Database.Storage", "Zilligraph.Database\Zilligraph.Database.Storage\Zilligraph.Database.Storage.csproj", "{2BBAFCF1-95D8-4DD3-BA79-E074C9EAD170}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilligraph.Database.Crawler", "Zilligraph.Database\Zilligraph.Database.Crawler\Zilligraph.Database.Crawler.csproj", "{8BFAA381-1D1E-43B6-9C9D-8D2A8A4C70F1}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilligraph.Database.QueryLanguage", "Zilligraph.Database\Zilligraph.Database.QueryLanguage\Zilligraph.Database.QueryLanguage.csproj", "{024EE721-E302-46FD-AEF5-4255B4EE0A84}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilligraph.Database.Example.ZilliqaBlockchain", "Zilligraph.Database\Zilligraph.Database.Example.ZilliqaBlockchain\Zilligraph.Database.Example.ZilliqaBlockchain.csproj", "{FBDA89C6-B137-4A1E-8BB5-CC03102262CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilligraph.Database.Schema.ZilliqaBlockchain", "Zilligraph.Database\Zilligraph.Database.Example.ZilliqaBlockchain\Zilligraph.Database.Schema.ZilliqaBlockchain.csproj", "{FBDA89C6-B137-4A1E-8BB5-CC03102262CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zilliqa.DesktopWallet.TestApp", "Zilliqa.DesktopWallet.TestApp\Zilliqa.DesktopWallet.TestApp.csproj", "{03EF30ED-2AA3-457C-B5FA-06191A343720}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zilligraph.Database.SchemaDefinition", "Zilligraph.Database.SchemaDefinition\Zilligraph.Database.SchemaDefinition.csproj", "{D29BB5E4-29E6-4C5B-8C1D-AC5D0150A818}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,10 +97,6 @@ Global
 		{2BBAFCF1-95D8-4DD3-BA79-E074C9EAD170}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BBAFCF1-95D8-4DD3-BA79-E074C9EAD170}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BBAFCF1-95D8-4DD3-BA79-E074C9EAD170}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8BFAA381-1D1E-43B6-9C9D-8D2A8A4C70F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8BFAA381-1D1E-43B6-9C9D-8D2A8A4C70F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8BFAA381-1D1E-43B6-9C9D-8D2A8A4C70F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8BFAA381-1D1E-43B6-9C9D-8D2A8A4C70F1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{024EE721-E302-46FD-AEF5-4255B4EE0A84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{024EE721-E302-46FD-AEF5-4255B4EE0A84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{024EE721-E302-46FD-AEF5-4255B4EE0A84}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -107,6 +105,14 @@ Global
 		{FBDA89C6-B137-4A1E-8BB5-CC03102262CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBDA89C6-B137-4A1E-8BB5-CC03102262CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBDA89C6-B137-4A1E-8BB5-CC03102262CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03EF30ED-2AA3-457C-B5FA-06191A343720}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03EF30ED-2AA3-457C-B5FA-06191A343720}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03EF30ED-2AA3-457C-B5FA-06191A343720}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03EF30ED-2AA3-457C-B5FA-06191A343720}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D29BB5E4-29E6-4C5B-8C1D-AC5D0150A818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D29BB5E4-29E6-4C5B-8C1D-AC5D0150A818}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D29BB5E4-29E6-4C5B-8C1D-AC5D0150A818}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D29BB5E4-29E6-4C5B-8C1D-AC5D0150A818}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,9 +131,10 @@ Global
 		{A6E8F6ED-65B9-4902-9942-650C5A33959B} = {B88CCB2B-E0E3-4146-838B-BCB782D0B479}
 		{907FC00E-4501-47F5-82C1-6DBA0D289584} = {58EA2C23-58CD-4EBC-A522-DC018C2F2DF6}
 		{2BBAFCF1-95D8-4DD3-BA79-E074C9EAD170} = {58EA2C23-58CD-4EBC-A522-DC018C2F2DF6}
-		{8BFAA381-1D1E-43B6-9C9D-8D2A8A4C70F1} = {58EA2C23-58CD-4EBC-A522-DC018C2F2DF6}
 		{024EE721-E302-46FD-AEF5-4255B4EE0A84} = {58EA2C23-58CD-4EBC-A522-DC018C2F2DF6}
 		{FBDA89C6-B137-4A1E-8BB5-CC03102262CE} = {58EA2C23-58CD-4EBC-A522-DC018C2F2DF6}
+		{03EF30ED-2AA3-457C-B5FA-06191A343720} = {7F110258-3BCE-4E17-836E-E784317FBB40}
+		{D29BB5E4-29E6-4C5B-8C1D-AC5D0150A818} = {58EA2C23-58CD-4EBC-A522-DC018C2F2DF6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33F6C299-4831-4DA4-9B5F-65B8F3094132}
