@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Zillifriends.Shared.Common\Zillifriends.Shared.Common.csproj" />
     <ProjectReference Include="..\Zilliqa.DesktopWallet.ApiClient\Zilliqa.DesktopWallet.ApiClient.csproj" />
   </ItemGroup>
 

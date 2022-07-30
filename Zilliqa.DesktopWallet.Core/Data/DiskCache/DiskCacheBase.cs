@@ -1,4 +1,5 @@
-﻿using Zilliqa.DesktopWallet.Core.Cryptography;
+﻿using Zillifriends.Shared.Common;
+using Zilliqa.DesktopWallet.Core.Cryptography;
 
 namespace Zilliqa.DesktopWallet.Core.Data.DiskCache
 {
@@ -9,7 +10,7 @@ namespace Zilliqa.DesktopWallet.Core.Data.DiskCache
         protected DiskCacheBase(string cachingFolderName)
         {
             CachingFolderName = cachingFolderName;
-            DataPathBuilder = new DataPathBuilder(cachingFolderName);
+            DataPathBuilder = DataPathBuilder.Root.GetSubFolder(cachingFolderName);
         }
 
         protected string CachingFolderName { get; }
@@ -19,7 +20,7 @@ namespace Zilliqa.DesktopWallet.Core.Data.DiskCache
         public byte[] GetItemData(string name, Func<byte[]> createItem)
         {
             var nameHash = name.GetMD5();
-            var itemFilePath = DataPathBuilder.GetSubFolderFilePath(nameHash);
+            var itemFilePath = DataPathBuilder.GetFilePath(nameHash);
             if (File.Exists(itemFilePath))
             {
                 return ReadFile(itemFilePath);

@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Zilligraph.Database.SchemaDefinition\Zilligraph.Database.SchemaDefinition.csproj" />
     <ProjectReference Include="..\Zilligraph.Database\Zilligraph.Database.Example.ZilliqaBlockchain\Zilligraph.Database.Schema.ZilliqaBlockchain.csproj" />
     <ProjectReference Include="..\Zilligraph.Database\Zilligraph.Database.Storage\Zilligraph.Database.Storage.csproj" />
     <ProjectReference Include="..\Zilliqa.DesktopWallet.ApiClient\Zilliqa.DesktopWallet.ApiClient.csproj" />

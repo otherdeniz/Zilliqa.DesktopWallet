@@ -4,7 +4,7 @@ namespace Zilligraph.Database.Storage.StorageModel.DataStructure
 {
     public class StorageTableRowBinary
     {
-        public long RowPosition { get; private set; }
+        public long RowPosition { get; private set; } = -1;
 
         public int RowLength { get; private set; }
 
@@ -21,6 +21,24 @@ namespace Zilligraph.Database.Storage.StorageModel.DataStructure
             rowBinary.RowLength = BitConverter.ToInt32(lengthBuffer);
             rowBinary.CompressedRow = readableStream.ReadExactly(rowBinary.RowLength);
             return rowBinary;
+        }
+
+        public static StorageTableRowBinary CreateNew(object record)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                record.CompressObjectToStream(memoryStream);
+                var rowBinary = new StorageTableRowBinary
+                {
+                    CompressedRow = memoryStream.ToArray(),
+                    RowLength = Convert.ToInt32(memoryStream.Length)
+                };
+                return rowBinary;
+            }
+        }
+
+        private StorageTableRowBinary()
+        {
         }
 
         public void WriteToStream(Stream writableStream)

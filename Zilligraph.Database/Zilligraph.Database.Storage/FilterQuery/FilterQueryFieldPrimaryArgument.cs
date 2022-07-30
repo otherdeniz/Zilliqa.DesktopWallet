@@ -1,6 +1,6 @@
 ﻿namespace Zilligraph.Database.Storage.FilterQuery
 {
-    public class FilterQueryFieldPrimaryArgument : FilterQueryBase
+    public class FilterQueryFieldPrimaryArgument : IFilterQuery
     {
         public string FieldId { get; set; }
 

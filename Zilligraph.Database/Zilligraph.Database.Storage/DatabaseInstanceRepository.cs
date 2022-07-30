@@ -25,7 +25,7 @@ namespace Zilligraph.Database.Storage
             throw new NotImplementedException("nid fertig :P");
         }
 
-        public List<TRecordModel> FindRecords(FilterQueryBase queryFilter)
+        public List<TRecordModel> FindRecords(IFilterQuery queryFilter)
         {
             throw new NotImplementedException("nid fertig :P");
         }

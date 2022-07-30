@@ -1,4 +1,6 @@
-﻿namespace Zilliqa.DesktopWallet.Core.Data.Files
+﻿using Zillifriends.Shared.Common;
+
+namespace Zilliqa.DesktopWallet.Core.Data.Files
 {
     [DatFileName("settings.dat")]
     public class SettingsDat : DatFileBase

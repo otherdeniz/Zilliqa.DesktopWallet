@@ -1,4 +1,4 @@
-﻿using Zilligraph.Database.SchemaDefinition;
+﻿using Zilligraph.Database.Definition;
 
 namespace Zilligraph.Database.Schema.ZilliqaBlockchain
 {
