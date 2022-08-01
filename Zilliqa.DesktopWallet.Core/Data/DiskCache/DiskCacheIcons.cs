@@ -56,8 +56,8 @@ namespace Zilliqa.DesktopWallet.Core.Data.DiskCache
                     _iconsCache.Add(downloadUrl, iconModel, DateTimeOffset.Now.AddHours(1));
                     if (!string.IsNullOrEmpty(iconLabel))
                     {
-                        iconModel.Icon16?.Save(DataPathBuilder.GetSubFolderFilePath($"{iconLabel}_16.png"), ImageFormat.Png);
-                        iconModel.Icon48?.Save(DataPathBuilder.GetSubFolderFilePath($"{iconLabel}_48.png"), ImageFormat.Png);
+                        iconModel.Icon16?.Save(DataPathBuilder.GetFilePath($"{iconLabel}_16.png"), ImageFormat.Png);
+                        iconModel.Icon48?.Save(DataPathBuilder.GetFilePath($"{iconLabel}_48.png"), ImageFormat.Png);
                     }
                 }
                 catch (Exception)

@@ -19,7 +19,7 @@ namespace Zilliqa.DesktopWallet.Core.Data.DiskCache
 
         public byte[] GetItemData(string name, Func<byte[]> createItem)
         {
-            var nameHash = name.GetMD5();
+            var nameHash = name.GetMD5Hex();
             var itemFilePath = DataPathBuilder.GetFilePath(nameHash);
             if (File.Exists(itemFilePath))
             {
