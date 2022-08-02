@@ -1,4 +1,6 @@
-﻿using Zillifriends.Shared.Common;
+﻿using System.Reflection;
+using Zillifriends.Shared.Common;
+using Zilligraph.Database.Definition;
 using Zilligraph.Database.Storage.FilterQuery;
 using Zilligraph.Database.Storage.StorageModel;
 using Zilligraph.Database.Storage.StorageModel.DataStructure;
@@ -13,6 +15,8 @@ namespace Zilligraph.Database.Storage
         private readonly string _storagePath;
         private readonly List<DataFile> _dataFiles = new();
         private TableInfo? _tableInfo;
+        private Type? _recordType;
+        private Dictionary<string, ZilligraphFieldIndex>? _fieldIndexes;
 
         public ZilligraphTable(ZilligraphDatabase database)
         {
@@ -33,9 +37,21 @@ namespace Zilligraph.Database.Storage
 
         public string StoragePath => _storagePath;
 
+        public Type RecordType => _recordType ??= typeof(TRecordModel);
+
         public DataPathBuilder PathBuilder { get; }
 
         public TableInfo TableInfo => _tableInfo ??= TableInfo.Load(this);
+
+        public ZilligraphFieldIndex GetFieldIndex(string propertyName)
+        {
+            if (_fieldIndexes == null)
+            {
+                _fieldIndexes = GetFieldIndexes();
+            }
+
+            return _fieldIndexes[propertyName];
+        }
 
         public void AddRecord(TRecordModel record)
         {
@@ -43,11 +59,6 @@ namespace Zilligraph.Database.Storage
 
             var rowBinary = StorageTableRowBinary.CreateNew(record);
             dataFile.Append(rowBinary);
-        }
-
-        public TRecordModel GetRecord(long recordIndex)
-        {
-            throw new NotImplementedException("nid fertig :P");
         }
 
         public List<TRecordModel> FindRecords(IFilterQuery queryFilter)
@@ -93,5 +104,21 @@ namespace Zilligraph.Database.Storage
                 return dataFile;
             }
         }
+
+        private Dictionary<string, ZilligraphFieldIndex> GetFieldIndexes()
+        {
+            var indexes = new Dictionary<string, ZilligraphFieldIndex>();
+
+            foreach (var propertyInfo in RecordType.GetProperties())
+            {
+                if (propertyInfo.GetCustomAttribute(typeof(SchemaIndexAttribute)) is SchemaIndexAttribute)
+                {
+                    indexes.Add(propertyInfo.Name, new ZilligraphFieldIndex(this, propertyInfo.Name));
+                }
+            }
+
+            return indexes;
+        }
+
     }
 }

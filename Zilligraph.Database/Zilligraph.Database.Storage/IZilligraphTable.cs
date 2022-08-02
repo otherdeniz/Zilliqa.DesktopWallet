@@ -10,6 +10,10 @@ namespace Zilligraph.Database.Storage
 
         string StoragePath { get; }
 
+        Type RecordType { get; }
+
         DataPathBuilder PathBuilder { get; }
+
+        ZilligraphFieldIndex GetFieldIndex(string propertyName);
     }
 }
