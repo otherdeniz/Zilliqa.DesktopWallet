@@ -1,11 +1,13 @@
 ﻿using System.Reflection;
 using Zillifriends.Shared.Common;
+using Zilligraph.Database.Storage.StorageModel;
 
 namespace Zilligraph.Database.Storage
 {
     public class ZilligraphFieldIndex
     {
         private readonly PropertyInfo _propertyInfo;
+        private IndexHeadSingleFile? _indexHeadFile;
 
         public ZilligraphFieldIndex(IZilligraphTable table, string propertyName)
         {

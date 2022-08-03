@@ -3,22 +3,22 @@
 namespace Zilligraph.Database.Storage.StorageModel
 {
     /// <summary>
-    /// An IndexOverviewSingleFile is to hold In-Memory, it holds the first 2 Bytes of the Hash and redirects to the position of the Index for the Entry-Position to all the records
+    /// An IndexHeadSingleFile is to hold In-Memory, it holds the first 2 Bytes of the Hash and redirects to the position of the Index for the Entry-Position to all the records
     /// The file has the following structure in binary format:
     /// 8 bytes = index-position (int64)
     /// total number of records = 2^16
     /// file size = 524’288 bytes (0.5 MB)
     /// </summary>
-    public class IndexOverviewSingleFile
+    public class IndexHeadSingleFile
     {
         private readonly string _filePath;
         private readonly object _fileLock = new();
         private ulong[]? _indexPointers;
 
-        public IndexOverviewSingleFile(ZilligraphFieldIndex fieldIndex)
+        public IndexHeadSingleFile(ZilligraphFieldIndex fieldIndex)
         {
             FieldIndex = fieldIndex;
-            _filePath = fieldIndex.Table.PathBuilder.GetFilePath($"{fieldIndex.PropertyName}_ov_single.idx");
+            _filePath = fieldIndex.Table.PathBuilder.GetFilePath($"{fieldIndex.PropertyName}_index_head.bin");
         }
 
         public ZilligraphFieldIndex FieldIndex { get; }
