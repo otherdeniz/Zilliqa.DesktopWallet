@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Zillifriends.Shared.Common;
-using Zilligraph.Database.Storage.StorageModel;
+using Zilligraph.Database.Storage.Index;
 
 namespace Zilligraph.Database.Storage
 {

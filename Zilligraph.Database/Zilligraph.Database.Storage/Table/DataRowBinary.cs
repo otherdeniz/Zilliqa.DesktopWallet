@@ -1,8 +1,8 @@
 ﻿using Zilligraph.Database.Storage.Extensions;
 
-namespace Zilligraph.Database.Storage.StorageModel.DataStructure
+namespace Zilligraph.Database.Storage.Table
 {
-    public class StorageTableRowBinary
+    public class DataRowBinary
     {
         public long RowPosition { get; private set; } = -1;
 
@@ -10,9 +10,9 @@ namespace Zilligraph.Database.Storage.StorageModel.DataStructure
 
         public byte[] CompressedRow { get; private set; }
 
-        public static StorageTableRowBinary ReadFromStream(Stream readableStream)
+        public static DataRowBinary ReadFromStream(Stream readableStream)
         {
-            var rowBinary = new StorageTableRowBinary
+            var rowBinary = new DataRowBinary
             {
                 RowPosition = readableStream.Position
             };
@@ -23,12 +23,12 @@ namespace Zilligraph.Database.Storage.StorageModel.DataStructure
             return rowBinary;
         }
 
-        public static StorageTableRowBinary CreateNew(object record)
+        public static DataRowBinary CreateNew(object record)
         {
             using (var memoryStream = new MemoryStream())
             {
                 record.CompressObjectToStream(memoryStream);
-                var rowBinary = new StorageTableRowBinary
+                var rowBinary = new DataRowBinary
                 {
                     CompressedRow = memoryStream.ToArray(),
                     RowLength = Convert.ToInt32(memoryStream.Length)
@@ -37,7 +37,7 @@ namespace Zilligraph.Database.Storage.StorageModel.DataStructure
             }
         }
 
-        private StorageTableRowBinary()
+        private DataRowBinary()
         {
         }
 

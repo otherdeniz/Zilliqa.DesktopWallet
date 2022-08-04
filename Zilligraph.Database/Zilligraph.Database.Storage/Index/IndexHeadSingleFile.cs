@@ -1,6 +1,6 @@
 ﻿using Zillifriends.Shared.Common;
 
-namespace Zilligraph.Database.Storage.StorageModel
+namespace Zilligraph.Database.Storage.Index
 {
     /// <summary>
     /// An IndexHeadSingleFile is to hold In-Memory, it holds the first 2 Bytes of the Hash and redirects to the position of the Index for the Entry-Position to all the records

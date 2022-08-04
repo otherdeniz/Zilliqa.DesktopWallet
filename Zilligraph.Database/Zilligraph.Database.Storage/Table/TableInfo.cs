@@ -1,6 +1,6 @@
 ﻿using Zillifriends.Shared.Common;
 
-namespace Zilligraph.Database.Storage.StorageModel
+namespace Zilligraph.Database.Storage.Table
 {
     public class TableInfo : DatFileBase
     {

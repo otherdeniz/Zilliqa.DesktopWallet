@@ -2,8 +2,7 @@
 using Zillifriends.Shared.Common;
 using Zilligraph.Database.Definition;
 using Zilligraph.Database.Storage.FilterQuery;
-using Zilligraph.Database.Storage.StorageModel;
-using Zilligraph.Database.Storage.StorageModel.DataStructure;
+using Zilligraph.Database.Storage.Table;
 
 // ReSharper disable InconsistentlySynchronizedField
 
@@ -57,7 +56,7 @@ namespace Zilligraph.Database.Storage
         {
             var dataFile = GetLastDataFile();
 
-            var rowBinary = StorageTableRowBinary.CreateNew(record);
+            var rowBinary = DataRowBinary.CreateNew(record);
             dataFile.Append(rowBinary);
         }
 

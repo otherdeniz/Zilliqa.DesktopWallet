@@ -1,6 +1,4 @@
-﻿using Zilligraph.Database.Storage.StorageModel.DataStructure;
-
-namespace Zilligraph.Database.Storage.StorageModel
+﻿namespace Zilligraph.Database.Storage.Table
 {
     public class DataFile : IDisposable
     {
@@ -20,7 +18,7 @@ namespace Zilligraph.Database.Storage.StorageModel
 
         public string FilePath { get; }
 
-        public void Append(StorageTableRowBinary row)
+        public void Append(DataRowBinary row)
         {
             lock (_streamLock)
             {
