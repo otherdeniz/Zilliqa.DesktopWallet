@@ -1,8 +1,8 @@
 ﻿namespace Zilligraph.Database.Storage.Index
 {
-    public class IndexItem
+    public class IndexRecord
     {
-        public IndexItem(byte[] indexHash, ulong recordPosition)
+        public IndexRecord(byte[] indexHash, ulong recordPosition)
         {
             IndexHash = indexHash;
             RecordPosition = recordPosition;

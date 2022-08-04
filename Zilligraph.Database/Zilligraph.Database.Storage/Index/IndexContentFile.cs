@@ -18,7 +18,7 @@ namespace Zilligraph.Database.Storage.Index
 
         public ZilligraphFieldIndex FieldIndex { get; }
 
-        public ulong CreateChain(IndexItem index)
+        public ulong CreateChain(IndexRecord index)
         {
             if (index.IndexHash.Length != _hashBytesLength) throw new RuntimeException("index hash length mismatch");
             lock (_fileLock)
@@ -30,7 +30,7 @@ namespace Zilligraph.Database.Storage.Index
             }
         }
 
-        public void AppendToChain(ulong chainEntryPoint, IndexItem index)
+        public void AppendToChain(ulong chainEntryPoint, IndexRecord index)
         {
             if (index.IndexHash.Length != _hashBytesLength) throw new RuntimeException("index hash length mismatch");
             lock (_fileLock)
@@ -57,9 +57,9 @@ namespace Zilligraph.Database.Storage.Index
             }
         }
 
-        public IEnumerable<IndexItem> GetIndexes(ulong chainEntryPoint)
+        public IEnumerable<IndexRecord> GetIndexes(ulong chainEntryPoint)
         {
-            var indexList = new List<IndexItem>();
+            var indexList = new List<IndexRecord>();
             lock (_fileLock)
             {
                 using (var fileStream = File.Open(_filePath, FileMode.OpenOrCreate))
@@ -80,7 +80,7 @@ namespace Zilligraph.Database.Storage.Index
                         if (fileStream.Read(positionBuffer, 0, 8) != 8) throw new RuntimeException("index content read fatal error (positionBuffer)");
                         if (fileStream.Read(nextPositionBuffer, 0, 8) != 8) throw new RuntimeException("index content read fatal error (nextPositionBuffer)");
                         currentPosition += _hashBytesLength + 16;
-                        indexList.Add(new IndexItem(hashBuffer, BitConverter.ToUInt64(positionBuffer)));
+                        indexList.Add(new IndexRecord(hashBuffer, BitConverter.ToUInt64(positionBuffer)));
                         nextEntryPoint = Convert.ToInt64(BitConverter.ToUInt64(nextPositionBuffer));
                         hasMoreEntries = nextEntryPoint > currentPosition;
                     }
@@ -89,7 +89,7 @@ namespace Zilligraph.Database.Storage.Index
             return indexList;
         }
 
-        private ulong AppendToStream(Stream fileStream, IndexItem index)
+        private ulong AppendToStream(Stream fileStream, IndexRecord index)
         {
             fileStream.Seek(0, SeekOrigin.End);
             var entryPosition = Convert.ToUInt64(fileStream.Position + 1);

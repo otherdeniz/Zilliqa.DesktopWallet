@@ -128,6 +128,7 @@ namespace Zilliqa.DesktopWallet.Core.Cryptography
             return GetRandomString(possible, length);
         }
 
+        [Obsolete("use 'HashUtils' in Shared.Common")]
         public static byte[] GetMD5(this string textToHash)
         {
             // Use input string to calculate MD5 hash
@@ -138,6 +139,7 @@ namespace Zilliqa.DesktopWallet.Core.Cryptography
             }
         }
 
+        [Obsolete("use 'HashUtils' in Shared.Common")]
         public static string GetMD5Hex(this string textToHash)
         {
             return Convert.ToHexString(GetMD5(textToHash)); // .NET 5 +
