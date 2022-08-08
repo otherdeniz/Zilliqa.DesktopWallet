@@ -1,17 +1,18 @@
 ﻿using System.Collections;
 using Zilligraph.Database.Storage.FilterQuery;
+using Zilligraph.Database.Storage.Index;
 
 namespace Zilligraph.Database.Storage.Table
 {
     public class RecordsResultEnumerable<TRecordModel> : IEnumerable<TRecordModel> where TRecordModel : class, new()
     {
         private readonly ZilligraphTable<TRecordModel> _table;
-        private readonly IFilterQuery _queryFilter;
+        private readonly IFilterSearcher _filterSearcher;
 
-        public RecordsResultEnumerable(ZilligraphTable<TRecordModel> table, IFilterQuery queryFilter)
+        public RecordsResultEnumerable(ZilligraphTable<TRecordModel> table, IFilterSearcher filterSearcher)
         {
             _table = table;
-            _queryFilter = queryFilter;
+            _filterSearcher = filterSearcher;
         }
 
         public IEnumerator<TRecordModel> GetEnumerator()
@@ -35,12 +36,21 @@ namespace Zilligraph.Database.Storage.Table
 
             public bool MoveNext()
             {
-                throw new NotImplementedException();
+                var nextRecordPoint = _recordsResultEnumerable._filterSearcher.GetNextRecordPoint();
+                if (nextRecordPoint == null)
+                {
+                    Current = null;
+                    return false;
+                }
+
+                Current = _recordsResultEnumerable._table.ReadRecord(nextRecordPoint.Value);
+
+                return true;
             }
 
             public void Reset()
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException("RecordsResultEnumerable can not restart");
             }
 
 #pragma warning disable CS8766 //Nullability

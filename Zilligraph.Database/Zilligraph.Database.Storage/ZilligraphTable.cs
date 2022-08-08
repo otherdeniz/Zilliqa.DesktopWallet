@@ -1,7 +1,9 @@
-﻿using System.Reflection;
+﻿using System.Collections;
+using System.Reflection;
 using Zillifriends.Shared.Common;
 using Zilligraph.Database.Definition;
 using Zilligraph.Database.Storage.FilterQuery;
+using Zilligraph.Database.Storage.Index;
 using Zilligraph.Database.Storage.Table;
 
 // ReSharper disable InconsistentlySynchronizedField
@@ -44,7 +46,7 @@ namespace Zilligraph.Database.Storage
 
         public Dictionary<string, ZilligraphFieldIndex> FieldIndexes => _fieldIndexes ??=  GetFieldIndexes();
 
-        public void AddRecord(TRecordModel record)
+        public void AddRecord(object record)
         {
             var dataFile = GetLastDataFile();
 
@@ -56,9 +58,17 @@ namespace Zilligraph.Database.Storage
             }
         }
 
-        public IEnumerable<TRecordModel> FindRecords(IFilterQuery queryFilter)
+        public IEnumerable FindRecords(IFilterQuery queryFilter)
         {
-            throw new NotImplementedException("nid fertig :P");
+            return new RecordsResultEnumerable<TRecordModel>(this,
+                FilterSearcherFactory.CreateFilterSearcher(this, queryFilter));
+        }
+
+        public TRecordModel ReadRecord(ulong recordPoint)
+        {
+            var dataFile = GetLastDataFile();
+            var rowBinary = dataFile.Read(recordPoint);
+            return rowBinary.DecompressRowObject<TRecordModel>();
         }
 
         public void Dispose()

@@ -30,6 +30,16 @@
             }
         }
 
+        public DataRowBinary Read(ulong recordPoint)
+        {
+            lock (_streamLock)
+            {
+                var stream = GetStream();
+                stream.Seek(Convert.ToInt64(recordPoint - 1), SeekOrigin.Begin);
+                return DataRowBinary.ReadFromStream(stream);
+            }
+        }
+
         public void Dispose()
         {
             if (_stream != null)

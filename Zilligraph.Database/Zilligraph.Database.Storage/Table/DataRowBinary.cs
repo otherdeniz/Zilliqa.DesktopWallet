@@ -8,7 +8,7 @@ namespace Zilligraph.Database.Storage.Table
 
         public int RowLength { get; private set; }
 
-        public byte[] CompressedRow { get; private set; }
+        public byte[] CompressedRow { get; private set; } = null!;
 
         public static DataRowBinary ReadFromStream(Stream readableStream)
         {
