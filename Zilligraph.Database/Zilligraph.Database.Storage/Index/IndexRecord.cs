@@ -2,10 +2,10 @@
 {
     public class IndexRecord
     {
-        public IndexRecord(byte[] indexHash, ulong recordPosition, ulong entryPoint, ulong nextEntryPoint)
+        public IndexRecord(byte[] indexHash, ulong recordPoint, ulong entryPoint, ulong nextEntryPoint)
         {
             IndexHash = indexHash;
-            RecordPosition = recordPosition;
+            RecordPoint = recordPoint;
             EntryPoint = entryPoint;
             NextEntryPoint = nextEntryPoint;
         }
@@ -17,6 +17,6 @@
 
         public byte[] IndexHash { get; }
 
-        public ulong RecordPosition { get; }
+        public ulong RecordPoint { get; }
     }
 }

@@ -6,9 +6,9 @@ namespace Zilligraph.Database.Storage.Index
     {
         public override int HashLength => 16;
 
-        public override byte[] GetHashBytes(object value)
+        public override byte[] GetHashBytes(object? value)
         {
-            if (value is string stringValue)
+            if (value is string { Length: > 0 } stringValue)
             {
                 return stringValue.GetMd5();
             }

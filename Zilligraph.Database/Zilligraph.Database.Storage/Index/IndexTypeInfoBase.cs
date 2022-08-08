@@ -20,6 +20,6 @@ namespace Zilligraph.Database.Storage.Index
 
         public abstract int HashLength { get; }
 
-        public abstract byte[] GetHashBytes(object value);
+        public abstract byte[] GetHashBytes(object? value);
     }
 }

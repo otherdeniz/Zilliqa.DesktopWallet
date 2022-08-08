@@ -6,14 +6,16 @@ namespace Zilligraph.Database.Storage.Index
     {
         private readonly IndexContentFile _contentFile;
         private readonly ulong _chainEntryPoint;
+        private readonly byte[] _valueHash;
         private readonly int _chunkSize;
         private List<IndexRecord>? _recordChunk;
         private int _listPosition = -1;
 
-        public IndexRecordEnumerable(IndexContentFile contentFile, ulong chainEntryPoint, int chunkSize)
+        public IndexRecordEnumerable(IndexContentFile contentFile, ulong chainEntryPoint, byte[] valueHash, int chunkSize)
         {
             _contentFile = contentFile;
             _chainEntryPoint = chainEntryPoint;
+            _valueHash = valueHash;
             _chunkSize = chunkSize;
         }
 
@@ -31,7 +33,7 @@ namespace Zilligraph.Database.Storage.Index
         {
             if (_recordChunk == null || _listPosition > _recordChunk.Count - 1)
             {
-                _recordChunk = _contentFile.ReadIndexesChunkt(GetNextEntryPoint(), _chunkSize);
+                _recordChunk = _contentFile.ReadIndexesChunkt(GetNextEntryPoint(), _valueHash, _chunkSize);
                 _listPosition = -1;
             }
 
@@ -65,14 +67,8 @@ namespace Zilligraph.Database.Storage.Index
 
             public bool MoveNext()
             {
-                var nextRecord = _indexRecordEnumerable.ReadNextRecord();
-                if (nextRecord != null)
-                {
-                    Current = nextRecord;
-                    return true;
-                }
-
-                return false;
+                Current = _indexRecordEnumerable.ReadNextRecord();
+                return Current != null;
             }
 
             public void Reset()
@@ -81,9 +77,11 @@ namespace Zilligraph.Database.Storage.Index
                 _indexRecordEnumerable._listPosition = -1;
             }
 
-            public IndexRecord Current { get; private set; } = null!;
+#pragma warning disable CS8766 //Nullability
+            public IndexRecord? Current { get; private set; }
+#pragma warning restore CS8766
 
-            object IEnumerator.Current => Current;
+            object? IEnumerator.Current => Current;
 
             public void Dispose()
             {

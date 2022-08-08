@@ -2,7 +2,7 @@
 
 namespace Zilligraph.Database.Storage
 {
-    public interface IZilligraphTable
+    public interface IZilligraphTable : IDisposable
     {
         ZilligraphDatabase Database { get; }
 
@@ -14,6 +14,6 @@ namespace Zilligraph.Database.Storage
 
         DataPathBuilder PathBuilder { get; }
 
-        ZilligraphFieldIndex GetFieldIndex(string propertyName);
+        Dictionary<string, ZilligraphFieldIndex> FieldIndexes { get; }
     }
 }

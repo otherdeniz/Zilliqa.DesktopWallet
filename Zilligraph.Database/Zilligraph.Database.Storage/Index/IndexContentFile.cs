@@ -19,26 +19,26 @@ namespace Zilligraph.Database.Storage.Index
 
         public ZilligraphFieldIndex FieldIndex { get; }
 
-        public ulong CreateChain(IndexRecord index)
+        public ulong CreateChain(byte[] indexHash, ulong recordPoint)
         {
-            if (index.IndexHash.Length != _hashBytesLength) throw new RuntimeException("index hash length mismatch");
+            if (indexHash.Length != _hashBytesLength) throw new RuntimeException("index hash length mismatch");
             lock (_fileLock)
             {
                 using (var fileStream = File.Open(_filePath, FileMode.OpenOrCreate))
                 {
-                    return AppendToStream(fileStream, index);
+                    return AppendToStream(fileStream, indexHash, recordPoint);
                 }
             }
         }
 
-        public void AppendToChain(ulong chainEntryPoint, IndexRecord index)
+        public void AppendToChain(ulong chainEntryPoint, byte[] valueHash, ulong recordPoint)
         {
-            if (index.IndexHash.Length != _hashBytesLength) throw new RuntimeException("index hash length mismatch");
+            if (valueHash.Length != _hashBytesLength) throw new RuntimeException("index hash length mismatch");
             lock (_fileLock)
             {
                 using (var fileStream = File.Open(_filePath, FileMode.OpenOrCreate))
                 {
-                    var addedPosition = AppendToStream(fileStream, index);
+                    var addedPosition = AppendToStream(fileStream, valueHash, recordPoint);
                     long currentPosition = fileStream.Seek(0, SeekOrigin.Begin);
                     var nextPositionBuffer = new byte[8];
                     var nextEntryPoint = Convert.ToInt64(chainEntryPoint - 1);
@@ -58,12 +58,12 @@ namespace Zilligraph.Database.Storage.Index
             }
         }
 
-        public IEnumerable<IndexRecord> EnumerateIndexes(ulong chainEntryPoint)
+        public IEnumerable<IndexRecord> EnumerateIndexes(ulong chainEntryPoint, byte[] valueHash)
         {
-            return new IndexRecordEnumerable(this, chainEntryPoint, _enumerationChunkSize);
+            return new IndexRecordEnumerable(this, chainEntryPoint, valueHash, _enumerationChunkSize);
         }
 
-        public List<IndexRecord> ReadIndexesChunkt(ulong chainEntryPoint, int maxCount = 0)
+        public List<IndexRecord> ReadIndexesChunkt(ulong chainEntryPoint, byte[] valueHash, int maxCount = 0)
         {
             var indexList = new List<IndexRecord>();
             lock (_fileLock)
@@ -87,12 +87,15 @@ namespace Zilligraph.Database.Storage.Index
                         if (fileStream.Read(positionBuffer, 0, 8) != 8) throw new RuntimeException("index content read fatal error (positionBuffer)");
                         if (fileStream.Read(nextPositionBuffer, 0, 8) != 8) throw new RuntimeException("index content read fatal error (nextPositionBuffer)");
                         var nextEntryPoint = BitConverter.ToUInt64(nextPositionBuffer);
-                        indexList.Add(
-                            new IndexRecord(hashBuffer, 
-                                BitConverter.ToUInt64(positionBuffer), 
-                                Convert.ToUInt64(currentPosition + 1),
-                                nextEntryPoint)
-                        );
+                        if (valueHash.SequenceEqual(hashBuffer))
+                        {
+                            indexList.Add(
+                                new IndexRecord(hashBuffer,
+                                    BitConverter.ToUInt64(positionBuffer),
+                                    Convert.ToUInt64(currentPosition + 1),
+                                    nextEntryPoint)
+                            );
+                        }
                         currentPosition += _hashBytesLength + 16;
                         nextEntryPosition = Convert.ToInt64(nextEntryPoint);
                         hasMoreEntries = nextEntryPosition > currentPosition;
@@ -102,12 +105,12 @@ namespace Zilligraph.Database.Storage.Index
             return indexList;
         }
 
-        private ulong AppendToStream(Stream fileStream, IndexRecord index)
+        private ulong AppendToStream(Stream fileStream, byte[] indexHash, ulong recordPoint)
         {
             fileStream.Seek(0, SeekOrigin.End);
             var entryPosition = Convert.ToUInt64(fileStream.Position + 1);
-            fileStream.Write(index.IndexHash);
-            fileStream.Write(BitConverter.GetBytes(index.RecordPosition));
+            fileStream.Write(indexHash);
+            fileStream.Write(BitConverter.GetBytes(recordPoint));
             fileStream.Write(_lastRecordPointer);
             return entryPosition;
         }

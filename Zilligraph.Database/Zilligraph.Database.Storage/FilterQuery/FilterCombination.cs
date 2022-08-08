@@ -1,6 +1,6 @@
 ﻿namespace Zilligraph.Database.Storage.FilterQuery
 {
-    public class FilterQueryCombination : IFilterQuery
+    public class FilterCombination : IFilterQuery
     {
         public List<IFilterQuery> Queries { get; set; }
 

@@ -8,7 +8,7 @@ using Zilligraph.Database.Storage.Table;
 
 namespace Zilligraph.Database.Storage
 {
-    public class ZilligraphTable<TRecordModel> : IZilligraphTable, IDisposable where TRecordModel : class, new()
+    public class ZilligraphTable<TRecordModel> : IZilligraphTable where TRecordModel : class, new()
     {
         private readonly string _tableName;
         private readonly string _storagePath;
@@ -42,25 +42,21 @@ namespace Zilligraph.Database.Storage
 
         public TableInfo TableInfo => _tableInfo ??= TableInfo.Load(this);
 
-        public ZilligraphFieldIndex GetFieldIndex(string propertyName)
-        {
-            if (_fieldIndexes == null)
-            {
-                _fieldIndexes = GetFieldIndexes();
-            }
-
-            return _fieldIndexes[propertyName];
-        }
+        public Dictionary<string, ZilligraphFieldIndex> FieldIndexes => _fieldIndexes ??=  GetFieldIndexes();
 
         public void AddRecord(TRecordModel record)
         {
             var dataFile = GetLastDataFile();
 
             var rowBinary = DataRowBinary.CreateNew(record);
-            dataFile.Append(rowBinary);
+            var recordPoint = dataFile.Append(rowBinary);
+            foreach (var fieldIndex in FieldIndexes)
+            {
+                fieldIndex.Value.AddRecordIndex(recordPoint, record);
+            }
         }
 
-        public List<TRecordModel> FindRecords(IFilterQuery queryFilter)
+        public IEnumerable<TRecordModel> FindRecords(IFilterQuery queryFilter)
         {
             throw new NotImplementedException("nid fertig :P");
         }

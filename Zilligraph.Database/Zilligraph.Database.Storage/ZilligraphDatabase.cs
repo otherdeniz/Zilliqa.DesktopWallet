@@ -3,9 +3,9 @@
 
 namespace Zilligraph.Database.Storage
 {
-    public class ZilligraphDatabase
+    public class ZilligraphDatabase : IDisposable
     {
-        private readonly Dictionary<Type, object> _tables = new();
+        private readonly Dictionary<Type, IZilligraphTable> _tables = new();
 
         public string DatabasePath { get; }
 
@@ -36,6 +36,19 @@ namespace Zilligraph.Database.Storage
                 var table = new ZilligraphTable<TRecordModel>(this);
                 _tables.Add(modelType, table);
                 return table;
+            }
+        }
+
+        public void Dispose()
+        {
+            lock (_tables)
+            {
+                foreach (var keyValuePair in _tables)
+                {
+                    keyValuePair.Value.Dispose();
+                }
+
+                _tables.Clear();
             }
         }
     }

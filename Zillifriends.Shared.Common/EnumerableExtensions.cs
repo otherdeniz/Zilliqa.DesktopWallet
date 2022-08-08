@@ -1,18 +1,22 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 
-namespace Zilliqa.DesktopWallet.Core.Extensions
+namespace Zillifriends.Shared.Common
 {
     /// <summary>
     /// Provides extensions for <see cref="IEnumerable{T}"/> and <see cref="IEnumerable"/>
     /// </summary>
     public static class EnumerableExtensions
     {
+        public static List<TItem> AsList<TItem>(this IEnumerable<TItem> enumerable)
+        {
+            if (enumerable is List<TItem> list)
+            {
+                return list;
+            }
+
+            return enumerable.ToList();
+        }
+
         /// <summary>
         /// Performs the specified <paramref name="action"/> on each element of the <see cref="IEnumerable{T}"/>.
         /// </summary>

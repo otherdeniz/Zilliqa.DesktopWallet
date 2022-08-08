@@ -18,13 +18,15 @@
 
         public string FilePath { get; }
 
-        public void Append(DataRowBinary row)
+        public ulong Append(DataRowBinary row)
         {
             lock (_streamLock)
             {
                 var stream = GetStream();
                 stream.Seek(0, SeekOrigin.End);
+                ulong recordPoint = Convert.ToUInt64(stream.Position + 1);
                 row.WriteToStream(stream);
+                return recordPoint;
             }
         }
 
