@@ -32,19 +32,19 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WalletAddressDetails));
             this.toolStripAccountActions = new System.Windows.Forms.ToolStrip();
             this.buttonSend = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.separatorSend = new System.Windows.Forms.ToolStripSeparator();
             this.buttonBackupPrivateKey = new System.Windows.Forms.ToolStripButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.panel8 = new System.Windows.Forms.Panel();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -70,12 +70,15 @@
             this.buttonClipboardAddress = new System.Windows.Forms.Button();
             this.textZilAddress = new System.Windows.Forms.Label();
             this.timerButtonPressed = new System.Windows.Forms.Timer(this.components);
+            this.buttonRemoveAccount = new System.Windows.Forms.ToolStripButton();
+            this.separatorBackup = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripAccountActions.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.panel8.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel7.SuspendLayout();
-            this.panel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -97,8 +100,11 @@
             // 
             this.toolStripAccountActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buttonSend,
-            this.toolStripSeparator1,
-            this.buttonBackupPrivateKey});
+            this.toolStripButton1,
+            this.separatorSend,
+            this.buttonBackupPrivateKey,
+            this.separatorBackup,
+            this.buttonRemoveAccount});
             this.toolStripAccountActions.Location = new System.Drawing.Point(0, 0);
             this.toolStripAccountActions.Name = "toolStripAccountActions";
             this.toolStripAccountActions.Size = new System.Drawing.Size(653, 25);
@@ -109,13 +115,13 @@
             this.buttonSend.Image = ((System.Drawing.Image)(resources.GetObject("buttonSend.Image")));
             this.buttonSend.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonSend.Name = "buttonSend";
-            this.buttonSend.Size = new System.Drawing.Size(53, 22);
-            this.buttonSend.Text = "Send";
+            this.buttonSend.Size = new System.Drawing.Size(72, 22);
+            this.buttonSend.Text = "Send ZIL";
             // 
-            // toolStripSeparator1
+            // separatorSend
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.separatorSend.Name = "separatorSend";
+            this.separatorSend.Size = new System.Drawing.Size(6, 25);
             // 
             // buttonBackupPrivateKey
             // 
@@ -150,6 +156,41 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(647, 23);
             this.panel5.TabIndex = 2;
+            // 
+            // panel8
+            // 
+            this.panel8.AutoSize = true;
+            this.panel8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel8.Controls.Add(this.label11);
+            this.panel8.Controls.Add(this.label12);
+            this.panel8.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel8.Location = new System.Drawing.Point(364, 0);
+            this.panel8.Name = "panel8";
+            this.panel8.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.panel8.Size = new System.Drawing.Size(204, 23);
+            this.panel8.TabIndex = 1;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label11.Location = new System.Drawing.Point(135, 0);
+            this.label11.Name = "label11";
+            this.label11.Padding = new System.Windows.Forms.Padding(3);
+            this.label11.Size = new System.Drawing.Size(59, 21);
+            this.label11.TabIndex = 2;
+            this.label11.Text = "0.00 USD";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label12.Location = new System.Drawing.Point(0, 0);
+            this.label12.Name = "label12";
+            this.label12.Padding = new System.Windows.Forms.Padding(3);
+            this.label12.Size = new System.Drawing.Size(135, 21);
+            this.label12.TabIndex = 1;
+            this.label12.Text = "Total ZIL+Tokens Value:";
             // 
             // panel6
             // 
@@ -220,41 +261,6 @@
             this.label10.Size = new System.Drawing.Size(91, 21);
             this.label10.TabIndex = 1;
             this.label10.Text = "Total ZIL Value:";
-            // 
-            // panel8
-            // 
-            this.panel8.AutoSize = true;
-            this.panel8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panel8.Controls.Add(this.label11);
-            this.panel8.Controls.Add(this.label12);
-            this.panel8.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel8.Location = new System.Drawing.Point(364, 0);
-            this.panel8.Name = "panel8";
-            this.panel8.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.panel8.Size = new System.Drawing.Size(204, 23);
-            this.panel8.TabIndex = 1;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label11.Location = new System.Drawing.Point(135, 0);
-            this.label11.Name = "label11";
-            this.label11.Padding = new System.Windows.Forms.Padding(3);
-            this.label11.Size = new System.Drawing.Size(59, 21);
-            this.label11.TabIndex = 2;
-            this.label11.Text = "0.00 USD";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label12.Location = new System.Drawing.Point(0, 0);
-            this.label12.Name = "label12";
-            this.label12.Padding = new System.Windows.Forms.Padding(3);
-            this.label12.Size = new System.Drawing.Size(135, 21);
-            this.label12.TabIndex = 1;
-            this.label12.Text = "Total ZIL+Tokens Value:";
             // 
             // pictureBox2
             // 
@@ -455,9 +461,10 @@
             // 
             // gridViewControl2
             // 
-            this.gridViewControl2.Location = new System.Drawing.Point(58, 6);
+            this.gridViewControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridViewControl2.Location = new System.Drawing.Point(3, 3);
             this.gridViewControl2.Name = "gridViewControl2";
-            this.gridViewControl2.Size = new System.Drawing.Size(336, 131);
+            this.gridViewControl2.Size = new System.Drawing.Size(639, 166);
             this.gridViewControl2.TabIndex = 1;
             // 
             // tabPage2
@@ -473,9 +480,10 @@
             // 
             // gridViewControl3
             // 
-            this.gridViewControl3.Location = new System.Drawing.Point(56, 14);
+            this.gridViewControl3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridViewControl3.Location = new System.Drawing.Point(3, 3);
             this.gridViewControl3.Name = "gridViewControl3";
-            this.gridViewControl3.Size = new System.Drawing.Size(336, 131);
+            this.gridViewControl3.Size = new System.Drawing.Size(639, 166);
             this.gridViewControl3.TabIndex = 1;
             // 
             // groupBox3
@@ -545,6 +553,27 @@
             this.timerButtonPressed.Interval = 2000;
             this.timerButtonPressed.Tick += new System.EventHandler(this.timerButtonPressed_Tick);
             // 
+            // buttonRemoveAccount
+            // 
+            this.buttonRemoveAccount.Image = ((System.Drawing.Image)(resources.GetObject("buttonRemoveAccount.Image")));
+            this.buttonRemoveAccount.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonRemoveAccount.Name = "buttonRemoveAccount";
+            this.buttonRemoveAccount.Size = new System.Drawing.Size(118, 22);
+            this.buttonRemoveAccount.Text = "Remove Account";
+            // 
+            // separatorBackup
+            // 
+            this.separatorBackup.Name = "separatorBackup";
+            this.separatorBackup.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(136, 22);
+            this.toolStripButton1.Text = "Send Fungible Token";
+            // 
             // WalletAddressDetails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -561,12 +590,12 @@
             this.groupBox1.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            this.panel8.ResumeLayout(false);
+            this.panel8.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
-            this.panel8.ResumeLayout(false);
-            this.panel8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -596,7 +625,7 @@
 
         private ToolStrip toolStripAccountActions;
         private ToolStripButton buttonSend;
-        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripSeparator separatorSend;
         private ToolStripButton buttonBackupPrivateKey;
         private GroupBox groupBox1;
         private Panel panel1;
@@ -634,5 +663,8 @@
         private Label textZilAddress;
         private Button buttonOpenBlockExplorer;
         private System.Windows.Forms.Timer timerButtonPressed;
+        private ToolStripSeparator separatorBackup;
+        private ToolStripButton buttonRemoveAccount;
+        private ToolStripButton toolStripButton1;
     }
 }

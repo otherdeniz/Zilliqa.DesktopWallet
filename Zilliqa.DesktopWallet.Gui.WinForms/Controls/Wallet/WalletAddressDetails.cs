@@ -15,8 +15,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         public void LoadAccount(AccountViewModel account)
         {
             _account = account;
-            textZilAddress.Text = account.AccountData.AddressBech32;
+            textZilAddress.Text = account.AccountData.GetAddressBech32();
             //labelName.Text = _account.AccountData.Name;
+        }
+
+        public void RefreshAccount()
+        {
+
         }
 
         private void buttonClipboardAddress_Click(object sender, EventArgs e)
@@ -24,7 +29,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             buttonClipboardAddress.BackColor = Color.Green;
             buttonClipboardAddress.Refresh();
             timerButtonPressed.Enabled = true;
-            Clipboard.SetText(_account.AccountData.AddressBech32);
+            Clipboard.SetText(_account.AccountData.GetAddressBech32());
         }
 
         private void buttonOpenBlockExplorer_Click(object sender, EventArgs e)
@@ -34,7 +39,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             timerButtonPressed.Enabled = true;
             Process.Start(new ProcessStartInfo
             {
-                FileName = $"https://viewblock.io/zilliqa/address/{_account.AccountData.AddressBech32}",
+                FileName = $"https://viewblock.io/zilliqa/address/{_account.AccountData.GetAddressBech32()}",
                 UseShellExecute = true
             });
         }

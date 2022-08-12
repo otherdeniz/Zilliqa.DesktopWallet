@@ -35,8 +35,22 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         {
             _accountViewModel = account;
             Tag = account;
-            labelName.Text = $"{account.AccountData.Name} ({account.AccountData.AddressBech32.FromBech32ToShortReadable()})";
-            labelAmount.Text = "0 ZIL + 0 Tokens = 0 USD";
+            labelName.Text = $"{account.AccountData.Name} ({account.AccountData.GetAddressBech32().FromBech32ToShortReadable()})";
+            labelAmount.Text = "? ZIL + ? Tokens = ? USD (loading...)";
+        }
+
+        public void RefreshAccount()
+        {
+            //TODO: update Amount from ViewModel
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
         private void OnAnyClick()

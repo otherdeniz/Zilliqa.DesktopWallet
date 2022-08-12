@@ -5,7 +5,15 @@ namespace Zillifriends.Shared.Common
 {
     public abstract class DatFileBase
     {
-        private string? _filePath;
+        private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.All,
+#if DEBUG
+            Formatting = Formatting.Indented
+#endif
+        };
+
+        protected virtual string? FilePath { get; set; }
 
         protected static TDatType Load<TDatType>() where TDatType : DatFileBase, new()
         {
@@ -22,23 +30,23 @@ namespace Zillifriends.Shared.Common
                     using (var fileReader = new StreamReader(fileStream, Encoding.UTF8))
                     {
                         var fileJson = fileReader.ReadToEnd();
-                        var data = JsonConvert.DeserializeObject<TDatType>(fileJson);
+                        var data = JsonConvert.DeserializeObject<TDatType>(fileJson, SerializerSettings);
                         if (data == null)
                         {
                             throw new RuntimeException($"Load of file '{datFilePath}' failed");
                         }
-                        data._filePath = datFilePath;
+                        data.FilePath = datFilePath;
                         return data;
                     }
                 }
             }
 
-            var createdSettings = new TDatType
+            var createdDatFile = new TDatType
             {
-                _filePath = datFilePath
+                FilePath = datFilePath
             };
-            createdSettings.Save();
-            return createdSettings;
+            createdDatFile.Save();
+            return createdDatFile;
         }
 
         protected static string GetDatFilePath(DataPathBuilder dataPathBuilder, Type datType)
@@ -52,13 +60,13 @@ namespace Zillifriends.Shared.Common
             throw new MissingCodeException($"DatFileNameAttribute not declared on {datType.FullName}");
         }
 
-        public void Save()
+        public virtual void Save()
         {
-            using (var fileStream = File.OpenWrite(_filePath ?? throw new MissingCodeException($"DatFile {this.GetType()} must be created using Load()")))
+            using (var fileStream = File.OpenWrite(FilePath ?? throw new MissingCodeException($"DatFile {this.GetType()} must be created using Load()")))
             {
                 using (var fileWriter = new StreamWriter(fileStream, Encoding.UTF8, leaveOpen: true))
                 {
-                    fileWriter.Write(JsonConvert.SerializeObject(this));
+                    fileWriter.Write(JsonConvert.SerializeObject(this, SerializerSettings));
                     fileWriter.Flush();
                 }
                 fileStream.SetLength(fileStream.Position);

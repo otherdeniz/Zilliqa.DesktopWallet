@@ -1,12 +1,14 @@
 ﻿using Newtonsoft.Json;
 using Zilliqa.DesktopWallet.ApiClient.Accounts;
 using Zilliqa.DesktopWallet.ApiClient.Crypto;
+using Zilliqa.DesktopWallet.ApiClient.Utils;
 
 namespace Zilliqa.DesktopWallet.Core.Data.Model
 {
     public class MyAccount : AccountBase
     {
         private Account? _accountDetails;
+        private string? _addressBech32;
 
         public static MyAccount Create(string name, string pasword)
         {
@@ -19,7 +21,7 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
             result.KeyEncrypted = result.AccountDetails.ToJson(pasword, KDFType.PBKDF2);
             result.PublicKey = result.AccountDetails.GetPublicKey();
             result.Name = name;
-            result.Address = result.AccountDetails.Address.Raw;
+            result.AddressHex = result.AccountDetails.Address.Raw;
             return result;
         }
 
@@ -34,9 +36,11 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
             result.KeyEncrypted = result.AccountDetails.ToJson(pasword, KDFType.PBKDF2);
             result.PublicKey = result.AccountDetails.GetPublicKey();
             result.Name = name;
-            result.Address = result.AccountDetails.Address.Raw;
+            result.AddressHex = result.AccountDetails.Address.Raw;
             return result;
         }
+
+        public string AddressHex { get; set; }
 
         public string KeyEncrypted { get; set; }
 
@@ -47,6 +51,11 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
         {
             get => _accountDetails ?? throw new Exception("please call Load() first");
             set => _accountDetails = value;
+        }
+
+        public override string GetAddressBech32()
+        {
+            return _addressBech32 ??= AddressHex.FromBase16ToBech32Address();
         }
 
         public void Load(string password)

@@ -27,14 +27,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             panelWatchedAccounts.Controls.Clear();
             _currentContext = SynchronizationContext.Current;
             _repository = RepositoryManager.Instance.WalletRepository;
-            _repository.AfterRefresh += RepositoryOnAfterRefresh;
+            _repository.AccountsListChanged += RepositoryOnAccountsListChanged;
+            _repository.AccountChanged += RepositoryOnAccountChanged;
             LoadWalletList();
         }
 
-        /// <summary> 
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -44,17 +41,26 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 
             if (_repository != null)
             {
-                _repository.AfterRefresh -= RepositoryOnAfterRefresh;
+                _repository.AccountsListChanged -= RepositoryOnAccountsListChanged;
+                _repository.AccountChanged -= RepositoryOnAccountChanged;
                 _repository = null;
             }
             base.Dispose(disposing);
         }
 
-        private void RepositoryOnAfterRefresh(object? sender, EventArgs e)
+        private void RepositoryOnAccountsListChanged(object? sender, EventArgs e)
         {
             _currentContext?.Send(_ =>
             {
                 LoadWalletList();
+            }, null);
+        }
+
+        private void RepositoryOnAccountChanged(object? sender, WalletRepository.AccountChangedEventArgs e)
+        {
+            _currentContext?.Send(_ =>
+            {
+                RefreshAccountDetails(e.AccountViewModel);
             }, null);
         }
 
@@ -64,13 +70,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             {
                 if (_repository?.MyAccounts.Any(a => a.AccountData.Id == ((AccountViewModel)c.Tag).AccountData.Id) == false)
                 {
+                    // remove MyAccount
                     panelMyAccounts.Controls.Remove(c);
+                    c.Dispose();
                 }
             });
             _repository?.MyAccounts.ForEach(a =>
             {
-                if (!panelMyAccounts.Controls.OfType<WalletListItemControl>().Any(c => ((AccountViewModel)c.Tag).AccountData.Id == a.AccountData.Id))
+                if (GetMyAccountControl(a.AccountData.Id) == null)
                 {
+                    // add MyAccount
                     var control = new WalletListItemControl
                     {
                         Dock = DockStyle.Top
@@ -80,7 +89,60 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                     panelMyAccounts.Controls.Add(control);
                 }
             });
-            //panelWalletList.Controls.ForEach(c => );
+            panelWatchedAccounts.Controls.OfType<WalletListItemControl>().ToList().ForEach(c =>
+            {
+                if (_repository?.WatchedAccounts.Any(a => a.AccountData.Id == ((AccountViewModel)c.Tag).AccountData.Id) == false)
+                {
+                    // remove WatchedAccount
+                    panelWatchedAccounts.Controls.Remove(c);
+                    c.Dispose();
+                }
+            });
+            _repository?.WatchedAccounts.ForEach(a =>
+            {
+                if (GetWatchedAccountControl(a.AccountData.Id) == null)
+                {
+                    // add WatchedAccount
+                    var control = new WalletListItemControl
+                    {
+                        Dock = DockStyle.Top
+                    };
+                    control.ButtonClicked += (sender, args) => ShowWalletAccount(control);
+                    control.AssignAccount(a);
+                    panelWatchedAccounts.Controls.Add(control);
+                }
+            });
+        }
+
+        private void RefreshAccountDetails(AccountViewModel accountViewModel)
+        {
+            var accountControl = GetAccountControl(accountViewModel.AccountData.Id);
+            if (accountControl != null)
+            {
+                accountControl.RefreshAccount();
+                if (accountControl.IsSelected)
+                {
+                    ((WalletAddressDetails)panelAccountDetails.Controls[0]).RefreshAccount();
+                }
+            }
+
+        }
+
+        private WalletListItemControl? GetAccountControl(string id)
+        {
+            return GetMyAccountControl(id) ?? GetWatchedAccountControl(id);
+        }
+
+        private WalletListItemControl? GetMyAccountControl(string id)
+        {
+            return panelMyAccounts.Controls.OfType<WalletListItemControl>()
+                .FirstOrDefault(c => ((AccountViewModel)c.Tag).AccountData.Id == id);
+        }
+
+        private WalletListItemControl? GetWatchedAccountControl(string id)
+        {
+            return panelWatchedAccounts.Controls.OfType<WalletListItemControl>()
+                .FirstOrDefault(c => ((AccountViewModel)c.Tag).AccountData.Id == id);
         }
 
         private void ShowWalletAccount(WalletListItemControl walletListItemControl)
@@ -91,6 +153,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             }
 
             panelMyAccounts.Controls.OfType<WalletListItemControl>().ForEach(c => c.IsSelected = false);
+            panelWatchedAccounts.Controls.OfType<WalletListItemControl>().ForEach(c => c.IsSelected = false);
             walletListItemControl.IsSelected = true;
 
             groupAccountDetails.Visible = true;

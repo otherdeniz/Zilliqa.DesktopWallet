@@ -6,19 +6,19 @@ using Zilliqa.DesktopWallet.Core.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Core.Data.Files
 {
-    public class WalletDat
+    public class WalletDat : DatFileBase
     {
 
         #region Static Code
 
-        private static string? _filePath;
+        private static string? _walletDatFilePath;
         private static WalletDat? _instance;
 
         public static WalletDat Instance => _instance ?? throw new MissingCodeException("WalletDat.Instance not set, Load() or Save() first");
 
-        public static bool Exists => File.Exists(FilePath);
+        public static bool Exists => File.Exists(WalletDatFilePath);
 
-        public static string FilePath => _filePath ??= DataPathBuilder.Root.GetFilePath("wallet.dat");
+        public static string WalletDatFilePath => _walletDatFilePath ??= DataPathBuilder.Root.GetFilePath("wallet.dat");
 
         public static WalletDat CreateNew(PasswordInfo password, string firstAccountName)
         {
@@ -33,16 +33,8 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
         {
             if (!Exists) throw new FileNotFoundException("wallet.dat not found");
 
-            using (var fileStream = File.OpenRead(FilePath))
-            {
-                using (var fileReader = new StreamReader(fileStream, Encoding.UTF8))
-                {
-                    var fileJson = fileReader.ReadToEnd();
-                    _instance = JsonConvert.DeserializeObject<WalletDat>(fileJson);
-                    return Instance;
-                }
-            }
-
+            _instance = Load<WalletDat>(WalletDatFilePath);
+            return _instance;
         }
 
         #endregion
@@ -59,23 +51,23 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
 
         #endregion
 
+        protected override string? FilePath
+        {
+            get => _walletDatFilePath;
+            set
+            {
+                // discard value
+            }
+        }
+
         public void InitialiseLoad(PasswordInfo password)
         {
             Instance.MyAccounts.ForEach(a => a.Load(password.Password));
         }
 
-        public void Save()
+        public override void Save()
         {
-            using (var fileStream = File.OpenWrite(FilePath))
-            {
-                using (var fileWriter = new StreamWriter(fileStream, Encoding.UTF8, leaveOpen:true))
-                {
-                    fileWriter.Write(JsonConvert.SerializeObject(this));
-                    fileWriter.Flush();
-                }
-                fileStream.SetLength(fileStream.Position);
-            }
-
+            base.Save();
             _instance = this;
         }
     }

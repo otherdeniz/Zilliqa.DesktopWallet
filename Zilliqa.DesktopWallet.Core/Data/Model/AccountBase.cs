@@ -1,18 +1,12 @@
-﻿using Newtonsoft.Json;
-using Zilliqa.DesktopWallet.ApiClient;
-using Zilliqa.DesktopWallet.ApiClient.Utils;
-
-namespace Zilliqa.DesktopWallet.Core.Data.Model
+﻿namespace Zilliqa.DesktopWallet.Core.Data.Model
 {
-    public class AccountBase
+    public abstract class AccountBase
     {
         public string Id { get; set; }
 
         public string Name { get; set; }
 
-        public string Address { get; set; }
+        public abstract string GetAddressBech32();
 
-        [JsonIgnore] 
-        public string AddressBech32 => Address.FromBase16ToBech32Address();
     }
 }
