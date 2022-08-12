@@ -23,6 +23,21 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
             return result;
         }
 
+        public static MyAccount Import(string name, string privateKey, string pasword)
+        {
+            var result = new MyAccount
+            {
+                Id = Guid.NewGuid().ToString()
+            };
+            var keyPair = ECKeyPair.Create(privateKey);
+            result.AccountDetails = new Account(keyPair);
+            result.KeyEncrypted = result.AccountDetails.ToJson(pasword, KDFType.PBKDF2);
+            result.PublicKey = result.AccountDetails.GetPublicKey();
+            result.Name = name;
+            result.Address = result.AccountDetails.Address.Raw;
+            return result;
+        }
+
         public string KeyEncrypted { get; set; }
 
         public string PublicKey { get; set; }

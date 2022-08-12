@@ -1,15 +1,16 @@
 ﻿using Zillifriends.Shared.Common;
-using Zilliqa.DesktopWallet.Core.Data.Files;
-using Zilliqa.DesktopWallet.Core.Extensions;
+using Zilliqa.DesktopWallet.Core.Data.Model;
+using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet;
+using Zilliqa.DesktopWallet.Gui.WinForms.Forms;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 {
     public partial class MainWalletControl : UserControl
     {
         private SynchronizationContext? _currentContext;
-        private WalletViewModel _viewModel;
+        private WalletRepository? _repository;
 
         public MainWalletControl()
         {
@@ -18,21 +19,42 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 
         public void Initialize()
         {
-            if (_viewModel != null)
+            if (_repository != null)
             {
                 return;
             }
             panelMyAccounts.Controls.Clear();
             panelWatchedAccounts.Controls.Clear();
             _currentContext = SynchronizationContext.Current;
-            _viewModel = new WalletViewModel(WalletDat.Instance.MyAccounts);
-            _viewModel.AfterRefresh += ViewModelOnAfterRefresh;
+            _repository = RepositoryManager.Instance.WalletRepository;
+            _repository.AfterRefresh += RepositoryOnAfterRefresh;
             LoadWalletList();
         }
-        private void ViewModelOnAfterRefresh(object? sender, EventArgs e)
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+
+            if (_repository != null)
+            {
+                _repository.AfterRefresh -= RepositoryOnAfterRefresh;
+                _repository = null;
+            }
+            base.Dispose(disposing);
+        }
+
+        private void RepositoryOnAfterRefresh(object? sender, EventArgs e)
         {
             _currentContext?.Send(_ =>
             {
+                LoadWalletList();
             }, null);
         }
 
@@ -40,12 +62,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
         {
             panelMyAccounts.Controls.OfType<WalletListItemControl>().ToList().ForEach(c =>
             {
-                if (!_viewModel.MyAccounts.Any(a => a.AccountData.Id == ((AccountViewModel)c.Tag).AccountData.Id))
+                if (_repository?.MyAccounts.Any(a => a.AccountData.Id == ((AccountViewModel)c.Tag).AccountData.Id) == false)
                 {
                     panelMyAccounts.Controls.Remove(c);
                 }
             });
-            _viewModel.MyAccounts.ForEach(a =>
+            _repository?.MyAccounts.ForEach(a =>
             {
                 if (!panelMyAccounts.Controls.OfType<WalletListItemControl>().Any(c => ((AccountViewModel)c.Tag).AccountData.Id == a.AccountData.Id))
                 {
@@ -88,6 +110,33 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             addControl.LoadAccount(walletListItemControl.Account);
 
             panelAccountDetails.Controls.Add(addControl);
+        }
+
+        private void buttonCreate_Click(object sender, EventArgs e)
+        {
+            var result = CreateMyAccountForm.Execute(this.ParentForm);
+            if (result != null)
+            {
+                _repository?.AddAccount(MyAccount.Create(result.AccountName, result.Password.Password));
+            }
+        }
+
+        private void toolImport_Click(object sender, EventArgs e)
+        {
+            var result = ImportMyAccountForm.Execute(this.ParentForm);
+            if (result != null)
+            {
+                _repository?.AddAccount(MyAccount.Import(result.AccountName, result.PrivateKey, result.Password.Password));
+            }
+        }
+
+        private void buttonAddWatched_Click(object sender, EventArgs e)
+        {
+            var result = AddWatchedAccountForm.Execute(this.ParentForm);
+            if (result != null)
+            {
+                _repository?.AddAccount(WatchedAccount.Add(result.AccountName, result.Address, result.IsMyAccount));
+            }
         }
     }
 }

@@ -1,14 +1,14 @@
 ﻿using Zilliqa.DesktopWallet.ApiClient;
 
-namespace Zilliqa.DesktopWallet.Core.ViewModel
+namespace Zilliqa.DesktopWallet.Core.Repository
 {
-    public class ApiClientViewModelBase : IDisposable
+    public class ZilliqaApiClientRepositoryBase : IDisposable
     {
         private readonly Task _refreshTask;
         private readonly CancellationTokenSource _refreshCancellationTokenSource = new CancellationTokenSource();
         private readonly ZilliqaClient _zilliqaApiClient;
 
-        public ApiClientViewModelBase()
+        public ZilliqaApiClientRepositoryBase()
         {
             _zilliqaApiClient = new ZilliqaClient(false);
             _refreshTask = Task.Run(async () => await RefreshFunction(_refreshCancellationTokenSource.Token));

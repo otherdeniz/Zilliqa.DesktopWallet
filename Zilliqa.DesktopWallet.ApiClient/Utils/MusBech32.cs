@@ -28,9 +28,6 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
             -1, 29, -1, 24, 13, 25, 9, 8, 23, -1, 18, 22, 31, 27, 19, -1,
             1, 0, 3, 16, 11, 28, 12, 14, 6, 4, 2, -1, -1, -1, -1, -1 };
 
-
-        #region public methods
-
         public static string FromBech32ToBase16Address(this string address, bool prefix0x = true)
         {
             var res = prefix0x ? "0x" : string.Empty;
@@ -91,11 +88,17 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
             return res.Substring(0,42);
         }
 
-        #endregion
-
-        #region Private methods
-
-        #region Encode/Decode
+        public static bool IsValidZilAddress(string bech32Address)
+        {
+            try
+            {
+                return Decode(bech32Address).hrp == HRP;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
         public static Bech32 Decode(string str)
         {
@@ -157,9 +160,6 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
             return Encode(hrp, ByteUtil.HexStringToByteArray(address));
         }
 
-        #endregion
-
-        #region Checksum
         private static byte[] CreateChecksum(string hrp, byte[] data)
         {
             byte[] hrpExpanded = GetBytesFromHRP(hrp);
@@ -185,7 +185,6 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
             var pol = Polymod(all);
             return pol == 1;
         }
-        #endregion
 
         ///**
         // * Find the polynomial with value coefficients mod the generator as 30-bit.
@@ -230,12 +229,6 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
 
             return value;
         }
-
-        
-
-        #endregion
-
-
 
     }
 }

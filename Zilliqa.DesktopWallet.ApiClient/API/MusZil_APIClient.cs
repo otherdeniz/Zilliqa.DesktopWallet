@@ -10,15 +10,11 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
 {
 	public class MusZil_APIClient : IZilliqaAPIClient<MusResult>
 	{
-		//put this in config file of app
-		const string JSONRPC = "2.0";
-		const string DEV_URL = "https://dev-api.zilliqa.com/";
+		private readonly object _requestLock = new object();
 
-		private readonly object requestLock = new object();
+		public string Url { get; }
 
-		public string Url { get; private set; }
-
-		public MusZil_APIClient(string url = DEV_URL)
+		public MusZil_APIClient(string url)
 		{
 			Url = url;
 		}
@@ -185,8 +181,6 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
 		/// <summary>
 		/// Gets all contracts for one account
 		/// </summary>
-		/// <param name="account"></param>
-		/// <returns></returns>
 		public async Task<MusResult> GetSmartContractCode(string address)
 		{
 			var req = RequestFactory.New("GetSmartContractCode", address);
@@ -312,7 +306,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
 		private HttpClient GetClient()
 		{
 			HttpClient httpClient = null;
-			lock (requestLock)
+			lock (_requestLock)
 			{
 				httpClient = new HttpClient();
 
@@ -331,7 +325,6 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
 		/// Calls a API method of the Zilliqa API
 		/// </summary>
 		/// <param name="req">MusRequest object to pass request</param>
-		/// <returns></returns>
 		private async Task<APIResponse> CallMethod(MusRequest req)
 		{
 			string result = "";

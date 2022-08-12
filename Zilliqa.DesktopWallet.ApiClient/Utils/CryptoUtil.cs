@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using Org.BouncyCastle.Crypto.EC;
 using Org.BouncyCastle.Crypto.Parameters;
@@ -40,6 +41,18 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
             var match = Regex.Match(address, pattern);
             
             return match.Success;
+        }
+
+        public static bool IsPrivateKeyValid(string privateKey)
+        {
+            try
+            {
+                return GetPublicKeyFromPrivateKey(privateKey, true).Length > 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         /**

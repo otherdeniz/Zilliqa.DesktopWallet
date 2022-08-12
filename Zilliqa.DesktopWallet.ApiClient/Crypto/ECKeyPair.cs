@@ -43,6 +43,11 @@ namespace Zilliqa.DesktopWallet.ApiClient.Crypto
             return Create(new BigInteger(privateKey));
         }
 
+        public static ECKeyPair Create(string privateKey)
+        {
+            return Create(new BigInteger(ByteUtil.HexStringToByteArray(privateKey)));
+        }
+
         public static BigInteger PublicKeyFromPrivate(BigInteger privKey)
         {
             ECPoint point = publicPointFromPrivate(privKey);

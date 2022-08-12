@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Zilliqa.DesktopWallet.Core
+namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
 {
-    public class BlockchainDataCrawler
+    public class ZilliqaBlockchainCrawler
     {
-        public BlockchainDataCrawler()
+        public ZilliqaBlockchainCrawler()
         {
-            
+
         }
 
         public void Start()

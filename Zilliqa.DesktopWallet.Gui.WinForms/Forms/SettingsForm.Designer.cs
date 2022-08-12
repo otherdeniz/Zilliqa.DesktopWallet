@@ -52,7 +52,7 @@
             this.panelPage1.Location = new System.Drawing.Point(8, 8);
             this.panelPage1.Name = "panelPage1";
             this.panelPage1.Size = new System.Drawing.Size(784, 162);
-            this.panelPage1.TabIndex = 100;
+            this.panelPage1.TabIndex = 0;
             // 
             // textViewblockApiKey
             // 

@@ -58,7 +58,13 @@ namespace Zilligraph.Database.Storage
             }
         }
 
-        public IEnumerable FindRecords(IFilterQuery queryFilter)
+        public IEnumerable<TRecordModel> FindRecords(IFilterQuery queryFilter)
+        {
+            return new RecordsResultEnumerable<TRecordModel>(this,
+                FilterSearcherFactory.CreateFilterSearcher(this, queryFilter));
+        }
+
+        IEnumerable IZilligraphTable.FindRecords(IFilterQuery queryFilter)
         {
             return new RecordsResultEnumerable<TRecordModel>(this,
                 FilterSearcherFactory.CreateFilterSearcher(this, queryFilter));

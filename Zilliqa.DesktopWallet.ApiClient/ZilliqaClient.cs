@@ -16,22 +16,19 @@ namespace Zilliqa.DesktopWallet.ApiClient
         private IZilliqaAPIClient<MusResult> _client;
 		public static readonly string TESTNET = "https://dev-api.zilliqa.com/";
 		public static readonly string MAINNET = "https://api.zilliqa.com/";
+
 		public ZilliqaClient(bool test = true) {
-			_client = test ?  new MusZil_APIClient(TESTNET): new MusZil_APIClient(MAINNET);
+			_client = test 
+                ?  new MusZil_APIClient(TESTNET)
+                : new MusZil_APIClient(MAINNET);
 		}
-        public ZilliqaClient(string APIURL)
+        public ZilliqaClient(string apiurl)
         {
-            _client = new MusZil_APIClient(APIURL);
+            _client = new MusZil_APIClient(apiurl);
         }
         
-        private async Task<decimal> GetBalanceForAddressAsync(string address)
-        {
-            var acc = new Account(address);
-			var res = await _client.GetBalance(address);
-			return decimal.Parse((string)res.Result);
-		}
-
 		#region Accounts
+
 		/// <summary>
 		/// Gets balance from account
 		/// </summary>
@@ -40,6 +37,7 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		public async Task<Balance> GetBalance(string address)
 		{
 			var res = await _client.GetBalance(address);
+            ThrowOnError(res);
 			return ((JObject)res.Result).ToObject<Balance>();
 		}
 		public async Task<Balance> GetBalance(Address address)
@@ -58,106 +56,125 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		public async Task<int> GetNetworkId()
 		{
 			var res = await _client.GetNetworkId();
+            ThrowOnError(res);
 			return int.Parse((string)res.Result);
 		}
 
 		public async Task<BlockchainInfo> GetBlockchainInfo()
 		{
 			var resp = await _client.GetBlockchainInfo();
+            ThrowOnError(resp);
 			return ((JToken)resp.Result).ToObject<BlockchainInfo>();
 		}
 
 		public async Task<DSBlock> GetDsBlock(string blockNumber)
 		{
 			var resp = await _client.GetDsBlock(blockNumber);
+            ThrowOnError(resp);
 			return ((JToken)resp.Result).ToObject<DSBlock>();
 		}
 		public async Task<DSBlock> GetLatestDsBlock()
 		{
 			var resp = await _client.GetLatestDsBlock();
+            ThrowOnError(resp);
 			return ((JToken)resp.Result).ToObject<DSBlock>();
 		}
 		public async Task<int> GetNumDSBlocks()
 		{
 			var res = await _client.GetNumDSBlocks();
+            ThrowOnError(res);
 			return int.Parse((string)res.Result);
 		}
 		public async Task<double> GetDSBlockRate()
 		{
 			var resp = await _client.GetDSBlockRate();
-			return(double)resp.Result;
+            ThrowOnError(resp);
+			return (double)resp.Result;
 		}
 		public async Task<BlockListing> GetDSBlockListing(int pageNumber = 1)
 		{
 			var resp = await _client.GetDSBlockListing(pageNumber);
+            ThrowOnError(resp);
 			return ((JToken)resp.Result).ToObject<BlockListing>();
 		}
 		public async Task<TxBlock> GetTxBlock(string blockNumber)
 		{
 			var resp = await _client.GetLatestDsBlock();
+            ThrowOnError(resp);
 			return ((JToken)resp.Result).ToObject<TxBlock>();
 		}
 		public async Task<TxBlock> GetLatestTxBlock()
 		{
 			var resp = await _client.GetLatestDsBlock();
+            ThrowOnError(resp);
 			return ((JToken)resp.Result).ToObject<TxBlock>();
 		}
 		public async Task<int> GetNumTxBlocks()
 		{
 			var res = await _client.GetNumTxBlocks();
+            ThrowOnError(res);
 			return int.Parse((string)res.Result);
 		}
 		public async Task<double> GetTxBlockRate()
 		{
 			var resp = await _client.GetTxBlockRate();
+            ThrowOnError(resp);
 			return (double)resp.Result;
 		}
 		public async Task<BlockListing> GetTxBlockListing(int pageNumber)
 		{
 			var resp = await _client.GetTxBlockListing(pageNumber);
+            ThrowOnError(resp);
 			return ((JToken)resp.Result).ToObject<BlockListing>();
 		}
 
 		public async Task<int> GetNumTransactions()
 		{
 			var res = await _client.GetNumTransactions();
+            ThrowOnError(res);
 			return int.Parse((string)res.Result);
 		}
 
 		public async Task<double> GetTransactionRate()
 		{
 			var resp = await _client.GetTxBlockRate();
+            ThrowOnError(resp);
 			return (double)resp.Result;
 		}
 
 		public async Task<int> GetCurrentMiniEpoch()
 		{
 			var resp = await _client.GetCurrentMiniEpoch();
+            ThrowOnError(resp);
 			return int.Parse((string)resp.Result);
 		}
 
 		public async Task<int> GetCurrentDSEpoch()
 		{
 			var resp = await _client.GetCurrentDSEpoch();
+            ThrowOnError(resp);
 			return int.Parse((string)resp.Result);
 		}
 
 		public async Task<Int64> GetPrevDifficulty()
 		{
 			var resp = await _client.GetPrevDifficulty();
+            ThrowOnError(resp);
 			return (Int64)resp.Result;
 		}
 
 		public async Task<int> GetPrevDSDifficulty()
 		{
 			var resp = await _client.GetCurrentMiniEpoch();
+            ThrowOnError(resp);
 			return int.Parse((string)resp.Result);
 		}
 
 		public async Task<decimal> GetTotalCoinSupply()
 		{
-			var resp = await _client.GetTotalCoinSupply();
-			return decimal.Parse((string)resp.Result);
+			var res = await _client.GetTotalCoinSupply();
+            ThrowOnError(res);
+			return decimal.Parse((string)res.Result);
 		}
 		#endregion
 
@@ -171,6 +188,7 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		public async Task<string> GetSmartContractCode(string address)
 		{
 			var res = await _client.GetSmartContractCode(address);
+            ThrowOnError(res);
 			return res.Result.ToString();
 		}
 		public async Task<string> GetSmartContractCode(Address address)
@@ -189,6 +207,7 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		public async Task<Balance> GetContractBalance(string address)
 		{
 			var res = await _client.GetContractBalance(address);
+            ThrowOnError(res);
 			var bal = (decimal)res.Result;
 			return new Balance(bal);
 		}
@@ -209,10 +228,7 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		public async Task<List<SmartContract>> GetSmartContracts(string address)
 		{
 			var res = await _client.GetSmartContracts(address);
-			if (res.Error)
-			{
-				throw new ArgumentException(res.Message);
-			}
+            ThrowOnError(res);
 			var l = new List<SmartContract>();
 			if (res.Result != null)
 			{
@@ -243,10 +259,7 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		public async Task<Address> GetContractAddressFromTransactionID(string id)
 		{
 			var res = await _client.GetContractAddressFromTransactionID(id);
-			if (res.Error)
-			{
-				throw new Exception(res.Message);
-			}
+            ThrowOnError(res);
 			var address = new Address(res.Result.ToString());
 			return address;
 		}
@@ -255,6 +268,7 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		public async Task<StateItem> GetSmartContractState(string address)
 		{
 			var res = await _client.GetSmartContractState(address);
+            ThrowOnError(res);
 			var it = ((JToken)res.Result).ToObject<StateItem>();
 			it.AllValues = res.Result;
 			return it;
@@ -262,11 +276,13 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		public async Task<string> GetSmartContractSubState(object[] parameters)
 		{
 			var res = await _client.GetSmartContractSubState(parameters);
+            ThrowOnError(res);
 			return (string)res.Result;
 		}
 		public async Task<string> GetSmartContractInit(string address)
 		{
 			var res = await _client.GetSmartContractInit(address);
+            ThrowOnError(res);
 			return res.Result.ToString();
 		}
 		#endregion
@@ -276,20 +292,20 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		{
 			
 			var res = await _client.CreateTransaction(payload);
-			if (res.Error)
-			 throw new Exception(res.Message); 
-
+            ThrowOnError(res);
 			return ((JToken)res.Result).ToObject<Transaction.Info>();
 		}
 		public async Task<Transaction.Info> CreateTransaction(string payload)
 		{
 			var res = await _client.CreateTransaction(payload);
+            ThrowOnError(res);
 			return ((JToken)res.Result).ToObject<Transaction.Info>();
 		}
 
 		public async Task<int> GetMinimumGasPrice()
 		{
 			var res = await _client.GetMinimumGasPrice();
+            ThrowOnError(res);
 			return int.Parse((string)res.Result);
 		}
 
@@ -297,12 +313,14 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		public async Task<Transaction> GetTransaction(string hash)
 		{
 			var res = await _client.GetTransaction(hash);
+            ThrowOnError(res);
 			return ((JToken)res.Result).ToObject<Transaction>();
 		}
 
 		public async Task<List<string>> GetRecentTransactions()
 		{
 			var res = await _client.GetRecentTransactions();
+            ThrowOnError(res);
 			return ((JToken)res.Result).ToObject<List<string>>();
 		}
 
@@ -316,7 +334,7 @@ namespace Zilliqa.DesktopWallet.ApiClient
 			}
 			else if (res.Message != "TxBlock has no transactions")
 			{
-				throw new Exception(res.Message);
+                ThrowOnError(res);
 			}
 
 			return list;
@@ -325,22 +343,26 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		public async Task<int> GetNumTxnsTxEpoch()
 		{
 			var res = await _client.GetNumTxnsTxEpoch();
+            ThrowOnError(res);
 			return int.Parse((string)res.Result);
 		}
 
 		public async Task<int> GetNumTxnsDSEpoch()
 		{
 			var res = await _client.GetNumTxnsDSEpoch();
+            ThrowOnError(res);
 			return int.Parse((string)res.Result);
 		}
 		public async Task<PendingTransaction> GetPendingTxn(string hash)
 		{
 			var res = await _client.GetPendingTxn(hash);
+            ThrowOnError(res);
 			return ((JToken)res.Result).ToObject<PendingTransactionInfo>();
 		}
 		public async Task<List<PendingTransaction>> GetPendingTxns()
 		{
 			var res = await _client.GetPendingTxns();
+            ThrowOnError(res);
 			return ((JToken)res.Result).ToObject<List<PendingTransaction>>();
 		}
 		public async Task<List<Transaction>> GetTxnBodiesForTxBlock(int blockNum)
@@ -352,13 +374,20 @@ namespace Zilliqa.DesktopWallet.ApiClient
 				list = ((JToken)res.Result).ToObject<List<Transaction>>();
 			}
 			else if (res.Message != "TxBlock has no transactions")
-			{
-				throw new Exception(res.Message);
+            {
+                ThrowOnError(res);
 			}
 			return list;
 		}
 
 		#endregion
 
+        private void ThrowOnError(MusResult result)
+        {
+            if (result.Error)
+            {
+                throw new ZilliqaClientException(result.Message);
+            }
+        }
     }
 }

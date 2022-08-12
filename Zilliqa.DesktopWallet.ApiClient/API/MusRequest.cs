@@ -8,7 +8,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
         {
             Id = "1";
             Method = method;
-            Parameters = new[] { param };
+            Parameters = new object[] { param };
             Jsonrpc = "2.0";
         }
         public MusRequest(string method, object[] parameters)
@@ -32,7 +32,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
         public object[] Parameters { get; set; }
 
         /// <summary>
-        /// Returns request as Json (using NewtonJsoft)
+        /// Returns request as Json (using Newtonsoft)
         /// </summary>
         /// <returns></returns>
         public string ToJson()

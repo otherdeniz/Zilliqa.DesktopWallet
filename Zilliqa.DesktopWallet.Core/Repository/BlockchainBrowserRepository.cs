@@ -1,8 +1,8 @@
 ﻿using Zilliqa.DesktopWallet.ApiClient.Blockchain;
 
-namespace Zilliqa.DesktopWallet.Core.ViewModel
+namespace Zilliqa.DesktopWallet.Core.Repository
 {
-    public class BlockchainBrowserViewModel : ApiClientViewModelBase
+    public class BlockchainBrowserRepository : ZilliqaApiClientRepositoryBase
     {
         public event EventHandler<EventArgs> AfterRefresh;
 

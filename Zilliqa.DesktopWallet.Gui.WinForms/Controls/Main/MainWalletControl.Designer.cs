@@ -7,18 +7,6 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
 
         #region Component Designer generated code
 
@@ -28,31 +16,38 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWalletControl));
             this.splitContainerWallet = new System.Windows.Forms.SplitContainer();
             this.panelWalletList = new System.Windows.Forms.Panel();
+            this.groupWatched = new System.Windows.Forms.GroupBox();
             this.panelWatchedAccounts = new System.Windows.Forms.Panel();
             this.walletListItemControl2 = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet.WalletListItemControl();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.buttonAddWatched = new System.Windows.Forms.ToolStripButton();
+            this.groupMyAccounts = new System.Windows.Forms.GroupBox();
             this.panelMyAccounts = new System.Windows.Forms.Panel();
             this.walletListItemControl1 = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet.WalletListItemControl();
             this.toolStripWalletList = new System.Windows.Forms.ToolStrip();
             this.buttonCreate = new System.Windows.Forms.ToolStripButton();
             this.toolImport = new System.Windows.Forms.ToolStripButton();
-            this.panelAccountDetails = new System.Windows.Forms.Panel();
-            this.groupMyAccounts = new System.Windows.Forms.GroupBox();
-            this.groupWatched = new System.Windows.Forms.GroupBox();
             this.groupAccountDetails = new System.Windows.Forms.GroupBox();
+            this.panelAccountDetails = new System.Windows.Forms.Panel();
+            this.accountContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.removeButton = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerWallet)).BeginInit();
             this.splitContainerWallet.Panel1.SuspendLayout();
             this.splitContainerWallet.Panel2.SuspendLayout();
             this.splitContainerWallet.SuspendLayout();
             this.panelWalletList.SuspendLayout();
+            this.groupWatched.SuspendLayout();
             this.panelWatchedAccounts.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
+            this.groupMyAccounts.SuspendLayout();
             this.panelMyAccounts.SuspendLayout();
             this.toolStripWalletList.SuspendLayout();
-            this.groupMyAccounts.SuspendLayout();
-            this.groupWatched.SuspendLayout();
             this.groupAccountDetails.SuspendLayout();
+            this.accountContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainerWallet
@@ -84,13 +79,28 @@
             this.panelWalletList.Size = new System.Drawing.Size(200, 491);
             this.panelWalletList.TabIndex = 1;
             // 
+            // groupWatched
+            // 
+            this.groupWatched.AutoSize = true;
+            this.groupWatched.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupWatched.Controls.Add(this.panelWatchedAccounts);
+            this.groupWatched.Controls.Add(this.toolStrip1);
+            this.groupWatched.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupWatched.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.groupWatched.Location = new System.Drawing.Point(0, 109);
+            this.groupWatched.Name = "groupWatched";
+            this.groupWatched.Size = new System.Drawing.Size(200, 109);
+            this.groupWatched.TabIndex = 4;
+            this.groupWatched.TabStop = false;
+            this.groupWatched.Text = "Watched Accounts";
+            // 
             // panelWatchedAccounts
             // 
             this.panelWatchedAccounts.AutoSize = true;
             this.panelWatchedAccounts.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panelWatchedAccounts.Controls.Add(this.walletListItemControl2);
             this.panelWatchedAccounts.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelWatchedAccounts.Location = new System.Drawing.Point(3, 19);
+            this.panelWatchedAccounts.Location = new System.Drawing.Point(3, 50);
             this.panelWatchedAccounts.Name = "panelWatchedAccounts";
             this.panelWatchedAccounts.Size = new System.Drawing.Size(194, 56);
             this.panelWatchedAccounts.TabIndex = 2;
@@ -105,6 +115,41 @@
             this.walletListItemControl2.Name = "walletListItemControl2";
             this.walletListItemControl2.Size = new System.Drawing.Size(194, 56);
             this.walletListItemControl2.TabIndex = 1;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.CanOverflow = false;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.buttonAddWatched});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 19);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(194, 31);
+            this.toolStrip1.TabIndex = 3;
+            // 
+            // buttonAddWatched
+            // 
+            this.buttonAddWatched.Image = ((System.Drawing.Image)(resources.GetObject("buttonAddWatched.Image")));
+            this.buttonAddWatched.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonAddWatched.Name = "buttonAddWatched";
+            this.buttonAddWatched.Size = new System.Drawing.Size(57, 28);
+            this.buttonAddWatched.Text = "Add";
+            this.buttonAddWatched.Click += new System.EventHandler(this.buttonAddWatched_Click);
+            // 
+            // groupMyAccounts
+            // 
+            this.groupMyAccounts.AutoSize = true;
+            this.groupMyAccounts.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupMyAccounts.Controls.Add(this.panelMyAccounts);
+            this.groupMyAccounts.Controls.Add(this.toolStripWalletList);
+            this.groupMyAccounts.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupMyAccounts.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.groupMyAccounts.Location = new System.Drawing.Point(0, 0);
+            this.groupMyAccounts.Name = "groupMyAccounts";
+            this.groupMyAccounts.Size = new System.Drawing.Size(200, 109);
+            this.groupMyAccounts.TabIndex = 3;
+            this.groupMyAccounts.TabStop = false;
+            this.groupMyAccounts.Text = "My Accounts";
             // 
             // panelMyAccounts
             // 
@@ -147,6 +192,7 @@
             this.buttonCreate.Name = "buttonCreate";
             this.buttonCreate.Size = new System.Drawing.Size(69, 28);
             this.buttonCreate.Text = "Create";
+            this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
             // 
             // toolImport
             // 
@@ -155,44 +201,7 @@
             this.toolImport.Name = "toolImport";
             this.toolImport.Size = new System.Drawing.Size(71, 28);
             this.toolImport.Text = "Import";
-            // 
-            // panelAccountDetails
-            // 
-            this.panelAccountDetails.AutoScroll = true;
-            this.panelAccountDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAccountDetails.Location = new System.Drawing.Point(3, 19);
-            this.panelAccountDetails.Name = "panelAccountDetails";
-            this.panelAccountDetails.Size = new System.Drawing.Size(587, 469);
-            this.panelAccountDetails.TabIndex = 0;
-            // 
-            // groupMyAccounts
-            // 
-            this.groupMyAccounts.AutoSize = true;
-            this.groupMyAccounts.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.groupMyAccounts.Controls.Add(this.panelMyAccounts);
-            this.groupMyAccounts.Controls.Add(this.toolStripWalletList);
-            this.groupMyAccounts.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupMyAccounts.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.groupMyAccounts.Location = new System.Drawing.Point(0, 0);
-            this.groupMyAccounts.Name = "groupMyAccounts";
-            this.groupMyAccounts.Size = new System.Drawing.Size(200, 109);
-            this.groupMyAccounts.TabIndex = 3;
-            this.groupMyAccounts.TabStop = false;
-            this.groupMyAccounts.Text = "My Accounts";
-            // 
-            // groupWatched
-            // 
-            this.groupWatched.AutoSize = true;
-            this.groupWatched.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.groupWatched.Controls.Add(this.panelWatchedAccounts);
-            this.groupWatched.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupWatched.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.groupWatched.Location = new System.Drawing.Point(0, 109);
-            this.groupWatched.Name = "groupWatched";
-            this.groupWatched.Size = new System.Drawing.Size(200, 78);
-            this.groupWatched.TabIndex = 4;
-            this.groupWatched.TabStop = false;
-            this.groupWatched.Text = "Watched Accounts";
+            this.toolImport.Click += new System.EventHandler(this.toolImport_Click);
             // 
             // groupAccountDetails
             // 
@@ -207,6 +216,29 @@
             this.groupAccountDetails.Text = "Details";
             this.groupAccountDetails.Visible = false;
             // 
+            // panelAccountDetails
+            // 
+            this.panelAccountDetails.AutoScroll = true;
+            this.panelAccountDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelAccountDetails.Location = new System.Drawing.Point(3, 19);
+            this.panelAccountDetails.Name = "panelAccountDetails";
+            this.panelAccountDetails.Size = new System.Drawing.Size(587, 469);
+            this.panelAccountDetails.TabIndex = 0;
+            // 
+            // accountContextMenu
+            // 
+            this.accountContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeButton});
+            this.accountContextMenu.Name = "accountContextMenu";
+            this.accountContextMenu.Size = new System.Drawing.Size(118, 26);
+            // 
+            // removeButton
+            // 
+            this.removeButton.Image = ((System.Drawing.Image)(resources.GetObject("removeButton.Image")));
+            this.removeButton.Name = "removeButton";
+            this.removeButton.Size = new System.Drawing.Size(117, 22);
+            this.removeButton.Text = "Remove";
+            // 
             // MainWalletControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -220,15 +252,18 @@
             this.splitContainerWallet.ResumeLayout(false);
             this.panelWalletList.ResumeLayout(false);
             this.panelWalletList.PerformLayout();
+            this.groupWatched.ResumeLayout(false);
+            this.groupWatched.PerformLayout();
             this.panelWatchedAccounts.ResumeLayout(false);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
+            this.groupMyAccounts.ResumeLayout(false);
+            this.groupMyAccounts.PerformLayout();
             this.panelMyAccounts.ResumeLayout(false);
             this.toolStripWalletList.ResumeLayout(false);
             this.toolStripWalletList.PerformLayout();
-            this.groupMyAccounts.ResumeLayout(false);
-            this.groupMyAccounts.PerformLayout();
-            this.groupWatched.ResumeLayout(false);
-            this.groupWatched.PerformLayout();
             this.groupAccountDetails.ResumeLayout(false);
+            this.accountContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -248,5 +283,9 @@
         private GroupBox groupWatched;
         private GroupBox groupMyAccounts;
         private GroupBox groupAccountDetails;
+        private ContextMenuStrip accountContextMenu;
+        private ToolStripMenuItem removeButton;
+        private ToolStrip toolStrip1;
+        private ToolStripButton buttonAddWatched;
     }
 }

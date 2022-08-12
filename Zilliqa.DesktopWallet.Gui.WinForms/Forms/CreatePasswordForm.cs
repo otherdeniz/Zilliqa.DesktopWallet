@@ -14,13 +14,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         public string Password { get; private set; } = string.Empty;
 
-        public static CreateWalletResult? Execute(Form parentForm)
+        public static CreateAccountResult? Execute(Form parentForm)
         {
             using (var form = new CreatePasswordForm())
             {
                 if (form.ShowDialog(parentForm) == DialogResult.OK)
                 {
-                    return new CreateWalletResult
+                    return new CreateAccountResult
                     {
                         Password = new PasswordInfo(form.Password),
                         AccountName = form.AccountName
@@ -58,7 +58,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             var passwordOk = textPassword1.Text.Length >= 12 
                                && textPassword1.Text == textPassword2.Text;
             buttonOk.Enabled = passwordOk && nameOk;
-            return passwordOk;
+            return passwordOk && nameOk;
         }
 
         private void textPassword1_TextChanged(object sender, EventArgs e)

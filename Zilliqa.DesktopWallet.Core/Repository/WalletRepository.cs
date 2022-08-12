@@ -1,20 +1,26 @@
 ﻿using System.Collections.ObjectModel;
+using Zilliqa.DesktopWallet.Core.Data.Files;
 using Zilliqa.DesktopWallet.Core.Data.Model;
+using Zilliqa.DesktopWallet.Core.ViewModel;
 
-namespace Zilliqa.DesktopWallet.Core.ViewModel
+namespace Zilliqa.DesktopWallet.Core.Repository
 {
-    public class WalletViewModel : ApiClientViewModelBase
+    public class WalletRepository : ZilliqaApiClientRepositoryBase
     {
         private readonly List<AccountViewModel> _myAccountsList = new List<AccountViewModel>();
         private readonly List<AccountViewModel> _watchedAccountsList = new List<AccountViewModel>();
 
-        public WalletViewModel(List<MyAccount> myAccounts)
+        public WalletRepository()
         {
-            myAccounts.ForEach(a => _myAccountsList.Add(new AccountViewModel
+            WalletDat.Instance.MyAccounts.ForEach(a => _myAccountsList.Add(new AccountViewModel
             {
                 AccountData = a
             }));
             MyAccounts = new ReadOnlyCollection<AccountViewModel>(_myAccountsList);
+            WalletDat.Instance.WatchedAccounts.ForEach(a => _watchedAccountsList.Add(new AccountViewModel
+            {
+                AccountData = a
+            }));
             WatchedAccounts = new ReadOnlyCollection<AccountViewModel>(_watchedAccountsList);
         }
 
@@ -28,16 +34,17 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         public void AddAccount(AccountBase account)
         {
-            if (account is MyAccount)
+            if (account is MyAccount myAccount)
             {
+                WalletDat.Instance.MyAccounts.Add(myAccount);
                 _myAccountsList.Add(new AccountViewModel
                 {
                     AccountData = account
                 });
-
             }
-            else if (account is WatchedAccount)
+            else if (account is WatchedAccount watchedAccount)
             {
+                WalletDat.Instance.WatchedAccounts.Add(watchedAccount);
                 _watchedAccountsList.Add(new AccountViewModel
                 {
                     AccountData = account
@@ -47,6 +54,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             {
                 throw new NotSupportedException("Account type not supported");
             }
+            WalletDat.Instance.Save();
             AccountsListChanged.Invoke(this, EventArgs.Empty);
         }
 
@@ -57,6 +65,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                 if (_myAccountsList[i].AccountData.Id == id)
                 {
                     _myAccountsList.RemoveAt(i);
+                    WalletDat.Instance.MyAccounts.RemoveAt(i);
+                    WalletDat.Instance.Save();
                     AccountsListChanged.Invoke(this, EventArgs.Empty);
                     return;
                 }
@@ -66,6 +76,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                 if (_watchedAccountsList[i].AccountData.Id == id)
                 {
                     _watchedAccountsList.RemoveAt(i);
+                    WalletDat.Instance.WatchedAccounts.RemoveAt(i);
+                    WalletDat.Instance.Save();
                     AccountsListChanged.Invoke(this, EventArgs.Empty);
                     return;
                 }
