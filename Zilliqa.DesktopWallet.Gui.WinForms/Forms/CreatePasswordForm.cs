@@ -31,16 +31,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             return null;
         }
 
-        protected override bool OnCancel()
-        {
-            if (MessageBox.Show("If you cancel, the application will exit.", "Exit application?",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
-            {
-                Application.Exit();
-            }
+        //protected override bool OnCancel()
+        //{
+        //    if (MessageBox.Show("If you cancel, the application will exit.", "Exit application?",
+        //            MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+        //    {
+        //        Application.Exit();
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
 
         protected override bool OnOk()
         {

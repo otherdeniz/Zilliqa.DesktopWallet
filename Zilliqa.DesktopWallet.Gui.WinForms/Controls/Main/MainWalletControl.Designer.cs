@@ -23,7 +23,7 @@
             this.groupWatched = new System.Windows.Forms.GroupBox();
             this.panelWatchedAccounts = new System.Windows.Forms.Panel();
             this.walletListItemControl2 = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet.WalletListItemControl();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripWatchedAccounts = new System.Windows.Forms.ToolStrip();
             this.buttonAddWatched = new System.Windows.Forms.ToolStripButton();
             this.groupMyAccounts = new System.Windows.Forms.GroupBox();
             this.panelMyAccounts = new System.Windows.Forms.Panel();
@@ -42,7 +42,7 @@
             this.panelWalletList.SuspendLayout();
             this.groupWatched.SuspendLayout();
             this.panelWatchedAccounts.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
+            this.toolStripWatchedAccounts.SuspendLayout();
             this.groupMyAccounts.SuspendLayout();
             this.panelMyAccounts.SuspendLayout();
             this.toolStripWalletList.SuspendLayout();
@@ -84,7 +84,7 @@
             this.groupWatched.AutoSize = true;
             this.groupWatched.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.groupWatched.Controls.Add(this.panelWatchedAccounts);
-            this.groupWatched.Controls.Add(this.toolStrip1);
+            this.groupWatched.Controls.Add(this.toolStripWatchedAccounts);
             this.groupWatched.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupWatched.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.groupWatched.Location = new System.Drawing.Point(0, 109);
@@ -107,7 +107,7 @@
             // 
             // walletListItemControl2
             // 
-            this.walletListItemControl2.BackColor = System.Drawing.SystemColors.Control;
+            this.walletListItemControl2.BackColor = System.Drawing.Color.White;
             this.walletListItemControl2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.walletListItemControl2.Dock = System.Windows.Forms.DockStyle.Top;
             this.walletListItemControl2.IsSelected = false;
@@ -116,16 +116,16 @@
             this.walletListItemControl2.Size = new System.Drawing.Size(194, 56);
             this.walletListItemControl2.TabIndex = 1;
             // 
-            // toolStrip1
+            // toolStripWatchedAccounts
             // 
-            this.toolStrip1.CanOverflow = false;
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripWatchedAccounts.CanOverflow = false;
+            this.toolStripWatchedAccounts.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStripWatchedAccounts.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buttonAddWatched});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 19);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(194, 31);
-            this.toolStrip1.TabIndex = 3;
+            this.toolStripWatchedAccounts.Location = new System.Drawing.Point(3, 19);
+            this.toolStripWatchedAccounts.Name = "toolStripWatchedAccounts";
+            this.toolStripWatchedAccounts.Size = new System.Drawing.Size(194, 31);
+            this.toolStripWatchedAccounts.TabIndex = 3;
             // 
             // buttonAddWatched
             // 
@@ -164,7 +164,7 @@
             // 
             // walletListItemControl1
             // 
-            this.walletListItemControl1.BackColor = System.Drawing.SystemColors.Control;
+            this.walletListItemControl1.BackColor = System.Drawing.Color.White;
             this.walletListItemControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.walletListItemControl1.Dock = System.Windows.Forms.DockStyle.Top;
             this.walletListItemControl1.IsSelected = false;
@@ -255,8 +255,8 @@
             this.groupWatched.ResumeLayout(false);
             this.groupWatched.PerformLayout();
             this.panelWatchedAccounts.ResumeLayout(false);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.toolStripWatchedAccounts.ResumeLayout(false);
+            this.toolStripWatchedAccounts.PerformLayout();
             this.groupMyAccounts.ResumeLayout(false);
             this.groupMyAccounts.PerformLayout();
             this.panelMyAccounts.ResumeLayout(false);
@@ -285,7 +285,7 @@
         private GroupBox groupAccountDetails;
         private ContextMenuStrip accountContextMenu;
         private ToolStripMenuItem removeButton;
-        private ToolStrip toolStrip1;
+        private ToolStrip toolStripWatchedAccounts;
         private ToolStripButton buttonAddWatched;
     }
 }

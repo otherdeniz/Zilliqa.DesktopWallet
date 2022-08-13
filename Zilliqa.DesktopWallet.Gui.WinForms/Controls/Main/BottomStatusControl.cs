@@ -1,6 +1,8 @@
-﻿namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
+﻿using Zilliqa.DesktopWallet.Gui.WinForms.Forms;
+
+namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 {
-    public partial class BottomStatusControl : UserControl
+    public partial class BottomStatusControl : HighlitableBaseControl
     {
         public BottomStatusControl()
         {
@@ -12,6 +14,10 @@
             timerRefresh.Enabled = false;
         }
 
+        protected override void ClickAction()
+        {
+            BlockchainStatusForm.DisplayForm(this.ParentForm);
+        }
     }
 
 }

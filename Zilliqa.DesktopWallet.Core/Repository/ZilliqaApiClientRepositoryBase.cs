@@ -19,11 +19,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
         public void Dispose()
         {
             _refreshCancellationTokenSource.Cancel();
-            //if (_refreshCancellationTokenSource != null)
-            //{
-            //    _refreshCancellationTokenSource.Cancel();
-            //    _refreshCancellationTokenSource = null;
-            //}
+            //_refreshTask.GetAwaiter().GetResult();
         }
 
         protected virtual async Task RefreshFunction(CancellationToken cancellationToken)

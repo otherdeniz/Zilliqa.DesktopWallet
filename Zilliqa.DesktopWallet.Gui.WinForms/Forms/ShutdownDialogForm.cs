@@ -13,7 +13,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         {
             timerShutdown.Enabled = false;
             RepositoryManager.Instance.Shutdown();
-            Application.Exit();
+            //Application.Exit();
+            Close();
         }
     }
 }

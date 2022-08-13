@@ -1,12 +1,10 @@
 ﻿using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.ViewModel;
-using SystemColors = System.Drawing.SystemColors;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 {
-    public partial class WalletListItemControl : UserControl
+    public partial class WalletListItemControl : HighlitableBaseControl
     {
-        private bool _isSelected;
         private AccountViewModel _accountViewModel;
 
         public WalletListItemControl()
@@ -17,19 +15,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         public event EventHandler<EventArgs> ButtonClicked;
 
         public AccountViewModel Account => _accountViewModel;
-
-        public bool IsSelected
-        {
-            get
-            {
-                return _isSelected;
-            }
-            set
-            {
-                _isSelected = value;
-                this.BackColor = _isSelected ? Color.DarkSeaGreen : Color.White;
-            }
-        }
 
         public void AssignAccount(AccountViewModel account)
         {

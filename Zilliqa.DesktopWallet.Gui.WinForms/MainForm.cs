@@ -47,6 +47,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             {
                 buttonWallet_Click(this, EventArgs.Empty);
             }
+            else
+            {
+                Close();
+            }
         }
 
         private void timerInit_Tick(object sender, EventArgs e)
@@ -140,8 +144,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
                 // shutdown dialog does all the rest
                 _shutdownDialogForm = new ShutdownDialogForm();
                 _shutdownDialogForm.ShowDialog(this);
-
-                e.Cancel = true;
+                _shutdownDialogForm.Dispose();
             }
         }
     }
