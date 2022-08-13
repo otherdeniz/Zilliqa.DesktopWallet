@@ -7,7 +7,9 @@ namespace Zillifriends.Shared.Common
     {
         private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.All,
+            TypeNameHandling = TypeNameHandling.Auto,
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
 #if DEBUG
             Formatting = Formatting.Indented
 #endif

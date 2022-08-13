@@ -12,7 +12,7 @@ namespace Zilliqa.DesktopWallet.Core.Extensions
         private static readonly JsonSerializerSettings _settings = new JsonSerializerSettings
         {
             //ContractResolver = new AllPropertiesContractResolver(),
-            TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
             TypeNameHandling = TypeNameHandling.Auto,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
