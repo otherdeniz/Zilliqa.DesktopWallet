@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <Content Include="..\Zilliqa-icon.ico" Link="Zilliqa-icon.ico" />
-    <Content Include="Zilliqa-icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
