@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.panelRowStatus = new System.Windows.Forms.Panel();
             this.textStatus = new System.Windows.Forms.Label();
@@ -40,6 +41,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.textTransactionsCount = new System.Windows.Forms.Label();
             this.labelTransactionCount = new System.Windows.Forms.Label();
+            this.timerRefresh = new System.Windows.Forms.Timer(this.components);
             this.panelRowStatus.SuspendLayout();
             this.panelRowDbSize.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -99,9 +101,9 @@
             this.textDbSize.Location = new System.Drawing.Point(92, 3);
             this.textDbSize.Name = "textDbSize";
             this.textDbSize.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.textDbSize.Size = new System.Drawing.Size(40, 15);
+            this.textDbSize.Size = new System.Drawing.Size(26, 15);
             this.textDbSize.TabIndex = 1;
-            this.textDbSize.Text = "0 KB";
+            this.textDbSize.Text = "...";
             // 
             // label3
             // 
@@ -133,9 +135,9 @@
             this.textBlocksCount.Location = new System.Drawing.Point(118, 3);
             this.textBlocksCount.Name = "textBlocksCount";
             this.textBlocksCount.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.textBlocksCount.Size = new System.Drawing.Size(23, 15);
+            this.textBlocksCount.Size = new System.Drawing.Size(26, 15);
             this.textBlocksCount.TabIndex = 1;
-            this.textBlocksCount.Text = "0";
+            this.textBlocksCount.Text = "...";
             // 
             // labelBlocksCount
             // 
@@ -167,9 +169,9 @@
             this.textTransactionsCount.Location = new System.Drawing.Point(149, 3);
             this.textTransactionsCount.Name = "textTransactionsCount";
             this.textTransactionsCount.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.textTransactionsCount.Size = new System.Drawing.Size(23, 15);
+            this.textTransactionsCount.Size = new System.Drawing.Size(26, 15);
             this.textTransactionsCount.TabIndex = 1;
-            this.textTransactionsCount.Text = "0";
+            this.textTransactionsCount.Text = "...";
             // 
             // labelTransactionCount
             // 
@@ -182,10 +184,16 @@
             this.labelTransactionCount.TabIndex = 0;
             this.labelTransactionCount.Text = "Number of Transactions:";
             // 
+            // timerRefresh
+            // 
+            this.timerRefresh.Enabled = true;
+            this.timerRefresh.Interval = 2000;
+            // 
             // BottomStatusControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panelRowDbSize);
@@ -219,5 +227,6 @@
         private Panel panel1;
         private Label textTransactionsCount;
         private Label labelTransactionCount;
+        private System.Windows.Forms.Timer timerRefresh;
     }
 }

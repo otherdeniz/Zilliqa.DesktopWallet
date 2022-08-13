@@ -32,8 +32,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WalletAddressDetails));
             this.toolStripAccountActions = new System.Windows.Forms.ToolStrip();
             this.buttonSend = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.separatorSend = new System.Windows.Forms.ToolStripSeparator();
             this.buttonBackupPrivateKey = new System.Windows.Forms.ToolStripButton();
+            this.separatorBackup = new System.Windows.Forms.ToolStripSeparator();
+            this.buttonRemoveAccount = new System.Windows.Forms.ToolStripButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
@@ -70,9 +73,6 @@
             this.buttonClipboardAddress = new System.Windows.Forms.Button();
             this.textZilAddress = new System.Windows.Forms.Label();
             this.timerButtonPressed = new System.Windows.Forms.Timer(this.components);
-            this.buttonRemoveAccount = new System.Windows.Forms.ToolStripButton();
-            this.separatorBackup = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripAccountActions.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -118,6 +118,14 @@
             this.buttonSend.Size = new System.Drawing.Size(72, 22);
             this.buttonSend.Text = "Send ZIL";
             // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(136, 22);
+            this.toolStripButton1.Text = "Send Fungible Token";
+            // 
             // separatorSend
             // 
             this.separatorSend.Name = "separatorSend";
@@ -130,6 +138,19 @@
             this.buttonBackupPrivateKey.Name = "buttonBackupPrivateKey";
             this.buttonBackupPrivateKey.Size = new System.Drawing.Size(127, 22);
             this.buttonBackupPrivateKey.Text = "Backup Private Key";
+            // 
+            // separatorBackup
+            // 
+            this.separatorBackup.Name = "separatorBackup";
+            this.separatorBackup.Size = new System.Drawing.Size(6, 25);
+            // 
+            // buttonRemoveAccount
+            // 
+            this.buttonRemoveAccount.Image = ((System.Drawing.Image)(resources.GetObject("buttonRemoveAccount.Image")));
+            this.buttonRemoveAccount.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonRemoveAccount.Name = "buttonRemoveAccount";
+            this.buttonRemoveAccount.Size = new System.Drawing.Size(118, 22);
+            this.buttonRemoveAccount.Text = "Remove Account";
             // 
             // groupBox1
             // 
@@ -552,27 +573,6 @@
             // 
             this.timerButtonPressed.Interval = 2000;
             this.timerButtonPressed.Tick += new System.EventHandler(this.timerButtonPressed_Tick);
-            // 
-            // buttonRemoveAccount
-            // 
-            this.buttonRemoveAccount.Image = ((System.Drawing.Image)(resources.GetObject("buttonRemoveAccount.Image")));
-            this.buttonRemoveAccount.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.buttonRemoveAccount.Name = "buttonRemoveAccount";
-            this.buttonRemoveAccount.Size = new System.Drawing.Size(118, 22);
-            this.buttonRemoveAccount.Text = "Remove Account";
-            // 
-            // separatorBackup
-            // 
-            this.separatorBackup.Name = "separatorBackup";
-            this.separatorBackup.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(136, 22);
-            this.toolStripButton1.Text = "Send Fungible Token";
             // 
             // WalletAddressDetails
             // 

@@ -27,9 +27,14 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             dataGridView.DataSource = dataSource;
             if (dataSource.Count > 0)
             {
-                SelectedRow = _dataSourceList[0];
-                RowSelected?.Invoke(this, new RowSelectionEventArgs(SelectedRow));
+                OnSelectRow(0);
             }
+        }
+
+        private void OnSelectRow(int rowIndex)
+        {
+            SelectedRow = _dataSourceList[rowIndex];
+            RowSelected?.Invoke(this, new RowSelectionEventArgs(SelectedRow));
         }
 
         private void dataGridView_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -47,9 +52,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 
         private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (_dataSourceList == null) return;
-            SelectedRow = _dataSourceList[e.RowIndex];
-            RowSelected?.Invoke(this, new RowSelectionEventArgs(SelectedRow));
+            //TODO: add sorting features if Header clicked (RowIndex = -1)
+            if (_dataSourceList != null && e.RowIndex > -1)
+            {
+                OnSelectRow(e.RowIndex);
+            }
         }
 
         public class RowSelectionEventArgs : EventArgs

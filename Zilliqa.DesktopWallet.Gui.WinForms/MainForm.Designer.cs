@@ -65,7 +65,7 @@
             this.buttonBlockchain});
             this.toolStripMain.Location = new System.Drawing.Point(0, 0);
             this.toolStripMain.Name = "toolStripMain";
-            this.toolStripMain.Size = new System.Drawing.Size(1093, 31);
+            this.toolStripMain.Size = new System.Drawing.Size(1236, 31);
             this.toolStripMain.TabIndex = 0;
             this.toolStripMain.Text = "toolStrip1";
             // 
@@ -133,7 +133,7 @@
             this.panelMain.Location = new System.Drawing.Point(0, 31);
             this.panelMain.Name = "panelMain";
             this.panelMain.Padding = new System.Windows.Forms.Padding(2);
-            this.panelMain.Size = new System.Drawing.Size(1093, 538);
+            this.panelMain.Size = new System.Drawing.Size(1236, 625);
             this.panelMain.TabIndex = 1;
             // 
             // mainWalletControl
@@ -159,9 +159,9 @@
             this.panelBottom.Controls.Add(this.groupBoxNotifications);
             this.panelBottom.Controls.Add(this.groupBoxStatus);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelBottom.Location = new System.Drawing.Point(0, 569);
+            this.panelBottom.Location = new System.Drawing.Point(0, 656);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1093, 112);
+            this.panelBottom.Size = new System.Drawing.Size(1236, 112);
             this.panelBottom.TabIndex = 2;
             // 
             // groupBoxNotifications
@@ -171,7 +171,7 @@
             this.groupBoxNotifications.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.groupBoxNotifications.Location = new System.Drawing.Point(253, 0);
             this.groupBoxNotifications.Name = "groupBoxNotifications";
-            this.groupBoxNotifications.Size = new System.Drawing.Size(840, 112);
+            this.groupBoxNotifications.Size = new System.Drawing.Size(983, 112);
             this.groupBoxNotifications.TabIndex = 0;
             this.groupBoxNotifications.TabStop = false;
             this.groupBoxNotifications.Text = "Notifications";
@@ -182,7 +182,7 @@
             this.panelNotifications.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelNotifications.Location = new System.Drawing.Point(3, 19);
             this.panelNotifications.Name = "panelNotifications";
-            this.panelNotifications.Size = new System.Drawing.Size(834, 90);
+            this.panelNotifications.Size = new System.Drawing.Size(977, 90);
             this.panelNotifications.TabIndex = 0;
             // 
             // groupBoxStatus
@@ -216,7 +216,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1093, 681);
+            this.ClientSize = new System.Drawing.Size(1236, 768);
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelBottom);
             this.Controls.Add(this.toolStripMain);
@@ -224,6 +224,7 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Zilliqa Desktop Wallet";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.toolStripMain.ResumeLayout(false);
             this.toolStripMain.PerformLayout();

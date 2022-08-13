@@ -27,7 +27,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             set
             {
                 _isSelected = value;
-                this.BackColor = _isSelected ? SystemColors.ControlLight : SystemColors.Control;
+                this.BackColor = _isSelected ? Color.DarkSeaGreen : Color.White;
             }
         }
 

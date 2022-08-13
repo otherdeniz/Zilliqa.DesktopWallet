@@ -36,8 +36,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.ViewModel
         [GridViewFormat("#,##0")]
         public decimal MarketCapUsd => _model.MarketData.FullyDilutedValuationUsd;
 
-        [DisplayName("Change 24h")]
-        [GridViewFormat("0.0 '%'")]
-        public decimal ChangePercent24H => _model.MarketData.ChangePercentage24H;
+        [DisplayName("Max Supply")]
+        [GridViewFormat("#,##0")]
+        public decimal MaxSupply => _model.MarketData.MaxSupply;
+
+        //[DisplayName("Change 24h")]
+        //[GridViewFormat("0.0 '%'")]
+        //public decimal ChangePercent24H => _model.MarketData.ChangePercentage24H;
     }
 }

@@ -7,6 +7,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
     public partial class MainForm : Form
     {
         private Control? _mainTransientControl;
+        private ShutdownDialogForm? _shutdownDialogForm;
 
         public MainForm()
         {
@@ -84,7 +85,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
 
         private void buttonExit_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            Close();
         }
 
         private void ShowMainControl(Func<Control> getMainControl, ToolStripButton button, bool isTransient = false)
@@ -93,16 +94,19 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             {
                 return;
             }
+            // toggle selected button
             buttonBlockchain.Checked = false;
             buttonWallet.Checked = false;
             buttonTokens.Checked = false;
             button.Checked = true;
 
+            // hide everything
             foreach (Control panelMainControl in panelMain.Controls)
             {
                 panelMainControl.Visible = false;
             }
 
+            // remove transient control
             if (_mainTransientControl != null)
             {
                 panelMain.Controls.Remove(_mainTransientControl);
@@ -110,19 +114,35 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
                 _mainTransientControl = null;
             }
 
+            // focus-handle fix (windows removes the focus of the form if focus is on invisible handle)
             this.Focus();
 
+            // display new control
             var showControl = getMainControl();
             showControl.Dock = DockStyle.Fill;
-
             if (isTransient)
             {
                 _mainTransientControl = showControl;
                 panelMain.Controls.Add(showControl);
             }
-
             showControl.Visible = true;
         }
 
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (_shutdownDialogForm == null)
+            {
+                this.Enabled = false;
+
+                // stop all refresh Timers
+                bottomStatusControl1.StopRefresh();
+
+                // shutdown dialog does all the rest
+                _shutdownDialogForm = new ShutdownDialogForm();
+                _shutdownDialogForm.ShowDialog(this);
+
+                e.Cancel = true;
+            }
+        }
     }
 }
