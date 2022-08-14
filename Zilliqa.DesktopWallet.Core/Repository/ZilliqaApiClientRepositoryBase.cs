@@ -10,7 +10,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
 
         public ZilliqaApiClientRepositoryBase()
         {
-            _zilliqaApiClient = new ZilliqaClient(false);
+            _zilliqaApiClient = new ZilliqaClient();
             _refreshTask = Task.Run(async () => await RefreshFunction(_refreshCancellationTokenSource.Token));
         }
 

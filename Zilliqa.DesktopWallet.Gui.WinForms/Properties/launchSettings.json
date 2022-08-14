@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Zilliqa.DesktopWallet.Gui.WinForms": {
+      "commandName": "Project",
+      "commandLineArgs": "datapath=Debug"
+    }
+  }
+}

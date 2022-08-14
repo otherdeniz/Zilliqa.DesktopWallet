@@ -17,9 +17,14 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		public static readonly string TESTNET = "https://dev-api.zilliqa.com/";
 		public static readonly string MAINNET = "https://api.zilliqa.com/";
 
-		public ZilliqaClient(bool test = true) {
+		public static bool UseTestnet { get; set; }
+
+        public ZilliqaClient() : this(UseTestnet)
+        {
+        }
+		public ZilliqaClient(bool test) {
 			_client = test 
-                ?  new MusZil_APIClient(TESTNET)
+                ? new MusZil_APIClient(TESTNET)
                 : new MusZil_APIClient(MAINNET);
 		}
         public ZilliqaClient(string apiurl)

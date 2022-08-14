@@ -56,7 +56,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 
         private void buttonQueryAddr_Click(object sender, EventArgs e)
         {
-            var zilClient = new ZilliqaClient(false);
+            var zilClient = new ZilliqaClient();
 
             textApiResult.Text = "(quering balance...)";
             this.Refresh();

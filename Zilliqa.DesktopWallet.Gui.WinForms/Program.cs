@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using Zillifriends.Shared.Common;
-using Zilliqa.DesktopWallet.Core.Data;
+using Zilliqa.DesktopWallet.ApiClient;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms
 {
@@ -15,12 +15,25 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
 
-            DataPathBuilder.Setup("ZilliqaDesktopWallet");
+            var zilNetwork = GetArgumentValue(arguments, "network", "mainnet");
+            ZilliqaClient.UseTestnet = zilNetwork == "testnet";
 
-            Debug.WriteLine($"arguments: {arguments.Length}");
+            var dataPath = GetArgumentValue(arguments, "datapath", "Mainnet");
+            DataPathBuilder.Setup(Path.Combine("ZilliqaDesktopWallet", dataPath));
 
             ApplicationConfiguration.Initialize();
             Application.Run(new MainForm());
+        }
+
+        private static string GetArgumentValue(string[] arguments, string parameterName, string defaultValue = "")
+        {
+            var argument = arguments.FirstOrDefault(a => a.ToLower().StartsWith($"{parameterName}="));
+            if (argument != null && argument.Length > parameterName.Length + 1)
+            {
+                return argument.Substring(parameterName.Length + 1);
+            }
+
+            return defaultValue;
         }
     }
 }
