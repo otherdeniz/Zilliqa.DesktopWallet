@@ -9,7 +9,7 @@ namespace Zilligraph.Database.Storage.Index
         private readonly byte[] _valueHash;
         private readonly int _chunkSize;
         private List<IndexRecord>? _recordChunk;
-        private int _listPosition = -1;
+        private int _chunkPosition = -1;
 
         public IndexRecordEnumerable(IndexContentFile contentFile, ulong chainEntryPoint, byte[] valueHash, int chunkSize)
         {
@@ -31,19 +31,24 @@ namespace Zilligraph.Database.Storage.Index
 
         private IndexRecord? ReadNextRecord()
         {
-            if (_recordChunk == null || _listPosition > _recordChunk.Count - 1)
+            _chunkPosition++;
+            if (_recordChunk == null || _chunkPosition > _recordChunk.Count - 1)
             {
-                _recordChunk = _contentFile.ReadIndexesChunkt(GetNextEntryPoint(), _valueHash, _chunkSize);
-                _listPosition = -1;
+                var nextEntryPoint = GetNextEntryPoint();
+                if (nextEntryPoint == 0)
+                {
+                    return null;
+                }
+                _recordChunk = _contentFile.ReadIndexesChunkt(nextEntryPoint, _valueHash, _chunkSize);
+                _chunkPosition = 0;
             }
 
-            _listPosition++;
-            if (_listPosition > _recordChunk.Count)
+            if (_chunkPosition > _recordChunk.Count)
             {
                 return null;
             }
 
-            return _recordChunk[_listPosition];
+            return _recordChunk[_chunkPosition];
         }
 
         private ulong GetNextEntryPoint()
@@ -74,7 +79,7 @@ namespace Zilligraph.Database.Storage.Index
             public void Reset()
             {
                 _indexRecordEnumerable._recordChunk = null;
-                _indexRecordEnumerable._listPosition = -1;
+                _indexRecordEnumerable._chunkPosition = -1;
             }
 
 #pragma warning disable CS8766 //Nullability

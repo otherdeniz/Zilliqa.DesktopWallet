@@ -51,6 +51,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.Core.
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Zilliqa.DesktopWallet.WindowsInstaller", "Zilliqa.DesktopWallet.WindowsInstaller\Zilliqa.DesktopWallet.WindowsInstaller.vdproj", "{A4BAAED3-966D-4E26-92A1-02BACF6C0F0D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zilligraph.Database.Storage.IntegrationTests", "Zilligraph.Database\Zilligraph.Database.Storage.IntegrationTests\Zilligraph.Database.Storage.IntegrationTests.csproj", "{A03970F1-7D28-4920-B015-6377A021E249}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +129,10 @@ Global
 		{C6DE8D92-226C-495B-AFDB-A6D7A59D44E6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A4BAAED3-966D-4E26-92A1-02BACF6C0F0D}.Debug|Any CPU.ActiveCfg = Debug
 		{A4BAAED3-966D-4E26-92A1-02BACF6C0F0D}.Release|Any CPU.ActiveCfg = Release
+		{A03970F1-7D28-4920-B015-6377A021E249}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A03970F1-7D28-4920-B015-6377A021E249}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A03970F1-7D28-4920-B015-6377A021E249}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A03970F1-7D28-4920-B015-6377A021E249}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -152,6 +158,7 @@ Global
 		{AF483FF1-4FB1-46A7-85C1-67F61C02577E} = {58EA2C23-58CD-4EBC-A522-DC018C2F2DF6}
 		{C6DE8D92-226C-495B-AFDB-A6D7A59D44E6} = {7F110258-3BCE-4E17-836E-E784317FBB40}
 		{A4BAAED3-966D-4E26-92A1-02BACF6C0F0D} = {7F110258-3BCE-4E17-836E-E784317FBB40}
+		{A03970F1-7D28-4920-B015-6377A021E249} = {58EA2C23-58CD-4EBC-A522-DC018C2F2DF6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33F6C299-4831-4DA4-9B5F-65B8F3094132}

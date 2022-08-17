@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Zilligraph.Database.Storage.FilterQuery;
 using Zilligraph.Database.Storage.Index;
 
 namespace Zilligraph.Database.Storage.Table

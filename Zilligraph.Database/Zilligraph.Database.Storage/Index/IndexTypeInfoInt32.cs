@@ -8,7 +8,7 @@ public class IndexTypeInfoInt32 : IndexTypeInfoBase
     {
         if (value is int intValue)
         {
-            return BitConverter.GetBytes(intValue).Reverse().ToArray();
+            return BitConverter.GetBytes(intValue);
         }
 
         return NullHash;

@@ -8,7 +8,7 @@ public class IndexTypeInfoInt64 : IndexTypeInfoBase
     {
         if (value is long longValue)
         {
-            return BitConverter.GetBytes(longValue).Reverse().ToArray();
+            return BitConverter.GetBytes(longValue);
         }
 
         return NullHash;

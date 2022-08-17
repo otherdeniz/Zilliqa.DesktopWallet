@@ -1,6 +1,7 @@
 ﻿using System.IO.Compression;
 using System.Text;
 using Newtonsoft.Json;
+using Zillifriends.Shared.Common;
 
 namespace Zilligraph.Database.Storage.Extensions
 {
@@ -8,16 +9,20 @@ namespace Zilligraph.Database.Storage.Extensions
     {
         private static readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
         {
-            NullValueHandling = NullValueHandling.Ignore
+            NullValueHandling = NullValueHandling.Ignore,
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
+            TypeNameHandling = TypeNameHandling.Auto,
+            Formatting = Formatting.None
         };
 
         public static TResult DecompressObjectFromStream<TResult>(this Stream compressedStream)
         {
-            using (var gZipStream = new GZipStream(compressedStream, CompressionLevel.Fastest, true))
+            using (var gZipStream = new GZipStream(compressedStream, CompressionMode.Decompress, true))
             {
                 using (var reader = new StreamReader(gZipStream, Encoding.UTF8, leaveOpen: true))
                 {
-                    return JsonConvert.DeserializeObject<TResult>(reader.ReadToEnd(), _serializerSettings);
+                    return JsonConvert.DeserializeObject<TResult>(reader.ReadToEnd(), _serializerSettings)
+                        ?? throw new RuntimeException("DecompressObjectFromStream has returned null on DeserializeObject");
                 }
             }
         }
@@ -28,7 +33,7 @@ namespace Zilligraph.Database.Storage.Extensions
             {
                 using (var writer = new StreamWriter(gZipStream, Encoding.UTF8, leaveOpen: true))
                 {
-                    writer.Write(JsonConvert.SerializeObject(item, Formatting.None, _serializerSettings));
+                    writer.Write(JsonConvert.SerializeObject(item, _serializerSettings));
                 }
             }
         }
