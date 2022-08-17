@@ -9,7 +9,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Model
         public string Id { get; set; }
 
         [JsonProperty("amount")]
-        public long Amount { get; set; }
+        public double Amount { get; set; }
 
         [JsonProperty("data")]
         public string Data { get; set; }

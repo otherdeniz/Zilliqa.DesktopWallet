@@ -6,7 +6,7 @@ namespace Zilligraph.Database.Schema.ZilliqaBlockchain
     public class Transaction
     {
         [RequiredValue]
-        public long Block { get; set; }
+        public int Block { get; set; }
 
         public int TransactionType { get; set; }
 
@@ -18,7 +18,7 @@ namespace Zilligraph.Database.Schema.ZilliqaBlockchain
         [SchemaIndex]
         public string Id { get; set; }
 
-        public long Amount { get; set; }
+        public double Amount { get; set; }
 
         public string Data { get; set; }
 

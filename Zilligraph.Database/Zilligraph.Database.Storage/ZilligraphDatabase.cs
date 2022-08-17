@@ -22,17 +22,22 @@ namespace Zilligraph.Database.Storage
 
         public long GetDbSize()
         {
-            if (_dbSize == null)
+            var dbSize = _dbSize;
+            if (dbSize == null)
             {
-                _dbSize = 0;
-                foreach (var file in Directory.GetFiles(DatabasePath))
+                dbSize = 0;
+                foreach (var directory in Directory.GetDirectories(DatabasePath))
                 {
-                    var fileInfo = new FileInfo(file);
-                    _dbSize += fileInfo.Length;
+                    foreach (var file in Directory.GetFiles(directory))
+                    {
+                        var fileInfo = new FileInfo(file);
+                        dbSize += fileInfo.Length;
+                    }
                 }
             }
 
-            return _dbSize.GetValueOrDefault();
+            _dbSize = dbSize;
+            return dbSize.GetValueOrDefault();
         }
 
         internal void DbSizeChanged()

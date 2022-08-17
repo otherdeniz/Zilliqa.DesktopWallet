@@ -13,7 +13,8 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
         public static ZilliqaBlockchainCrawler Instance { get; } = new();
 
         private CancellationTokenSource? _refreshCancellationTokenSource;
-        private Task? _crawlerJobTask;
+        private Task? _transactionsCrawlerJobTask;
+        private Task? _blocksCrawlerJobTask;
         private int? _numberOfBlocks;
 
         private ZilliqaBlockchainCrawler()
@@ -36,19 +37,25 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
 
         public void Start(int startupDelaySeconds = 5)
         {
-            if (_crawlerJobTask == null)
+            if (_transactionsCrawlerJobTask == null)
             {
                 RunningState = RunningState.Running;
                 _refreshCancellationTokenSource = new CancellationTokenSource();
-                _crawlerJobTask = Task.Run(async () =>
+                CrawlerStateDat.Instance.EnsureExists();
+                _transactionsCrawlerJobTask = Task.Run(async () =>
                 {
                     try
                     {
-                        await CrawlerJob(startupDelaySeconds, _refreshCancellationTokenSource.Token);
+                        await TransactionsCrawlerJob(startupDelaySeconds, _refreshCancellationTokenSource.Token);
                     }
-                    catch (Exception)
+                    catch (TaskCanceledException)
+                    {
+                        // expected
+                    }
+                    catch (Exception e)
                     {
                         // logging!
+                        Debug.WriteLine(e.Message);
                     }
 
                     RunningState = RunningState.Stopped;
@@ -62,7 +69,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
             RunningState = RunningState.Stopping;
             _refreshCancellationTokenSource?.Cancel();
             _refreshCancellationTokenSource = null;
-            _crawlerJobTask = null;
+            _transactionsCrawlerJobTask = null;
             if (wait)
             {
                 while (RunningState != RunningState.Stopped)
@@ -74,12 +81,12 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
 
         private void SetNumberOfBlocksProcessed()
         {
-            NumberOfBlocksProcessed = CrawlerStateDat.Instance.HighestBlock > 0
-                ? CrawlerStateDat.Instance.HighestBlock - CrawlerStateDat.Instance.LowestBlock + 1
+            NumberOfBlocksProcessed = CrawlerStateDat.Instance.TransactionCrawler.HighestBlock > 0
+                ? CrawlerStateDat.Instance.TransactionCrawler.HighestBlock - CrawlerStateDat.Instance.TransactionCrawler.LowestBlock + 1
                 : 0;
         }
 
-        private async Task CrawlerJob(int startupDelaySeconds, CancellationToken cancellationToken)
+        private async Task TransactionsCrawlerJob(int startupDelaySeconds, CancellationToken cancellationToken)
         {
             await Task.Delay(startupDelaySeconds * 1000, cancellationToken);
             while (!cancellationToken.IsCancellationRequested)
@@ -93,17 +100,17 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                 if (newestBlock > 0)
                 {
                     var processBlockNumber = newestBlock;
-                    if (CrawlerStateDat.Instance.HighestBlock > 0)
+                    if (CrawlerStateDat.Instance.TransactionCrawler.HighestBlock > 0)
                     {
-                        if (CrawlerStateDat.Instance.HighestBlock < newestBlock)
+                        if (CrawlerStateDat.Instance.TransactionCrawler.HighestBlock < newestBlock)
                         {
                             // process form highest upwards
-                            processBlockNumber = CrawlerStateDat.Instance.HighestBlock + 1;
+                            processBlockNumber = CrawlerStateDat.Instance.TransactionCrawler.HighestBlock + 1;
                         }
-                        else if (CrawlerStateDat.Instance.LowestBlock > 1)
+                        else if (CrawlerStateDat.Instance.TransactionCrawler.LowestBlock > 1)
                         {
                             // process from lowest downwards
-                            processBlockNumber = CrawlerStateDat.Instance.LowestBlock - 1;
+                            processBlockNumber = CrawlerStateDat.Instance.TransactionCrawler.LowestBlock - 1;
                         }
                         else
                         {
@@ -121,23 +128,23 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                             var blockData = await apiclient.GetTxnBodiesForTxBlock(processBlockNumber);
                             foreach (var apiTransaction in blockData)
                             {
-                                var transactionModel = MapTransaction(apiTransaction);
+                                var transactionModel = MapTransaction(processBlockNumber, apiTransaction);
                                 dbTableTransaction.AddRecord(transactionModel);
                             }
 
-                            if (CrawlerStateDat.Instance.HighestBlock < processBlockNumber)
+                            if (CrawlerStateDat.Instance.TransactionCrawler.HighestBlock < processBlockNumber)
                             {
-                                CrawlerStateDat.Instance.HighestBlock = processBlockNumber;
+                                CrawlerStateDat.Instance.TransactionCrawler.HighestBlock = processBlockNumber;
                             }
-                            if (CrawlerStateDat.Instance.LowestBlock > processBlockNumber ||
-                                CrawlerStateDat.Instance.LowestBlock == 0)
+                            if (CrawlerStateDat.Instance.TransactionCrawler.LowestBlock > processBlockNumber ||
+                                CrawlerStateDat.Instance.TransactionCrawler.LowestBlock == 0)
                             {
-                                CrawlerStateDat.Instance.LowestBlock = processBlockNumber;
+                                CrawlerStateDat.Instance.TransactionCrawler.LowestBlock = processBlockNumber;
                             }
                             CrawlerStateDat.Instance.Save();
                             SetNumberOfBlocksProcessed();
 
-                            loopDelay = 100;
+                            loopDelay = 10;
                         }
                         catch (Exception e)
                         {
@@ -151,11 +158,16 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
             }
         }
 
-        private DbModel.Transaction MapTransaction(ApiModel.Transaction source)
+        private DbModel.Transaction MapTransaction(int blockNumber, ApiModel.Transaction source)
         {
             var model = source.MapToModel<ApiModel.Transaction, DbModel.Transaction>();
-
+            model.Block = blockNumber;
             return model;
+        }
+
+        private async Task BlocksCrawlerJob(int startupDelaySeconds, CancellationToken cancellationToken)
+        {
+
         }
     }
 

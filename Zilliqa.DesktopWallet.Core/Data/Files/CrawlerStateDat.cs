@@ -11,10 +11,17 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
 
         #region Fields
 
-        public int HighestBlock { get; set; }
+        public CrawlerByBlockState TransactionCrawler { get; set; } = new();
 
-        public int LowestBlock { get; set; }
+        public CrawlerByBlockState BlockCrawler { get; set; } = new();
 
         #endregion
+
+        public class CrawlerByBlockState
+        {
+            public int HighestBlock { get; set; }
+
+            public int LowestBlock { get; set; }
+        }
     }
 }

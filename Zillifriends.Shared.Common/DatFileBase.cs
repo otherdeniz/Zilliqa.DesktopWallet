@@ -15,6 +15,8 @@ namespace Zillifriends.Shared.Common
 #endif
         };
 
+        private readonly object _saveLock = new();
+
         protected virtual string? FilePath { get; set; }
 
         protected static TDatType Load<TDatType>() where TDatType : DatFileBase, new()
@@ -64,15 +66,26 @@ namespace Zillifriends.Shared.Common
 
         public virtual void Save()
         {
-            using (var fileStream = File.OpenWrite(FilePath ?? throw new MissingCodeException($"DatFile {this.GetType()} must be created using Load()")))
+            lock (_saveLock)
             {
-                using (var fileWriter = new StreamWriter(fileStream, Encoding.UTF8, leaveOpen: true))
+                using (var fileStream = File.OpenWrite(FilePath ?? throw new MissingCodeException($"DatFile {this.GetType()} must be created using Load()")))
                 {
-                    fileWriter.Write(JsonConvert.SerializeObject(this, SerializerSettings));
-                    fileWriter.Flush();
+                    using (var fileWriter = new StreamWriter(fileStream, Encoding.UTF8, leaveOpen: true))
+                    {
+                        fileWriter.Write(JsonConvert.SerializeObject(this, SerializerSettings));
+                        fileWriter.Flush();
+                    }
+                    fileStream.SetLength(fileStream.Position);
                 }
-                fileStream.SetLength(fileStream.Position);
             }
         }
+
+        public void EnsureExists()
+        {
+            // we call any function to ensure the instance is alive
+            // this is for synchronisation ensurance, when multiple tasks try to acces the first instance at once, we call this method before parallel Tasks begin
+            _ = GetType();
+        }
+
     }
 }
