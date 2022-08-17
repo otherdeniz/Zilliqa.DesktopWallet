@@ -18,7 +18,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             var zilNetwork = GetArgumentValue(arguments, "network", "mainnet");
             ZilliqaClient.UseTestnet = zilNetwork == "testnet";
 
-            var dataPath = GetArgumentValue(arguments, "datapath", "Mainnet");
+            var dataPath = GetArgumentValue(arguments, "datapath", ZilliqaClient.UseTestnet ? "Testnet" : "Mainnet");
             DataPathBuilder.Setup(Path.Combine("ZilliqaDesktopWallet", dataPath));
 
             ApplicationConfiguration.Initialize();

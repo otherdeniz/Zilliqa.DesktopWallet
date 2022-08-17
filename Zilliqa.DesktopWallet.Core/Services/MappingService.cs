@@ -12,6 +12,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
             Mapper = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new ZilstreamApiMappingProfile());
+                cfg.AddProfile(new ZilliqaApiToDbMappingProfile());
             }).CreateMapper();
         }
 

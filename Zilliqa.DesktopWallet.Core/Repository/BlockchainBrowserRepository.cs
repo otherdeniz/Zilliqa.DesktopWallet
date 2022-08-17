@@ -6,7 +6,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
     {
         public event EventHandler<EventArgs> AfterRefresh;
 
-        public BlockchainInfo BlockchainInfo { get; private set; }
+        public BlockchainInfo BlockchainInfo { get; private set; } = new();
 
         protected override async Task RefreshFunction(CancellationToken cancellationToken)
         {
@@ -14,7 +14,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
             {
                 BlockchainInfo = await ZilliqaApiClient.GetBlockchainInfo();
 
-                AfterRefresh.Invoke(this, EventArgs.Empty);
+                AfterRefresh?.Invoke(this, EventArgs.Empty);
 
                 await Task.Delay(30000, cancellationToken);
             }

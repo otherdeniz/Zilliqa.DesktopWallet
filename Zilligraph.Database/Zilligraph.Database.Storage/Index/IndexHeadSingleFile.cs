@@ -33,7 +33,7 @@ namespace Zilligraph.Database.Storage.Index
             return _indexPointers.Where(i => i > 0);
         }
 
-        public ulong GetIndexPoint(short hashPrefix16Bit)
+        public ulong GetIndexPoint(UInt16 hashPrefix16Bit)
         {
             if (_indexPointers == null)
             {
@@ -43,7 +43,7 @@ namespace Zilligraph.Database.Storage.Index
             return _indexPointers[hashPrefix16Bit];
         }
 
-        public void SetIndexPoint(short hashPrefix16Bit, ulong indexPoint)
+        public void SetIndexPoint(UInt16 hashPrefix16Bit, ulong indexPoint)
         {
             if (_indexPointers == null)
             {
@@ -64,7 +64,7 @@ namespace Zilligraph.Database.Storage.Index
 
         private ulong[] LoadOrCreateFile()
         {
-            var pointerArray = new ulong[2 ^ 16];
+            var pointerArray = new ulong[65536];
             lock (_fileLock)
             {
                 if (File.Exists(_filePath))

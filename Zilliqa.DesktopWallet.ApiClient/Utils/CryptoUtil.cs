@@ -11,7 +11,7 @@ using ECPoint = Org.BouncyCastle.Math.EC.ECPoint;
 
 namespace Zilliqa.DesktopWallet.ApiClient.Utils
 {
-    public class CryptoUtil
+    public static class CryptoUtil
     {
         
 
@@ -55,22 +55,27 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
             }
         }
 
-        /**
-         * @param privateKey hex string without 0x
-         * @return
-         */
-        public static string GetPublicKeyFromPrivateKey(string privateKey, bool compressed)
+        /// <summary>
+        /// privateKey hex string without 0x
+        /// </summary>
+        public static string GetPublicKeyFromPrivateKey(this string privateKeyHex, bool compressed)
         {
-            BigInteger bigInteger = new BigInteger(privateKey, 16);
+            BigInteger bigInteger = new BigInteger(privateKeyHex, 16);
             ECPoint point = GetPublicPointFromPrivate(bigInteger);
             return ByteUtil.ByteArrayToHexString(point.GetEncoded(compressed));
         }
 
-        public static string GetAddressFromPublicKey(string publicKey)
+        public static string GetAddressFromPublicKey(this string publicKey)
         {
-            SHA256 s = new SHA256Managed();
-            byte[] address = s.ComputeHash(ByteUtil.HexStringToByteArray(publicKey));
-            return ByteUtil.ByteArrayToHexString(address).Substring(24);
+            if (string.IsNullOrEmpty(publicKey))
+            {
+                return null;
+            }
+            using (SHA256 s = new SHA256Managed())
+            {
+                byte[] address = s.ComputeHash(ByteUtil.HexStringToByteArray(publicKey));
+                return ByteUtil.ByteArrayToHexString(address).Substring(24);
+            }
         }
 
         public static byte[] GenerateRandomBytes(int size)

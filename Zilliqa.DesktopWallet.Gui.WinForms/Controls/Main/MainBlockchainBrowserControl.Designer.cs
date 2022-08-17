@@ -227,6 +227,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "MainBlockchainBrowserControl";
             this.Size = new System.Drawing.Size(830, 587);
+            this.Load += new System.EventHandler(this.MainBlockchainBrowserControl_Load);
             this.panelCenter.ResumeLayout(false);
             this.panelCenter.PerformLayout();
             this.groupBox1.ResumeLayout(false);

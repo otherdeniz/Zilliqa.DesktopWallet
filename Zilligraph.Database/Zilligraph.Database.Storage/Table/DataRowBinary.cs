@@ -18,7 +18,7 @@ namespace Zilligraph.Database.Storage.Table
             };
             var lengthBuffer = new byte[4];
             _ = readableStream.Read(lengthBuffer, 0, 4);
-            rowBinary.RowLength = BitConverter.ToInt32(lengthBuffer);
+            rowBinary.RowLength = Convert.ToInt32(BitConverter.ToUInt32(lengthBuffer));
             rowBinary.CompressedRow = readableStream.ReadExactly(rowBinary.RowLength);
             return rowBinary;
         }
@@ -43,7 +43,7 @@ namespace Zilligraph.Database.Storage.Table
 
         public void WriteToStream(Stream writableStream)
         {
-            writableStream.Write(BitConverter.GetBytes(RowLength));
+            writableStream.Write(BitConverter.GetBytes(Convert.ToUInt32(RowLength)));
             writableStream.Write(CompressedRow);
         }
 

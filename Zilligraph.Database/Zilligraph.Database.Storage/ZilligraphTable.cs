@@ -46,7 +46,17 @@ namespace Zilligraph.Database.Storage
 
         public Dictionary<string, ZilligraphFieldIndex> FieldIndexes => _fieldIndexes ??=  GetFieldIndexes();
 
-        public void AddRecord(object record)
+        public void AddRecord(TRecordModel record)
+        {
+            AddRecordInternal(record);
+        }
+
+        void IZilligraphTable.AddRecord(object record)
+        {
+            AddRecordInternal(record);
+        }
+
+        private void AddRecordInternal(object record)
         {
             var dataFile = GetLastDataFile();
 
@@ -56,15 +66,20 @@ namespace Zilligraph.Database.Storage
             {
                 fieldIndex.Value.AddRecordIndex(recordPoint, record);
             }
+            Database.DbSizeChanged();
         }
 
         public IEnumerable<TRecordModel> FindRecords(IFilterQuery queryFilter)
         {
-            return new RecordsResultEnumerable<TRecordModel>(this,
-                FilterSearcherFactory.CreateFilterSearcher(this, queryFilter));
+            return FindRecordsInternal(queryFilter);
         }
 
         IEnumerable IZilligraphTable.FindRecords(IFilterQuery queryFilter)
+        {
+            return FindRecordsInternal(queryFilter);
+        }
+
+        private IEnumerable<TRecordModel> FindRecordsInternal(IFilterQuery queryFilter)
         {
             return new RecordsResultEnumerable<TRecordModel>(this,
                 FilterSearcherFactory.CreateFilterSearcher(this, queryFilter));

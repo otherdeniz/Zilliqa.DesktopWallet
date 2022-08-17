@@ -15,7 +15,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             InitializeComponent();
         }
 
-        public void Initialize()
+        private void Initialize()
         {
             if (_repository != null)
             {
@@ -81,6 +81,14 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             }).GetAwaiter().GetResult();
 
             textApiResult.Text = resultText;
+        }
+
+        private void MainBlockchainBrowserControl_Load(object sender, EventArgs e)
+        {
+            if (!DesignMode)
+            {
+                Initialize();
+            }
         }
     }
 }

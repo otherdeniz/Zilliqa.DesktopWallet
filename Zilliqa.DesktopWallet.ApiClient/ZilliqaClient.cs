@@ -7,7 +7,7 @@ using Zilliqa.DesktopWallet.ApiClient.API;
 using Zilliqa.DesktopWallet.ApiClient.Blockchain;
 using Zilliqa.DesktopWallet.ApiClient.Contracts;
 using Zilliqa.DesktopWallet.ApiClient.Interfaces;
-using Zilliqa.DesktopWallet.ApiClient.Transactions;
+using Zilliqa.DesktopWallet.ApiClient.Model;
 
 namespace Zilliqa.DesktopWallet.ApiClient
 {

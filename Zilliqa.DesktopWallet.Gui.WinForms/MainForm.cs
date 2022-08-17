@@ -73,7 +73,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
 
         private void buttonBlockchain_Click(object sender, EventArgs e)
         {
-            mainBlockchainBrowserControl.Initialize();
             ShowMainControl(() => mainBlockchainBrowserControl, buttonBlockchain);
         }
 

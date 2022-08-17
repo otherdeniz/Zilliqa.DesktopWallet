@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Zilliqa.DesktopWallet.ApiClient.Transactions;
+using Zilliqa.DesktopWallet.ApiClient.Model;
 
 namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
 {

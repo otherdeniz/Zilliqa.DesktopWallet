@@ -1,14 +1,10 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Zilliqa.DesktopWallet.ApiClient.Transactions
+namespace Zilliqa.DesktopWallet.ApiClient.Model
 {
     public class Transaction
     {
-        private bool _normalTx;
-        private long _gasLimit;
-        private int _version;
-
         [JsonProperty("ID")]
         public string Id { get; set; }
 
@@ -18,17 +14,16 @@ namespace Zilliqa.DesktopWallet.ApiClient.Transactions
         [JsonProperty("data")]
         public string Data { get; set; }
 
+        [JsonProperty("code")]
+        public string Code { get; set; }
+
         [JsonProperty("gasLimit")]
-        public long GasLimit { 
-            get => _gasLimit;
-            set { 
-                   if (_normalTx && value <= 1000000000000) {
-                    var zVal = value / 1000000000000;
-                    throw new ArgumentOutOfRangeException($"Normal transactions should have 1 gas, {zVal} found instead");
-                }
-                _gasLimit = value;
-            }
-        }
+        public long GasLimit { get; set; }
+        //if (_normalTx && _gasLimit <= 1000000000000)
+        //{
+        //    var zVal = _gasLimit / 1000000000000;
+        //    //throw new ArgumentOutOfRangeException($"Normal transactions should have 1 gas, {zVal} found instead");
+        //}
 
         [JsonProperty("gasPrice")]
         public long GasPrice { get; set; }
@@ -36,17 +31,17 @@ namespace Zilliqa.DesktopWallet.ApiClient.Transactions
         [JsonProperty("nonce")]
         public long Nonce { get; set; }
 
-        [JsonProperty("receipt")]
-        public Receipt Receipt { get; set; }
-
         [JsonProperty("senderPubKey")]
         public string SenderPubKey { get; set; }
 
+        [JsonProperty("toAddr")]
+        public string ToAddress { get; set; }
+
+        [JsonProperty("receipt")]
+        public Receipt Receipt { get; set; }
+
         [JsonProperty("signature")]
         public string Signature { get; set; }
-
-        [JsonProperty("toAddr")]
-        public string ToAddr { get; set; }
 
         [JsonProperty("version")]
         public int Version {get;set;}
@@ -61,7 +56,25 @@ namespace Zilliqa.DesktopWallet.ApiClient.Transactions
 
     }
 
-    public partial class EventLog
+    public class Receipt
+    {
+        [JsonProperty("cumulative_gas")]
+        public long CumulativeGas { get; set; }
+
+        [JsonProperty("epoch_num")]
+        public long EpochNum { get; set; }
+
+        [JsonProperty("event_logs")]
+        public List<EventLog> EventLogs { get; set; }
+
+        [JsonProperty("success")]
+        public bool Success { get; set; }
+
+        [JsonProperty("transitions")]
+        public List<Transition> Transitions { get; set; }
+    }
+
+    public class EventLog
     {
         [JsonProperty("_eventname")]
         public string Eventname { get; set; }
@@ -70,22 +83,22 @@ namespace Zilliqa.DesktopWallet.ApiClient.Transactions
         public string Address { get; set; }
 
         [JsonProperty("params")]
-        public Param[] Params { get; set; }
+        public List<Param> Params { get; set; }
     }
 
-    public partial class Param
+    public class Param
     {
         [JsonProperty("type")]
         public string Type { get; set; }
 
         [JsonProperty("value")]
-        public string Value { get; set; }
+        public object Value { get; set; }
 
         [JsonProperty("vname")]
         public string Vname { get; set; }
     }
 
-    public partial class Transition
+    public class Transition
     {
         [JsonProperty("addr")]
         public string Addr { get; set; }

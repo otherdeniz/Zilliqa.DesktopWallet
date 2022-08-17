@@ -37,7 +37,7 @@ namespace Zilligraph.Database.Storage
         {
             var propertyValue = _propertyInfo.GetValue(record);
             var hashBytes = IndexTypeInfo.GetHashBytes(propertyValue);
-            var hashPrefix16Bit = BitConverter.ToInt16(hashBytes, 0);
+            var hashPrefix16Bit = BitConverter.ToUInt16(hashBytes, 0);
             var indexChainEntry = _indexHeadFile.GetIndexPoint(hashPrefix16Bit);
             if (indexChainEntry == 0)
             {
@@ -53,7 +53,7 @@ namespace Zilligraph.Database.Storage
         public IEnumerable<IndexRecord> SearchIndexes(object? propertyValue)
         {
             var hashBytes = IndexTypeInfo.GetHashBytes(propertyValue);
-            var hashPrefix16Bit = BitConverter.ToInt16(hashBytes, 0);
+            var hashPrefix16Bit = BitConverter.ToUInt16(hashBytes, 0);
             var indexChainEntry = _indexHeadFile.GetIndexPoint(hashPrefix16Bit);
             if (indexChainEntry == 0)
             {

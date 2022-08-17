@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Zilliqa.DesktopWallet.ApiClient.Transactions
+namespace Zilliqa.DesktopWallet.ApiClient.Model
 {
     public class Msg
     {

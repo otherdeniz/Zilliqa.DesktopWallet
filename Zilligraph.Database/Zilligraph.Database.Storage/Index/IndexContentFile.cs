@@ -8,7 +8,7 @@ namespace Zilligraph.Database.Storage.Index
         private readonly int _hashBytesLength;
         private readonly string _filePath;
         private readonly object _fileLock = new();
-        private readonly byte[] _lastRecordPointer = BitConverter.GetBytes((long)0);
+        private readonly byte[] _lastRecordPointer = BitConverter.GetBytes((ulong)0);
 
         public IndexContentFile(ZilligraphFieldIndex fieldIndex, int hashBytesLength)
         {

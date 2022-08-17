@@ -7,7 +7,7 @@ namespace Zilligraph.Database.Storage
     {
         private readonly Dictionary<Type, IZilligraphTable> _tables = new();
 
-        public string DatabasePath { get; }
+        private long? _dbSize;
 
         public ZilligraphDatabase(string databasePath)
         {
@@ -16,6 +16,28 @@ namespace Zilligraph.Database.Storage
             {
                 Directory.CreateDirectory(databasePath);
             }
+        }
+
+        public string DatabasePath { get; }
+
+        public long GetDbSize()
+        {
+            if (_dbSize == null)
+            {
+                _dbSize = 0;
+                foreach (var file in Directory.GetFiles(DatabasePath))
+                {
+                    var fileInfo = new FileInfo(file);
+                    _dbSize += fileInfo.Length;
+                }
+            }
+
+            return _dbSize.GetValueOrDefault();
+        }
+
+        internal void DbSizeChanged()
+        {
+            _dbSize = null;
         }
 
         public ZilligraphTable<TRecordModel> GetTable<TRecordModel>() where TRecordModel : class, new()

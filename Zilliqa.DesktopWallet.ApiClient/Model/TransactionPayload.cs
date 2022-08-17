@@ -5,7 +5,7 @@ using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Utilities;
 using Zilliqa.DesktopWallet.ApiClient.Utils;
 
-namespace Zilliqa.DesktopWallet.ApiClient.Transactions
+namespace Zilliqa.DesktopWallet.ApiClient.Model
 {
     public class TransactionPayload
     {

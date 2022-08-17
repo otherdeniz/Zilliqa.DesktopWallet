@@ -1,6 +1,6 @@
 ﻿using System;
 using Zilliqa.DesktopWallet.ApiClient.Crypto;
-using Zilliqa.DesktopWallet.ApiClient.Transactions;
+using Zilliqa.DesktopWallet.ApiClient.Model;
 using Zilliqa.DesktopWallet.ApiClient.Utils;
 
 namespace Zilliqa.DesktopWallet.ApiClient.Accounts

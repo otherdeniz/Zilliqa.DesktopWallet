@@ -1,21 +1,34 @@
-﻿using Zilligraph.Database.Definition;
+﻿using Newtonsoft.Json;
+using Zilligraph.Database.Definition;
 
 namespace Zilligraph.Database.Schema.ZilliqaBlockchain
 {
     public class Transaction
     {
+        [RequiredValue]
         public long Block { get; set; }
 
-        [SchemaIndex]
         public int TransactionType { get; set; }
 
-        public string ID { get; set; }
+        [JsonIgnore]
+        public TransactionType TransactionTypeEnum 
+            => (ZilliqaBlockchain.TransactionType)TransactionType;
+
+        [RequiredValue]
+        [SchemaIndex]
+        public string Id { get; set; }
 
         public long Amount { get; set; }
 
-        public int GasLimit { get; set; }
+        public string Data { get; set; }
 
-        public int Nonce { get; set; }
+        public string Code { get; set; }
+
+        public long GasLimit { get; set; }
+
+        public long GasPrice { get; set; }
+
+        public long Nonce { get; set; }
 
         public string SenderPubKey { get; set; }
 
@@ -25,8 +38,6 @@ namespace Zilligraph.Database.Schema.ZilliqaBlockchain
         [SchemaIndex]
         public string ToAddress { get; set; }
 
-        public string Data { get; set; }
-
         public TransactionContractDeployment? ContractDeployment { get; set; }
 
         public TransactionContractCall? ContractCall { get; set; }
@@ -34,6 +45,7 @@ namespace Zilligraph.Database.Schema.ZilliqaBlockchain
 
     public enum TransactionType
     {
+        Unknown = 0,
         Payment = 1,
         ContractDeployment = 2,
         ContractCall = 3,

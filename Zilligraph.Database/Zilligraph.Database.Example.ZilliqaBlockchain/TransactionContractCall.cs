@@ -19,7 +19,8 @@ namespace Zilligraph.Database.Schema.ZilliqaBlockchain
         [JsonProperty("t")]
         public string Tag { get; set; }
 
-        [JsonProperty("p")] public List<ContractCallParameter> Parameters { get; set; } = new();
+        [JsonProperty("p")] 
+        public List<ContractCallParameter> Parameters { get; set; } = new();
     }
 
     public class ContractCallParameter
@@ -28,6 +29,6 @@ namespace Zilligraph.Database.Schema.ZilliqaBlockchain
 
         public string Type { get; set; }
 
-
+        public string Value { get; set; }
     }
 }

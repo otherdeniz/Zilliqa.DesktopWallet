@@ -8,6 +8,8 @@ namespace Zilliqa.DesktopWallet.Core.Mappings
     {
         public ZilstreamApiMappingProfile()
         {
+            // from "Zilliqa.DesktopWallet.ApiClient.ZilstreamApi.Model"
+            // to   "Zilliqa.DesktopWallet.Core.Data.Model"
             CreateMap<ZilstreamToken, TokenModel>();
             CreateMap<ZilstreamTokenMarketData, TokenMarketDataModel>();
         }

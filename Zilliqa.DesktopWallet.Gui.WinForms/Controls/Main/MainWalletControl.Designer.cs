@@ -64,8 +64,8 @@
             // splitContainerWallet.Panel2
             // 
             this.splitContainerWallet.Panel2.Controls.Add(this.groupAccountDetails);
-            this.splitContainerWallet.Size = new System.Drawing.Size(797, 491);
-            this.splitContainerWallet.SplitterDistance = 200;
+            this.splitContainerWallet.Size = new System.Drawing.Size(883, 494);
+            this.splitContainerWallet.SplitterDistance = 270;
             this.splitContainerWallet.TabIndex = 0;
             // 
             // panelWalletList
@@ -76,7 +76,7 @@
             this.panelWalletList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelWalletList.Location = new System.Drawing.Point(0, 0);
             this.panelWalletList.Name = "panelWalletList";
-            this.panelWalletList.Size = new System.Drawing.Size(200, 491);
+            this.panelWalletList.Size = new System.Drawing.Size(270, 494);
             this.panelWalletList.TabIndex = 1;
             // 
             // groupWatched
@@ -89,7 +89,7 @@
             this.groupWatched.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.groupWatched.Location = new System.Drawing.Point(0, 109);
             this.groupWatched.Name = "groupWatched";
-            this.groupWatched.Size = new System.Drawing.Size(200, 109);
+            this.groupWatched.Size = new System.Drawing.Size(270, 109);
             this.groupWatched.TabIndex = 4;
             this.groupWatched.TabStop = false;
             this.groupWatched.Text = "Watched Accounts";
@@ -102,7 +102,7 @@
             this.panelWatchedAccounts.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelWatchedAccounts.Location = new System.Drawing.Point(3, 50);
             this.panelWatchedAccounts.Name = "panelWatchedAccounts";
-            this.panelWatchedAccounts.Size = new System.Drawing.Size(194, 56);
+            this.panelWatchedAccounts.Size = new System.Drawing.Size(264, 56);
             this.panelWatchedAccounts.TabIndex = 2;
             // 
             // walletListItemControl2
@@ -113,7 +113,7 @@
             this.walletListItemControl2.IsSelected = false;
             this.walletListItemControl2.Location = new System.Drawing.Point(0, 0);
             this.walletListItemControl2.Name = "walletListItemControl2";
-            this.walletListItemControl2.Size = new System.Drawing.Size(194, 56);
+            this.walletListItemControl2.Size = new System.Drawing.Size(264, 56);
             this.walletListItemControl2.TabIndex = 1;
             // 
             // toolStripWatchedAccounts
@@ -124,7 +124,7 @@
             this.buttonAddWatched});
             this.toolStripWatchedAccounts.Location = new System.Drawing.Point(3, 19);
             this.toolStripWatchedAccounts.Name = "toolStripWatchedAccounts";
-            this.toolStripWatchedAccounts.Size = new System.Drawing.Size(194, 31);
+            this.toolStripWatchedAccounts.Size = new System.Drawing.Size(264, 31);
             this.toolStripWatchedAccounts.TabIndex = 3;
             // 
             // buttonAddWatched
@@ -132,8 +132,8 @@
             this.buttonAddWatched.Image = ((System.Drawing.Image)(resources.GetObject("buttonAddWatched.Image")));
             this.buttonAddWatched.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonAddWatched.Name = "buttonAddWatched";
-            this.buttonAddWatched.Size = new System.Drawing.Size(57, 28);
-            this.buttonAddWatched.Text = "Add";
+            this.buttonAddWatched.Size = new System.Drawing.Size(168, 28);
+            this.buttonAddWatched.Text = "Add Address to Watchlist";
             this.buttonAddWatched.Click += new System.EventHandler(this.buttonAddWatched_Click);
             // 
             // groupMyAccounts
@@ -146,7 +146,7 @@
             this.groupMyAccounts.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.groupMyAccounts.Location = new System.Drawing.Point(0, 0);
             this.groupMyAccounts.Name = "groupMyAccounts";
-            this.groupMyAccounts.Size = new System.Drawing.Size(200, 109);
+            this.groupMyAccounts.Size = new System.Drawing.Size(270, 109);
             this.groupMyAccounts.TabIndex = 3;
             this.groupMyAccounts.TabStop = false;
             this.groupMyAccounts.Text = "My Accounts";
@@ -159,7 +159,7 @@
             this.panelMyAccounts.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelMyAccounts.Location = new System.Drawing.Point(3, 50);
             this.panelMyAccounts.Name = "panelMyAccounts";
-            this.panelMyAccounts.Size = new System.Drawing.Size(194, 56);
+            this.panelMyAccounts.Size = new System.Drawing.Size(264, 56);
             this.panelMyAccounts.TabIndex = 1;
             // 
             // walletListItemControl1
@@ -170,7 +170,7 @@
             this.walletListItemControl1.IsSelected = false;
             this.walletListItemControl1.Location = new System.Drawing.Point(0, 0);
             this.walletListItemControl1.Name = "walletListItemControl1";
-            this.walletListItemControl1.Size = new System.Drawing.Size(194, 56);
+            this.walletListItemControl1.Size = new System.Drawing.Size(264, 56);
             this.walletListItemControl1.TabIndex = 1;
             // 
             // toolStripWalletList
@@ -182,7 +182,7 @@
             this.toolImport});
             this.toolStripWalletList.Location = new System.Drawing.Point(3, 19);
             this.toolStripWalletList.Name = "toolStripWalletList";
-            this.toolStripWalletList.Size = new System.Drawing.Size(194, 31);
+            this.toolStripWalletList.Size = new System.Drawing.Size(264, 31);
             this.toolStripWalletList.TabIndex = 0;
             // 
             // buttonCreate
@@ -190,8 +190,8 @@
             this.buttonCreate.Image = ((System.Drawing.Image)(resources.GetObject("buttonCreate.Image")));
             this.buttonCreate.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonCreate.Name = "buttonCreate";
-            this.buttonCreate.Size = new System.Drawing.Size(69, 28);
-            this.buttonCreate.Text = "Create";
+            this.buttonCreate.Size = new System.Drawing.Size(96, 28);
+            this.buttonCreate.Text = "Create New";
             this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
             // 
             // toolImport
@@ -199,8 +199,8 @@
             this.toolImport.Image = ((System.Drawing.Image)(resources.GetObject("toolImport.Image")));
             this.toolImport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolImport.Name = "toolImport";
-            this.toolImport.Size = new System.Drawing.Size(71, 28);
-            this.toolImport.Text = "Import";
+            this.toolImport.Size = new System.Drawing.Size(121, 28);
+            this.toolImport.Text = "Import / Restore";
             this.toolImport.Click += new System.EventHandler(this.toolImport_Click);
             // 
             // groupAccountDetails
@@ -210,7 +210,7 @@
             this.groupAccountDetails.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.groupAccountDetails.Location = new System.Drawing.Point(0, 0);
             this.groupAccountDetails.Name = "groupAccountDetails";
-            this.groupAccountDetails.Size = new System.Drawing.Size(593, 491);
+            this.groupAccountDetails.Size = new System.Drawing.Size(609, 494);
             this.groupAccountDetails.TabIndex = 1;
             this.groupAccountDetails.TabStop = false;
             this.groupAccountDetails.Text = "Details";
@@ -222,7 +222,7 @@
             this.panelAccountDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelAccountDetails.Location = new System.Drawing.Point(3, 19);
             this.panelAccountDetails.Name = "panelAccountDetails";
-            this.panelAccountDetails.Size = new System.Drawing.Size(587, 469);
+            this.panelAccountDetails.Size = new System.Drawing.Size(603, 472);
             this.panelAccountDetails.TabIndex = 0;
             // 
             // accountContextMenu
@@ -245,7 +245,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainerWallet);
             this.Name = "MainWalletControl";
-            this.Size = new System.Drawing.Size(797, 491);
+            this.Size = new System.Drawing.Size(883, 494);
             this.splitContainerWallet.Panel1.ResumeLayout(false);
             this.splitContainerWallet.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerWallet)).EndInit();

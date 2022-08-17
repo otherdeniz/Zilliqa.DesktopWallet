@@ -12,8 +12,16 @@ namespace Zilligraph.Database.Storage.Index
             {
                 return new IndexTypeInfoText();
             }
+            if (valueType == typeof(int))
+            {
+                return new IndexTypeInfoInt32();
+            }
+            if (valueType == typeof(long))
+            {
+                return new IndexTypeInfoInt64();
+            }
 
-            throw new RuntimeException($"value Type {valueType} not supported");
+            throw new RuntimeException($"value Type {valueType} not supported as Index");
         }
 
         protected byte[] NullHash => _nullHash ??= new byte[HashLength];
