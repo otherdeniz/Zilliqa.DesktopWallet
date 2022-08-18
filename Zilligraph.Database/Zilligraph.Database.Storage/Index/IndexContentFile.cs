@@ -58,6 +58,11 @@ namespace Zilligraph.Database.Storage.Index
             }
         }
 
+        public IndexRecord? GetFirstIndex(ulong chainEntryPoint, byte[] valueHash)
+        {
+            return new IndexRecordEnumerable(this, chainEntryPoint, valueHash, 1).FirstOrDefault();
+        }
+
         public IEnumerable<IndexRecord> EnumerateIndexes(ulong chainEntryPoint, byte[] valueHash)
         {
             return new IndexRecordEnumerable(this, chainEntryPoint, valueHash, _enumerationChunkSize);

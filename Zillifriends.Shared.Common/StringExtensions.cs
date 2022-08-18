@@ -27,5 +27,16 @@
             var gb = Convert.ToDouble(byteCount) / Convert.ToDouble(GB_VALUE);
             return $"{gb:0.000} GB";
         }
+
+        public static DateTime UnixTimestampToDateTime(this string timestamp)
+        {
+            if (long.TryParse(timestamp, out var longValue))
+            {
+                var date = DateTimeOffset.FromUnixTimeMilliseconds(longValue / 1000);
+                return date.DateTime;
+            }
+
+            return DateTime.UnixEpoch;
+        }
     }
 }

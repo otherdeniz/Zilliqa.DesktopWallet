@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Zillifriends.Shared.Common;
+﻿using Zillifriends.Shared.Common;
 using Zilligraph.Database.Storage.FilterQuery;
 
 namespace Zilligraph.Database.Storage.Index

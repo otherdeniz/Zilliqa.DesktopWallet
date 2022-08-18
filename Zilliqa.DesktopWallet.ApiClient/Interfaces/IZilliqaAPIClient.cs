@@ -44,5 +44,6 @@ namespace Zilliqa.DesktopWallet.ApiClient.Interfaces
         Task<T> GetTxBlockListing(int pageNumber);
         Task<T> GetTxBlockRate();
         Task<T> GetTxnBodiesForTxBlock(string blockNum);
+        Task<T> GetTxnBodiesForTxBlockEx(string blockNum, string pageNum);
     }
 }

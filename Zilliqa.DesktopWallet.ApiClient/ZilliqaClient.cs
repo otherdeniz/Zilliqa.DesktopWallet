@@ -4,14 +4,13 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Zilliqa.DesktopWallet.ApiClient.Accounts;
 using Zilliqa.DesktopWallet.ApiClient.API;
-using Zilliqa.DesktopWallet.ApiClient.Blockchain;
 using Zilliqa.DesktopWallet.ApiClient.Contracts;
 using Zilliqa.DesktopWallet.ApiClient.Interfaces;
 using Zilliqa.DesktopWallet.ApiClient.Model;
 
 namespace Zilliqa.DesktopWallet.ApiClient
 {
-	public class ZilliqaClient
+    public class ZilliqaClient
     {
         private IZilliqaAPIClient<MusResult> _client;
 		public static readonly string TESTNET = "https://dev-api.zilliqa.com/";
@@ -72,9 +71,9 @@ namespace Zilliqa.DesktopWallet.ApiClient
 			return ((JToken)resp.Result).ToObject<BlockchainInfo>();
 		}
 
-		public async Task<DSBlock> GetDsBlock(string blockNumber)
+		public async Task<DSBlock> GetDsBlock(int blockNumber)
 		{
-			var resp = await _client.GetDsBlock(blockNumber);
+			var resp = await _client.GetDsBlock(blockNumber.ToString());
             ThrowOnError(resp);
 			return ((JToken)resp.Result).ToObject<DSBlock>();
 		}
@@ -102,9 +101,9 @@ namespace Zilliqa.DesktopWallet.ApiClient
             ThrowOnError(resp);
 			return ((JToken)resp.Result).ToObject<BlockListing>();
 		}
-		public async Task<TxBlock> GetTxBlock(string blockNumber)
+		public async Task<TxBlock> GetTxBlock(int blockNumber)
 		{
-			var resp = await _client.GetLatestDsBlock();
+			var resp = await _client.GetTxBlock(blockNumber.ToString());
             ThrowOnError(resp);
 			return ((JToken)resp.Result).ToObject<TxBlock>();
 		}
@@ -228,8 +227,6 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		/// <summary>
 		/// Gets all contracts for one address
 		/// </summary>
-		/// <param name="address"></param>
-		/// <returns></returns>
 		public async Task<List<SmartContract>> GetSmartContracts(string address)
 		{
 			var res = await _client.GetSmartContracts(address);
@@ -259,8 +256,6 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		/// <summary>
 		/// Gets the contract address from tnx Id
 		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
 		public async Task<Address> GetContractAddressFromTransactionID(string id)
 		{
 			var res = await _client.GetContractAddressFromTransactionID(id);
@@ -268,7 +263,6 @@ namespace Zilliqa.DesktopWallet.ApiClient
 			var address = new Address(res.Result.ToString());
 			return address;
 		}
-
 
 		public async Task<StateItem> GetSmartContractState(string address)
 		{
@@ -370,6 +364,7 @@ namespace Zilliqa.DesktopWallet.ApiClient
             ThrowOnError(res);
 			return ((JToken)res.Result).ToObject<List<PendingTransaction>>();
 		}
+
 		public async Task<List<Transaction>> GetTxnBodiesForTxBlock(int blockNum)
 		{
 			var res = await _client.GetTxnBodiesForTxBlock(blockNum.ToString());
@@ -385,9 +380,20 @@ namespace Zilliqa.DesktopWallet.ApiClient
 			return list;
 		}
 
+		/// <summary>
+		/// This API behaves similar to GetTxBodiesForTxBlock except it returns the transactions in batches (or pages) of 2,500.
+		/// This API is available from Zilliqa V7.2.0 onwards.
+		/// </summary>
+		public async Task<TransactionPage> GetTxnBodiesForTxBlockEx(int blockNum, int pageNum)
+        {
+            var res = await _client.GetTxnBodiesForTxBlockEx(blockNum.ToString(), pageNum.ToString());
+            ThrowOnError(res);
+            return ((JToken)res.Result).ToObject<TransactionPage>();
+        }
+
 		#endregion
 
-        private void ThrowOnError(MusResult result)
+		private void ThrowOnError(MusResult result)
         {
             if (result.Error)
             {

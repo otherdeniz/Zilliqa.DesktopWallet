@@ -1,4 +1,4 @@
-﻿using Zilliqa.DesktopWallet.ApiClient.Blockchain;
+﻿using Zilliqa.DesktopWallet.ApiClient.Model;
 
 namespace Zilliqa.DesktopWallet.Core.Repository
 {

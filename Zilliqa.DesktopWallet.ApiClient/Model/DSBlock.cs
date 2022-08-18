@@ -1,16 +1,19 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Zilliqa.DesktopWallet.ApiClient.Blockchain
+namespace Zilliqa.DesktopWallet.ApiClient.Model
 {
     public class DSBlock : BlockInfo
     {
         [JsonIgnore]
-        public override string BlockNum { get => Header.BlockNum; }
+        public override string BlockNum => Header.BlockNum;
+
         [JsonIgnore]
         public override string Hash { get; set; }
+
         [JsonProperty("header")]
         public DsBlockHeader Header { get; set; }
+
         [JsonProperty("signature")]
         public string Signature { get; set; }
     }

@@ -50,6 +50,19 @@ namespace Zilligraph.Database.Storage
             }
         }
 
+        public IndexRecord? GetFirstIndex(object propertyValue)
+        {
+            var hashBytes = IndexTypeInfo.GetHashBytes(propertyValue);
+            var hashPrefix16Bit = BitConverter.ToUInt16(hashBytes, 0);
+            var indexChainEntry = _indexHeadFile.GetIndexPoint(hashPrefix16Bit);
+            if (indexChainEntry == 0)
+            {
+                return null;
+            }
+
+            return _indexContentFile.GetFirstIndex(indexChainEntry, hashBytes);
+        }
+
         public IEnumerable<IndexRecord> SearchIndexes(object? propertyValue)
         {
             var hashBytes = IndexTypeInfo.GetHashBytes(propertyValue);

@@ -69,6 +69,20 @@ namespace Zilligraph.Database.Storage
             Database.DbSizeChanged();
         }
 
+        public TRecordModel? FindRecord(string propertyName, object value)
+        {
+            if (FieldIndexes.TryGetValue(propertyName, out var fieldIndex))
+            {
+                var recordIndex = fieldIndex.GetFirstIndex(value);
+                if (recordIndex != null)
+                {
+                    return ReadRecord(recordIndex.RecordPoint);
+                }
+            }
+
+            return null;
+        }
+
         public IEnumerable<TRecordModel> FindRecords(IFilterQuery queryFilter)
         {
             return FindRecordsInternal(queryFilter);

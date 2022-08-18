@@ -7,16 +7,14 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
     {
         public static MusResult GetResult(ref APIResponse response)
         {
-            var msg = "";
-            var error = CheckError(ref response, out msg);
+            var error = CheckError(ref response, out var msg);
             return new MusResult(response.Result, msg) { Error = error };
         }
 
         public static MusResult GetSubFromResult(ref APIResponse resp, string sub = "")
         {
-            var msg = "";
             var o = ((JObject)resp.Result)[sub];
-            var error = CheckError(ref resp, out msg);
+            var error = CheckError(ref resp, out var msg);
             return new MusResult(o, msg) { Error = error};
         }
 
@@ -32,8 +30,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
         {
             decimal balance = resp.Error != null ? -1 : (decimal)((JObject)resp.Result)["balance"];
             var bal = new Balance(balance);
-            var msg = "";
-            CheckError(ref resp, out msg);
+            CheckError(ref resp, out var msg);
             return new MusResult(bal.GetBalance(unit),msg);
         }
 
@@ -43,9 +40,8 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
 
         public static MusResult GetContractCode(ref APIResponse resp)
         {
-            var msg = "";
             var code = "";
-            if (!CheckError(ref resp, out msg))
+            if (!CheckError(ref resp, out var msg))
             {
                 code = (string)((JObject)resp.Result)["code"];
             }
@@ -55,9 +51,8 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
 
         public static MusResult GetContractBalance(ref APIResponse resp)
         {
-            var msg = "";
             decimal balance = -1;
-            if (!CheckError(ref resp, out msg))
+            if (!CheckError(ref resp, out var msg))
             {
                 balance = (decimal)((JObject)resp.Result)["_balance"];
             }
@@ -71,7 +66,9 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
         private static bool CheckError(ref APIResponse resp,out string message)
         {
             var isError = resp.Error != null;
-            message =  isError ? ((JObject)resp.Error)["message"].ToString() : "API Call Success";
+            message =  isError 
+                ? ((JObject)resp.Error)["message"]?.ToString() ?? "API Call Unknown Error"
+                : "API Call Success";
             return isError;
         }
 

@@ -272,12 +272,21 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 		}
+
 		public async Task<MusResult> GetTxnBodiesForTxBlock(string blockNum)
 		{
 			var req = RequestFactory.New("GetTxnBodiesForTxBlock", blockNum);
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 		}
+
+        public async Task<MusResult> GetTxnBodiesForTxBlockEx(string blockNum, string pageNum)
+        {
+            var req = RequestFactory.New("GetTxnBodiesForTxBlockEx", new object[] { blockNum, pageNum});
+            var result = await CallMethod(req);
+            return ResponseHandler.GetResult(ref result);
+        }
+
 		public async Task<MusResult> GetNumTxnsDSEpoch()
 		{
 			var req = RequestFactory.New("GetNumTxnsDSEpoch");

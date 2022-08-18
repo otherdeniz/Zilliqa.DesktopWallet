@@ -14,6 +14,7 @@ namespace Zilliqa.DesktopWallet.Core.Mappings
             CreateMap<ApiModel.Transaction, DbModel.Transaction>()
                 .ForMember(t => t.SenderAddress, s => s.MapFrom(m => m.SenderPubKey.GetAddressFromPublicKey()));
 
+
         }
     }
 }

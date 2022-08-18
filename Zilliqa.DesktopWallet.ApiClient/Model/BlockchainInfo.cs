@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 
-namespace Zilliqa.DesktopWallet.ApiClient.Blockchain
+namespace Zilliqa.DesktopWallet.ApiClient.Model
 {
     public class BlockchainInfo
     {

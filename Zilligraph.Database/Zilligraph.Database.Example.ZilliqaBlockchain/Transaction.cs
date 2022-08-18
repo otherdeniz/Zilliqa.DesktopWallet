@@ -6,13 +6,15 @@ namespace Zilligraph.Database.Schema.ZilliqaBlockchain
     public class Transaction
     {
         [RequiredValue]
-        public int Block { get; set; }
+        public int BlockNumber { get; set; }
+
+        [SchemaReference(nameof(BlockNumber), typeof(Block), nameof(ZilliqaBlockchain.Block.Number))]
+        public LazyReference<Block> Block { get; set; } = null!;
 
         public int TransactionType { get; set; }
 
         [JsonIgnore]
-        public TransactionType TransactionTypeEnum 
-            => (ZilliqaBlockchain.TransactionType)TransactionType;
+        public TransactionType TransactionTypeEnum => (TransactionType)TransactionType;
 
         [RequiredValue]
         [SchemaIndex]

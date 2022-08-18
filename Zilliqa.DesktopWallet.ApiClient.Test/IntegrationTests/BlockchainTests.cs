@@ -8,23 +8,24 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
     public class BlockchainTests:MusTest
     {
         [Test]
-        public async Task NetworkIdNotEmpty()
+        public async Task NetworkIdCorrectNumber()
         {
             var res = await _zil.GetNetworkId();
             Console.WriteLine($"Network Id: {res}");
-            Assert.AreEqual(333, res);
+            Assert.AreEqual(1, res);
         }
+
         [Test]
-        public async Task GetBlockchainInfoNotEmpty()
+        public async Task GetBlockchainInfoHasTransactions()
         {
             var res = await _zil.GetBlockchainInfo();
-            Assert.IsTrue( res != null);
+            Assert.AreNotEqual(0, long.Parse(res.NumTransactions));
         }
         
         [Test]
         public async Task GetDsBlockNotNull()
         {
-            var res = await _zil.GetDsBlock("1");
+            var res = await _zil.GetDsBlock(1);
             Assert.AreNotEqual(null, res);
         }
         [Test]
@@ -52,12 +53,15 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
             var res = await _zil.GetDSBlockListing(1);
             Assert.IsTrue(res.Data.Any());
         }
+
         [Test]
-        public async Task GetTxBlockNotNull()
+        public async Task GetTxBlockCorrectBlockNumber()
         {
-            var res = await _zil.GetTxBlock("40");
-            Assert.AreNotEqual(null, res);
+            var blockNumber = 40;
+            var res = await _zil.GetTxBlock(blockNumber);
+            Assert.AreEqual(blockNumber.ToString(), res.BlockNum);
         }
+
         [Test]
         public async Task GetLatestTxBlockNotNull()
         {
