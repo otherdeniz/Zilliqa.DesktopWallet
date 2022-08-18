@@ -15,13 +15,13 @@ namespace Zilligraph.Database.Storage.Index
         private readonly object _fileLock = new();
         private ulong[]? _indexPointers;
 
-        public IndexHeadSingleFile(ZilligraphFieldIndex fieldIndex)
+        public IndexHeadSingleFile(ZilligraphTableFieldIndex tableFieldIndex)
         {
-            FieldIndex = fieldIndex;
-            _filePath = fieldIndex.Table.PathBuilder.GetFilePath($"{fieldIndex.PropertyName}_index_head.bin");
+            TableFieldIndex = tableFieldIndex;
+            _filePath = tableFieldIndex.Table.PathBuilder.GetFilePath($"{tableFieldIndex.PropertyName}_index_head.bin");
         }
 
-        public ZilligraphFieldIndex FieldIndex { get; }
+        public ZilligraphTableFieldIndex TableFieldIndex { get; }
 
         public IEnumerable<ulong> GetAllIndexPoints()
         {

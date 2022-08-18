@@ -10,14 +10,14 @@ namespace Zilligraph.Database.Storage.Index
         private readonly object _fileLock = new();
         private readonly byte[] _lastRecordPointer = BitConverter.GetBytes((ulong)0);
 
-        public IndexContentFile(ZilligraphFieldIndex fieldIndex, int hashBytesLength)
+        public IndexContentFile(ZilligraphTableFieldIndex tableFieldIndex, int hashBytesLength)
         {
             _hashBytesLength = hashBytesLength;
-            FieldIndex = fieldIndex;
-            _filePath = fieldIndex.Table.PathBuilder.GetFilePath($"{fieldIndex.PropertyName}_index_content.bin");
+            TableFieldIndex = tableFieldIndex;
+            _filePath = tableFieldIndex.Table.PathBuilder.GetFilePath($"{tableFieldIndex.PropertyName}_index_content.bin");
         }
 
-        public ZilligraphFieldIndex FieldIndex { get; }
+        public ZilligraphTableFieldIndex TableFieldIndex { get; }
 
         public ulong CreateChain(byte[] indexHash, ulong recordPoint)
         {

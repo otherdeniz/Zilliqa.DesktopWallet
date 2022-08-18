@@ -3,6 +3,5 @@
     [AttributeUsage(AttributeTargets.Property)]
     public class SchemaIndexAttribute : Attribute
     {
-        public string[]? IncludeColumns { get; set; }
     }
 }

@@ -17,7 +17,8 @@ namespace Zilligraph.Database.Storage
         private readonly List<DataFile> _dataFiles = new();
         private TableInfo? _tableInfo;
         private Type? _recordType;
-        private Dictionary<string, ZilligraphFieldIndex>? _fieldIndexes;
+        private Dictionary<string, ZilligraphTableFieldIndex>? _fieldIndexes;
+        private List<ZilligraphTableFieldReference>? _fieldReferences;
 
         public ZilligraphTable(ZilligraphDatabase database)
         {
@@ -44,7 +45,9 @@ namespace Zilligraph.Database.Storage
 
         public TableInfo TableInfo => _tableInfo ??= TableInfo.Load(this);
 
-        public Dictionary<string, ZilligraphFieldIndex> FieldIndexes => _fieldIndexes ??=  GetFieldIndexes();
+        public Dictionary<string, ZilligraphTableFieldIndex> FieldIndexes => _fieldIndexes ??=  GetFieldIndexes();
+
+        public List<ZilligraphTableFieldReference> FieldReferences => _fieldReferences ??= GetFieldReferences();
 
         public void AddRecord(TRecordModel record)
         {
@@ -69,7 +72,17 @@ namespace Zilligraph.Database.Storage
             Database.DbSizeChanged();
         }
 
-        public TRecordModel? FindRecord(string propertyName, object value)
+        public TRecordModel? FindRecord(string propertyName, object value, bool resolveReferences = true)
+        {
+            return FindRecordInternal(propertyName, value, resolveReferences);
+        }
+
+        object? IZilligraphTable.FindRecord(string propertyName, object value, bool resolveReferences)
+        {
+            return FindRecordInternal(propertyName, value, resolveReferences);
+        }
+
+        private TRecordModel? FindRecordInternal(string propertyName, object value, bool resolveReferences)
         {
             if (FieldIndexes.TryGetValue(propertyName, out var fieldIndex))
             {
@@ -83,27 +96,44 @@ namespace Zilligraph.Database.Storage
             return null;
         }
 
-        public IEnumerable<TRecordModel> FindRecords(IFilterQuery queryFilter)
+        public IEnumerable<TRecordModel> FindRecords(IFilterQuery queryFilter, Func<TRecordModel, bool>? additionalFilter = null, bool resolveReferences = true)
         {
-            return FindRecordsInternal(queryFilter);
+            return FindRecordsInternal(queryFilter, additionalFilter, resolveReferences);
         }
 
-        IEnumerable IZilligraphTable.FindRecords(IFilterQuery queryFilter)
+        IEnumerable IZilligraphTable.FindRecords(IFilterQuery queryFilter, bool resolveReferences)
         {
-            return FindRecordsInternal(queryFilter);
+            return FindRecordsInternal(queryFilter, null, resolveReferences);
         }
 
-        private IEnumerable<TRecordModel> FindRecordsInternal(IFilterQuery queryFilter)
+        private IEnumerable<TRecordModel> FindRecordsInternal(IFilterQuery queryFilter, Func<TRecordModel, bool>? additionalFilter, bool resolveReferences)
         {
             return new RecordsResultEnumerable<TRecordModel>(this,
-                FilterSearcherFactory.CreateFilterSearcher(this, queryFilter));
+                FilterSearcherFactory.CreateFilterSearcher(this, queryFilter),
+                additionalFilter,
+                resolveReferences);
         }
 
-        public TRecordModel ReadRecord(ulong recordPoint)
+        object IZilligraphTable.ReadRecord(ulong recordPoint, bool resolveReferences)
+        {
+            return ReadRecordInternal(recordPoint, resolveReferences);
+        }
+
+        public TRecordModel ReadRecord(ulong recordPoint, bool resolveReferences = true)
+        {
+            return ReadRecordInternal(recordPoint, resolveReferences);
+        }
+
+        private TRecordModel ReadRecordInternal(ulong recordPoint, bool resolveReferences)
         {
             var dataFile = GetLastDataFile();
             var rowBinary = dataFile.Read(recordPoint);
-            return rowBinary.DecompressRowObject<TRecordModel>();
+            var record = rowBinary.DecompressRowObject<TRecordModel>();
+            if (resolveReferences)
+            {
+                AttachReferenceProxies(record);
+            }
+            return record;
         }
 
         public void Dispose()
@@ -118,6 +148,25 @@ namespace Zilligraph.Database.Storage
                     }
                     _dataFiles.Clear();
                 }
+            }
+        }
+
+        private void AttachReferenceProxies(TRecordModel record)
+        {
+            foreach (var fieldReference in FieldReferences)
+            {
+                var resolverType = typeof(LazyReferenceResolver<>).MakeGenericType(fieldReference.ForeignType);
+                // LazyReferenceResolver constructor arguments:
+                // (object parent, PropertyInfo parentKeyProperty, IZilligraphTable foreignTable, string foreignKey)
+                var resolverInstance = Activator.CreateInstance(resolverType,
+                    new object?[] 
+                    { 
+                        record, 
+                        fieldReference.KeyPropertyInfo,
+                        Database.GetTable(fieldReference.ForeignType),
+                        fieldReference.ForeignKey
+                    });
+                fieldReference.ReferencePropertyInfo.SetValue(record, resolverInstance);
             }
         }
 
@@ -145,20 +194,37 @@ namespace Zilligraph.Database.Storage
             }
         }
 
-        private Dictionary<string, ZilligraphFieldIndex> GetFieldIndexes()
+        private Dictionary<string, ZilligraphTableFieldIndex> GetFieldIndexes()
         {
-            var indexes = new Dictionary<string, ZilligraphFieldIndex>();
+            //TODO: do recursive
+            var indexes = new Dictionary<string, ZilligraphTableFieldIndex>();
 
             foreach (var propertyInfo in RecordType.GetProperties())
             {
                 if (propertyInfo.GetCustomAttribute(typeof(SchemaIndexAttribute)) is SchemaIndexAttribute)
                 {
-                    indexes.Add(propertyInfo.Name, new ZilligraphFieldIndex(this, propertyInfo.Name));
+                    indexes.Add(propertyInfo.Name, new ZilligraphTableFieldIndex(this, propertyInfo.Name));
                 }
             }
 
             return indexes;
         }
 
+        private List<ZilligraphTableFieldReference> GetFieldReferences()
+        {
+            //TODO: do recursive
+            var list = new List<ZilligraphTableFieldReference>();
+
+            foreach (var propertyInfo in RecordType.GetProperties())
+            {
+                if (propertyInfo.GetCustomAttribute(typeof(SchemaReferenceAttribute)) is SchemaReferenceAttribute attribute)
+                {
+                    list.Add(new ZilligraphTableFieldReference(this, propertyInfo.Name, attribute.KeyProperty,
+                        attribute.ForeignType, attribute.ForeignKeyProperty));
+                }
+            }
+
+            return list;
+        }
     }
 }

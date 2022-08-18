@@ -7,12 +7,12 @@ namespace Zilligraph.Database.Storage.Table
     {
         private readonly object _parent;
         private readonly PropertyInfo _parentKeyProperty;
-        private readonly ZilligraphTable<TForeignRecord> _foreignTable;
+        private readonly IZilligraphTable _foreignTable;
         private readonly string _foreignKey;
         private TForeignRecord? _value;
         private LazyReferenceState _state = LazyReferenceState.NotResolved;
 
-        public LazyReferenceResolver(object parent, PropertyInfo parentKeyProperty, ZilligraphTable<TForeignRecord> foreignTable, string foreignKey)
+        public LazyReferenceResolver(object parent, PropertyInfo parentKeyProperty, IZilligraphTable foreignTable, string foreignKey)
         {
             _parent = parent;
             _parentKeyProperty = parentKeyProperty;
@@ -43,7 +43,7 @@ namespace Zilligraph.Database.Storage.Table
             var keyValue = _parentKeyProperty.GetValue(_parent);
             if (keyValue != null)
             {
-                return _foreignTable.FindRecord(_foreignKey, keyValue);
+                return (TForeignRecord?)_foreignTable.FindRecord(_foreignKey, keyValue);
             }
 
             return null;

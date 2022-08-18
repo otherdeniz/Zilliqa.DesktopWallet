@@ -1,4 +1,6 @@
-﻿namespace Zilligraph.Database.Storage.Table
+﻿using Zillifriends.Shared.Common;
+
+namespace Zilligraph.Database.Storage.Table
 {
     public class DataFile : IDisposable
     {
@@ -35,10 +37,17 @@
         {
             lock (_streamLock)
             {
-                using (var stream = GetStream())
+                try
                 {
-                    stream.Seek(Convert.ToInt64(recordPoint - 1), SeekOrigin.Begin);
-                    return DataRowBinary.ReadFromStream(stream);
+                    using (var stream = GetStream())
+                    {
+                        stream.Seek(Convert.ToInt64(recordPoint - 1), SeekOrigin.Begin);
+                        return DataRowBinary.ReadFromStream(stream);
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new RuntimeException($"Read record point {recordPoint} failed on Table {Table.TableName}", e);
                 }
             }
         }

@@ -6,7 +6,7 @@ namespace Zilligraph.Database.Storage.Index
     public class FilterFieldSearcher : IFilterSearcher
     {
         private readonly IZilligraphTable _table;
-        private readonly ZilligraphFieldIndex _fieldIndex;
+        private readonly ZilligraphTableFieldIndex _tableFieldIndex;
         private IEnumerator<IndexRecord>? _indexRecordsEnumerator;
         private readonly object? _filterValue;
 
@@ -18,7 +18,7 @@ namespace Zilligraph.Database.Storage.Index
                 throw new RuntimeException(
                     $"missing FieldIndex for Property {filterQueryField.PropertyName} on Table {table.TableName}");
             }
-            _fieldIndex = fieldIndex;
+            _tableFieldIndex = fieldIndex;
             _filterValue = filterQueryField.Value;
         }
 
@@ -26,7 +26,7 @@ namespace Zilligraph.Database.Storage.Index
         {
             if (_indexRecordsEnumerator == null)
             {
-                _indexRecordsEnumerator = _fieldIndex.SearchIndexes(_filterValue).GetEnumerator();
+                _indexRecordsEnumerator = _tableFieldIndex.SearchIndexes(_filterValue).GetEnumerator();
             }
 
             if (!NoMoreRecords)

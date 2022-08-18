@@ -16,10 +16,14 @@ namespace Zilligraph.Database.Storage
 
         DataPathBuilder PathBuilder { get; }
 
-        Dictionary<string, ZilligraphFieldIndex> FieldIndexes { get; }
+        Dictionary<string, ZilligraphTableFieldIndex> FieldIndexes { get; }
 
         void AddRecord(object record);
 
-        IEnumerable FindRecords(IFilterQuery queryFilter);
+        IEnumerable FindRecords(IFilterQuery queryFilter, bool resolveReferences = true);
+
+        object? FindRecord(string propertyName, object value, bool resolveReferences = true);
+
+        object? ReadRecord(ulong recordPoint, bool resolveReferences = true);
     }
 }

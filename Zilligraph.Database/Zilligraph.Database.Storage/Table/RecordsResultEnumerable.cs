@@ -7,11 +7,18 @@ namespace Zilligraph.Database.Storage.Table
     {
         private readonly ZilligraphTable<TRecordModel> _table;
         private readonly IFilterSearcher _filterSearcher;
+        private readonly Func<TRecordModel, bool>? _additionalFilter;
+        private readonly bool _resolveReferences;
 
-        public RecordsResultEnumerable(ZilligraphTable<TRecordModel> table, IFilterSearcher filterSearcher)
+        public RecordsResultEnumerable(ZilligraphTable<TRecordModel> table, 
+            IFilterSearcher filterSearcher, 
+            Func<TRecordModel, bool>? additionalFilter, 
+            bool resolveReferences)
         {
             _table = table;
             _filterSearcher = filterSearcher;
+            _additionalFilter = additionalFilter;
+            _resolveReferences = resolveReferences;
         }
 
         public IEnumerator<TRecordModel> GetEnumerator()
@@ -26,25 +33,32 @@ namespace Zilligraph.Database.Storage.Table
 
         public class RecordsResultEnumerator : IEnumerator<TRecordModel>
         {
-            private readonly RecordsResultEnumerable<TRecordModel> _recordsResultEnumerable;
+            private readonly RecordsResultEnumerable<TRecordModel> _enumerable;
 
-            public RecordsResultEnumerator(RecordsResultEnumerable<TRecordModel> recordsResultEnumerable)
+            internal RecordsResultEnumerator(RecordsResultEnumerable<TRecordModel> enumerable)
             {
-                _recordsResultEnumerable = recordsResultEnumerable;
+                _enumerable = enumerable;
             }
 
             public bool MoveNext()
             {
-                var nextRecordPoint = _recordsResultEnumerable._filterSearcher.GetNextRecordPoint();
-                if (nextRecordPoint == null)
+                while (true)
                 {
-                    Current = null;
-                    return false;
+                    var nextRecordPoint = _enumerable._filterSearcher.GetNextRecordPoint();
+                    if (nextRecordPoint == null)
+                    {
+                        Current = null;
+                        return false;
+                    }
+
+                    var record = _enumerable._table.ReadRecord(nextRecordPoint.Value, _enumerable._resolveReferences);
+                    if (_enumerable._additionalFilter == null
+                        || _enumerable._additionalFilter(record))
+                    {
+                        Current = record;
+                        return true;
+                    }
                 }
-
-                Current = _recordsResultEnumerable._table.ReadRecord(nextRecordPoint.Value);
-
-                return true;
             }
 
             public void Reset()

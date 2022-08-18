@@ -1,6 +1,8 @@
 ﻿
 // ReSharper disable InconsistentlySynchronizedField
 
+using Zillifriends.Shared.Common;
+
 namespace Zilligraph.Database.Storage
 {
     public class ZilligraphDatabase : IDisposable
@@ -63,6 +65,31 @@ namespace Zilligraph.Database.Storage
                 var table = new ZilligraphTable<TRecordModel>(this);
                 _tables.Add(modelType, table);
                 return table;
+            }
+        }
+
+        public IZilligraphTable GetTable(Type recordType)
+        {
+            if (_tables.ContainsKey(recordType))
+            {
+                return _tables[recordType];
+            }
+
+            lock (_tables)
+            {
+                if (_tables.ContainsKey(recordType))
+                {
+                    return _tables[recordType];
+                }
+
+                var tableType = typeof(ZilligraphTable<>).MakeGenericType(new Type[] { recordType });
+                if (Activator.CreateInstance(tableType, new object?[] { this }) is IZilligraphTable table)
+                {
+                    _tables.Add(recordType, table);
+                    return table;
+                }
+
+                throw new RuntimeException($"ZilligraphTable instance of Type '{tableType}' generation failed");
             }
         }
 

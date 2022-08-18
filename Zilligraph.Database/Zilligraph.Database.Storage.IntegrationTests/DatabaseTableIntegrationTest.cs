@@ -9,23 +9,6 @@ namespace Zilligraph.Database.Storage.IntegrationTests
     {
         private readonly string _dbPath = Path.Combine(Path.GetTempPath(), "Zilligraph_DatabaseTableTest");
 
-        private void TestCleanup()
-        {
-            if (Directory.Exists(_dbPath))
-            {
-                // we keep the root folder (for now)
-                foreach (var subPath in Directory.GetDirectories(_dbPath))
-                {
-                    Directory.Delete(subPath, true);
-                }
-            }
-        }
-
-        private ZilligraphDatabase CreateDatabase()
-        {
-            return new ZilligraphDatabase(_dbPath);
-        }
-
         [TestMethod]
         public void AddingMultipleRecords_And_SearchThem_Success()
         {
@@ -75,5 +58,54 @@ namespace Zilligraph.Database.Storage.IntegrationTests
             TestCleanup();
         }
 
+        [TestMethod]
+        public void Resolvereferences_ParentsExist_Found()
+        {
+            TestCleanup();
+
+            // Setup
+            var db = CreateDatabase();
+            var parentTable = db.GetTable<ParentRecord>();
+            var childTable = db.GetTable<ChildRecord>();
+
+            // Arrange
+            var parents = ParentRecord.Generate(5);
+            foreach (var parent in parents)
+            {
+                parentTable.AddRecord(parent);
+            }
+            var childs = ChildRecord.Generate(10, 5);
+            foreach (var child in childs)
+            {
+                childTable.AddRecord(child);
+            }
+
+            // Assert
+            foreach (var child in childs)
+            {
+                var childFromDb = childTable.FindRecord(nameof(ChildRecord.PrimaryKey), child.PrimaryKey);
+                var parent = parents.First(p => p.PrimaryKey == child.ParentKey);
+                Assert.AreEqual(parent.AnyNumber, childFromDb?.Parent?.Value?.AnyNumber);
+            }
+
+            TestCleanup();
+        }
+
+        private void TestCleanup()
+        {
+            if (Directory.Exists(_dbPath))
+            {
+                // we keep the root folder (for now)
+                foreach (var subPath in Directory.GetDirectories(_dbPath))
+                {
+                    Directory.Delete(subPath, true);
+                }
+            }
+        }
+
+        private ZilligraphDatabase CreateDatabase()
+        {
+            return new ZilligraphDatabase(_dbPath);
+        }
     }
 }

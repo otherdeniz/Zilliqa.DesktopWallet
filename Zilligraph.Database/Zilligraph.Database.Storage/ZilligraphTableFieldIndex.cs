@@ -4,15 +4,15 @@ using Zilligraph.Database.Storage.Index;
 
 namespace Zilligraph.Database.Storage
 {
-    public class ZilligraphFieldIndex
+    public class ZilligraphTableFieldIndex
     {
         private readonly PropertyInfo _propertyInfo;
         private readonly Type _propertyType;
         private readonly IndexTypeInfoBase _indexTypeInfo;
-        private IndexHeadSingleFile _indexHeadFile;
-        private IndexContentFile _indexContentFile;
+        private readonly IndexHeadSingleFile _indexHeadFile;
+        private readonly IndexContentFile _indexContentFile;
 
-        public ZilligraphFieldIndex(IZilligraphTable table, string propertyName)
+        internal ZilligraphTableFieldIndex(IZilligraphTable table, string propertyName)
         {
             Table = table;
             PropertyName = propertyName;
