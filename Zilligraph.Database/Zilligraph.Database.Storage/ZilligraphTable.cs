@@ -131,7 +131,7 @@ namespace Zilligraph.Database.Storage
             var record = rowBinary.DecompressRowObject<TRecordModel>();
             if (resolveReferences)
             {
-                AttachReferenceProxies(record);
+                ResolveReferences(record);
             }
             return record;
         }
@@ -151,22 +151,35 @@ namespace Zilligraph.Database.Storage
             }
         }
 
-        private void AttachReferenceProxies(TRecordModel record)
+        private void ResolveReferences(TRecordModel record)
         {
             foreach (var fieldReference in FieldReferences)
             {
-                var resolverType = typeof(LazyReferenceResolver<>).MakeGenericType(fieldReference.ForeignType);
-                // LazyReferenceResolver constructor arguments:
-                // (object parent, PropertyInfo parentKeyProperty, IZilligraphTable foreignTable, string foreignKey)
-                var resolverInstance = Activator.CreateInstance(resolverType,
-                    new object?[] 
-                    { 
-                        record, 
-                        fieldReference.KeyPropertyInfo,
-                        Database.GetTable(fieldReference.ForeignType),
-                        fieldReference.ForeignKey
-                    });
-                fieldReference.ReferencePropertyInfo.SetValue(record, resolverInstance);
+                var foreignTable = Database.GetTable(fieldReference.ForeignType);
+                if (fieldReference.IsLazy)
+                {
+                    var resolverType = typeof(LazyReferenceResolver<>).MakeGenericType(fieldReference.ForeignType);
+                    // LazyReferenceResolver constructor arguments:
+                    // (object parent, PropertyInfo parentKeyProperty, IZilligraphTable foreignTable, string foreignKey)
+                    var resolverInstance = Activator.CreateInstance(resolverType,
+                        new object?[]
+                        {
+                            record,
+                            fieldReference.KeyPropertyInfo,
+                            foreignTable,
+                            fieldReference.ForeignKey
+                        });
+                    fieldReference.ReferencePropertyInfo.SetValue(record, resolverInstance);
+                }
+                else
+                {
+                    var keyValue = fieldReference.KeyPropertyInfo.GetValue(record);
+                    if (keyValue != null)
+                    {
+                        var foreignRecord = foreignTable.FindRecord(fieldReference.ForeignKey, keyValue);
+                        fieldReference.ReferencePropertyInfo.SetValue(record, foreignRecord);
+                    }
+                }
             }
         }
 
@@ -219,8 +232,16 @@ namespace Zilligraph.Database.Storage
             {
                 if (propertyInfo.GetCustomAttribute(typeof(SchemaReferenceAttribute)) is SchemaReferenceAttribute attribute)
                 {
-                    list.Add(new ZilligraphTableFieldReference(this, propertyInfo.Name, attribute.KeyProperty,
-                        attribute.ForeignType, attribute.ForeignKeyProperty));
+                    var foreignType = propertyInfo.PropertyType;
+                    var isLazy = false;
+                    if (propertyInfo.PropertyType.IsGenericType
+                        && propertyInfo.PropertyType.GetGenericTypeDefinition() == typeof(LazyReference<>))
+                    {
+                        foreignType = propertyInfo.PropertyType.GetGenericArguments().First();
+                        isLazy = true;
+                    }
+                    list.Add(new ZilligraphTableFieldReference(this, propertyInfo, attribute.KeyProperty,
+                        foreignType, attribute.ForeignKeyProperty, isLazy));
                 }
             }
 

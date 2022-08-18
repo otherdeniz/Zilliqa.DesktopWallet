@@ -9,7 +9,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Model
         public string Id { get; set; }
 
         [JsonProperty("amount")]
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
 
         [JsonProperty("data")]
         public string Data { get; set; }
@@ -72,6 +72,12 @@ namespace Zilliqa.DesktopWallet.ApiClient.Model
 
         [JsonProperty("transitions")]
         public List<Transition> Transitions { get; set; }
+
+        [JsonProperty("errors")]
+        public Errors Errors { get; set; }
+
+        [JsonProperty("exceptions")]
+        public List<ExceptionMessage> Exceptions { get; set; }
     }
 
     public class EventLog
@@ -108,5 +114,20 @@ namespace Zilliqa.DesktopWallet.ApiClient.Model
 
         [JsonProperty("msg")]
         public Msg Msg { get; set; }
+    }
+
+    public class Errors
+    {
+        [JsonProperty("0")]
+        public List<int> Numbers { get; set; }
+    }
+
+    public class ExceptionMessage
+    {
+        [JsonProperty("line")]
+        public int Line { get; set; }
+
+        [JsonProperty("message")]
+        public string Message { get; set; }
     }
 }

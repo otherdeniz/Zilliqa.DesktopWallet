@@ -26,8 +26,11 @@ namespace Zilligraph.Database.Storage.IntegrationTests.Model
 
         public int ParentKey { get; set; }
 
-        [SchemaReference(nameof(ParentKey), typeof(ParentRecord), nameof(ParentRecord.PrimaryKey))]
-        public LazyReference<ParentRecord>? Parent { get; set; }
+        [SchemaReference(nameof(ParentKey), nameof(ParentRecord.PrimaryKey))]
+        public LazyReference<ParentRecord>? LazyParent { get; set; }
+
+        [SchemaReference(nameof(ParentKey), nameof(ParentRecord.PrimaryKey))]
+        public ParentRecord? Parent { get; set; }
 
         public int AnyNumber { get; set; }
 

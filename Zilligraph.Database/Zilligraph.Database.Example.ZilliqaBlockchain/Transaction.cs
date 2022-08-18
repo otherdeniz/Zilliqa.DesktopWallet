@@ -8,7 +8,7 @@ namespace Zilligraph.Database.Schema.ZilliqaBlockchain
         [RequiredValue]
         public int BlockNumber { get; set; }
 
-        [SchemaReference(nameof(BlockNumber), typeof(Block), nameof(ZilliqaBlockchain.Block.Number))]
+        [SchemaReference(nameof(BlockNumber), nameof(ZilliqaBlockchain.Block.Number))]
         public LazyReference<Block> Block { get; set; } = null!;
 
         public int TransactionType { get; set; }
@@ -20,7 +20,7 @@ namespace Zilligraph.Database.Schema.ZilliqaBlockchain
         [SchemaIndex]
         public string Id { get; set; }
 
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
 
         public string Data { get; set; }
 
