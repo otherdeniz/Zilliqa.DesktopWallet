@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Reflection;
 using Zillifriends.Shared.Common;
+using Zilligraph.Database.Contract;
 using Zilligraph.Database.Definition;
 using Zilligraph.Database.Storage.FilterQuery;
 using Zilligraph.Database.Storage.Index;

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Zilligraph.Database.Contract;
 using Zilligraph.Database.Definition;
 
 namespace Zilliqa.DesktopWallet.DatabaseSchema

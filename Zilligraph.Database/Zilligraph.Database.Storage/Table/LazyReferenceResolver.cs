@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Zilligraph.Database.Contract;
 using Zilligraph.Database.Definition;
 
 namespace Zilligraph.Database.Storage.Table

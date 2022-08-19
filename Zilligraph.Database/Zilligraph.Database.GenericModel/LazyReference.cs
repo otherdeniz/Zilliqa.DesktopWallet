@@ -1,4 +1,4 @@
-﻿namespace Zilligraph.Database.Definition
+﻿namespace Zilligraph.Database.Contract
 {
     public abstract class LazyReference<TRecord> where TRecord : class, new()
     {

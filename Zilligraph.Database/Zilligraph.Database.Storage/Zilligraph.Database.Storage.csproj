@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Zillifriends.Shared.Common\Zillifriends.Shared.Common.csproj" />
-    <ProjectReference Include="..\Zilligraph.Database.GenericModel\Zilligraph.Database.Definition.csproj" />
+    <ProjectReference Include="..\Zilligraph.Database.GenericModel\Zilligraph.Database.Contract.csproj" />
   </ItemGroup>
 
 </Project>

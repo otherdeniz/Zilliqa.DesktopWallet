@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ziligraph.Blockchain.Consol
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ziligraph.Blockchain.ConsoleBlockExplorer", "Zilligraph.Blockchain\BlockExplorer\Ziligraph.Blockchain.ConsoleBlockExplorer.csproj", "{A6E8F6ED-65B9-4902-9942-650C5A33959B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilligraph.Database.Definition", "Zilligraph.Database\Zilligraph.Database.GenericModel\Zilligraph.Database.Definition.csproj", "{907FC00E-4501-47F5-82C1-6DBA0D289584}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilligraph.Database.Contract", "Zilligraph.Database\Zilligraph.Database.GenericModel\Zilligraph.Database.Contract.csproj", "{907FC00E-4501-47F5-82C1-6DBA0D289584}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilligraph.Database.Storage", "Zilligraph.Database\Zilligraph.Database.Storage\Zilligraph.Database.Storage.csproj", "{2BBAFCF1-95D8-4DD3-BA79-E074C9EAD170}"
 EndProject

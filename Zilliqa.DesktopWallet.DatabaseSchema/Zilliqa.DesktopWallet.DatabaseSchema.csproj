@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Zilligraph.Database\Zilligraph.Database.GenericModel\Zilligraph.Database.Definition.csproj" />
+    <ProjectReference Include="..\Zilligraph.Database\Zilligraph.Database.GenericModel\Zilligraph.Database.Contract.csproj" />
   </ItemGroup>
 
 </Project>
