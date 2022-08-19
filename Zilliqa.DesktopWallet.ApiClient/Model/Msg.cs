@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Zilliqa.DesktopWallet.ApiClient.Model
 {
@@ -14,6 +15,6 @@ namespace Zilliqa.DesktopWallet.ApiClient.Model
         public string Tag { get; set; }
 
         [JsonProperty("params")]
-        public Param[] Params { get; set; }
+        public List<Param> Params { get; set; }
     }
 }

@@ -20,15 +20,15 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
         public string Tag { get; set; }
 
         [JsonProperty("p")] 
-        public List<ContractCallParameter> Parameters { get; set; } = new();
+        public List<ContractParam> Parameters { get; set; } = new();
     }
 
-    public class ContractCallParameter
+    public class ContractParam
     {
         public string Name { get; set; }
 
         public string Type { get; set; }
 
-        public string Value { get; set; }
+        public object Value { get; set; }
     }
 }

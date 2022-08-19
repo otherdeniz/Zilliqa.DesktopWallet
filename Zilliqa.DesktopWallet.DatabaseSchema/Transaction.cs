@@ -60,7 +60,8 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
         [JsonProperty("N")]
         public string ToAddress { get; set; }
 
-        public TransactionContractCall? ContractCall { get; set; }
+        [JsonProperty("O")]
+        public TransactionReceipt Receipt { get; set; }
     }
 
     public enum TransactionType
