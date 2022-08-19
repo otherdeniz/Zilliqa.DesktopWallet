@@ -35,21 +35,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilligraph.Database.Definit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilligraph.Database.Storage", "Zilligraph.Database\Zilligraph.Database.Storage\Zilligraph.Database.Storage.csproj", "{2BBAFCF1-95D8-4DD3-BA79-E074C9EAD170}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilligraph.Database.Schema.ZilliqaBlockchain", "Zilligraph.Database\Zilligraph.Database.Example.ZilliqaBlockchain\Zilligraph.Database.Schema.ZilliqaBlockchain.csproj", "{FBDA89C6-B137-4A1E-8BB5-CC03102262CE}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.TestApp", "Zilliqa.DesktopWallet.TestApp\Zilliqa.DesktopWallet.TestApp.csproj", "{03EF30ED-2AA3-457C-B5FA-06191A343720}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Shared", "_Shared", "{9C2DD6FB-D3F1-4D03-A536-979B9D008AF6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zillifriends.Shared.Common", "Zillifriends.Shared.Common\Zillifriends.Shared.Common.csproj", "{B4A69D8E-8943-4A81-B2D8-15FA1D3F929D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Schemas", "Schemas", "{AF483FF1-4FB1-46A7-85C1-67F61C02577E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.Core.Test", "Zilliqa.DesktopWallet.Core.Test\Zilliqa.DesktopWallet.Core.Test.csproj", "{C6DE8D92-226C-495B-AFDB-A6D7A59D44E6}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Zilliqa.DesktopWallet.WindowsInstaller", "Zilliqa.DesktopWallet.WindowsInstaller\Zilliqa.DesktopWallet.WindowsInstaller.vdproj", "{A4BAAED3-966D-4E26-92A1-02BACF6C0F0D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zilligraph.Database.Storage.IntegrationTests", "Zilligraph.Database\Zilligraph.Database.Storage.IntegrationTests\Zilligraph.Database.Storage.IntegrationTests.csproj", "{A03970F1-7D28-4920-B015-6377A021E249}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zilliqa.DesktopWallet.DatabaseSchema", "Zilliqa.DesktopWallet.DatabaseSchema\Zilliqa.DesktopWallet.DatabaseSchema.csproj", "{3E1E5EE8-7AD1-4E92-A249-FE4425EBB00C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,10 +103,6 @@ Global
 		{2BBAFCF1-95D8-4DD3-BA79-E074C9EAD170}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BBAFCF1-95D8-4DD3-BA79-E074C9EAD170}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BBAFCF1-95D8-4DD3-BA79-E074C9EAD170}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FBDA89C6-B137-4A1E-8BB5-CC03102262CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FBDA89C6-B137-4A1E-8BB5-CC03102262CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FBDA89C6-B137-4A1E-8BB5-CC03102262CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FBDA89C6-B137-4A1E-8BB5-CC03102262CE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{03EF30ED-2AA3-457C-B5FA-06191A343720}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{03EF30ED-2AA3-457C-B5FA-06191A343720}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03EF30ED-2AA3-457C-B5FA-06191A343720}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -127,6 +121,10 @@ Global
 		{A03970F1-7D28-4920-B015-6377A021E249}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A03970F1-7D28-4920-B015-6377A021E249}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A03970F1-7D28-4920-B015-6377A021E249}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E1E5EE8-7AD1-4E92-A249-FE4425EBB00C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E1E5EE8-7AD1-4E92-A249-FE4425EBB00C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E1E5EE8-7AD1-4E92-A249-FE4425EBB00C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E1E5EE8-7AD1-4E92-A249-FE4425EBB00C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -145,13 +143,12 @@ Global
 		{A6E8F6ED-65B9-4902-9942-650C5A33959B} = {B88CCB2B-E0E3-4146-838B-BCB782D0B479}
 		{907FC00E-4501-47F5-82C1-6DBA0D289584} = {58EA2C23-58CD-4EBC-A522-DC018C2F2DF6}
 		{2BBAFCF1-95D8-4DD3-BA79-E074C9EAD170} = {58EA2C23-58CD-4EBC-A522-DC018C2F2DF6}
-		{FBDA89C6-B137-4A1E-8BB5-CC03102262CE} = {AF483FF1-4FB1-46A7-85C1-67F61C02577E}
 		{03EF30ED-2AA3-457C-B5FA-06191A343720} = {7F110258-3BCE-4E17-836E-E784317FBB40}
 		{B4A69D8E-8943-4A81-B2D8-15FA1D3F929D} = {9C2DD6FB-D3F1-4D03-A536-979B9D008AF6}
-		{AF483FF1-4FB1-46A7-85C1-67F61C02577E} = {58EA2C23-58CD-4EBC-A522-DC018C2F2DF6}
 		{C6DE8D92-226C-495B-AFDB-A6D7A59D44E6} = {7F110258-3BCE-4E17-836E-E784317FBB40}
 		{A4BAAED3-966D-4E26-92A1-02BACF6C0F0D} = {7F110258-3BCE-4E17-836E-E784317FBB40}
 		{A03970F1-7D28-4920-B015-6377A021E249} = {58EA2C23-58CD-4EBC-A522-DC018C2F2DF6}
+		{3E1E5EE8-7AD1-4E92-A249-FE4425EBB00C} = {7F110258-3BCE-4E17-836E-E784317FBB40}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33F6C299-4831-4DA4-9B5F-65B8F3094132}

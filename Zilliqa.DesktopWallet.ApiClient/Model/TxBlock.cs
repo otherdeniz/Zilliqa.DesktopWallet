@@ -57,6 +57,8 @@ namespace Zilliqa.DesktopWallet.ApiClient.Model
 
         public string Timestamp { get; set; }
 
+        public string TxnFees { get; set; }
+
         public int Version { get; set; }
     }
 

@@ -3,8 +3,8 @@ using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core.Data.Files;
 using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Repository;
+using Zilliqa.DesktopWallet.DatabaseSchema;
 using ApiModel = Zilliqa.DesktopWallet.ApiClient.Model;
-using DbModel = Zilligraph.Database.Schema.ZilliqaBlockchain;
 
 namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
 {
@@ -115,7 +115,9 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
             while (!cancellationToken.IsCancellationRequested)
             {
                 var dbTableTransaction = RepositoryManager.Instance.ZilliqaBlockchainDbRepository.Database
-                    .GetTable<DbModel.Transaction>();
+                    .GetTable<Transaction>();
+                var dbTableBlock = RepositoryManager.Instance.ZilliqaBlockchainDbRepository.Database
+                    .GetTable<Block>();
 
                 var newestBlock = NumberOfBlocksOnChain;
                 int loopDelay = 5000;
@@ -145,47 +147,55 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
 
                     if (processBlockNumber > 0)
                     {
-                        try
+                        var blockModel =
+                            dbTableBlock.FindRecord(nameof(Block.BlockNumber), processBlockNumber, false);
+
+                        if (blockModel != null)
                         {
-                            var apiclient = new ZilliqaClient();
-                            var blockTransactions = await apiclient.GetTxnBodiesForTxBlock(processBlockNumber);
-                            foreach (var apiTransaction in blockTransactions)
+                            try
                             {
-                                var transactionModel = MapTransaction(processBlockNumber, apiTransaction);
-                                dbTableTransaction.AddRecord(transactionModel);
-                            }
+                                var apiclient = new ZilliqaClient();
+                                var blockTransactions = await apiclient.GetTxnBodiesForTxBlock(processBlockNumber);
 
-                            if (CrawlerStateDat.Instance.TransactionCrawler.HighestBlock < processBlockNumber)
-                            {
-                                CrawlerStateDat.Instance.TransactionCrawler.HighestBlock = processBlockNumber;
-                            }
-                            if (CrawlerStateDat.Instance.TransactionCrawler.LowestBlock > processBlockNumber ||
-                                CrawlerStateDat.Instance.TransactionCrawler.LowestBlock == 0)
-                            {
-                                CrawlerStateDat.Instance.TransactionCrawler.LowestBlock = processBlockNumber;
-                            }
-                            CrawlerStateDat.Instance.Save();
-                            SetNumberOfBlocksProcessed();
+                                foreach (var apiTransaction in blockTransactions)
+                                {
+                                    var transactionModel =
+                                        apiTransaction.MapToModel<ApiModel.Transaction, Transaction>();
+                                    transactionModel.BlockNumber = processBlockNumber;
+                                    transactionModel.Timestamp = blockModel.Timestamp;
+                                    dbTableTransaction.AddRecord(transactionModel);
+                                }
 
-                            loopDelay = 10;
+                                if (CrawlerStateDat.Instance.TransactionCrawler.HighestBlock < processBlockNumber)
+                                {
+                                    CrawlerStateDat.Instance.TransactionCrawler.HighestBlock = processBlockNumber;
+                                }
+                                if (CrawlerStateDat.Instance.TransactionCrawler.LowestBlock > processBlockNumber ||
+                                    CrawlerStateDat.Instance.TransactionCrawler.LowestBlock == 0)
+                                {
+                                    CrawlerStateDat.Instance.TransactionCrawler.LowestBlock = processBlockNumber;
+                                }
+                                CrawlerStateDat.Instance.Save();
+                                SetNumberOfBlocksProcessed();
+
+                                loopDelay = 10;
+                            }
+                            catch (Exception e)
+                            {
+                                // logging !
+                                Debug.WriteLine(e.Message);
+                                throw;
+                            }
                         }
-                        catch (Exception e)
+                        else
                         {
-                            // logging !
-                            Debug.WriteLine(e.Message);
-                            throw;
+                            // wait for Block to be downloaded before Transaction
+                            loopDelay = 2000;
                         }
                     }
                 }
                 await Task.Delay(loopDelay, cancellationToken);
             }
-        }
-
-        private DbModel.Transaction MapTransaction(int blockNumber, ApiModel.Transaction source)
-        {
-            var model = source.MapToModel<ApiModel.Transaction, DbModel.Transaction>();
-            model.BlockNumber = blockNumber;
-            return model;
         }
 
         private async Task BlocksCrawlerJob(int startupDelaySeconds, CancellationToken cancellationToken)
@@ -194,7 +204,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
             while (!cancellationToken.IsCancellationRequested)
             {
                 var dbTableBlock = RepositoryManager.Instance.ZilliqaBlockchainDbRepository.Database
-                    .GetTable<DbModel.Block>();
+                    .GetTable<Block>();
 
                 var newestBlock = NumberOfBlocksOnChain;
                 int loopDelay = 5000;
@@ -217,7 +227,6 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                         {
                             // nothing to process, all completed
                             processBlockNumber = 0;
-                            IsCompleted = true;
                         }
                     }
 
@@ -227,7 +236,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                         {
                             var apiclient = new ZilliqaClient();
                             var txBlock = await apiclient.GetTxBlock(processBlockNumber);
-                            var blockModel = txBlock.MapToModel<ApiModel.TxBlock, DbModel.Block>();
+                            var blockModel = txBlock.MapToModel<ApiModel.TxBlock, Block>();
                             dbTableBlock.AddRecord(blockModel);
 
                             if (CrawlerStateDat.Instance.BlockCrawler.HighestBlock < processBlockNumber)

@@ -1,4 +1,4 @@
-﻿namespace Zilligraph.Database.Schema.ZilliqaBlockchain
+﻿namespace Zilliqa.DesktopWallet.DatabaseSchema
 {
     public class TransactionContractDeployment
     {

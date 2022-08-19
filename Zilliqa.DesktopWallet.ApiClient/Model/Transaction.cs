@@ -92,18 +92,6 @@ namespace Zilliqa.DesktopWallet.ApiClient.Model
         public List<Param> Params { get; set; }
     }
 
-    public class Param
-    {
-        [JsonProperty("type")]
-        public string Type { get; set; }
-
-        [JsonProperty("value")]
-        public object Value { get; set; }
-
-        [JsonProperty("vname")]
-        public string Vname { get; set; }
-    }
-
     public class Transition
     {
         [JsonProperty("addr")]

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Zilligraph.Database.Schema.ZilliqaBlockchain
+namespace Zilliqa.DesktopWallet.DatabaseSchema
 {
     //"_tag": "sendFunds",
     //"params": [{
