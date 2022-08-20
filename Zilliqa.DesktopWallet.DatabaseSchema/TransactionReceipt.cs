@@ -66,7 +66,7 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
     public class Msg
     {
         [JsonProperty("A")]
-        public long Amount { get; set; }
+        public decimal Amount { get; set; }
 
         [JsonProperty("B")]
         public string Recipient { get; set; }

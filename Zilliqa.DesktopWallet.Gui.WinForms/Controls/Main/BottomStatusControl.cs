@@ -14,6 +14,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
         public void StopRefresh()
         {
             timerRefresh.Enabled = false;
+            timerRefreshDbSize.Enabled = false;
             Application.DoEvents();
         }
 
@@ -26,9 +27,17 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
         {
             if (ZilliqaBlockchainCrawler.Instance.RunningState == RunningState.Running)
             {
-                textStatus.Text = ZilliqaBlockchainCrawler.Instance.IsCompleted
-                    ? "Completed"
-                    : $"Downloading ({ZilliqaBlockchainCrawler.Instance.NumberOfBlocksProcessed:#,##0}/{ZilliqaBlockchainCrawler.Instance.NumberOfBlocksOnChain:#,##0})";
+                if (ZilliqaBlockchainCrawler.Instance.IsCompleted)
+                {
+                    textStatus.Text = "Completed";
+                }
+                else
+                {
+                    var percentage = 100d 
+                                      / Convert.ToDouble(ZilliqaBlockchainCrawler.Instance.NumberOfBlocksOnChain) 
+                                      * Convert.ToDouble(ZilliqaBlockchainCrawler.Instance.NumberOfBlocksProcessed);
+                    textStatus.Text = $"Syncing {percentage:0.000}% ({ZilliqaBlockchainCrawler.Instance.NumberOfBlocksProcessed:#,##0}/{ZilliqaBlockchainCrawler.Instance.NumberOfBlocksOnChain:#,##0})";
+                }
             }
             else
             {
@@ -37,14 +46,18 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                     : "Idle";
             }
 
-            textDbSize.Text = RepositoryManager.Instance.ZilliqaBlockchainDbRepository.Database
-                .GetDbSize().BytesToReadable();
             textBlocksCount.Text = RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo.NumberOfBlocks
                 .ToString("#,##0");
             textTransactionsCount.Text = RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo.NumberOfTransactions
                 .ToString("#,##0");
 
             RefreshButtons();
+        }
+
+        private void timerRefreshDbSize_Tick(object sender, EventArgs e)
+        {
+            textDbSize.Text = RepositoryManager.Instance.ZilliqaBlockchainDbRepository.Database
+                .GetDbSize().BytesToReadable();
         }
 
         private void RefreshButtons()
@@ -58,6 +71,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             if (!DesignMode)
             {
                 timerRefresh.Enabled = true;
+                timerRefreshDbSize.Enabled = true;
             }
         }
 
@@ -72,6 +86,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             buttonStop.Enabled = false;
             ZilliqaBlockchainCrawler.Instance.Stop();
         }
+
     }
 
 }

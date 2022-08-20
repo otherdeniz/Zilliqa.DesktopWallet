@@ -47,6 +47,7 @@
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.buttonStart = new System.Windows.Forms.ToolStripButton();
             this.buttonStop = new System.Windows.Forms.ToolStripButton();
+            this.timerRefreshDbSize = new System.Windows.Forms.Timer(this.components);
             this.panelRowStatus.SuspendLayout();
             this.panelRowDbSize.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -206,7 +207,7 @@
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(276, 23);
             this.toolStrip1.TabIndex = 5;
-            this.toolStrip1.Text = "toolStrip1";
+            this.toolStrip1.Text = "toolStripButtons";
             // 
             // toolStripLabel1
             // 
@@ -234,6 +235,11 @@
             this.buttonStop.Size = new System.Drawing.Size(51, 20);
             this.buttonStop.Text = "Stop";
             this.buttonStop.Click += new System.EventHandler(this.buttonStop_Click);
+            // 
+            // timerRefreshDbSize
+            // 
+            this.timerRefreshDbSize.Interval = 10000;
+            this.timerRefreshDbSize.Tick += new System.EventHandler(this.timerRefreshDbSize_Tick);
             // 
             // BottomStatusControl
             // 
@@ -282,5 +288,6 @@
         private ToolStripLabel toolStripLabel1;
         private ToolStripButton buttonStart;
         private ToolStripButton buttonStop;
+        private System.Windows.Forms.Timer timerRefreshDbSize;
     }
 }

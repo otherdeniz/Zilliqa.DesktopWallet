@@ -1,9 +1,11 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using RestSharp;
 using Zilliqa.DesktopWallet.ApiClient.Interfaces;
 
 namespace Zilliqa.DesktopWallet.ApiClient.API
@@ -312,23 +314,23 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
 
 		#region Helpers
 
-		private HttpClient GetClient()
-		{
-			HttpClient httpClient = null;
-			lock (_requestLock)
-			{
-				httpClient = new HttpClient();
+		//private HttpClient GetClient()
+		//{
+		//	HttpClient httpClient = null;
+		//	lock (_requestLock)
+		//	{
+		//		httpClient = new HttpClient();
 
-				//specify to use TLS 1.2 as default connection
-				System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+		//		//specify to use TLS 1.2 as default connection
+		//		System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
-				httpClient.DefaultRequestHeaders.Accept.Clear();
-				httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-			}
+		//		httpClient.DefaultRequestHeaders.Accept.Clear();
+		//		httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+		//	}
 
 
-			return httpClient;
-		}
+		//	return httpClient;
+		//}
 
 		/// <summary>
 		/// Calls a API method of the Zilliqa API
@@ -336,16 +338,36 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
 		/// <param name="req">MusRequest object to pass request</param>
 		private async Task<APIResponse> CallMethod(MusRequest req)
 		{
-			string result = "";
-			var json = req.ToJson();
-			var data = new StringContent(json, Encoding.UTF8, "application/json");
+			//string result = "";
+			//var json = req.ToJson();
+			//var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-			using (var httpClient = GetClient())
-			{
-				var response = await httpClient.PostAsync(Url, data);
-				result = response.Content.ReadAsStringAsync().Result;
+			//using (var httpClient = GetClient())
+			//{
+			//	var response = await httpClient.PostAsync(Url, data);
+			//	result = response.Content.ReadAsStringAsync().Result;
+			//}
+			//return JsonConvert.DeserializeObject<APIResponse>(result);
+            using (var client = new RestClient())
+            {
+                var request = new RestRequest(Url, Method.Post);
+
+                request.AddBody(req.ToJson(), "application/json"); // .AddParameter("application/json" , req.ToJson(), ParameterType.RequestBody);
+                request.RequestFormat = DataFormat.Json;
+
+                var response = await client.ExecuteAsync(request);
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new Exception("Response was not OK");
+                }
+
+                if (response.Content == null)
+                {
+                    throw new Exception("Response Content was null");
+                }
+
+                return JsonConvert.DeserializeObject<APIResponse>(response.Content);
 			}
-			return JsonConvert.DeserializeObject<APIResponse>(result);
 		}
 
 		#endregion

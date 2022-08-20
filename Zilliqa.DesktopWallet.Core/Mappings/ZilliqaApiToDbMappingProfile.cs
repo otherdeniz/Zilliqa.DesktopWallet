@@ -32,6 +32,14 @@ namespace Zilliqa.DesktopWallet.Core.Mappings
                     }
                 });
 
+            CreateMap<ApiModel.Receipt, TransactionReceipt>();
+            CreateMap<ApiModel.EventLog, EventLog>();
+            CreateMap<ApiModel.Param, Param>();
+            CreateMap<ApiModel.Transition, Transition>();
+            CreateMap<ApiModel.Msg, Msg>();
+            CreateMap<ApiModel.Errors, Errors>();
+            CreateMap<ApiModel.ExceptionMessage, ExceptionMessage>();
+
             CreateMap<ApiModel.TxBlock, Block>()
                 .ForMember(t => t.BlockNumber, s => s.MapFrom(m => int.Parse(m.BlockNum)))
                 .ForMember(t => t.Timestamp, s => s.MapFrom(m => m.Header.Timestamp.UnixTimestampToDateTime()))

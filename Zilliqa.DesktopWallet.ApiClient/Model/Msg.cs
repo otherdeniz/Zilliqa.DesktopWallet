@@ -6,7 +6,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Model
     public class Msg
     {
         [JsonProperty("_amount")]
-        public long Amount { get; set; }
+        public decimal Amount { get; set; }
 
         [JsonProperty("_recipient")]
         public string Recipient { get; set; }

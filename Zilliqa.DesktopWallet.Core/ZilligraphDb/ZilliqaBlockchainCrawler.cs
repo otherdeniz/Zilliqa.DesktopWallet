@@ -157,28 +157,36 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                                 var apiclient = new ZilliqaClient();
                                 var blockTransactions = await apiclient.GetTxnBodiesForTxBlock(processBlockNumber);
 
-                                foreach (var apiTransaction in blockTransactions)
+                                if (blockTransactions.Count == blockModel.NumTxns)
                                 {
-                                    var transactionModel =
-                                        apiTransaction.MapToModel<ApiModel.Transaction, Transaction>();
-                                    transactionModel.BlockNumber = processBlockNumber;
-                                    transactionModel.Timestamp = blockModel.Timestamp;
-                                    dbTableTransaction.AddRecord(transactionModel);
-                                }
+                                    foreach (var apiTransaction in blockTransactions)
+                                    {
+                                        var transactionModel =
+                                            apiTransaction.MapToModel<ApiModel.Transaction, Transaction>();
+                                        transactionModel.BlockNumber = processBlockNumber;
+                                        transactionModel.Timestamp = blockModel.Timestamp;
+                                        dbTableTransaction.AddRecord(transactionModel);
+                                    }
 
-                                if (CrawlerStateDat.Instance.TransactionCrawler.HighestBlock < processBlockNumber)
-                                {
-                                    CrawlerStateDat.Instance.TransactionCrawler.HighestBlock = processBlockNumber;
-                                }
-                                if (CrawlerStateDat.Instance.TransactionCrawler.LowestBlock > processBlockNumber ||
-                                    CrawlerStateDat.Instance.TransactionCrawler.LowestBlock == 0)
-                                {
-                                    CrawlerStateDat.Instance.TransactionCrawler.LowestBlock = processBlockNumber;
-                                }
-                                CrawlerStateDat.Instance.Save();
-                                SetNumberOfBlocksProcessed();
+                                    if (CrawlerStateDat.Instance.TransactionCrawler.HighestBlock < processBlockNumber)
+                                    {
+                                        CrawlerStateDat.Instance.TransactionCrawler.HighestBlock = processBlockNumber;
+                                    }
+                                    if (CrawlerStateDat.Instance.TransactionCrawler.LowestBlock > processBlockNumber ||
+                                        CrawlerStateDat.Instance.TransactionCrawler.LowestBlock == 0)
+                                    {
+                                        CrawlerStateDat.Instance.TransactionCrawler.LowestBlock = processBlockNumber;
+                                    }
+                                    CrawlerStateDat.Instance.Save();
+                                    SetNumberOfBlocksProcessed();
 
-                                loopDelay = 10;
+                                    loopDelay = 10;
+                                }
+                                else
+                                {
+                                    //log wrong number of transactions received!
+                                    loopDelay = 1000;
+                                }
                             }
                             catch (Exception e)
                             {
@@ -236,21 +244,30 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                         {
                             var apiclient = new ZilliqaClient();
                             var txBlock = await apiclient.GetTxBlock(processBlockNumber);
-                            var blockModel = txBlock.MapToModel<ApiModel.TxBlock, Block>();
-                            dbTableBlock.AddRecord(blockModel);
-
-                            if (CrawlerStateDat.Instance.BlockCrawler.HighestBlock < processBlockNumber)
+                            if (txBlock.BlockNum == processBlockNumber.ToString())
                             {
-                                CrawlerStateDat.Instance.BlockCrawler.HighestBlock = processBlockNumber;
-                            }
-                            if (CrawlerStateDat.Instance.BlockCrawler.LowestBlock > processBlockNumber ||
-                                CrawlerStateDat.Instance.BlockCrawler.LowestBlock == 0)
-                            {
-                                CrawlerStateDat.Instance.BlockCrawler.LowestBlock = processBlockNumber;
-                            }
-                            CrawlerStateDat.Instance.Save();
+                                var blockModel = txBlock.MapToModel<ApiModel.TxBlock, Block>();
+                                dbTableBlock.AddRecord(blockModel);
 
-                            loopDelay = 10;
+                                if (CrawlerStateDat.Instance.BlockCrawler.HighestBlock < processBlockNumber)
+                                {
+                                    CrawlerStateDat.Instance.BlockCrawler.HighestBlock = processBlockNumber;
+                                }
+                                if (CrawlerStateDat.Instance.BlockCrawler.LowestBlock > processBlockNumber ||
+                                    CrawlerStateDat.Instance.BlockCrawler.LowestBlock == 0)
+                                {
+                                    CrawlerStateDat.Instance.BlockCrawler.LowestBlock = processBlockNumber;
+                                }
+                                CrawlerStateDat.Instance.Save();
+
+                                loopDelay = 10;
+                            }
+                            else
+                            {
+                                //log wrong data received!
+                                loopDelay = 1000;
+                            }
+
                         }
                         catch (Exception e)
                         {
