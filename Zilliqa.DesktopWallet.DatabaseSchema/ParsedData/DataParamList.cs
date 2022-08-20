@@ -2,7 +2,7 @@
 
 namespace Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
-public class DataParamList : List<Param>
+public class DataParamList : List<DataParam>
 {
     public static bool TryParse(object data, out DataParamList? result)
     {

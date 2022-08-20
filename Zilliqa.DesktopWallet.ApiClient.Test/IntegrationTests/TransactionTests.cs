@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using Zilliqa.DesktopWallet.ApiClient.Model;
+using Zilliqa.DesktopWallet.ApiClient.Utils;
+using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
 namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
 {
@@ -41,22 +44,29 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
             var txns = await _zil.GetTxnBodiesForTxBlock(1353849);
             Assert.IsTrue(txns.Any());
         }
+
         [Test]
         public async Task GetTransactionsForTxBlockNotEmpty()
         {
             var txns = await _zil.GetTransactionsForTxBlock(1353849); 
             Assert.IsTrue(txns.Any());
         }
+
+        [Test]
         public async Task GetRecentTransactionsNotEmpty()
         {
             var txns = await _zil.GetRecentTransactions();
             Assert.IsTrue(txns.Any());
         }
+
+        [Test]
         public async Task GetPendingTxnsNotEmpty()
         {
             var txns = await _zil.GetPendingTxns();
             Assert.IsTrue(txns.Any());
         }
+
+        [Test]
         public async Task GetPendingTxnHashNotEmpty()
         {
             var txns = await _zil.GetPendingTxns();
@@ -64,12 +74,29 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
             var ftxns = await _zil.GetPendingTxn(txn.Hash);
             Assert.IsTrue(txns.Any());
         }
+
+        [Test]
         public async Task GetTransactionNotNull()
         {
             var hash = "655107c300e86ee6e819af1cbfce097db1510e8cd971d99f32ce2772dcad42f2";
             var txn = await _zil.GetTransaction(hash);
             Assert.IsTrue(txn != null);
         }
+
+        [Test]
+        public async Task GetTransactionTokenTransfer()
+        {
+            var hash = "eef046b8d1ac7948caf6ee84409e36c1a919f314cebd40540e7ffe2b94314e32";
+            var txn = await _zil.GetTransaction(hash);
+            var bech32 = txn.Receipt.EventLogs[0].Address.FromBase16ToBech32Address();
+            var gZiltokenAddress = "zil14pzuzq6v6pmmmrfjhczywguu0e97djepxt8g3e";
+            Assert.AreEqual(gZiltokenAddress, bech32);
+            var dataJToken = JToken.Parse(txn.Data);
+            Assert.IsTrue(DataContractCall.TryParse(dataJToken, out var parsedData));
+            Assert.AreEqual("Transfer", parsedData.Tag);
+            Assert.AreEqual("TransferSuccess", txn.Receipt.EventLogs[0].Eventname);
+        }
+
         [Test]
         public async Task CreateTransactionHasId()
         {

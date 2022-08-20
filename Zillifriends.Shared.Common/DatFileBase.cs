@@ -10,6 +10,7 @@ namespace Zillifriends.Shared.Common
             TypeNameHandling = TypeNameHandling.Auto,
             TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            NullValueHandling = NullValueHandling.Ignore,
 #if DEBUG
             Formatting = Formatting.Indented
 #endif

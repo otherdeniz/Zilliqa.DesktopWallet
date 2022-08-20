@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Zilligraph.Database.Contract;
-using Zilligraph.Database.Definition;
+using Zilliqa.DesktopWallet.DatabaseSchema.CalculatedIndexes;
 
 namespace Zilliqa.DesktopWallet.DatabaseSchema
 {
+    [CalculatedIndex("TokenTransferSender", typeof(TransactionTokenTransferSender))]
+    [CalculatedIndex("TokenTransferRecipient", typeof(TransactionTokenTransferRecipient))]
     public class Transaction
     {
         [RequiredValue]
@@ -52,10 +54,16 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
         [JsonProperty("L")]
         public string SenderPubKey { get; set; }
 
+        /// <summary>
+        /// Hex-Address without leading '0x'
+        /// </summary>
         [SchemaIndex]
         [JsonProperty("M")]
         public string SenderAddress { get; set; }
 
+        /// <summary>
+        /// Hex-Address without leading '0x'
+        /// </summary>
         [SchemaIndex]
         [JsonProperty("N")]
         public string ToAddress { get; set; }

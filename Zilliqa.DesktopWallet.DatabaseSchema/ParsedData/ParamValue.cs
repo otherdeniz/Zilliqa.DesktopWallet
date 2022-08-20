@@ -111,7 +111,7 @@ public class ParamValueUInt32 : ParamValue
             return true;
         }
 
-        paramValue = null;
+        paramValue = null!;
         return false;
     }
 
@@ -129,7 +129,7 @@ public class ParamValueHex20Bytes : ParamValue
     {
         if (value is string stringValue)
         {
-            Hex = stringValue;
+            Hex = stringValue.StartsWith("0x") ? stringValue.Substring(2) : stringValue;
         }
     }
 
@@ -161,7 +161,7 @@ public class ParamValueHex20BytesWithFunctionName : ParamValue
      */
 #pragma warning restore S125
 
-    private static readonly Regex TypeRegex = new Regex(@"(0x[0-9|a-f]{40})\.([\w|\d]+)", RegexOptions.Compiled);
+    private static readonly Regex TypeRegex = new Regex(@"0x([0-9|a-f]{40})\.([\w|\d]+)", RegexOptions.Compiled);
 
     public static bool TryParse(string type, object value, out ParamValueHex20BytesWithFunctionName paramValue)
     {
@@ -249,6 +249,9 @@ public class ParamValueConstructorWithArgumentsList : ParamValue
 
 public class ParamValueConstructorWithArguments : ParamValue
 {
+    private List<object>? _argumentsRaw;
+    private List<object>? _argumentsParsed;
+
     public static bool TryParse(object value, out ParamValueConstructorWithArguments result)
     {
         if (value is JToken jToken)
@@ -275,24 +278,35 @@ public class ParamValueConstructorWithArguments : ParamValue
     public List<object> Argtypes { get; set; } = null!;
 
     [JsonProperty("arguments")]
-    public List<object> Arguments { get; set; } = null!;
+    public List<object> Arguments
+    {
+        get => _argumentsParsed ??= GetArgumentsParsed();
+        set
+        {
+            _argumentsRaw = value;
+            _argumentsParsed = null;
+        }
+    }
 
-    public List<object> ArgumentsParsed()
+    private List<object> GetArgumentsParsed()
     {
         var list = new List<object>();
-        foreach (object argument in Arguments)
+        if (_argumentsRaw != null)
         {
-            if (argument is string stringValue)
+            foreach (object argument in _argumentsRaw)
             {
-                list.Add(stringValue);
-            }
-            else if (TryParse(argument, out var valueConstructorWithArguments))
-            {
-                list.Add(valueConstructorWithArguments);
-            }
-            else
-            {
-                list.Add(argument);
+                if (argument is string stringValue)
+                {
+                    list.Add(stringValue);
+                }
+                else if (TryParse(argument, out var valueConstructorWithArguments))
+                {
+                    list.Add(valueConstructorWithArguments);
+                }
+                else
+                {
+                    list.Add(argument);
+                }
             }
         }
         return list;

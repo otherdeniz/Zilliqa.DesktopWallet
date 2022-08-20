@@ -10,14 +10,14 @@ namespace Zilligraph.Database.Storage.Index
         private readonly object _fileLock = new();
         private readonly byte[] _lastRecordPointer = BitConverter.GetBytes((ulong)0);
 
-        public IndexContentFile(ZilligraphTableFieldIndex tableFieldIndex, int hashBytesLength)
+        public IndexContentFile(ZilligraphTableIndexBase tableFieldIndex, int hashBytesLength)
         {
             _hashBytesLength = hashBytesLength;
             TableFieldIndex = tableFieldIndex;
-            _filePath = tableFieldIndex.Table.PathBuilder.GetFilePath($"{tableFieldIndex.PropertyName}_index_content.bin");
+            _filePath = tableFieldIndex.Table.PathBuilder.GetFilePath($"{tableFieldIndex.Name}_index_content.bin");
         }
 
-        public ZilligraphTableFieldIndex TableFieldIndex { get; }
+        public ZilligraphTableIndexBase TableFieldIndex { get; }
 
         public ulong CreateChain(byte[] indexHash, ulong recordPoint)
         {
@@ -60,12 +60,12 @@ namespace Zilligraph.Database.Storage.Index
 
         public IndexRecord? GetFirstIndex(ulong chainEntryPoint, byte[] valueHash)
         {
-            return new IndexRecordEnumerable(this, chainEntryPoint, valueHash, 1).FirstOrDefault();
+            return new IndexContentEnumerable(this, chainEntryPoint, valueHash, 1).FirstOrDefault();
         }
 
         public IEnumerable<IndexRecord> EnumerateIndexes(ulong chainEntryPoint, byte[] valueHash)
         {
-            return new IndexRecordEnumerable(this, chainEntryPoint, valueHash, _enumerationChunkSize);
+            return new IndexContentEnumerable(this, chainEntryPoint, valueHash, _enumerationChunkSize);
         }
 
         public List<IndexRecord> ReadIndexesChunkt(ulong chainEntryPoint, byte[] valueHash, int maxCount = 0)

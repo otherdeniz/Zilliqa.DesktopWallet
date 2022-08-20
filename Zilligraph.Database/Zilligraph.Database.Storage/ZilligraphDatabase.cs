@@ -63,6 +63,7 @@ namespace Zilligraph.Database.Storage
                 }
 
                 var table = new ZilligraphTable<TRecordModel>(this);
+                table.EnsureInitialised(false);
                 _tables.Add(modelType, table);
                 return table;
             }

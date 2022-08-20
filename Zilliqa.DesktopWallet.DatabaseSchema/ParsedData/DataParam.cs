@@ -4,6 +4,8 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
 public class DataParam : IParam
 {
+    private ParamValue? _resolvedValue;
+
     [JsonProperty("type")]
     public string Type { get; set; }
 
@@ -13,4 +15,5 @@ public class DataParam : IParam
     [JsonProperty("value")]
     public object Value { get; set; }
 
+    public ParamValue ResolvedValue => _resolvedValue ??= ParamValue.ResolveParam(this);
 }

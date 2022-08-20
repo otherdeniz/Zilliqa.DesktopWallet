@@ -2,7 +2,7 @@
 
 namespace Zilligraph.Database.Storage.Index
 {
-    public class IndexRecordEnumerable : IEnumerable<IndexRecord>
+    public class IndexContentEnumerable : IEnumerable<IndexRecord>
     {
         private readonly IndexContentFile _contentFile;
         private readonly ulong _chainEntryPoint;
@@ -11,7 +11,7 @@ namespace Zilligraph.Database.Storage.Index
         private List<IndexRecord>? _recordChunk;
         private int _chunkPosition = -1;
 
-        public IndexRecordEnumerable(IndexContentFile contentFile, ulong chainEntryPoint, byte[] valueHash, int chunkSize)
+        public IndexContentEnumerable(IndexContentFile contentFile, ulong chainEntryPoint, byte[] valueHash, int chunkSize)
         {
             _contentFile = contentFile;
             _chainEntryPoint = chainEntryPoint;
@@ -63,23 +63,23 @@ namespace Zilligraph.Database.Storage.Index
 
         public class IndexRecordEnumerator : IEnumerator<IndexRecord>
         {
-            private readonly IndexRecordEnumerable _indexRecordEnumerable;
+            private readonly IndexContentEnumerable _indexContentEnumerable;
 
-            public IndexRecordEnumerator(IndexRecordEnumerable indexRecordEnumerable)
+            public IndexRecordEnumerator(IndexContentEnumerable indexContentEnumerable)
             {
-                _indexRecordEnumerable = indexRecordEnumerable;
+                _indexContentEnumerable = indexContentEnumerable;
             }
 
             public bool MoveNext()
             {
-                Current = _indexRecordEnumerable.ReadNextRecord();
+                Current = _indexContentEnumerable.ReadNextRecord();
                 return Current != null;
             }
 
             public void Reset()
             {
-                _indexRecordEnumerable._recordChunk = null;
-                _indexRecordEnumerable._chunkPosition = -1;
+                _indexContentEnumerable._recordChunk = null;
+                _indexContentEnumerable._chunkPosition = -1;
             }
 
 #pragma warning disable CS8766 //Nullability

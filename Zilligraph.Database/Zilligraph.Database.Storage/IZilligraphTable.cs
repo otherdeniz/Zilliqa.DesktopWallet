@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Zillifriends.Shared.Common;
 using Zilligraph.Database.Storage.FilterQuery;
+using Zilligraph.Database.Storage.Table;
 
 namespace Zilligraph.Database.Storage
 {
@@ -8,15 +9,17 @@ namespace Zilligraph.Database.Storage
     {
         ZilligraphDatabase Database { get; }
 
-        string TableName { get; }
+        Type RecordType { get; }
 
         string StoragePath { get; }
 
-        Type RecordType { get; }
+        string TableName { get; }
+
+        TableInfo TableInfo { get; }
 
         DataPathBuilder PathBuilder { get; }
 
-        Dictionary<string, ZilligraphTableFieldIndex> FieldIndexes { get; }
+        Dictionary<string, ZilligraphTableIndexBase> Indexes { get; }
 
         void AddRecord(object record);
 
@@ -25,5 +28,7 @@ namespace Zilligraph.Database.Storage
         object? FindRecord(string propertyName, object value, bool resolveReferences = true);
 
         object? ReadRecord(ulong recordPoint, bool resolveReferences = true);
+
+        void EnsureInitialised(bool wait);
     }
 }

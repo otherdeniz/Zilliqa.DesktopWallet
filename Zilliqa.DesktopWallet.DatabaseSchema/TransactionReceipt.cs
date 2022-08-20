@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
 namespace Zilliqa.DesktopWallet.DatabaseSchema
 {
@@ -40,6 +41,8 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
 
     public class Param : IParam
     {
+        private ParamValue? _resolvedValue;
+
         [JsonProperty("A")]
         public string Type { get; set; }
 
@@ -49,6 +52,8 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
         [JsonProperty("C")]
         public object Value { get; set; }
 
+        [JsonIgnore]
+        public ParamValue ResolvedValue => _resolvedValue ??= ParamValue.ResolveParam(this);
     }
 
     public class Transition

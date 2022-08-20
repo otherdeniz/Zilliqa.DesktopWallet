@@ -1,4 +1,4 @@
-﻿using Zilligraph.Database.Definition;
+﻿using Zilligraph.Database.Contract;
 
 namespace Zilligraph.Database.Storage.IntegrationTests.Model
 {

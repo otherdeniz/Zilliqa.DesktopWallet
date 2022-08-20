@@ -2,7 +2,6 @@
 using System.Reflection;
 using Zillifriends.Shared.Common;
 using Zilligraph.Database.Contract;
-using Zilligraph.Database.Definition;
 using Zilligraph.Database.Storage.FilterQuery;
 using Zilligraph.Database.Storage.Index;
 using Zilligraph.Database.Storage.Table;
@@ -18,8 +17,11 @@ namespace Zilligraph.Database.Storage
         private readonly List<DataFile> _dataFiles = new();
         private TableInfo? _tableInfo;
         private Type? _recordType;
-        private Dictionary<string, ZilligraphTableFieldIndex>? _fieldIndexes;
+        private Dictionary<string, ZilligraphTableIndexBase>? _indexes;
         private List<ZilligraphTableFieldReference>? _fieldReferences;
+        private bool _initialisationCompleted;
+        private readonly object _initialisationLock = new();
+        private readonly object _transactionLock = new();
 
         public ZilligraphTable(ZilligraphDatabase database)
         {
@@ -46,9 +48,95 @@ namespace Zilligraph.Database.Storage
 
         public TableInfo TableInfo => _tableInfo ??= TableInfo.Load(this);
 
-        public Dictionary<string, ZilligraphTableFieldIndex> FieldIndexes => _fieldIndexes ??=  GetFieldIndexes();
+        public ZilligraphTransaction? CurrenTransaction { get; internal set; }
+
+        public Dictionary<string, ZilligraphTableIndexBase> Indexes => _indexes ??=  GetIndexes();
 
         public List<ZilligraphTableFieldReference> FieldReferences => _fieldReferences ??= GetFieldReferences();
+
+        public void EnsureInitialised(bool wait)
+        {
+            if (_initialisationCompleted)
+            {
+                return;
+            }
+
+            if (wait)
+            {
+                Initialise();
+            }
+            else
+            {
+                Task.Run(Initialise);
+            }
+        }
+
+        private void Initialise()
+        {
+            lock (_initialisationLock)
+            {
+                if (_initialisationCompleted)
+                {
+                    return;
+                }
+
+                if (_dataFiles.Any(d => d.HasRows))
+                {
+                    // upgrade TableInfo
+                    if (TableInfo.DataFileInfos.Count == 0)
+                    {
+                        var recordCount = _dataFiles[0].AllRows().Count();
+
+                        TableInfo.DataFileInfos.Add(new TableInfo.DataFileInfo
+                        {
+                            FirstRecordNumber = 1,
+                            LastRecordNumber = recordCount
+                        });
+                    }
+
+                    // add new Indexes
+                    var newIndexes = Indexes.Select(i => i.Value).Where(i => !i.IndexExists).ToList();
+                    if (newIndexes.Any())
+                    {
+                        foreach (var row in _dataFiles[0].AllRows())
+                        {
+                            var record = row.DecompressRowObject<TRecordModel>();
+                            foreach (var index in newIndexes)
+                            {
+                                index.AddRecordIndex(Convert.ToUInt64(row.RowPosition + 1), record);
+                            }
+                        }
+                    }
+                }
+
+                _initialisationCompleted = true;
+            }
+        }
+
+        public bool CreateTransaction(bool waitForFree)
+        {
+            EnsureInitialised(true);
+            if (CurrenTransaction != null)
+            {
+                if (!waitForFree)
+                {
+                    return false;
+                }
+
+                do
+                {
+                    Task.Run(async () => await Task.Delay(25)).GetAwaiter().GetResult();
+                } while (CurrenTransaction != null);
+            }
+
+            //lock (_transactionLock)
+            //{
+
+            //}
+            CurrenTransaction = new ZilligraphTransaction(this);
+            return true;
+        }
+
 
         public void AddRecord(TRecordModel record)
         {
@@ -62,11 +150,12 @@ namespace Zilligraph.Database.Storage
 
         private void AddRecordInternal(object record)
         {
+            EnsureInitialised(true);
             var dataFile = GetLastDataFile();
 
             var rowBinary = DataRowBinary.CreateNew(record);
             var recordPoint = dataFile.Append(rowBinary);
-            foreach (var fieldIndex in FieldIndexes)
+            foreach (var fieldIndex in Indexes)
             {
                 fieldIndex.Value.AddRecordIndex(recordPoint, record);
             }
@@ -85,12 +174,12 @@ namespace Zilligraph.Database.Storage
 
         private TRecordModel? FindRecordInternal(string propertyName, object value, bool resolveReferences)
         {
-            if (FieldIndexes.TryGetValue(propertyName, out var fieldIndex))
+            if (Indexes.TryGetValue(propertyName, out var fieldIndex))
             {
                 var recordIndex = fieldIndex.GetFirstIndex(value);
                 if (recordIndex != null)
                 {
-                    return ReadRecord(recordIndex.RecordPoint);
+                    return ReadRecord(recordIndex.RecordPoint, resolveReferences);
                 }
             }
 
@@ -208,10 +297,9 @@ namespace Zilligraph.Database.Storage
             }
         }
 
-        private Dictionary<string, ZilligraphTableFieldIndex> GetFieldIndexes()
+        private Dictionary<string, ZilligraphTableIndexBase> GetIndexes()
         {
-            //TODO: do recursive
-            var indexes = new Dictionary<string, ZilligraphTableFieldIndex>();
+            var indexes = new Dictionary<string, ZilligraphTableIndexBase>();
 
             foreach (var propertyInfo in RecordType.GetProperties())
             {
@@ -220,13 +308,18 @@ namespace Zilligraph.Database.Storage
                     indexes.Add(propertyInfo.Name, new ZilligraphTableFieldIndex(this, propertyInfo.Name));
                 }
             }
-
+            foreach (var customAttribute in RecordType.GetCustomAttributes(typeof(CalculatedIndexAttribute)))
+            {
+                if (customAttribute is CalculatedIndexAttribute calculatedIndexAttribute)
+                {
+                    indexes.Add(calculatedIndexAttribute.IndexName, new ZilligraphTableCalculatedIndex(this, calculatedIndexAttribute.IndexName, calculatedIndexAttribute.IndexCalculator));
+                }
+            }
             return indexes;
         }
 
         private List<ZilligraphTableFieldReference> GetFieldReferences()
         {
-            //TODO: do recursive
             var list = new List<ZilligraphTableFieldReference>();
 
             foreach (var propertyInfo in RecordType.GetProperties())

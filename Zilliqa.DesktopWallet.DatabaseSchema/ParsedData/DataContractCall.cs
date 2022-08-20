@@ -5,15 +5,36 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
 public class DataContractCall
 {
-    public static bool TryParse(object data, out DataContractCall? result)
+    public static bool TryParse(string data, out DataContractCall result)
+    {
+        if (!string.IsNullOrEmpty(data))
+        {
+            try
+            {
+                return TryParse(JToken.Parse(data), out result);
+            }
+            catch (Exception)
+            {
+                // failed
+            }
+        }
+        result = null!;
+        return false;
+    }
+
+    public static bool TryParse(object data, out DataContractCall result)
     {
         if (data is JToken jToken)
         {
             try
             {
-                result = jToken.ToObject<DataContractCall>();
-                return result?.Tag != null 
-                       && result.Params.Any();
+                var contractCall = jToken.ToObject<DataContractCall>();
+                if (contractCall != null)
+                {
+                    result = contractCall;
+                    return result.Tag != null
+                           && result.Params.Any();
+                }
             }
             catch (Exception)
             {
@@ -21,7 +42,7 @@ public class DataContractCall
             }
         }
 
-        result = null;
+        result = null!;
         return false;
     }
 
@@ -29,5 +50,5 @@ public class DataContractCall
     public string? Tag { get; set; }
 
     [JsonProperty("params")] 
-    public List<Param> Params { get; set; } = null!;
+    public List<DataParam> Params { get; set; } = null!;
 }

@@ -6,14 +6,14 @@ namespace Zilligraph.Database.Storage.Index
     public class FilterFieldSearcher : IFilterSearcher
     {
         private readonly IZilligraphTable _table;
-        private readonly ZilligraphTableFieldIndex _tableFieldIndex;
+        private readonly ZilligraphTableIndexBase _tableFieldIndex;
         private IEnumerator<IndexRecord>? _indexRecordsEnumerator;
         private readonly object? _filterValue;
 
         public FilterFieldSearcher(IZilligraphTable table, FilterQueryField filterQueryField)
         {
             _table = table;
-            if (!_table.FieldIndexes.TryGetValue(filterQueryField.PropertyName, out var fieldIndex))
+            if (!_table.Indexes.TryGetValue(filterQueryField.PropertyName, out var fieldIndex))
             {
                 throw new RuntimeException(
                     $"missing FieldIndex for Property {filterQueryField.PropertyName} on Table {table.TableName}");
