@@ -10,6 +10,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         public WalletAddressDetails()
         {
             InitializeComponent();
+            gridViewTokenBalances.Dock = DockStyle.Fill;
+            gridViewTokenTransactions.Dock = DockStyle.Fill;
         }
 
         public void LoadAccount(AccountViewModel account)

@@ -4,8 +4,6 @@ namespace Zilligraph.Database.Storage.Table
 {
     public class TableInfo : DatFileBase
     {
-        public int DataFileCount { get; set; }
-
         public List<DataFileInfo> DataFileInfos { get; set; } = new List<DataFileInfo>();
 
         public static TableInfo Load(IZilligraphTable table)

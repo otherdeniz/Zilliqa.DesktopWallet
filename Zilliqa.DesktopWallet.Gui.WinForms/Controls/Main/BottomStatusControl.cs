@@ -1,6 +1,7 @@
 ﻿using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ZilligraphDb;
+using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 {
@@ -36,7 +37,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                     var percentage = 100d 
                                       / Convert.ToDouble(ZilliqaBlockchainCrawler.Instance.NumberOfBlocksOnChain) 
                                       * Convert.ToDouble(ZilliqaBlockchainCrawler.Instance.NumberOfBlocksProcessed);
-                    textStatus.Text = $"Syncing {percentage:0.000}% ({ZilliqaBlockchainCrawler.Instance.NumberOfBlocksProcessed:#,##0}/{ZilliqaBlockchainCrawler.Instance.NumberOfBlocksOnChain:#,##0})";
+                    textStatus.Text = $"Downloading ({percentage:0.000}%)";
+                    // ({ZilliqaBlockchainCrawler.Instance.NumberOfBlocksProcessed:#,##0}/{ZilliqaBlockchainCrawler.Instance.NumberOfBlocksOnChain:#,##0})"
                 }
             }
             else
@@ -46,10 +48,17 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                     : "Idle";
             }
 
-            textBlocksCount.Text = RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo.NumberOfBlocks
-                .ToString("#,##0");
-            textTransactionsCount.Text = RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo.NumberOfTransactions
-                .ToString("#,##0");
+            textBlocksCount.Text = RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo
+                .NumberOfBlocks.ToString("#,##0");
+
+            textDbBlocksCount.Text = RepositoryManager.Instance.ZilliqaBlockchainDbRepository.Database.GetTable<Block>()
+                .RecordCount.ToString("#,##0");
+
+            textTransactionsCount.Text = RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo
+                .NumberOfTransactions.ToString("#,##0");
+
+            textDbTransactionsCount.Text = RepositoryManager.Instance.ZilliqaBlockchainDbRepository.Database.GetTable<Transaction>()
+                .RecordCount.ToString("#,##0");
 
             RefreshButtons();
         }

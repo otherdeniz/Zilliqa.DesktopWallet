@@ -17,6 +17,8 @@ namespace Zilligraph.Database.Storage
 
         TableInfo TableInfo { get; }
 
+        long RecordCount { get; }
+
         DataPathBuilder PathBuilder { get; }
 
         Dictionary<string, ZilligraphTableIndexBase> Indexes { get; }

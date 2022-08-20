@@ -35,8 +35,9 @@
             this.buttonTokens = new System.Windows.Forms.ToolStripButton();
             this.buttonExit = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.buttonSettings = new System.Windows.Forms.ToolStripButton();
             this.buttonBlockchain = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.buttonSettings = new System.Windows.Forms.ToolStripButton();
             this.panelMain = new System.Windows.Forms.Panel();
             this.mainWalletControl = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.MainWalletControl();
             this.mainBlockchainBrowserControl = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.MainBlockchainBrowserControl();
@@ -46,7 +47,6 @@
             this.groupBoxStatus = new System.Windows.Forms.GroupBox();
             this.bottomStatusControl1 = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.BottomStatusControl();
             this.timerInit = new System.Windows.Forms.Timer(this.components);
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMain.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.panelBottom.SuspendLayout();
@@ -105,15 +105,6 @@
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
             // 
-            // buttonSettings
-            // 
-            this.buttonSettings.Image = ((System.Drawing.Image)(resources.GetObject("buttonSettings.Image")));
-            this.buttonSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.buttonSettings.Name = "buttonSettings";
-            this.buttonSettings.Size = new System.Drawing.Size(77, 28);
-            this.buttonSettings.Text = "Settings";
-            this.buttonSettings.Click += new System.EventHandler(this.buttonSettings_Click);
-            // 
             // buttonBlockchain
             // 
             this.buttonBlockchain.Image = ((System.Drawing.Image)(resources.GetObject("buttonBlockchain.Image")));
@@ -122,6 +113,20 @@
             this.buttonBlockchain.Size = new System.Drawing.Size(138, 28);
             this.buttonBlockchain.Text = "Blockchain Browser";
             this.buttonBlockchain.Click += new System.EventHandler(this.buttonBlockchain_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
+            // 
+            // buttonSettings
+            // 
+            this.buttonSettings.Image = ((System.Drawing.Image)(resources.GetObject("buttonSettings.Image")));
+            this.buttonSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonSettings.Name = "buttonSettings";
+            this.buttonSettings.Size = new System.Drawing.Size(77, 28);
+            this.buttonSettings.Text = "Settings";
+            this.buttonSettings.Click += new System.EventHandler(this.buttonSettings_Click);
             // 
             // panelMain
             // 
@@ -171,9 +176,9 @@
             this.groupBoxNotifications.Controls.Add(this.panelNotifications);
             this.groupBoxNotifications.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxNotifications.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.groupBoxNotifications.Location = new System.Drawing.Point(253, 0);
+            this.groupBoxNotifications.Location = new System.Drawing.Point(302, 0);
             this.groupBoxNotifications.Name = "groupBoxNotifications";
-            this.groupBoxNotifications.Size = new System.Drawing.Size(983, 160);
+            this.groupBoxNotifications.Size = new System.Drawing.Size(934, 160);
             this.groupBoxNotifications.TabIndex = 0;
             this.groupBoxNotifications.TabStop = false;
             this.groupBoxNotifications.Text = "Notifications";
@@ -184,7 +189,7 @@
             this.panelNotifications.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelNotifications.Location = new System.Drawing.Point(3, 19);
             this.panelNotifications.Name = "panelNotifications";
-            this.panelNotifications.Size = new System.Drawing.Size(977, 138);
+            this.panelNotifications.Size = new System.Drawing.Size(928, 138);
             this.panelNotifications.TabIndex = 0;
             // 
             // groupBoxStatus
@@ -194,7 +199,7 @@
             this.groupBoxStatus.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.groupBoxStatus.Location = new System.Drawing.Point(0, 0);
             this.groupBoxStatus.Name = "groupBoxStatus";
-            this.groupBoxStatus.Size = new System.Drawing.Size(253, 160);
+            this.groupBoxStatus.Size = new System.Drawing.Size(302, 160);
             this.groupBoxStatus.TabIndex = 1;
             this.groupBoxStatus.TabStop = false;
             this.groupBoxStatus.Text = "Blockchain Status";
@@ -206,7 +211,7 @@
             this.bottomStatusControl1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.bottomStatusControl1.Location = new System.Drawing.Point(3, 19);
             this.bottomStatusControl1.Name = "bottomStatusControl1";
-            this.bottomStatusControl1.Size = new System.Drawing.Size(247, 138);
+            this.bottomStatusControl1.Size = new System.Drawing.Size(296, 138);
             this.bottomStatusControl1.TabIndex = 0;
             // 
             // timerInit
@@ -214,11 +219,6 @@
             this.timerInit.Enabled = true;
             this.timerInit.Interval = 10;
             this.timerInit.Tick += new System.EventHandler(this.timerInit_Tick);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
             // MainForm
             // 

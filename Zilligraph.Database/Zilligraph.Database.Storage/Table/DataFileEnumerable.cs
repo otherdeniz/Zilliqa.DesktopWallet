@@ -43,7 +43,7 @@ namespace Zilligraph.Database.Storage.Table
                 try
                 {
                     Current = _enumerable._dataFile.Read(recordPoint);
-                    return true;
+                    return Current != null;
                 }
                 catch (Exception)
                 {

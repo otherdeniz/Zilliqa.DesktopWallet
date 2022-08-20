@@ -38,9 +38,13 @@
             this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.textBlocksCount = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textDbBlocksCount = new System.Windows.Forms.Label();
             this.labelBlocksCount = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.textTransactionsCount = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textDbTransactionsCount = new System.Windows.Forms.Label();
             this.labelTransactionCount = new System.Windows.Forms.Label();
             this.timerRefresh = new System.Windows.Forms.Timer(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -127,6 +131,8 @@
             // 
             this.panel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panel2.Controls.Add(this.textBlocksCount);
+            this.panel2.Controls.Add(this.label4);
+            this.panel2.Controls.Add(this.textDbBlocksCount);
             this.panel2.Controls.Add(this.labelBlocksCount);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 67);
@@ -139,12 +145,31 @@
             // 
             this.textBlocksCount.AutoSize = true;
             this.textBlocksCount.Dock = System.Windows.Forms.DockStyle.Left;
-            this.textBlocksCount.Location = new System.Drawing.Point(118, 3);
+            this.textBlocksCount.Location = new System.Drawing.Point(146, 3);
             this.textBlocksCount.Name = "textBlocksCount";
-            this.textBlocksCount.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.textBlocksCount.Size = new System.Drawing.Size(26, 15);
+            this.textBlocksCount.Size = new System.Drawing.Size(16, 15);
             this.textBlocksCount.TabIndex = 1;
             this.textBlocksCount.Text = "...";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label4.Location = new System.Drawing.Point(134, 3);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(12, 15);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "/";
+            // 
+            // textDbBlocksCount
+            // 
+            this.textDbBlocksCount.AutoSize = true;
+            this.textDbBlocksCount.Dock = System.Windows.Forms.DockStyle.Left;
+            this.textDbBlocksCount.Location = new System.Drawing.Point(118, 3);
+            this.textDbBlocksCount.Name = "textDbBlocksCount";
+            this.textDbBlocksCount.Size = new System.Drawing.Size(16, 15);
+            this.textDbBlocksCount.TabIndex = 2;
+            this.textDbBlocksCount.Text = "...";
             // 
             // labelBlocksCount
             // 
@@ -161,6 +186,8 @@
             // 
             this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panel1.Controls.Add(this.textTransactionsCount);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.textDbTransactionsCount);
             this.panel1.Controls.Add(this.labelTransactionCount);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 89);
@@ -173,12 +200,31 @@
             // 
             this.textTransactionsCount.AutoSize = true;
             this.textTransactionsCount.Dock = System.Windows.Forms.DockStyle.Left;
-            this.textTransactionsCount.Location = new System.Drawing.Point(149, 3);
+            this.textTransactionsCount.Location = new System.Drawing.Point(177, 3);
             this.textTransactionsCount.Name = "textTransactionsCount";
-            this.textTransactionsCount.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.textTransactionsCount.Size = new System.Drawing.Size(26, 15);
+            this.textTransactionsCount.Size = new System.Drawing.Size(16, 15);
             this.textTransactionsCount.TabIndex = 1;
             this.textTransactionsCount.Text = "...";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label5.Location = new System.Drawing.Point(165, 3);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(12, 15);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "/";
+            // 
+            // textDbTransactionsCount
+            // 
+            this.textDbTransactionsCount.AutoSize = true;
+            this.textDbTransactionsCount.Dock = System.Windows.Forms.DockStyle.Left;
+            this.textDbTransactionsCount.Location = new System.Drawing.Point(149, 3);
+            this.textDbTransactionsCount.Name = "textDbTransactionsCount";
+            this.textDbTransactionsCount.Size = new System.Drawing.Size(16, 15);
+            this.textDbTransactionsCount.TabIndex = 5;
+            this.textDbTransactionsCount.Text = "...";
             // 
             // labelTransactionCount
             // 
@@ -289,5 +335,9 @@
         private ToolStripButton buttonStart;
         private ToolStripButton buttonStop;
         private System.Windows.Forms.Timer timerRefreshDbSize;
+        private Label label4;
+        private Label textDbBlocksCount;
+        private Label label5;
+        private Label textDbTransactionsCount;
     }
 }

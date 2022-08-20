@@ -14,7 +14,7 @@ namespace Zilligraph.Database.Storage
     {
         private readonly string _tableName;
         private readonly string _storagePath;
-        private readonly List<DataFile> _dataFiles = new();
+        private List<DataFile>? _dataFiles;
         private TableInfo? _tableInfo;
         private Type? _recordType;
         private Dictionary<string, ZilligraphTableIndexBase>? _indexes;
@@ -44,6 +44,10 @@ namespace Zilligraph.Database.Storage
 
         public Type RecordType => _recordType ??= typeof(TRecordModel);
 
+        public long RecordCount => TableInfo.DataFileInfos.Count == 0
+            ? 0
+            : TableInfo.DataFileInfos.Sum(i => i.LastRecordNumber - i.FirstRecordNumber + 1);
+
         public DataPathBuilder PathBuilder { get; }
 
         public TableInfo TableInfo => _tableInfo ??= TableInfo.Load(this);
@@ -53,6 +57,8 @@ namespace Zilligraph.Database.Storage
         public Dictionary<string, ZilligraphTableIndexBase> Indexes => _indexes ??=  GetIndexes();
 
         public List<ZilligraphTableFieldReference> FieldReferences => _fieldReferences ??= GetFieldReferences();
+
+        public List<DataFile> DataFiles => _dataFiles ??= LoadDataFiles();
 
         public void EnsureInitialised(bool wait)
         {
@@ -80,25 +86,21 @@ namespace Zilligraph.Database.Storage
                     return;
                 }
 
-                if (_dataFiles.Any(d => d.HasRows))
+                if (DataFiles[0].HasRows)
                 {
                     // upgrade TableInfo
-                    if (TableInfo.DataFileInfos.Count == 0)
+                    if (TableInfo.DataFileInfos[0].LastRecordNumber == 0)
                     {
-                        var recordCount = _dataFiles[0].AllRows().Count();
-
-                        TableInfo.DataFileInfos.Add(new TableInfo.DataFileInfo
-                        {
-                            FirstRecordNumber = 1,
-                            LastRecordNumber = recordCount
-                        });
+                        var recordCount = DataFiles[0].AllRows().Count();
+                        TableInfo.DataFileInfos[0].LastRecordNumber = recordCount;
+                        TableInfo.Save();
                     }
 
                     // add new Indexes
                     var newIndexes = Indexes.Select(i => i.Value).Where(i => !i.IndexExists).ToList();
                     if (newIndexes.Any())
                     {
-                        foreach (var row in _dataFiles[0].AllRows())
+                        foreach (var row in DataFiles[0].AllRows())
                         {
                             var record = row.DecompressRowObject<TRecordModel>();
                             foreach (var index in newIndexes)
@@ -153,7 +155,7 @@ namespace Zilligraph.Database.Storage
             EnsureInitialised(true);
 
             // save Data
-            var dataFile = GetLastDataFile();
+            var dataFile = DataFiles.Last();
             var rowBinary = DataRowBinary.CreateNew(record);
             var recordPoint = dataFile.Append(rowBinary);
 
@@ -225,8 +227,13 @@ namespace Zilligraph.Database.Storage
 
         private TRecordModel ReadRecordInternal(ulong recordPoint, bool resolveReferences)
         {
-            var dataFile = GetLastDataFile();
+            var dataFile = DataFiles.Last();
             var rowBinary = dataFile.Read(recordPoint);
+            if (rowBinary == null)
+            {
+                throw new RuntimeException(
+                    $"Error: Table {TableName} RecordPoint {recordPoint} does not have a record");
+            }
             var record = rowBinary.DecompressRowObject<TRecordModel>();
             if (resolveReferences)
             {
@@ -237,16 +244,14 @@ namespace Zilligraph.Database.Storage
 
         public void Dispose()
         {
-            if (_dataFiles.Any())
+            if (_dataFiles?.Any() == true)
             {
-                lock (_dataFiles)
+                foreach (var dataFile in _dataFiles)
                 {
-                    foreach (var dataFile in _dataFiles)
-                    {
-                        dataFile.Dispose();
-                    }
-                    _dataFiles.Clear();
+                    dataFile.Dispose();
                 }
+
+                _dataFiles = null;
             }
         }
 
@@ -282,29 +287,18 @@ namespace Zilligraph.Database.Storage
             }
         }
 
-        private DataFile GetLastDataFile()
+        private List<DataFile> LoadDataFiles()
         {
-            if (_dataFiles.Any())
+            var list = new List<DataFile>
             {
-                return _dataFiles.Last();
-            }
-
-            lock (_dataFiles)
+                new DataFile(this, 1)
+            };
+            if (TableInfo.DataFileInfos.Count == 0)
             {
-                if (_dataFiles.Any())
-                {
-                    return _dataFiles.Last();
-                }
-
-                var dataFile = new DataFile(this, 1);
-                _dataFiles.Add(dataFile);
-
-                TableInfo.DataFileCount = 1;
-                TableInfo.DataFileInfos.Add(new TableInfo.DataFileInfo{FirstRecordNumber = 1});
+                TableInfo.DataFileInfos.Add(new TableInfo.DataFileInfo { FirstRecordNumber = 1 });
                 TableInfo.Save();
-
-                return dataFile;
             }
+            return list;
         }
 
         private Dictionary<string, ZilligraphTableIndexBase> GetIndexes()

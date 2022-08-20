@@ -37,7 +37,7 @@ namespace Zilligraph.Database.Storage.Table
             }
         }
 
-        public DataRowBinary Read(ulong recordPoint)
+        public DataRowBinary? Read(ulong recordPoint)
         {
             lock (_streamLock)
             {
@@ -46,7 +46,11 @@ namespace Zilligraph.Database.Storage.Table
                     using (var stream = GetStream())
                     {
                         stream.Seek(Convert.ToInt64(recordPoint - 1), SeekOrigin.Begin);
-                        return DataRowBinary.ReadFromStream(stream);
+                        var row = DataRowBinary.ReadFromStream(stream);
+                        if (row.RowLength > 0)
+                        {
+                            return row;
+                        }
                     }
                 }
                 catch (Exception e)
@@ -54,6 +58,8 @@ namespace Zilligraph.Database.Storage.Table
                     throw new RuntimeException($"Read record point {recordPoint} failed on Table {Table.TableName}", e);
                 }
             }
+
+            return null;
         }
 
         public IEnumerable<DataRowBinary> AllRows()
