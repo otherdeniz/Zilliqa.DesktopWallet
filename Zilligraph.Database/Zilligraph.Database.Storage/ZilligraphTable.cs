@@ -151,14 +151,23 @@ namespace Zilligraph.Database.Storage
         private void AddRecordInternal(object record)
         {
             EnsureInitialised(true);
-            var dataFile = GetLastDataFile();
 
+            // save Data
+            var dataFile = GetLastDataFile();
             var rowBinary = DataRowBinary.CreateNew(record);
             var recordPoint = dataFile.Append(rowBinary);
+
+            // update indexes
             foreach (var fieldIndex in Indexes)
             {
                 fieldIndex.Value.AddRecordIndex(recordPoint, record);
             }
+
+            // update meta data
+            var dataFileInfo = TableInfo.DataFileInfos.Last();
+            dataFileInfo.LastRecordNumber += 1;
+            TableInfo.Save();
+
             Database.DbSizeChanged();
         }
 
@@ -291,6 +300,7 @@ namespace Zilligraph.Database.Storage
                 _dataFiles.Add(dataFile);
 
                 TableInfo.DataFileCount = 1;
+                TableInfo.DataFileInfos.Add(new TableInfo.DataFileInfo{FirstRecordNumber = 1});
                 TableInfo.Save();
 
                 return dataFile;
