@@ -73,8 +73,8 @@
             this.panelTabs = new System.Windows.Forms.Panel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tabButtonZilTransactions = new System.Windows.Forms.ToolStripButton();
-            this.tabButtonTokenTransactions = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tabButtonTokenTransactions = new System.Windows.Forms.ToolStripButton();
             this.toolStripAccountActions.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -460,6 +460,7 @@
             this.gridViewTokenTransactions.Name = "gridViewTokenTransactions";
             this.gridViewTokenTransactions.Size = new System.Drawing.Size(143, 111);
             this.gridViewTokenTransactions.TabIndex = 1;
+            this.gridViewTokenTransactions.Visible = false;
             // 
             // groupBox3
             // 
@@ -573,6 +574,12 @@
             this.tabButtonZilTransactions.Name = "tabButtonZilTransactions";
             this.tabButtonZilTransactions.Size = new System.Drawing.Size(95, 22);
             this.tabButtonZilTransactions.Text = "ZIL Transactions";
+            this.tabButtonZilTransactions.Click += new System.EventHandler(this.tabButtonZilTransactions_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // tabButtonTokenTransactions
             // 
@@ -582,11 +589,7 @@
             this.tabButtonTokenTransactions.Name = "tabButtonTokenTransactions";
             this.tabButtonTokenTransactions.Size = new System.Drawing.Size(146, 22);
             this.tabButtonTokenTransactions.Text = "ZRC-2 Token Transactions";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.tabButtonTokenTransactions.Click += new System.EventHandler(this.tabButtonTokenTransactions_Click);
             // 
             // WalletAddressDetails
             // 

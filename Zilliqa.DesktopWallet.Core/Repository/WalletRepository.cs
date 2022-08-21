@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
 using Zilliqa.DesktopWallet.Core.Data.Files;
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.ViewModel;
@@ -13,9 +12,9 @@ namespace Zilliqa.DesktopWallet.Core.Repository
 
         public WalletRepository()
         {
-            WalletDat.Instance.MyAccounts.ForEach(a => _myAccountsList.Add(AccountViewModel.CreateInstance(a, OnAccountChanged)));
+            WalletDat.Instance.MyAccounts.ForEach(a => _myAccountsList.Add(new AccountViewModel(a, OnAccountChanged)));
             MyAccounts = new ReadOnlyCollection<AccountViewModel>(_myAccountsList);
-            WalletDat.Instance.WatchedAccounts.ForEach(a => _watchedAccountsList.Add(AccountViewModel.CreateInstance(a, OnAccountChanged)));
+            WalletDat.Instance.WatchedAccounts.ForEach(a => _watchedAccountsList.Add(new AccountViewModel(a, OnAccountChanged)));
             WatchedAccounts = new ReadOnlyCollection<AccountViewModel>(_watchedAccountsList);
         }
 
@@ -32,12 +31,12 @@ namespace Zilliqa.DesktopWallet.Core.Repository
             if (account is MyAccount myAccount)
             {
                 WalletDat.Instance.MyAccounts.Add(myAccount);
-                _myAccountsList.Add(AccountViewModel.CreateInstance(account, OnAccountChanged));
+                _myAccountsList.Add(new AccountViewModel(account, OnAccountChanged));
             }
             else if (account is WatchedAccount watchedAccount)
             {
                 WalletDat.Instance.WatchedAccounts.Add(watchedAccount);
-                _watchedAccountsList.Add(AccountViewModel.CreateInstance(account, OnAccountChanged));
+                _watchedAccountsList.Add(new AccountViewModel(account, OnAccountChanged));
             }
             else
             {

@@ -4,22 +4,15 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
     public class AccountViewModel
     {
-        public static AccountViewModel CreateInstance(AccountBase accountData, Action<AccountViewModel> afterChangedAction)
-        {
-            return new AccountViewModel(afterChangedAction)
-            {
-                AccountData = accountData
-            };
-        }
+        private readonly Action<AccountViewModel> _afterChangedAction;
 
-        private AccountViewModel(Action<AccountViewModel> afterChangedAction)
+        public AccountViewModel(AccountBase accountData, Action<AccountViewModel> afterChangedAction) 
         {
+            AccountData = accountData;
             _afterChangedAction = afterChangedAction;
         }
 
-        private readonly Action<AccountViewModel> _afterChangedAction;
-
-        public AccountBase AccountData { get; private init; }
+        public AccountBase AccountData { get; }
 
         //TODO add these properties to cache data
         //public List<object> SmartContracts { get; set; }

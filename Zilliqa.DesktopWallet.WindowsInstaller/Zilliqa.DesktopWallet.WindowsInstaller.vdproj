@@ -170,7 +170,7 @@
         {
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_8FE2D2A7B49040AE93CE2727DE20CEB3"
             {
-            "DefaultLocation" = "8:[ProgramFiles64Folder][Manufacturer]\\[ProductName]"
+            "DefaultLocation" = "8:[ProgramFiles64Folder][Manufacturer]\\ZilliqaDesktopWallet"
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:FALSE"
             "Condition" = "8:"
@@ -218,15 +218,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Zilliqa Desktop Wallet (by Zillifriends)"
-        "ProductCode" = "8:{A938A130-E0E6-49D3-BC6D-1BA18AEA1D99}"
-        "PackageCode" = "8:{0A778D8C-A5B1-442C-87CD-6453740CA62C}"
+        "ProductCode" = "8:{D6A892D6-44AE-4D34-9536-4100DD030CEA}"
+        "PackageCode" = "8:{9A156BB4-AED5-4FC2-8A0C-A90EADF2AC54}"
         "UpgradeCode" = "8:{4B1DDF8D-0B4E-4C0E-B35D-A39959151134}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.2"
+        "ProductVersion" = "8:1.0.5"
         "Manufacturer" = "8:Zillifriends"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

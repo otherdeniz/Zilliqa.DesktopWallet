@@ -48,11 +48,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                     : "Idle";
             }
 
-            textBlocksCount.Text = RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo
-                .NumberOfBlocks.ToString("#,##0");
+            textBlocksCount.Text = ZilliqaBlockchainCrawler.Instance
+                .NumberOfBlocksOnChain.ToString("#,##0");
 
-            textDbBlocksCount.Text = RepositoryManager.Instance.ZilliqaBlockchainDbRepository.Database.GetTable<Block>()
-                .RecordCount.ToString("#,##0");
+            textDbBlocksCount.Text = ZilliqaBlockchainCrawler.Instance
+                .NumberOfBlocksProcessed.ToString("#,##0"); 
+            //RepositoryManager.Instance.ZilliqaBlockchainDbRepository.Database.GetTable<Block>().RecordCount.ToString("#,##0")
 
             textTransactionsCount.Text = RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo
                 .NumberOfTransactions.ToString("#,##0");

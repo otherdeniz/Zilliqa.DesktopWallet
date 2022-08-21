@@ -52,5 +52,15 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             buttonClipboardAddress.BackColor = SystemColors.Control;
             buttonOpenBlockExplorer.BackColor = SystemColors.Control;
         }
+
+        private void tabButtonZilTransactions_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabButtonTokenTransactions_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

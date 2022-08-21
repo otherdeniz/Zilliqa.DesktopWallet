@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Zilliqa.DesktopWallet.ApiClient;
+﻿using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core.Data.Files;
 using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Repository;
@@ -49,8 +48,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                     }
                     catch (Exception e)
                     {
-                        // logging!
-                        Debug.WriteLine(e.Message);
+                        Logging.LogError("BlocksCrawlerJobTask ended with Exception", e);
                     }
 
                     _blocksCrawlerJobTask = null;
@@ -68,8 +66,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                     }
                     catch (Exception e)
                     {
-                        // logging!
-                        Debug.WriteLine(e.Message);
+                        Logging.LogError("TransactionsCrawlerJobTask ended with Exception", e);
                     }
 
                     _transactionsCrawlerJobTask = null;
@@ -184,15 +181,14 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                                 }
                                 else
                                 {
-                                    //log wrong number of transactions received!
-                                    loopDelay = 1000;
+                                    Logging.LogInfo($"TransactionsCrawlerJob: Wrong number of transactions received. Block number: {processBlockNumber}, expected: {blockModel.NumTxns}, received: {blockTransactions.Count}");
+                                    loopDelay = 10000;
                                 }
                             }
                             catch (Exception e)
                             {
-                                // logging !
-                                Debug.WriteLine(e.Message);
-                                throw;
+                                Logging.LogError("TransactionsCrawlerJob has Exception", e);
+                                loopDelay = 10000;
                             }
                         }
                         else
@@ -264,16 +260,15 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                             }
                             else
                             {
-                                //log wrong data received!
-                                loopDelay = 1000;
+                                Logging.LogInfo($"BlocksCrawlerJob: Wrong data received. Expected Block number: {processBlockNumber}, received: {txBlock.BlockNum}");
+                                loopDelay = 10000;
                             }
 
                         }
                         catch (Exception e)
                         {
-                            // logging !
-                            Debug.WriteLine(e.Message);
-                            throw;
+                            Logging.LogError("BlocksCrawlerJob has Exception", e);
+                            loopDelay = 10000;
                         }
                     }
                 }
