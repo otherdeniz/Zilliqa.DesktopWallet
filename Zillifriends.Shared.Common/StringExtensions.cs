@@ -25,7 +25,7 @@
             }
 
             var gb = Convert.ToDouble(byteCount) / Convert.ToDouble(GB_VALUE);
-            return $"{gb:0.000} GB";
+            return $"{gb:#,##0.000} GB";
         }
 
         public static DateTime UnixTimestampToDateTime(this string timestamp)

@@ -58,7 +58,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             textTransactionsCount.Text = RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo
                 .NumberOfTransactions.ToString("#,##0");
 
-            textDbTransactionsCount.Text = RepositoryManager.Instance.ZilliqaBlockchainDbRepository.Database.GetTable<Transaction>()
+            textDbTransactionsCount.Text = RepositoryManager.Instance.DatabaseRepository.Database.GetTable<Transaction>()
                 .RecordCount.ToString("#,##0");
 
             RefreshButtons();
@@ -66,7 +66,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 
         private void timerRefreshDbSize_Tick(object sender, EventArgs e)
         {
-            textDbSize.Text = RepositoryManager.Instance.ZilliqaBlockchainDbRepository.Database
+            textDbSize.Text = RepositoryManager.Instance.DatabaseRepository.Database
                 .GetDbSize().BytesToReadable();
         }
 

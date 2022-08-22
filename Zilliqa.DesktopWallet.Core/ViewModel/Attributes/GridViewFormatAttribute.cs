@@ -1,4 +1,4 @@
-﻿namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
+﻿namespace Zilliqa.DesktopWallet.Core.ViewModel.Attributes
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class GridViewFormatAttribute : Attribute

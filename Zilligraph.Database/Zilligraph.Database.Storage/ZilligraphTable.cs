@@ -19,6 +19,7 @@ namespace Zilligraph.Database.Storage
         private Type? _recordType;
         private Dictionary<string, ZilligraphTableIndexBase>? _indexes;
         private List<ZilligraphTableFieldReference>? _fieldReferences;
+        private readonly List<ZilligraphTableEventNotificator<TRecordModel>> _eventNotificators = new List<ZilligraphTableEventNotificator<TRecordModel>>();
         private bool _initialisationCompleted;
         private readonly object _initialisationLock = new();
         private readonly object _transactionLock = new();
@@ -115,6 +116,19 @@ namespace Zilligraph.Database.Storage
             }
         }
 
+        public ZilligraphTableEventNotificator<TRecordModel> AddEventNotificator(Func<TRecordModel, bool> recordMatch,
+            Action<TRecordModel> onRecordAdded)
+        {
+            var eventNotificator = new ZilligraphTableEventNotificator<TRecordModel>(recordMatch, onRecordAdded);
+            _eventNotificators.Add(eventNotificator);
+            return eventNotificator;
+        }
+
+        public void RemoveEventNotificator(ZilligraphTableEventNotificator<TRecordModel> eventNotificator)
+        {
+            _eventNotificators.Remove(eventNotificator);
+        }
+
         public bool CreateTransaction(bool waitForFree)
         {
             EnsureInitialised(true);
@@ -147,10 +161,10 @@ namespace Zilligraph.Database.Storage
 
         void IZilligraphTable.AddRecord(object record)
         {
-            AddRecordInternal(record);
+            AddRecordInternal((TRecordModel)record);
         }
 
-        private void AddRecordInternal(object record)
+        private void AddRecordInternal(TRecordModel record)
         {
             EnsureInitialised(true);
 
@@ -169,6 +183,15 @@ namespace Zilligraph.Database.Storage
             var dataFileInfo = TableInfo.DataFileInfos.Last();
             dataFileInfo.LastRecordNumber += 1;
             TableInfo.Save();
+
+            // trigger EventNotificators
+            _eventNotificators.ForEach(e =>
+            {
+                if (e.RecordMatch(record))
+                {
+                    e.OnRecordAdded.Invoke(record);
+                }
+            });
 
             Database.DbSizeChanged();
         }
@@ -309,14 +332,14 @@ namespace Zilligraph.Database.Storage
             {
                 if (propertyInfo.GetCustomAttribute(typeof(SchemaIndexAttribute)) is SchemaIndexAttribute)
                 {
-                    indexes.Add(propertyInfo.Name, new ZilligraphTableFieldIndex(this, propertyInfo.Name));
+                    indexes.Add(propertyInfo.Name, new ZilligraphTableFieldIndex(this, propertyInfo));
                 }
             }
-            foreach (var customAttribute in RecordType.GetCustomAttributes(typeof(CalculatedIndexAttribute)))
+            foreach (var methodInfo in RecordType.GetMethods())
             {
-                if (customAttribute is CalculatedIndexAttribute calculatedIndexAttribute)
+                if (methodInfo.GetCustomAttribute(typeof(CalculatedIndexAttribute)) is CalculatedIndexAttribute)
                 {
-                    indexes.Add(calculatedIndexAttribute.IndexName, new ZilligraphTableCalculatedIndex(this, calculatedIndexAttribute.IndexName, calculatedIndexAttribute.IndexCalculator));
+                    indexes.Add(methodInfo.Name, new ZilligraphTableCalculatedIndex(this, methodInfo));
                 }
             }
             return indexes;

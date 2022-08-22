@@ -5,6 +5,8 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
 public class DataContractCall
 {
+    public static readonly DataContractCall Empty = new ();
+
     public static bool TryParse(string data, out DataContractCall result)
     {
         if (!string.IsNullOrEmpty(data))
@@ -18,7 +20,7 @@ public class DataContractCall
                 // failed
             }
         }
-        result = null!;
+        result = Empty;
         return false;
     }
 
@@ -42,7 +44,7 @@ public class DataContractCall
             }
         }
 
-        result = null!;
+        result = Empty;
         return false;
     }
 

@@ -17,6 +17,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="Svg" Version="3.4.3" />
+    <PackageReference Include="System.Resources.Extensions" Version="6.0.0" />
     <PackageReference Include="System.Runtime.Caching" Version="6.0.0" />
   </ItemGroup>
 
@@ -26,6 +27,21 @@
     <ProjectReference Include="..\Zilligraph.Database\Zilligraph.Database.Storage\Zilligraph.Database.Storage.csproj" />
     <ProjectReference Include="..\Zilliqa.DesktopWallet.ApiClient\Zilliqa.DesktopWallet.ApiClient.csproj" />
     <ProjectReference Include="..\Zilliqa.DesktopWallet.DatabaseSchema\Zilliqa.DesktopWallet.DatabaseSchema.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ViewModel\IconResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IconResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="ViewModel\IconResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>IconResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

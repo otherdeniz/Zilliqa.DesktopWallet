@@ -8,7 +8,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
 
         private BlockchainBrowserRepository? _blockchainBrowserRepository;
         private WalletRepository? _walletRepository;
-        private ZilliqaBlockchainDbRepository? _zilliqaBlockchainDbRepository;
+        private ZilliqaBlockchainDbRepository? _dbRepository;
 
         private RepositoryManager()
         {
@@ -20,13 +20,14 @@ namespace Zilliqa.DesktopWallet.Core.Repository
         public WalletRepository WalletRepository => 
             _walletRepository ??= new WalletRepository();
 
-        public ZilliqaBlockchainDbRepository ZilliqaBlockchainDbRepository => 
-            _zilliqaBlockchainDbRepository ??= new ZilliqaBlockchainDbRepository();
+        public ZilliqaBlockchainDbRepository DatabaseRepository => 
+            _dbRepository ??= new ZilliqaBlockchainDbRepository();
 
         public void Shutdown()
         {
+            _walletRepository?.CancelBackgroundTasks();
             _blockchainBrowserRepository?.Dispose();
-            _zilliqaBlockchainDbRepository?.Database.Dispose();
+            _dbRepository?.Database.Dispose();
         }
     }
 }

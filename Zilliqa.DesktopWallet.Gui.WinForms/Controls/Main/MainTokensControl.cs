@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Services;
+using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Gui.WinForms.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
@@ -23,12 +24,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
         private void timerStartLoading_Tick(object sender, EventArgs e)
         {
             timerStartLoading.Enabled = false;
-            var tokensList = TokenDataService.Instance.GetTokens()
+            var tokensList = TokenDataService.Instance.GetTokens(true)
                 .Where(t => t.Symbol != "ZIL")
                 .OrderByDescending(t => t.MarketData.FullyDilutedValuationUsd)
                 .ThenBy(t => t.Id)
-                .Select(t => new TokenGridRowViewModel(t)).ToList();
-            gridViewTokens.LoadData(tokensList, typeof(TokenGridRowViewModel));
+                .Select(t => new TokenRowViewModel(t)).ToList();
+            gridViewTokens.LoadData(tokensList, typeof(TokenRowViewModel));
             panelLoading.Visible = false;
             panelLoaded.Visible = true;
         }
@@ -37,7 +38,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
         {
             groupBoxTokenDetails.Visible = true;
             groupBoxMarketData.Visible = true;
-            var token = (TokenGridRowViewModel)e.SelectedRow;
+            var token = (TokenRowViewModel)e.SelectedRow;
             pictureBoxIcon.Image = token.Model.GetTokenIcon().Icon48;
             labelName.Text = token.Name;
             labelSymbol.Text = token.Symbol;

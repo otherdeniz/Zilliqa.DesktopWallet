@@ -111,9 +111,9 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
             await Task.Delay(startupDelaySeconds * 1000, cancellationToken);
             while (!cancellationToken.IsCancellationRequested)
             {
-                var dbTableTransaction = RepositoryManager.Instance.ZilliqaBlockchainDbRepository.Database
+                var dbTableTransaction = RepositoryManager.Instance.DatabaseRepository.Database
                     .GetTable<Transaction>();
-                var dbTableBlock = RepositoryManager.Instance.ZilliqaBlockchainDbRepository.Database
+                var dbTableBlock = RepositoryManager.Instance.DatabaseRepository.Database
                     .GetTable<Block>();
 
                 var newestBlock = NumberOfBlocksOnChain;
@@ -207,7 +207,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
             await Task.Delay(startupDelaySeconds * 1000, cancellationToken);
             while (!cancellationToken.IsCancellationRequested)
             {
-                var dbTableBlock = RepositoryManager.Instance.ZilliqaBlockchainDbRepository.Database
+                var dbTableBlock = RepositoryManager.Instance.DatabaseRepository.Database
                     .GetTable<Block>();
 
                 var newestBlock = NumberOfBlocksOnChain;

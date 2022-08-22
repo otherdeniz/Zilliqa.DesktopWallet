@@ -8,9 +8,6 @@ namespace Zilliqa.DesktopWallet.ApiClient.Accounts
 {
     public class Account
     {
-        [Obsolete("balance will not be stored here")]
-        public Balance Balance { get; set; }
-
         public Address Address { get; set; }
 
         public ECKeyPair KeyPair { get; set; }
@@ -79,10 +76,9 @@ namespace Zilliqa.DesktopWallet.ApiClient.Accounts
 
         private void InitializeAccount(string pk)
         {
-            Address = new Address();
-            Balance = new Balance();
             var pub = CryptoUtil.GetPublicKeyFromPrivateKey(pk, true);
-            Address.Raw = "0x" + CryptoUtil.GetAddressFromPublicKey(pub);
+            Address = new Address(CryptoUtil.GetAddressFromPublicKey(pub));
+            //Address.Raw = "0x" + CryptoUtil.GetAddressFromPublicKey(pub);
             KeyPair = new ECKeyPair(new BigInteger(pk, 16), new BigInteger(pub, 16));
         }
     }

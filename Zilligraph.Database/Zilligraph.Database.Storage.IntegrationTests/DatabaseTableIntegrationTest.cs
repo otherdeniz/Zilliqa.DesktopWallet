@@ -23,7 +23,7 @@ namespace Zilligraph.Database.Storage.IntegrationTests
 
             using (var dbTable = CreateDatabase().GetTable<SimpleRecord>())
             {
-                var sourceRecords = SimpleRecord.Generate(2000);
+                var sourceRecords = SimpleRecord.Generate(500);
 
                 // adding all records
                 foreach (var sourceRecord in sourceRecords)

@@ -9,12 +9,10 @@ namespace Zilliqa.DesktopWallet.Core
         private static readonly Regex LogFileNameRegex =
             new Regex(@"(\d{4})-(\d{2})-(\d{2})\.log", RegexOptions.Compiled);
         private static readonly object LogFileLock = new();
-        private static string? LogfilePath;
+        private static string? LoggingPath;
 
         public static void Setup(string loggingPath)
         {
-            var today = DateTime.Today;
-
             if (Directory.Exists(loggingPath))
             {
                 //remove all files older than 30 days
@@ -30,7 +28,7 @@ namespace Zilliqa.DesktopWallet.Core
                             var fileMonth = int.Parse(nameMatch.Groups[2].Value);
                             var fileDay = int.Parse(nameMatch.Groups[3].Value);
                             var fileDate = new DateTime(fileYear, fileMonth, fileDay);
-                            if (fileDate < today.AddDays(-30))
+                            if (fileDate < DateTime.Today.AddDays(-30))
                             {
                                 fileInfo.Delete();
                             }
@@ -46,7 +44,7 @@ namespace Zilliqa.DesktopWallet.Core
             {
                 Directory.CreateDirectory(loggingPath);
             }
-            LogfilePath = Path.Combine(loggingPath, $"{today:yyyy-MM-dd}.log");
+            LoggingPath = loggingPath;
         }
 
         public static void LogInfo(string message)
@@ -66,14 +64,15 @@ namespace Zilliqa.DesktopWallet.Core
 
         private static void WriteToFile(string message)
         {
-            if (LogfilePath == null)
+            if (LoggingPath == null)
             {
                 return;
             }
 
             lock (LogFileLock)
             {
-                using (var fileStream = File.Open(LogfilePath, FileMode.OpenOrCreate))
+                var logFilePath = Path.Combine(LoggingPath, $"{DateTime.Today:yyyy-MM-dd}.log");
+                using (var fileStream = File.Open(logFilePath, FileMode.OpenOrCreate))
                 {
                     fileStream.Seek(0, SeekOrigin.End);
                     using (var writer = new StreamWriter(fileStream, Encoding.UTF8))

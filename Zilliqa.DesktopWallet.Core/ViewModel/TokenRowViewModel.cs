@@ -1,16 +1,17 @@
 ﻿using System.ComponentModel;
+using System.Drawing;
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.Extensions;
-using Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView;
+using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
 
-namespace Zilliqa.DesktopWallet.Gui.WinForms.ViewModel
+namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
-    public class TokenGridRowViewModel
+    public class TokenRowViewModel
     {
         private readonly TokenModel _model;
         private Image? _icon;
 
-        public TokenGridRowViewModel(TokenModel model)
+        public TokenRowViewModel(TokenModel model)
         {
             _model = model;
         }

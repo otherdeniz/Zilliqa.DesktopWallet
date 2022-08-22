@@ -1,4 +1,7 @@
-﻿namespace Zilliqa.DesktopWallet.Core.Data.Model
+﻿using Newtonsoft.Json;
+using Zilliqa.DesktopWallet.ApiClient;
+
+namespace Zilliqa.DesktopWallet.Core.Data.Model
 {
     public abstract class AccountBase
     {
@@ -6,7 +9,12 @@
 
         public string Name { get; set; }
 
+        [JsonIgnore]
+        public abstract Address Address { get; }
+
         public abstract string GetAddressBech32();
+
+        public abstract string GetAddressHex();
 
     }
 }

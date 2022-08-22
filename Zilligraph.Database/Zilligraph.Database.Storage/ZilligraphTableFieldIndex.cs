@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using Zillifriends.Shared.Common;
 
 namespace Zilligraph.Database.Storage
 {
@@ -7,12 +6,10 @@ namespace Zilligraph.Database.Storage
     {
         private readonly PropertyInfo _propertyInfo;
 
-        internal ZilligraphTableFieldIndex(IZilligraphTable table, string propertyName)
-            : base(table, propertyName)
+        internal ZilligraphTableFieldIndex(IZilligraphTable table, PropertyInfo propertyInfo)
+            : base(table, propertyInfo.Name)
         {
-            _propertyInfo = Table.RecordType.GetProperty(propertyName) ??
-                            throw new MissingCodeException(
-                                $"Property {propertyName} not found on Type {Table.RecordType.FullName}");
+            _propertyInfo = propertyInfo;
             ValueType = _propertyInfo.PropertyType;
         }
 

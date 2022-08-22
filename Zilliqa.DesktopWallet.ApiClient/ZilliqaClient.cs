@@ -46,13 +46,11 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		}
 		public async Task<Balance> GetBalance(Address address)
 		{
-			address.SwitchEncoding();
-			return await GetBalance(address.Raw);
+			return await GetBalance(address.GetBase16(true));
 		}
 		public async Task<Balance> GetBalance(Account acc)
 		{
-			acc.Address.SwitchEncoding();
-			return await GetBalance(acc.Address.Raw);
+			return await GetBalance(acc.Address.GetBase16(true));
 		}
 		#endregion
 
@@ -244,13 +242,11 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		}
 		public async Task<List<SmartContract>> GetSmartContracts(Address address)
 		{
-			address.SwitchEncoding();
-			return await GetSmartContracts(address.Raw);
+			return await GetSmartContracts(address.GetBase16(true));
 		}
 		public async Task<List<SmartContract>> GetSmartContracts(Account account)
 		{
-			account.Address.SwitchEncoding();
-			return await GetSmartContracts(account.Address.Raw);
+			return await GetSmartContracts(account.Address.GetBase16(true));
 		}
 
 		/// <summary>

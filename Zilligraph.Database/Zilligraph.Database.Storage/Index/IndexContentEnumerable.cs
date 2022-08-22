@@ -43,7 +43,7 @@ namespace Zilligraph.Database.Storage.Index
                 _chunkPosition = 0;
             }
 
-            if (_chunkPosition > _recordChunk.Count)
+            if (_chunkPosition >= _recordChunk.Count)
             {
                 return null;
             }

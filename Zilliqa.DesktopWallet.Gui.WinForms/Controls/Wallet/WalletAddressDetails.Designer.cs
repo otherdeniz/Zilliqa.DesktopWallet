@@ -40,10 +40,10 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
-            this.label11 = new System.Windows.Forms.Label();
+            this.labelZilPlusTokensValue = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
+            this.labelTokensValue = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.label9 = new System.Windows.Forms.Label();
@@ -60,7 +60,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBoxTokens = new System.Windows.Forms.GroupBox();
             this.gridViewTokenBalances = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl();
             this.gridViewZilTransactions = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl();
             this.gridViewTokenTransactions = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl();
@@ -71,7 +71,8 @@
             this.timerButtonPressed = new System.Windows.Forms.Timer(this.components);
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.panelTabs = new System.Windows.Forms.Panel();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.panelTabPages = new System.Windows.Forms.Panel();
+            this.toolStripTransactions = new System.Windows.Forms.ToolStrip();
             this.tabButtonZilTransactions = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tabButtonTokenTransactions = new System.Windows.Forms.ToolStripButton();
@@ -87,10 +88,11 @@
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.groupBox2.SuspendLayout();
+            this.groupBoxTokens.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.panelTabs.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
+            this.panelTabPages.SuspendLayout();
+            this.toolStripTransactions.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripAccountActions
@@ -180,7 +182,7 @@
             // 
             this.panel8.AutoSize = true;
             this.panel8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panel8.Controls.Add(this.label11);
+            this.panel8.Controls.Add(this.labelZilPlusTokensValue);
             this.panel8.Controls.Add(this.label12);
             this.panel8.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel8.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -190,16 +192,16 @@
             this.panel8.Size = new System.Drawing.Size(204, 23);
             this.panel8.TabIndex = 1;
             // 
-            // label11
+            // labelZilPlusTokensValue
             // 
-            this.label11.AutoSize = true;
-            this.label11.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label11.Location = new System.Drawing.Point(135, 0);
-            this.label11.Name = "label11";
-            this.label11.Padding = new System.Windows.Forms.Padding(3);
-            this.label11.Size = new System.Drawing.Size(59, 21);
-            this.label11.TabIndex = 2;
-            this.label11.Text = "0.00 USD";
+            this.labelZilPlusTokensValue.AutoSize = true;
+            this.labelZilPlusTokensValue.Dock = System.Windows.Forms.DockStyle.Left;
+            this.labelZilPlusTokensValue.Location = new System.Drawing.Point(135, 0);
+            this.labelZilPlusTokensValue.Name = "labelZilPlusTokensValue";
+            this.labelZilPlusTokensValue.Padding = new System.Windows.Forms.Padding(3);
+            this.labelZilPlusTokensValue.Size = new System.Drawing.Size(59, 21);
+            this.labelZilPlusTokensValue.TabIndex = 2;
+            this.labelZilPlusTokensValue.Text = "0.00 USD";
             // 
             // label12
             // 
@@ -216,7 +218,7 @@
             // 
             this.panel6.AutoSize = true;
             this.panel6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panel6.Controls.Add(this.label7);
+            this.panel6.Controls.Add(this.labelTokensValue);
             this.panel6.Controls.Add(this.label8);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel6.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -226,16 +228,16 @@
             this.panel6.Size = new System.Drawing.Size(180, 23);
             this.panel6.TabIndex = 3;
             // 
-            // label7
+            // labelTokensValue
             // 
-            this.label7.AutoSize = true;
-            this.label7.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label7.Location = new System.Drawing.Point(111, 0);
-            this.label7.Name = "label7";
-            this.label7.Padding = new System.Windows.Forms.Padding(3);
-            this.label7.Size = new System.Drawing.Size(59, 21);
-            this.label7.TabIndex = 2;
-            this.label7.Text = "0.00 USD";
+            this.labelTokensValue.AutoSize = true;
+            this.labelTokensValue.Dock = System.Windows.Forms.DockStyle.Left;
+            this.labelTokensValue.Location = new System.Drawing.Point(111, 0);
+            this.labelTokensValue.Name = "labelTokensValue";
+            this.labelTokensValue.Padding = new System.Windows.Forms.Padding(3);
+            this.labelTokensValue.Size = new System.Drawing.Size(59, 21);
+            this.labelTokensValue.TabIndex = 2;
+            this.labelTokensValue.Text = "0.00 USD";
             // 
             // label8
             // 
@@ -425,17 +427,17 @@
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             // 
-            // groupBox2
+            // groupBoxTokens
             // 
-            this.groupBox2.Controls.Add(this.gridViewTokenBalances);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.groupBox2.Location = new System.Drawing.Point(0, 148);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(653, 105);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "ZRC-2 Tokens";
+            this.groupBoxTokens.Controls.Add(this.gridViewTokenBalances);
+            this.groupBoxTokens.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBoxTokens.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.groupBoxTokens.Location = new System.Drawing.Point(0, 148);
+            this.groupBoxTokens.Name = "groupBoxTokens";
+            this.groupBoxTokens.Size = new System.Drawing.Size(653, 105);
+            this.groupBoxTokens.TabIndex = 1;
+            this.groupBoxTokens.TabStop = false;
+            this.groupBoxTokens.Text = "ZRC-2 Tokens";
             // 
             // gridViewTokenBalances
             // 
@@ -448,7 +450,7 @@
             // 
             // gridViewZilTransactions
             // 
-            this.gridViewZilTransactions.Location = new System.Drawing.Point(15, 48);
+            this.gridViewZilTransactions.Location = new System.Drawing.Point(16, 16);
             this.gridViewZilTransactions.Name = "gridViewZilTransactions";
             this.gridViewZilTransactions.Size = new System.Drawing.Size(131, 111);
             this.gridViewZilTransactions.TabIndex = 1;
@@ -456,7 +458,7 @@
             // 
             // gridViewTokenTransactions
             // 
-            this.gridViewTokenTransactions.Location = new System.Drawing.Point(173, 48);
+            this.gridViewTokenTransactions.Location = new System.Drawing.Point(174, 16);
             this.gridViewTokenTransactions.Name = "gridViewTokenTransactions";
             this.gridViewTokenTransactions.Size = new System.Drawing.Size(143, 111);
             this.gridViewTokenTransactions.TabIndex = 1;
@@ -544,26 +546,34 @@
             // 
             // panelTabs
             // 
-            this.panelTabs.Controls.Add(this.gridViewTokenTransactions);
-            this.panelTabs.Controls.Add(this.gridViewZilTransactions);
-            this.panelTabs.Controls.Add(this.toolStrip1);
+            this.panelTabs.Controls.Add(this.panelTabPages);
+            this.panelTabs.Controls.Add(this.toolStripTransactions);
             this.panelTabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTabs.Location = new System.Drawing.Point(0, 257);
             this.panelTabs.Name = "panelTabs";
             this.panelTabs.Size = new System.Drawing.Size(653, 279);
             this.panelTabs.TabIndex = 8;
             // 
-            // toolStrip1
+            // panelTabPages
             // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.panelTabPages.Controls.Add(this.gridViewZilTransactions);
+            this.panelTabPages.Controls.Add(this.gridViewTokenTransactions);
+            this.panelTabPages.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelTabPages.Location = new System.Drawing.Point(0, 25);
+            this.panelTabPages.Name = "panelTabPages";
+            this.panelTabPages.Size = new System.Drawing.Size(653, 254);
+            this.panelTabPages.TabIndex = 2;
+            // 
+            // toolStripTransactions
+            // 
+            this.toolStripTransactions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tabButtonZilTransactions,
             this.toolStripSeparator1,
             this.tabButtonTokenTransactions});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(653, 25);
-            this.toolStrip1.TabIndex = 0;
-            this.toolStrip1.Text = "toolStrip1";
+            this.toolStripTransactions.Location = new System.Drawing.Point(0, 0);
+            this.toolStripTransactions.Name = "toolStripTransactions";
+            this.toolStripTransactions.Size = new System.Drawing.Size(653, 25);
+            this.toolStripTransactions.TabIndex = 0;
             // 
             // tabButtonZilTransactions
             // 
@@ -598,13 +608,14 @@
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panelTabs);
             this.Controls.Add(this.splitter1);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBoxTokens);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.toolStripAccountActions);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Name = "WalletAddressDetails";
             this.Size = new System.Drawing.Size(653, 536);
+            this.Load += new System.EventHandler(this.WalletAddressDetails_Load);
             this.toolStripAccountActions.ResumeLayout(false);
             this.toolStripAccountActions.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -626,13 +637,14 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.groupBox2.ResumeLayout(false);
+            this.groupBoxTokens.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.panelTabs.ResumeLayout(false);
             this.panelTabs.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.panelTabPages.ResumeLayout(false);
+            this.toolStripTransactions.ResumeLayout(false);
+            this.toolStripTransactions.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -658,18 +670,18 @@
         private PictureBox pictureBox1;
         private Panel panel5;
         private Panel panel6;
-        private Label label7;
+        private Label labelTokensValue;
         private Label label8;
         private Panel panel7;
         private Label label9;
         private Label label10;
         private Panel panel8;
-        private Label label11;
+        private Label labelZilPlusTokensValue;
         private Label label12;
         private PictureBox pictureBox2;
         private GridView.GridViewControl gridViewTokenBalances;
         private GridView.GridViewControl gridViewZilTransactions;
-        private GroupBox groupBox2;
+        private GroupBox groupBoxTokens;
         private GridView.GridViewControl gridViewTokenTransactions;
         private GroupBox groupBox3;
         private Button buttonClipboardAddress;
@@ -681,9 +693,10 @@
         private ToolStripButton toolStripButton1;
         private Splitter splitter1;
         private Panel panelTabs;
-        private ToolStrip toolStrip1;
+        private ToolStrip toolStripTransactions;
         private ToolStripButton tabButtonZilTransactions;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripButton tabButtonTokenTransactions;
+        private Panel panelTabPages;
     }
 }

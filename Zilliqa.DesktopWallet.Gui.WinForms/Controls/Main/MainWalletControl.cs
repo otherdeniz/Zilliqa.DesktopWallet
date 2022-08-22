@@ -122,7 +122,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                 accountControl.RefreshAccount();
                 if (accountControl.IsSelected)
                 {
-                    ((WalletAddressDetails)panelAccountDetails.Controls[0]).RefreshAccount();
+                    ((WalletAddressDetails)panelAccountDetails.Controls[0]).RefreshAccountSummaries();
                 }
             }
 

@@ -58,8 +58,8 @@ namespace Zilliqa.DesktopWallet.ApiClient.Accounts
         public Account GetAccount(string address,Address.AddressEncoding encoding)
         {
             Account acc = null;
-            if(encoding == Address.AddressEncoding.BASE16)
-                acc = _accounts.SingleOrDefault(a => a.Address.Base16.Equals(address));
+            if(encoding == Address.AddressEncoding.Base16WithLeading0x)
+                acc = _accounts.SingleOrDefault(a => a.Address.Base16WithLeading0x.Equals(address));
             else
                 acc = _accounts.SingleOrDefault(a => a.Address.Bech32.Equals(address));
 

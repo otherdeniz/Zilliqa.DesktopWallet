@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.ComponentModel;
+using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 {
@@ -25,9 +26,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             _itemType = itemType;
             _dataSourceList = dataSource;
             dataGridView.DataSource = dataSource;
-            if (dataSource.Count > 0)
+            if (dataSource.Count > 0 && dataGridView.SelectedRows.Count > 0)
             {
-                OnSelectRow(0);
+                OnSelectRow(dataGridView.SelectedRows[0].Index);
             }
         }
 
@@ -45,7 +46,14 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                 if (propertyInfo.GetCustomAttributes(typeof(GridViewFormatAttribute), false).FirstOrDefault() is
                     GridViewFormatAttribute formatAttribute)
                 {
-                    dataGridView.Columns[propertyInfo.Name].DefaultCellStyle.Format = formatAttribute.Format;
+                    try
+                    {
+                        dataGridView.Columns[propertyInfo.Name].DefaultCellStyle.Format = formatAttribute.Format;
+                    }
+                    catch (Exception)
+                    {
+                        // skip
+                    }
                 }
             }
         }

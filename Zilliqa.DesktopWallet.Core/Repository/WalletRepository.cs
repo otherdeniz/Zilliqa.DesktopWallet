@@ -72,6 +72,12 @@ namespace Zilliqa.DesktopWallet.Core.Repository
             }
         }
 
+        public void CancelBackgroundTasks()
+        {
+            _myAccountsList.ForEach(a => a.CancelBackgroundTasks());
+            _watchedAccountsList.ForEach(a => a.CancelBackgroundTasks());
+        }
+
         private void OnAccountChanged(AccountViewModel accountViewModel)
         {
             AccountChanged?.Invoke(this, new AccountChangedEventArgs(accountViewModel));

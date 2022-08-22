@@ -7,74 +7,86 @@ namespace Zilliqa.DesktopWallet.ApiClient
     {
         public enum AddressEncoding
         {
-            BECH32,
-            BASE16
+            Bech32,
+            Base16,
+            Base16WithLeading0x
         }
 
-        private string _address;
-        private const string _b32encoding = "bech32";
-        private const string _b16encoding = "base16";
-        public Bech32 Bech32 { get; set; } 
-        public string Base16 { get; set; }
-        public string Raw
+        public static bool Equals(string address1, string address2)
         {
-            get => _address.ToLower();
-            set
+            if (string.IsNullOrEmpty(address1))
             {
-                _address = value;
-                if (_address.StartsWith("0x"))
-                {
-                    Base16 = _address;
-                    _curr = AddressEncoding.BASE16;
-                    _address = value.TrimStart('0').TrimStart('x');
-                }
-                else if (_address.StartsWith("zil"))
-                {
+                return false;
+            }
+            return new Address(address1).Equals(address2);
+        }
 
-                    _curr = AddressEncoding.BECH32;
-                    Bech32 = new Bech32(value,null,"zil");
-                    _address = value;
-                }
+        private readonly string _rawAddress;
+
+        public Address(string rawAddress)
+        {
+            _rawAddress = rawAddress;
+            if (_rawAddress.StartsWith("zil"))
+            {
+                RawEncoding = AddressEncoding.Bech32;
+                Bech32 = new Bech32(_rawAddress, null, "zil");
+            }
+            else if (_rawAddress.StartsWith("0x"))
+            {
+                RawEncoding = AddressEncoding.Base16WithLeading0x;
+                Base16WithLeading0x = _rawAddress;
+            }
+            else
+            {
+                RawEncoding = AddressEncoding.Base16;
+                Base16WithLeading0x = $"0x{_rawAddress}";
             }
         }
-        private AddressEncoding _curr;
-        public string Current_Encoding { get => _curr.ToString(); }
 
+        public Bech32 Bech32 { get; set; } 
 
-        public Address(string address = "")
-        {
-            Raw = address;
-        }
+        public string Base16WithLeading0x { get; set; }
+
+        public string Raw => _rawAddress;
+
+        public AddressEncoding RawEncoding { get; }
+
         public override string ToString()
         {
-            return Raw;
+            return _rawAddress;
         }
-        public void Base16ToBech32Address()
-        {
-            Raw = MusBech32.FromBase16ToBech32Address(Raw);
-        }
-        public void Bech32ToBase16Address()
-        {
-            Raw = MusBech32.FromBech32ToBase16Address(Raw);
-        }
-        /// <summary>
-        /// Changes Current encoding of address (default base16)
-        /// </summary>
-        /// <param name="enc"></param>
-        public void SwitchEncoding(AddressEncoding enc = AddressEncoding.BASE16)
-        {
-            if (_curr == enc) return;
 
-            switch (_curr)
+        public string GetBech32()
+        {
+            if (Bech32 == null)
             {
-                case AddressEncoding.BASE16:
-                    Base16ToBech32Address();
-                    break;
-                case AddressEncoding.BECH32:
-                    Bech32ToBase16Address();
-                    break;
+                Bech32 = new Bech32(MusBech32.FromBase16ToBech32Address(Base16WithLeading0x), null);
             }
+            return Bech32?.ToString();
         }
-        
+
+        public string GetBase16(bool withLeading0x)
+        {
+            if (Base16WithLeading0x == null)
+            {
+                Base16WithLeading0x = MusBech32.FromBech32ToBase16Address(Bech32.ToString());
+            }
+
+            return withLeading0x ? Base16WithLeading0x : Base16WithLeading0x.Substring(2);
+        }
+
+        public bool Equals(string otherAddress)
+        {
+            if (string.IsNullOrEmpty(otherAddress))
+            {
+                return false;
+            }
+            return Equals(new Address(otherAddress));
+        }
+
+        public bool Equals(Address otherAddress)
+        {
+            return GetBase16(true) == otherAddress.GetBase16(true);
+        }
     }
 }

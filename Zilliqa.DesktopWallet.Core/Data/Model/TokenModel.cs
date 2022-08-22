@@ -28,6 +28,18 @@
 
         public TokenMarketDataModel MarketData { get; set; }
 
-
+        public decimal AmountToDecimal(decimal? amountNumber)
+        {
+            if (amountNumber == null)
+            {
+                return 0;
+            }
+            if (Decimals > 0)
+            {
+                var divident = Convert.ToDecimal(Math.Pow(10, Decimals));
+                return amountNumber.Value / divident;
+            }
+            return amountNumber.Value;
+        }
     }
 }

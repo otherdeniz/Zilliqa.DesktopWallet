@@ -34,7 +34,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Accounts
         {
             return _repo.GetAccount(acc);
         }
-        public Account GetAccount(string address,Address.AddressEncoding encoding = Address.AddressEncoding.BECH32)
+        public Account GetAccount(string address,Address.AddressEncoding encoding = Address.AddressEncoding.Bech32)
         {
             return _repo.GetAccount(address,encoding);
         }
