@@ -67,13 +67,15 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
                 throw new Exception("Could not convert buffer to bytes");
             }
             res += ByteUtil.ByteArrayToHexString(buf);
-            return res;
+            return res.ToLower();
         }
 
         public static string FromBase16ToBech32Address(this string hexAddress)
         {
-
-            hexAddress = hexAddress.ToLower().Replace("0x", "");
+            if (hexAddress.StartsWith("0x"))
+            {
+                hexAddress = hexAddress.Substring(2);
+            }
 
             List<int> bits = ByteUtil.ConvertBits(ByteUtil.HexStringToByteArray(hexAddress), 8, 5, false);
 

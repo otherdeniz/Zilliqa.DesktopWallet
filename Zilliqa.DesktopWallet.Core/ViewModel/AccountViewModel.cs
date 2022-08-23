@@ -77,6 +77,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                     new FilterQueryField("TokenTransferRecipient", addressHex)
                 }
             };
+            // DEBUG DENIZ
+            if (!AccountData.Name.Contains("Atomic")) return;
             Task.Run(() =>
             {
                 try

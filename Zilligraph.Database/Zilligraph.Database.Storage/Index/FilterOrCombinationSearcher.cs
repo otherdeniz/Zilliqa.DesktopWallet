@@ -23,9 +23,10 @@ public class FilterOrCombinationSearcher : IFilterSearcher
             return null;
         }
         ulong? result;
-        var toNextChild = false;
+        bool toNextChild;
         do
         {
+            toNextChild = false;
             result = _childSearcher[_currentChildSearcher].GetNextRecordPoint();
             if (result == null && _childSearcher.Count > _currentChildSearcher + 1)
             {

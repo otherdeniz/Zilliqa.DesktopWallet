@@ -12,11 +12,25 @@ namespace Zilliqa.DesktopWallet.Core.Repository
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                BlockchainInfo = await ZilliqaApiClient.GetBlockchainInfo();
+                try
+                {
+                    BlockchainInfo = await ZilliqaApiClient.GetBlockchainInfo();
 
-                AfterRefresh?.Invoke(this, EventArgs.Empty);
+                    AfterRefresh?.Invoke(this, EventArgs.Empty);
+                }
+                catch (Exception)
+                {
+                    // skip
+                }
 
-                await Task.Delay(30000, cancellationToken);
+                try
+                {
+                    await Task.Delay(30000, cancellationToken);
+                }
+                catch (TaskCanceledException)
+                {
+                    return;
+                }
             }
         }
     }
