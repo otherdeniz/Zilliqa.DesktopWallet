@@ -4,25 +4,21 @@ namespace Zilliqa.DesktopWallet.ApiClient
 {
     public class Bech32
     {
-        public string hrp;
-        public byte[] data;
-        protected string _address;
+        private readonly string _address;
 
-        public Bech32(string hrp, byte[] data)
-        {
-            this.hrp = hrp;
-            this.data = data;
-            _address = "";
-        }
-        public Bech32(string address, byte[] data,string hrp = "zil")
+        public Bech32(string address, byte[] data, string hrp)
         {
             if (!address.StartsWith(hrp))
-                throw new ArgumentException("HRP is not zil");
+                throw new ArgumentException($"HRP is not {hrp}");
 
-            this.hrp = hrp;
-            this.data = data;
-            this._address = address;
+            _address = address;
+            Hrp = hrp;
+            Data = data;
         }
+
+        public string Hrp { get; }
+
+        public byte[] Data { get; }
 
         public override string ToString()
         {

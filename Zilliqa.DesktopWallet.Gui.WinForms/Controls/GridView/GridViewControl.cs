@@ -26,10 +26,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             _itemType = itemType;
             _dataSourceList = dataSource;
             dataGridView.DataSource = dataSource;
-            if (dataSource.Count > 0 && dataGridView.SelectedRows.Count > 0)
-            {
-                OnSelectRow(dataGridView.SelectedRows[0].Index);
-            }
         }
 
         private void OnSelectRow(int rowIndex)
@@ -61,9 +57,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
         private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             //TODO: add sorting features if Header clicked (RowIndex = -1)
-            if (_dataSourceList != null && e.RowIndex > -1)
+        }
+
+        private void dataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            if (_dataSourceList.Count > 0 && dataGridView.SelectedRows.Count > 0)
             {
-                OnSelectRow(e.RowIndex);
+                OnSelectRow(dataGridView.SelectedRows[0].Index);
             }
         }
 
@@ -76,5 +76,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                 SelectedRow = selectedRow;
             }
         }
+
     }
 }

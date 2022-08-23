@@ -195,11 +195,11 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		}
 		public async Task<string> GetSmartContractCode(Address address)
 		{
-			return await GetSmartContractCode(address.Raw);
+			return await GetSmartContractCode(address.RawAddress);
 		}
 		public async Task<string> GetSmartContractCode(SmartContract c)
 		{
-			return await GetSmartContractCode(c.Address.Raw);
+			return await GetSmartContractCode(c.Address.RawAddress);
 		}
 		/// <summary>
 		/// Gets Contract Balance, overloaded with: Address,Contract
@@ -215,11 +215,11 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		}
 		public async Task<Balance> GetContractBalance(Address address)
 		{
-			return await GetContractBalance(address.Raw);
+			return await GetContractBalance(address.RawAddress);
 		}
 		public async Task<Balance> GetContractBalance(SmartContract con)
 		{
-			return await GetContractBalance(con.Address.Raw);
+			return await GetContractBalance(con.Address.RawAddress);
 		}
 
 		/// <summary>

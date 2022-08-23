@@ -74,7 +74,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
             using (SHA256 s = new SHA256Managed())
             {
                 byte[] address = s.ComputeHash(ByteUtil.HexStringToByteArray(publicKey));
-                return ByteUtil.ByteArrayToHexString(address).Substring(24);
+                return ByteUtil.ByteArrayToHexString(address).Substring(24).ToLower();
             }
         }
 

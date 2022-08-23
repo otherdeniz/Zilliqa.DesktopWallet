@@ -17,7 +17,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.Contracts
         public void TestContractNoAddress()
         {
 
-            Assert.AreEqual("", TestContract.Address.Raw);
+            Assert.AreEqual("", TestContract.Address.RawAddress);
         }
         [Test]
         public void NewContractCodeEmpty()

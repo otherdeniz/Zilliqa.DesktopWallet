@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 using Zillifriends.Shared.Common;
 
 namespace Zilliqa.DesktopWallet.Core
@@ -52,9 +53,14 @@ namespace Zilliqa.DesktopWallet.Core
             WriteToFile($"INFO - {GetTimestamp()} - {message}");
         }
 
-        public static void LogError(string message, Exception exception)
+        public static void LogError(string message, Exception exception, object? data = null)
         {
-            WriteToFile($"ERROR - {GetTimestamp()} - {message}{Environment.NewLine}{new ExceptionParser(exception).FullText}");
+            var logText = $"ERROR - {GetTimestamp()} - {message}{Environment.NewLine}{new ExceptionParser(exception).FullText}";
+            if (data != null)
+            {
+                logText += Environment.NewLine + "DATA: " + JsonConvert.SerializeObject(data);
+            }
+            WriteToFile(logText);
         }
 
         private static string GetTimestamp()

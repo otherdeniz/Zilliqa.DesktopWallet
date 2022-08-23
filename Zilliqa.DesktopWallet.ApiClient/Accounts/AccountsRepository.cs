@@ -19,7 +19,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Accounts
         }
         public void Add(Account acc)
         {
-            if (String.IsNullOrWhiteSpace(acc.Address.Raw))
+            if (String.IsNullOrWhiteSpace(acc.Address.RawAddress))
             {
                 throw new ArgumentException("Address is empty");
             }
@@ -32,7 +32,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Accounts
         }
         public void Remove(Account acc)
         {
-            if (String.IsNullOrWhiteSpace(acc.Address.Raw))
+            if (String.IsNullOrWhiteSpace(acc.Address.RawAddress))
             {
                 throw new ArgumentException("Address is empty");
             }
@@ -41,7 +41,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Accounts
         public void Remove(string address)
         {
             var acc = _accounts.SingleOrDefault(a=> a.Address.Equals(address));
-            if (acc != null && String.IsNullOrWhiteSpace(acc.Address.Raw))
+            if (acc != null && String.IsNullOrWhiteSpace(acc.Address.RawAddress))
             {
                 throw new ArgumentException("Address is empty");
             }

@@ -20,7 +20,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Contracts
         private Address _address;
         [JsonProperty("address")]
         public string AddressProperty { 
-            get => _address.Raw;
+            get => _address.RawAddress;
             set => _address = new Address(value); 
         }
         [JsonProperty("state")]

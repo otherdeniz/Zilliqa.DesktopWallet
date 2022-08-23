@@ -79,62 +79,80 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             };
             Task.Run(() =>
             {
-                var addressTransactions = tableTransactions.FindRecords(transactionsFilter);
-                foreach (var transaction in addressTransactions)
+                try
                 {
-                    if (cancellationToken.IsCancellationRequested)
+                    var addressTransactions = tableTransactions.FindRecords(transactionsFilter);
+                    foreach (var transaction in addressTransactions)
                     {
-                        return;
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            return;
+                        }
+
+                        OnAddedRecord(transaction);
                     }
 
-                    OnAddedRecord(transaction);
+                    if (!cancellationToken.IsCancellationRequested)
+                    {
+                        _transactionEventNotificator = tableTransactions.AddEventNotificator(record =>
+                                record.SenderAddress == addressHex
+                                || record.ToAddress == addressHex
+                                || record.TokenTransferSender() == addressHex
+                                || record.TokenTransferRecipient() == addressHex,
+                            OnAddedRecord);
+                    }
                 }
-
-                if (!cancellationToken.IsCancellationRequested)
+                catch (TaskCanceledException)
                 {
-                    _transactionEventNotificator = tableTransactions.AddEventNotificator(record =>
-                            record.SenderAddress == addressHex
-                            || record.ToAddress == addressHex
-                            || record.TokenTransferSender() == addressHex
-                            || record.TokenTransferRecipient() == addressHex,
-                        OnAddedRecord);
+                    // expected
+                }
+                catch (Exception e)
+                {
+                    Logging.LogError("Account View Model InitialiseData failed", e);
                 }
             }, cancellationToken);
         }
 
         private void OnAddedRecord(Transaction record)
         {
-            if (record.TransactionTypeEnum == TransactionType.Payment)
+            try
             {
-                ZilTransactions.Add(new AccountZilTransactionRowViewModel(this, record));
-            }
-            else if (record.TransactionTypeEnum == TransactionType.ContractCall)
-            {
-                var tokenModel = TokenDataService.Instance.FindTokenByAddress(record.ToAddress);
-                if (tokenModel != null)
+                if (record.TransactionTypeEnum == TransactionType.Payment)
                 {
-                    var tokenTransaction = new AccountTokenTransactionRowViewModel(this, record, tokenModel);
-                    TokenTransactions.Add(tokenTransaction);
-                    var tokenBalance = TokenBalances.FirstOrDefault(t => t.Symbol == tokenModel.Symbol);
-                    if (tokenBalance == null)
+                    ZilTransactions.Add(new AccountZilTransactionRowViewModel(this, record));
+                }
+                else if (record.TransactionTypeEnum == TransactionType.ContractCall)
+                {
+                    var tokenModel = TokenDataService.Instance.FindTokenByAddress(record.ToAddress);
+                    if (tokenModel != null)
                     {
-                        tokenBalance = new AccountTokenBalanceRowViewModel(tokenModel);
-                        TokenBalances.Add(tokenBalance);
-                    }
+                        var tokenTransaction = new AccountTokenTransactionRowViewModel(this, record, tokenModel);
+                        TokenTransactions.Add(tokenTransaction);
+                        var tokenBalance = TokenBalances.FirstOrDefault(t => t.Symbol == tokenModel.Symbol);
+                        if (tokenBalance == null)
+                        {
+                            tokenBalance = new AccountTokenBalanceRowViewModel(tokenModel);
+                            TokenBalances.Add(tokenBalance);
+                        }
 
-                    tokenBalance.Transactions += 1;
-                    if (tokenTransaction.Direction == TransactionDirection.ReceiveFrom)
-                    {
-                        tokenBalance.Balance += tokenTransaction.Amount;
-                    }
-                    else
-                    {
-                        tokenBalance.Balance -= tokenTransaction.Amount;
+                        tokenBalance.Transactions += 1;
+                        if (tokenTransaction.Direction == TransactionDirection.ReceiveFrom)
+                        {
+                            tokenBalance.Balance += tokenTransaction.Amount;
+                        }
+                        else
+                        {
+                            tokenBalance.Balance -= tokenTransaction.Amount;
+                        }
                     }
                 }
-            }
 
-            RaiseAfterChanged();
+                RaiseAfterChanged();
+            }
+            catch (Exception e)
+            {
+                Logging.LogError("Account View Model OnAddedRecord failed.", e, record);
+            }
         }
     }
 }

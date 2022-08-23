@@ -51,12 +51,12 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
                     upper = true;
                 }
             }
-            if (data.hrp != HRP)
+            if (data.Hrp != HRP)
             {
                 throw new Exception("Expected hrp to be zil");
             }
 
-            List<int> bits = ByteUtil.ConvertBits(data.data, 5, 8, false);
+            List<int> bits = ByteUtil.ConvertBits(data.Data, 5, 8, false);
             byte[] buf = new byte[bits.Count];
             for (int i = 0; i < bits.Count; i++)
             {
@@ -92,7 +92,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
         {
             try
             {
-                return Decode(bech32Address).hrp == HRP;
+                return Decode(bech32Address).Hrp == HRP;
             }
             catch (Exception)
             {
@@ -104,7 +104,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
         {
             for (int i = 0; i < str.Length; ++i)
             {
-                char c = str.ToCharArray()[i];
+                char c = str[i];
                 if (c < 33 || c > 126) throw new ArgumentException($"Invalid character {c}");
             }
             int pos = str.LastIndexOf('1');
@@ -115,7 +115,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
             byte[] values = new byte[dataPartLength];
             for (int i = 0; i < dataPartLength; ++i)
             {
-                char c = str.ToCharArray()[(i + pos + 1)];
+                char c = str[(i + pos + 1)];
                 if (CHARSET_REV[c] == -1) throw new InvalidEnumArgumentException($"Invalid character {c} pos: {i + pos + 1}");
                 values[i] = (byte)CHARSET_REV[c];
             }
@@ -126,12 +126,11 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
             return new Bech32(str, newValues, HRP);
         }
 
-
-
         public static string Encode(Bech32 bech32,int length = 42)
         {
-            return Encode(bech32.hrp, bech32.data).Substring(0,length);
+            return Encode(bech32.Hrp, bech32.Data).Substring(0,length);
         }
+
         public static string Encode(string hrp, byte[] values)
         {
             if (hrp.Length < 1)
@@ -149,7 +148,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
             sb.Append('1');
             foreach (byte b in combined)
             {
-                sb.Append(CHARSET.ToCharArray()[b]);
+                sb.Append(CHARSET[b]);
             }
             sb.Insert(sb.Length, ByteUtil.ByteArrayToHexString(values));
             return sb.ToString();
@@ -210,7 +209,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
             byte[] ret = new byte[hrpLength * 2 + 1];
             for (int i = 0; i < hrpLength; ++i)
             {
-                int c = hrp.ToCharArray()[i] & 0x7f; // Limit to standard 7-bit ASCII
+                int c = hrp[i] & 0x7f; // Limit to standard 7-bit ASCII
                 ret[i] = (byte)((ShiftRight(c, 5)) & 0x07);
                 ret[i + hrpLength + 1] = (byte)(c & 0x1f);
             }
