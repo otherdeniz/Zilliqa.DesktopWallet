@@ -21,12 +21,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             _accountViewModel = account;
             Tag = account;
             labelName.Text = $"{account.AccountData.Name} ({account.AccountData.GetAddressBech32().FromBech32ToShortReadable()})";
-            //labelAmount.Text = "? ZIL + ? Tokens = ? USD (loading...)";
         }
 
         public void RefreshAccount()
         {
-            labelAmount.Text = $"? ZIL + {Account.TokenBalances.Count} Tokens = {Account.TotalValueUsd:#,##0.00} USD";
+            labelAmount.Text = $"{Account.ZilTotalBalance:#,##0} ZIL + {Account.TokenBalances.Count} Tokens = {Account.TotalValueUsd:#,##0.00} USD";
         }
 
         protected override void Dispose(bool disposing)

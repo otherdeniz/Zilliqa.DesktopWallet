@@ -12,24 +12,24 @@ namespace Zilliqa.DesktopWallet.ApiClient
 {
     public class ZilliqaClient
     {
-        private IZilliqaAPIClient<MusResult> _client;
-		public static readonly string TESTNET = "https://dev-api.zilliqa.com/";
-		public static readonly string MAINNET = "https://api.zilliqa.com/";
+		public static readonly string TestnetBaseUrl = "https://dev-api.zilliqa.com/";
+		public static readonly string MainnetBaseUrl = "https://api.zilliqa.com/";
+
+        private static ZilliqaClient _defaultClient;
+        public static ZilliqaClient DefaultInstance => _defaultClient ??= new ZilliqaClient();
 
 		public static bool UseTestnet { get; set; }
+
+        private IZilliqaAPIClient<MusResult> _client;
 
         public ZilliqaClient() : this(UseTestnet)
         {
         }
 		public ZilliqaClient(bool test) {
 			_client = test 
-                ? new MusZil_APIClient(TESTNET)
-                : new MusZil_APIClient(MAINNET);
+                ? new MusZil_APIClient(TestnetBaseUrl)
+                : new MusZil_APIClient(MainnetBaseUrl);
 		}
-        public ZilliqaClient(string apiurl)
-        {
-            _client = new MusZil_APIClient(apiurl);
-        }
         
 		#region Accounts
 
@@ -46,11 +46,11 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		}
 		public async Task<Balance> GetBalance(Address address)
 		{
-			return await GetBalance(address.GetBase16(true));
+			return await GetBalance(address.GetBase16(false));
 		}
 		public async Task<Balance> GetBalance(Account acc)
 		{
-			return await GetBalance(acc.Address.GetBase16(true));
+			return await GetBalance(acc.Address.GetBase16(false));
 		}
 		#endregion
 

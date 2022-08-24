@@ -15,7 +15,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Accounts
         {
             _repo = new AccountsRepository();
             _repo.Add(acc);
-            _zil = test ? new ZilliqaClient() : new ZilliqaClient(ZilliqaClient.MAINNET);
+            _zil = new ZilliqaClient(test);
             _curr = acc;
         }
         public void AddAccount(Account acc)

@@ -29,26 +29,30 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         public string Name => Model.Name;
 
-        [GridViewFormat("0.0000")]
+        [DisplayName("Balance")]
+        [GridViewFormat("#,##0.0000")] 
+        public decimal BalanceDisplay => Balance < 0 ? 0 : Balance;
+
+        [Browsable(false)]
         public decimal Balance
         {
             get => _balance;
             set
             {
                 _balance = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(BalanceDisplay));
                 OnPropertyChanged(nameof(ValueZil));
                 OnPropertyChanged(nameof(ValueUsd));
             }
         }
 
         [DisplayName("Value ZIL")]
-        [GridViewFormat("0.00")]
-        public decimal ValueZil => Model.MarketData.RateZil * Balance;
+        [GridViewFormat("#,##0.00")]
+        public decimal ValueZil => Model.MarketData.RateZil * BalanceDisplay;
 
         [DisplayName("Value USD")]
-        [GridViewFormat("0.00")]
-        public decimal ValueUsd => Model.MarketData.RateUsd * Balance;
+        [GridViewFormat("#,##0.00")]
+        public decimal ValueUsd => Model.MarketData.RateUsd * BalanceDisplay;
 
         public int Transactions
         {

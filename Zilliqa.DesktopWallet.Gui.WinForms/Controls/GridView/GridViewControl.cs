@@ -9,6 +9,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
         private Type? _itemType;
         private IList _dataSourceList;
 
+        private Dictionary<int, GridViewFormatAttribute> _columnIndexesFormatAttributes =
+            new Dictionary<int, GridViewFormatAttribute>();
+
         public GridViewControl()
         {
             InitializeComponent();
@@ -37,6 +40,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
         private void dataGridView_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             if (_itemType == null) return;
+            _columnIndexesFormatAttributes.Clear();
             foreach (var propertyInfo in _itemType.GetProperties())
             {
                 if (propertyInfo.GetCustomAttributes(typeof(GridViewFormatAttribute), false).FirstOrDefault() is
@@ -44,7 +48,21 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                 {
                     try
                     {
-                        dataGridView.Columns[propertyInfo.Name].DefaultCellStyle.Format = formatAttribute.Format;
+                        var column = dataGridView.Columns[propertyInfo.Name];
+                        column.DefaultCellStyle.Format = formatAttribute.Format;
+                        _columnIndexesFormatAttributes.Add(column.Index, formatAttribute);
+                    }
+                    catch (Exception)
+                    {
+                        // skip
+                    }
+                }
+                if (propertyInfo.GetCustomAttributes(typeof(GridViewBackgroundAttribute), false).FirstOrDefault() is
+                    GridViewBackgroundAttribute backgroundAttribute)
+                {
+                    try
+                    {
+                        dataGridView.Columns[propertyInfo.Name].DefaultCellStyle.BackColor = Color.FromKnownColor(backgroundAttribute.BackColor);
                     }
                     catch (Exception)
                     {
@@ -77,5 +95,27 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             }
         }
 
+        private void dataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (_columnIndexesFormatAttributes.TryGetValue(e.ColumnIndex, out var formatAttribute))
+            {
+                if (formatAttribute.UseGreenOrRedNumbers
+                    && e.Value is decimal decimalValue)
+                {
+                    if (decimalValue == 0)
+                    {
+                        e.CellStyle.ForeColor = Color.Black;
+                    }
+                    else if (decimalValue > 0)
+                    {
+                        e.CellStyle.ForeColor = Color.ForestGreen;
+                    }
+                    else
+                    {
+                        e.CellStyle.ForeColor = Color.Red;
+                    }
+                }
+            }
+        }
     }
 }

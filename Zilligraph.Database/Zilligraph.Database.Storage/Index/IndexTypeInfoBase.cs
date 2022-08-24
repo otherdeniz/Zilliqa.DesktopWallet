@@ -20,6 +20,10 @@ namespace Zilligraph.Database.Storage.Index
             {
                 return new IndexTypeInfoInt64();
             }
+            if (valueType == typeof(DateTime))
+            {
+                return new IndexTypeInfoDate();
+            }
 
             throw new RuntimeException($"value Type {valueType} not supported as Index");
         }

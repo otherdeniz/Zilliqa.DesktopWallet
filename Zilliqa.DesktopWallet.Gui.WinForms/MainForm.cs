@@ -1,3 +1,4 @@
+using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Data.Files;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main;
 using Zilliqa.DesktopWallet.Gui.WinForms.Forms;
@@ -61,6 +62,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            WinFormsSynchronisationContext.WinFormsMainContext = SynchronizationContext.Current;
             this.Text = ApplicationInfo.MainFormTitle;
         }
 

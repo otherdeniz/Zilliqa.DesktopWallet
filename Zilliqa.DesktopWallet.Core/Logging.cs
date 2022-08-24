@@ -77,14 +77,21 @@ namespace Zilliqa.DesktopWallet.Core
 
             lock (LogFileLock)
             {
-                var logFilePath = Path.Combine(LoggingPath, $"{DateTime.Today:yyyy-MM-dd}.log");
-                using (var fileStream = File.Open(logFilePath, FileMode.OpenOrCreate))
+                try
                 {
-                    fileStream.Seek(0, SeekOrigin.End);
-                    using (var writer = new StreamWriter(fileStream, Encoding.UTF8))
+                    var logFilePath = Path.Combine(LoggingPath, $"{DateTime.Today:yyyy-MM-dd}.log");
+                    using (var fileStream = File.Open(logFilePath, FileMode.OpenOrCreate))
                     {
-                        writer.WriteLine(message);
+                        fileStream.Seek(0, SeekOrigin.End);
+                        using (var writer = new StreamWriter(fileStream, Encoding.UTF8))
+                        {
+                            writer.WriteLine(message);
+                        }
                     }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Logging failed: {e.Message}");
                 }
             }
         }

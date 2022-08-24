@@ -2,13 +2,13 @@
 
 namespace Zilliqa.DesktopWallet.Core.Repository
 {
-    public class ZilliqaApiClientRepositoryBase : IDisposable
+    public abstract class ZilliqaApiClientRepositoryBase : IDisposable
     {
         private readonly Task _refreshTask;
         private readonly CancellationTokenSource _refreshCancellationTokenSource = new CancellationTokenSource();
         private readonly ZilliqaClient _zilliqaApiClient;
 
-        public ZilliqaApiClientRepositoryBase()
+        protected ZilliqaApiClientRepositoryBase()
         {
             _zilliqaApiClient = new ZilliqaClient();
             _refreshTask = Task.Run(async () => await RefreshFunction(_refreshCancellationTokenSource.Token));

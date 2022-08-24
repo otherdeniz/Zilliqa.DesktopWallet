@@ -19,7 +19,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             _account = account;
             textZilAddress.Text = account.AddressBech32;
             gridViewTokenBalances.LoadData(account.TokenBalances, typeof(AccountTokenBalanceRowViewModel));
-            gridViewZilTransactions.LoadData(account.ZilTransactions, typeof(AccountZilTransactionRowViewModel));
+            gridViewZilTransactions.LoadData(account.ZilTransactions, typeof(ZilTransactionRowViewModel));
             gridViewTokenTransactions.LoadData(account.TokenTransactions, typeof(AccountTokenTransactionRowViewModel));
             RefreshAccountSummaries();
         }
@@ -49,9 +49,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             }
             tabButtonTokenTransactions.Text = $"{buttonTokenTransactionsText} ({_account.TokenTransactions.Count})";
 
-            labelTokensValue.Text = $"{_account.TokensValueUsd:#,##0.00} USD";
-            labelZilPlusTokensValue.Text = $"{_account.TotalValueUsd:#,##0.00} USD";
+            labelZilTotalBalance.Text = $"{_account.ZilTotalBalance:#,##0.00} ZIL";
+            labelZilLiquidBalance.Text = $"{_account.ZilLiquidBalance:#,##0.00} ZIL";
 
+            labelTokensValueUsd.Text = $"{_account.TokensValueUsd:#,##0.00} USD";
+            labelZilValueUsd.Text = $"{_account.ZilTotalValueUsd:#,##0.00} USD";
+            labelTotalValueUsd.Text = $"{_account.TotalValueUsd:#,##0.00} USD";
         }
 
         private void WalletAddressDetails_Load(object sender, EventArgs e)

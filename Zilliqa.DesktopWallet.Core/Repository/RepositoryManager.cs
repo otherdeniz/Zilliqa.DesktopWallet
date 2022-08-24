@@ -1,4 +1,6 @@
-﻿using Zilliqa.DesktopWallet.Core.ZilligraphDb;
+﻿using Zilligraph.Database.Storage;
+using Zilliqa.DesktopWallet.Core.CacheDatabase;
+using Zilliqa.DesktopWallet.Core.ZilligraphDb;
 
 namespace Zilliqa.DesktopWallet.Core.Repository
 {
@@ -9,6 +11,8 @@ namespace Zilliqa.DesktopWallet.Core.Repository
         private BlockchainBrowserRepository? _blockchainBrowserRepository;
         private WalletRepository? _walletRepository;
         private ZilliqaBlockchainDbRepository? _dbRepository;
+        private ZilligraphDatabase? _chacheDatabase;
+        private CurrencyPriceRepository? _currencyPriceRepository;
 
         private RepositoryManager()
         {
@@ -17,12 +21,18 @@ namespace Zilliqa.DesktopWallet.Core.Repository
         public BlockchainBrowserRepository BlockchainBrowserRepository =>
             _blockchainBrowserRepository ??= new BlockchainBrowserRepository();
 
-        public WalletRepository WalletRepository => 
-            _walletRepository ??= new WalletRepository();
+        public CurrencyPriceRepository CurrencyPriceRepository =>
+            _currencyPriceRepository ??= new CurrencyPriceRepository();
 
-        public ZilliqaBlockchainDbRepository DatabaseRepository => 
+        public ZilligraphDatabase CacheDatabase =>
+            _chacheDatabase ??= CacheDatabaseFactory.CreateDatabaseInstance();
+
+        public ZilliqaBlockchainDbRepository DatabaseRepository =>
             _dbRepository ??= new ZilliqaBlockchainDbRepository();
 
+        public WalletRepository WalletRepository => 
+            _walletRepository ??= new WalletRepository();
+        
         public void Shutdown()
         {
             _walletRepository?.CancelBackgroundTasks();
