@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using Org.BouncyCastle.Crypto.EC;
 using Org.BouncyCastle.Crypto.Parameters;
@@ -71,11 +72,15 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
             {
                 return null;
             }
-            using (SHA256 s = new SHA256Managed())
+
+            var byteArrayFromHex = ByteUtil.HexStringToByteArray(publicKey);
+            string addressHex;
+            using (SHA256 sha = SHA256.Create())
             {
-                byte[] address = s.ComputeHash(ByteUtil.HexStringToByteArray(publicKey));
-                return ByteUtil.ByteArrayToHexString(address).Substring(24).ToLower();
+                var addressByteArray = sha.ComputeHash(byteArrayFromHex);
+                addressHex = ByteUtil.ByteArrayToHexString(addressByteArray);
             }
+            return addressHex.Substring(24).ToLower();
         }
 
         public static byte[] GenerateRandomBytes(int size)

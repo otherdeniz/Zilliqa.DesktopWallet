@@ -91,12 +91,6 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.UtilityTests
         }
 
         [Test]
-        public void GetHexVal()
-        {
-            var t = ByteUtil.GetHexVal('F');
-            Assert.AreEqual(t, 15);
-        }
-        [Test]
         public void GetHexString()
         {
             var s = ByteUtil.HexStringToByteArray("FF");

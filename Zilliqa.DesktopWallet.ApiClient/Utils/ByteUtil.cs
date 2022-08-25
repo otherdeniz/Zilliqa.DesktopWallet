@@ -6,13 +6,8 @@ using System.Text;
 
 namespace Zilliqa.DesktopWallet.ApiClient.Utils
 {
-    public class ByteUtil
+    public static class ByteUtil
     {
-        
-        #region New Way with .NET libs
-
-        #region Convert int to string
-
         /// <summary>
         /// Converts the given decimal number to the numeral system with the
         /// specified radix (in the range [2, 36]).
@@ -50,8 +45,6 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
 
             return result;
         }
-
-        #endregion
 
         /// <summary>
         /// Transforms string to byte array
@@ -119,32 +112,17 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
         }
 
 
-        public static int GetHexVal(char hex)
+        public static byte[] HexStringToByteArray(string hexString)
         {
-            int val = (int)hex;
-            //For uppercase A-F letters:
-            //return val - (val < 58 ? 48 : 55);
-            //For lowercase a-f letters:
-            //return val - (val < 58 ? 48 : 87);
-            //Or the two combined, but a bit slower:
-            return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
-        }
-        public static byte[] HexStringToByteArray(string hex)
-        {
-            if (hex.Length % 2 == 1)
-                throw new Exception("The binary key cannot have an odd number of digits");
-
-            byte[] arr = new byte[hex.Length >> 1];
-
-            for (int i = 0; i < hex.Length >> 1; ++i)
+            hexString = hexString.Replace(" ", "").ToLower().Replace("0x", "");
+            byte[] byteArrayFromHex = new byte[hexString.Length / 2];
+            for (int i = 0; i < hexString.Length; i += 2)
             {
-                arr[i] = (byte)((GetHexVal(hex[i << 1]) << 4) + (GetHexVal(hex[(i << 1) + 1])));
+                byteArrayFromHex[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
             }
-
-            return arr; ;
-
+            return byteArrayFromHex;
         }
-       
+
 
         public static string ConvertByteArrToString(byte[] a, string separator = " ",int pad_L = 8,int pad_R=0)
         {
@@ -159,6 +137,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
             }
             return sb.ToString().ToUpper().Replace(" ", "");
         }
+
         public static List<int> ConvertBits(byte[] data, int fromWidth, int toWidth, bool pad)
         {
             int acc = 0;
@@ -197,7 +176,6 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
             return ret;
 
         }
-
-        #endregion
+        
     }
 }

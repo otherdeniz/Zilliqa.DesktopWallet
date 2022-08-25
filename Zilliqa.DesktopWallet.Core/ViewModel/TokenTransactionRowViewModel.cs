@@ -8,9 +8,8 @@ using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel;
 
-public class AccountTokenTransactionRowViewModel
+public class TokenTransactionRowViewModel
 {
-    private readonly AccountViewModel _account;
     private readonly Transaction _transactionModel;
     private readonly TokenModel _tokenModel;
     private Image? _logoIcon;
@@ -19,15 +18,21 @@ public class AccountTokenTransactionRowViewModel
     private decimal? _tokenAmount;
     private string? _date;
 
-    public AccountTokenTransactionRowViewModel(AccountViewModel account, Transaction transactionModel, TokenModel tokenModel)
+    public TokenTransactionRowViewModel(Address address, Transaction transactionModel, TokenModel tokenModel)
     {
-        _account = account;
         _transactionModel = transactionModel;
+        ThisAddress = address;
         _tokenModel = tokenModel;
-        Direction = _account.Address.Equals(transactionModel.TokenTransferSender())
+        Direction = address.Equals(transactionModel.TokenTransferSender())
             ? TransactionDirection.SendTo
             : TransactionDirection.ReceiveFrom;
     }
+
+    [Browsable(false)]
+    public Transaction Transaction => _transactionModel;
+
+    [Browsable(false)]
+    public Address ThisAddress { get; }
 
     [Browsable(false)]
     public TransactionDirection Direction { get; }

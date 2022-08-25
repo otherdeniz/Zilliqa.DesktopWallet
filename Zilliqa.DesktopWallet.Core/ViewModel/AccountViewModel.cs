@@ -23,8 +23,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public AccountViewModel(AccountBase accountData, Action<AccountViewModel> afterChangedAction) 
         {
             AccountData = accountData;
-            TokenBalances = new BindingList<AccountTokenBalanceRowViewModel>();
-            TokenTransactions = new BindingList<AccountTokenTransactionRowViewModel>();
+            TokenBalances = new BindingList<TokenBalanceRowViewModel>();
+            TokenTransactions = new BindingList<TokenTransactionRowViewModel>();
             ZilTransactions = new BindingList<ZilTransactionRowViewModel>();
             _afterChangedAction = afterChangedAction;
             InitialiseData(_cancellationTokenSource.Token);
@@ -40,9 +40,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         public BindingList<ZilTransactionRowViewModel> ZilTransactions { get; }
 
-        public BindingList<AccountTokenTransactionRowViewModel> TokenTransactions { get; }
+        public BindingList<TokenTransactionRowViewModel> TokenTransactions { get; }
 
-        public BindingList<AccountTokenBalanceRowViewModel> TokenBalances { get; }
+        public BindingList<TokenBalanceRowViewModel> TokenBalances { get; }
 
         public decimal ZilLiquidBalance => _zilLiquidBalance ??= GetZilLiquidBalance();
 
@@ -54,14 +54,21 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             {
                 if (_zilValueUsd == null)
                 {
-                    var coinHistory = RepositoryManager.Instance.CurrencyPriceRepository.GetCoinHistory(DateTime.Today, "ZIL", ch =>
+                    try
                     {
-                        _zilValueUsd = ch.MarketData.CurrentPrice.Usd * ZilTotalBalance;
-                        OnPropertyChanged();
-                    });
-                    if (coinHistory != null)
+                        var coinHistory = RepositoryManager.Instance.CurrencyPriceRepository.GetCoinHistory(DateTime.Today, "ZIL", ch =>
+                        {
+                            _zilValueUsd = ch.MarketData.CurrentPrice.Usd * ZilTotalBalance;
+                            OnPropertyChanged();
+                        });
+                        if (coinHistory != null)
+                        {
+                            _zilValueUsd = coinHistory.MarketData.CurrentPrice.Usd * ZilTotalBalance;
+                        }
+                    }
+                    catch (Exception e)
                     {
-                        _zilValueUsd = coinHistory.MarketData.CurrentPrice.Usd * ZilTotalBalance;
+                        Logging.LogError("get_ZilTotalValueUsd failed", e);
                     }
                 }
                 return _zilValueUsd;
@@ -184,19 +191,37 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             {
                 if (record.TransactionTypeEnum == TransactionType.Payment)
                 {
-                    ZilTransactions.Add(new ZilTransactionRowViewModel(Address, record));
+                    if (ZilTransactions.LastOrDefault()?.Transaction.Timestamp > record.Timestamp)
+                    {
+                        // add to end
+                        ZilTransactions.Add(new ZilTransactionRowViewModel(Address, record));
+                    }
+                    else
+                    {
+                        // add to beginning
+                        ZilTransactions.Insert(0, new ZilTransactionRowViewModel(Address, record));
+                    }
                 }
                 else if (record.TransactionTypeEnum == TransactionType.ContractCall)
                 {
                     var tokenModel = TokenDataService.Instance.FindTokenByAddress(record.ToAddress);
                     if (tokenModel != null)
                     {
-                        var tokenTransaction = new AccountTokenTransactionRowViewModel(this, record, tokenModel);
-                        TokenTransactions.Add(tokenTransaction);
+                        var tokenTransaction = new TokenTransactionRowViewModel(Address, record, tokenModel);
+                        if (TokenTransactions.LastOrDefault()?.Transaction.Timestamp > record.Timestamp)
+                        {
+                            // add to end
+                            TokenTransactions.Add(tokenTransaction);
+                        }
+                        else
+                        {
+                            // add to beginning
+                            TokenTransactions.Insert(0, tokenTransaction);
+                        }
                         var tokenBalance = TokenBalances.FirstOrDefault(t => t.Symbol == tokenModel.Symbol);
                         if (tokenBalance == null)
                         {
-                            tokenBalance = new AccountTokenBalanceRowViewModel(tokenModel);
+                            tokenBalance = new TokenBalanceRowViewModel(tokenModel);
                             TokenBalances.Add(tokenBalance);
                         }
 

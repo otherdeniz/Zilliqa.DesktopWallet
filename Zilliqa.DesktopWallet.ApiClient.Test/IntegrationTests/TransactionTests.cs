@@ -78,7 +78,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
         [Test]
         public async Task GetTransactionNotNull()
         {
-            var hash = "655107c300e86ee6e819af1cbfce097db1510e8cd971d99f32ce2772dcad42f2";
+            var hash = "07fd4999a6189a08e0a36e803d7f230d82fb20464098849de59a8c77430ec419"; //"655107c300e86ee6e819af1cbfce097db1510e8cd971d99f32ce2772dcad42f2";
             var txn = await _zil.GetTransaction(hash);
             Assert.IsTrue(txn != null);
         }

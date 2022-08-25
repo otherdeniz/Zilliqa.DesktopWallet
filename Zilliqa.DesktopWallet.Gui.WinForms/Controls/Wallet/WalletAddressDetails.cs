@@ -18,9 +18,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         {
             _account = account;
             textZilAddress.Text = account.AddressBech32;
-            gridViewTokenBalances.LoadData(account.TokenBalances, typeof(AccountTokenBalanceRowViewModel));
+            gridViewTokenBalances.LoadData(account.TokenBalances, typeof(TokenBalanceRowViewModel));
             gridViewZilTransactions.LoadData(account.ZilTransactions, typeof(ZilTransactionRowViewModel));
-            gridViewTokenTransactions.LoadData(account.TokenTransactions, typeof(AccountTokenTransactionRowViewModel));
+            gridViewTokenTransactions.LoadData(account.TokenTransactions, typeof(TokenTransactionRowViewModel));
             RefreshAccountSummaries();
         }
 

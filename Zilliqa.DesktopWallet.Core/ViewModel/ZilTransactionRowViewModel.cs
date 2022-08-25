@@ -35,6 +35,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                 : TransactionDirection.ReceiveFrom;
         }
 
+        [Browsable(false)] 
+        public Transaction Transaction => _transactionModel;
+
         [Browsable(false)]
         public TransactionDirection Direction { get; }
 

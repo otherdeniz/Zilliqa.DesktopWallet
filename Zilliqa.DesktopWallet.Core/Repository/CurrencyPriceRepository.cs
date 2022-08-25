@@ -21,6 +21,10 @@ namespace Zilliqa.DesktopWallet.Core.Repository
 
         public CoinHistory? GetCoinHistory(DateTime date, string symbol, Action<CoinHistory> afterDataReceived)
         {
+            if (date.Date == DateTime.Today)
+            {
+                date = DateTime.Today.AddDays(-1);
+            }
             if (MemoryCache.TryGet<CoinHistory>($"GetCoinHistory({date.ToShortDateString()},{symbol})", out var cacheValue))
             {
                 return cacheValue;
@@ -39,6 +43,10 @@ namespace Zilliqa.DesktopWallet.Core.Repository
 
         public CoinHistory? GetCoinHistory(DateTime date, string symbol)
         {
+            if (date.Date == DateTime.Today)
+            {
+                date = DateTime.Today.AddDays(-1);
+            }
             return MemoryCache.GetOrAdd($"GetCoinHistory({date.ToShortDateString()},{symbol})",
                 TimeSpan.FromMinutes(10),
                 () =>
@@ -60,11 +68,15 @@ namespace Zilliqa.DesktopWallet.Core.Repository
                                     Logging.LogInfo($"GetCoinHistory of Symbol {symbolLower} @ {date.ToShortDateString()} - ApiClient returned NULL");
                                     apiResult = CoinHistory.CreateEmpty(symbolLower);
                                 }
-                                dbTable.AddRecord(new CoinHistoryCache
+
+                                if (apiResult.MarketData != null)
                                 {
-                                    Date = date,
-                                    CoinHistory = apiResult
-                                });
+                                    dbTable.AddRecord(new CoinHistoryCache
+                                    {
+                                        Date = date,
+                                        CoinHistory = apiResult
+                                    });
+                                }
                                 return apiResult;
                             }
                             catch (Exception e)

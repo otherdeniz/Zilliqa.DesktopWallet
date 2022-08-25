@@ -7,13 +7,13 @@ using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
-    public class AccountTokenBalanceRowViewModel : INotifyPropertyChanged
+    public class TokenBalanceRowViewModel : INotifyPropertyChanged
     {
         private Image? _icon;
         private decimal _balance;
         private int _transactions;
 
-        public AccountTokenBalanceRowViewModel(TokenModel tokenModel)
+        public TokenBalanceRowViewModel(TokenModel tokenModel)
         {
             Model = tokenModel;
         }

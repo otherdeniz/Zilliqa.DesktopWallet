@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Zilliqa.DesktopWallet.Core\Zilliqa.DesktopWallet.Core.csproj" />
+    <ProjectReference Include="..\Zilliqa.DesktopWallet.DatabaseSchema\Zilliqa.DesktopWallet.DatabaseSchema.csproj" />
   </ItemGroup>
 
 </Project>

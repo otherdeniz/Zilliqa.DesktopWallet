@@ -31,6 +31,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             {
                 Logging.LogInfo($"Startup with arguments : {string.Join(",", arguments)}");
             }
+
+            Application.ThreadException +=
+                (sender, args) => Logging.LogError("Unhandled Thread Exception!", args.Exception);
+
             ApplicationConfiguration.Initialize();
             Application.Run(new MainForm());
         }
