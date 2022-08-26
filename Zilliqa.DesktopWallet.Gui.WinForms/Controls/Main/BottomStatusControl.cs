@@ -61,6 +61,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             textDbTransactionsCount.Text = RepositoryManager.Instance.DatabaseRepository.Database.GetTable<Transaction>()
                 .RecordCount.ToString("#,##0");
 
+            labelLastBlockdate.Text = ZilliqaBlockchainCrawler.Instance
+                                          .LastDownloadedBlockdate?.ToString("g")
+                                      ?? "-";
+
             RefreshButtons();
         }
 

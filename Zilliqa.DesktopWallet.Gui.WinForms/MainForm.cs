@@ -1,5 +1,6 @@
 using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Data.Files;
+using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main;
 using Zilliqa.DesktopWallet.Gui.WinForms.Forms;
 
@@ -64,6 +65,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
         {
             WinFormsSynchronisationContext.WinFormsMainContext = SynchronizationContext.Current;
             this.Text = ApplicationInfo.MainFormTitle;
+            InitDisplayedCurrencies();
         }
 
         private void buttonWallet_Click(object sender, EventArgs e)
@@ -147,6 +149,101 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
                 _shutdownDialogForm.ShowDialog(this);
                 _shutdownDialogForm.Dispose();
             }
+        }
+
+        private void InitDisplayedCurrencies()
+        {
+            var currentDisplay = DisplayCurrenciesService.Instance.CurrentDisplayed;
+            menuDisplayCurrencyEur.Checked = currentDisplay.DisplayEur;
+            menuDisplayCurrencyChf.Checked = currentDisplay.DisplayChf;
+            menuDisplayCurrencyGbp.Checked = currentDisplay.DisplayGbp;
+            menuDisplayCurrencyBtc.Checked = currentDisplay.DisplayBtc;
+            menuDisplayCurrencyEth.Checked = currentDisplay.DisplayEth;
+            menuDisplayCurrencyLtc.Checked = currentDisplay.DisplayLtc;
+        }
+
+        private void menuDisplayCurrencyEur_Click(object sender, EventArgs e)
+        {
+            var display = !menuDisplayCurrencyEur.Checked;
+            menuDisplayCurrencyEur.Checked = display;
+            menuDisplayCurrencyChf.Checked = false;
+            menuDisplayCurrencyGbp.Checked = false;
+            DisplayCurrenciesService.Instance.ChangeDisplayedCurrencies(d =>
+            {
+                d.DisplayEur = display;
+                d.DisplayChf = false;
+                d.DisplayGbp = false;
+            });
+        }
+
+        private void menuDisplayCurrencyChf_Click(object sender, EventArgs e)
+        {
+            var display = !menuDisplayCurrencyChf.Checked;
+            menuDisplayCurrencyChf.Checked = display;
+            menuDisplayCurrencyEur.Checked = false;
+            menuDisplayCurrencyGbp.Checked = false;
+            DisplayCurrenciesService.Instance.ChangeDisplayedCurrencies(d =>
+            {
+                d.DisplayChf = display;
+                d.DisplayEur = false;
+                d.DisplayGbp = false;
+            });
+        }
+
+        private void menuDisplayCurrencyGbp_Click(object sender, EventArgs e)
+        {
+            var display = !menuDisplayCurrencyGbp.Checked;
+            menuDisplayCurrencyGbp.Checked = display;
+            menuDisplayCurrencyChf.Checked = false;
+            menuDisplayCurrencyEur.Checked = false;
+            DisplayCurrenciesService.Instance.ChangeDisplayedCurrencies(d =>
+            {
+                d.DisplayGbp = display;
+                d.DisplayChf = false;
+                d.DisplayEur = false;
+            });
+        }
+
+        private void menuDisplayCurrencyBtc_Click(object sender, EventArgs e)
+        {
+            var display = !menuDisplayCurrencyBtc.Checked;
+            menuDisplayCurrencyBtc.Checked = display;
+            menuDisplayCurrencyEth.Checked = false;
+            menuDisplayCurrencyLtc.Checked = false;
+            DisplayCurrenciesService.Instance.ChangeDisplayedCurrencies(d =>
+            {
+                d.DisplayBtc = display;
+                d.DisplayEth = false;
+                d.DisplayLtc = false;
+            });
+        }
+
+        private void menuDisplayCurrencyEth_Click(object sender, EventArgs e)
+        {
+            var display = !menuDisplayCurrencyEth.Checked;
+            menuDisplayCurrencyEth.Checked = display;
+            menuDisplayCurrencyBtc.Checked = false;
+            menuDisplayCurrencyLtc.Checked = false;
+            DisplayCurrenciesService.Instance.ChangeDisplayedCurrencies(d =>
+            {
+                d.DisplayEth = display;
+                d.DisplayBtc = false;
+                d.DisplayLtc = false;
+            });
+        }
+
+        private void menuDisplayCurrencyLtc_Click(object sender, EventArgs e)
+        {
+            var display = !menuDisplayCurrencyLtc.Checked;
+            menuDisplayCurrencyLtc.Checked = display;
+            menuDisplayCurrencyBtc.Checked = false;
+            menuDisplayCurrencyEth.Checked = false;
+            DisplayCurrenciesService.Instance.ChangeDisplayedCurrencies(d =>
+            {
+                d.DisplayLtc = display;
+                d.DisplayBtc = false;
+                d.DisplayEth = false;
+            });
         }
     }
 }

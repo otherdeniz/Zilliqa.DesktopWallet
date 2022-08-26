@@ -21,6 +21,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             _accountViewModel = account;
             Tag = account;
             labelName.Text = $"{account.AccountData.Name} ({account.AccountData.GetAddressBech32().FromBech32ToShortReadable()})";
+            RefreshAccount();
         }
 
         public void RefreshAccount()

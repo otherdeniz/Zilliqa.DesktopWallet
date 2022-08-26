@@ -5,11 +5,16 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
 [AttributeUsage(AttributeTargets.Property)]
 public class GridViewBackgroundAttribute : Attribute
 {
-    public GridViewBackgroundAttribute(KnownColor backColor)
+    public GridViewBackgroundAttribute(int red, int green, int blue)
     {
-        BackColor = backColor;
+        BackColor = Color.FromArgb(red, green, blue);
     }
 
-    public KnownColor BackColor { get; }
+    public GridViewBackgroundAttribute(KnownColor knownColor)
+    {
+        BackColor = Color.FromKnownColor(knownColor);
+    }
+
+    public Color BackColor { get; }
 
 }

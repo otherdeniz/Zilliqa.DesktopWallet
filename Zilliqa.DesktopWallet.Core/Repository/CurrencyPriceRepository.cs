@@ -19,6 +19,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
             _apiClient = new CoingeckoApiClient();
         }
 
+
         public CoinHistory? GetCoinHistory(DateTime date, string symbol, Action<CoinHistory> afterDataReceived)
         {
             if (date.Date == DateTime.Today)

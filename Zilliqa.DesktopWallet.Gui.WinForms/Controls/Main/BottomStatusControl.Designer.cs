@@ -52,11 +52,15 @@
             this.buttonStart = new System.Windows.Forms.ToolStripButton();
             this.buttonStop = new System.Windows.Forms.ToolStripButton();
             this.timerRefreshDbSize = new System.Windows.Forms.Timer(this.components);
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.labelLastBlockdate = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.panelRowStatus.SuspendLayout();
             this.panelRowDbSize.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -79,7 +83,7 @@
             this.panelRowStatus.Location = new System.Drawing.Point(0, 23);
             this.panelRowStatus.Name = "panelRowStatus";
             this.panelRowStatus.Padding = new System.Windows.Forms.Padding(3);
-            this.panelRowStatus.Size = new System.Drawing.Size(276, 22);
+            this.panelRowStatus.Size = new System.Drawing.Size(276, 20);
             this.panelRowStatus.TabIndex = 1;
             // 
             // textStatus
@@ -99,10 +103,10 @@
             this.panelRowDbSize.Controls.Add(this.textDbSize);
             this.panelRowDbSize.Controls.Add(this.label3);
             this.panelRowDbSize.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelRowDbSize.Location = new System.Drawing.Point(0, 45);
+            this.panelRowDbSize.Location = new System.Drawing.Point(0, 43);
             this.panelRowDbSize.Name = "panelRowDbSize";
             this.panelRowDbSize.Padding = new System.Windows.Forms.Padding(3);
-            this.panelRowDbSize.Size = new System.Drawing.Size(276, 22);
+            this.panelRowDbSize.Size = new System.Drawing.Size(276, 20);
             this.panelRowDbSize.TabIndex = 2;
             // 
             // textDbSize
@@ -135,10 +139,10 @@
             this.panel2.Controls.Add(this.textDbBlocksCount);
             this.panel2.Controls.Add(this.labelBlocksCount);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 67);
+            this.panel2.Location = new System.Drawing.Point(0, 63);
             this.panel2.Name = "panel2";
             this.panel2.Padding = new System.Windows.Forms.Padding(3);
-            this.panel2.Size = new System.Drawing.Size(276, 22);
+            this.panel2.Size = new System.Drawing.Size(276, 20);
             this.panel2.TabIndex = 3;
             // 
             // textBlocksCount
@@ -190,10 +194,10 @@
             this.panel1.Controls.Add(this.textDbTransactionsCount);
             this.panel1.Controls.Add(this.labelTransactionCount);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 89);
+            this.panel1.Location = new System.Drawing.Point(0, 83);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(3);
-            this.panel1.Size = new System.Drawing.Size(276, 22);
+            this.panel1.Size = new System.Drawing.Size(276, 20);
             this.panel1.TabIndex = 4;
             // 
             // textTransactionsCount
@@ -287,10 +291,45 @@
             this.timerRefreshDbSize.Interval = 10000;
             this.timerRefreshDbSize.Tick += new System.EventHandler(this.timerRefreshDbSize_Tick);
             // 
+            // panel3
+            // 
+            this.panel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel3.Controls.Add(this.labelLastBlockdate);
+            this.panel3.Controls.Add(this.label6);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel3.Location = new System.Drawing.Point(0, 103);
+            this.panel3.Name = "panel3";
+            this.panel3.Padding = new System.Windows.Forms.Padding(3);
+            this.panel3.Size = new System.Drawing.Size(276, 20);
+            this.panel3.TabIndex = 6;
+            // 
+            // labelLastBlockdate
+            // 
+            this.labelLastBlockdate.AutoSize = true;
+            this.labelLastBlockdate.Dock = System.Windows.Forms.DockStyle.Left;
+            this.labelLastBlockdate.Location = new System.Drawing.Point(168, 3);
+            this.labelLastBlockdate.Name = "labelLastBlockdate";
+            this.labelLastBlockdate.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.labelLastBlockdate.Size = new System.Drawing.Size(22, 15);
+            this.labelLastBlockdate.TabIndex = 1;
+            this.labelLastBlockdate.Text = "-";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label6.Location = new System.Drawing.Point(3, 3);
+            this.label6.Name = "label6";
+            this.label6.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.label6.Size = new System.Drawing.Size(165, 15);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Last downloaded Blockdate:";
+            // 
             // BottomStatusControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panelRowDbSize);
@@ -310,6 +349,8 @@
             this.panel1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -339,5 +380,8 @@
         private Label textDbBlocksCount;
         private Label label5;
         private Label textDbTransactionsCount;
+        private Panel panel3;
+        private Label labelLastBlockdate;
+        private Label label6;
     }
 }

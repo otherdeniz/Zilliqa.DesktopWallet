@@ -36,11 +36,6 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
         [JsonProperty("F")]
         public decimal Amount { get; set; }
 
-        public decimal GetZilAmount()
-        {
-            return Amount / 1000000000000m;
-        }
-
         [JsonProperty("G")]
         public string Data { get; set; }
 

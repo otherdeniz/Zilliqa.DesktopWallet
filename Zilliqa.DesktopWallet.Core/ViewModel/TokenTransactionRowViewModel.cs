@@ -44,8 +44,8 @@ public class TokenTransactionRowViewModel
 
     [DisplayName(" ")]
     public Image? DirectionIcon => _directionIcon ??= Direction == TransactionDirection.SendTo
-        ? IconResources.SendArrow16
-        : IconResources.ReceiveArrow16;
+        ? IconResources.ArrowRight16
+        : IconResources.ArrowLeft16;
 
     [DisplayName("Direction")]
     public string DirectionLabel => Direction == TransactionDirection.SendTo 

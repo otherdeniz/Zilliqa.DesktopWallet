@@ -1,6 +1,4 @@
-﻿using System.Text;
-using Newtonsoft.Json;
-using Zillifriends.Shared.Common;
+﻿using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 
@@ -51,14 +49,7 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
 
         #endregion
 
-        protected override string? FilePath
-        {
-            get => _walletDatFilePath;
-            set
-            {
-                // discard value
-            }
-        }
+        protected override string? FilePath => _walletDatFilePath;
 
         public void InitialiseLoad(PasswordInfo password)
         {

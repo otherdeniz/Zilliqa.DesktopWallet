@@ -8,7 +8,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
 {
     public class TokenDataService
     {
-        public static TokenDataService Instance { get; } = new TokenDataService();
+        public static TokenDataService Instance { get; } = new();
 
         private List<TokenModel>? _tokenModels;
         private Dictionary<string, TokenModel>? _tokenAddressDictionary;

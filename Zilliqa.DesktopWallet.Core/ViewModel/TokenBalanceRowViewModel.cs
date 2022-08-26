@@ -23,6 +23,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [Browsable(false)]
         public TokenModel Model { get; }
 
+        [DisplayName(" ")]
         public Image? Icon => _icon ??= Model.GetTokenIcon().Icon16;
 
         public string Symbol => Model.Symbol;

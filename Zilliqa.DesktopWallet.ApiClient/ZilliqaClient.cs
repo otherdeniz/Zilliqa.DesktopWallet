@@ -41,6 +41,10 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		public async Task<Balance> GetBalance(string address)
 		{
 			var res = await _client.GetBalance(address);
+            if (res.Error && res.Message == "Account is not created")
+            {
+                return new Balance(0);
+            }
             ThrowOnError(res);
 			return ((JObject)res.Result).ToObject<Balance>();
 		}

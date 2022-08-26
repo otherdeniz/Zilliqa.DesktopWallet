@@ -1,4 +1,5 @@
 ﻿using Zillifriends.Shared.Common;
+using Zilliqa.DesktopWallet.Core.Data.Model;
 
 namespace Zilliqa.DesktopWallet.Core.Data.Files
 {
@@ -14,6 +15,8 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
         public bool UseCustomViewBlockApiKey { get; set; }
 
         public string ViewBlockApiKey { get; set; } = string.Empty;
+
+        public DisplayCurrenciesModel DisplayCurrencies { get; set; } = new();
 
         #endregion
 

@@ -16,6 +16,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         private Image? _directionIcon;
         private string? _otherAddress;
         private decimal? _zilAmount;
+        private decimal? _fee;
         private string? _date;
         private decimal? _valueUsdToday;
         private decimal? _valueUsdThen;
@@ -46,8 +47,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [DisplayName(" ")]
         public Image? DirectionIcon => _directionIcon ??= Direction == TransactionDirection.SendTo
-            ? IconResources.SendArrow16
-            : IconResources.ReceiveArrow16;
+            ? IconResources.ArrowRight16
+            : IconResources.ArrowLeft16;
 
         [DisplayName("Direction")]
         public string DirectionLabel => Direction == TransactionDirection.SendTo 
@@ -59,9 +60,13 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             ? GetAddressDisplay(_transactionModel.ToAddress)
             : GetAddressDisplay(_transactionModel.SenderAddress);
 
-        [GridViewFormat("#,##0.0000")]
-        public decimal Amount => _zilAmount ??= _transactionModel.GetZilAmount();
+        [GridViewFormat("#,##0.0000 ZIL")]
+        public decimal Amount => _zilAmount ??= _transactionModel.Amount.ZilSatoshisToZil();
 
+        [GridViewFormat("0.0000 ZIL")]
+        public decimal Fee => _fee ??= _transactionModel.GasPrice.ZilSatoshisToZil();
+
+        //public decimal Fee
         public string Date => _date ??= _transactionModel.Timestamp.ToLocalTime().ToString("g");
 
         [DisplayName("USD Today")]

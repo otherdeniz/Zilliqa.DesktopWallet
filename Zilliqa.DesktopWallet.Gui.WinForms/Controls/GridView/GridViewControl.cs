@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.ComponentModel;
+using Zilliqa.DesktopWallet.Core.Services;
+using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
@@ -8,13 +10,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
     {
         private Type? _itemType;
         private IList _dataSourceList;
-
-        private Dictionary<int, GridViewFormatAttribute> _columnIndexesFormatAttributes =
-            new Dictionary<int, GridViewFormatAttribute>();
+        private Dictionary<int, DynamicColumnCategory> _columnDynamicCategories = new();
+        private Dictionary<int, GridViewFormatAttribute> _columnIndexesFormatAttributes = new();
 
         public GridViewControl()
         {
             InitializeComponent();
+            DisplayCurrenciesService.Instance.DisplayCurrenciesChanged += InstanceOnDisplayCurrenciesChanged;
         }
 
         public event EventHandler<RowSelectionEventArgs> RowSelected;
@@ -31,10 +33,58 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             dataGridView.DataSource = dataSource;
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            DisplayCurrenciesService.Instance.DisplayCurrenciesChanged -= InstanceOnDisplayCurrenciesChanged;
+            base.Dispose(disposing);
+        }
+
         private void OnSelectRow(int rowIndex)
         {
             SelectedRow = _dataSourceList[rowIndex];
             RowSelected?.Invoke(this, new RowSelectionEventArgs(SelectedRow));
+        }
+
+        private void ApplyVisibleDynamicColumns()
+        {
+            foreach (var columnDynamicCategory in _columnDynamicCategories)
+            {
+                if (IsDynamicColumnCategoryVisible(columnDynamicCategory.Value))
+                {
+                    if (dataGridView.Columns[columnDynamicCategory.Key].Width == 0)
+                    {
+                        dataGridView.Columns[columnDynamicCategory.Key].Width =
+                            dataGridView.Columns[columnDynamicCategory.Key]
+                                .GetPreferredWidth(DataGridViewAutoSizeColumnMode.DisplayedCells, true);
+                    }
+                }
+                else
+                {
+                    dataGridView.Columns[columnDynamicCategory.Key].Width = 0;
+                }
+            }
+        }
+
+        private bool IsDynamicColumnCategoryVisible(DynamicColumnCategory category)
+        {
+            var currentDisplay = DisplayCurrenciesService.Instance.CurrentDisplayed;
+            switch (category)
+            {
+                case DynamicColumnCategory.CurrencyBtc:
+                    return currentDisplay.DisplayBtc;
+                case DynamicColumnCategory.CurrencyEth:
+                    return currentDisplay.DisplayEth;
+            }
+            return false;
+        }
+
+        private void InstanceOnDisplayCurrenciesChanged(object? sender, EventArgs e)
+        {
+            ApplyVisibleDynamicColumns();
         }
 
         private void dataGridView_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -62,7 +112,21 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                 {
                     try
                     {
-                        dataGridView.Columns[propertyInfo.Name].DefaultCellStyle.BackColor = Color.FromKnownColor(backgroundAttribute.BackColor);
+                        dataGridView.Columns[propertyInfo.Name].DefaultCellStyle.BackColor = backgroundAttribute.BackColor;
+                    }
+                    catch (Exception)
+                    {
+                        // skip
+                    }
+                }
+
+                if (propertyInfo.GetCustomAttributes(typeof(GridViewDynamicColumnAttribute), false).FirstOrDefault() is
+                    GridViewDynamicColumnAttribute dynamicColumnAttribute)
+                {
+                    try
+                    {
+                        var column = dataGridView.Columns[propertyInfo.Name];
+                        _columnDynamicCategories.Add(column.Index, dynamicColumnAttribute.Category);
                     }
                     catch (Exception)
                     {
@@ -70,6 +134,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                     }
                 }
             }
+
+            ApplyVisibleDynamicColumns();
         }
 
         private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -99,20 +165,37 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
         {
             if (_columnIndexesFormatAttributes.TryGetValue(e.ColumnIndex, out var formatAttribute))
             {
-                if (formatAttribute.UseGreenOrRedNumbers
-                    && e.Value is decimal decimalValue)
+                if (formatAttribute.UseGreenOrRedNumbers)
                 {
-                    if (decimalValue == 0)
+                    if (e.Value is decimal decimalValue)
                     {
-                        e.CellStyle.ForeColor = Color.Black;
+                        if (decimalValue == 0)
+                        {
+                            e.CellStyle.ForeColor = Color.Black;
+                        }
+                        else if (decimalValue > 0)
+                        {
+                            e.CellStyle.ForeColor = Color.ForestGreen;
+                        }
+                        else
+                        {
+                            e.CellStyle.ForeColor = Color.Red;
+                        }
                     }
-                    else if (decimalValue > 0)
+                    else if (e.Value is ValueNumberDisplay numberDisplay)
                     {
-                        e.CellStyle.ForeColor = Color.ForestGreen;
-                    }
-                    else
-                    {
-                        e.CellStyle.ForeColor = Color.Red;
+                        if (numberDisplay.BaseNumber == 0)
+                        {
+                            e.CellStyle.ForeColor = Color.Black;
+                        }
+                        else if (numberDisplay.BaseNumber > 0)
+                        {
+                            e.CellStyle.ForeColor = Color.ForestGreen;
+                        }
+                        else
+                        {
+                            e.CellStyle.ForeColor = Color.Red;
+                        }
                     }
                 }
             }

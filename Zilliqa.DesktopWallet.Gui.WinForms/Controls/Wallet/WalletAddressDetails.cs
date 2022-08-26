@@ -10,6 +10,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         public WalletAddressDetails()
         {
             InitializeComponent();
+            gridViewTokenBalances.Dock = DockStyle.Fill;
             gridViewZilTransactions.Dock = DockStyle.Fill;
             gridViewTokenTransactions.Dock = DockStyle.Fill;
         }
@@ -28,26 +29,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         {
             if (_account == null) return;
 
-            if (!(groupBoxTokens.Tag is string groupBoxTokensText))
-            {
-                groupBoxTokens.Tag = groupBoxTokens.Text;
-                groupBoxTokensText = groupBoxTokens.Text;
-            }
-            groupBoxTokens.Text = $"{groupBoxTokensText} ({_account.TokenBalances.Count})";
-
-            if (!(tabButtonZilTransactions.Tag is string buttonZilTransactionsText))
-            {
-                tabButtonZilTransactions.Tag = tabButtonZilTransactions.Text;
-                buttonZilTransactionsText = tabButtonZilTransactions.Text;
-            }
-            tabButtonZilTransactions.Text = $"{buttonZilTransactionsText} ({_account.ZilTransactions.Count})";
-
-            if (!(tabButtonTokenTransactions.Tag is string buttonTokenTransactionsText))
-            {
-                tabButtonTokenTransactions.Tag = tabButtonTokenTransactions.Text;
-                buttonTokenTransactionsText = tabButtonTokenTransactions.Text;
-            }
-            tabButtonTokenTransactions.Text = $"{buttonTokenTransactionsText} ({_account.TokenTransactions.Count})";
+            SetTabButtonCountText(tabButtonZrc2Tokens, _account.TokenBalances.Count);
+            SetTabButtonCountText(tabButtonZilTransactions, _account.ZilTransactions.Count);
+            SetTabButtonCountText(tabButtonTokenTransactions, _account.TokenTransactions.Count);
 
             labelZilTotalBalance.Text = $"{_account.ZilTotalBalance:#,##0.00} ZIL";
             labelZilLiquidBalance.Text = $"{_account.ZilLiquidBalance:#,##0.00} ZIL";
@@ -57,9 +41,19 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             labelTotalValueUsd.Text = $"{_account.TotalValueUsd:#,##0.00} USD";
         }
 
+        private void SetTabButtonCountText(ToolStripButton button, long count)
+        {
+            if (!(button.Tag is string buttonText))
+            {
+                button.Tag = button.Text;
+                buttonText = button.Text;
+            }
+            button.Text = $"{buttonText} ({count})";
+        }
+
         private void WalletAddressDetails_Load(object sender, EventArgs e)
         {
-            TabButtonClick(tabButtonZilTransactions, gridViewZilTransactions);
+            TabButtonTransactionClick(tabButtonZilTransactions, gridViewZilTransactions);
         }
 
         private void buttonClipboardAddress_Click(object sender, EventArgs e)
@@ -91,17 +85,42 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             buttonOpenBlockExplorer.BackColor = SystemColors.Control;
         }
 
+        private void tabButtonZrc2Tokens_Click(object sender, EventArgs e)
+        {
+            TabButtonHoldingClick(tabButtonZrc2Tokens, gridViewTokenBalances);
+        }
+
+        private void TabButtonHoldingClick(ToolStripButton button, Control tabPageControl)
+        {
+            foreach (var item in toolStripHoldings.Items)
+            {
+                if (item is ToolStripButton itemButton)
+                {
+                    itemButton.Checked = false;
+                    itemButton.Font = new Font(itemButton.Font, FontStyle.Regular);
+                }
+            }
+            button.Checked = true;
+            button.Font = new Font(button.Font, FontStyle.Bold);
+
+            foreach (Control pageControl in panelTabPagesHoldings.Controls)
+            {
+                pageControl.Visible = false;
+            }
+            tabPageControl.Visible = true;
+        }
+
         private void tabButtonZilTransactions_Click(object sender, EventArgs e)
         {
-            TabButtonClick(tabButtonZilTransactions, gridViewZilTransactions);
+            TabButtonTransactionClick(tabButtonZilTransactions, gridViewZilTransactions);
         }
 
         private void tabButtonTokenTransactions_Click(object sender, EventArgs e)
         {
-            TabButtonClick(tabButtonTokenTransactions, gridViewTokenTransactions);
+            TabButtonTransactionClick(tabButtonTokenTransactions, gridViewTokenTransactions);
         }
 
-        private void TabButtonClick(ToolStripButton button, Control tabPageControl)
+        private void TabButtonTransactionClick(ToolStripButton button, Control tabPageControl)
         {
             foreach (var item in toolStripTransactions.Items)
             {
@@ -114,7 +133,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             button.Checked = true;
             button.Font = new Font(button.Font, FontStyle.Bold);
 
-            foreach (Control pageControl in panelTabPages.Controls)
+            foreach (Control pageControl in panelTabPagesTransactions.Controls)
             {
                 pageControl.Visible = false;
             }
