@@ -1,6 +1,7 @@
 using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core;
+using Zilliqa.DesktopWallet.Core.Repository;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms
 {
@@ -35,6 +36,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             Application.ThreadException +=
                 (sender, args) => Logging.LogError("Unhandled Thread Exception!", args.Exception);
 
+            StartupServices();
+
             ApplicationConfiguration.Initialize();
             Application.Run(new MainForm());
         }
@@ -48,6 +51,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             }
 
             return defaultValue;
+        }
+
+        private static void StartupServices()
+        {
+            RepositoryManager.Instance.CoingeckoRepository.Startup(false);
         }
     }
 }

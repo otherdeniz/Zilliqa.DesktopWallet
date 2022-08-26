@@ -5,7 +5,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
 {
     public sealed class MappingService
     {
-        public static MappingService Instance { get; } = new MappingService();
+        public static MappingService Instance { get; } = new();
 
         private MappingService()
         {
@@ -13,6 +13,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
             {
                 cfg.AddProfile(new ZilstreamApiMappingProfile());
                 cfg.AddProfile(new ZilliqaApiToDbMappingProfile());
+                cfg.AddProfile(new CoingeckoMappingProfile());
             }).CreateMapper();
         }
 

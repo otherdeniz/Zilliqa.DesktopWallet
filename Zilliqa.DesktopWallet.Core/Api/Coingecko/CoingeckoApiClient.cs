@@ -10,17 +10,21 @@ namespace Zilliqa.DesktopWallet.Core.Api.Coingecko
     {
         private static readonly string BaseUrl = "https://api.coingecko.com/api/v3/";
         private readonly object _callLock = new();
-        private DateTime _lastCall = DateTime.Now;
+        private DateTime _lastCall = DateTime.Now.AddSeconds(-2);
 
         public List<CoinListInfo> GetCoinsListInfo()
         {
             return CallApi<List<CoinListInfo>>("coins/list");
         }
 
+        public CoinPrice GetCoinPrice(string coinId)
+        {
+            return CallApi<CoinPrice>($"coins/{coinId}?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false");
+        }
+
         public CoinHistory GetCoinHistory(string coinId, DateTime date)
         {
             return CallApi<CoinHistory>($"coins/{coinId}/history?date={date:dd-MM-yyyy}");
-
         }
 
         private TResult CallApi<TResult>(string urlPath, List<KeyValuePair<string, string>>? arguments = null)

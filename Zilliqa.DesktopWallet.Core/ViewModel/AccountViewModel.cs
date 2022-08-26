@@ -48,32 +48,32 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         public decimal ZilTotalBalance => ZilLiquidBalance; // + Staked Balance + Liquidity Pools Balances
 
-        public decimal? ZilTotalValueUsd
-        {
-            get
-            {
-                if (_zilValueUsd == null)
-                {
-                    try
-                    {
-                        var coinHistory = RepositoryManager.Instance.CurrencyPriceRepository.GetCoinHistory(DateTime.Today, "ZIL", ch =>
-                        {
-                            _zilValueUsd = ch.MarketData.CurrentPrice.Usd * ZilTotalBalance;
-                            OnPropertyChanged();
-                        });
-                        if (coinHistory != null)
-                        {
-                            _zilValueUsd = coinHistory.MarketData.CurrentPrice.Usd * ZilTotalBalance;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Logging.LogError("get_ZilTotalValueUsd failed", e);
-                    }
-                }
-                return _zilValueUsd;
-            }
-        }
+        public decimal? ZilTotalValueUsd => _zilValueUsd;
+        //{
+        //    get
+        //    {
+        //        if (_zilValueUsd == null)
+        //        {
+        //            try
+        //            {
+        //                var coinHistory = RepositoryManager.Instance.CoingeckoRepository.GetCoinHistory(DateTime.Today, "ZIL", ch =>
+        //                {
+        //                    _zilValueUsd = ch.MarketData.CurrentPrice.Usd * ZilTotalBalance;
+        //                    OnPropertyChanged();
+        //                });
+        //                if (coinHistory != null)
+        //                {
+        //                    _zilValueUsd = coinHistory.MarketData.CurrentPrice.Usd * ZilTotalBalance;
+        //                }
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                Logging.LogError("get_ZilTotalValueUsd failed", e);
+        //            }
+        //        }
+        //        return _zilValueUsd;
+        //    }
+        //}
 
         public decimal TokensValueUsd => _tokensValueUsd ??= TokenBalances.Any() ? TokenBalances.Sum(t => t.ValueUsd) : 0;
 

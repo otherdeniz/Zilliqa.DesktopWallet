@@ -78,7 +78,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             {
                 if (_valueUsdToday == null)
                 {
-                    var coinHistory = RepositoryManager.Instance.CurrencyPriceRepository.GetCoinHistory(DateTime.Today, "ZIL", ch =>
+                    var coinHistory = RepositoryManager.Instance.CoingeckoRepository.GetCoinHistory(DateTime.Today, "ZIL", ch =>
                     {
                         _valueUsdToday = ch.MarketData.CurrentPrice.Usd * Amount;
                         _valueBtcToday = ch.MarketData.CurrentPrice.Btc * Amount;
@@ -112,7 +112,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             {
                 if (_valueUsdThen == null)
                 {
-                    var coinHistory = RepositoryManager.Instance.CurrencyPriceRepository.GetCoinHistory(_transactionModel.Timestamp, "ZIL", ch =>
+                    var coinHistory = RepositoryManager.Instance.CoingeckoRepository.GetCoinHistory(_transactionModel.Timestamp, "ZIL", ch =>
                     {
                         _valueUsdThen = ch.MarketData.CurrentPrice.Usd * Amount;
                         _valueBtcThen = ch.MarketData.CurrentPrice.Btc * Amount;
