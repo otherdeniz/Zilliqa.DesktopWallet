@@ -184,25 +184,28 @@ namespace Zilliqa.DesktopWallet.Core.Repository
             return null;
         }
 
-        public CoinHistory? GetCoinHistory(DateTime date, string symbol, Action<CoinHistory> afterDataReceived)
+        public void GetCoinHistory(DateTime date, string symbol, Action<CoinHistory> afterDataReceived)
         {
             if (date > DateTime.Now.AddHours(-36))
             {
-                return GetCoinPrice(symbol)?.MapToModel<CoinPrice, CoinHistory>();
+                var coinPrice = GetCoinPrice(symbol);
+                if (coinPrice != null)
+                {
+                    afterDataReceived(coinPrice.MapToModel<CoinPrice, CoinHistory>());
+                }
             }
             if (MemoryCache.TryGet<CoinHistory>($"GetCoinHistory({date.ToShortDateString()},{symbol})", out var cacheValue))
             {
-                return cacheValue;
+                afterDataReceived(cacheValue);
             }
             _coinHistoryRequestQueue.Enqueue(new QueuedCoinHistoryRequest(date.Date, symbol, afterDataReceived));
-            return null;
         }
 
         private async Task BackgroundCoinHistoryDownloaderTask(CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                if (_coinHistoryRequestQueue.TryDequeue(out var request))
+                if (_coinHistoryRequestQueue.TryDequeue(out var request) && request != null)
                 {
                     var coinHistory = GetOrAddCoinHistory(request.Date, request.Symbol);
                     if (coinHistory != null)

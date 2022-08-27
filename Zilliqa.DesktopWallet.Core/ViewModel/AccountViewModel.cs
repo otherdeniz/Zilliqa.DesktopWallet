@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Zillifriends.Shared.Common;
 using Zilligraph.Database.Storage;
 using Zilligraph.Database.Storage.FilterQuery;
 using Zilliqa.DesktopWallet.ApiClient;
@@ -27,7 +28,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             TokenTransactions = new BindingList<TokenTransactionRowViewModel>();
             ZilTransactions = new BindingList<ZilTransactionRowViewModel>();
             _afterChangedAction = afterChangedAction;
-            InitialiseData(_cancellationTokenSource.Token);
+            RefreshBalances();
+            LoadTransactions(_cancellationTokenSource.Token);
         }
 
         public Address Address => AccountData.Address;
@@ -44,48 +46,25 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         public BindingList<TokenBalanceRowViewModel> TokenBalances { get; }
 
-        public decimal ZilLiquidBalance => _zilLiquidBalance ??= GetZilLiquidBalance();
+        public decimal ZilLiquidBalance => _zilLiquidBalance ?? 0m;
 
         public decimal ZilTotalBalance => ZilLiquidBalance; // + Staked Balance + Liquidity Pools Balances
 
-        public decimal? ZilTotalValueUsd => _zilValueUsd;
-        //{
-        //    get
-        //    {
-        //        if (_zilValueUsd == null)
-        //        {
-        //            try
-        //            {
-        //                var coinHistory = RepositoryManager.Instance.CoingeckoRepository.GetCoinHistory(DateTime.Today, "ZIL", ch =>
-        //                {
-        //                    _zilValueUsd = ch.MarketData.CurrentPrice.Usd * ZilTotalBalance;
-        //                    OnPropertyChanged();
-        //                });
-        //                if (coinHistory != null)
-        //                {
-        //                    _zilValueUsd = coinHistory.MarketData.CurrentPrice.Usd * ZilTotalBalance;
-        //                }
-        //            }
-        //            catch (Exception e)
-        //            {
-        //                Logging.LogError("get_ZilTotalValueUsd failed", e);
-        //            }
-        //        }
-        //        return _zilValueUsd;
-        //    }
-        //}
+        public decimal ZilTotalValueUsd => _zilValueUsd ?? 0m;
 
-        public decimal TokensValueUsd => _tokensValueUsd ??= TokenBalances.Any() ? TokenBalances.Sum(t => t.ValueUsd) : 0;
+        public decimal TokensValueUsd => _tokensValueUsd ?? 0m;
 
-        public decimal TokensValueZil => _tokensValueZil ??= TokenBalances.Any() ? TokenBalances.Sum(t => t.ValueZil) : 0;
+        public decimal TokensValueZil => _tokensValueZil ?? 0m;
 
-        public decimal TotalValueUsd => ZilTotalValueUsd.GetValueOrDefault() + TokensValueUsd;
+        public decimal TotalValueUsd => ZilTotalValueUsd + TokensValueUsd;
 
         private void OnTransactionsChanged()
         {
             _zilLiquidBalance = null;
+            _zilValueUsd = null;
             _tokensValueUsd = null;
             _tokensValueZil = null;
+            RefreshBalances();
             WinFormsSynchronisationContext.ExecuteSynchronized(() =>
             {
                 _afterChangedAction(this);
@@ -110,7 +89,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             }
         }
 
-        private decimal GetZilLiquidBalance()
+        private void RefreshBalances()
         {
             Task.Run(async () =>
             {
@@ -119,7 +98,10 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                     try
                     {
                         _zilLiquidBalance = (await ZilliqaClient.DefaultInstance.GetBalance(Address))?.GetBalance(Unit.ZIL);
-                        _zilValueUsd = null;
+                        var coingeckoRepo = RepositoryManager.Instance.CoingeckoRepository;
+                        _zilValueUsd = coingeckoRepo.ZilCoinPrice?.MarketData.CurrentPrice.Usd * ZilTotalBalance;
+                        _tokensValueUsd = TokenBalances.Any() ? TokenBalances.Sum(t => t.ValueUsd) : 0;
+                        _tokensValueZil = TokenBalances.Any() ? TokenBalances.Sum(t => t.ValueZil) : 0;
                         OnPropertyChanged();
                         return;
                     }
@@ -131,10 +113,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                     await Task.Delay(Random.Shared.Next(1000, 2000) * i);
                 }
             });
-            return 0m;
         }
 
-        private void InitialiseData(CancellationToken cancellationToken)
+        private void LoadTransactions(CancellationToken cancellationToken)
         {
             var tableTransactions = RepositoryManager.Instance.DatabaseRepository.Database.GetTable<Transaction>();
             var addressHex = Address.GetBase16(false);
@@ -151,9 +132,11 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             };
             Task.Run(() =>
             {
+                var transactionViewModels = new List<TransactionRowViewModelBase>();
                 try
                 {
-                    var addressTransactions = tableTransactions.FindRecords(transactionsFilter);
+                    var addressTransactions = tableTransactions.FindRecords(transactionsFilter)
+                        .OrderByDescending(t => t.Timestamp).ToList();
                     foreach (var transaction in addressTransactions)
                     {
                         if (cancellationToken.IsCancellationRequested)
@@ -161,9 +144,16 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                             return;
                         }
 
-                        OnAddedRecord(transaction);
+                        var vm = AddRecordViewModel(transaction, false, false);
+                        if (vm != null)
+                        {
+                            transactionViewModels.Add(vm);
+                        }
                     }
-
+                    if (addressTransactions.Any())
+                    {
+                        OnTransactionsChanged();
+                    }
                     if (!cancellationToken.IsCancellationRequested)
                     {
                         _transactionEventNotificator = tableTransactions.AddEventNotificator(record =>
@@ -171,7 +161,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                                 || record.ToAddress == addressHex
                                 || record.TokenTransferSender() == addressHex
                                 || record.TokenTransferRecipient() == addressHex,
-                            OnAddedRecord);
+                            OnAddedRecordEventNotified);
                     }
                 }
                 catch (TaskCanceledException)
@@ -180,27 +170,42 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                 }
                 catch (Exception e)
                 {
-                    Logging.LogError("Account View Model InitialiseData failed", e);
+                    Logging.LogError("Account View Model LoadTransactions failed", e);
                 }
+
+                transactionViewModels.ForEach(vm => vm.LoadValuesProperties());
+
             }, cancellationToken);
         }
 
-        private void OnAddedRecord(Transaction record)
+        private void OnAddedRecordEventNotified(Transaction record)
         {
+            AddRecordViewModel(record, true, true);
+        }
+
+        private TransactionRowViewModelBase? AddRecordViewModel(Transaction record, bool raiseOnRecordsChanged, bool loadCurrencyValues)
+        {
+            TransactionRowViewModelBase? result = null;
             try
             {
                 if (record.TransactionTypeEnum == TransactionType.Payment)
                 {
-                    if (ZilTransactions.LastOrDefault()?.Transaction.Timestamp > record.Timestamp)
+                    var transactionViewModel = new ZilTransactionRowViewModel(Address, record);
+                    if (loadCurrencyValues)
                     {
-                        // add to end
-                        ZilTransactions.Add(new ZilTransactionRowViewModel(Address, record));
+                        transactionViewModel.LoadValuesProperties();
+                    }
+                    if (ZilTransactions.FirstOrDefault()?.Transaction.Timestamp < record.Timestamp)
+                    {
+                        // add to beginning
+                        ZilTransactions.Insert(0, transactionViewModel);
                     }
                     else
                     {
-                        // add to beginning
-                        ZilTransactions.Insert(0, new ZilTransactionRowViewModel(Address, record));
+                        // add to end
+                        ZilTransactions.Add(transactionViewModel);
                     }
+                    result = transactionViewModel;
                 }
                 else if (record.TransactionTypeEnum == TransactionType.ContractCall)
                 {
@@ -208,15 +213,15 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                     if (tokenModel != null)
                     {
                         var tokenTransaction = new TokenTransactionRowViewModel(Address, record, tokenModel);
-                        if (TokenTransactions.LastOrDefault()?.Transaction.Timestamp > record.Timestamp)
-                        {
-                            // add to end
-                            TokenTransactions.Add(tokenTransaction);
-                        }
-                        else
+                        if (TokenTransactions.FirstOrDefault()?.Transaction.Timestamp < record.Timestamp)
                         {
                             // add to beginning
                             TokenTransactions.Insert(0, tokenTransaction);
+                        }
+                        else
+                        {
+                            // add to end
+                            TokenTransactions.Add(tokenTransaction);
                         }
                         var tokenBalance = TokenBalances.FirstOrDefault(t => t.Symbol == tokenModel.Symbol);
                         if (tokenBalance == null)
@@ -237,12 +242,17 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                     }
                 }
 
-                OnTransactionsChanged();
+                if (raiseOnRecordsChanged)
+                {
+                    OnTransactionsChanged();
+                }
             }
             catch (Exception e)
             {
                 Logging.LogError("Account View Model OnAddedRecord failed.", e, record);
             }
+
+            return result;
         }
     }
 }

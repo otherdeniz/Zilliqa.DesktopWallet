@@ -190,7 +190,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox1.Location = new System.Drawing.Point(0, 80);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(653, 100);
+            this.groupBox1.Size = new System.Drawing.Size(653, 68);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Balance Details";
@@ -204,7 +204,7 @@
             this.panelBalanceValues.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelBalanceValues.Location = new System.Drawing.Point(3, 42);
             this.panelBalanceValues.Name = "panelBalanceValues";
-            this.panelBalanceValues.Size = new System.Drawing.Size(647, 55);
+            this.panelBalanceValues.Size = new System.Drawing.Size(647, 23);
             this.panelBalanceValues.TabIndex = 2;
             // 
             // panel6
@@ -218,7 +218,7 @@
             this.panel6.Location = new System.Drawing.Point(372, 0);
             this.panel6.Name = "panel6";
             this.panel6.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.panel6.Size = new System.Drawing.Size(172, 55);
+            this.panel6.Size = new System.Drawing.Size(172, 23);
             this.panel6.TabIndex = 3;
             // 
             // label8
@@ -243,7 +243,7 @@
             this.panel7.Location = new System.Drawing.Point(193, 0);
             this.panel7.Name = "panel7";
             this.panel7.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.panel7.Size = new System.Drawing.Size(179, 55);
+            this.panel7.Size = new System.Drawing.Size(179, 23);
             this.panel7.TabIndex = 2;
             // 
             // label10
@@ -268,7 +268,7 @@
             this.panel8.Location = new System.Drawing.Point(23, 0);
             this.panel8.Name = "panel8";
             this.panel8.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.panel8.Size = new System.Drawing.Size(170, 55);
+            this.panel8.Size = new System.Drawing.Size(170, 23);
             this.panel8.TabIndex = 1;
             // 
             // label12
@@ -511,7 +511,7 @@
             // 
             this.splitter1.BackColor = System.Drawing.Color.Gainsboro;
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.splitter1.Location = new System.Drawing.Point(0, 316);
+            this.splitter1.Location = new System.Drawing.Point(0, 284);
             this.splitter1.Name = "splitter1";
             this.splitter1.Size = new System.Drawing.Size(653, 4);
             this.splitter1.TabIndex = 7;
@@ -522,9 +522,9 @@
             this.panelTabsTransactions.Controls.Add(this.panelTabPagesTransactions);
             this.panelTabsTransactions.Controls.Add(this.toolStripTransactions);
             this.panelTabsTransactions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelTabsTransactions.Location = new System.Drawing.Point(0, 320);
+            this.panelTabsTransactions.Location = new System.Drawing.Point(0, 288);
             this.panelTabsTransactions.Name = "panelTabsTransactions";
-            this.panelTabsTransactions.Size = new System.Drawing.Size(653, 216);
+            this.panelTabsTransactions.Size = new System.Drawing.Size(653, 248);
             this.panelTabsTransactions.TabIndex = 8;
             // 
             // panelTabPagesTransactions
@@ -534,7 +534,7 @@
             this.panelTabPagesTransactions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTabPagesTransactions.Location = new System.Drawing.Point(0, 25);
             this.panelTabPagesTransactions.Name = "panelTabPagesTransactions";
-            this.panelTabPagesTransactions.Size = new System.Drawing.Size(653, 191);
+            this.panelTabPagesTransactions.Size = new System.Drawing.Size(653, 223);
             this.panelTabPagesTransactions.TabIndex = 2;
             // 
             // toolStripTransactions
@@ -581,7 +581,7 @@
             this.panelTabsHoldings.Controls.Add(this.panelTabPagesHoldings);
             this.panelTabsHoldings.Controls.Add(this.toolStripHoldings);
             this.panelTabsHoldings.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelTabsHoldings.Location = new System.Drawing.Point(0, 180);
+            this.panelTabsHoldings.Location = new System.Drawing.Point(0, 148);
             this.panelTabsHoldings.Name = "panelTabsHoldings";
             this.panelTabsHoldings.Size = new System.Drawing.Size(653, 136);
             this.panelTabsHoldings.TabIndex = 9;
@@ -671,7 +671,7 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel5.Location = new System.Drawing.Point(0, 0);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(23, 55);
+            this.panel5.Size = new System.Drawing.Size(23, 23);
             this.panel5.TabIndex = 5;
             // 
             // pictureBox2
@@ -694,7 +694,7 @@
             this.panel9.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel9.Location = new System.Drawing.Point(92, 0);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(68, 55);
+            this.panel9.Size = new System.Drawing.Size(68, 23);
             this.panel9.TabIndex = 3;
             // 
             // labelTotalValueUsd
@@ -718,6 +718,7 @@
             this.labelTotalValue2.Size = new System.Drawing.Size(55, 21);
             this.labelTotalValue2.TabIndex = 4;
             this.labelTotalValue2.Text = "0.00 xxx";
+            this.labelTotalValue2.Visible = false;
             // 
             // labelTotalValue3
             // 
@@ -729,6 +730,7 @@
             this.labelTotalValue3.Size = new System.Drawing.Size(55, 21);
             this.labelTotalValue3.TabIndex = 5;
             this.labelTotalValue3.Text = "0.00 xxx";
+            this.labelTotalValue3.Visible = false;
             // 
             // panel10
             // 
@@ -740,7 +742,7 @@
             this.panel10.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel10.Location = new System.Drawing.Point(107, 0);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(62, 55);
+            this.panel10.Size = new System.Drawing.Size(62, 23);
             this.panel10.TabIndex = 4;
             // 
             // labelZilValueUsd
@@ -764,6 +766,7 @@
             this.labelZilValue2.Size = new System.Drawing.Size(55, 21);
             this.labelZilValue2.TabIndex = 4;
             this.labelZilValue2.Text = "0.00 xxx";
+            this.labelZilValue2.Visible = false;
             // 
             // labelZilValue3
             // 
@@ -775,6 +778,7 @@
             this.labelZilValue3.Size = new System.Drawing.Size(55, 21);
             this.labelZilValue3.TabIndex = 5;
             this.labelZilValue3.Text = "0.00 xxx";
+            this.labelZilValue3.Visible = false;
             // 
             // panel11
             // 
@@ -786,7 +790,7 @@
             this.panel11.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel11.Location = new System.Drawing.Point(100, 0);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(62, 55);
+            this.panel11.Size = new System.Drawing.Size(62, 23);
             this.panel11.TabIndex = 4;
             // 
             // labelTokensValueUsd
@@ -810,6 +814,7 @@
             this.labelTokensValue2.Size = new System.Drawing.Size(55, 21);
             this.labelTokensValue2.TabIndex = 4;
             this.labelTokensValue2.Text = "0.00 xxx";
+            this.labelTokensValue2.Visible = false;
             // 
             // labelTokensValue3
             // 
@@ -821,6 +826,7 @@
             this.labelTokensValue3.Size = new System.Drawing.Size(55, 21);
             this.labelTokensValue3.TabIndex = 5;
             this.labelTokensValue3.Text = "0.00 xxx";
+            this.labelTokensValue3.Visible = false;
             // 
             // toolStripButton2
             // 

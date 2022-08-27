@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using Zilliqa.DesktopWallet.Core.Annotations;
+using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
 using Zilliqa.DesktopWallet.DatabaseSchema;
 
@@ -10,34 +11,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
     public class TransactionRowViewModelBase : INotifyPropertyChanged
     {
         private readonly Transaction _transactionModel;
-        //USD
-        private decimal? _valueUsdToday;
-        private decimal? _valueUsdThen;
-        private ValueNumberDisplay? _changeUsd;
-        //EUR
-        private decimal? _valueEurToday;
-        private decimal? _valueEurThen;
-        private ValueNumberDisplay? _changeEur;
-        //CHF
-        private decimal? _valueChfToday;
-        private decimal? _valueChfThen;
-        private ValueNumberDisplay? _changeChf;
-        //GBP
-        private decimal? _valueGbpToday;
-        private decimal? _valueGbpThen;
-        private ValueNumberDisplay? _changeGbp;
-        //BTC
-        private decimal? _valueBtcToday;
-        private decimal? _valueBtcThen;
-        private ValueNumberDisplay? _changeBtc;
-        //ETH
-        private decimal? _valueEthToday;
-        private decimal? _valueEthThen;
-        private ValueNumberDisplay? _changeEth;
-        //LTC
-        private decimal? _valueLtcToday;
-        private decimal? _valueLtcThen;
-        private ValueNumberDisplay? _changeLtc;
 
         public TransactionRowViewModelBase(Transaction transactionModel)
         {
@@ -60,145 +33,255 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [DisplayName("USD Today")]
         [GridViewFormat("#,##0.00 $")]
         [GridViewBackground(KnownColor.Gainsboro)]
-        public decimal? ValueUsdToday => _valueUsdToday;
-        //{
-        //    get
-        //    {
-        //        if (_valueUsdToday == null)
-        //        {
-        //            var coinHistory = RepositoryManager.Instance.CoingeckoRepository.GetCoinHistory(DateTime.Today, "ZIL", ch =>
-        //            {
-        //                _valueUsdToday = ch.MarketData.CurrentPrice.Usd * Amount;
-        //                _valueBtcToday = ch.MarketData.CurrentPrice.Btc * Amount;
-        //                OnPropertyChanged(nameof(ValueUsdToday));
-        //                OnPropertyChanged(nameof(ValueBtcToday));
-        //                _changeUsd = null;
-        //                _changeBtc = null;
-        //                OnPropertyChanged(nameof(ChangeUsd));
-        //                OnPropertyChanged(nameof(ChangeBtc));
-        //                _changeUsdPercent = null;
-        //                _changeBtcPercent = null;
-        //                OnPropertyChanged(nameof(ChangeUsdPercent));
-        //                OnPropertyChanged(nameof(ChangeBtcPercent));
-        //            });
-        //            if (coinHistory != null)
-        //            {
-        //                _valueUsdToday = coinHistory.MarketData.CurrentPrice.Usd * Amount;
-        //                _valueBtcToday = coinHistory.MarketData.CurrentPrice.Btc * Amount;
-        //            }
-        //        }
-        //        return _valueUsdToday;
-        //    }
-        //}
+        public decimal? ValueUsdToday { get; private set; }
 
         [DisplayName("USD Then")]
         [GridViewFormat("#,##0.00 $")]
         [GridViewBackground(KnownColor.Gainsboro)]
-        public decimal? ValueUsdThen => _valueUsdThen;
-        //{
-        //    get
-        //    {
-        //        if (_valueUsdThen == null)
-        //        {
-        //            var coinHistory = RepositoryManager.Instance.CoingeckoRepository.GetCoinHistory(_transactionModel.Timestamp, "ZIL", ch =>
-        //            {
-        //                _valueUsdThen = ch.MarketData.CurrentPrice.Usd * Amount;
-        //                _valueBtcThen = ch.MarketData.CurrentPrice.Btc * Amount;
-        //                OnPropertyChanged(nameof(ValueUsdThen));
-        //                OnPropertyChanged(nameof(ValueBtcThen));
-        //                _changeUsd = null;
-        //                _changeBtc = null;
-        //                OnPropertyChanged(nameof(ChangeUsd));
-        //                OnPropertyChanged(nameof(ChangeBtc));
-        //                _changeUsdPercent = null;
-        //                _changeBtcPercent = null;
-        //                OnPropertyChanged(nameof(ChangeUsdPercent));
-        //                OnPropertyChanged(nameof(ChangeBtcPercent));
-        //            });
-        //            if (coinHistory != null)
-        //            {
-        //                _valueUsdThen = coinHistory.MarketData.CurrentPrice.Usd * Amount;
-        //                _valueBtcThen = coinHistory.MarketData.CurrentPrice.Btc * Amount;
-        //            }
-        //        }
-        //        return _valueUsdThen;
-        //    }
-        //}
+        public decimal? ValueUsdThen { get; private set; }
 
         [DisplayName("USD Change")]
-        [GridViewFormat("#,##0.00 $", UseGreenOrRedNumbers = true)]
+        [GridViewFormat(null, UseGreenOrRedNumbers = true)]
         [GridViewBackground(KnownColor.Gainsboro)]
-        public ValueNumberDisplay? ChangeUsd => _changeUsd;
-        //_changeUsd ??=
-        //_valueUsdToday != null && _valueUsdThen != null
-        //    ? _valueUsdToday - _valueUsdThen
-        //    : null;
+        public ValueNumberDisplay? ChangeUsd { get; private set; }
+
+        [DisplayName("CHF Today")]
+        [GridViewFormat("#,##0.00 CHF")]
+        [GridViewBackground(KnownColor.AliceBlue)]
+        [GridViewDynamicColumn(DynamicColumnCategory.CurrencyChf)]
+        public decimal? ValueChfToday { get; private set; }
+
+        [DisplayName("CHF Then")]
+        [GridViewFormat("#,##0.00 CHF")]
+        [GridViewBackground(KnownColor.AliceBlue)]
+        [GridViewDynamicColumn(DynamicColumnCategory.CurrencyChf)]
+        public decimal? ValueChfThen { get; private set; }
+
+        [DisplayName("CHF Change")]
+        [GridViewFormat(null, UseGreenOrRedNumbers = true)]
+        [GridViewBackground(KnownColor.AliceBlue)]
+        [GridViewDynamicColumn(DynamicColumnCategory.CurrencyChf)]
+        public ValueNumberDisplay? ChangeChf { get; private set; }
+
+        [DisplayName("EUR Today")]
+        [GridViewFormat("#,##0.00 EUR")]
+        [GridViewBackground(KnownColor.AliceBlue)]
+        [GridViewDynamicColumn(DynamicColumnCategory.CurrencyEur)]
+        public decimal? ValueEurToday { get; private set; }
+
+        [DisplayName("EUR Then")]
+        [GridViewFormat("#,##0.00 EUR")]
+        [GridViewBackground(KnownColor.AliceBlue)]
+        [GridViewDynamicColumn(DynamicColumnCategory.CurrencyEur)]
+        public decimal? ValueEurThen { get; private set; }
+
+        [DisplayName("EUR Change")]
+        [GridViewFormat(null, UseGreenOrRedNumbers = true)]
+        [GridViewBackground(KnownColor.AliceBlue)]
+        [GridViewDynamicColumn(DynamicColumnCategory.CurrencyEur)]
+        public ValueNumberDisplay? ChangeEur { get; private set; }
+
+        [DisplayName("GBP Today")]
+        [GridViewFormat("#,##0.00 GBP")]
+        [GridViewBackground(KnownColor.AliceBlue)]
+        [GridViewDynamicColumn(DynamicColumnCategory.CurrencyGbp)]
+        public decimal? ValueGbpToday { get; private set; }
+
+        [DisplayName("GBP Then")]
+        [GridViewFormat("#,##0.00 GBP")]
+        [GridViewBackground(KnownColor.AliceBlue)]
+        [GridViewDynamicColumn(DynamicColumnCategory.CurrencyGbp)]
+        public decimal? ValueGbpThen { get; private set; }
+
+        [DisplayName("GBP Change")]
+        [GridViewFormat(null, UseGreenOrRedNumbers = true)]
+        [GridViewBackground(KnownColor.AliceBlue)]
+        [GridViewDynamicColumn(DynamicColumnCategory.CurrencyGbp)]
+        public ValueNumberDisplay? ChangeGbp { get; private set; }
 
         [DisplayName("BTC Today")]
         [GridViewFormat("#,##0.00000 BTC")]
         [GridViewBackground(KnownColor.Bisque)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyBtc)]
-        public decimal? ValueBtcToday => _valueBtcToday;
+        public decimal? ValueBtcToday { get; private set; }
 
         [DisplayName("BTC Then")]
         [GridViewFormat("#,##0.00000 BTC")]
         [GridViewBackground(KnownColor.Bisque)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyBtc)]
-        public decimal? ValueBtcThen => _valueBtcThen;
+        public decimal? ValueBtcThen { get; private set; }
 
         [DisplayName("BTC Change")]
-        [GridViewFormat("#,##0.00000 BTC", UseGreenOrRedNumbers = true)]
+        [GridViewFormat(null, UseGreenOrRedNumbers = true)]
         [GridViewBackground(KnownColor.Bisque)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyBtc)]
-        public ValueNumberDisplay? ChangeBtc => _changeBtc;
-        //_changeBtc ??=
-        //_valueBtcToday != null && _valueBtcThen != null
-        //    ? _valueBtcToday - _valueBtcThen
-        //    : null;
+        public ValueNumberDisplay? ChangeBtc { get; private set; }
 
         [DisplayName("ETH Today")]
         [GridViewFormat("#,##0.00000 ETH")]
         [GridViewBackground(KnownColor.SkyBlue)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyEth)]
-        public decimal? ValueEthToday => _valueEthToday;
+        public decimal? ValueEthToday { get; private set; }
 
         [DisplayName("ETH Then")]
         [GridViewFormat("#,##0.00000 ETH")]
         [GridViewBackground(KnownColor.SkyBlue)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyEth)]
-        public decimal? ValueEthThen => _valueEthThen;
+        public decimal? ValueEthThen { get; private set; }
 
         [DisplayName("ETH Change")]
-        [GridViewFormat("#,##0.00000 ETH", UseGreenOrRedNumbers = true)]
+        [GridViewFormat(null, UseGreenOrRedNumbers = true)]
         [GridViewBackground(KnownColor.SkyBlue)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyEth)]
-        public ValueNumberDisplay? ChangeEth => _changeEth;
+        public ValueNumberDisplay? ChangeEth { get; private set; }
 
         [DisplayName("LTC Today")]
         [GridViewFormat("#,##0.00000 LTC")]
         [GridViewBackground(KnownColor.LightGray)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyLtc)]
-        public decimal? ValueLtcToday => _valueLtcToday;
+        public decimal? ValueLtcToday { get; private set; }
 
         [DisplayName("LTC Then")]
         [GridViewFormat("#,##0.00000 LTC")]
         [GridViewBackground(KnownColor.LightGray)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyLtc)]
-        public decimal? ValueLtcThen => _valueLtcThen;
+        public decimal? ValueLtcThen { get; private set; }
 
         [DisplayName("LTC Change")]
-        [GridViewFormat("#,##0.00000 LTC", UseGreenOrRedNumbers = true)]
+        [GridViewFormat(null, UseGreenOrRedNumbers = true)]
         [GridViewBackground(KnownColor.LightGray)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyLtc)]
-        public ValueNumberDisplay? ChangeLtc => _changeLtc;
+        public ValueNumberDisplay? ChangeLtc { get; private set; }
+
+        public void LoadValuesProperties()
+        {
+            try
+            {
+                var coinPrice = RepositoryManager.Instance.CoingeckoRepository.GetCoinPrice(Symbol);
+                if (coinPrice != null)
+                {
+                    ValueUsdToday = coinPrice.MarketData.CurrentPrice.Usd * Amount;
+                    ValueChfToday = coinPrice.MarketData.CurrentPrice.Chf * Amount;
+                    ValueEurToday = coinPrice.MarketData.CurrentPrice.Eur * Amount;
+                    ValueGbpToday = coinPrice.MarketData.CurrentPrice.Gbp * Amount;
+                    ValueBtcToday = coinPrice.MarketData.CurrentPrice.Btc * Amount;
+                    ValueEthToday = coinPrice.MarketData.CurrentPrice.Eth * Amount;
+                    ValueLtcToday = coinPrice.MarketData.CurrentPrice.Ltc * Amount;
+                    //WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                    //{
+                    //    OnPropertyChanged(nameof(ValueUsdToday));
+                    //    OnPropertyChanged(nameof(ValueChfToday));
+                    //    OnPropertyChanged(nameof(ValueEurToday));
+                    //    OnPropertyChanged(nameof(ValueGbpToday));
+                    //    OnPropertyChanged(nameof(ValueBtcToday));
+                    //    OnPropertyChanged(nameof(ValueEthToday));
+                    //    OnPropertyChanged(nameof(ValueLtcToday));
+                    //});
+                }
+
+                RepositoryManager.Instance.CoingeckoRepository.GetCoinHistory(Transaction.Timestamp, Symbol, ch =>
+                {
+                    ValueUsdThen = ch.MarketData.CurrentPrice.Usd * Amount;
+                    ValueChfThen = ch.MarketData.CurrentPrice.Chf * Amount;
+                    ValueEurThen = ch.MarketData.CurrentPrice.Eur * Amount;
+                    ValueGbpThen = ch.MarketData.CurrentPrice.Gbp * Amount;
+                    ValueBtcThen = ch.MarketData.CurrentPrice.Btc * Amount;
+                    ValueEthThen = ch.MarketData.CurrentPrice.Eth * Amount;
+                    ValueLtcThen = ch.MarketData.CurrentPrice.Ltc * Amount;
+                    WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                    {
+                        OnPropertyChanged(nameof(ValueUsdThen));
+                        OnPropertyChanged(nameof(ValueChfThen));
+                        OnPropertyChanged(nameof(ValueEurThen));
+                        OnPropertyChanged(nameof(ValueGbpThen));
+                        OnPropertyChanged(nameof(ValueBtcThen));
+                        OnPropertyChanged(nameof(ValueEthThen));
+                        OnPropertyChanged(nameof(ValueLtcThen));
+                        OnPropertyChanged(nameof(ChangeUsd));
+                        OnPropertyChanged(nameof(ChangeChf));
+                        OnPropertyChanged(nameof(ChangeEur));
+                        OnPropertyChanged(nameof(ChangeGbp));
+                        OnPropertyChanged(nameof(ChangeBtc));
+                        OnPropertyChanged(nameof(ChangeEth));
+                        OnPropertyChanged(nameof(ChangeLtc));
+                    });
+
+                    if (ValueUsdToday != null && ValueUsdThen > 0)
+                    {
+                        var changeValue = ValueUsdToday - ValueUsdThen;
+                        var changePercent = changeValue != 0
+                            ? 100m / ValueUsdThen * changeValue
+                            : 0;
+                        ChangeUsd = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                            $"{changeValue:#,##0.00} $ ({changePercent:0.00} %)");
+                    }
+                    if (ValueChfToday != null && ValueChfThen > 0)
+                    {
+                        var changeValue = ValueChfToday - ValueChfThen;
+                        var changePercent = changeValue != 0
+                            ? 100m / ValueChfThen * changeValue
+                            : 0;
+                        ChangeChf = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                            $"{changeValue:#,##0.00} CHF ({changePercent:0.00} %)");
+                    }
+                    if (ValueEurToday != null && ValueEurThen > 0)
+                    {
+                        var changeValue = ValueEurToday - ValueEurThen;
+                        var changePercent = changeValue != 0
+                            ? 100m / ValueEurThen * changeValue
+                            : 0;
+                        ChangeEur = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                            $"{changeValue:#,##0.00} EUR ({changePercent:0.00} %)");
+                    }
+                    if (ValueGbpToday != null && ValueGbpThen > 0)
+                    {
+                        var changeValue = ValueGbpToday - ValueGbpThen;
+                        var changePercent = changeValue != 0
+                            ? 100m / ValueGbpThen * changeValue
+                            : 0;
+                        ChangeGbp = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                            $"{changeValue:#,##0.00} GBP ({changePercent:0.00} %)");
+                    }
+                    if (ValueBtcToday != null && ValueBtcThen > 0)
+                    {
+                        var changeValue = ValueBtcToday - ValueBtcThen;
+                        var changePercent = changeValue != 0
+                            ? 100m / ValueBtcThen * changeValue
+                            : 0;
+                        ChangeBtc = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                            $"{changeValue:#,##0.00000} BTC ({changePercent:0.00} %)");
+                    }
+                    if (ValueEthToday != null && ValueEthThen > 0)
+                    {
+                        var changeValue = ValueEthToday - ValueEthThen;
+                        var changePercent = changeValue != 0
+                            ? 100m / ValueEthThen * changeValue
+                            : 0;
+                        ChangeEth = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                            $"{changeValue:#,##0.00000} ETH ({changePercent:0.00} %)");
+                    }
+                    if (ValueLtcToday != null && ValueLtcThen > 0)
+                    {
+                        var changeValue = ValueLtcToday - ValueLtcThen;
+                        var changePercent = changeValue != 0
+                            ? 100m / ValueLtcThen * changeValue
+                            : 0;
+                        ChangeLtc = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                            $"{changeValue:#,##0.00000} LTC ({changePercent:0.00} %)");
+                    }
+
+                });
+            }
+            catch (Exception e)
+            {
+                Logging.LogError($"TransactionRowViewModelBase.LoadValuesProperties of Coin {Symbol} failed", e);
+            }
+        }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
-            WinFormsSynchronisationContext.ExecuteSynchronized(() =>
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            });
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
     }

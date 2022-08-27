@@ -55,16 +55,17 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             {
                 if (IsDynamicColumnCategoryVisible(columnDynamicCategory.Value))
                 {
-                    if (dataGridView.Columns[columnDynamicCategory.Key].Width == 0)
-                    {
-                        dataGridView.Columns[columnDynamicCategory.Key].Width =
-                            dataGridView.Columns[columnDynamicCategory.Key]
-                                .GetPreferredWidth(DataGridViewAutoSizeColumnMode.DisplayedCells, true);
-                    }
+                    dataGridView.Columns[columnDynamicCategory.Key].Visible = true;
+                    //if (dataGridView.Columns[columnDynamicCategory.Key].Width == 0)
+                    //{
+                    //    dataGridView.Columns[columnDynamicCategory.Key].Width =
+                    //        dataGridView.Columns[columnDynamicCategory.Key]
+                    //            .GetPreferredWidth(DataGridViewAutoSizeColumnMode.DisplayedCells, true);
+                    //}
                 }
                 else
                 {
-                    dataGridView.Columns[columnDynamicCategory.Key].Width = 0;
+                    dataGridView.Columns[columnDynamicCategory.Key].Visible = false;
                 }
             }
         }
@@ -74,10 +75,18 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             var currentDisplay = DisplayCurrenciesService.Instance.CurrentDisplayed;
             switch (category)
             {
+                case DynamicColumnCategory.CurrencyChf:
+                    return currentDisplay.DisplayChf;
+                case DynamicColumnCategory.CurrencyEur:
+                    return currentDisplay.DisplayEur;
+                case DynamicColumnCategory.CurrencyGbp:
+                    return currentDisplay.DisplayGbp;
                 case DynamicColumnCategory.CurrencyBtc:
                     return currentDisplay.DisplayBtc;
                 case DynamicColumnCategory.CurrencyEth:
                     return currentDisplay.DisplayEth;
+                case DynamicColumnCategory.CurrencyLtc:
+                    return currentDisplay.DisplayLtc;
             }
             return false;
         }
@@ -99,7 +108,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                     try
                     {
                         var column = dataGridView.Columns[propertyInfo.Name];
-                        column.DefaultCellStyle.Format = formatAttribute.Format;
+                        if (!string.IsNullOrEmpty(formatAttribute.Format))
+                        {
+                            column.DefaultCellStyle.Format = formatAttribute.Format;
+                        }
                         _columnIndexesFormatAttributes.Add(column.Index, formatAttribute);
                     }
                     catch (Exception)

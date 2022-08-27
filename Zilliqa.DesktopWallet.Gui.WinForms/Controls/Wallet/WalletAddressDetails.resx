@@ -122,6 +122,18 @@
         gg==
 </value>
   </data>
+  <data name="pictureBox2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
+        DAAACwwBP0AiyAAAAYFJREFUOE91kzlKhEEQRjvRWJ1JDFRMHecIhuaCgRdwwUAQYQZU8AhuqDcwVxAT
+        NXGJTAQXMFUP4Ir78t7YPfzjjB88/u7q6uqq6v5DAxVhCc7hMeJ4EXrhXzXDKnzCN7zBdcSxtg9YAX1r
+        pGEPdLqCYWiBSRiI4xEwmD67UBNkDVw4gDYNqAdMfx/aNaAcHIK+ZlKRNZu2J7u5CdZBp8QrTIAyiJlY
+        TqUnNkwn01bj4HwLnuAEzsBDukFZjj42NlzAO1inmgMXZ+AWNsEsR6ELlL5mYOBwD6afZO13YBBxvAH9
+        kJV73Bse4iSrDpgFa89eYR8kVQP8LaEMO9AJlrANQ2CQaVCtYMBTJzbCRRujvHfnXtczXMIxfEHKYAz0
+        WXDiVRjNq/GKVAlMXyd5gSlQebgB9xQ0KB9FOjUF8Wt/fEipPG1HoO+yhiSfpc/TBTOxHOv0KQ/GsWl7
+        sj72qOH/YCamppONdYM41uaaJ9dtzsqe2FgfiSWI3Z6Has2/CuEHFC1+yWGhDzQAAAAASUVORK5CYII=
+</value>
+  </data>
   <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
@@ -243,18 +255,6 @@
         J/+f6DYF0yA+yQac6Db5f6hWCmwIiE+mC0wIu2DS2Vf/F1x6DefjwlgNyNr34r/0wkdgTMgQDAOQNRNj
         CIoBOg0rMTTDMLIhIHbriZeYBmDTiIxBGkEYxge5liQDsGGQqykyAISpZwAlmIEywMAAAAc1/Jwvt6sN
         AAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="pictureBox2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DAAACwwBP0AiyAAAAYFJREFUOE91kzlKhEEQRjvRWJ1JDFRMHecIhuaCgRdwwUAQYQZU8AhuqDcwVxAT
-        NXGJTAQXMFUP4Ir78t7YPfzjjB88/u7q6uqq6v5DAxVhCc7hMeJ4EXrhXzXDKnzCN7zBdcSxtg9YAX1r
-        pGEPdLqCYWiBSRiI4xEwmD67UBNkDVw4gDYNqAdMfx/aNaAcHIK+ZlKRNZu2J7u5CdZBp8QrTIAyiJlY
-        TqUnNkwn01bj4HwLnuAEzsBDukFZjj42NlzAO1inmgMXZ+AWNsEsR6ELlL5mYOBwD6afZO13YBBxvAH9
-        kJV73Bse4iSrDpgFa89eYR8kVQP8LaEMO9AJlrANQ2CQaVCtYMBTJzbCRRujvHfnXtczXMIxfEHKYAz0
-        WXDiVRjNq/GKVAlMXyd5gSlQebgB9xQ0KB9FOjUF8Wt/fEipPG1HoO+yhiSfpc/TBTOxHOv0KQ/GsWl7
-        sj72qOH/YCamppONdYM41uaaJ9dtzsqe2FgfiSWI3Z6Has2/CuEHFC1+yWGhDzQAAAAASUVORK5CYII=
 </value>
   </data>
 </root>
