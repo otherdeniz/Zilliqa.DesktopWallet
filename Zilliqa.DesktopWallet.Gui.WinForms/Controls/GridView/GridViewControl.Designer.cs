@@ -70,6 +70,7 @@
             this.Controls.Add(this.dataGridView);
             this.Name = "GridViewControl";
             this.Size = new System.Drawing.Size(336, 332);
+            this.Load += new System.EventHandler(this.GridViewControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
 

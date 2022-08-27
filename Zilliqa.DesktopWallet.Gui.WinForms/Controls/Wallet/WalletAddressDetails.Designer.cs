@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WalletAddressDetails));
             this.toolStripAccountActions = new System.Windows.Forms.ToolStrip();
             this.buttonSend = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.buttonSendToken = new System.Windows.Forms.ToolStripButton();
             this.separatorSend = new System.Windows.Forms.ToolStripSeparator();
             this.buttonBackupPrivateKey = new System.Windows.Forms.ToolStripButton();
             this.separatorBackup = new System.Windows.Forms.ToolStripSeparator();
@@ -40,11 +40,25 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panelBalanceValues = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.panel11 = new System.Windows.Forms.Panel();
+            this.labelTokensValueUsd = new System.Windows.Forms.Label();
+            this.labelTokensValue2 = new System.Windows.Forms.Label();
+            this.labelTokensValue3 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
+            this.panel10 = new System.Windows.Forms.Panel();
+            this.labelZilValueUsd = new System.Windows.Forms.Label();
+            this.labelZilValue2 = new System.Windows.Forms.Label();
+            this.labelZilValue3 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
+            this.panel9 = new System.Windows.Forms.Panel();
+            this.labelTotalValueUsd = new System.Windows.Forms.Label();
+            this.labelTotalValue2 = new System.Windows.Forms.Label();
+            this.labelTotalValue3 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.labelZilStakedBalance = new System.Windows.Forms.Label();
@@ -71,6 +85,8 @@
             this.tabButtonZilTransactions = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tabButtonTokenTransactions = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.panelTabsHoldings = new System.Windows.Forms.Panel();
             this.panelTabPagesHoldings = new System.Windows.Forms.Panel();
             this.toolStripHoldings = new System.Windows.Forms.ToolStrip();
@@ -78,33 +94,22 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tabButtonStakes = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.tabButtonHoldingContracts = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tabButtonHoldingNfts = new System.Windows.Forms.ToolStripButton();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.panel9 = new System.Windows.Forms.Panel();
-            this.labelTotalValueUsd = new System.Windows.Forms.Label();
-            this.labelTotalValue2 = new System.Windows.Forms.Label();
-            this.labelTotalValue3 = new System.Windows.Forms.Label();
-            this.panel10 = new System.Windows.Forms.Panel();
-            this.labelZilValueUsd = new System.Windows.Forms.Label();
-            this.labelZilValue2 = new System.Windows.Forms.Label();
-            this.labelZilValue3 = new System.Windows.Forms.Label();
-            this.panel11 = new System.Windows.Forms.Panel();
-            this.labelTokensValueUsd = new System.Windows.Forms.Label();
-            this.labelTokensValue2 = new System.Windows.Forms.Label();
-            this.labelTokensValue3 = new System.Windows.Forms.Label();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.tabButtonHoldingContracts = new System.Windows.Forms.ToolStripButton();
             this.toolStripAccountActions.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panelBalanceValues.SuspendLayout();
             this.panel6.SuspendLayout();
+            this.panel11.SuspendLayout();
             this.panel7.SuspendLayout();
+            this.panel10.SuspendLayout();
             this.panel8.SuspendLayout();
+            this.panel9.SuspendLayout();
+            this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -117,18 +122,13 @@
             this.panelTabsHoldings.SuspendLayout();
             this.panelTabPagesHoldings.SuspendLayout();
             this.toolStripHoldings.SuspendLayout();
-            this.panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            this.panel9.SuspendLayout();
-            this.panel10.SuspendLayout();
-            this.panel11.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripAccountActions
             // 
             this.toolStripAccountActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buttonSend,
-            this.toolStripButton1,
+            this.buttonSendToken,
             this.separatorSend,
             this.buttonBackupPrivateKey,
             this.separatorBackup,
@@ -145,14 +145,15 @@
             this.buttonSend.Name = "buttonSend";
             this.buttonSend.Size = new System.Drawing.Size(72, 22);
             this.buttonSend.Text = "Send ZIL";
+            this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
             // 
-            // toolStripButton1
+            // buttonSendToken
             // 
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(136, 22);
-            this.toolStripButton1.Text = "Send Fungible Token";
+            this.buttonSendToken.Image = ((System.Drawing.Image)(resources.GetObject("buttonSendToken.Image")));
+            this.buttonSendToken.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonSendToken.Name = "buttonSendToken";
+            this.buttonSendToken.Size = new System.Drawing.Size(136, 22);
+            this.buttonSendToken.Text = "Send Fungible Token";
             // 
             // separatorSend
             // 
@@ -179,6 +180,7 @@
             this.buttonRemoveAccount.Name = "buttonRemoveAccount";
             this.buttonRemoveAccount.Size = new System.Drawing.Size(118, 22);
             this.buttonRemoveAccount.Text = "Remove Account";
+            this.buttonRemoveAccount.Click += new System.EventHandler(this.buttonRemoveAccount_Click);
             // 
             // groupBox1
             // 
@@ -221,6 +223,54 @@
             this.panel6.Size = new System.Drawing.Size(172, 23);
             this.panel6.TabIndex = 3;
             // 
+            // panel11
+            // 
+            this.panel11.AutoSize = true;
+            this.panel11.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel11.Controls.Add(this.labelTokensValueUsd);
+            this.panel11.Controls.Add(this.labelTokensValue2);
+            this.panel11.Controls.Add(this.labelTokensValue3);
+            this.panel11.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel11.Location = new System.Drawing.Point(100, 0);
+            this.panel11.Name = "panel11";
+            this.panel11.Size = new System.Drawing.Size(62, 23);
+            this.panel11.TabIndex = 4;
+            // 
+            // labelTokensValueUsd
+            // 
+            this.labelTokensValueUsd.AutoSize = true;
+            this.labelTokensValueUsd.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelTokensValueUsd.Location = new System.Drawing.Point(0, 0);
+            this.labelTokensValueUsd.Name = "labelTokensValueUsd";
+            this.labelTokensValueUsd.Padding = new System.Windows.Forms.Padding(3);
+            this.labelTokensValueUsd.Size = new System.Drawing.Size(59, 21);
+            this.labelTokensValueUsd.TabIndex = 3;
+            this.labelTokensValueUsd.Text = "0.00 USD";
+            // 
+            // labelTokensValue2
+            // 
+            this.labelTokensValue2.AutoSize = true;
+            this.labelTokensValue2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelTokensValue2.Location = new System.Drawing.Point(0, 16);
+            this.labelTokensValue2.Name = "labelTokensValue2";
+            this.labelTokensValue2.Padding = new System.Windows.Forms.Padding(3);
+            this.labelTokensValue2.Size = new System.Drawing.Size(55, 21);
+            this.labelTokensValue2.TabIndex = 4;
+            this.labelTokensValue2.Text = "0.00 xxx";
+            this.labelTokensValue2.Visible = false;
+            // 
+            // labelTokensValue3
+            // 
+            this.labelTokensValue3.AutoSize = true;
+            this.labelTokensValue3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelTokensValue3.Location = new System.Drawing.Point(0, 33);
+            this.labelTokensValue3.Name = "labelTokensValue3";
+            this.labelTokensValue3.Padding = new System.Windows.Forms.Padding(3);
+            this.labelTokensValue3.Size = new System.Drawing.Size(55, 21);
+            this.labelTokensValue3.TabIndex = 5;
+            this.labelTokensValue3.Text = "0.00 xxx";
+            this.labelTokensValue3.Visible = false;
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -245,6 +295,54 @@
             this.panel7.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.panel7.Size = new System.Drawing.Size(179, 23);
             this.panel7.TabIndex = 2;
+            // 
+            // panel10
+            // 
+            this.panel10.AutoSize = true;
+            this.panel10.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel10.Controls.Add(this.labelZilValueUsd);
+            this.panel10.Controls.Add(this.labelZilValue2);
+            this.panel10.Controls.Add(this.labelZilValue3);
+            this.panel10.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel10.Location = new System.Drawing.Point(107, 0);
+            this.panel10.Name = "panel10";
+            this.panel10.Size = new System.Drawing.Size(62, 23);
+            this.panel10.TabIndex = 4;
+            // 
+            // labelZilValueUsd
+            // 
+            this.labelZilValueUsd.AutoSize = true;
+            this.labelZilValueUsd.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelZilValueUsd.Location = new System.Drawing.Point(0, 0);
+            this.labelZilValueUsd.Name = "labelZilValueUsd";
+            this.labelZilValueUsd.Padding = new System.Windows.Forms.Padding(3);
+            this.labelZilValueUsd.Size = new System.Drawing.Size(59, 21);
+            this.labelZilValueUsd.TabIndex = 3;
+            this.labelZilValueUsd.Text = "0.00 USD";
+            // 
+            // labelZilValue2
+            // 
+            this.labelZilValue2.AutoSize = true;
+            this.labelZilValue2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelZilValue2.Location = new System.Drawing.Point(0, 16);
+            this.labelZilValue2.Name = "labelZilValue2";
+            this.labelZilValue2.Padding = new System.Windows.Forms.Padding(3);
+            this.labelZilValue2.Size = new System.Drawing.Size(55, 21);
+            this.labelZilValue2.TabIndex = 4;
+            this.labelZilValue2.Text = "0.00 xxx";
+            this.labelZilValue2.Visible = false;
+            // 
+            // labelZilValue3
+            // 
+            this.labelZilValue3.AutoSize = true;
+            this.labelZilValue3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelZilValue3.Location = new System.Drawing.Point(0, 33);
+            this.labelZilValue3.Name = "labelZilValue3";
+            this.labelZilValue3.Padding = new System.Windows.Forms.Padding(3);
+            this.labelZilValue3.Size = new System.Drawing.Size(55, 21);
+            this.labelZilValue3.TabIndex = 5;
+            this.labelZilValue3.Text = "0.00 xxx";
+            this.labelZilValue3.Visible = false;
             // 
             // label10
             // 
@@ -271,6 +369,54 @@
             this.panel8.Size = new System.Drawing.Size(170, 23);
             this.panel8.TabIndex = 1;
             // 
+            // panel9
+            // 
+            this.panel9.AutoSize = true;
+            this.panel9.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel9.Controls.Add(this.labelTotalValueUsd);
+            this.panel9.Controls.Add(this.labelTotalValue2);
+            this.panel9.Controls.Add(this.labelTotalValue3);
+            this.panel9.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel9.Location = new System.Drawing.Point(92, 0);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(68, 23);
+            this.panel9.TabIndex = 3;
+            // 
+            // labelTotalValueUsd
+            // 
+            this.labelTotalValueUsd.AutoSize = true;
+            this.labelTotalValueUsd.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelTotalValueUsd.Location = new System.Drawing.Point(0, 0);
+            this.labelTotalValueUsd.Name = "labelTotalValueUsd";
+            this.labelTotalValueUsd.Padding = new System.Windows.Forms.Padding(3);
+            this.labelTotalValueUsd.Size = new System.Drawing.Size(65, 21);
+            this.labelTotalValueUsd.TabIndex = 3;
+            this.labelTotalValueUsd.Text = "0.00 USD";
+            // 
+            // labelTotalValue2
+            // 
+            this.labelTotalValue2.AutoSize = true;
+            this.labelTotalValue2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelTotalValue2.Location = new System.Drawing.Point(0, 16);
+            this.labelTotalValue2.Name = "labelTotalValue2";
+            this.labelTotalValue2.Padding = new System.Windows.Forms.Padding(3);
+            this.labelTotalValue2.Size = new System.Drawing.Size(55, 21);
+            this.labelTotalValue2.TabIndex = 4;
+            this.labelTotalValue2.Text = "0.00 xxx";
+            this.labelTotalValue2.Visible = false;
+            // 
+            // labelTotalValue3
+            // 
+            this.labelTotalValue3.AutoSize = true;
+            this.labelTotalValue3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelTotalValue3.Location = new System.Drawing.Point(0, 33);
+            this.labelTotalValue3.Name = "labelTotalValue3";
+            this.labelTotalValue3.Padding = new System.Windows.Forms.Padding(3);
+            this.labelTotalValue3.Size = new System.Drawing.Size(55, 21);
+            this.labelTotalValue3.TabIndex = 5;
+            this.labelTotalValue3.Text = "0.00 xxx";
+            this.labelTotalValue3.Visible = false;
+            // 
             // label12
             // 
             this.label12.AutoSize = true;
@@ -282,6 +428,25 @@
             this.label12.Size = new System.Drawing.Size(92, 21);
             this.label12.TabIndex = 1;
             this.label12.Text = "Account Total:";
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.pictureBox2);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel5.Location = new System.Drawing.Point(0, 0);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(23, 23);
+            this.panel5.TabIndex = 5;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(-1, 0);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(24, 21);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox2.TabIndex = 5;
+            this.pictureBox2.TabStop = false;
             // 
             // panel1
             // 
@@ -576,6 +741,20 @@
             this.tabButtonTokenTransactions.Text = "ZRC-2 Token Transfers";
             this.tabButtonTokenTransactions.Click += new System.EventHandler(this.tabButtonTokenTransactions_Click);
             // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(93, 22);
+            this.toolStripButton2.Text = "All Transactions";
+            // 
             // panelTabsHoldings
             // 
             this.panelTabsHoldings.Controls.Add(this.panelTabPagesHoldings);
@@ -642,14 +821,14 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
-            // tabButtonHoldingContracts
+            // toolStripButton3
             // 
-            this.tabButtonHoldingContracts.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tabButtonHoldingContracts.Image = ((System.Drawing.Image)(resources.GetObject("tabButtonHoldingContracts.Image")));
-            this.tabButtonHoldingContracts.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tabButtonHoldingContracts.Name = "tabButtonHoldingContracts";
-            this.tabButtonHoldingContracts.Size = new System.Drawing.Size(137, 22);
-            this.tabButtonHoldingContracts.Text = "Owned Smart Contracts";
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(89, 22);
+            this.toolStripButton3.Text = "Liquidity Pools";
             // 
             // toolStripSeparator4
             // 
@@ -665,196 +844,19 @@
             this.tabButtonHoldingNfts.Size = new System.Drawing.Size(36, 22);
             this.tabButtonHoldingNfts.Text = "NFTs";
             // 
-            // panel5
-            // 
-            this.panel5.Controls.Add(this.pictureBox2);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel5.Location = new System.Drawing.Point(0, 0);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(23, 23);
-            this.panel5.TabIndex = 5;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(-1, 0);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(24, 21);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox2.TabIndex = 5;
-            this.pictureBox2.TabStop = false;
-            // 
-            // panel9
-            // 
-            this.panel9.AutoSize = true;
-            this.panel9.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panel9.Controls.Add(this.labelTotalValueUsd);
-            this.panel9.Controls.Add(this.labelTotalValue2);
-            this.panel9.Controls.Add(this.labelTotalValue3);
-            this.panel9.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel9.Location = new System.Drawing.Point(92, 0);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(68, 23);
-            this.panel9.TabIndex = 3;
-            // 
-            // labelTotalValueUsd
-            // 
-            this.labelTotalValueUsd.AutoSize = true;
-            this.labelTotalValueUsd.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelTotalValueUsd.Location = new System.Drawing.Point(0, 0);
-            this.labelTotalValueUsd.Name = "labelTotalValueUsd";
-            this.labelTotalValueUsd.Padding = new System.Windows.Forms.Padding(3);
-            this.labelTotalValueUsd.Size = new System.Drawing.Size(65, 21);
-            this.labelTotalValueUsd.TabIndex = 3;
-            this.labelTotalValueUsd.Text = "0.00 USD";
-            // 
-            // labelTotalValue2
-            // 
-            this.labelTotalValue2.AutoSize = true;
-            this.labelTotalValue2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelTotalValue2.Location = new System.Drawing.Point(0, 16);
-            this.labelTotalValue2.Name = "labelTotalValue2";
-            this.labelTotalValue2.Padding = new System.Windows.Forms.Padding(3);
-            this.labelTotalValue2.Size = new System.Drawing.Size(55, 21);
-            this.labelTotalValue2.TabIndex = 4;
-            this.labelTotalValue2.Text = "0.00 xxx";
-            this.labelTotalValue2.Visible = false;
-            // 
-            // labelTotalValue3
-            // 
-            this.labelTotalValue3.AutoSize = true;
-            this.labelTotalValue3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelTotalValue3.Location = new System.Drawing.Point(0, 33);
-            this.labelTotalValue3.Name = "labelTotalValue3";
-            this.labelTotalValue3.Padding = new System.Windows.Forms.Padding(3);
-            this.labelTotalValue3.Size = new System.Drawing.Size(55, 21);
-            this.labelTotalValue3.TabIndex = 5;
-            this.labelTotalValue3.Text = "0.00 xxx";
-            this.labelTotalValue3.Visible = false;
-            // 
-            // panel10
-            // 
-            this.panel10.AutoSize = true;
-            this.panel10.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panel10.Controls.Add(this.labelZilValueUsd);
-            this.panel10.Controls.Add(this.labelZilValue2);
-            this.panel10.Controls.Add(this.labelZilValue3);
-            this.panel10.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel10.Location = new System.Drawing.Point(107, 0);
-            this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(62, 23);
-            this.panel10.TabIndex = 4;
-            // 
-            // labelZilValueUsd
-            // 
-            this.labelZilValueUsd.AutoSize = true;
-            this.labelZilValueUsd.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelZilValueUsd.Location = new System.Drawing.Point(0, 0);
-            this.labelZilValueUsd.Name = "labelZilValueUsd";
-            this.labelZilValueUsd.Padding = new System.Windows.Forms.Padding(3);
-            this.labelZilValueUsd.Size = new System.Drawing.Size(59, 21);
-            this.labelZilValueUsd.TabIndex = 3;
-            this.labelZilValueUsd.Text = "0.00 USD";
-            // 
-            // labelZilValue2
-            // 
-            this.labelZilValue2.AutoSize = true;
-            this.labelZilValue2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelZilValue2.Location = new System.Drawing.Point(0, 16);
-            this.labelZilValue2.Name = "labelZilValue2";
-            this.labelZilValue2.Padding = new System.Windows.Forms.Padding(3);
-            this.labelZilValue2.Size = new System.Drawing.Size(55, 21);
-            this.labelZilValue2.TabIndex = 4;
-            this.labelZilValue2.Text = "0.00 xxx";
-            this.labelZilValue2.Visible = false;
-            // 
-            // labelZilValue3
-            // 
-            this.labelZilValue3.AutoSize = true;
-            this.labelZilValue3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelZilValue3.Location = new System.Drawing.Point(0, 33);
-            this.labelZilValue3.Name = "labelZilValue3";
-            this.labelZilValue3.Padding = new System.Windows.Forms.Padding(3);
-            this.labelZilValue3.Size = new System.Drawing.Size(55, 21);
-            this.labelZilValue3.TabIndex = 5;
-            this.labelZilValue3.Text = "0.00 xxx";
-            this.labelZilValue3.Visible = false;
-            // 
-            // panel11
-            // 
-            this.panel11.AutoSize = true;
-            this.panel11.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panel11.Controls.Add(this.labelTokensValueUsd);
-            this.panel11.Controls.Add(this.labelTokensValue2);
-            this.panel11.Controls.Add(this.labelTokensValue3);
-            this.panel11.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel11.Location = new System.Drawing.Point(100, 0);
-            this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(62, 23);
-            this.panel11.TabIndex = 4;
-            // 
-            // labelTokensValueUsd
-            // 
-            this.labelTokensValueUsd.AutoSize = true;
-            this.labelTokensValueUsd.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelTokensValueUsd.Location = new System.Drawing.Point(0, 0);
-            this.labelTokensValueUsd.Name = "labelTokensValueUsd";
-            this.labelTokensValueUsd.Padding = new System.Windows.Forms.Padding(3);
-            this.labelTokensValueUsd.Size = new System.Drawing.Size(59, 21);
-            this.labelTokensValueUsd.TabIndex = 3;
-            this.labelTokensValueUsd.Text = "0.00 USD";
-            // 
-            // labelTokensValue2
-            // 
-            this.labelTokensValue2.AutoSize = true;
-            this.labelTokensValue2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelTokensValue2.Location = new System.Drawing.Point(0, 16);
-            this.labelTokensValue2.Name = "labelTokensValue2";
-            this.labelTokensValue2.Padding = new System.Windows.Forms.Padding(3);
-            this.labelTokensValue2.Size = new System.Drawing.Size(55, 21);
-            this.labelTokensValue2.TabIndex = 4;
-            this.labelTokensValue2.Text = "0.00 xxx";
-            this.labelTokensValue2.Visible = false;
-            // 
-            // labelTokensValue3
-            // 
-            this.labelTokensValue3.AutoSize = true;
-            this.labelTokensValue3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelTokensValue3.Location = new System.Drawing.Point(0, 33);
-            this.labelTokensValue3.Name = "labelTokensValue3";
-            this.labelTokensValue3.Padding = new System.Windows.Forms.Padding(3);
-            this.labelTokensValue3.Size = new System.Drawing.Size(55, 21);
-            this.labelTokensValue3.TabIndex = 5;
-            this.labelTokensValue3.Text = "0.00 xxx";
-            this.labelTokensValue3.Visible = false;
-            // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(93, 22);
-            this.toolStripButton2.Text = "All Transactions";
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButton3
-            // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(89, 22);
-            this.toolStripButton3.Text = "Liquidity Pools";
-            // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tabButtonHoldingContracts
+            // 
+            this.tabButtonHoldingContracts.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tabButtonHoldingContracts.Image = ((System.Drawing.Image)(resources.GetObject("tabButtonHoldingContracts.Image")));
+            this.tabButtonHoldingContracts.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tabButtonHoldingContracts.Name = "tabButtonHoldingContracts";
+            this.tabButtonHoldingContracts.Size = new System.Drawing.Size(137, 22);
+            this.tabButtonHoldingContracts.Text = "Owned Smart Contracts";
             // 
             // WalletAddressDetails
             // 
@@ -878,10 +880,18 @@
             this.panelBalanceValues.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
+            this.panel11.ResumeLayout(false);
+            this.panel11.PerformLayout();
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
+            this.panel10.ResumeLayout(false);
+            this.panel10.PerformLayout();
             this.panel8.ResumeLayout(false);
             this.panel8.PerformLayout();
+            this.panel9.ResumeLayout(false);
+            this.panel9.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel4.ResumeLayout(false);
@@ -903,14 +913,6 @@
             this.panelTabPagesHoldings.ResumeLayout(false);
             this.toolStripHoldings.ResumeLayout(false);
             this.toolStripHoldings.PerformLayout();
-            this.panel5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            this.panel9.ResumeLayout(false);
-            this.panel9.PerformLayout();
-            this.panel10.ResumeLayout(false);
-            this.panel10.PerformLayout();
-            this.panel11.ResumeLayout(false);
-            this.panel11.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -951,7 +953,7 @@
         private System.Windows.Forms.Timer timerButtonPressed;
         private ToolStripSeparator separatorBackup;
         private ToolStripButton buttonRemoveAccount;
-        private ToolStripButton toolStripButton1;
+        private ToolStripButton buttonSendToken;
         private Splitter splitter1;
         private Panel panelTabsTransactions;
         private ToolStrip toolStripTransactions;

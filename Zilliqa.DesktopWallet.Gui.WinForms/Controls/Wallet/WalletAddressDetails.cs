@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using Zilliqa.DesktopWallet.Core.Data.Model;
+using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
@@ -18,6 +20,22 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         public void LoadAccount(AccountViewModel account)
         {
             _account = account;
+            if (account.AccountData is MyAccount)
+            {
+                buttonSend.Visible = true;
+                buttonSendToken.Visible = true;
+                separatorSend.Visible = true;
+                buttonBackupPrivateKey.Visible = true;
+                separatorBackup.Visible = true;
+            }
+            else
+            {
+                buttonSend.Visible = false;
+                buttonSendToken.Visible = false;
+                separatorSend.Visible = false;
+                buttonBackupPrivateKey.Visible = false;
+                separatorBackup.Visible = false;
+            }
             textZilAddress.Text = account.AddressBech32;
             gridViewTokenBalances.LoadData(account.TokenBalances, typeof(TokenBalanceRowViewModel));
             gridViewZilTransactions.LoadData(account.ZilTransactions, typeof(ZilTransactionRowViewModel));
@@ -140,5 +158,20 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             tabPageControl.Visible = true;
         }
 
+        private void buttonSend_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonRemoveAccount_Click(object sender, EventArgs e)
+        {
+            if (_account != null 
+                && MessageBox.Show($"Are you sure to remove Account {_account.AccountData.Name}?", "Remove Account?",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                RepositoryManager.Instance.WalletRepository.RemoveAccount(_account.AccountData.Id);
+                Visible = false;
+            }
+        }
     }
 }

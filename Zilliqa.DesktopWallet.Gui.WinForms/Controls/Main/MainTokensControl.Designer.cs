@@ -33,6 +33,7 @@
             this.labelLoading = new System.Windows.Forms.Label();
             this.panelLoaded = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.groupBoxTokensList = new System.Windows.Forms.GroupBox();
             this.gridViewTokens = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl();
             this.groupBoxMarketData = new System.Windows.Forms.GroupBox();
             this.propertyGridMarketData = new System.Windows.Forms.PropertyGrid();
@@ -66,6 +67,7 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.groupBoxTokensList.SuspendLayout();
             this.groupBoxMarketData.SuspendLayout();
             this.groupBoxTokenDetails.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -116,7 +118,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.gridViewTokens);
+            this.splitContainer1.Panel1.Controls.Add(this.groupBoxTokensList);
             // 
             // splitContainer1.Panel2
             // 
@@ -126,12 +128,25 @@
             this.splitContainer1.SplitterDistance = 284;
             this.splitContainer1.TabIndex = 1;
             // 
+            // groupBoxTokensList
+            // 
+            this.groupBoxTokensList.Controls.Add(this.gridViewTokens);
+            this.groupBoxTokensList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBoxTokensList.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.groupBoxTokensList.Location = new System.Drawing.Point(0, 0);
+            this.groupBoxTokensList.Name = "groupBoxTokensList";
+            this.groupBoxTokensList.Size = new System.Drawing.Size(284, 377);
+            this.groupBoxTokensList.TabIndex = 2;
+            this.groupBoxTokensList.TabStop = false;
+            this.groupBoxTokensList.Text = "ZRC-2 Tokens";
+            // 
             // gridViewTokens
             // 
             this.gridViewTokens.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridViewTokens.Location = new System.Drawing.Point(0, 0);
+            this.gridViewTokens.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.gridViewTokens.Location = new System.Drawing.Point(3, 19);
             this.gridViewTokens.Name = "gridViewTokens";
-            this.gridViewTokens.Size = new System.Drawing.Size(284, 377);
+            this.gridViewTokens.Size = new System.Drawing.Size(278, 355);
             this.gridViewTokens.TabIndex = 1;
             this.gridViewTokens.RowSelected += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.RowSelectionEventArgs>(this.gridViewTokens_RowSelected);
             // 
@@ -440,6 +455,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.groupBoxTokensList.ResumeLayout(false);
             this.groupBoxMarketData.ResumeLayout(false);
             this.groupBoxTokenDetails.ResumeLayout(false);
             this.groupBoxTokenDetails.PerformLayout();
@@ -493,5 +509,6 @@
         private Label label8;
         private GroupBox groupBoxMarketData;
         private PropertyGrid propertyGridMarketData;
+        private GroupBox groupBoxTokensList;
     }
 }

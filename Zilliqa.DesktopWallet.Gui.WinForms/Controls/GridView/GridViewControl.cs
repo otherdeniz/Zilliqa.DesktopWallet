@@ -16,7 +16,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
         public GridViewControl()
         {
             InitializeComponent();
-            DisplayCurrenciesService.Instance.DisplayCurrenciesChanged += InstanceOnDisplayCurrenciesChanged;
         }
 
         public event EventHandler<RowSelectionEventArgs> RowSelected;
@@ -96,6 +95,21 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             ApplyVisibleDynamicColumns();
         }
 
+        private void GridViewControl_Load(object sender, EventArgs e)
+        {
+            if (!DesignMode)
+            {
+                try
+                {
+                    DisplayCurrenciesService.Instance.DisplayCurrenciesChanged += InstanceOnDisplayCurrenciesChanged;
+                }
+                catch (Exception)
+                {
+                    // skip
+                }
+            }
+        }
+
         private void dataGridView_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             if (_itemType == null) return;
@@ -163,16 +177,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             }
         }
 
-        public class RowSelectionEventArgs : EventArgs
-        {
-            public object SelectedRow { get; }
-
-            public RowSelectionEventArgs(object selectedRow)
-            {
-                SelectedRow = selectedRow;
-            }
-        }
-
         private void dataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (_columnIndexesFormatAttributes.TryGetValue(e.ColumnIndex, out var formatAttribute))
@@ -212,5 +216,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                 }
             }
         }
+
+        public class RowSelectionEventArgs : EventArgs
+        {
+            public object SelectedRow { get; }
+
+            public RowSelectionEventArgs(object selectedRow)
+            {
+                SelectedRow = selectedRow;
+            }
+        }
+
     }
 }

@@ -30,6 +30,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                 .ThenBy(t => t.Id)
                 .Select(t => new TokenRowViewModel(t)).ToList();
             gridViewTokens.LoadData(tokensList, typeof(TokenRowViewModel));
+            groupBoxTokensList.Text = $"ZRC-2 Tokens ({tokensList.Count})";
             panelLoading.Visible = false;
             panelLoaded.Visible = true;
         }
