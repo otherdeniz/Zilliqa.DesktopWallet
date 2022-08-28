@@ -43,8 +43,18 @@ namespace Zilligraph.Database.Storage.Index
                     var nextPositionBuffer = new byte[8];
                     var nextEntryPosition = Convert.ToInt64(chainEntryPoint - 1);
                     var hasMoreEntries = true;
+                    var chainLength = 0;
                     while (hasMoreEntries)
                     {
+                        chainLength++;
+                        if (chainLength >= 500)
+                        {
+                            // this chain has already 500 entries, we upgrade to index-content-part
+                            // we undo the AppendToStream
+                            fileStream.SetLength(addedPosition);
+                            // and throw the upgrade needed Exception
+                            throw new UpgradeNeededException();
+                        }
                         currentPosition = fileStream.Seek(nextEntryPosition + _hashBytesLength + 8 - currentPosition, SeekOrigin.Current);
                         if (fileStream.Read(nextPositionBuffer, 0, 8) != 8) throw new RuntimeException("index content read fatal error (nextPositionBuffer)");
                         currentPosition += 8;
@@ -68,7 +78,7 @@ namespace Zilligraph.Database.Storage.Index
             return new IndexContentEnumerable(this, chainEntryPoint, valueHash, _enumerationChunkSize);
         }
 
-        public List<IndexRecord> ReadIndexesChunkt(ulong chainEntryPoint, byte[] valueHash, int maxCount = 0)
+        public List<IndexRecord> ReadIndexesChunkt(ulong chainEntryPoint, byte[]? valueHash = null, int maxCount = 0)
         {
             var indexList = new List<IndexRecord>();
             lock (_fileLock)
@@ -77,26 +87,27 @@ namespace Zilligraph.Database.Storage.Index
                 {
                     long currentPosition = 0;
                     var nextEntryPosition = Convert.ToInt64(chainEntryPoint - 1);
-                    var positionBuffer = new byte[8];
+                    var hashBuffer = new byte[_hashBytesLength];
+                    var recordPointBuffer = new byte[8];
                     var nextPositionBuffer = new byte[8];
                     var hasMoreEntries = true;
                     while (hasMoreEntries 
                            && (maxCount == 0 || maxCount > indexList.Count))
                     {
-                        var hashBuffer = new byte[_hashBytesLength];
                         if (nextEntryPosition > 0)
                         {
                             currentPosition = fileStream.Seek(nextEntryPosition - currentPosition, SeekOrigin.Current);
                         }
                         if (fileStream.Read(hashBuffer, 0, _hashBytesLength) != _hashBytesLength) throw new RuntimeException("index content read fatal error (hashBuffer)");
-                        if (fileStream.Read(positionBuffer, 0, 8) != 8) throw new RuntimeException("index content read fatal error (positionBuffer)");
+                        if (fileStream.Read(recordPointBuffer, 0, 8) != 8) throw new RuntimeException("index content read fatal error (positionBuffer)");
                         if (fileStream.Read(nextPositionBuffer, 0, 8) != 8) throw new RuntimeException("index content read fatal error (nextPositionBuffer)");
                         nextEntryPosition = Convert.ToInt64(BitConverter.ToUInt64(nextPositionBuffer));
-                        if (valueHash.SequenceEqual(hashBuffer))
+                        if (valueHash == null 
+                            || valueHash.SequenceEqual(hashBuffer))
                         {
                             indexList.Add(
                                 new IndexRecord(hashBuffer,
-                                    BitConverter.ToUInt64(positionBuffer),
+                                    BitConverter.ToUInt64(recordPointBuffer),
                                     Convert.ToUInt64(currentPosition + 1),
                                     Convert.ToUInt64(nextEntryPosition == 0 ? 0 : nextEntryPosition + 1))
                             );
@@ -117,6 +128,10 @@ namespace Zilligraph.Database.Storage.Index
             fileStream.Write(BitConverter.GetBytes(recordPoint));
             fileStream.Write(_lastRecordPointer);
             return entryPosition;
+        }
+
+        public class UpgradeNeededException : Exception
+        {
         }
     }
 }

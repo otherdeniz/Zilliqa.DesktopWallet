@@ -1,4 +1,5 @@
-﻿using Zilligraph.Database.Storage.Index;
+﻿using Zillifriends.Shared.Common;
+using Zilligraph.Database.Storage.Index;
 
 namespace Zilligraph.Database.Storage
 {
@@ -7,6 +8,7 @@ namespace Zilligraph.Database.Storage
         private IndexTypeInfoBase? _indexTypeInfo;
         private IndexHeadSingleFile? _indexHeadFile;
         private IndexContentFile? _indexContentFile;
+        private readonly Dictionary<ushort, List<IndexContentPartFile>> _indexContentPartFiles = new();
         private bool? _indexExists;
 
         protected ZilligraphTableIndexBase(IZilligraphTable table, string name)
@@ -42,9 +44,31 @@ namespace Zilligraph.Database.Storage
                 indexChainEntry = IndexContentFile.CreateChain(hashBytes, recordPoint);
                 IndexHeadFile.SetIndexPoint(hashPrefix16Bit, indexChainEntry);
             }
+            else if (indexChainEntry == ulong.MaxValue)
+            {
+                var partFiles = GetContentPartFiles(hashPrefix16Bit);
+                byte hashPart4Bit = hashBytes[3].Byte8BitTo4Bit();
+                partFiles[hashPart4Bit].Append(hashBytes, recordPoint);
+            }
             else
             {
-                IndexContentFile.AppendToChain(indexChainEntry, hashBytes, recordPoint);
+                try
+                {
+                    IndexContentFile.AppendToChain(indexChainEntry, hashBytes, recordPoint);
+                }
+                catch (IndexContentFile.UpgradeNeededException)
+                {
+                    var partFiles = GetContentPartFiles(hashPrefix16Bit);
+                    var upgradeIndexes = IndexContentFile.ReadIndexesChunkt(indexChainEntry);
+                    foreach (var upgradeIndex in upgradeIndexes)
+                    {
+                        byte upgradeHashPart4Bit = upgradeIndex.IndexHash[3].Byte8BitTo4Bit();
+                        partFiles[upgradeHashPart4Bit].Append(upgradeIndex.IndexHash, upgradeIndex.RecordPoint);
+                    }
+                    IndexHeadFile.SetIndexPoint(hashPrefix16Bit, ulong.MaxValue);
+                    byte hashPart4Bit = hashBytes[3].Byte8BitTo4Bit();
+                    partFiles[hashPart4Bit].Append(hashBytes, recordPoint);
+                }
             }
 
             _indexExists = true;
@@ -59,7 +83,12 @@ namespace Zilligraph.Database.Storage
             {
                 return null;
             }
-
+            if (indexChainEntry == ulong.MaxValue)
+            {
+                var partFiles = GetContentPartFiles(hashPrefix16Bit);
+                byte hashPart4Bit = hashBytes[3].Byte8BitTo4Bit();
+                return partFiles[hashPart4Bit].GetFirstIndex(hashBytes);
+            }
             return IndexContentFile.GetFirstIndex(indexChainEntry, hashBytes);
         }
 
@@ -72,8 +101,38 @@ namespace Zilligraph.Database.Storage
             {
                 return Enumerable.Empty<IndexRecord>();
             }
-
+            if (indexChainEntry == ulong.MaxValue)
+            {
+                var partFiles = GetContentPartFiles(hashPrefix16Bit);
+                byte hashPart4Bit = hashBytes[3].Byte8BitTo4Bit();
+                return partFiles[hashPart4Bit].EnumerateIndexes(hashBytes);
+            }
             return IndexContentFile.EnumerateIndexes(indexChainEntry, hashBytes);
+        }
+
+        private List<IndexContentPartFile> GetContentPartFiles(ushort hashPrefix16Bit)
+        {
+            // ReSharper disable once InconsistentlySynchronizedField
+            if (_indexContentPartFiles.TryGetValue(hashPrefix16Bit, out var existing))
+            {
+                return existing;
+            }
+
+            lock (_indexContentPartFiles)
+            {
+                if (_indexContentPartFiles.TryGetValue(hashPrefix16Bit, out var allreadyCreated))
+                {
+                    return allreadyCreated;
+                }
+
+                var partFiles = new List<IndexContentPartFile>();
+                for (byte i = 0; i < 16; i++)
+                {
+                    partFiles.Add(new IndexContentPartFile(this, IndexTypeInfo.HashLength, hashPrefix16Bit, i));
+                }
+                _indexContentPartFiles.Add(hashPrefix16Bit, partFiles);
+                return partFiles;
+            }
         }
     }
 }

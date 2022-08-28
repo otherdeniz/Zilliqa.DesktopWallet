@@ -1,4 +1,6 @@
-﻿namespace Zillifriends.Shared.Common
+﻿using System.Text;
+
+namespace Zillifriends.Shared.Common
 {
     public static class StringExtensions
     {
@@ -38,5 +40,6 @@
 
             return DateTime.UnixEpoch;
         }
+
     }
 }

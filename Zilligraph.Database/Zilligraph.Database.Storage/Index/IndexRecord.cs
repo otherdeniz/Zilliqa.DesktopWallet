@@ -10,13 +10,18 @@
             NextEntryPoint = nextEntryPoint;
         }
 
-        //start of the record in the file position (first position is 1)
+        public byte[] IndexHash { get; }
+
+        /// <summary>
+        /// position of the data-record in the data-file (first position is 1)
+        /// </summary>
+        public ulong RecordPoint { get; }
+
+        /// <summary>
+        /// start of this index in the index-content-file (first position is 1)
+        /// </summary>
         public ulong EntryPoint { get; }
 
         public ulong NextEntryPoint { get; }
-
-        public byte[] IndexHash { get; }
-
-        public ulong RecordPoint { get; }
     }
 }
