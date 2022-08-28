@@ -11,6 +11,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
     public class TransactionRowViewModelBase : INotifyPropertyChanged
     {
         private readonly Transaction _transactionModel;
+        private LoadValuePropertiesState? _loadValuePropertiesState;
 
         public TransactionRowViewModelBase(Transaction transactionModel)
         {
@@ -19,7 +20,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
 
         public event PropertyChangedEventHandler? PropertyChanged;
-
 
         [Browsable(false)]
         public Transaction Transaction => _transactionModel;
@@ -100,13 +100,13 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public ValueNumberDisplay? ChangeGbp { get; private set; }
 
         [DisplayName("BTC Today")]
-        [GridViewFormat("#,##0.00000 BTC")]
+        [GridViewFormat("#,##0.00000000 BTC")]
         [GridViewBackground(KnownColor.Bisque)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyBtc)]
         public decimal? ValueBtcToday { get; private set; }
 
         [DisplayName("BTC Then")]
-        [GridViewFormat("#,##0.00000 BTC")]
+        [GridViewFormat("#,##0.00000000 BTC")]
         [GridViewBackground(KnownColor.Bisque)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyBtc)]
         public decimal? ValueBtcThen { get; private set; }
@@ -153,8 +153,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyLtc)]
         public ValueNumberDisplay? ChangeLtc { get; private set; }
 
-        public void LoadValuesProperties()
+        public LoadValuePropertiesState LoadValuesProperties(bool notifiyPropertyChanged)
         {
+            _loadValuePropertiesState = new LoadValuePropertiesState();
             try
             {
                 var coinPrice = RepositoryManager.Instance.CoingeckoRepository.GetCoinPrice(Symbol);
@@ -167,115 +168,134 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                     ValueBtcToday = coinPrice.MarketData.CurrentPrice.Btc * Amount;
                     ValueEthToday = coinPrice.MarketData.CurrentPrice.Eth * Amount;
                     ValueLtcToday = coinPrice.MarketData.CurrentPrice.Ltc * Amount;
-                    //WinFormsSynchronisationContext.ExecuteSynchronized(() =>
-                    //{
-                    //    OnPropertyChanged(nameof(ValueUsdToday));
-                    //    OnPropertyChanged(nameof(ValueChfToday));
-                    //    OnPropertyChanged(nameof(ValueEurToday));
-                    //    OnPropertyChanged(nameof(ValueGbpToday));
-                    //    OnPropertyChanged(nameof(ValueBtcToday));
-                    //    OnPropertyChanged(nameof(ValueEthToday));
-                    //    OnPropertyChanged(nameof(ValueLtcToday));
-                    //});
+                    if (notifiyPropertyChanged)
+                    {
+                        WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                        {
+                            OnPropertyChanged(nameof(ValueUsdToday));
+                            OnPropertyChanged(nameof(ValueChfToday));
+                            OnPropertyChanged(nameof(ValueEurToday));
+                            OnPropertyChanged(nameof(ValueGbpToday));
+                            OnPropertyChanged(nameof(ValueBtcToday));
+                            OnPropertyChanged(nameof(ValueEthToday));
+                            OnPropertyChanged(nameof(ValueLtcToday));
+                        });
+                    }
                 }
 
                 RepositoryManager.Instance.CoingeckoRepository.GetCoinHistory(Transaction.Timestamp, Symbol, ch =>
                 {
-                    ValueUsdThen = ch.MarketData.CurrentPrice.Usd * Amount;
-                    ValueChfThen = ch.MarketData.CurrentPrice.Chf * Amount;
-                    ValueEurThen = ch.MarketData.CurrentPrice.Eur * Amount;
-                    ValueGbpThen = ch.MarketData.CurrentPrice.Gbp * Amount;
-                    ValueBtcThen = ch.MarketData.CurrentPrice.Btc * Amount;
-                    ValueEthThen = ch.MarketData.CurrentPrice.Eth * Amount;
-                    ValueLtcThen = ch.MarketData.CurrentPrice.Ltc * Amount;
-                    WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                    if (ch != null)
                     {
-                        OnPropertyChanged(nameof(ValueUsdThen));
-                        OnPropertyChanged(nameof(ValueChfThen));
-                        OnPropertyChanged(nameof(ValueEurThen));
-                        OnPropertyChanged(nameof(ValueGbpThen));
-                        OnPropertyChanged(nameof(ValueBtcThen));
-                        OnPropertyChanged(nameof(ValueEthThen));
-                        OnPropertyChanged(nameof(ValueLtcThen));
-                        OnPropertyChanged(nameof(ChangeUsd));
-                        OnPropertyChanged(nameof(ChangeChf));
-                        OnPropertyChanged(nameof(ChangeEur));
-                        OnPropertyChanged(nameof(ChangeGbp));
-                        OnPropertyChanged(nameof(ChangeBtc));
-                        OnPropertyChanged(nameof(ChangeEth));
-                        OnPropertyChanged(nameof(ChangeLtc));
-                    });
+                        try
+                        {
+                            ValueUsdThen = ch.MarketData.CurrentPrice.Usd * Amount;
+                            ValueChfThen = ch.MarketData.CurrentPrice.Chf * Amount;
+                            ValueEurThen = ch.MarketData.CurrentPrice.Eur * Amount;
+                            ValueGbpThen = ch.MarketData.CurrentPrice.Gbp * Amount;
+                            ValueBtcThen = ch.MarketData.CurrentPrice.Btc * Amount;
+                            ValueEthThen = ch.MarketData.CurrentPrice.Eth * Amount;
+                            ValueLtcThen = ch.MarketData.CurrentPrice.Ltc * Amount;
 
-                    if (ValueUsdToday != null && ValueUsdThen > 0)
-                    {
-                        var changeValue = ValueUsdToday - ValueUsdThen;
-                        var changePercent = changeValue != 0
-                            ? 100m / ValueUsdThen * changeValue
-                            : 0;
-                        ChangeUsd = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
-                            $"{changeValue:#,##0.00} $ ({changePercent:0.00} %)");
-                    }
-                    if (ValueChfToday != null && ValueChfThen > 0)
-                    {
-                        var changeValue = ValueChfToday - ValueChfThen;
-                        var changePercent = changeValue != 0
-                            ? 100m / ValueChfThen * changeValue
-                            : 0;
-                        ChangeChf = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
-                            $"{changeValue:#,##0.00} CHF ({changePercent:0.00} %)");
-                    }
-                    if (ValueEurToday != null && ValueEurThen > 0)
-                    {
-                        var changeValue = ValueEurToday - ValueEurThen;
-                        var changePercent = changeValue != 0
-                            ? 100m / ValueEurThen * changeValue
-                            : 0;
-                        ChangeEur = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
-                            $"{changeValue:#,##0.00} EUR ({changePercent:0.00} %)");
-                    }
-                    if (ValueGbpToday != null && ValueGbpThen > 0)
-                    {
-                        var changeValue = ValueGbpToday - ValueGbpThen;
-                        var changePercent = changeValue != 0
-                            ? 100m / ValueGbpThen * changeValue
-                            : 0;
-                        ChangeGbp = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
-                            $"{changeValue:#,##0.00} GBP ({changePercent:0.00} %)");
-                    }
-                    if (ValueBtcToday != null && ValueBtcThen > 0)
-                    {
-                        var changeValue = ValueBtcToday - ValueBtcThen;
-                        var changePercent = changeValue != 0
-                            ? 100m / ValueBtcThen * changeValue
-                            : 0;
-                        ChangeBtc = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
-                            $"{changeValue:#,##0.00000} BTC ({changePercent:0.00} %)");
-                    }
-                    if (ValueEthToday != null && ValueEthThen > 0)
-                    {
-                        var changeValue = ValueEthToday - ValueEthThen;
-                        var changePercent = changeValue != 0
-                            ? 100m / ValueEthThen * changeValue
-                            : 0;
-                        ChangeEth = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
-                            $"{changeValue:#,##0.00000} ETH ({changePercent:0.00} %)");
-                    }
-                    if (ValueLtcToday != null && ValueLtcThen > 0)
-                    {
-                        var changeValue = ValueLtcToday - ValueLtcThen;
-                        var changePercent = changeValue != 0
-                            ? 100m / ValueLtcThen * changeValue
-                            : 0;
-                        ChangeLtc = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
-                            $"{changeValue:#,##0.00000} LTC ({changePercent:0.00} %)");
-                    }
+                            if (ValueUsdToday != null && ValueUsdThen > 0)
+                            {
+                                var changeValue = ValueUsdToday - ValueUsdThen;
+                                var changePercent = changeValue != 0
+                                    ? 100m / ValueUsdThen * changeValue
+                                    : 0;
+                                ChangeUsd = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                                    $"{changePercent:0.00} % ({changeValue:#,##0.00} $)");
+                            }
+                            if (ValueChfToday != null && ValueChfThen > 0)
+                            {
+                                var changeValue = ValueChfToday - ValueChfThen;
+                                var changePercent = changeValue != 0
+                                    ? 100m / ValueChfThen * changeValue
+                                    : 0;
+                                ChangeChf = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                                    $"{changePercent:0.00} % ({changeValue:#,##0.00} CHF)");
+                            }
+                            if (ValueEurToday != null && ValueEurThen > 0)
+                            {
+                                var changeValue = ValueEurToday - ValueEurThen;
+                                var changePercent = changeValue != 0
+                                    ? 100m / ValueEurThen * changeValue
+                                    : 0;
+                                ChangeEur = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                                    $"{changePercent:0.00} % ({changeValue:#,##0.00} EUR)");
+                            }
+                            if (ValueGbpToday != null && ValueGbpThen > 0)
+                            {
+                                var changeValue = ValueGbpToday - ValueGbpThen;
+                                var changePercent = changeValue != 0
+                                    ? 100m / ValueGbpThen * changeValue
+                                    : 0;
+                                ChangeGbp = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                                    $"{changePercent:0.00} % ({changeValue:#,##0.00} GBP)");
+                            }
+                            if (ValueBtcToday != null && ValueBtcThen > 0)
+                            {
+                                var changeValue = ValueBtcToday - ValueBtcThen;
+                                var changePercent = changeValue != 0
+                                    ? 100m / ValueBtcThen * changeValue
+                                    : 0;
+                                ChangeBtc = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                                    $"{changePercent:0.00} % ({changeValue:#,##0.00000000} BTC)");
+                            }
+                            if (ValueEthToday != null && ValueEthThen > 0)
+                            {
+                                var changeValue = ValueEthToday - ValueEthThen;
+                                var changePercent = changeValue != 0
+                                    ? 100m / ValueEthThen * changeValue
+                                    : 0;
+                                ChangeEth = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                                    $"{changePercent:0.00} % ({changeValue:#,##0.00000} ETH)");
+                            }
+                            if (ValueLtcToday != null && ValueLtcThen > 0)
+                            {
+                                var changeValue = ValueLtcToday - ValueLtcThen;
+                                var changePercent = changeValue != 0
+                                    ? 100m / ValueLtcThen * changeValue
+                                    : 0;
+                                ChangeLtc = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                                    $"{changePercent:0.00} % ({changeValue:#,##0.00000} LTC)");
+                            }
 
+                            if (notifiyPropertyChanged)
+                            {
+                                WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                                {
+                                    OnPropertyChanged(nameof(ValueUsdThen));
+                                    OnPropertyChanged(nameof(ValueChfThen));
+                                    OnPropertyChanged(nameof(ValueEurThen));
+                                    OnPropertyChanged(nameof(ValueGbpThen));
+                                    OnPropertyChanged(nameof(ValueBtcThen));
+                                    OnPropertyChanged(nameof(ValueEthThen));
+                                    OnPropertyChanged(nameof(ValueLtcThen));
+                                    OnPropertyChanged(nameof(ChangeUsd));
+                                    OnPropertyChanged(nameof(ChangeChf));
+                                    OnPropertyChanged(nameof(ChangeEur));
+                                    OnPropertyChanged(nameof(ChangeGbp));
+                                    OnPropertyChanged(nameof(ChangeBtc));
+                                    OnPropertyChanged(nameof(ChangeEth));
+                                    OnPropertyChanged(nameof(ChangeLtc));
+                                });
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            // ignore
+                        }
+                    }
+                    _loadValuePropertiesState.IsCompleted = true;
                 });
             }
             catch (Exception e)
             {
                 Logging.LogError($"TransactionRowViewModelBase.LoadValuesProperties of Coin {Symbol} failed", e);
             }
+
+            return _loadValuePropertiesState;
         }
 
         [NotifyPropertyChangedInvocator]
@@ -284,5 +304,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public class LoadValuePropertiesState
+        {
+            public bool IsCompleted { get; set; }
+        }
     }
 }

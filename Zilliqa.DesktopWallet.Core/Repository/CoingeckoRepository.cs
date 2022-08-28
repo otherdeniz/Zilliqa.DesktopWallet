@@ -24,7 +24,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
         private Task? _startupTask;
         private readonly object _startupLock = new();
         private readonly Dictionary<string, string> _symbolToCoinId = new();
-        private readonly Queue<QueuedCoinHistoryRequest> _coinHistoryRequestQueue = new();
+        private readonly Queue<QueuedCoinHistoryRequest> _coinHistoryRequestQueue = new(1024);
 
         public CoingeckoRepository()
         {
@@ -96,7 +96,9 @@ namespace Zilliqa.DesktopWallet.Core.Repository
                 {
                     if (firstRun)
                     {
-                        foreach (var tokenSymbol in tokens.Select(t => t.Symbol))
+                        foreach (var tokenSymbol in tokens
+                                     .Where(t => t.Symbol != "ZIL")
+                                     .Select(t => t.Symbol.ToLower()))
                         {
                             if (!TokenPricesBySymbol.ContainsKey(tokenSymbol) 
                                 && coinSymbolIds.TryGetValue(tokenSymbol, out var tokenCoinIds))
@@ -104,21 +106,27 @@ namespace Zilliqa.DesktopWallet.Core.Repository
                                 foreach (var tokenCoinId in tokenCoinIds)
                                 {
                                     if (cancellationToken.IsCancellationRequested) return;
-                                    var tokenCoinPrice = _apiClient.GetCoinPrice(tokenCoinId);
-                                    if (CoinIdsWhiteList.Any(w => tokenCoinPrice.Id == w)
-                                        || !string.IsNullOrEmpty(tokenCoinPrice.Platforms.Zilliqa))
+                                    try
                                     {
-                                        TokenPricesBySymbol.Add(tokenSymbol, tokenCoinPrice);
-                                        _symbolToCoinId.Add(tokenSymbol, tokenCoinId);
-                                        WinFormsSynchronisationContext.ExecuteSynchronized(() =>
-                                            CoinPriceChanged?.Invoke(this, new CoinPriceChangedEventArgs(tokenSymbol)));
-                                        break;
+                                        var tokenCoinPrice = _apiClient.GetCoinPrice(tokenCoinId);
+                                        if (CoinIdsWhiteList.Any(w => tokenCoinPrice.Id == w)
+                                            || !string.IsNullOrEmpty(tokenCoinPrice.Platforms.Zilliqa))
+                                        {
+                                            TokenPricesBySymbol.Add(tokenSymbol, tokenCoinPrice);
+                                            _symbolToCoinId.Add(tokenSymbol, tokenCoinId);
+                                            CoinPriceChanged?.Invoke(this, new CoinPriceChangedEventArgs(tokenSymbol));
+                                            break;
+                                        }
+                                    }
+                                    catch (Exception)
+                                    {
+                                        // get coin price failed
                                     }
                                 }
 
                                 try
                                 {
-                                    await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
+                                    await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
                                 }
                                 catch (TaskCanceledException)
                                 {
@@ -135,8 +143,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
                             {
                                 if (cancellationToken.IsCancellationRequested) return;
                                 TokenPricesBySymbol[tokenSymbol] = _apiClient.GetCoinPrice(coinId);
-                                WinFormsSynchronisationContext.ExecuteSynchronized(() =>
-                                    CoinPriceChanged?.Invoke(this, new CoinPriceChangedEventArgs(tokenSymbol)));
+                                CoinPriceChanged?.Invoke(this, new CoinPriceChangedEventArgs(tokenSymbol));
                             }
 
                             try
@@ -184,7 +191,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
             return null;
         }
 
-        public void GetCoinHistory(DateTime date, string symbol, Action<CoinHistory> afterDataReceived)
+        public void GetCoinHistory(DateTime date, string symbol, Action<CoinHistory?> afterDataReceived)
         {
             if (date > DateTime.Now.AddHours(-36))
             {
@@ -193,12 +200,25 @@ namespace Zilliqa.DesktopWallet.Core.Repository
                 {
                     afterDataReceived(coinPrice.MapToModel<CoinPrice, CoinHistory>());
                 }
+                else
+                {
+                    afterDataReceived(null);
+                }
+                return;
             }
             if (MemoryCache.TryGet<CoinHistory>($"GetCoinHistory({date.ToShortDateString()},{symbol})", out var cacheValue))
             {
                 afterDataReceived(cacheValue);
             }
-            _coinHistoryRequestQueue.Enqueue(new QueuedCoinHistoryRequest(date.Date, symbol, afterDataReceived));
+
+            try
+            {
+                _coinHistoryRequestQueue.Enqueue(new QueuedCoinHistoryRequest(date.Date, symbol, afterDataReceived));
+            }
+            catch (Exception)
+            {
+                // to much in the queue, skip this request
+            }
         }
 
         private async Task BackgroundCoinHistoryDownloaderTask(CancellationToken cancellationToken)
@@ -211,6 +231,10 @@ namespace Zilliqa.DesktopWallet.Core.Repository
                     if (coinHistory != null)
                     {
                         request.AfterDataReceived(coinHistory);
+                    }
+                    else
+                    {
+                        request.AfterDataReceived(null);
                     }
                 }
                 else
@@ -295,7 +319,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
 
         private class QueuedCoinHistoryRequest
         {
-            public QueuedCoinHistoryRequest(DateTime date, string symbol, Action<CoinHistory> afterDataReceived)
+            public QueuedCoinHistoryRequest(DateTime date, string symbol, Action<CoinHistory?> afterDataReceived)
             {
                 Date = date;
                 Symbol = symbol;
@@ -303,7 +327,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
             }
             public DateTime Date { get; }
             public string Symbol { get; }
-            public Action<CoinHistory> AfterDataReceived { get; }
+            public Action<CoinHistory?> AfterDataReceived { get; }
         }
 
         public class CoinPriceChangedEventArgs : EventArgs

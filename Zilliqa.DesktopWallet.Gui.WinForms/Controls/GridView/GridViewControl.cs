@@ -6,7 +6,7 @@ using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 {
-    public partial class GridViewControl : UserControl
+    public partial class GridViewControl : DesignableUserControl
     {
         private Type? _itemType;
         private IList _dataSourceList;
@@ -97,16 +97,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 
         private void GridViewControl_Load(object sender, EventArgs e)
         {
-            if (!DesignMode)
+            if (!InDesignMode())
             {
-                try
-                {
-                    DisplayCurrenciesService.Instance.DisplayCurrenciesChanged += InstanceOnDisplayCurrenciesChanged;
-                }
-                catch (Exception)
-                {
-                    // skip
-                }
+                DisplayCurrenciesService.Instance.DisplayCurrenciesChanged += InstanceOnDisplayCurrenciesChanged;
             }
         }
 

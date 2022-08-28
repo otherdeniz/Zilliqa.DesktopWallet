@@ -144,7 +144,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                             return;
                         }
 
-                        var vm = AddRecordViewModel(transaction, false, false);
+                        var vm = AddRecordViewModel(transaction, false, false, false);
                         if (vm != null)
                         {
                             transactionViewModels.Add(vm);
@@ -173,17 +173,39 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                     Logging.LogError("Account View Model LoadTransactions failed", e);
                 }
 
-                transactionViewModels.ForEach(vm => vm.LoadValuesProperties());
+                var loadPropertiesState = transactionViewModels.Select(vm => vm.LoadValuesProperties(false)).ToList();
+                try
+                {
+                    for (int i = 0; i < 60; i++) // wait max 2 minutes
+                    {
+                        if (loadPropertiesState.All(l => l.IsCompleted))
+                        {
+                            WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                            {
+                                ZilTransactions.ResetBindings();
+                                TokenTransactions.ResetBindings();
+                                TokenBalances.ResetBindings();
+                            });
+                            break;
+                        }
 
+                        Task.Run(async () => await Task.Delay(2000, cancellationToken), cancellationToken).GetAwaiter()
+                            .GetResult();
+                    }
+                }
+                catch (TaskCanceledException)
+                {
+                    // expected
+                }
             }, cancellationToken);
         }
 
         private void OnAddedRecordEventNotified(Transaction record)
         {
-            AddRecordViewModel(record, true, true);
+            AddRecordViewModel(record, true, true, true);
         }
 
-        private TransactionRowViewModelBase? AddRecordViewModel(Transaction record, bool raiseOnRecordsChanged, bool loadCurrencyValues)
+        private TransactionRowViewModelBase? AddRecordViewModel(Transaction record, bool raiseOnRecordsChanged, bool loadCurrencyValues, bool notifiyPropertyChanged)
         {
             TransactionRowViewModelBase? result = null;
             try
@@ -193,7 +215,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                     var transactionViewModel = new ZilTransactionRowViewModel(Address, record);
                     if (loadCurrencyValues)
                     {
-                        transactionViewModel.LoadValuesProperties();
+                        transactionViewModel.LoadValuesProperties(notifiyPropertyChanged);
                     }
                     if (ZilTransactions.FirstOrDefault()?.Transaction.Timestamp < record.Timestamp)
                     {

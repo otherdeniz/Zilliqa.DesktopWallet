@@ -1,10 +1,12 @@
-﻿using Zillifriends.Shared.Common;
+﻿using System.Data;
+using System.Diagnostics;
+using Zillifriends.Shared.Common;
 
 namespace Zilligraph.Database.Storage.Index
 {
     public class IndexContentFile
     {
-        private static readonly int _enumerationChunkSize = 50;
+        private static readonly int _enumerationChunkSize = 250;
         private readonly int _hashBytesLength;
         private readonly string _filePath;
         private readonly object _fileLock = new();
@@ -31,6 +33,73 @@ namespace Zilligraph.Database.Storage.Index
             }
         }
 
+        public void RemoveChain(ulong chainEntryPoint, IndexHeadSingleFile indexHeadFile)
+        {
+            //TODO: still buggy , fix it !
+            var removeIndexes = ReadIndexesChunkt(chainEntryPoint);
+            if (removeIndexes.Count == 0) return;
+            var removeIndexesHashed = removeIndexes.Select(r => r.EntryPoint).ToHashSet();
+            var chainEntryIndexPointers = indexHeadFile.IndexPointers;
+            var chainEntriesDict = new Dictionary<ulong, int>();
+            for (int i = 0; i < chainEntryIndexPointers.Length; i++)
+            {
+                if (chainEntryIndexPointers[i] > 0 && chainEntryIndexPointers[i] < ulong.MaxValue)
+                {
+                    chainEntriesDict.Add(chainEntryIndexPointers[i], i);
+                }
+            }
+            lock (_fileLock)
+            {
+                var tempFilePath = Path.ChangeExtension(_filePath, ".tmp");
+                using (var sourceFileStream = File.Open(_filePath, FileMode.Open))
+                {
+                    using (var targetFileStream = File.Open(tempFilePath, FileMode.Create))
+                    {
+                        long truncateSize = 0;
+                        var hashBuffer = new byte[_hashBytesLength];
+                        var recordPointBuffer = new byte[8];
+                        var nextPositionBuffer = new byte[8];
+                        while (sourceFileStream.Position < sourceFileStream.Length)
+                        {
+                            var currentEntryPoint = Convert.ToUInt64(sourceFileStream.Position + 1);
+                            if (truncateSize > 0 && chainEntriesDict.TryGetValue(currentEntryPoint, out var headIndex))
+                            {
+                                chainEntryIndexPointers[headIndex] =
+                                    Convert.ToUInt64(Convert.ToInt64(chainEntryIndexPointers[headIndex]) -
+                                                     truncateSize);
+                            }
+                            if (removeIndexesHashed.Contains(currentEntryPoint)) //removeIndexes.Any(r => r.EntryPoint == Convert.ToUInt64(sourceFileStream.Position + 1)))
+                            {
+                                truncateSize += _hashBytesLength + 16;
+                                sourceFileStream.Seek(_hashBytesLength + 16, SeekOrigin.Current);
+                            }
+                            else
+                            {
+                                if (sourceFileStream.Read(hashBuffer, 0, _hashBytesLength) != _hashBytesLength) throw new RuntimeException("index content read fatal error (hashBuffer)");
+                                if (sourceFileStream.Read(recordPointBuffer, 0, 8) != 8) throw new RuntimeException("index content read fatal error (positionBuffer)");
+                                if (sourceFileStream.Read(nextPositionBuffer, 0, 8) != 8) throw new RuntimeException("index content read fatal error (nextPositionBuffer)");
+                                targetFileStream.Write(hashBuffer);
+                                targetFileStream.Write(recordPointBuffer);
+                                if (nextPositionBuffer.SequenceEqual(_lastRecordPointer))
+                                {
+                                    targetFileStream.Write(_lastRecordPointer);
+                                }
+                                else
+                                {
+                                    var newNextPosition = Convert.ToInt64(BitConverter.ToUInt64(nextPositionBuffer)) - truncateSize;
+                                    targetFileStream.Write(BitConverter.GetBytes(Convert.ToUInt64(newNextPosition)));
+                                }
+                            }
+                        }
+                        Debug.WriteLine($"Truncated {truncateSize} bytes on File {_filePath}");
+                    }
+                }
+                indexHeadFile.SaveFile();
+                File.Delete(_filePath);
+                File.Move(tempFilePath, _filePath);
+            }
+        }
+
         public void AppendToChain(ulong chainEntryPoint, byte[] valueHash, ulong recordPoint)
         {
             if (valueHash.Length != _hashBytesLength) throw new RuntimeException("index hash length mismatch");
@@ -47,9 +116,9 @@ namespace Zilligraph.Database.Storage.Index
                     while (hasMoreEntries)
                     {
                         chainLength++;
-                        if (chainLength >= 500)
+                        if (chainLength >= 5000)
                         {
-                            // this chain has already 500 entries, we upgrade to index-content-part
+                            // this chain has already 5000 entries, we upgrade to index-content-part
                             // we undo the AppendToStream
                             fileStream.SetLength(addedPosition);
                             // and throw the upgrade needed Exception
@@ -83,38 +152,45 @@ namespace Zilligraph.Database.Storage.Index
             var indexList = new List<IndexRecord>();
             lock (_fileLock)
             {
-                using (var fileStream = File.Open(_filePath, FileMode.OpenOrCreate))
+                try
                 {
-                    long currentPosition = 0;
-                    var nextEntryPosition = Convert.ToInt64(chainEntryPoint - 1);
-                    var hashBuffer = new byte[_hashBytesLength];
-                    var recordPointBuffer = new byte[8];
-                    var nextPositionBuffer = new byte[8];
-                    var hasMoreEntries = true;
-                    while (hasMoreEntries 
-                           && (maxCount == 0 || maxCount > indexList.Count))
+                    using (var fileStream = File.Open(_filePath, FileMode.Open))
                     {
-                        if (nextEntryPosition > 0)
+                        long currentPosition = 0;
+                        var nextEntryPosition = Convert.ToInt64(chainEntryPoint - 1);
+                        var hashBuffer = new byte[_hashBytesLength];
+                        var recordPointBuffer = new byte[8];
+                        var nextPositionBuffer = new byte[8];
+                        var hasMoreEntries = true;
+                        while (hasMoreEntries
+                               && (maxCount == 0 || maxCount > indexList.Count))
                         {
-                            currentPosition = fileStream.Seek(nextEntryPosition - currentPosition, SeekOrigin.Current);
+                            if (nextEntryPosition > 0)
+                            {
+                                currentPosition = fileStream.Seek(nextEntryPosition - currentPosition, SeekOrigin.Current);
+                            }
+                            if (fileStream.Read(hashBuffer, 0, _hashBytesLength) != _hashBytesLength) throw new RuntimeException("index content read fatal error (hashBuffer)");
+                            if (fileStream.Read(recordPointBuffer, 0, 8) != 8) throw new RuntimeException("index content read fatal error (positionBuffer)");
+                            if (fileStream.Read(nextPositionBuffer, 0, 8) != 8) throw new RuntimeException("index content read fatal error (nextPositionBuffer)");
+                            nextEntryPosition = Convert.ToInt64(BitConverter.ToUInt64(nextPositionBuffer));
+                            if (valueHash == null
+                                || valueHash.SequenceEqual(hashBuffer))
+                            {
+                                indexList.Add(
+                                    new IndexRecord(hashBuffer,
+                                        BitConverter.ToUInt64(recordPointBuffer),
+                                        Convert.ToUInt64(currentPosition + 1),
+                                        Convert.ToUInt64(nextEntryPosition == 0 ? 0 : nextEntryPosition + 1))
+                                );
+                            }
+                            currentPosition += _hashBytesLength + 16;
+                            hasMoreEntries = nextEntryPosition >= currentPosition;
                         }
-                        if (fileStream.Read(hashBuffer, 0, _hashBytesLength) != _hashBytesLength) throw new RuntimeException("index content read fatal error (hashBuffer)");
-                        if (fileStream.Read(recordPointBuffer, 0, 8) != 8) throw new RuntimeException("index content read fatal error (positionBuffer)");
-                        if (fileStream.Read(nextPositionBuffer, 0, 8) != 8) throw new RuntimeException("index content read fatal error (nextPositionBuffer)");
-                        nextEntryPosition = Convert.ToInt64(BitConverter.ToUInt64(nextPositionBuffer));
-                        if (valueHash == null 
-                            || valueHash.SequenceEqual(hashBuffer))
-                        {
-                            indexList.Add(
-                                new IndexRecord(hashBuffer,
-                                    BitConverter.ToUInt64(recordPointBuffer),
-                                    Convert.ToUInt64(currentPosition + 1),
-                                    Convert.ToUInt64(nextEntryPosition == 0 ? 0 : nextEntryPosition + 1))
-                            );
-                        }
-                        currentPosition += _hashBytesLength + 16;
-                        hasMoreEntries = nextEntryPosition > currentPosition;
                     }
+                }
+                catch (FileNotFoundException)
+                {
+                    // index is empty
                 }
             }
             return indexList;

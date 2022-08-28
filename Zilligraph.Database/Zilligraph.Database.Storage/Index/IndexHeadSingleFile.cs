@@ -21,9 +21,15 @@ namespace Zilligraph.Database.Storage.Index
             _filePath = tableFieldIndex.Table.PathBuilder.GetFilePath($"{tableFieldIndex.Name}_index_head.bin");
         }
 
+        internal ulong[] IndexPointers
+        {
+            get => _indexPointers ??= LoadOrCreateFile();
+            set => _indexPointers = value;
+        }
+
         public ZilligraphTableIndexBase TableFieldIndex { get; }
 
-        public IEnumerable<ulong> GetAllIndexPoints()
+        public IEnumerable<ulong> GetUsedIndexPoints()
         {
             if (_indexPointers == null)
             {
@@ -65,6 +71,21 @@ namespace Zilligraph.Database.Storage.Index
         internal bool FileExists()
         {
             return File.Exists(_filePath);
+        }
+
+        internal void SaveFile()
+        {
+            if (_indexPointers == null) return;
+            lock (_fileLock)
+            {
+                using (var fileStream = File.Open(_filePath, FileMode.OpenOrCreate))
+                {
+                    for (int i = 0; i < _indexPointers.Length; i++)
+                    {
+                        fileStream.Write(BitConverter.GetBytes(_indexPointers[i]));
+                    }
+                }
+            }
         }
 
         private ulong[] LoadOrCreateFile()

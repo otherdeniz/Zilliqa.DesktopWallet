@@ -59,15 +59,18 @@ namespace Zilligraph.Database.Storage
                 catch (IndexContentFile.UpgradeNeededException)
                 {
                     var partFiles = GetContentPartFiles(hashPrefix16Bit);
-                    var upgradeIndexes = IndexContentFile.ReadIndexesChunkt(indexChainEntry);
-                    foreach (var upgradeIndex in upgradeIndexes)
+                    var upgradeIndexGroups = IndexContentFile.ReadIndexesChunkt(indexChainEntry)
+                        .Select(ui => (ui.IndexHash, ui.RecordPoint))
+                        .GroupBy(ui => ui.IndexHash[3].Byte8BitTo4Bit());
+                    foreach (var upgradeIndexGroup in upgradeIndexGroups)
                     {
-                        byte upgradeHashPart4Bit = upgradeIndex.IndexHash[3].Byte8BitTo4Bit();
-                        partFiles[upgradeHashPart4Bit].Append(upgradeIndex.IndexHash, upgradeIndex.RecordPoint);
+                        byte upgradeHashPart4Bit = upgradeIndexGroup.Key;
+                        partFiles[upgradeHashPart4Bit].Append(upgradeIndexGroup.ToList());
                     }
                     IndexHeadFile.SetIndexPoint(hashPrefix16Bit, ulong.MaxValue);
                     byte hashPart4Bit = hashBytes[3].Byte8BitTo4Bit();
                     partFiles[hashPart4Bit].Append(hashBytes, recordPoint);
+                    //IndexContentFile.RemoveChain(indexChainEntry, IndexHeadFile);
                 }
             }
 

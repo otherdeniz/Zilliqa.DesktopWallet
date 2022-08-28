@@ -28,7 +28,7 @@ namespace Zilliqa.DesktopWallet.Core.Api.Coingecko.Model
         public CoinDescription Description { get; set; } = new();
 
         [JsonProperty("coingecko_score")]
-        public decimal CoingeckoScore { get; set; }
+        public decimal? CoingeckoScore { get; set; }
 
         [JsonProperty("market_data")] 
         public CoinPriceMarketData MarketData { get; set; } = new();
@@ -80,55 +80,55 @@ namespace Zilliqa.DesktopWallet.Core.Api.Coingecko.Model
         public CoinMarketCurrencyValues TotalVolume { get; set; } = new();
 
         [JsonProperty("price_change_percentage_24h")]
-        public decimal PriceChangePercentage24H { get; set; }
+        public decimal? PriceChangePercentage24H { get; set; }
 
         [JsonProperty("price_change_percentage_7d")]
-        public decimal PriceChangePercentage7D { get; set; }
+        public decimal? PriceChangePercentage7D { get; set; }
 
         [JsonProperty("price_change_percentage_14d")]
-        public decimal PriceChangePercentage14D { get; set; }
+        public decimal? PriceChangePercentage14D { get; set; }
 
         [JsonProperty("price_change_percentage_30d")]
-        public decimal PriceChangePercentage30D { get; set; }
+        public decimal? PriceChangePercentage30D { get; set; }
 
         [JsonProperty("price_change_percentage_60d")]
-        public decimal PriceChangePercentage60D { get; set; }
+        public decimal? PriceChangePercentage60D { get; set; }
 
         [JsonProperty("price_change_percentage_1y")]
-        public decimal PriceChangePercentage1Y { get; set; }
+        public decimal? PriceChangePercentage1Y { get; set; }
 
         [JsonProperty("total_supply")]
-        public decimal TotalSupply { get; set; }
+        public decimal? TotalSupply { get; set; }
 
         [JsonProperty("max_supply")]
-        public decimal MaxSupply { get; set; }
+        public decimal? MaxSupply { get; set; }
 
         [JsonProperty("circulating_supply")]
-        public decimal CirculatingSupply { get; set; }
+        public decimal? CirculatingSupply { get; set; }
     }
 
     public class CoinMarketCurrencyValues
     {
         [JsonProperty("btc")]
-        public decimal Btc { get; set; }
+        public decimal? Btc { get; set; }
 
         [JsonProperty("eth")]
-        public decimal Eth { get; set; }
+        public decimal? Eth { get; set; }
 
         [JsonProperty("ltc")]
-        public decimal Ltc { get; set; }
+        public decimal? Ltc { get; set; }
 
         [JsonProperty("chf")]
-        public decimal Chf { get; set; }
+        public decimal? Chf { get; set; }
 
         [JsonProperty("eur")]
-        public decimal Eur { get; set; }
+        public decimal? Eur { get; set; }
 
         [JsonProperty("gbp")]
-        public decimal Gbp { get; set; }
+        public decimal? Gbp { get; set; }
 
         [JsonProperty("usd")]
-        public decimal Usd { get; set; }
+        public decimal? Usd { get; set; }
 
     }
 }

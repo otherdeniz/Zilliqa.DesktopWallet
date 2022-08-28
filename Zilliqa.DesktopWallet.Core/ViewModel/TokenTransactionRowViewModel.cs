@@ -8,9 +8,8 @@ using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel;
 
-public class TokenTransactionRowViewModel
+public class TokenTransactionRowViewModel : TransactionRowViewModelBase
 {
-    private readonly Transaction _transactionModel;
     private readonly TokenModel _tokenModel;
     private Image? _logoIcon;
     private Image? _directionIcon;
@@ -19,17 +18,14 @@ public class TokenTransactionRowViewModel
     private string? _date;
 
     public TokenTransactionRowViewModel(Address address, Transaction transactionModel, TokenModel tokenModel)
+        :base(transactionModel)
     {
-        _transactionModel = transactionModel;
         ThisAddress = address;
         _tokenModel = tokenModel;
         Direction = address.Equals(transactionModel.TokenTransferSender())
             ? TransactionDirection.SendTo
             : TransactionDirection.ReceiveFrom;
     }
-
-    [Browsable(false)]
-    public Transaction Transaction => _transactionModel;
 
     [Browsable(false)]
     public Address ThisAddress { get; }
@@ -40,7 +36,7 @@ public class TokenTransactionRowViewModel
     [DisplayName("Icon")]
     public Image? LogoIcon => _logoIcon ??= _tokenModel.GetTokenIcon().Icon16;
 
-    public string Symbol => _tokenModel.Symbol;
+    public override string Symbol => _tokenModel.Symbol;
 
     [DisplayName(" ")]
     public Image? DirectionIcon => _directionIcon ??= Direction == TransactionDirection.SendTo
@@ -54,13 +50,14 @@ public class TokenTransactionRowViewModel
 
     [DisplayName("Address")]
     public string OtherAddress => _otherAddress ??= Direction == TransactionDirection.SendTo
-        ? GetAddressDisplay(_transactionModel.TokenTransferRecipient())
-        : GetAddressDisplay(_transactionModel.TokenTransferSender());
+        ? GetAddressDisplay(Transaction.TokenTransferRecipient())
+        : GetAddressDisplay(Transaction.TokenTransferSender());
 
+    [Browsable(true)]
     [GridViewFormat("#,##0.0000")]
-    public decimal Amount => _tokenAmount ??= _tokenModel.AmountToDecimal(_transactionModel.TokenTransferAmount());
+    public override decimal Amount => _tokenAmount ??= _tokenModel.AmountToDecimal(Transaction.TokenTransferAmount());
 
-    public string Date => _date ??= _transactionModel.Timestamp.ToLocalTime().ToString("g");
+    public string Date => _date ??= Transaction.Timestamp.ToLocalTime().ToString("g");
 
     private string GetAddressDisplay(string? rawAddress)
     {
