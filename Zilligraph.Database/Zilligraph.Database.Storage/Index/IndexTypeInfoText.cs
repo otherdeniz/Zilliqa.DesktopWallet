@@ -6,6 +6,8 @@ namespace Zilligraph.Database.Storage.Index
     {
         public override int HashLength => 16;
 
+        public override int MaxIndexChainLength => 5000;
+
         public override byte[] GetHashBytes(object? value)
         {
             if (value is string { Length: > 0 } stringValue)

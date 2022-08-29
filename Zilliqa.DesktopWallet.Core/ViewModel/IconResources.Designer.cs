@@ -63,9 +63,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ArrowLeft16 {
+        internal static System.Drawing.Bitmap ArrowLeftBlue16 {
             get {
-                object obj = ResourceManager.GetObject("ArrowLeft16", resourceCulture);
+                object obj = ResourceManager.GetObject("ArrowLeftBlue16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ArrowRight16 {
+        internal static System.Drawing.Bitmap ArrowLeftGray16 {
             get {
-                object obj = ResourceManager.GetObject("ArrowRight16", resourceCulture);
+                object obj = ResourceManager.GetObject("ArrowLeftGray16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ReceiveArrow16 {
+        internal static System.Drawing.Bitmap ArrowLeftGreen16 {
             get {
-                object obj = ResourceManager.GetObject("ReceiveArrow16", resourceCulture);
+                object obj = ResourceManager.GetObject("ArrowLeftGreen16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,89 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap SendArrow16 {
+        internal static System.Drawing.Bitmap ArrowLeftOrange16 {
             get {
-                object obj = ResourceManager.GetObject("SendArrow16", resourceCulture);
+                object obj = ResourceManager.GetObject("ArrowLeftOrange16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ArrowLeftRed16 {
+            get {
+                object obj = ResourceManager.GetObject("ArrowLeftRed16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ArrowLeftViolet16 {
+            get {
+                object obj = ResourceManager.GetObject("ArrowLeftViolet16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ArrowRightBlue16 {
+            get {
+                object obj = ResourceManager.GetObject("ArrowRightBlue16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ArrowRightGray16 {
+            get {
+                object obj = ResourceManager.GetObject("ArrowRightGray16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ArrowRightGreen16 {
+            get {
+                object obj = ResourceManager.GetObject("ArrowRightGreen16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ArrowRightOrange16 {
+            get {
+                object obj = ResourceManager.GetObject("ArrowRightOrange16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ArrowRightRed16 {
+            get {
+                object obj = ResourceManager.GetObject("ArrowRightRed16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ArrowRightViolet16 {
+            get {
+                object obj = ResourceManager.GetObject("ArrowRightViolet16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

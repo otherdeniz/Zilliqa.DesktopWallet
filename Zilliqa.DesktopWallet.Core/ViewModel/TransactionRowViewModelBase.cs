@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.CompilerServices;
+using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core.Annotations;
+using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
 using Zilliqa.DesktopWallet.DatabaseSchema;
@@ -11,11 +13,17 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
     public class TransactionRowViewModelBase : INotifyPropertyChanged
     {
         private readonly Transaction _transactionModel;
+        private Image? _directionIcon;
+        private string? _otherAddress;
         private LoadValuePropertiesState? _loadValuePropertiesState;
 
-        public TransactionRowViewModelBase(Transaction transactionModel)
+        public TransactionRowViewModelBase(Address thisAddress, Transaction transactionModel)
         {
+            ThisAddress = thisAddress;
             _transactionModel = transactionModel;
+            Direction = thisAddress.Equals(transactionModel.SenderAddress)
+                ? TransactionDirection.SendTo
+                : TransactionDirection.ReceiveFrom;
         }
 
 
@@ -23,6 +31,22 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [Browsable(false)]
         public Transaction Transaction => _transactionModel;
+
+        [Browsable(false)]
+        public virtual TransactionDirection Direction { get; }
+
+        [Browsable(false)]
+        public virtual Image? DirectionIcon => _directionIcon ??= Direction == TransactionDirection.SendTo
+            ? IconResources.ArrowRightGray16
+            : IconResources.ArrowLeftGray16;
+
+        [Browsable(false)]
+        public Address ThisAddress { get; }
+
+        [Browsable(false)]
+        public virtual string OtherAddress => _otherAddress ??= Direction == TransactionDirection.SendTo
+            ? GetAddressDisplay(Transaction.ToAddress)
+            : GetAddressDisplay(Transaction.SenderAddress);
 
         [Browsable(false)] 
         public virtual decimal Amount => 0;
@@ -155,6 +179,13 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         public LoadValuePropertiesState LoadValuesProperties(bool notifiyPropertyChanged)
         {
+            if (Symbol == "")
+            {
+                return new LoadValuePropertiesState
+                {
+                    IsCompleted = true
+                };
+            }
             _loadValuePropertiesState = new LoadValuePropertiesState();
             try
             {
@@ -296,6 +327,13 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             }
 
             return _loadValuePropertiesState;
+        }
+
+        protected string GetAddressDisplay(string? rawAddress)
+        {
+            return rawAddress == null
+                ? "-"
+                : new Address(rawAddress).GetBech32().FromBech32ToShortReadable();
         }
 
         [NotifyPropertyChangedInvocator]

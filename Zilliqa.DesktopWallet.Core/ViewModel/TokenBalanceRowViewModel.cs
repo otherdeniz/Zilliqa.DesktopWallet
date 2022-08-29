@@ -26,13 +26,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [DisplayName(" ")]
         public Image? Icon => _icon ??= Model.GetTokenIcon().Icon16;
 
-        public string Symbol => Model.Symbol;
-
-        public string Name => Model.Name;
-
-        [DisplayName("Balance")]
-        [GridViewFormat("#,##0.0000")] 
-        public decimal BalanceDisplay => Balance < 0 ? 0 : Balance;
+        public string Name => $"{Model.Name} ({Model.Symbol})";
 
         [Browsable(false)]
         public decimal Balance
@@ -47,13 +41,19 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             }
         }
 
+        [Browsable(false)] 
+        public decimal BalanceValue => (Balance < 0 ? 0 : Balance);
+
+        [DisplayName("Balance")]
+        public string BalanceDisplay => $"{BalanceValue:#,##0.0000} ({Model.Symbol})";
+
         [DisplayName("Value ZIL")]
         [GridViewFormat("#,##0.00")]
-        public decimal ValueZil => Model.MarketData.RateZil * BalanceDisplay;
+        public decimal ValueZil => Model.MarketData.RateZil * BalanceValue;
 
         [DisplayName("Value USD")]
         [GridViewFormat("#,##0.00")]
-        public decimal ValueUsd => Model.MarketData.RateUsd * BalanceDisplay;
+        public decimal ValueUsd => Model.MarketData.RateUsd * BalanceValue;
 
         public int Transactions
         {

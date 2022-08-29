@@ -13,6 +13,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         {
             InitializeComponent();
             gridViewTokenBalances.Dock = DockStyle.Fill;
+            gridViewAllTransactions.Dock = DockStyle.Fill;
             gridViewZilTransactions.Dock = DockStyle.Fill;
             gridViewTokenTransactions.Dock = DockStyle.Fill;
         }
@@ -38,6 +39,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             }
             textZilAddress.Text = account.AddressBech32;
             gridViewTokenBalances.LoadData(account.TokenBalances, typeof(TokenBalanceRowViewModel));
+            gridViewAllTransactions.LoadData(account.AllTransactions, typeof(CommonTransactionRowViewModel));
             gridViewZilTransactions.LoadData(account.ZilTransactions, typeof(ZilTransactionRowViewModel));
             gridViewTokenTransactions.LoadData(account.TokenTransactions, typeof(TokenTransactionRowViewModel));
             RefreshAccountSummaries();
@@ -48,6 +50,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             if (_account == null) return;
 
             SetTabButtonCountText(tabButtonZrc2Tokens, _account.TokenBalances.Count);
+            SetTabButtonCountText(tabButtonAllTransactions, _account.AllTransactions.Count);
             SetTabButtonCountText(tabButtonZilTransactions, _account.ZilTransactions.Count);
             SetTabButtonCountText(tabButtonTokenTransactions, _account.TokenTransactions.Count);
 
@@ -71,6 +74,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 
         private void WalletAddressDetails_Load(object sender, EventArgs e)
         {
+            TabButtonHoldingClick(tabButtonZrc2Tokens, gridViewTokenBalances);
             TabButtonTransactionClick(tabButtonZilTransactions, gridViewZilTransactions);
         }
 
@@ -128,6 +132,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             tabPageControl.Visible = true;
         }
 
+        private void tabButtonAllTransactions_Click(object sender, EventArgs e)
+        {
+            TabButtonTransactionClick(tabButtonAllTransactions, gridViewAllTransactions);
+        }
+
         private void tabButtonZilTransactions_Click(object sender, EventArgs e)
         {
             TabButtonTransactionClick(tabButtonZilTransactions, gridViewZilTransactions);
@@ -173,5 +182,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                 Visible = false;
             }
         }
+
     }
 }

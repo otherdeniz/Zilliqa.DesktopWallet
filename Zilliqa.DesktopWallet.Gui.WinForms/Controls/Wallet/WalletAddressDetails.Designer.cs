@@ -81,12 +81,13 @@
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.panelTabsTransactions = new System.Windows.Forms.Panel();
             this.panelTabPagesTransactions = new System.Windows.Forms.Panel();
+            this.gridViewAllTransactions = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl();
             this.toolStripTransactions = new System.Windows.Forms.ToolStrip();
+            this.tabButtonAllTransactions = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.tabButtonZilTransactions = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tabButtonTokenTransactions = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.panelTabsHoldings = new System.Windows.Forms.Panel();
             this.panelTabPagesHoldings = new System.Windows.Forms.Panel();
             this.toolStripHoldings = new System.Windows.Forms.ToolStrip();
@@ -588,7 +589,7 @@
             // 
             // gridViewZilTransactions
             // 
-            this.gridViewZilTransactions.Location = new System.Drawing.Point(16, 16);
+            this.gridViewZilTransactions.Location = new System.Drawing.Point(179, 16);
             this.gridViewZilTransactions.Name = "gridViewZilTransactions";
             this.gridViewZilTransactions.Size = new System.Drawing.Size(131, 111);
             this.gridViewZilTransactions.TabIndex = 1;
@@ -596,7 +597,7 @@
             // 
             // gridViewTokenTransactions
             // 
-            this.gridViewTokenTransactions.Location = new System.Drawing.Point(174, 16);
+            this.gridViewTokenTransactions.Location = new System.Drawing.Point(345, 16);
             this.gridViewTokenTransactions.Name = "gridViewTokenTransactions";
             this.gridViewTokenTransactions.Size = new System.Drawing.Size(143, 111);
             this.gridViewTokenTransactions.TabIndex = 1;
@@ -694,6 +695,7 @@
             // 
             // panelTabPagesTransactions
             // 
+            this.panelTabPagesTransactions.Controls.Add(this.gridViewAllTransactions);
             this.panelTabPagesTransactions.Controls.Add(this.gridViewZilTransactions);
             this.panelTabPagesTransactions.Controls.Add(this.gridViewTokenTransactions);
             this.panelTabPagesTransactions.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -702,6 +704,14 @@
             this.panelTabPagesTransactions.Size = new System.Drawing.Size(653, 223);
             this.panelTabPagesTransactions.TabIndex = 2;
             // 
+            // gridViewAllTransactions
+            // 
+            this.gridViewAllTransactions.Location = new System.Drawing.Point(16, 16);
+            this.gridViewAllTransactions.Name = "gridViewAllTransactions";
+            this.gridViewAllTransactions.Size = new System.Drawing.Size(143, 111);
+            this.gridViewAllTransactions.TabIndex = 2;
+            this.gridViewAllTransactions.Visible = false;
+            // 
             // toolStripTransactions
             // 
             this.toolStripTransactions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -709,11 +719,26 @@
             this.toolStripSeparator1,
             this.tabButtonTokenTransactions,
             this.toolStripSeparator5,
-            this.toolStripButton2});
+            this.tabButtonAllTransactions});
             this.toolStripTransactions.Location = new System.Drawing.Point(0, 0);
             this.toolStripTransactions.Name = "toolStripTransactions";
             this.toolStripTransactions.Size = new System.Drawing.Size(653, 25);
             this.toolStripTransactions.TabIndex = 0;
+            // 
+            // tabButtonAllTransactions
+            // 
+            this.tabButtonAllTransactions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tabButtonAllTransactions.Image = ((System.Drawing.Image)(resources.GetObject("tabButtonAllTransactions.Image")));
+            this.tabButtonAllTransactions.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tabButtonAllTransactions.Name = "tabButtonAllTransactions";
+            this.tabButtonAllTransactions.Size = new System.Drawing.Size(93, 22);
+            this.tabButtonAllTransactions.Text = "All Transactions";
+            this.tabButtonAllTransactions.Click += new System.EventHandler(this.tabButtonAllTransactions_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
             // 
             // tabButtonZilTransactions
             // 
@@ -740,20 +765,6 @@
             this.tabButtonTokenTransactions.Size = new System.Drawing.Size(127, 22);
             this.tabButtonTokenTransactions.Text = "ZRC-2 Token Transfers";
             this.tabButtonTokenTransactions.Click += new System.EventHandler(this.tabButtonTokenTransactions_Click);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(93, 22);
-            this.toolStripButton2.Text = "All Transactions";
             // 
             // panelTabsHoldings
             // 
@@ -986,8 +997,9 @@
         private Panel panel5;
         private PictureBox pictureBox2;
         private ToolStripSeparator toolStripSeparator5;
-        private ToolStripButton toolStripButton2;
+        private ToolStripButton tabButtonAllTransactions;
         private ToolStripButton toolStripButton3;
         private ToolStripSeparator toolStripSeparator6;
+        private GridView.GridViewControl gridViewAllTransactions;
     }
 }

@@ -16,11 +16,11 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
     private string? _otherAddress;
     private decimal? _tokenAmount;
     private string? _date;
+    private decimal? _fee;
 
     public TokenTransactionRowViewModel(Address address, Transaction transactionModel, TokenModel tokenModel)
-        :base(transactionModel)
+        :base(address, transactionModel)
     {
-        ThisAddress = address;
         _tokenModel = tokenModel;
         Direction = address.Equals(transactionModel.TokenTransferSender())
             ? TransactionDirection.SendTo
@@ -28,41 +28,40 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
     }
 
     [Browsable(false)]
-    public Address ThisAddress { get; }
+    public override TransactionDirection Direction { get; }
 
-    [Browsable(false)]
-    public TransactionDirection Direction { get; }
+    public string Date => _date ??= Transaction.Timestamp.ToLocalTime().ToString("g");
 
     [DisplayName("Icon")]
     public Image? LogoIcon => _logoIcon ??= _tokenModel.GetTokenIcon().Icon16;
 
+    [Browsable(true)]
     public override string Symbol => _tokenModel.Symbol;
 
+    [Browsable(true)]
     [DisplayName(" ")]
-    public Image? DirectionIcon => _directionIcon ??= Direction == TransactionDirection.SendTo
-        ? IconResources.ArrowRight16
-        : IconResources.ArrowLeft16;
+    public override Image? DirectionIcon => _directionIcon ??= Direction == TransactionDirection.SendTo
+        ? IconResources.ArrowRightBlue16
+        : IconResources.ArrowLeftBlue16;
 
     [DisplayName("Direction")]
     public string DirectionLabel => Direction == TransactionDirection.SendTo 
         ? "send to" 
         : "receive from";
 
+    [Browsable(true)]
     [DisplayName("Address")]
-    public string OtherAddress => _otherAddress ??= Direction == TransactionDirection.SendTo
+    public override string OtherAddress => _otherAddress ??= Direction == TransactionDirection.SendTo
         ? GetAddressDisplay(Transaction.TokenTransferRecipient())
         : GetAddressDisplay(Transaction.TokenTransferSender());
 
-    [Browsable(true)]
-    [GridViewFormat("#,##0.0000")]
+    [Browsable(false)]
     public override decimal Amount => _tokenAmount ??= _tokenModel.AmountToDecimal(Transaction.TokenTransferAmount());
 
-    public string Date => _date ??= Transaction.Timestamp.ToLocalTime().ToString("g");
+    [DisplayName("Amount")] 
+    public string AmountDisplay => $"{Amount:#,##0.0000} {Symbol}";
 
-    private string GetAddressDisplay(string? rawAddress)
-    {
-        return rawAddress == null 
-            ? "-" 
-            : new Address(rawAddress).GetBech32().FromBech32ToShortReadable();
-    }
+    [GridViewFormat("0.0000 ZIL")]
+    public decimal Fee => _fee ??= (Transaction.GasPrice * Transaction.GasLimit).ZilSatoshisToZil();
+
 }

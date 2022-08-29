@@ -32,6 +32,8 @@ namespace Zilligraph.Database.Storage.Index
 
         public abstract int HashLength { get; }
 
+        public virtual int MaxIndexChainLength => 0;
+
         public abstract byte[] GetHashBytes(object? value);
     }
 }

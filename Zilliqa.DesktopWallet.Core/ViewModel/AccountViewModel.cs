@@ -24,9 +24,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public AccountViewModel(AccountBase accountData, Action<AccountViewModel> afterChangedAction) 
         {
             AccountData = accountData;
-            TokenBalances = new BindingList<TokenBalanceRowViewModel>();
-            TokenTransactions = new BindingList<TokenTransactionRowViewModel>();
-            ZilTransactions = new BindingList<ZilTransactionRowViewModel>();
             _afterChangedAction = afterChangedAction;
             RefreshBalances();
             LoadTransactions(_cancellationTokenSource.Token);
@@ -40,11 +37,13 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         public AccountBase AccountData { get; }
 
-        public BindingList<ZilTransactionRowViewModel> ZilTransactions { get; }
+        public BindingList<CommonTransactionRowViewModel> AllTransactions { get; } = new();
 
-        public BindingList<TokenTransactionRowViewModel> TokenTransactions { get; }
+        public BindingList<ZilTransactionRowViewModel> ZilTransactions { get; } = new();
 
-        public BindingList<TokenBalanceRowViewModel> TokenBalances { get; }
+        public BindingList<TokenTransactionRowViewModel> TokenTransactions { get; } = new();
+
+        public BindingList<TokenBalanceRowViewModel> TokenBalances { get; } = new();
 
         public decimal ZilLiquidBalance => _zilLiquidBalance ?? 0m;
 
@@ -182,6 +181,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                         {
                             WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                             {
+                                AllTransactions.ResetBindings();
                                 ZilTransactions.ResetBindings();
                                 TokenTransactions.ResetBindings();
                                 TokenBalances.ResetBindings();
@@ -245,7 +245,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                             // add to end
                             TokenTransactions.Add(tokenTransaction);
                         }
-                        var tokenBalance = TokenBalances.FirstOrDefault(t => t.Symbol == tokenModel.Symbol);
+                        var tokenBalance = TokenBalances.FirstOrDefault(t => t.Model.Symbol == tokenModel.Symbol);
                         if (tokenBalance == null)
                         {
                             tokenBalance = new TokenBalanceRowViewModel(tokenModel);
@@ -261,9 +261,21 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                         {
                             tokenBalance.Balance -= tokenTransaction.Amount;
                         }
+                        result = tokenTransaction;
                     }
                 }
 
+                var commonTransaction = new CommonTransactionRowViewModel(Address, record, result);
+                if (AllTransactions.FirstOrDefault()?.Transaction.Timestamp < record.Timestamp)
+                {
+                    // add to beginning
+                    AllTransactions.Insert(0, commonTransaction);
+                }
+                else
+                {
+                    // add to end
+                    AllTransactions.Add(commonTransaction);
+                }
                 if (raiseOnRecordsChanged)
                 {
                     OnTransactionsChanged();

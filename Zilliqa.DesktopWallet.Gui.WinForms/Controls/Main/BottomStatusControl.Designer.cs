@@ -47,7 +47,7 @@
             this.textDbTransactionsCount = new System.Windows.Forms.Label();
             this.labelTransactionCount = new System.Windows.Forms.Label();
             this.timerRefresh = new System.Windows.Forms.Timer(this.components);
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripCommands = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.buttonStart = new System.Windows.Forms.ToolStripButton();
             this.buttonStop = new System.Windows.Forms.ToolStripButton();
@@ -59,7 +59,7 @@
             this.panelRowDbSize.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
+            this.toolStripCommands.SuspendLayout();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -246,18 +246,18 @@
             this.timerRefresh.Interval = 2500;
             this.timerRefresh.Tick += new System.EventHandler(this.timerRefresh_Tick);
             // 
-            // toolStrip1
+            // toolStripCommands
             // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripCommands.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
             this.buttonStart,
             this.buttonStop});
-            this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(276, 23);
-            this.toolStrip1.TabIndex = 5;
-            this.toolStrip1.Text = "toolStripButtons";
+            this.toolStripCommands.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.toolStripCommands.Location = new System.Drawing.Point(0, 0);
+            this.toolStripCommands.Name = "toolStripCommands";
+            this.toolStripCommands.Size = new System.Drawing.Size(276, 23);
+            this.toolStripCommands.TabIndex = 5;
+            this.toolStripCommands.Text = "toolStripButtons";
             // 
             // toolStripLabel1
             // 
@@ -334,7 +334,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panelRowDbSize);
             this.Controls.Add(this.panelRowStatus);
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.toolStripCommands);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Name = "BottomStatusControl";
             this.Size = new System.Drawing.Size(276, 139);
@@ -347,8 +347,8 @@
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.toolStripCommands.ResumeLayout(false);
+            this.toolStripCommands.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.ResumeLayout(false);
@@ -371,7 +371,7 @@
         private Label textTransactionsCount;
         private Label labelTransactionCount;
         private System.Windows.Forms.Timer timerRefresh;
-        private ToolStrip toolStrip1;
+        private ToolStrip toolStripCommands;
         private ToolStripLabel toolStripLabel1;
         private ToolStripButton buttonStart;
         private ToolStripButton buttonStop;

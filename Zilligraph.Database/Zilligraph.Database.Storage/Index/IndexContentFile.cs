@@ -116,10 +116,11 @@ namespace Zilligraph.Database.Storage.Index
                     while (hasMoreEntries)
                     {
                         chainLength++;
-                        if (chainLength >= 5000)
+                        if (TableFieldIndex.IndexTypeInfo.MaxIndexChainLength > 0
+                            && chainLength >= TableFieldIndex.IndexTypeInfo.MaxIndexChainLength)
                         {
-                            // this chain has already 5000 entries, we upgrade to index-content-part
-                            // we undo the AppendToStream
+                            // this chain has already MAX entries, we upgrade to index-content-parts
+                            // we undo the latest AppendToStream
                             fileStream.SetLength(addedPosition);
                             // and throw the upgrade needed Exception
                             throw new UpgradeNeededException();

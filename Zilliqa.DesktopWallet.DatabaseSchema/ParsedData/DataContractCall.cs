@@ -5,7 +5,7 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
 public class DataContractCall
 {
-    public static readonly DataContractCall Empty = new ();
+    public static readonly DataContractCall Empty = new() { IsEmpty = true };
 
     public static bool TryParse(string data, out DataContractCall result)
     {
@@ -47,6 +47,9 @@ public class DataContractCall
         result = Empty;
         return false;
     }
+
+    [JsonIgnore]
+    public bool IsEmpty { get; private init; }
 
     [JsonProperty("_tag")]
     public string? Tag { get; set; }

@@ -6,6 +6,8 @@ public class IndexTypeInfoDate : IndexTypeInfoBase
 
     public override int HashLength => 4;
 
+    public override int MaxIndexChainLength => 5000;
+
     public override byte[] GetHashBytes(object? value)
     {
         if (value is DateTime dateValue)

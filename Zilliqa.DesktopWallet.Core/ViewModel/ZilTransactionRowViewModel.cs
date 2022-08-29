@@ -16,32 +16,26 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         private string? _date;
 
         public ZilTransactionRowViewModel(Address thisAddress, Transaction transactionModel)
-            : base (transactionModel)
+            : base (thisAddress, transactionModel)
         {
-            ThisAddress = thisAddress;
-            Direction = thisAddress.Equals(transactionModel.SenderAddress)
-                ? TransactionDirection.SendTo
-                : TransactionDirection.ReceiveFrom;
         }
 
-        [Browsable(false)]
-        public TransactionDirection Direction { get; }
+        public string Date => _date ??= Transaction.Timestamp.ToLocalTime().ToString("g");
 
-        [Browsable(false)]
-        public Address ThisAddress { get; }
-
+        [Browsable(true)]
         [DisplayName(" ")]
-        public Image? DirectionIcon => _directionIcon ??= Direction == TransactionDirection.SendTo
-            ? IconResources.ArrowRight16
-            : IconResources.ArrowLeft16;
+        public override Image? DirectionIcon => _directionIcon ??= Direction == TransactionDirection.SendTo
+            ? IconResources.ArrowRightGreen16
+            : IconResources.ArrowLeftGreen16;
 
         [DisplayName("Direction")]
         public string DirectionLabel => Direction == TransactionDirection.SendTo 
             ? "send to" 
             : "receive from";
 
+        [Browsable(true)]
         [DisplayName("Address")]
-        public string OtherAddress => _otherAddress ??= Direction == TransactionDirection.SendTo
+        public override string OtherAddress => _otherAddress ??= Direction == TransactionDirection.SendTo
             ? GetAddressDisplay(Transaction.ToAddress)
             : GetAddressDisplay(Transaction.SenderAddress);
 
@@ -50,15 +44,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public override decimal Amount => _zilAmount ??= Transaction.Amount.ZilSatoshisToZil();
 
         [GridViewFormat("0.0000 ZIL")]
-        public decimal Fee => _fee ??= Transaction.GasPrice.ZilSatoshisToZil();
+        public decimal Fee => _fee ??= (Transaction.GasPrice * Transaction.GasLimit).ZilSatoshisToZil();
 
-        //public decimal Fee
-        public string Date => _date ??= Transaction.Timestamp.ToLocalTime().ToString("g");
-
-        private string GetAddressDisplay(string rawAddress)
-        {
-            return new Address(rawAddress).GetBech32().FromBech32ToShortReadable();
-        }
 
     }
 
