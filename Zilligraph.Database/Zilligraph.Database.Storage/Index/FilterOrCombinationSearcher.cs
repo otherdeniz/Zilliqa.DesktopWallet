@@ -7,7 +7,7 @@ public class FilterOrCombinationSearcher : IFilterSearcher
     private readonly IZilligraphTable _table;
     private readonly List<IFilterSearcher> _childSearcher;
     private int _currentChildSearcher;
-    private HashSet<ulong> _foundRecords = new();
+    private readonly HashSet<ulong> _foundRecords = new();
 
     public FilterOrCombinationSearcher(IZilligraphTable table, IEnumerable<IFilterSearcher> childSearcher)
     {
