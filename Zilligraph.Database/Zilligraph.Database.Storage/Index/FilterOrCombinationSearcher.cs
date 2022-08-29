@@ -7,6 +7,7 @@ public class FilterOrCombinationSearcher : IFilterSearcher
     private readonly IZilligraphTable _table;
     private readonly List<IFilterSearcher> _childSearcher;
     private int _currentChildSearcher;
+    private HashSet<ulong> _foundRecords = new();
 
     public FilterOrCombinationSearcher(IZilligraphTable table, IEnumerable<IFilterSearcher> childSearcher)
     {
@@ -28,6 +29,17 @@ public class FilterOrCombinationSearcher : IFilterSearcher
         {
             toNextChild = false;
             result = _childSearcher[_currentChildSearcher].GetNextRecordPoint();
+            if (result != null)
+            {
+                if (_foundRecords.Contains(result.Value))
+                {
+                    result = null;
+                }
+                else
+                {
+                    _foundRecords.Add(result.Value);
+                }
+            }
             if (result == null && _childSearcher.Count > _currentChildSearcher + 1)
             {
                 _currentChildSearcher++;
