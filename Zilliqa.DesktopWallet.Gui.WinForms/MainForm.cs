@@ -45,6 +45,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
 
         private void StartupGui()
         {
+            if (!StartupDialogForm.Execute(this))
+            {
+                Close();
+            }
             if (LoadWallet())
             {
                 buttonWallet_Click(this, EventArgs.Empty);

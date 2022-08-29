@@ -13,7 +13,7 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
     private readonly TokenModel _tokenModel;
     private Image? _logoIcon;
     private Image? _directionIcon;
-    private string? _otherAddress;
+    private AddressValueViewModel? _otherAddress;
     private decimal? _tokenAmount;
     private string? _date;
     private decimal? _fee;
@@ -51,9 +51,9 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
 
     [Browsable(true)]
     [DisplayName("Address")]
-    public override string OtherAddress => _otherAddress ??= Direction == TransactionDirection.SendTo
-        ? GetAddressDisplay(Transaction.TokenTransferRecipient())
-        : GetAddressDisplay(Transaction.TokenTransferSender());
+    public override AddressValueViewModel OtherAddress => _otherAddress ??= Direction == TransactionDirection.SendTo
+        ? new AddressValueViewModel(Transaction.TokenTransferRecipient())
+        : new AddressValueViewModel(Transaction.TokenTransferSender());
 
     [Browsable(false)]
     public override decimal Amount => _tokenAmount ??= _tokenModel.AmountToDecimal(Transaction.TokenTransferAmount());
@@ -62,6 +62,6 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
     public string AmountDisplay => $"{Amount:#,##0.0000} {Symbol}";
 
     [GridViewFormat("0.0000 ZIL")]
-    public decimal Fee => _fee ??= (Transaction.GasPrice * Transaction.GasLimit).ZilSatoshisToZil();
+    public decimal Fee => _fee ??= (Transaction.Receipt.CumulativeGas * Transaction.GasPrice).ZilSatoshisToZil();
 
 }

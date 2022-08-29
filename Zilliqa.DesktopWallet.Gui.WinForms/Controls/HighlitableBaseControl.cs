@@ -4,10 +4,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls
 {
     public partial class HighlitableBaseControl : UserControl
     {
-        private static readonly Color BackColorInactive = Color.White;
-        private static readonly Color BackColorHighligth = Color.LightGray;
-        private static readonly Color BackColorSelected = Color.DarkSeaGreen;
-
         private bool _isSelected;
 
         public HighlitableBaseControl()
@@ -34,12 +30,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls
         {
             if (_isSelected)
             {
-                this.BackColor = BackColorSelected;
+                this.BackColor = GuiColors.SelectedBackColor;
             }
             else
             {
                 var isMouseOver = ClientRectangle.Contains(PointToClient(MousePosition));
-                BackColor = isMouseOver ? BackColorHighligth : BackColorInactive;
+                BackColor = isMouseOver ? GuiColors.HoverBackColor : GuiColors.DefaultBackColor;
             }
         }
 

@@ -79,7 +79,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
 
         public void Stop(bool wait = false)
         {
-            if (RunningState != RunningState.Running) return;
+            if (RunningState == RunningState.Stopped) return;
             RunningState = RunningState.Stopping;
             _refreshCancellationTokenSource?.Cancel();
             _refreshCancellationTokenSource = null;

@@ -39,6 +39,10 @@ namespace Zilliqa.DesktopWallet.Core.Repository
             _walletRepository?.CancelBackgroundTasks();
             _blockchainBrowserRepository?.Dispose();
             _dbRepository?.Database.Dispose();
+            _currencyPriceRepository = null;
+            _walletRepository = null;
+            _blockchainBrowserRepository = null;
+            _dbRepository = null;
         }
     }
 }

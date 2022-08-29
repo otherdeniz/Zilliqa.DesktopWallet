@@ -10,7 +10,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
     public class ZilTransactionRowViewModel : TransactionRowViewModelBase
     {
         private Image? _directionIcon;
-        private string? _otherAddress;
+        private AddressValueViewModel? _otherAddress;
         private decimal? _zilAmount;
         private decimal? _fee;
         private string? _date;
@@ -35,16 +35,16 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [Browsable(true)]
         [DisplayName("Address")]
-        public override string OtherAddress => _otherAddress ??= Direction == TransactionDirection.SendTo
-            ? GetAddressDisplay(Transaction.ToAddress)
-            : GetAddressDisplay(Transaction.SenderAddress);
+        public override AddressValueViewModel OtherAddress => _otherAddress ??= Direction == TransactionDirection.SendTo
+            ? new AddressValueViewModel(Transaction.ToAddress)
+            : new AddressValueViewModel(Transaction.SenderAddress);
 
         [Browsable(true)]
         [GridViewFormat("#,##0.0000 ZIL")]
         public override decimal Amount => _zilAmount ??= Transaction.Amount.ZilSatoshisToZil();
 
         [GridViewFormat("0.0000 ZIL")]
-        public decimal Fee => _fee ??= (Transaction.GasPrice * Transaction.GasLimit).ZilSatoshisToZil();
+        public decimal Fee => _fee ??= (Transaction.Receipt.CumulativeGas * Transaction.GasPrice).ZilSatoshisToZil();
 
 
     }

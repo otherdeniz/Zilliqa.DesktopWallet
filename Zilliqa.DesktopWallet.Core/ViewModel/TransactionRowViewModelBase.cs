@@ -14,7 +14,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
     {
         private readonly Transaction _transactionModel;
         private Image? _directionIcon;
-        private string? _otherAddress;
+        private AddressValueViewModel? _otherAddress;
         private LoadValuePropertiesState? _loadValuePropertiesState;
 
         public TransactionRowViewModelBase(Address thisAddress, Transaction transactionModel)
@@ -44,9 +44,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public Address ThisAddress { get; }
 
         [Browsable(false)]
-        public virtual string OtherAddress => _otherAddress ??= Direction == TransactionDirection.SendTo
-            ? GetAddressDisplay(Transaction.ToAddress)
-            : GetAddressDisplay(Transaction.SenderAddress);
+        public virtual AddressValueViewModel OtherAddress => _otherAddress ??= Direction == TransactionDirection.SendTo
+            ? new AddressValueViewModel(Transaction.ToAddress)
+            : new AddressValueViewModel(Transaction.SenderAddress);
 
         [Browsable(false)] 
         public virtual decimal Amount => 0;
@@ -57,125 +57,125 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [DisplayName("USD Today")]
         [GridViewFormat("#,##0.00 $")]
         [GridViewBackground(KnownColor.Gainsboro)]
-        public decimal? ValueUsdToday { get; private set; }
+        public virtual decimal? ValueUsdToday { get; private set; }
 
         [DisplayName("USD Then")]
         [GridViewFormat("#,##0.00 $")]
         [GridViewBackground(KnownColor.Gainsboro)]
-        public decimal? ValueUsdThen { get; private set; }
+        public virtual decimal? ValueUsdThen { get; private set; }
 
         [DisplayName("USD Change")]
         [GridViewFormat(null, UseGreenOrRedNumbers = true)]
         [GridViewBackground(KnownColor.Gainsboro)]
-        public ValueNumberDisplay? ChangeUsd { get; private set; }
+        public virtual ValueNumberDisplay? ChangeUsd { get; private set; }
 
         [DisplayName("CHF Today")]
         [GridViewFormat("#,##0.00 CHF")]
         [GridViewBackground(KnownColor.AliceBlue)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyChf)]
-        public decimal? ValueChfToday { get; private set; }
+        public virtual decimal? ValueChfToday { get; private set; }
 
         [DisplayName("CHF Then")]
         [GridViewFormat("#,##0.00 CHF")]
         [GridViewBackground(KnownColor.AliceBlue)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyChf)]
-        public decimal? ValueChfThen { get; private set; }
+        public virtual decimal? ValueChfThen { get; private set; }
 
         [DisplayName("CHF Change")]
         [GridViewFormat(null, UseGreenOrRedNumbers = true)]
         [GridViewBackground(KnownColor.AliceBlue)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyChf)]
-        public ValueNumberDisplay? ChangeChf { get; private set; }
+        public virtual ValueNumberDisplay? ChangeChf { get; private set; }
 
         [DisplayName("EUR Today")]
         [GridViewFormat("#,##0.00 EUR")]
         [GridViewBackground(KnownColor.AliceBlue)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyEur)]
-        public decimal? ValueEurToday { get; private set; }
+        public virtual decimal? ValueEurToday { get; private set; }
 
         [DisplayName("EUR Then")]
         [GridViewFormat("#,##0.00 EUR")]
         [GridViewBackground(KnownColor.AliceBlue)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyEur)]
-        public decimal? ValueEurThen { get; private set; }
+        public virtual decimal? ValueEurThen { get; private set; }
 
         [DisplayName("EUR Change")]
         [GridViewFormat(null, UseGreenOrRedNumbers = true)]
         [GridViewBackground(KnownColor.AliceBlue)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyEur)]
-        public ValueNumberDisplay? ChangeEur { get; private set; }
+        public virtual ValueNumberDisplay? ChangeEur { get; private set; }
 
         [DisplayName("GBP Today")]
         [GridViewFormat("#,##0.00 GBP")]
         [GridViewBackground(KnownColor.AliceBlue)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyGbp)]
-        public decimal? ValueGbpToday { get; private set; }
+        public virtual decimal? ValueGbpToday { get; private set; }
 
         [DisplayName("GBP Then")]
         [GridViewFormat("#,##0.00 GBP")]
         [GridViewBackground(KnownColor.AliceBlue)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyGbp)]
-        public decimal? ValueGbpThen { get; private set; }
+        public virtual decimal? ValueGbpThen { get; private set; }
 
         [DisplayName("GBP Change")]
         [GridViewFormat(null, UseGreenOrRedNumbers = true)]
         [GridViewBackground(KnownColor.AliceBlue)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyGbp)]
-        public ValueNumberDisplay? ChangeGbp { get; private set; }
+        public virtual ValueNumberDisplay? ChangeGbp { get; private set; }
 
         [DisplayName("BTC Today")]
         [GridViewFormat("#,##0.00000000 BTC")]
         [GridViewBackground(KnownColor.Bisque)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyBtc)]
-        public decimal? ValueBtcToday { get; private set; }
+        public virtual decimal? ValueBtcToday { get; private set; }
 
         [DisplayName("BTC Then")]
         [GridViewFormat("#,##0.00000000 BTC")]
         [GridViewBackground(KnownColor.Bisque)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyBtc)]
-        public decimal? ValueBtcThen { get; private set; }
+        public virtual decimal? ValueBtcThen { get; private set; }
 
         [DisplayName("BTC Change")]
         [GridViewFormat(null, UseGreenOrRedNumbers = true)]
         [GridViewBackground(KnownColor.Bisque)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyBtc)]
-        public ValueNumberDisplay? ChangeBtc { get; private set; }
+        public virtual ValueNumberDisplay? ChangeBtc { get; private set; }
 
         [DisplayName("ETH Today")]
         [GridViewFormat("#,##0.00000 ETH")]
         [GridViewBackground(KnownColor.SkyBlue)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyEth)]
-        public decimal? ValueEthToday { get; private set; }
+        public virtual decimal? ValueEthToday { get; private set; }
 
         [DisplayName("ETH Then")]
         [GridViewFormat("#,##0.00000 ETH")]
         [GridViewBackground(KnownColor.SkyBlue)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyEth)]
-        public decimal? ValueEthThen { get; private set; }
+        public virtual decimal? ValueEthThen { get; private set; }
 
         [DisplayName("ETH Change")]
         [GridViewFormat(null, UseGreenOrRedNumbers = true)]
         [GridViewBackground(KnownColor.SkyBlue)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyEth)]
-        public ValueNumberDisplay? ChangeEth { get; private set; }
+        public virtual ValueNumberDisplay? ChangeEth { get; private set; }
 
         [DisplayName("LTC Today")]
         [GridViewFormat("#,##0.00000 LTC")]
         [GridViewBackground(KnownColor.LightGray)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyLtc)]
-        public decimal? ValueLtcToday { get; private set; }
+        public virtual decimal? ValueLtcToday { get; private set; }
 
         [DisplayName("LTC Then")]
         [GridViewFormat("#,##0.00000 LTC")]
         [GridViewBackground(KnownColor.LightGray)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyLtc)]
-        public decimal? ValueLtcThen { get; private set; }
+        public virtual decimal? ValueLtcThen { get; private set; }
 
         [DisplayName("LTC Change")]
         [GridViewFormat(null, UseGreenOrRedNumbers = true)]
         [GridViewBackground(KnownColor.LightGray)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyLtc)]
-        public ValueNumberDisplay? ChangeLtc { get; private set; }
+        public virtual ValueNumberDisplay? ChangeLtc { get; private set; }
 
         public LoadValuePropertiesState LoadValuesProperties(bool notifiyPropertyChanged)
         {
@@ -327,13 +327,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             }
 
             return _loadValuePropertiesState;
-        }
-
-        protected string GetAddressDisplay(string? rawAddress)
-        {
-            return rawAddress == null
-                ? "-"
-                : new Address(rawAddress).GetBech32().FromBech32ToShortReadable();
         }
 
         [NotifyPropertyChangedInvocator]

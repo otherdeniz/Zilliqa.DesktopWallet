@@ -2,6 +2,7 @@ using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Repository;
+using Zilliqa.DesktopWallet.Core.ZilligraphDb;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms
 {
@@ -40,6 +41,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
 
             ApplicationConfiguration.Initialize();
             Application.Run(new MainForm());
+            ZilliqaBlockchainCrawler.Instance.Stop(true);
+            RepositoryManager.Instance.Shutdown();
         }
 
         private static string GetArgumentValue(string[] arguments, string parameterName, string defaultValue = "")

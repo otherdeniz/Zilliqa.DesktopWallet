@@ -10,7 +10,7 @@ namespace Zilliqa.DesktopWallet.Core.Api.Coingecko
     {
         private static readonly string BaseUrl = "https://api.coingecko.com/api/v3/";
         private readonly object _callLock = new();
-        private DateTime _lastCall = DateTime.Now.AddSeconds(-2);
+        private DateTime _lastCall = DateTime.Now.AddSeconds(-3);
 
         public List<CoinListInfo> GetCoinsListInfo()
         {
@@ -27,11 +27,11 @@ namespace Zilliqa.DesktopWallet.Core.Api.Coingecko
             return CallApi<CoinHistory>($"coins/{coinId}/history?date={date:dd-MM-yyyy}");
         }
 
-        private TResult CallApi<TResult>(string urlPath, List<KeyValuePair<string, string>>? arguments = null)
+        private TResult CallApi<TResult>(string urlPath)
         {
             lock (_callLock)
             {
-                var responseContent = Task.Run(async () => await CallApiContent(urlPath, arguments))
+                var responseContent = Task.Run(async () => await CallApiContent(urlPath))
                     .GetAwaiter().GetResult();
                 return JsonConvert.DeserializeObject<TResult>(responseContent)
                        ?? throw new ApiCallException(
@@ -39,32 +39,42 @@ namespace Zilliqa.DesktopWallet.Core.Api.Coingecko
             }
         }
 
-        private async Task<string> CallApiContent(string urlPath, List<KeyValuePair<string, string>>? arguments = null)
+        private async Task<string> CallApiContent(string urlPath)
         {
-            if (_lastCall.AddSeconds(1.2) > DateTime.Now)
+            if (_lastCall.AddSeconds(2) > DateTime.Now)
             {
                 // only 1 call per 1.2 seconds (Coingecko limits the number of calls to 50 per minute)
-                await Task.Delay(1200);
+                await Task.Delay(2000);
             }
-            _lastCall = DateTime.Now;
+
             var requestUrl = $"{BaseUrl}{urlPath}";
-            if (arguments != null && arguments.Count > 0)
+            bool retryAfter60Seconds;
+            do
             {
-                requestUrl += "?" + string.Join("&", arguments.Select(a => $"¨{a.Key}={a.Value}"));
-            }
-            using (var client = new RestClient())
-            {
-                var request = new RestRequest(requestUrl, Method.Get);
-
-                var response = await client.ExecuteAsync(request);
-                if (response.StatusCode != HttpStatusCode.OK)
+                _lastCall = DateTime.Now;
+                using (var client = new RestClient())
                 {
-                    throw new ApiCallException($"CoingeckoApiClient Response was not OK; URL = {requestUrl}");
-                }
+                    var request = new RestRequest(requestUrl, Method.Get);
 
-                return response.Content
-                       ?? throw new ApiCallException($"CoingeckoApiClient Response Content was null; URL = {requestUrl}");
-            }
+                    var response = await client.ExecuteAsync(request);
+                    if (response.StatusCode == HttpStatusCode.TooManyRequests)
+                    {
+                        await Task.Delay(60000);
+                        retryAfter60Seconds = true;
+                    }
+                    else if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        throw new ApiCallException($"CoingeckoApiClient Response was not OK; URL = {requestUrl}; StatusCode = {response.StatusCode}; Response = {response.Content}");
+                    }
+                    else
+                    {
+                        return response.Content
+                               ?? throw new ApiCallException($"CoingeckoApiClient Response Content was null; URL = {requestUrl}");
+                    }
+                }
+            } while (retryAfter60Seconds);
+
+            throw new ApiCallException($"CoingeckoApiClient Response ended without result; URL = {requestUrl}");
         }
     }
 }
