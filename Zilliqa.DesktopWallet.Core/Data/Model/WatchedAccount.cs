@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.ApiClient.Utils;
+using Zilliqa.DesktopWallet.Core.Extensions;
 
 namespace Zilliqa.DesktopWallet.Core.Data.Model
 {
@@ -9,16 +11,28 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
         private Address? _address;
         private string? _addressHex;
 
-        public static WatchedAccount Add(string name, string addressBech32, bool isMyAccount)
+        public static WatchedAccount Create(Address address)
         {
             var result = new WatchedAccount
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = address.GetBech32().FromBech32ToShortReadable(),
+                AddressBech32 = address.GetBech32(),
+                IsMyAccount = false
+            };
+            result._address = address;
+            return result;
+        }
+
+        public static WatchedAccount Create(string name, string addressBech32, bool isMyAccount)
+        {
+            return new WatchedAccount
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = name,
                 AddressBech32 = addressBech32,
                 IsMyAccount = isMyAccount
             };
-            return result;
         }
 
         public string AddressBech32 { get; set; }

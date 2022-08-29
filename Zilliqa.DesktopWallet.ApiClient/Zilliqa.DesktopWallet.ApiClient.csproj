@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Mus_ZilliqaCSharp</PackageId>
     <Authors>Musenzi</Authors>
@@ -37,7 +37,7 @@
     <PackageReference Include="BouncyCastle.NetCore" Version="1.8.6" />
     <PackageReference Include="Google.Protobuf" Version="3.11.4" />
     <PackageReference Include="Google.Protobuf.Tools" Version="3.11.4" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="RestSharp" Version="108.0.1" />
     <PackageReference Include="Scrypt.NET" Version="1.3.0" />
   </ItemGroup>
@@ -47,6 +47,10 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Zillifriends.Shared.Common\Zillifriends.Shared.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

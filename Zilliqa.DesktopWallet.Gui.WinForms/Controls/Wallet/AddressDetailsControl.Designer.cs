@@ -1,24 +1,11 @@
 ﻿namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 {
-    partial class WalletAddressDetails
+    partial class AddressDetailsControl
     {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-
-        /// <summary> 
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
 
         #region Component Designer generated code
 
@@ -29,14 +16,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WalletAddressDetails));
-            this.toolStripAccountActions = new System.Windows.Forms.ToolStrip();
-            this.buttonSend = new System.Windows.Forms.ToolStripButton();
-            this.buttonSendToken = new System.Windows.Forms.ToolStripButton();
-            this.separatorSend = new System.Windows.Forms.ToolStripSeparator();
-            this.buttonBackupPrivateKey = new System.Windows.Forms.ToolStripButton();
-            this.separatorBackup = new System.Windows.Forms.ToolStripSeparator();
-            this.buttonRemoveAccount = new System.Windows.Forms.ToolStripButton();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddressDetailsControl));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panelBalanceValues = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
@@ -83,11 +63,11 @@
             this.panelTabPagesTransactions = new System.Windows.Forms.Panel();
             this.gridViewAllTransactions = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl();
             this.toolStripTransactions = new System.Windows.Forms.ToolStrip();
-            this.tabButtonAllTransactions = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.tabButtonZilTransactions = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tabButtonTokenTransactions = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.tabButtonAllTransactions = new System.Windows.Forms.ToolStripButton();
             this.panelTabsHoldings = new System.Windows.Forms.Panel();
             this.panelTabPagesHoldings = new System.Windows.Forms.Panel();
             this.toolStripHoldings = new System.Windows.Forms.ToolStrip();
@@ -100,7 +80,6 @@
             this.tabButtonHoldingNfts = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.tabButtonHoldingContracts = new System.Windows.Forms.ToolStripButton();
-            this.toolStripAccountActions.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panelBalanceValues.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -125,64 +104,6 @@
             this.toolStripHoldings.SuspendLayout();
             this.SuspendLayout();
             // 
-            // toolStripAccountActions
-            // 
-            this.toolStripAccountActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.buttonSend,
-            this.buttonSendToken,
-            this.separatorSend,
-            this.buttonBackupPrivateKey,
-            this.separatorBackup,
-            this.buttonRemoveAccount});
-            this.toolStripAccountActions.Location = new System.Drawing.Point(0, 0);
-            this.toolStripAccountActions.Name = "toolStripAccountActions";
-            this.toolStripAccountActions.Size = new System.Drawing.Size(653, 25);
-            this.toolStripAccountActions.TabIndex = 1;
-            // 
-            // buttonSend
-            // 
-            this.buttonSend.Image = ((System.Drawing.Image)(resources.GetObject("buttonSend.Image")));
-            this.buttonSend.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.buttonSend.Name = "buttonSend";
-            this.buttonSend.Size = new System.Drawing.Size(72, 22);
-            this.buttonSend.Text = "Send ZIL";
-            this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
-            // 
-            // buttonSendToken
-            // 
-            this.buttonSendToken.Image = ((System.Drawing.Image)(resources.GetObject("buttonSendToken.Image")));
-            this.buttonSendToken.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.buttonSendToken.Name = "buttonSendToken";
-            this.buttonSendToken.Size = new System.Drawing.Size(136, 22);
-            this.buttonSendToken.Text = "Send Fungible Token";
-            // 
-            // separatorSend
-            // 
-            this.separatorSend.Name = "separatorSend";
-            this.separatorSend.Size = new System.Drawing.Size(6, 25);
-            // 
-            // buttonBackupPrivateKey
-            // 
-            this.buttonBackupPrivateKey.Image = ((System.Drawing.Image)(resources.GetObject("buttonBackupPrivateKey.Image")));
-            this.buttonBackupPrivateKey.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.buttonBackupPrivateKey.Name = "buttonBackupPrivateKey";
-            this.buttonBackupPrivateKey.Size = new System.Drawing.Size(127, 22);
-            this.buttonBackupPrivateKey.Text = "Backup Private Key";
-            // 
-            // separatorBackup
-            // 
-            this.separatorBackup.Name = "separatorBackup";
-            this.separatorBackup.Size = new System.Drawing.Size(6, 25);
-            // 
-            // buttonRemoveAccount
-            // 
-            this.buttonRemoveAccount.Image = ((System.Drawing.Image)(resources.GetObject("buttonRemoveAccount.Image")));
-            this.buttonRemoveAccount.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.buttonRemoveAccount.Name = "buttonRemoveAccount";
-            this.buttonRemoveAccount.Size = new System.Drawing.Size(118, 22);
-            this.buttonRemoveAccount.Text = "Remove Account";
-            this.buttonRemoveAccount.Click += new System.EventHandler(this.buttonRemoveAccount_Click);
-            // 
             // groupBox1
             // 
             this.groupBox1.AutoSize = true;
@@ -191,7 +112,7 @@
             this.groupBox1.Controls.Add(this.panel1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox1.Location = new System.Drawing.Point(0, 80);
+            this.groupBox1.Location = new System.Drawing.Point(0, 55);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(653, 68);
             this.groupBox1.TabIndex = 2;
@@ -610,7 +531,7 @@
             this.groupBox3.Controls.Add(this.textZilAddress);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox3.Location = new System.Drawing.Point(0, 25);
+            this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(6);
             this.groupBox3.Size = new System.Drawing.Size(653, 55);
@@ -677,7 +598,7 @@
             // 
             this.splitter1.BackColor = System.Drawing.Color.Gainsboro;
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.splitter1.Location = new System.Drawing.Point(0, 284);
+            this.splitter1.Location = new System.Drawing.Point(0, 259);
             this.splitter1.Name = "splitter1";
             this.splitter1.Size = new System.Drawing.Size(653, 4);
             this.splitter1.TabIndex = 7;
@@ -688,9 +609,9 @@
             this.panelTabsTransactions.Controls.Add(this.panelTabPagesTransactions);
             this.panelTabsTransactions.Controls.Add(this.toolStripTransactions);
             this.panelTabsTransactions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelTabsTransactions.Location = new System.Drawing.Point(0, 288);
+            this.panelTabsTransactions.Location = new System.Drawing.Point(0, 263);
             this.panelTabsTransactions.Name = "panelTabsTransactions";
-            this.panelTabsTransactions.Size = new System.Drawing.Size(653, 248);
+            this.panelTabsTransactions.Size = new System.Drawing.Size(653, 273);
             this.panelTabsTransactions.TabIndex = 8;
             // 
             // panelTabPagesTransactions
@@ -701,7 +622,7 @@
             this.panelTabPagesTransactions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTabPagesTransactions.Location = new System.Drawing.Point(0, 25);
             this.panelTabPagesTransactions.Name = "panelTabPagesTransactions";
-            this.panelTabPagesTransactions.Size = new System.Drawing.Size(653, 223);
+            this.panelTabPagesTransactions.Size = new System.Drawing.Size(653, 248);
             this.panelTabPagesTransactions.TabIndex = 2;
             // 
             // gridViewAllTransactions
@@ -724,21 +645,6 @@
             this.toolStripTransactions.Name = "toolStripTransactions";
             this.toolStripTransactions.Size = new System.Drawing.Size(653, 25);
             this.toolStripTransactions.TabIndex = 0;
-            // 
-            // tabButtonAllTransactions
-            // 
-            this.tabButtonAllTransactions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tabButtonAllTransactions.Image = ((System.Drawing.Image)(resources.GetObject("tabButtonAllTransactions.Image")));
-            this.tabButtonAllTransactions.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tabButtonAllTransactions.Name = "tabButtonAllTransactions";
-            this.tabButtonAllTransactions.Size = new System.Drawing.Size(93, 22);
-            this.tabButtonAllTransactions.Text = "All Transactions";
-            this.tabButtonAllTransactions.Click += new System.EventHandler(this.tabButtonAllTransactions_Click);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
             // 
             // tabButtonZilTransactions
             // 
@@ -766,12 +672,27 @@
             this.tabButtonTokenTransactions.Text = "ZRC-2 Token Transfers";
             this.tabButtonTokenTransactions.Click += new System.EventHandler(this.tabButtonTokenTransactions_Click);
             // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tabButtonAllTransactions
+            // 
+            this.tabButtonAllTransactions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tabButtonAllTransactions.Image = ((System.Drawing.Image)(resources.GetObject("tabButtonAllTransactions.Image")));
+            this.tabButtonAllTransactions.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tabButtonAllTransactions.Name = "tabButtonAllTransactions";
+            this.tabButtonAllTransactions.Size = new System.Drawing.Size(93, 22);
+            this.tabButtonAllTransactions.Text = "All Transactions";
+            this.tabButtonAllTransactions.Click += new System.EventHandler(this.tabButtonAllTransactions_Click);
+            // 
             // panelTabsHoldings
             // 
             this.panelTabsHoldings.Controls.Add(this.panelTabPagesHoldings);
             this.panelTabsHoldings.Controls.Add(this.toolStripHoldings);
             this.panelTabsHoldings.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelTabsHoldings.Location = new System.Drawing.Point(0, 148);
+            this.panelTabsHoldings.Location = new System.Drawing.Point(0, 123);
             this.panelTabsHoldings.Name = "panelTabsHoldings";
             this.panelTabsHoldings.Size = new System.Drawing.Size(653, 136);
             this.panelTabsHoldings.TabIndex = 9;
@@ -869,7 +790,7 @@
             this.tabButtonHoldingContracts.Size = new System.Drawing.Size(137, 22);
             this.tabButtonHoldingContracts.Text = "Owned Smart Contracts";
             // 
-            // WalletAddressDetails
+            // AddressDetailsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -879,13 +800,10 @@
             this.Controls.Add(this.panelTabsHoldings);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.toolStripAccountActions);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Name = "WalletAddressDetails";
+            this.Name = "AddressDetailsControl";
             this.Size = new System.Drawing.Size(653, 536);
             this.Load += new System.EventHandler(this.WalletAddressDetails_Load);
-            this.toolStripAccountActions.ResumeLayout(false);
-            this.toolStripAccountActions.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.panelBalanceValues.ResumeLayout(false);
             this.panelBalanceValues.PerformLayout();
@@ -930,11 +848,6 @@
         }
 
         #endregion
-
-        private ToolStrip toolStripAccountActions;
-        private ToolStripButton buttonSend;
-        private ToolStripSeparator separatorSend;
-        private ToolStripButton buttonBackupPrivateKey;
         private GroupBox groupBox1;
         private Panel panel1;
         private Panel panel4;
@@ -962,9 +875,6 @@
         private Label textZilAddress;
         private Button buttonOpenBlockExplorer;
         private System.Windows.Forms.Timer timerButtonPressed;
-        private ToolStripSeparator separatorBackup;
-        private ToolStripButton buttonRemoveAccount;
-        private ToolStripButton buttonSendToken;
         private Splitter splitter1;
         private Panel panelTabsTransactions;
         private ToolStrip toolStripTransactions;

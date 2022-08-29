@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using Zilliqa.DesktopWallet.Core.Data.Files;
 using Zilliqa.DesktopWallet.Core.Data.Model;
+using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Core.Repository
@@ -12,9 +13,17 @@ namespace Zilliqa.DesktopWallet.Core.Repository
 
         public WalletRepository()
         {
-            WalletDat.Instance.MyAccounts.ForEach(a => _myAccountsList.Add(new AccountViewModel(a, OnAccountChanged)));
+            WalletDat.Instance.MyAccounts.ForEach(a =>
+            {
+                KnownAddressService.Instance.AddUnique(a.GetAddressBech32(), a.Name);
+                _myAccountsList.Add(new AccountViewModel(a, OnAccountChanged));
+            });
             MyAccounts = new ReadOnlyCollection<AccountViewModel>(_myAccountsList);
-            WalletDat.Instance.WatchedAccounts.ForEach(a => _watchedAccountsList.Add(new AccountViewModel(a, OnAccountChanged)));
+            WalletDat.Instance.WatchedAccounts.ForEach(a =>
+            {
+                KnownAddressService.Instance.AddUnique(a.GetAddressBech32(), a.Name);
+                _watchedAccountsList.Add(new AccountViewModel(a, OnAccountChanged));
+            });
             WatchedAccounts = new ReadOnlyCollection<AccountViewModel>(_watchedAccountsList);
         }
 

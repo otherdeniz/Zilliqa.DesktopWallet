@@ -122,7 +122,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                 accountControl.RefreshAccount();
                 if (accountControl.IsSelected)
                 {
-                    ((WalletAddressDetails)panelAccountDetails.Controls[0]).RefreshAccountSummaries();
+                    var walletAddressControl = (WalletAddressControl)panelAccountDetails.Controls[0];
+                    walletAddressControl.AddressDetailsControl.RefreshAccountSummaries();
                 }
             }
 
@@ -166,11 +167,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                 oldControl.Dispose();
             }
 
-            var addControl = new WalletAddressDetails
+            var addControl = new WalletAddressControl
             {
                 Dock = DockStyle.Fill
             };
-            addControl.LoadAccount(walletListItemControl.Account);
+            addControl.BindAccountViewModel(walletListItemControl.Account);
 
             panelAccountDetails.Controls.Add(addControl);
         }
@@ -198,7 +199,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             var result = AddWatchedAccountForm.Execute(this.ParentForm);
             if (result != null)
             {
-                _repository?.AddAccount(WatchedAccount.Add(result.AccountName, result.Address, result.IsMyAccount));
+                _repository?.AddAccount(WatchedAccount.Create(result.AccountName, result.Address, result.IsMyAccount));
             }
         }
     }

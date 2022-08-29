@@ -3,6 +3,7 @@ using System.Drawing;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
+using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel
@@ -10,6 +11,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
     public class CommonTransactionRowViewModel : TransactionRowViewModelBase
     {
         private readonly TransactionRowViewModelBase? _innerTransaction;
+        private AddressValue? _otherAddress;
         private string? _date;
         private decimal? _fee;
 
@@ -79,11 +81,10 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [Browsable(true)]
         [DisplayName("Address")]
-        public override AddressValueViewModel OtherAddress => _innerTransaction?.OtherAddress
-                                                              ?? (Direction == TransactionDirection.SendTo
-                                                                  ? new AddressValueViewModel(Transaction.ToAddress)
-                                                                  : new AddressValueViewModel(Transaction
-                                                                      .SenderAddress));
+        public override AddressValue? OtherAddress => _innerTransaction?.OtherAddress
+                                                      ?? (_otherAddress ??= Direction == TransactionDirection.SendTo
+                                                          ? new AddressValue(Transaction.ToAddress)
+                                                          : new AddressValue(Transaction.SenderAddress));
 
         [Browsable(true)]
         [DisplayName("Amount")]

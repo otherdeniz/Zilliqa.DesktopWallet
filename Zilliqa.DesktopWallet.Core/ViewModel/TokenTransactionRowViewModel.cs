@@ -4,6 +4,7 @@ using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
+using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel;
@@ -13,7 +14,7 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
     private readonly TokenModel _tokenModel;
     private Image? _logoIcon;
     private Image? _directionIcon;
-    private AddressValueViewModel? _otherAddress;
+    private AddressValue? _otherAddress;
     private decimal? _tokenAmount;
     private string? _date;
     private decimal? _fee;
@@ -41,8 +42,8 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
     [Browsable(true)]
     [DisplayName(" ")]
     public override Image? DirectionIcon => _directionIcon ??= Direction == TransactionDirection.SendTo
-        ? IconResources.ArrowRightBlue16
-        : IconResources.ArrowLeftBlue16;
+        ? IconResources.ArrowRightOrange16
+        : IconResources.ArrowLeftOrange16;
 
     [DisplayName("Direction")]
     public string DirectionLabel => Direction == TransactionDirection.SendTo 
@@ -51,9 +52,11 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
 
     [Browsable(true)]
     [DisplayName("Address")]
-    public override AddressValueViewModel OtherAddress => _otherAddress ??= Direction == TransactionDirection.SendTo
-        ? new AddressValueViewModel(Transaction.TokenTransferRecipient())
-        : new AddressValueViewModel(Transaction.TokenTransferSender());
+    public override AddressValue? OtherAddress =>
+        _otherAddress ??= (Direction == TransactionDirection.SendTo
+            ? AddressValue.Create(Transaction.TokenTransferRecipient())
+            : AddressValue.Create(Transaction.TokenTransferSender())
+              ?? base.OtherAddress);
 
     [Browsable(false)]
     public override decimal Amount => _tokenAmount ??= _tokenModel.AmountToDecimal(Transaction.TokenTransferAmount());

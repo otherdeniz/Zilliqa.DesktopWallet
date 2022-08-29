@@ -1,4 +1,5 @@
-﻿using Zilliqa.DesktopWallet.Core.Extensions;
+﻿using Zillifriends.Shared.Common;
+using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet

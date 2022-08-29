@@ -3,9 +3,9 @@ using System.Drawing;
 using System.Runtime.CompilerServices;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core.Annotations;
-using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
+using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel
@@ -14,7 +14,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
     {
         private readonly Transaction _transactionModel;
         private Image? _directionIcon;
-        private AddressValueViewModel? _otherAddress;
+        private AddressValue? _otherAddress;
         private LoadValuePropertiesState? _loadValuePropertiesState;
 
         public TransactionRowViewModelBase(Address thisAddress, Transaction transactionModel)
@@ -44,9 +44,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public Address ThisAddress { get; }
 
         [Browsable(false)]
-        public virtual AddressValueViewModel OtherAddress => _otherAddress ??= Direction == TransactionDirection.SendTo
-            ? new AddressValueViewModel(Transaction.ToAddress)
-            : new AddressValueViewModel(Transaction.SenderAddress);
+        public virtual AddressValue? OtherAddress => _otherAddress ??= Direction == TransactionDirection.SendTo
+            ? new AddressValue(Transaction.ToAddress)
+            : new AddressValue(Transaction.SenderAddress);
 
         [Browsable(false)] 
         public virtual decimal Amount => 0;
@@ -327,6 +327,12 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             }
 
             return _loadValuePropertiesState;
+        }
+
+        public override string ToString()
+        {
+            var arrowText = Direction == TransactionDirection.ReceiveFrom ? "<-" : "->";
+            return $"{Transaction.TransactionTypeEnum} Transaction {arrowText} {OtherAddress}";
         }
 
         [NotifyPropertyChangedInvocator]

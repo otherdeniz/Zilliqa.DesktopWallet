@@ -10,8 +10,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
     {
         private Type? _itemType;
         private IList _dataSourceList;
-        private Dictionary<int, DynamicColumnCategory> _columnDynamicCategories = new();
-        private Dictionary<int, GridViewFormatAttribute> _columnIndexesFormatAttributes = new();
+        private readonly Dictionary<int, DynamicColumnCategory> _columnDynamicCategories = new();
+        private readonly Dictionary<int, GridViewFormatAttribute> _columnIndexesFormatAttributes = new();
         private int? _hoveredRowIndex;
 
         public GridViewControl()
@@ -20,6 +20,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
         }
 
         public event EventHandler<RowSelectionEventArgs> RowSelected;
+
+        public event EventHandler<SelectedItemEventArgs> SelectionChanged;
 
         [Browsable(false)]
         [DefaultValue(null)]
@@ -294,6 +296,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             }
         }
 
+        [Obsolete("SelectedItemEventArgs is the new")]
         public class RowSelectionEventArgs : EventArgs
         {
             public object? SelectedRow { get; }
@@ -304,5 +307,34 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             }
         }
 
+        public class SelectedItemEventArgs : EventArgs
+        {
+            public SelectedItemEventArgs(SelectionItem? selectedItem)
+            {
+                SelectedItem = selectedItem;
+            }
+            public SelectionItem? SelectedItem { get; }
+        }
+
+        public class SelectionItem
+        {
+            public SelectionItem(int rowIndex, object selectedItem, SelectionItemType selectionItemType, int? cellColumnIndex = null)
+            {
+                RowIndex = rowIndex;
+                SelectedItem = selectedItem;
+                SelectionItemType = selectionItemType;
+                CellColumnIndex = cellColumnIndex;
+            }
+            public int RowIndex { get; }
+            public object SelectedItem { get; }
+            public SelectionItemType SelectionItemType { get; }
+            public int? CellColumnIndex { get; }
+        }
+
+        public enum SelectionItemType
+        {
+            Row = 0,
+            Cell = 1
+        }
     }
 }

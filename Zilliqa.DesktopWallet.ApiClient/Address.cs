@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient.Utils;
 
 namespace Zilliqa.DesktopWallet.ApiClient
@@ -54,7 +55,7 @@ namespace Zilliqa.DesktopWallet.ApiClient
 
         public override string ToString()
         {
-            return _rawAddress;
+            return GetBech32().FromBech32ToShortReadable();
         }
 
         public string GetBech32()

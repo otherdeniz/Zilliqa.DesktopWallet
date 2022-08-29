@@ -1,15 +1,14 @@
 ﻿using System.Diagnostics;
-using Zilliqa.DesktopWallet.Core.Data.Model;
-using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 {
-    public partial class WalletAddressDetails : UserControl
+    public partial class AddressDetailsControl : UserControl
     {
         private AccountViewModel? _account;
+        private bool _viewModelOwned;
 
-        public WalletAddressDetails()
+        public AddressDetailsControl()
         {
             InitializeComponent();
             gridViewTokenBalances.Dock = DockStyle.Fill;
@@ -18,25 +17,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             gridViewTokenTransactions.Dock = DockStyle.Fill;
         }
 
-        public void LoadAccount(AccountViewModel account)
+        public void BindAccountViewModel(AccountViewModel account, bool viewModelOwned)
         {
             _account = account;
-            if (account.AccountData is MyAccount)
-            {
-                buttonSend.Visible = true;
-                buttonSendToken.Visible = true;
-                separatorSend.Visible = true;
-                buttonBackupPrivateKey.Visible = true;
-                separatorBackup.Visible = true;
-            }
-            else
-            {
-                buttonSend.Visible = false;
-                buttonSendToken.Visible = false;
-                separatorSend.Visible = false;
-                buttonBackupPrivateKey.Visible = false;
-                separatorBackup.Visible = false;
-            }
+            _viewModelOwned = viewModelOwned;
             textZilAddress.Text = account.AddressBech32;
             gridViewTokenBalances.LoadData(account.TokenBalances, typeof(TokenBalanceRowViewModel));
             gridViewAllTransactions.LoadData(account.AllTransactions, typeof(CommonTransactionRowViewModel));
@@ -60,6 +44,19 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             labelTokensValueUsd.Text = $"{_account.TokensValueUsd:#,##0.00} USD";
             labelZilValueUsd.Text = $"{_account.ZilTotalValueUsd:#,##0.00} USD";
             labelTotalValueUsd.Text = $"{_account.TotalValueUsd:#,##0.00} USD";
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            if (_viewModelOwned)
+            {
+                _account?.CancelBackgroundTasks();
+            }
+            base.Dispose(disposing);
         }
 
         private void SetTabButtonCountText(ToolStripButton button, long count)
@@ -165,22 +162,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                 pageControl.Visible = false;
             }
             tabPageControl.Visible = true;
-        }
-
-        private void buttonSend_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void buttonRemoveAccount_Click(object sender, EventArgs e)
-        {
-            if (_account != null 
-                && MessageBox.Show($"Are you sure to remove Account {_account.AccountData.Name}?", "Remove Account?",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                RepositoryManager.Instance.WalletRepository.RemoveAccount(_account.AccountData.Id);
-                Visible = false;
-            }
         }
 
     }
