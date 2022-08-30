@@ -1,5 +1,4 @@
-﻿using Zilliqa.DesktopWallet.ApiClient;
-using Zilliqa.DesktopWallet.Core.Data.Model;
+﻿using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet;
@@ -10,17 +9,17 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
     {
         public static bool IsSelectableCell(Type valueType)
         {
-            return valueType == typeof(Address)
+            return valueType == typeof(AddressValue)
                    || valueType == typeof(Zrc2TokenValue)
                    || valueType == typeof(BlockNumberValue);
         }
 
-        public static Control CreateDisplayControl(object viewModel)
+        public static Control CreateDisplayControl(object value)
         {
-            if (viewModel is Address addressObject)
+            if (value is AddressValue addressValue)
             {
                 var control = new AddressDetailsControl();
-                var vm = new AccountViewModel(WatchedAccount.Create(addressObject),
+                var vm = new AccountViewModel(WatchedAccount.Create(addressValue.Address),
                     _ => control.RefreshAccountSummaries());
                 control.BindAccountViewModel(vm, true);
             }
