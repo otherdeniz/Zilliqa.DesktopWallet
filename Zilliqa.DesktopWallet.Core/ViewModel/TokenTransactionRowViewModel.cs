@@ -42,13 +42,13 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
     [Browsable(true)]
     [DisplayName(" ")]
     public override Image? DirectionIcon => _directionIcon ??= Direction == TransactionDirection.SendTo
-        ? IconResources.ArrowRightOrange16
-        : IconResources.ArrowLeftOrange16;
+        ? IconResources.ArrowRightViolet16
+        : IconResources.ArrowLeftViolet16;
 
-    [DisplayName("Direction")]
+    [DisplayName(" ")]
     public string DirectionLabel => Direction == TransactionDirection.SendTo 
-        ? "send to" 
-        : "receive from";
+        ? "to" 
+        : "from";
 
     [Browsable(true)]
     [DisplayName("Address")]

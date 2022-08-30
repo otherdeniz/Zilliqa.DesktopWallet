@@ -28,10 +28,10 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             ? IconResources.ArrowRightGreen16
             : IconResources.ArrowLeftGreen16;
 
-        [DisplayName("Direction")]
+        [DisplayName(" ")]
         public string DirectionLabel => Direction == TransactionDirection.SendTo 
-            ? "send to" 
-            : "receive from";
+            ? "to" 
+            : "from";
 
         [Browsable(true)]
         [DisplayName("Address")]

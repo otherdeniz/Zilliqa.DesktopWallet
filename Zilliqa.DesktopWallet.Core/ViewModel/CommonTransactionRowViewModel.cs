@@ -63,21 +63,21 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                 }
                 if (Transaction.TransactionTypeEnum == TransactionType.ContractCall)
                 {
-                    return IconResources.ArrowRightViolet16;
+                    return IconResources.BarBlue16;
                 }
                 if (Transaction.TransactionTypeEnum == TransactionType.ContractDeployment)
                 {
-                    return IconResources.ArrowRightRed16;
+                    return IconResources.CircleRigthBlue16;
                 }
 
                 return base.DirectionIcon;
             }
         }
 
-        [DisplayName("Direction")]
+        [DisplayName(" ")]
         public string DirectionLabel => Direction == TransactionDirection.SendTo
-            ? "send to"
-            : "receive from";
+            ? "to"
+            : "from";
 
         [Browsable(true)]
         [DisplayName("Address")]
