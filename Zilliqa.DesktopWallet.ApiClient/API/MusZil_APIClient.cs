@@ -314,40 +314,12 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
 
 		#region Helpers
 
-		//private HttpClient GetClient()
-		//{
-		//	HttpClient httpClient = null;
-		//	lock (_requestLock)
-		//	{
-		//		httpClient = new HttpClient();
-
-		//		//specify to use TLS 1.2 as default connection
-		//		System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-
-		//		httpClient.DefaultRequestHeaders.Accept.Clear();
-		//		httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-		//	}
-
-
-		//	return httpClient;
-		//}
-
-		/// <summary>
+        /// <summary>
 		/// Calls a API method of the Zilliqa API
 		/// </summary>
 		/// <param name="req">MusRequest object to pass request</param>
 		private async Task<APIResponse> CallMethod(MusRequest req)
 		{
-			//string result = "";
-			//var json = req.ToJson();
-			//var data = new StringContent(json, Encoding.UTF8, "application/json");
-
-			//using (var httpClient = GetClient())
-			//{
-			//	var response = await httpClient.PostAsync(Url, data);
-			//	result = response.Content.ReadAsStringAsync().Result;
-			//}
-			//return JsonConvert.DeserializeObject<APIResponse>(result);
             using (var client = new RestClient())
             {
                 var request = new RestRequest(Url, Method.Post);

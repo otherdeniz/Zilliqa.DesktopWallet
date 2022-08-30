@@ -116,5 +116,12 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
             var info = await _zil.CreateTransaction(signed);
             Assert.IsNotNull(info);
         }
+
+        [Test]
+        public async Task SpecificBlockNumberReturnsAllTransactions()
+        {
+            var txns = await _zil.GetTxnBodiesForTxBlock(1664279);
+            Assert.AreEqual(6, txns.Count);
+        }
     }
 }
