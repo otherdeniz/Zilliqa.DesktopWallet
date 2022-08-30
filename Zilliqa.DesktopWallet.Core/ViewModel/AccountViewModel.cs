@@ -13,6 +13,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
     public class AccountViewModel
     {
         private readonly Action<AccountViewModel> _afterChangedAction;
+        private readonly bool _loadCurrencyValues;
         private ZilligraphTableEventNotificator<Transaction>? _transactionEventNotificator;
         private readonly CancellationTokenSource _cancellationTokenSource = new();
         private decimal? _zilLiquidBalance;
@@ -20,10 +21,11 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         private decimal? _tokensValueUsd;
         private decimal? _tokensValueZil;
 
-        public AccountViewModel(AccountBase accountData, Action<AccountViewModel> afterChangedAction) 
+        public AccountViewModel(AccountBase accountData, Action<AccountViewModel> afterChangedAction, bool loadCurrencyValues) 
         {
             AccountData = accountData;
             _afterChangedAction = afterChangedAction;
+            _loadCurrencyValues = loadCurrencyValues;
             RefreshBalances();
             LoadTransactions(_cancellationTokenSource.Token);
         }
@@ -186,38 +188,41 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                     Logging.LogError("Account View Model LoadTransactions failed", e);
                 }
 
-                var loadPropertiesState = transactionViewModels.Select(vm => vm.LoadValuesProperties(false)).ToList();
-                try
+                if (_loadCurrencyValues)
                 {
-                    for (int i = 0; i < 60; i++) // wait max 2 minutes
+                    var loadPropertiesState = transactionViewModels.Select(vm => vm.LoadValuesProperties(false)).ToList();
+                    try
                     {
-                        if (loadPropertiesState.All(l => l.IsCompleted))
+                        for (int i = 0; i < 60; i++) // wait max 2 minutes
                         {
-                            WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                            if (loadPropertiesState.All(l => l.IsCompleted))
                             {
-                                
-                                AllTransactions.ResetBindings();
-                                ZilTransactions.ResetBindings();
-                                TokenTransactions.ResetBindings();
-                                TokenBalances.ResetBindings();
-                            });
-                            break;
-                        }
+                                WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                                {
 
-                        Task.Run(async () => await Task.Delay(2000, cancellationToken), cancellationToken).GetAwaiter()
-                            .GetResult();
+                                    AllTransactions.ResetBindings();
+                                    ZilTransactions.ResetBindings();
+                                    TokenTransactions.ResetBindings();
+                                    TokenBalances.ResetBindings();
+                                });
+                                break;
+                            }
+
+                            Task.Run(async () => await Task.Delay(2000, cancellationToken), cancellationToken).GetAwaiter()
+                                .GetResult();
+                        }
                     }
-                }
-                catch (TaskCanceledException)
-                {
-                    // expected
+                    catch (TaskCanceledException)
+                    {
+                        // expected
+                    }
                 }
             }, cancellationToken);
         }
 
         private void OnAddedRecordEventNotified(Transaction record)
         {
-            AddRecordViewModel(record, true, true, true);
+            AddRecordViewModel(record, true, _loadCurrencyValues, true);
         }
 
         private TransactionRowViewModelBase? AddRecordViewModel(Transaction record, bool raiseOnRecordsChanged, bool loadCurrencyValues, bool notifiyPropertyChanged)

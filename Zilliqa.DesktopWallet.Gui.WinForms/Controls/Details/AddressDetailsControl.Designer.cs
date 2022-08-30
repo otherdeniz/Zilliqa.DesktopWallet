@@ -1,4 +1,4 @@
-﻿namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
+﻿namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 {
     partial class AddressDetailsControl
     {
@@ -507,7 +507,8 @@
             this.gridViewTokenBalances.Name = "gridViewTokenBalances";
             this.gridViewTokenBalances.Size = new System.Drawing.Size(131, 58);
             this.gridViewTokenBalances.TabIndex = 0;
-            this.gridViewTokenBalances.SelectionChanged += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.SelectedItemEventArgs>(this.gridViewTokenBalances_SelectionChanged);
+            this.gridViewTokenBalances.SelectionChanged += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.SelectedItemEventArgs>(this.gridView_SelectionChanged);
+            this.gridViewTokenBalances.IsItemSelectable += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.IsItemSelectableEventArgs>(this.gridView_IsItemSelectable);
             // 
             // gridViewZilTransactions
             // 
@@ -516,7 +517,8 @@
             this.gridViewZilTransactions.Size = new System.Drawing.Size(131, 111);
             this.gridViewZilTransactions.TabIndex = 1;
             this.gridViewZilTransactions.Visible = false;
-            this.gridViewZilTransactions.SelectionChanged += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.SelectedItemEventArgs>(this.gridViewZilTransactions_SelectionChanged);
+            this.gridViewZilTransactions.SelectionChanged += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.SelectedItemEventArgs>(this.gridView_SelectionChanged);
+            this.gridViewZilTransactions.IsItemSelectable += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.IsItemSelectableEventArgs>(this.gridView_IsItemSelectable);
             // 
             // gridViewTokenTransactions
             // 
@@ -525,7 +527,8 @@
             this.gridViewTokenTransactions.Size = new System.Drawing.Size(143, 111);
             this.gridViewTokenTransactions.TabIndex = 1;
             this.gridViewTokenTransactions.Visible = false;
-            this.gridViewTokenTransactions.SelectionChanged += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.SelectedItemEventArgs>(this.gridViewTokenTransactions_SelectionChanged);
+            this.gridViewTokenTransactions.SelectionChanged += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.SelectedItemEventArgs>(this.gridView_SelectionChanged);
+            this.gridViewTokenTransactions.IsItemSelectable += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.IsItemSelectableEventArgs>(this.gridView_IsItemSelectable);
             // 
             // groupBox3
             // 
@@ -635,7 +638,8 @@
             this.gridViewAllTransactions.Size = new System.Drawing.Size(143, 111);
             this.gridViewAllTransactions.TabIndex = 2;
             this.gridViewAllTransactions.Visible = false;
-            this.gridViewAllTransactions.SelectionChanged += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.SelectedItemEventArgs>(this.gridViewAllTransactions_SelectionChanged);
+            this.gridViewAllTransactions.SelectionChanged += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.SelectedItemEventArgs>(this.gridView_SelectionChanged);
+            this.gridViewAllTransactions.IsItemSelectable += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.IsItemSelectableEventArgs>(this.gridView_IsItemSelectable);
             // 
             // toolStripTransactions
             // 

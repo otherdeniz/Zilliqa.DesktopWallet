@@ -1,13 +1,16 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView;
 
-namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
+namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 {
     public partial class AddressDetailsControl : DrillDownBaseControl
     {
         private AccountViewModel? _account;
         private bool _viewModelOwned;
+        private bool _showCurrencyColumns = false;
 
         public AddressDetailsControl()
         {
@@ -16,6 +19,20 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             gridViewAllTransactions.Dock = DockStyle.Fill;
             gridViewZilTransactions.Dock = DockStyle.Fill;
             gridViewTokenTransactions.Dock = DockStyle.Fill;
+        }
+
+        [DefaultValue(false)]
+        public bool ShowCurrencyColumns
+        {
+            get => _showCurrencyColumns;
+            set
+            {
+                _showCurrencyColumns = value;
+                gridViewTokenBalances.DisplayDynamicColumns = value;
+                gridViewAllTransactions.DisplayDynamicColumns = value;
+                gridViewZilTransactions.DisplayDynamicColumns = value;
+                gridViewTokenTransactions.DisplayDynamicColumns = value;
+            }
         }
 
         public void BindAccountViewModel(AccountViewModel account, bool viewModelOwned)
@@ -183,59 +200,26 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             tabPageControl.Visible = true;
         }
 
-        private void gridViewAllTransactions_SelectionChanged(object sender, GridView.GridViewControl.SelectedItemEventArgs e)
+        private void gridView_SelectionChanged(object sender, GridView.GridViewControl.SelectedItemEventArgs e)
         {
-            if (e.SelectedItem?.Value != null)
+            if (e.SelectedItem?.Value != null
+                && sender is GridViewControl gridView)
             {
                 DrillDownToObject(e.SelectedItem.Value, o =>
                 {
-                    if (o != gridViewAllTransactions)
+                    if (o != gridView)
                     {
-                        gridViewAllTransactions.ClearSelection();
+                        gridView.ClearSelection();
                     }
-                }, gridViewAllTransactions);
+                }, gridView);
             }
         }
 
-        private void gridViewZilTransactions_SelectionChanged(object sender, GridView.GridViewControl.SelectedItemEventArgs e)
+        private void gridView_IsItemSelectable(object sender, GridView.GridViewControl.IsItemSelectableEventArgs e)
         {
             if (e.SelectedItem?.Value != null)
             {
-                DrillDownToObject(e.SelectedItem.Value, o =>
-                {
-                    if (o != gridViewZilTransactions)
-                    {
-                        gridViewZilTransactions.ClearSelection();
-                    }
-                }, gridViewZilTransactions);
-            }
-        }
-
-        private void gridViewTokenTransactions_SelectionChanged(object sender, GridView.GridViewControl.SelectedItemEventArgs e)
-        {
-            if (e.SelectedItem?.Value != null)
-            {
-                DrillDownToObject(e.SelectedItem.Value, o =>
-                {
-                    if (o != gridViewTokenTransactions)
-                    {
-                        gridViewTokenTransactions.ClearSelection();
-                    }
-                }, gridViewTokenTransactions);
-            }
-        }
-
-        private void gridViewTokenBalances_SelectionChanged(object sender, GridView.GridViewControl.SelectedItemEventArgs e)
-        {
-            if (e.SelectedItem?.Value != null)
-            {
-                DrillDownToObject(e.SelectedItem.Value, o =>
-                {
-                    if (o != gridViewTokenBalances)
-                    {
-                        gridViewTokenBalances.ClearSelection();
-                    }
-                }, gridViewTokenBalances);
+                e.IsSelectable = CanDrillDownToObject(e.SelectedItem.Value);
             }
         }
     }

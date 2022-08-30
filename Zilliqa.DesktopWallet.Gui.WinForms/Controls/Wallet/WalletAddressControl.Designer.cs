@@ -1,4 +1,6 @@
-﻿namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
+﻿using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details;
+
+namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 {
     partial class WalletAddressControl
     {
@@ -36,7 +38,7 @@
             this.buttonBackupPrivateKey = new System.Windows.Forms.ToolStripButton();
             this.separatorBackup = new System.Windows.Forms.ToolStripSeparator();
             this.buttonRemoveAccount = new System.Windows.Forms.ToolStripButton();
-            this.addressDetails = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet.AddressDetailsControl();
+            this.addressDetails = new AddressDetailsControl();
             this.toolStripAccountActions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,7 +53,7 @@
             this.buttonRemoveAccount});
             this.toolStripAccountActions.Location = new System.Drawing.Point(0, 0);
             this.toolStripAccountActions.Name = "toolStripAccountActions";
-            this.toolStripAccountActions.Size = new System.Drawing.Size(597, 25);
+            this.toolStripAccountActions.Size = new System.Drawing.Size(703, 25);
             this.toolStripAccountActions.TabIndex = 2;
             // 
             // buttonSend
@@ -109,7 +111,8 @@
             this.addressDetails.IsDrillDownMainControl = true;
             this.addressDetails.Location = new System.Drawing.Point(0, 25);
             this.addressDetails.Name = "addressDetails";
-            this.addressDetails.Size = new System.Drawing.Size(253, 658);
+            this.addressDetails.ShowCurrencyColumns = true;
+            this.addressDetails.Size = new System.Drawing.Size(703, 658);
             this.addressDetails.TabIndex = 3;
             // 
             // WalletAddressControl
@@ -119,7 +122,7 @@
             this.Controls.Add(this.addressDetails);
             this.Controls.Add(this.toolStripAccountActions);
             this.Name = "WalletAddressControl";
-            this.Size = new System.Drawing.Size(597, 683);
+            this.Size = new System.Drawing.Size(1047, 683);
             this.Controls.SetChildIndex(this.toolStripAccountActions, 0);
             this.Controls.SetChildIndex(this.addressDetails, 0);
             this.toolStripAccountActions.ResumeLayout(false);

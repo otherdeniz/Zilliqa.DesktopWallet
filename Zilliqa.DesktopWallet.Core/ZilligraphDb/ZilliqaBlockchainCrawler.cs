@@ -27,7 +27,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
         public int NumberOfBlocksOnChain
             => RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo.NumberOfBlocks == 0
                 ? 0
-                : RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo.NumberOfBlocks - 2; // can be -1 if Api does not return exception 'Failed to get Microblock'
+                : RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo.NumberOfBlocks - 1;
 
         public int NumberOfBlocksProcessed { get; private set; }
 
@@ -193,7 +193,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                             }
                             catch (Exception e)
                             {
-                                Logging.LogError("TransactionsCrawlerJob has Exception", e);
+                                Logging.LogError($"TransactionsCrawlerJob has Exception on block {blockModel.BlockNumber}", e);
                                 loopDelay = 10000;
                             }
                         }

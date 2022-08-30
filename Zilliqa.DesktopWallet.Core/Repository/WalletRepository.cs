@@ -16,13 +16,13 @@ namespace Zilliqa.DesktopWallet.Core.Repository
             WalletDat.Instance.MyAccounts.ForEach(a =>
             {
                 KnownAddressService.Instance.AddUnique(a.GetAddressBech32(), a.Name);
-                _myAccountsList.Add(new AccountViewModel(a, OnAccountChanged));
+                _myAccountsList.Add(new AccountViewModel(a, OnAccountChanged, true));
             });
             MyAccounts = new ReadOnlyCollection<AccountViewModel>(_myAccountsList);
             WalletDat.Instance.WatchedAccounts.ForEach(a =>
             {
                 KnownAddressService.Instance.AddUnique(a.GetAddressBech32(), a.Name);
-                _watchedAccountsList.Add(new AccountViewModel(a, OnAccountChanged));
+                _watchedAccountsList.Add(new AccountViewModel(a, OnAccountChanged, true));
             });
             WatchedAccounts = new ReadOnlyCollection<AccountViewModel>(_watchedAccountsList);
         }
@@ -40,12 +40,12 @@ namespace Zilliqa.DesktopWallet.Core.Repository
             if (account is MyAccount myAccount)
             {
                 WalletDat.Instance.MyAccounts.Add(myAccount);
-                _myAccountsList.Add(new AccountViewModel(account, OnAccountChanged));
+                _myAccountsList.Add(new AccountViewModel(account, OnAccountChanged, true));
             }
             else if (account is WatchedAccount watchedAccount)
             {
                 WalletDat.Instance.WatchedAccounts.Add(watchedAccount);
-                _watchedAccountsList.Add(new AccountViewModel(account, OnAccountChanged));
+                _watchedAccountsList.Add(new AccountViewModel(account, OnAccountChanged, true));
             }
             else
             {

@@ -2,7 +2,8 @@
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel;
-using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 {
@@ -22,6 +23,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         public void BindAccountViewModel(AccountViewModel account)
         {
             _account = account;
+            SetMainValueUniqueId(account.Address);
             if (account.AccountData is MyAccount)
             {
                 buttonSend.Visible = true;

@@ -15,7 +15,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
         private readonly Dictionary<int, DynamicColumnCategory> _columnDynamicCategories = new();
         private readonly Dictionary<int, GridViewFormatAttribute> _columnIndexesFormatAttributes = new();
         private readonly Dictionary<int, PropertyInfo> _selectableColumns = new();
-        //private int? _hoveredRowIndex;
         private CellIdentity? _hoverCell;
         private CellIdentity? _selectedCell;
 
@@ -24,9 +23,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             InitializeComponent();
         }
 
-        //public event EventHandler<RowSelectionEventArgs> RowSelected;
+        public event EventHandler<SelectedItemEventArgs>? SelectionChanged;
 
-        public event EventHandler<SelectedItemEventArgs> SelectionChanged;
+        public event EventHandler<IsItemSelectableEventArgs>? IsItemSelectable;
 
         [Browsable(false)]
         [DefaultValue(null)]
@@ -38,6 +37,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 
         [DefaultValue(false)]
         public bool AutoSelectFirstRow { get; set; } = false;
+
+        [DefaultValue(false)]
+        public bool DisplayDynamicColumns { get; set; } = false;
 
         public void LoadData(IList dataSource, Type itemType)
         {
@@ -67,10 +69,31 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             base.Dispose(disposing);
         }
 
+        private bool CheckIsItemSelectable(CellIdentity cellIdentity)
+        {
+            var selectionItem = GetCellIdentitySelectionItem(cellIdentity);
+            if (selectionItem != null)
+            {
+                var eventArgs = new IsItemSelectableEventArgs(selectionItem);
+                IsItemSelectable?.Invoke(this, eventArgs);
+                return eventArgs.IsSelectable;
+            }
+
+            return false;
+        }
+
         private void OnSelectCell(CellIdentity? selectCell)
         {
             if (!EnableSelection 
                 || selectCell?.Equals(_selectedCell) == true) return;
+
+            if (selectCell != null
+                && !CheckIsItemSelectable(selectCell))
+            {
+                _hoverCell = selectCell;
+                selectCell.UnavailableMark();
+                return;
+            }
 
             if (_selectedCell != null)
             {
@@ -81,25 +104,36 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             _hoverCell = null;
             if (selectCell != null)
             {
-                var rowObject = _dataSourceList[selectCell.RowIndex];
-                if (rowObject == null) return;
-                if (selectCell.ColumnIndex == null)
-                {
-                    SelectedItem = new SelectionItem(selectCell.RowIndex, rowObject, SelectionItemType.Row);
-                }
-                else if (_selectableColumns.TryGetValue(selectCell.ColumnIndex.Value, out var cellPropertyInfo))
-                {
-                    var cellObject = cellPropertyInfo.GetValue(rowObject);
-                    SelectedItem = new SelectionItem(selectCell.RowIndex, cellObject, SelectionItemType.Cell);
-                }
+                var selectionItem = GetCellIdentitySelectionItem(selectCell);
+                SelectedItem = selectionItem;
+                _selectedCell = selectCell;
                 selectCell.Select();
             }
             else
             {
                 SelectedItem = null;
+                _selectedCell = null;
             }
-            _selectedCell = selectCell;
             SelectionChanged?.Invoke(this, new SelectedItemEventArgs(SelectedItem));
+        }
+
+        private SelectionItem? GetCellIdentitySelectionItem(CellIdentity cellIdentity)
+        {
+            var rowObject = _dataSourceList[cellIdentity.RowIndex];
+            if (rowObject != null)
+            {
+                if (cellIdentity.ColumnIndex == null)
+                {
+                    return new SelectionItem(cellIdentity.RowIndex, rowObject, SelectionItemType.Row);
+                }
+                if (_selectableColumns.TryGetValue(cellIdentity.ColumnIndex.Value, out var cellPropertyInfo))
+                {
+                    var cellObject = cellPropertyInfo.GetValue(rowObject);
+                    return new SelectionItem(cellIdentity.RowIndex, cellObject, SelectionItemType.Cell);
+                }
+            }
+
+            return null;
         }
 
         private void ApplyVisibleDynamicColumns()
@@ -107,6 +141,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             foreach (var columnDynamicCategory in _columnDynamicCategories)
             {
                 dataGridView.Columns[columnDynamicCategory.Key].Visible =
+                    DisplayDynamicColumns &&
                     IsDynamicColumnCategoryVisible(columnDynamicCategory.Value);
             }
         }
@@ -116,6 +151,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             var currentDisplay = DisplayCurrenciesService.Instance.CurrentDisplayed;
             switch (category)
             {
+                case DynamicColumnCategory.CurrencyUsd:
+                    return true;
                 case DynamicColumnCategory.CurrencyChf:
                     return currentDisplay.DisplayChf;
                 case DynamicColumnCategory.CurrencyEur:
@@ -147,26 +184,40 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 
         private void ApplyRowBackground(int rowIndex, Color? rowBackColor)
         {
-            var row = dataGridView.Rows[rowIndex];
-            foreach (DataGridViewCell cell in row.Cells)
+            try
             {
-                if (_selectedCell != null 
-                    && _selectedCell.RowIndex == rowIndex 
-                    && _selectedCell.ColumnIndex == cell.ColumnIndex)
+                var row = dataGridView.Rows[rowIndex];
+                foreach (DataGridViewCell cell in row.Cells)
                 {
-                    // this cell is selected and will not be back-color changed
+                    if (_selectedCell != null
+                        && _selectedCell.RowIndex == rowIndex
+                        && _selectedCell.ColumnIndex == cell.ColumnIndex)
+                    {
+                        // this cell is selected and will not be back-color changed
+                    }
+                    else
+                    {
+                        cell.Style.BackColor = rowBackColor ?? cell.OwningColumn.DefaultCellStyle.BackColor;
+                    }
                 }
-                else
-                {
-                    cell.Style.BackColor = rowBackColor ?? cell.OwningColumn.DefaultCellStyle.BackColor;
-                }
+            }
+            catch (Exception)
+            {
+                // ignore
             }
         }
 
         private void ApplyCellBackground(int rowIndex, int columnIndex, Color? rowBackColor)
         {
-            var cell = dataGridView.Rows[rowIndex].Cells[columnIndex];
-            cell.Style.BackColor = rowBackColor ?? cell.OwningColumn.DefaultCellStyle.BackColor;
+            try
+            {
+                var cell = dataGridView.Rows[rowIndex].Cells[columnIndex];
+                cell.Style.BackColor = rowBackColor ?? cell.OwningColumn.DefaultCellStyle.BackColor;
+            }
+            catch (Exception)
+            {
+                // ignore
+            }
         }
 
         private void dataGridView_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -206,7 +257,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                         _columnDynamicCategories.Add(column.Index, dynamicColumnAttribute.Category);
                     }
 
-                    if (DrillDownControlFactory.IsSelectableCell(propertyInfo.PropertyType))
+                    if (ValueSelectionHelper.IsSelectableCell(propertyInfo.PropertyType))
                     {
                         _selectableColumns.Add(column.Index, propertyInfo);
                     }
@@ -252,7 +303,14 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             if (mouseHoverCellIdentiy.Equals(_selectedCell)) return; // already selected
 
             _hoverCell = mouseHoverCellIdentiy;
-            _hoverCell.Hover();
+            if (CheckIsItemSelectable(mouseHoverCellIdentiy))
+            {
+                _hoverCell.Hover();
+            }
+            else
+            {
+                _hoverCell.UnavailableHover();
+            }
         }
 
         private void dataGridView_MouseLeave(object sender, EventArgs e)
@@ -304,15 +362,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             }
         }
 
-        [Obsolete("SelectedItemEventArgs is the new")]
-        public class RowSelectionEventArgs : EventArgs
+        public class IsItemSelectableEventArgs : SelectedItemEventArgs
         {
-            public object? SelectedRow { get; }
-
-            public RowSelectionEventArgs(object? selectedRow)
+            public IsItemSelectableEventArgs(SelectionItem selectionItem)
+                :base (selectionItem)
             {
-                SelectedRow = selectedRow;
             }
+            public bool IsSelectable { get; set; } = true;
         }
 
         public class SelectedItemEventArgs : EventArgs
@@ -412,6 +468,30 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                 else
                 {
                     _control.ApplyCellBackground(RowIndex, ColumnIndex.Value, null);
+                }
+            }
+
+            public void UnavailableHover()
+            {
+                if (ColumnIndex == null)
+                {
+                    _control.ApplyRowBackground(RowIndex, GuiColors.UnavailableHoverBackColor);
+                }
+                else
+                {
+                    _control.ApplyCellBackground(RowIndex, ColumnIndex.Value, GuiColors.UnavailableHoverBackColor);
+                }
+            }
+
+            public void UnavailableMark()
+            {
+                if (ColumnIndex == null)
+                {
+                    _control.ApplyRowBackground(RowIndex, GuiColors.UnavailableMarkBackColor);
+                }
+                else
+                {
+                    _control.ApplyCellBackground(RowIndex, ColumnIndex.Value, GuiColors.UnavailableMarkBackColor);
                 }
             }
 

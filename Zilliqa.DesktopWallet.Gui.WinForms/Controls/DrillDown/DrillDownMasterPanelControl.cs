@@ -1,14 +1,40 @@
-﻿using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
+﻿using Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView;
 
-namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
+namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
 {
     public partial class DrillDownMasterPanelControl : UserControl
     {
         private readonly List<DisplayViewModelPathItem> _displayHierarchy = new();
+        private string? _mainValueUniqueId;
+        private readonly HashSet<string> _valueUniqueIds = new();
 
         public DrillDownMasterPanelControl()
         {
             InitializeComponent();
+        }
+
+        public void SetMainValueUniqueId(object value)
+        {
+            SetMainValueUniqueId(ValueSelectionHelper.GetValueUniqueId(value));
+        }
+
+        public void SetMainValueUniqueId(string uniqueId)
+        {
+            _mainValueUniqueId = uniqueId;
+            if (!_valueUniqueIds.Contains(uniqueId))
+            {
+                _valueUniqueIds.Add(uniqueId);
+            }
+        }
+
+        public bool ContainsValueUniqueId(object value)
+        {
+            return _valueUniqueIds.Contains(ValueSelectionHelper.GetValueUniqueId(value));
+        }
+
+        public bool ContainsValueUniqueId(string valueUniqueId)
+        {
+            return _valueUniqueIds.Contains(valueUniqueId);
         }
 
         public void DisplayViewModel(object viewModel, bool resetHistory, Action<object?>? afterClose = null, object? afterCloseArgument = null)
@@ -17,6 +43,17 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             {
                 _displayHierarchy.LastOrDefault()?.AfterClose?.Invoke(afterCloseArgument);
                 _displayHierarchy.Clear();
+                _valueUniqueIds.Clear();
+                if (_mainValueUniqueId != null)
+                {
+                    _valueUniqueIds.Add(_mainValueUniqueId);
+                }
+            }
+
+            var viewModelUniqueId = ValueSelectionHelper.GetValueUniqueId(viewModel);
+            if (!_valueUniqueIds.Contains(viewModelUniqueId))
+            {
+                _valueUniqueIds.Add(viewModelUniqueId);
             }
 
             var childControl = DrillDownControlFactory.CreateDisplayControl(viewModel);
@@ -24,7 +61,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             {
                 drillDownChildControl.DrillDownPanel = this;
             }
-            var pathItem = new DisplayViewModelPathItem(viewModel, childControl, afterClose);
+            var pathItem = new DisplayViewModelPathItem(viewModel, viewModelUniqueId, childControl, afterClose);
 
             _displayHierarchy.Add(pathItem);
             if (_displayHierarchy.Count == 1)
@@ -58,6 +95,15 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             ShowDisplayControl(pathItem);
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
         private void GoBackInHistory(int pathIndex)
         {
 
@@ -80,10 +126,15 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 
         private class DisplayViewModelPathItem
         {
-            public DisplayViewModelPathItem(object viewModel, Control displayControl, Action<object?>? afterClose, object? afterCloseArgument = null)
+            public DisplayViewModelPathItem(object viewModel, 
+                string viewModelUniqueId, 
+                Control displayControl, 
+                Action<object?>? afterClose, 
+                object? afterCloseArgument = null)
             {
                 ViewModel = viewModel;
                 DisplayControl = displayControl;
+                ViewModelUniqueId = viewModelUniqueId;
                 AfterClose = afterClose;
                 AfterCloseArgument = afterCloseArgument;
             }
@@ -91,6 +142,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             public object ViewModel { get; }
 
             public Control DisplayControl { get; }
+
+            public string ViewModelUniqueId { get; }
 
             public Action<object?>? AfterClose { get; }
 

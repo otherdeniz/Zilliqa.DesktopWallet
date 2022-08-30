@@ -57,16 +57,19 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [DisplayName("USD Today")]
         [GridViewFormat("#,##0.00 $")]
         [GridViewBackground(KnownColor.Gainsboro)]
+        [GridViewDynamicColumn(DynamicColumnCategory.CurrencyUsd)]
         public virtual decimal? ValueUsdToday { get; private set; }
 
         [DisplayName("USD Then")]
         [GridViewFormat("#,##0.00 $")]
         [GridViewBackground(KnownColor.Gainsboro)]
+        [GridViewDynamicColumn(DynamicColumnCategory.CurrencyUsd)]
         public virtual decimal? ValueUsdThen { get; private set; }
 
         [DisplayName("USD Change")]
         [GridViewFormat(null, UseGreenOrRedNumbers = true)]
         [GridViewBackground(KnownColor.Gainsboro)]
+        [GridViewDynamicColumn(DynamicColumnCategory.CurrencyUsd)]
         public virtual ValueNumberDisplay? ChangeUsd { get; private set; }
 
         [DisplayName("CHF Today")]

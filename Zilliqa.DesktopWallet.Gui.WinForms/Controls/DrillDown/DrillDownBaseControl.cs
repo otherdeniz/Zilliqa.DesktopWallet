@@ -16,6 +16,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
         [DefaultValue(false)]
         public bool IsDrillDownMainControl { get; set; }
 
+        public bool CanDrillDownToObject(object viewModel)
+        {
+            return DrillDownPanel?.ContainsValueUniqueId(viewModel) == false;
+        }
+
         public void DrillDownToObject(object viewModel, Action<object?>? afterClose = null, object? afterCloseArgument = null)
         {
             DrillDownPanel?.DisplayViewModel(viewModel, IsDrillDownMainControl, afterClose, afterCloseArgument);
