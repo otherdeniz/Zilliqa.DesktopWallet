@@ -22,9 +22,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
                 var vm = new AccountViewModel(WatchedAccount.Create(addressValue.Address),
                     _ => control.RefreshAccountSummaries());
                 control.BindAccountViewModel(vm, true);
+                return control;
             }
 
-            return new DrillDownObjectControl();
+            var genericControl = new GenericObjectControl();
+            genericControl.LoadGenericViewModel(value);
+            return genericControl;
         }
     }
 }

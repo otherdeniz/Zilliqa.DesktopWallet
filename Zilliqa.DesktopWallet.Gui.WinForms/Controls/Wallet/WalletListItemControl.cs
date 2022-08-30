@@ -27,7 +27,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 
         public void RefreshAccount()
         {
-            labelAmount.Text = $"{Account.ZilTotalBalance:#,##0} ZIL + {Account.TokenBalances.Count} Tokens = {Account.TotalValueUsd:#,##0.00} USD";
+            labelAmount.Text = $"{Account.ZilTotalBalance:#,##0} ZIL + {Account.TokenBalances?.Count ?? 0} Tokens = {Account.TotalValueUsd:#,##0.00} USD";
         }
 
         protected override void Dispose(bool disposing)

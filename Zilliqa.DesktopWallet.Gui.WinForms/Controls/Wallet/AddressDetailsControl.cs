@@ -1,9 +1,10 @@
 ﻿using System.Diagnostics;
 using Zilliqa.DesktopWallet.Core.ViewModel;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 {
-    public partial class AddressDetailsControl : UserControl
+    public partial class AddressDetailsControl : DrillDownBaseControl
     {
         private AccountViewModel? _account;
         private bool _viewModelOwned;
@@ -22,10 +23,28 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             _account = account;
             _viewModelOwned = viewModelOwned;
             textZilAddress.Text = account.AddressBech32;
-            gridViewTokenBalances.LoadData(account.TokenBalances, typeof(TokenBalanceRowViewModel));
-            gridViewAllTransactions.LoadData(account.AllTransactions, typeof(CommonTransactionRowViewModel));
-            gridViewZilTransactions.LoadData(account.ZilTransactions, typeof(ZilTransactionRowViewModel));
-            gridViewTokenTransactions.LoadData(account.TokenTransactions, typeof(TokenTransactionRowViewModel));
+            if (account.IsBindingListsLoadCompleted)
+            {
+                gridViewTokenBalances.LoadData(account.TokenBalances, typeof(TokenBalanceRowViewModel));
+                gridViewAllTransactions.LoadData(account.AllTransactions, typeof(CommonTransactionRowViewModel));
+                gridViewZilTransactions.LoadData(account.ZilTransactions, typeof(ZilTransactionRowViewModel));
+                gridViewTokenTransactions.LoadData(account.TokenTransactions, typeof(TokenTransactionRowViewModel));
+                RefreshAccountSummaries();
+            }
+            else
+            {
+                account.BindingListsLoadCompleted += Account_BindingListsLoadCompleted;
+            }
+        }
+
+        private void Account_BindingListsLoadCompleted(object? sender, EventArgs e)
+        {
+            if (_account == null) return;
+
+            gridViewTokenBalances.LoadData(_account.TokenBalances, typeof(TokenBalanceRowViewModel));
+            gridViewAllTransactions.LoadData(_account.AllTransactions, typeof(CommonTransactionRowViewModel));
+            gridViewZilTransactions.LoadData(_account.ZilTransactions, typeof(ZilTransactionRowViewModel));
+            gridViewTokenTransactions.LoadData(_account.TokenTransactions, typeof(TokenTransactionRowViewModel));
             RefreshAccountSummaries();
         }
 
@@ -164,5 +183,60 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             tabPageControl.Visible = true;
         }
 
+        private void gridViewAllTransactions_SelectionChanged(object sender, GridView.GridViewControl.SelectedItemEventArgs e)
+        {
+            if (e.SelectedItem?.Value != null)
+            {
+                DrillDownToObject(e.SelectedItem.Value, o =>
+                {
+                    if (o != gridViewAllTransactions)
+                    {
+                        gridViewAllTransactions.ClearSelection();
+                    }
+                }, gridViewAllTransactions);
+            }
+        }
+
+        private void gridViewZilTransactions_SelectionChanged(object sender, GridView.GridViewControl.SelectedItemEventArgs e)
+        {
+            if (e.SelectedItem?.Value != null)
+            {
+                DrillDownToObject(e.SelectedItem.Value, o =>
+                {
+                    if (o != gridViewZilTransactions)
+                    {
+                        gridViewZilTransactions.ClearSelection();
+                    }
+                }, gridViewZilTransactions);
+            }
+        }
+
+        private void gridViewTokenTransactions_SelectionChanged(object sender, GridView.GridViewControl.SelectedItemEventArgs e)
+        {
+            if (e.SelectedItem?.Value != null)
+            {
+                DrillDownToObject(e.SelectedItem.Value, o =>
+                {
+                    if (o != gridViewTokenTransactions)
+                    {
+                        gridViewTokenTransactions.ClearSelection();
+                    }
+                }, gridViewTokenTransactions);
+            }
+        }
+
+        private void gridViewTokenBalances_SelectionChanged(object sender, GridView.GridViewControl.SelectedItemEventArgs e)
+        {
+            if (e.SelectedItem?.Value != null)
+            {
+                DrillDownToObject(e.SelectedItem.Value, o =>
+                {
+                    if (o != gridViewTokenBalances)
+                    {
+                        gridViewTokenBalances.ClearSelection();
+                    }
+                }, gridViewTokenBalances);
+            }
+        }
     }
 }

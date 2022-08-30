@@ -104,10 +104,12 @@
             // 
             this.addressDetails.BackColor = System.Drawing.Color.White;
             this.addressDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.addressDetails.DrillDownPanel = this;
             this.addressDetails.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.addressDetails.IsDrillDownMainControl = true;
             this.addressDetails.Location = new System.Drawing.Point(0, 25);
             this.addressDetails.Name = "addressDetails";
-            this.addressDetails.Size = new System.Drawing.Size(597, 658);
+            this.addressDetails.Size = new System.Drawing.Size(253, 658);
             this.addressDetails.TabIndex = 3;
             // 
             // WalletAddressControl
@@ -118,6 +120,8 @@
             this.Controls.Add(this.toolStripAccountActions);
             this.Name = "WalletAddressControl";
             this.Size = new System.Drawing.Size(597, 683);
+            this.Controls.SetChildIndex(this.toolStripAccountActions, 0);
+            this.Controls.SetChildIndex(this.addressDetails, 0);
             this.toolStripAccountActions.ResumeLayout(false);
             this.toolStripAccountActions.PerformLayout();
             this.ResumeLayout(false);

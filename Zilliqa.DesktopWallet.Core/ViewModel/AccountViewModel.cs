@@ -28,6 +28,10 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             LoadTransactions(_cancellationTokenSource.Token);
         }
 
+        public event EventHandler<EventArgs>? BindingListsLoadCompleted;
+
+        public bool IsBindingListsLoadCompleted { get; private set; }
+
         public Address Address => AccountData.Address;
 
         public string AddressBech32 => AccountData.GetAddressBech32();
@@ -74,6 +78,15 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             WinFormsSynchronisationContext.ExecuteSynchronized(() =>
             {
                 _afterChangedAction(this);
+            });
+        }
+
+        private void OnBindingListsLoadCompleted()
+        {
+            IsBindingListsLoadCompleted = true;
+            WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+            {
+                BindingListsLoadCompleted?.Invoke(this, EventArgs.Empty);
             });
         }
 
@@ -148,6 +161,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                             transactionViewModels.Add(vm);
                         }
                     }
+
+                    OnBindingListsLoadCompleted();
                     if (addressTransactions.Any())
                     {
                         OnTransactionsChanged();
@@ -180,6 +195,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                         {
                             WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                             {
+                                
                                 AllTransactions.ResetBindings();
                                 ZilTransactions.ResetBindings();
                                 TokenTransactions.ResetBindings();

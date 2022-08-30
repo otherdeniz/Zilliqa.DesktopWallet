@@ -15,6 +15,8 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
     private Image? _logoIcon;
     private Image? _directionIcon;
     private AddressValue? _otherAddress;
+    private Zrc2TokenValue? _token;
+
     private decimal? _tokenAmount;
     private string? _date;
     private decimal? _fee;
@@ -33,10 +35,12 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
 
     public string Date => _date ??= Transaction.Timestamp.ToLocalTime().ToString("g");
 
-    [DisplayName("Icon")]
+    [DisplayName(" ")]
     public Image? LogoIcon => _logoIcon ??= _tokenModel.GetTokenIcon().Icon16;
 
-    [Browsable(true)]
+    public Zrc2TokenValue Token => _token ??= new Zrc2TokenValue(_tokenModel);
+
+    [Browsable(false)]
     public override string Symbol => _tokenModel.Symbol;
 
     [Browsable(true)]

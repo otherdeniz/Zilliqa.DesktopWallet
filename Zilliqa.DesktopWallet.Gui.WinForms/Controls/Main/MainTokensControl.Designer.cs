@@ -148,6 +148,7 @@
             this.gridViewTokens.Name = "gridViewTokens";
             this.gridViewTokens.Size = new System.Drawing.Size(278, 355);
             this.gridViewTokens.TabIndex = 1;
+            this.gridViewTokens.SelectionChanged += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.SelectedItemEventArgs>(this.gridViewTokens_SelectionChanged);
             // 
             // groupBoxMarketData
             // 

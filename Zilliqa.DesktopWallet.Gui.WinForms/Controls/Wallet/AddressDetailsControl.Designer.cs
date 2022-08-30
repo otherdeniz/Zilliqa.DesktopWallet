@@ -507,22 +507,25 @@
             this.gridViewTokenBalances.Name = "gridViewTokenBalances";
             this.gridViewTokenBalances.Size = new System.Drawing.Size(131, 58);
             this.gridViewTokenBalances.TabIndex = 0;
+            this.gridViewTokenBalances.SelectionChanged += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.SelectedItemEventArgs>(this.gridViewTokenBalances_SelectionChanged);
             // 
             // gridViewZilTransactions
             // 
-            this.gridViewZilTransactions.Location = new System.Drawing.Point(179, 16);
+            this.gridViewZilTransactions.Location = new System.Drawing.Point(16, 15);
             this.gridViewZilTransactions.Name = "gridViewZilTransactions";
             this.gridViewZilTransactions.Size = new System.Drawing.Size(131, 111);
             this.gridViewZilTransactions.TabIndex = 1;
             this.gridViewZilTransactions.Visible = false;
+            this.gridViewZilTransactions.SelectionChanged += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.SelectedItemEventArgs>(this.gridViewZilTransactions_SelectionChanged);
             // 
             // gridViewTokenTransactions
             // 
-            this.gridViewTokenTransactions.Location = new System.Drawing.Point(345, 16);
+            this.gridViewTokenTransactions.Location = new System.Drawing.Point(182, 15);
             this.gridViewTokenTransactions.Name = "gridViewTokenTransactions";
             this.gridViewTokenTransactions.Size = new System.Drawing.Size(143, 111);
             this.gridViewTokenTransactions.TabIndex = 1;
             this.gridViewTokenTransactions.Visible = false;
+            this.gridViewTokenTransactions.SelectionChanged += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.SelectedItemEventArgs>(this.gridViewTokenTransactions_SelectionChanged);
             // 
             // groupBox3
             // 
@@ -627,11 +630,12 @@
             // 
             // gridViewAllTransactions
             // 
-            this.gridViewAllTransactions.Location = new System.Drawing.Point(16, 16);
+            this.gridViewAllTransactions.Location = new System.Drawing.Point(347, 15);
             this.gridViewAllTransactions.Name = "gridViewAllTransactions";
             this.gridViewAllTransactions.Size = new System.Drawing.Size(143, 111);
             this.gridViewAllTransactions.TabIndex = 2;
             this.gridViewAllTransactions.Visible = false;
+            this.gridViewAllTransactions.SelectionChanged += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.SelectedItemEventArgs>(this.gridViewAllTransactions_SelectionChanged);
             // 
             // toolStripTransactions
             // 

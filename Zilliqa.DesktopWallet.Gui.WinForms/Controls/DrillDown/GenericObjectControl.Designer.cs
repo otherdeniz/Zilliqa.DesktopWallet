@@ -1,6 +1,6 @@
 ﻿namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
 {
-    partial class DrillDownObjectControl
+    partial class GenericObjectControl
     {
         /// <summary> 
         /// Required designer variable.

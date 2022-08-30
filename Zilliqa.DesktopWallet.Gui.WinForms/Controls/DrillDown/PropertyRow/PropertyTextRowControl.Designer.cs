@@ -66,7 +66,7 @@
 
         #endregion
 
-        private Label labelProperty;
-        private Label labelValue;
+        public Label labelProperty;
+        public Label labelValue;
     }
 }

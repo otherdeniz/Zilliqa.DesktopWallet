@@ -2,25 +2,29 @@
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 {
-    public partial class RightDrillDownPanelControl : UserControl
+    public partial class DrillDownMasterPanelControl : UserControl
     {
         private readonly List<DisplayViewModelPathItem> _displayHierarchy = new();
 
-        public RightDrillDownPanelControl()
+        public DrillDownMasterPanelControl()
         {
             InitializeComponent();
         }
 
-        public void DisplayViewModel(object viewModel, bool resetHistory, Action? afterClose = null)
+        public void DisplayViewModel(object viewModel, bool resetHistory, Action<object?>? afterClose = null, object? afterCloseArgument = null)
         {
             if (resetHistory)
             {
-                _displayHierarchy.LastOrDefault()?.AfterClose?.Invoke();
+                _displayHierarchy.LastOrDefault()?.AfterClose?.Invoke(afterCloseArgument);
                 _displayHierarchy.Clear();
             }
 
-            var pathItem = new DisplayViewModelPathItem(viewModel, 
-                DrillDownControlFactory.CreateDisplayControl(viewModel), afterClose);
+            var childControl = DrillDownControlFactory.CreateDisplayControl(viewModel);
+            if (childControl is DrillDownBaseControl drillDownChildControl)
+            {
+                drillDownChildControl.DrillDownPanel = this;
+            }
+            var pathItem = new DisplayViewModelPathItem(viewModel, childControl, afterClose);
 
             _displayHierarchy.Add(pathItem);
             if (_displayHierarchy.Count == 1)
@@ -70,24 +74,28 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
         {
             panelRight.Visible = false;
             splitterRight.Visible = false;
-            _displayHierarchy.LastOrDefault()?.AfterClose?.Invoke();
+            _displayHierarchy.LastOrDefault()?.AfterClose?.Invoke(null);
             _displayHierarchy.Clear();
         }
 
         private class DisplayViewModelPathItem
         {
-            public DisplayViewModelPathItem(object viewModel, Control displayControl, Action? afterClose)
+            public DisplayViewModelPathItem(object viewModel, Control displayControl, Action<object?>? afterClose, object? afterCloseArgument = null)
             {
                 ViewModel = viewModel;
                 DisplayControl = displayControl;
                 AfterClose = afterClose;
+                AfterCloseArgument = afterCloseArgument;
             }
 
             public object ViewModel { get; }
 
             public Control DisplayControl { get; }
 
-            public Action? AfterClose { get; }
+            public Action<object?>? AfterClose { get; }
+
+            public object? AfterCloseArgument { get; }
         }
+
     }
 }

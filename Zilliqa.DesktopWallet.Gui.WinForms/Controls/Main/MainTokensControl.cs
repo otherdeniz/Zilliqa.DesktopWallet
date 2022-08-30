@@ -35,23 +35,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             panelLoaded.Visible = true;
         }
 
-        private void gridViewTokens_RowSelected(object sender, GridView.GridViewControl.RowSelectionEventArgs e)
-        {
-            groupBoxTokenDetails.Visible = true;
-            groupBoxMarketData.Visible = true;
-            var token = (TokenRowViewModel)e.SelectedRow;
-            pictureBoxIcon.Image = token.Model.GetTokenIcon().Icon48;
-            labelName.Text = token.Name;
-            labelSymbol.Text = token.Symbol;
-            labelContractAddress.Text = token.Model.AddressBech32;
-            labelInitSupply.Text = token.Model.MarketData.InitSupply.ToString("#,##0");
-            labelMaxSupply.Text = token.Model.MarketData.MaxSupply.ToString("#,##0");
-            linkLabelWebsite.Text = token.Model.WebsiteUrl;
-            linkLabelTelegram.Text = token.Model.TelegramUrl;
-            linkLabelWhitepaper.Text = token.Model.WhitepaperUrl;
-            propertyGridMarketData.SelectedObject = token.Model.MarketData;
-        }
-
         private void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (sender is LinkLabel linkLabel
@@ -62,6 +45,25 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                     FileName = linkLabel.Text,
                     UseShellExecute = true
                 });
+            }
+        }
+
+        private void gridViewTokens_SelectionChanged(object sender, GridView.GridViewControl.SelectedItemEventArgs e)
+        {
+            if (e.SelectedItem?.Value is TokenRowViewModel token)
+            {
+                groupBoxTokenDetails.Visible = true;
+                groupBoxMarketData.Visible = true;
+                pictureBoxIcon.Image = token.Model.GetTokenIcon().Icon48;
+                labelName.Text = token.Name;
+                labelSymbol.Text = token.Symbol;
+                labelContractAddress.Text = token.Model.AddressBech32;
+                labelInitSupply.Text = token.Model.MarketData.InitSupply.ToString("#,##0");
+                labelMaxSupply.Text = token.Model.MarketData.MaxSupply.ToString("#,##0");
+                linkLabelWebsite.Text = token.Model.WebsiteUrl;
+                linkLabelTelegram.Text = token.Model.TelegramUrl;
+                linkLabelWhitepaper.Text = token.Model.WhitepaperUrl;
+                propertyGridMarketData.SelectedObject = token.Model.MarketData;
             }
         }
     }

@@ -2,10 +2,11 @@
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 {
-    public partial class WalletAddressControl : UserControl
+    public partial class WalletAddressControl : DrillDownMasterPanelControl
     {
         private AccountViewModel? _account;
 

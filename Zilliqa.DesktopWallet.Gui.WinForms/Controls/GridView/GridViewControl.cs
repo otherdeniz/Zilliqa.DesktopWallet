@@ -51,10 +51,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 
         public void ClearSelection()
         {
-            if (_selectedCell != null)
-            {
-                ApplyRowBackground(_selectedCell.RowIndex, null);
-            }
+            _selectedCell?.UnSelect();
             _hoverCell = null;
             _selectedCell = null;
             SelectedItem = null;
@@ -329,15 +326,15 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 
         public class SelectionItem
         {
-            public SelectionItem(int rowIndex, object? selectedItem, SelectionItemType selectionItemType, int? cellColumnIndex = null)
+            public SelectionItem(int rowIndex, object? value, SelectionItemType selectionItemType, int? cellColumnIndex = null)
             {
                 RowIndex = rowIndex;
-                SelectedItem = selectedItem;
+                Value = value;
                 SelectionItemType = selectionItemType;
                 CellColumnIndex = cellColumnIndex;
             }
             public int RowIndex { get; }
-            public object? SelectedItem { get; }
+            public object? Value { get; }
             public SelectionItemType SelectionItemType { get; }
             public int? CellColumnIndex { get; }
         }

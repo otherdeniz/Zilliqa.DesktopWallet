@@ -25,7 +25,9 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
         public bool IsCompleted { get; private set; }
 
         public int NumberOfBlocksOnChain
-            => RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo.NumberOfBlocks - 1;
+            => RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo.NumberOfBlocks == 0
+                ? 0
+                : RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo.NumberOfBlocks - 2; // can be -1 if Api does not return exception 'Failed to get Microblock'
 
         public int NumberOfBlocksProcessed { get; private set; }
 
