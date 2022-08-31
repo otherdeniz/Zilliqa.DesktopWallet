@@ -4,14 +4,15 @@ using System.Reflection;
 using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
-using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
+using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 {
     public partial class GridViewControl : DesignableUserControl
     {
         private Type? _itemType;
-        private IList _dataSourceList;
+        private IList? _dataSourceList;
+        private IPageableDataSource? _dataSourcePageable;
         private readonly Dictionary<int, DynamicColumnCategory> _columnDynamicCategories = new();
         private readonly Dictionary<int, GridViewFormatAttribute> _columnIndexesFormatAttributes = new();
         private readonly Dictionary<int, PropertyInfo> _selectableColumns = new();
@@ -21,6 +22,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
         public GridViewControl()
         {
             InitializeComponent();
+            labelLoading.Visible = true;
+            dataGridView.Visible = false;
+            toolStripPaging.Visible = false;
         }
 
         public event EventHandler<SelectedItemEventArgs>? SelectionChanged;
@@ -41,14 +45,47 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
         [DefaultValue(false)]
         public bool DisplayDynamicColumns { get; set; } = false;
 
+        public void LoadData(IPageableDataSource dataSource, Type itemType)
+        {
+            _dataSourcePageable = dataSource;
+            _dataSourceList = null;
+            _itemType = itemType;
+            _columnDynamicCategories.Clear();
+            _columnIndexesFormatAttributes.Clear();
+            _selectableColumns.Clear();
+            ClearSelection();
+            dataGridView.DataSource = GetEmptyGenericList(itemType);
+            DataBindingInitialise();
+            _dataSourcePageable.ExecuteAfterLoadCompleted(s =>
+            {
+                if (_dataSourcePageable == s)
+                {
+                    _dataSourceList = s.GetPage(1);
+                    dataGridView.DataSource = _dataSourceList;
+                    DataBindingCompleted();
+                    labelLoading.Visible = false;
+                    dataGridView.Visible = true;
+                    RefreshPagingButtons();
+                }
+            }, true);
+        }
+
         public void LoadData(IList dataSource, Type itemType)
         {
+            _dataSourcePageable = null;
             _itemType = itemType;
             _dataSourceList = dataSource;
             _columnDynamicCategories.Clear();
             _columnIndexesFormatAttributes.Clear();
             _selectableColumns.Clear();
-            dataGridView.DataSource = dataSource;
+            ClearSelection();
+            dataGridView.DataSource = GetEmptyGenericList(itemType);
+            DataBindingInitialise();
+            dataGridView.DataSource = _dataSourceList;
+            DataBindingCompleted();
+            labelLoading.Visible = false;
+            dataGridView.Visible = true;
+            RefreshPagingButtons();
         }
 
         public void ClearSelection()
@@ -65,8 +102,97 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             {
                 components.Dispose();
             }
-            DisplayCurrenciesService.Instance.DisplayCurrenciesChanged -= InstanceOnDisplayCurrenciesChanged;
+            DisplayCurrenciesService.Instance.DisplayCurrenciesChanged -= ServiceOnDisplayCurrenciesChanged;
             base.Dispose(disposing);
+        }
+
+        private void LoadDataPage(int pageNumber)
+        {
+            if (_dataSourcePageable != null)
+            {
+                var dataSource = _dataSourcePageable.GetPage(pageNumber);
+                _dataSourceList = dataSource;
+                dataGridView.DataSource = _dataSourceList;
+                RefreshPagingButtons();
+            }
+        }
+
+        private void DataBindingInitialise()
+        {
+            if (_itemType == null) return;
+            var baseType = _itemType.BaseType;
+            _columnIndexesFormatAttributes.Clear();
+            _columnDynamicCategories.Clear();
+            _selectableColumns.Clear();
+            foreach (var propertyInfo in _itemType.GetProperties())
+            {
+                var column = dataGridView.Columns[propertyInfo.Name];
+                if (column != null)
+                {
+                    var parentPropertyInfo = baseType?.GetProperty(propertyInfo.Name);
+                    if ((propertyInfo.GetCustomAttributes(typeof(GridViewFormatAttribute), false).FirstOrDefault()
+                         ?? parentPropertyInfo?.GetCustomAttributes(typeof(GridViewFormatAttribute), false).FirstOrDefault())
+                        is GridViewFormatAttribute formatAttribute)
+                    {
+                        if (!string.IsNullOrEmpty(formatAttribute.Format))
+                        {
+                            column.DefaultCellStyle.Format = formatAttribute.Format;
+                        }
+                        _columnIndexesFormatAttributes.Add(column.Index, formatAttribute);
+                    }
+                    if ((propertyInfo.GetCustomAttributes(typeof(GridViewBackgroundAttribute), false).FirstOrDefault()
+                         ?? parentPropertyInfo?.GetCustomAttributes(typeof(GridViewBackgroundAttribute), false).FirstOrDefault())
+                        is GridViewBackgroundAttribute backgroundAttribute)
+                    {
+                        column.DefaultCellStyle.BackColor = backgroundAttribute.BackColor;
+                    }
+
+                    if ((propertyInfo.GetCustomAttributes(typeof(GridViewDynamicColumnAttribute), false).FirstOrDefault()
+                         ?? parentPropertyInfo?.GetCustomAttributes(typeof(GridViewDynamicColumnAttribute), false).FirstOrDefault())
+                        is GridViewDynamicColumnAttribute dynamicColumnAttribute)
+                    {
+                        _columnDynamicCategories.Add(column.Index, dynamicColumnAttribute.Category);
+                    }
+
+                    if (ValueSelectionHelper.IsSelectableCell(propertyInfo.PropertyType))
+                    {
+                        _selectableColumns.Add(column.Index, propertyInfo);
+                    }
+                }
+            }
+            ApplyVisibleDynamicColumns();
+        }
+
+        private void DataBindingCompleted()
+        {
+            if (AutoSelectFirstRow 
+                && _dataSourceList?.Count > 0
+                && SelectedItem != null)
+            {
+                OnSelectCell(CellIdentity.Create(this, 0, null));
+            }
+        }
+
+        private void RefreshPagingButtons()
+        {
+            if (_dataSourcePageable?.PageCount > 1)
+            {
+                toolStripPaging.Visible = true;
+                labelPageNumber.Text = $"Page {_dataSourcePageable.CurrentPageNumber} of {_dataSourcePageable.PageCount}";
+                var firstPageRecord = (_dataSourcePageable.CurrentPageNumber-1) * _dataSourcePageable.PageSize + 1;
+                var lastPageRecord = firstPageRecord + _dataSourcePageable.PageSize > _dataSourcePageable.RecordCount
+                    ? _dataSourcePageable.RecordCount
+                    : firstPageRecord + _dataSourcePageable.PageSize;
+                labelRecordRange.Text = $"# {firstPageRecord:#,##0} - {lastPageRecord:#,##0}";
+                buttonPageFirst.Enabled = _dataSourcePageable.CurrentPageNumber > 1;
+                buttonPageBack.Enabled = _dataSourcePageable.CurrentPageNumber > 1;
+                buttonPageNext.Enabled = _dataSourcePageable.CurrentPageNumber < _dataSourcePageable.PageCount;
+                buttonPageLast.Enabled = _dataSourcePageable.CurrentPageNumber < _dataSourcePageable.PageCount;
+            }
+            else
+            {
+                toolStripPaging.Visible = false;
+            }
         }
 
         private bool CheckIsItemSelectable(CellIdentity cellIdentity)
@@ -119,7 +245,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 
         private SelectionItem? GetCellIdentitySelectionItem(CellIdentity cellIdentity)
         {
-            var rowObject = _dataSourceList[cellIdentity.RowIndex];
+            var rowObject = _dataSourceList?[cellIdentity.RowIndex];
             if (rowObject != null)
             {
                 if (cellIdentity.ColumnIndex == null)
@@ -134,6 +260,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             }
 
             return null;
+        }
+
+        private IList GetEmptyGenericList(Type itemType)
+        {
+            return (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(itemType))!;
         }
 
         private void ApplyVisibleDynamicColumns()
@@ -169,7 +300,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             return false;
         }
 
-        private void InstanceOnDisplayCurrenciesChanged(object? sender, EventArgs e)
+        private void ServiceOnDisplayCurrenciesChanged(object? sender, EventArgs e)
         {
             ApplyVisibleDynamicColumns();
         }
@@ -178,7 +309,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
         {
             if (!InDesignMode())
             {
-                DisplayCurrenciesService.Instance.DisplayCurrenciesChanged += InstanceOnDisplayCurrenciesChanged;
+                DisplayCurrenciesService.Instance.DisplayCurrenciesChanged += ServiceOnDisplayCurrenciesChanged;
             }
         }
 
@@ -220,66 +351,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             }
         }
 
-        private void dataGridView_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
-        {
-            if (_itemType == null) return;
-            var baseType = _itemType.BaseType;
-            _columnIndexesFormatAttributes.Clear();
-            _columnDynamicCategories.Clear();
-            _selectableColumns.Clear();
-            foreach (var propertyInfo in _itemType.GetProperties())
-            {
-                var column = dataGridView.Columns[propertyInfo.Name];
-                if (column != null)
-                {
-                    var parentPropertyInfo = baseType?.GetProperty(propertyInfo.Name);
-                    if ((propertyInfo.GetCustomAttributes(typeof(GridViewFormatAttribute), false).FirstOrDefault()
-                         ?? parentPropertyInfo?.GetCustomAttributes(typeof(GridViewFormatAttribute), false).FirstOrDefault())
-                        is GridViewFormatAttribute formatAttribute)
-                    {
-                        if (!string.IsNullOrEmpty(formatAttribute.Format))
-                        {
-                            column.DefaultCellStyle.Format = formatAttribute.Format;
-                        }
-                        _columnIndexesFormatAttributes.Add(column.Index, formatAttribute);
-                    }
-                    if ((propertyInfo.GetCustomAttributes(typeof(GridViewBackgroundAttribute), false).FirstOrDefault()
-                         ?? parentPropertyInfo?.GetCustomAttributes(typeof(GridViewBackgroundAttribute), false).FirstOrDefault())
-                        is GridViewBackgroundAttribute backgroundAttribute)
-                    {
-                        column.DefaultCellStyle.BackColor = backgroundAttribute.BackColor;
-                    }
-
-                    if ((propertyInfo.GetCustomAttributes(typeof(GridViewDynamicColumnAttribute), false).FirstOrDefault()
-                         ?? parentPropertyInfo?.GetCustomAttributes(typeof(GridViewDynamicColumnAttribute), false).FirstOrDefault())
-                        is GridViewDynamicColumnAttribute dynamicColumnAttribute)
-                    {
-                        _columnDynamicCategories.Add(column.Index, dynamicColumnAttribute.Category);
-                    }
-
-                    if (ValueSelectionHelper.IsSelectableCell(propertyInfo.PropertyType))
-                    {
-                        _selectableColumns.Add(column.Index, propertyInfo);
-                    }
-                }
-            }
-            ApplyVisibleDynamicColumns();
-            if (AutoSelectFirstRow && _dataSourceList.Count > 0)
-            {
-                OnSelectCell(CellIdentity.Create(this, 0, null));
-            }
-        }
-
         private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (_dataSourceList.Count > 0)
+            if (_dataSourceList?.Count > 0 
+                && e.RowIndex > -1)
             {
-                if (e.RowIndex > -1)
-                {
-                    OnSelectCell(CellIdentity.Create(this, e.RowIndex, e.ColumnIndex));
-                }
+                OnSelectCell(CellIdentity.Create(this, e.RowIndex, e.ColumnIndex));
             }
-            //TODO: add sorting features if Header clicked (RowIndex = -1)
         }
 
         private void dataGridView_SelectionChanged(object sender, EventArgs e)
@@ -359,6 +437,35 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                         }
                     }
                 }
+            }
+        }
+
+        private void buttonPageFirst_Click(object sender, EventArgs e)
+        {
+            LoadDataPage(1);
+        }
+
+        private void buttonPageBack_Click(object sender, EventArgs e)
+        {
+            if (_dataSourcePageable?.CurrentPageNumber > 1)
+            {
+                LoadDataPage(_dataSourcePageable.CurrentPageNumber - 1);
+            }
+        }
+
+        private void buttonPageNext_Click(object sender, EventArgs e)
+        {
+            if (_dataSourcePageable != null)
+            {
+                LoadDataPage(_dataSourcePageable.CurrentPageNumber + 1);
+            }
+        }
+
+        private void buttonPageLast_Click(object sender, EventArgs e)
+        {
+            if (_dataSourcePageable != null)
+            {
+                LoadDataPage(_dataSourcePageable.PageCount);
             }
         }
 
@@ -519,5 +626,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                 }
             }
         }
+
     }
 }

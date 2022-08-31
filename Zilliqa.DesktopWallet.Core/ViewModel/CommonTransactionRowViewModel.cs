@@ -10,31 +10,31 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
     public class CommonTransactionRowViewModel : TransactionRowViewModelBase
     {
-        private readonly TransactionRowViewModelBase? _innerTransaction;
+        private readonly TransactionRowViewModelBase? _innerViewModel;
         private AddressValue? _otherAddress;
         private string? _date;
         private decimal? _fee;
 
-        public CommonTransactionRowViewModel(Address thisAddress, Transaction transactionModel, TransactionRowViewModelBase? innerTransaction)
+        public CommonTransactionRowViewModel(Address thisAddress, Transaction transactionModel, TransactionRowViewModelBase? innerViewModel)
             : base(thisAddress, transactionModel)
         {
-            _innerTransaction = innerTransaction;
+            _innerViewModel = innerViewModel;
         }
 
         public string Date => _date ??= Transaction.Timestamp.ToLocalTime().ToString("g");
 
         [Browsable(false)]
-        public override TransactionDirection Direction => _innerTransaction?.Direction ?? base.Direction;
+        public override TransactionDirection Direction => _innerViewModel?.Direction ?? base.Direction;
 
         public string Type
         {
             get
             {
-                if (_innerTransaction is ZilTransactionRowViewModel)
+                if (_innerViewModel is ZilTransactionRowViewModel)
                 {
                     return "ZIL Transfer";
                 }
-                if (_innerTransaction is TokenTransactionRowViewModel tokenTransaction)
+                if (_innerViewModel is TokenTransactionRowViewModel tokenTransaction)
                 {
                     return $"{tokenTransaction.Symbol} Transfer";
                 }
@@ -57,9 +57,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         {
             get
             {
-                if (_innerTransaction != null)
+                if (_innerViewModel != null)
                 {
-                    return _innerTransaction.DirectionIcon;
+                    return _innerViewModel.DirectionIcon;
                 }
                 if (Transaction.TransactionTypeEnum == TransactionType.ContractCall)
                 {
@@ -81,7 +81,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [Browsable(true)]
         [DisplayName("Address")]
-        public override AddressValue? OtherAddress => _innerTransaction?.OtherAddress
+        public override AddressValue? OtherAddress => _innerViewModel?.OtherAddress
                                                       ?? (_otherAddress ??= Direction == TransactionDirection.SendTo
                                                           ? new AddressValue(Transaction.ToAddress)
                                                           : new AddressValue(Transaction.SenderAddress));
@@ -89,48 +89,53 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [Browsable(true)]
         [DisplayName("Amount")]
         public string AmountDisplay =>
-            _innerTransaction == null ? string.Empty : $"{_innerTransaction.Amount:#,##0.0000} {_innerTransaction.Symbol}";
+            _innerViewModel == null ? string.Empty : $"{_innerViewModel.Amount:#,##0.0000} {_innerViewModel.Symbol}";
 
         [GridViewFormat("0.0000 ZIL")]
         public decimal Fee => _fee ??= (Transaction.Receipt.CumulativeGas * Transaction.GasPrice).ZilSatoshisToZil();
 
-        public override string Symbol => _innerTransaction?.Symbol ?? "";
+        public override string Symbol => _innerViewModel?.Symbol ?? "";
 
-        public override decimal Amount => _innerTransaction?.Amount ?? 0;
+        public override decimal Amount => _innerViewModel?.Amount ?? 0;
 
         //Usd
-        public override decimal? ValueUsdToday => _innerTransaction?.ValueUsdToday;
-        public override decimal? ValueUsdThen => _innerTransaction?.ValueUsdThen;
-        public override ValueNumberDisplay? ChangeUsd => _innerTransaction?.ChangeUsd;
+        public override decimal? ValueUsdToday => _innerViewModel?.ValueUsdToday;
+        public override decimal? ValueUsdThen => _innerViewModel?.ValueUsdThen;
+        public override ValueNumberDisplay? ChangeUsd => _innerViewModel?.ChangeUsd;
 
         //Chf
-        public override decimal? ValueChfToday => _innerTransaction?.ValueChfToday;
-        public override decimal? ValueChfThen => _innerTransaction?.ValueChfThen;
-        public override ValueNumberDisplay? ChangeChf => _innerTransaction?.ChangeChf;
+        public override decimal? ValueChfToday => _innerViewModel?.ValueChfToday;
+        public override decimal? ValueChfThen => _innerViewModel?.ValueChfThen;
+        public override ValueNumberDisplay? ChangeChf => _innerViewModel?.ChangeChf;
 
         //Eur
-        public override decimal? ValueEurToday => _innerTransaction?.ValueEurToday;
-        public override decimal? ValueEurThen => _innerTransaction?.ValueEurThen;
-        public override ValueNumberDisplay? ChangeEur => _innerTransaction?.ChangeEur;
+        public override decimal? ValueEurToday => _innerViewModel?.ValueEurToday;
+        public override decimal? ValueEurThen => _innerViewModel?.ValueEurThen;
+        public override ValueNumberDisplay? ChangeEur => _innerViewModel?.ChangeEur;
 
         //Gbp
-        public override decimal? ValueGbpToday => _innerTransaction?.ValueGbpToday;
-        public override decimal? ValueGbpThen => _innerTransaction?.ValueGbpThen;
-        public override ValueNumberDisplay? ChangeGbp => _innerTransaction?.ChangeGbp;
+        public override decimal? ValueGbpToday => _innerViewModel?.ValueGbpToday;
+        public override decimal? ValueGbpThen => _innerViewModel?.ValueGbpThen;
+        public override ValueNumberDisplay? ChangeGbp => _innerViewModel?.ChangeGbp;
 
         //Btc
-        public override decimal? ValueBtcToday => _innerTransaction?.ValueBtcToday;
-        public override decimal? ValueBtcThen => _innerTransaction?.ValueBtcThen;
-        public override ValueNumberDisplay? ChangeBtc => _innerTransaction?.ChangeBtc;
+        public override decimal? ValueBtcToday => _innerViewModel?.ValueBtcToday;
+        public override decimal? ValueBtcThen => _innerViewModel?.ValueBtcThen;
+        public override ValueNumberDisplay? ChangeBtc => _innerViewModel?.ChangeBtc;
 
         //Eth
-        public override decimal? ValueEthToday => _innerTransaction?.ValueEthToday;
-        public override decimal? ValueEthThen => _innerTransaction?.ValueEthThen;
-        public override ValueNumberDisplay? ChangeEth => _innerTransaction?.ChangeEth;
+        public override decimal? ValueEthToday => _innerViewModel?.ValueEthToday;
+        public override decimal? ValueEthThen => _innerViewModel?.ValueEthThen;
+        public override ValueNumberDisplay? ChangeEth => _innerViewModel?.ChangeEth;
 
         //Ltc
-        public override decimal? ValueLtcToday => _innerTransaction?.ValueLtcToday;
-        public override decimal? ValueLtcThen => _innerTransaction?.ValueLtcThen;
-        public override ValueNumberDisplay? ChangeLtc => _innerTransaction?.ChangeLtc;
+        public override decimal? ValueLtcToday => _innerViewModel?.ValueLtcToday;
+        public override decimal? ValueLtcThen => _innerViewModel?.ValueLtcThen;
+        public override ValueNumberDisplay? ChangeLtc => _innerViewModel?.ChangeLtc;
+
+        public override void LoadValuesProperties(bool notifiyPropertyChanged)
+        {
+            _innerViewModel?.LoadValuesProperties(notifiyPropertyChanged);
+        }
     }
 }

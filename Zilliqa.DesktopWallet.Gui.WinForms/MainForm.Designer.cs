@@ -38,10 +38,13 @@
             this.buttonBlockchain = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonSettings = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.buttonMenuDisplayCurrencies = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDisplayCurrencyEur = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDisplayCurrencyChf = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDisplayCurrencyGbp = new System.Windows.Forms.ToolStripMenuItem();
+            this.cryptoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDisplayCurrencyBtc = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDisplayCurrencyEth = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDisplayCurrencyLtc = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,9 +57,6 @@
             this.groupBoxStatus = new System.Windows.Forms.GroupBox();
             this.bottomStatusControl1 = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.BottomStatusControl();
             this.timerInit = new System.Windows.Forms.Timer(this.components);
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.cryptoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMain.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.panelBottom.SuspendLayout();
@@ -142,8 +142,15 @@
             this.buttonSettings.Visible = false;
             this.buttonSettings.Click += new System.EventHandler(this.buttonSettings_Click);
             // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(52, 28);
+            this.toolStripLabel1.Text = "Settings:";
+            // 
             // buttonMenuDisplayCurrencies
             // 
+            this.buttonMenuDisplayCurrencies.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.buttonMenuDisplayCurrencies.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem2,
             this.menuDisplayCurrencyEur,
@@ -156,8 +163,16 @@
             this.buttonMenuDisplayCurrencies.Image = ((System.Drawing.Image)(resources.GetObject("buttonMenuDisplayCurrencies.Image")));
             this.buttonMenuDisplayCurrencies.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonMenuDisplayCurrencies.Name = "buttonMenuDisplayCurrencies";
-            this.buttonMenuDisplayCurrencies.Size = new System.Drawing.Size(197, 28);
+            this.buttonMenuDisplayCurrencies.Size = new System.Drawing.Size(173, 28);
             this.buttonMenuDisplayCurrencies.Text = "Display additional Currencies";
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.toolStripMenuItem2.Enabled = false;
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Text = "Fiat";
             // 
             // menuDisplayCurrencyEur
             // 
@@ -179,6 +194,14 @@
             this.menuDisplayCurrencyGbp.Size = new System.Drawing.Size(180, 22);
             this.menuDisplayCurrencyGbp.Text = "British Pound (GBP)";
             this.menuDisplayCurrencyGbp.Click += new System.EventHandler(this.menuDisplayCurrencyGbp_Click);
+            // 
+            // cryptoToolStripMenuItem
+            // 
+            this.cryptoToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.cryptoToolStripMenuItem.Enabled = false;
+            this.cryptoToolStripMenuItem.Name = "cryptoToolStripMenuItem";
+            this.cryptoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cryptoToolStripMenuItem.Text = "Crypto";
             // 
             // menuDisplayCurrencyBtc
             // 
@@ -292,28 +315,6 @@
             this.timerInit.Enabled = true;
             this.timerInit.Interval = 10;
             this.timerInit.Tick += new System.EventHandler(this.timerInit_Tick);
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(52, 28);
-            this.toolStripLabel1.Text = "Settings:";
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.toolStripMenuItem2.Enabled = false;
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(178, 22);
-            this.toolStripMenuItem2.Text = "Fiat";
-            // 
-            // cryptoToolStripMenuItem
-            // 
-            this.cryptoToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.cryptoToolStripMenuItem.Enabled = false;
-            this.cryptoToolStripMenuItem.Name = "cryptoToolStripMenuItem";
-            this.cryptoToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
-            this.cryptoToolStripMenuItem.Text = "Crypto";
             // 
             // MainForm
             // 

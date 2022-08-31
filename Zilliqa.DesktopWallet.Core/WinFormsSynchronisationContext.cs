@@ -6,7 +6,7 @@
 
         public static void ExecuteSynchronized(Action action)
         {
-            if (WinFormsMainContext != null)
+            if (WinFormsMainContext != null && WinFormsMainContext != SynchronizationContext.Current)
             {
                 WinFormsMainContext.Send(args => action(), null);
             }

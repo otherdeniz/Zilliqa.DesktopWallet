@@ -6,6 +6,7 @@ using Zilliqa.DesktopWallet.ApiClient.Enums;
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.Services;
+using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
 using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel
@@ -30,10 +31,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             LoadTransactions(_cancellationTokenSource.Token);
         }
 
-        public event EventHandler<EventArgs>? BindingListsLoadCompleted;
-
-        public bool IsBindingListsLoadCompleted { get; private set; }
-
         public Address Address => AccountData.Address;
 
         public string AddressBech32 => AccountData.GetAddressBech32();
@@ -42,13 +39,13 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         public AccountBase AccountData { get; }
 
-        public BindingList<CommonTransactionRowViewModel> AllTransactions { get; } = new();
-
-        public BindingList<ZilTransactionRowViewModel> ZilTransactions { get; } = new();
-
-        public BindingList<TokenTransactionRowViewModel> TokenTransactions { get; } = new();
-
         public BindingList<TokenBalanceRowViewModel> TokenBalances { get; } = new();
+
+        public PageableDataSource<CommonTransactionRowViewModel> AllTransactions { get; } = new();
+
+        public PageableDataSource<ZilTransactionRowViewModel> ZilTransactions { get; } = new();
+
+        public PageableDataSource<TokenTransactionRowViewModel> TokenTransactions { get; } = new();
 
         public decimal ZilLiquidBalance => _zilLiquidBalance ?? 0m;
 
@@ -69,26 +66,13 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             _tokensValueUsd = null;
             _tokensValueZil = null;
             RefreshBalances();
-            WinFormsSynchronisationContext.ExecuteSynchronized(() =>
-            {
-                _afterChangedAction(this);
-            });
         }
 
-        private void OnPropertyChanged()
+        private void RaiseAfterChange()
         {
             WinFormsSynchronisationContext.ExecuteSynchronized(() =>
             {
                 _afterChangedAction(this);
-            });
-        }
-
-        private void OnBindingListsLoadCompleted()
-        {
-            IsBindingListsLoadCompleted = true;
-            WinFormsSynchronisationContext.ExecuteSynchronized(() =>
-            {
-                BindingListsLoadCompleted?.Invoke(this, EventArgs.Empty);
             });
         }
 
@@ -115,7 +99,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                         _zilValueUsd = coingeckoRepo.ZilCoinPrice?.MarketData.CurrentPrice.Usd * ZilTotalBalance;
                         _tokensValueUsd = TokenBalances.Any() ? TokenBalances.Sum(t => t.ValueUsd) : 0;
                         _tokensValueZil = TokenBalances.Any() ? TokenBalances.Sum(t => t.ValueZil) : 0;
-                        OnPropertyChanged();
+                        RaiseAfterChange();
                         return;
                     }
                     catch (Exception e)
@@ -145,38 +129,43 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             };
             Task.Run(() =>
             {
-                var transactionViewModels = new List<TransactionRowViewModelBase>();
                 try
                 {
-                    var addressTransactions = tableTransactions.FindRecords(transactionsFilter)
-                        .OrderByDescending(t => t.Timestamp).ToList();
-                    foreach (var transaction in addressTransactions)
-                    {
-                        if (cancellationToken.IsCancellationRequested)
-                        {
-                            return;
-                        }
+                    var transactionViewModels = tableTransactions.FindRecords(transactionsFilter)
+                        .OrderByDescending(t => t.Timestamp)
+                        .Select(t => new TransactionViewModels(Address, t))
+                        .ToList();
 
-                        var vm = AddRecordViewModel(transaction, false, false, false);
-                        if (vm != null)
-                        {
-                            transactionViewModels.Add(vm);
-                        }
+                    AllTransactions.Load(transactionViewModels
+                        .Select(t => t.CommonTransaction)
+                        .ToList()
+                    );
+
+                    ZilTransactions.Load(transactionViewModels
+                        .Where(t => t.ZilTransaction != null)
+                        .Select(t => t.ZilTransaction!)
+                        .ToList()
+                    );
+
+                    TokenTransactions.Load(transactionViewModels
+                        .Where(t => t.TokenTransaction != null)
+                        .Select(t => t.TokenTransaction!)
+                        .ToList()
+                    );
+
+                    if (_loadCurrencyValues)
+                    {
+                        transactionViewModels.ForEach(t => t.CommonTransaction.LoadValuesProperties(false));
                     }
 
-                    OnBindingListsLoadCompleted();
-                    if (addressTransactions.Any())
-                    {
-                        OnTransactionsChanged();
-                    }
                     if (!cancellationToken.IsCancellationRequested)
                     {
-                        _transactionEventNotificator = tableTransactions.AddEventNotificator(record =>
-                                record.SenderAddress == addressHex
-                                || record.ToAddress == addressHex
-                                || record.TokenTransferSender() == addressHex
-                                || record.TokenTransferRecipient() == addressHex,
-                            OnAddedRecordEventNotified);
+                        _transactionEventNotificator = tableTransactions.AddEventNotificator(r => 
+                                r.SenderAddress == addressHex
+                                || r.ToAddress == addressHex
+                                || r.TokenTransferSender() == addressHex
+                                || r.TokenTransferRecipient() == addressHex
+                            , OnAddedRecordEventNotified);
                     }
                 }
                 catch (TaskCanceledException)
@@ -188,125 +177,118 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                     Logging.LogError("Account View Model LoadTransactions failed", e);
                 }
 
-                if (_loadCurrencyValues)
-                {
-                    var loadPropertiesState = transactionViewModels.Select(vm => vm.LoadValuesProperties(false)).ToList();
-                    try
-                    {
-                        for (int i = 0; i < 60; i++) // wait max 2 minutes
-                        {
-                            if (loadPropertiesState.All(l => l.IsCompleted))
-                            {
-                                WinFormsSynchronisationContext.ExecuteSynchronized(() =>
-                                {
+                //if (_loadCurrencyValues 
+                //    && !cancellationToken.IsCancellationRequested)
+                //{
+                //    transactionViewModels.ForEach(vm =>
+                //    {
+                //        if (!cancellationToken.IsCancellationRequested)
+                //        {
+                //            vm.LoadValuesProperties(false);
+                //        }
+                //    });
+                //    //TODO: check if re-binding is necessary after all Values loaded
+                //    //var loadPropertiesState = transactionViewModels.Select(vm => vm.LoadValuesProperties(false)).ToList();
+                //    //try
+                //    //{
+                //    //    for (int i = 0; i < 60; i++) // wait max 2 minutes
+                //    //    {
+                //    //        if (loadPropertiesState.All(l => l.IsCompleted))
+                //    //        {
+                //    //            WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                //    //            {
 
-                                    AllTransactions.ResetBindings();
-                                    ZilTransactions.ResetBindings();
-                                    TokenTransactions.ResetBindings();
-                                    TokenBalances.ResetBindings();
-                                });
-                                break;
-                            }
+                //    //                AllTransactions.ResetBindings();
+                //    //                ZilTransactions.ResetBindings();
+                //    //                TokenTransactions.ResetBindings();
+                //    //                TokenBalances.ResetBindings();
+                //    //            });
+                //    //            break;
+                //    //        }
 
-                            Task.Run(async () => await Task.Delay(2000, cancellationToken), cancellationToken).GetAwaiter()
-                                .GetResult();
-                        }
-                    }
-                    catch (TaskCanceledException)
-                    {
-                        // expected
-                    }
-                }
+                //    //        Task.Run(async () => await Task.Delay(2000, cancellationToken), cancellationToken).GetAwaiter()
+                //    //            .GetResult();
+                //    //    }
+                //    //}
+                //    //catch (TaskCanceledException)
+                //    //{
+                //    //    // expected
+                //    //}
+                //}
             }, cancellationToken);
         }
 
         private void OnAddedRecordEventNotified(Transaction record)
         {
-            AddRecordViewModel(record, true, _loadCurrencyValues, true);
+            var viewModel = new TransactionViewModels(Address, record);
+            AllTransactions.InsertRecordToTop(viewModel.CommonTransaction);
+            if (viewModel.ZilTransaction != null)
+            {
+                ZilTransactions.InsertRecordToTop(viewModel.ZilTransaction);
+            }
+            if (viewModel.TokenTransaction != null)
+            {
+                TokenTransactions.InsertRecordToTop(viewModel.TokenTransaction);
+                AddTokenBalanceTransaction(viewModel.TokenTransaction);
+            }
+            OnTransactionsChanged();
         }
 
-        private TransactionRowViewModelBase? AddRecordViewModel(Transaction record, bool raiseOnRecordsChanged, bool loadCurrencyValues, bool notifiyPropertyChanged)
+        private void AddTokenBalanceTransaction(TokenTransactionRowViewModel viewModel)
         {
-            TransactionRowViewModelBase? result = null;
-            try
+            var tokenBalance = TokenBalances.FirstOrDefault(t => t.Model.Symbol == viewModel.Symbol);
+            if (tokenBalance == null)
             {
-                if (record.TransactionTypeEnum == TransactionType.Payment)
+                tokenBalance = new TokenBalanceRowViewModel(viewModel.TokenModel);
+                WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                 {
-                    var transactionViewModel = new ZilTransactionRowViewModel(Address, record);
-                    if (loadCurrencyValues)
-                    {
-                        transactionViewModel.LoadValuesProperties(notifiyPropertyChanged);
-                    }
-                    if (ZilTransactions.FirstOrDefault()?.Transaction.Timestamp < record.Timestamp)
-                    {
-                        // add to beginning
-                        ZilTransactions.Insert(0, transactionViewModel);
-                    }
-                    else
-                    {
-                        // add to end
-                        ZilTransactions.Add(transactionViewModel);
-                    }
-                    result = transactionViewModel;
+                    TokenBalances.Add(tokenBalance);
+                });
+            }
+
+            tokenBalance.Transactions += 1;
+            if (viewModel.Direction == TransactionDirection.ReceiveFrom)
+            {
+                tokenBalance.Balance += viewModel.Amount;
+            }
+            else
+            {
+                tokenBalance.Balance -= viewModel.Amount;
+            }
+        }
+
+        private class TransactionViewModels
+        {
+            public TransactionViewModels(Address thisAddress, Transaction transaction)
+            {
+                Transaction = transaction;
+                TransactionRowViewModelBase? innerViewModel = null;
+                if (transaction.TransactionTypeEnum == TransactionType.Payment)
+                {
+                    ZilTransaction = new ZilTransactionRowViewModel(thisAddress, transaction);
+                    innerViewModel = ZilTransaction;
                 }
-                else if (record.TransactionTypeEnum == TransactionType.ContractCall)
+                else if (transaction.TransactionTypeEnum == TransactionType.ContractCall
+                         && transaction.DataContractCall.Tag == "Transfer")
                 {
-                    var tokenModel = TokenDataService.Instance.FindTokenByAddress(record.ToAddress);
+                    var tokenModel = TokenDataService.Instance.FindTokenByAddress(transaction.ToAddress);
                     if (tokenModel != null)
                     {
-                        var tokenTransaction = new TokenTransactionRowViewModel(Address, record, tokenModel);
-                        if (TokenTransactions.FirstOrDefault()?.Transaction.Timestamp < record.Timestamp)
-                        {
-                            // add to beginning
-                            TokenTransactions.Insert(0, tokenTransaction);
-                        }
-                        else
-                        {
-                            // add to end
-                            TokenTransactions.Add(tokenTransaction);
-                        }
-                        var tokenBalance = TokenBalances.FirstOrDefault(t => t.Model.Symbol == tokenModel.Symbol);
-                        if (tokenBalance == null)
-                        {
-                            tokenBalance = new TokenBalanceRowViewModel(tokenModel);
-                            TokenBalances.Add(tokenBalance);
-                        }
-
-                        tokenBalance.Transactions += 1;
-                        if (tokenTransaction.Direction == TransactionDirection.ReceiveFrom)
-                        {
-                            tokenBalance.Balance += tokenTransaction.Amount;
-                        }
-                        else
-                        {
-                            tokenBalance.Balance -= tokenTransaction.Amount;
-                        }
-                        result = tokenTransaction;
+                        TokenTransaction = new TokenTransactionRowViewModel(thisAddress, transaction, tokenModel);
+                        innerViewModel = TokenTransaction;
                     }
                 }
 
-                var commonTransaction = new CommonTransactionRowViewModel(Address, record, result);
-                if (AllTransactions.FirstOrDefault()?.Transaction.Timestamp < record.Timestamp)
-                {
-                    // add to beginning
-                    AllTransactions.Insert(0, commonTransaction);
-                }
-                else
-                {
-                    // add to end
-                    AllTransactions.Add(commonTransaction);
-                }
-                if (raiseOnRecordsChanged)
-                {
-                    OnTransactionsChanged();
-                }
-            }
-            catch (Exception e)
-            {
-                Logging.LogError("Account View Model OnAddedRecord failed.", e, record);
+                CommonTransaction = new CommonTransactionRowViewModel(thisAddress, transaction, innerViewModel);
             }
 
-            return result;
+            public Transaction Transaction { get; }
+
+            public CommonTransactionRowViewModel CommonTransaction { get; }
+
+            public ZilTransactionRowViewModel? ZilTransaction { get; }
+
+            public TokenTransactionRowViewModel? TokenTransaction { get; }
         }
     }
 }

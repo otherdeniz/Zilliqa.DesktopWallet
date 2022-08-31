@@ -40,28 +40,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             _account = account;
             _viewModelOwned = viewModelOwned;
             textZilAddress.Text = account.AddressBech32;
-            if (account.IsBindingListsLoadCompleted)
-            {
-                gridViewTokenBalances.LoadData(account.TokenBalances, typeof(TokenBalanceRowViewModel));
-                gridViewAllTransactions.LoadData(account.AllTransactions, typeof(CommonTransactionRowViewModel));
-                gridViewZilTransactions.LoadData(account.ZilTransactions, typeof(ZilTransactionRowViewModel));
-                gridViewTokenTransactions.LoadData(account.TokenTransactions, typeof(TokenTransactionRowViewModel));
-                RefreshAccountSummaries();
-            }
-            else
-            {
-                account.BindingListsLoadCompleted += Account_BindingListsLoadCompleted;
-            }
-        }
-
-        private void Account_BindingListsLoadCompleted(object? sender, EventArgs e)
-        {
-            if (_account == null) return;
-
-            gridViewTokenBalances.LoadData(_account.TokenBalances, typeof(TokenBalanceRowViewModel));
-            gridViewAllTransactions.LoadData(_account.AllTransactions, typeof(CommonTransactionRowViewModel));
-            gridViewZilTransactions.LoadData(_account.ZilTransactions, typeof(ZilTransactionRowViewModel));
-            gridViewTokenTransactions.LoadData(_account.TokenTransactions, typeof(TokenTransactionRowViewModel));
+            gridViewTokenBalances.LoadData(account.TokenBalances, typeof(TokenBalanceRowViewModel));
+            gridViewAllTransactions.LoadData(account.AllTransactions, typeof(CommonTransactionRowViewModel));
+            gridViewZilTransactions.LoadData(account.ZilTransactions, typeof(ZilTransactionRowViewModel));
+            gridViewTokenTransactions.LoadData(account.TokenTransactions, typeof(TokenTransactionRowViewModel));
             RefreshAccountSummaries();
         }
 
@@ -70,9 +52,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             if (_account == null) return;
 
             SetTabButtonCountText(tabButtonZrc2Tokens, _account.TokenBalances.Count);
-            SetTabButtonCountText(tabButtonAllTransactions, _account.AllTransactions.Count);
-            SetTabButtonCountText(tabButtonZilTransactions, _account.ZilTransactions.Count);
-            SetTabButtonCountText(tabButtonTokenTransactions, _account.TokenTransactions.Count);
+
+            _account.AllTransactions.ExecuteAfterLoadCompleted(l => SetTabButtonCountText(tabButtonAllTransactions, l.RecordCount), true);
+
+            _account.ZilTransactions.ExecuteAfterLoadCompleted(l => SetTabButtonCountText(tabButtonZilTransactions, l.RecordCount), true);
+
+            _account.TokenTransactions.ExecuteAfterLoadCompleted(l => SetTabButtonCountText(tabButtonTokenTransactions, l.RecordCount), true);
 
             labelZilTotalBalance.Text = $"{_account.ZilTotalBalance:#,##0.00} ZIL";
             labelZilLiquidBalance.Text = $"{_account.ZilLiquidBalance:#,##0.00} ZIL";
@@ -102,7 +87,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
                 button.Tag = button.Text;
                 buttonText = button.Text;
             }
-            button.Text = $"{buttonText} ({count})";
+            button.Text = $"{buttonText} ({count:#,##0})";
         }
 
         private void WalletAddressDetails_Load(object sender, EventArgs e)

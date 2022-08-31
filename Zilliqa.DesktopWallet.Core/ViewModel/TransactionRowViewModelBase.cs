@@ -15,7 +15,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         private readonly Transaction _transactionModel;
         private Image? _directionIcon;
         private AddressValue? _otherAddress;
-        private LoadValuePropertiesState? _loadValuePropertiesState;
 
         public TransactionRowViewModelBase(Address thisAddress, Transaction transactionModel)
         {
@@ -180,16 +179,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyLtc)]
         public virtual ValueNumberDisplay? ChangeLtc { get; private set; }
 
-        public LoadValuePropertiesState LoadValuesProperties(bool notifiyPropertyChanged)
+        public virtual void LoadValuesProperties(bool notifiyPropertyChanged)
         {
-            if (Symbol == "")
-            {
-                return new LoadValuePropertiesState
-                {
-                    IsCompleted = true
-                };
-            }
-            _loadValuePropertiesState = new LoadValuePropertiesState();
+            if (Symbol == "") return;
             try
             {
                 var coinPrice = RepositoryManager.Instance.CoingeckoRepository.GetCoinPrice(Symbol);
@@ -321,15 +313,12 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                             // ignore
                         }
                     }
-                    _loadValuePropertiesState.IsCompleted = true;
                 });
             }
             catch (Exception e)
             {
                 Logging.LogError($"TransactionRowViewModelBase.LoadValuesProperties of Coin {Symbol} failed", e);
             }
-
-            return _loadValuePropertiesState;
         }
 
         public override string ToString()
@@ -342,11 +331,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public class LoadValuePropertiesState
-        {
-            public bool IsCompleted { get; set; }
         }
     }
 }

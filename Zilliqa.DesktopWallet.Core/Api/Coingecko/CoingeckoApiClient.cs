@@ -48,7 +48,7 @@ namespace Zilliqa.DesktopWallet.Core.Api.Coingecko
             }
 
             var requestUrl = $"{BaseUrl}{urlPath}";
-            bool retryAfter60Seconds;
+            int retryAfterSeconds = 0;
             do
             {
                 _lastCall = DateTime.Now;
@@ -59,8 +59,23 @@ namespace Zilliqa.DesktopWallet.Core.Api.Coingecko
                     var response = await client.ExecuteAsync(request);
                     if (response.StatusCode == HttpStatusCode.TooManyRequests)
                     {
-                        await Task.Delay(60000);
-                        retryAfter60Seconds = true;
+                        if (retryAfterSeconds == 0)
+                        {
+                            retryAfterSeconds = 10;
+                        }
+                        else if(retryAfterSeconds == 10)
+                        {
+                            retryAfterSeconds = 30;
+                        }
+                        else if (retryAfterSeconds == 30)
+                        {
+                            retryAfterSeconds = 60;
+                        }
+                        else if (retryAfterSeconds == 60)
+                        {
+                            throw new ApiCallException($"CoingeckoApiClient Response Code was always TooManyRequests for more than 3 retries (10s, 30s, 60s); URL = {requestUrl};");
+                        }
+                        await Task.Delay(retryAfterSeconds * 1000);
                     }
                     else if (response.StatusCode != HttpStatusCode.OK)
                     {
@@ -72,9 +87,9 @@ namespace Zilliqa.DesktopWallet.Core.Api.Coingecko
                                ?? throw new ApiCallException($"CoingeckoApiClient Response Content was null; URL = {requestUrl}");
                     }
                 }
-            } while (retryAfter60Seconds);
+            } while (retryAfterSeconds > 0);
 
-            throw new ApiCallException($"CoingeckoApiClient Response ended without result; URL = {requestUrl}");
+            throw new ApiCallException($"CoingeckoApiClient Response ended unexpected; URL = {requestUrl}");
         }
     }
 }

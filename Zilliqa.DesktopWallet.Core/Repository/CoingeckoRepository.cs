@@ -12,6 +12,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
 {
     public class CoingeckoRepository
     {
+        private const int MaxHistoryQueueSize = 1000;
         private static readonly MemoryCache MemoryCache = new MemoryCache("CoingeckoRepository");
         private const string CoinIdZilliqa = "zilliqa";
         private static readonly string[] CoinIdsWhiteList = new[]
@@ -24,7 +25,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
         private Task? _startupTask;
         private readonly object _startupLock = new();
         private readonly Dictionary<string, string> _symbolToCoinId = new();
-        private readonly Queue<QueuedCoinHistoryRequest> _coinHistoryRequestQueue = new(1024);
+        private readonly Queue<QueuedCoinHistoryRequest> _coinHistoryRequestQueue = new(MaxHistoryQueueSize);
 
         public CoingeckoRepository()
         {
@@ -193,7 +194,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
 
         public void GetCoinHistory(DateTime date, string symbol, Action<CoinHistory?> afterDataReceived)
         {
-            if (date > DateTime.Now.AddHours(-36))
+            if (date > DateTime.Now.AddHours(-26))
             {
                 var coinPrice = GetCoinPrice(symbol);
                 if (coinPrice != null)
@@ -213,7 +214,10 @@ namespace Zilliqa.DesktopWallet.Core.Repository
 
             try
             {
-                _coinHistoryRequestQueue.Enqueue(new QueuedCoinHistoryRequest(date.Date, symbol, afterDataReceived));
+                if (_coinHistoryRequestQueue.Count < MaxHistoryQueueSize)
+                {
+                    _coinHistoryRequestQueue.Enqueue(new QueuedCoinHistoryRequest(date.Date, symbol, afterDataReceived));
+                }
             }
             catch (Exception)
             {
@@ -254,7 +258,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
         private CoinHistory? GetOrAddCoinHistory(DateTime date, string symbol)
         {
             return MemoryCache.GetOrAdd($"GetCoinHistory({date.ToShortDateString()},{symbol})",
-                TimeSpan.FromMinutes(10),
+                TimeSpan.FromMinutes(30),
                 () =>
                 {
                     var symbolLower = symbol.ToLower();
