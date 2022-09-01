@@ -122,6 +122,7 @@ namespace Zilligraph.Database.Storage
                             index.EndBulkInsert();
                         }
                     }
+                    Database.DbSizeChanged();
                 }
 
                 InitialisationCompletedPercent = 100;

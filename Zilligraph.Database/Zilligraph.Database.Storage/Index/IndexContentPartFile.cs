@@ -15,7 +15,7 @@ namespace Zilligraph.Database.Storage.Index
             TableFieldIndex = tableFieldIndex;
             var prefixHex = BitConverter.GetBytes(hashPrefix16Bit).ByteArrayToHexString();
             var partHex = hashPart4Bit.ByteToHexString().Substring(1);
-            _filePath = tableFieldIndex.Table.PathBuilder.GetFilePath($"{tableFieldIndex.Name}_index_content_{prefixHex}_{partHex}.bin");
+            _filePath = tableFieldIndex.PathBuilder.GetFilePath($"{tableFieldIndex.Name}_content_{prefixHex}_{partHex}.bin");
         }
 
         public ZilligraphTableIndexBase TableFieldIndex { get; }
@@ -66,11 +66,11 @@ namespace Zilligraph.Database.Storage.Index
                             var hashBuffer = new byte[_hashBytesLength];
                             var recordPointBuffer = new byte[8];
                             if (fileStream.Read(hashBuffer, 0, _hashBytesLength) != _hashBytesLength)
-                                throw new RuntimeException("index content read fatal error (hashBuffer)");
+                                throw new RuntimeException($"index content read fatal error (hashBuffer) - File {_filePath}");
                             if (valueHash.SequenceEqual(hashBuffer))
                             {
                                 if (fileStream.Read(recordPointBuffer, 0, 8) != 8)
-                                    throw new RuntimeException("index content read fatal error (positionBuffer)");
+                                    throw new RuntimeException($"index content read fatal error (positionBuffer) - File {_filePath}");
                                 return new IndexRecord(hashBuffer,
                                     BitConverter.ToUInt64(recordPointBuffer),
                                     Convert.ToUInt64(indexEntryPoint),
@@ -107,7 +107,7 @@ namespace Zilligraph.Database.Storage.Index
                         {
                             var advancePosition = Convert.ToInt64(lastIndexEntryPoint) - 1 + _hashBytesLength + 8;
                             if (fileStream.Seek(advancePosition, SeekOrigin.Begin) != advancePosition)
-                                throw new RuntimeException("index content read fatal error (Seek)");
+                                throw new RuntimeException($"index content read fatal error (Seek) - File {_filePath}");
                         }
                         while (fileStream.Position < fileStream.Length
                                && (maxCount == 0 || maxCount > indexList.Count))
@@ -116,11 +116,11 @@ namespace Zilligraph.Database.Storage.Index
                             var hashBuffer = new byte[_hashBytesLength];
                             var recordPointBuffer = new byte[8];
                             if (fileStream.Read(hashBuffer, 0, _hashBytesLength) != _hashBytesLength)
-                                throw new RuntimeException("index content read fatal error (hashBuffer)");
+                                throw new RuntimeException($"index content read fatal error (hashBuffer) - File {_filePath}");
                             if (valueHash.SequenceEqual(hashBuffer))
                             {
                                 if (fileStream.Read(recordPointBuffer, 0, 8) != 8)
-                                    throw new RuntimeException("index content read fatal error (positionBuffer)");
+                                    throw new RuntimeException($"index content read fatal error (positionBuffer) - File {_filePath}");
                                 indexList.Add(
                                     new IndexRecord(hashBuffer,
                                         BitConverter.ToUInt64(recordPointBuffer),
@@ -131,7 +131,7 @@ namespace Zilligraph.Database.Storage.Index
                             else
                             {
                                 if (fileStream.Seek(8, SeekOrigin.Current) != 8)
-                                    throw new RuntimeException("index content read fatal error (Seek)");
+                                    throw new RuntimeException($"index content read fatal error (Seek) - File {_filePath}");
                             }
                         }
                     }

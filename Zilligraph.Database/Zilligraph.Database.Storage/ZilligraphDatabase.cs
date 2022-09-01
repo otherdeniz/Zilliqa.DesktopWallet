@@ -1,12 +1,14 @@
 ﻿
 // ReSharper disable InconsistentlySynchronizedField
 
+using System.Runtime.Caching;
 using Zillifriends.Shared.Common;
 
 namespace Zilligraph.Database.Storage
 {
     public class ZilligraphDatabase : IDisposable
     {
+        private readonly MemoryCache _directorySizeCache = new MemoryCache("Database");
         private readonly Dictionary<Type, IZilligraphTable> _tables = new();
 
         private long? _dbSize;
@@ -34,6 +36,21 @@ namespace Zilligraph.Database.Storage
                     {
                         var fileInfo = new FileInfo(file);
                         dbSize += fileInfo.Length;
+                    }
+
+                    foreach (var subDirectory in Directory.GetDirectories(directory))
+                    {
+                        var subDirectorySize = _directorySizeCache.GetOrAdd(subDirectory, TimeSpan.FromMinutes(15), () =>
+                        {
+                            long subDirSize = 0;
+                            foreach (var file in Directory.GetFiles(subDirectory))
+                            {
+                                var fileInfo = new FileInfo(file);
+                                subDirSize += fileInfo.Length;
+                            }
+                            return subDirSize;
+                        });
+                        dbSize += subDirectorySize;
                     }
                 }
             }

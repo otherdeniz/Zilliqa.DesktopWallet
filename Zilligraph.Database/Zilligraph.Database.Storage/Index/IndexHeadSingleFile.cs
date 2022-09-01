@@ -18,7 +18,7 @@ namespace Zilligraph.Database.Storage.Index
         public IndexHeadSingleFile(ZilligraphTableIndexBase tableFieldIndex)
         {
             TableFieldIndex = tableFieldIndex;
-            _filePath = tableFieldIndex.Table.PathBuilder.GetFilePath($"{tableFieldIndex.Name}_index_head.bin");
+            _filePath = tableFieldIndex.PathBuilder.GetFilePath($"{tableFieldIndex.Name}_head.bin");
         }
 
         internal ulong[] IndexPointers

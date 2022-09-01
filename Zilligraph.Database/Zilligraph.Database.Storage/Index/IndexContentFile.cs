@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Zillifriends.Shared.Common;
 
 namespace Zilligraph.Database.Storage.Index
@@ -17,7 +16,7 @@ namespace Zilligraph.Database.Storage.Index
         {
             _hashBytesLength = hashBytesLength;
             TableFieldIndex = tableFieldIndex;
-            _filePath = tableFieldIndex.Table.PathBuilder.GetFilePath($"{tableFieldIndex.Name}_index_content.bin");
+            _filePath = tableFieldIndex.PathBuilder.GetFilePath($"{tableFieldIndex.Name}_content.bin");
         }
 
         public ZilligraphTableIndexBase TableFieldIndex { get; }

@@ -15,6 +15,7 @@ namespace Zilligraph.Database.Storage
         {
             Table = table;
             Name = name;
+            PathBuilder = new DataPathBuilder(Path.Combine(table.StoragePath, $"Index-{name}"));
         }
 
         public IZilligraphTable Table { get; }
@@ -24,6 +25,8 @@ namespace Zilligraph.Database.Storage
         public abstract Type ValueType { get; }
 
         public IndexTypeInfoBase IndexTypeInfo => _indexTypeInfo ??= IndexTypeInfoBase.Create(ValueType);
+
+        public DataPathBuilder PathBuilder { get; }
 
         public bool IndexExists => _indexExists ??= IndexHeadFile.FileExists();
 
