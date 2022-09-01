@@ -112,7 +112,7 @@
             this.groupBox1.Controls.Add(this.panel1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox1.Location = new System.Drawing.Point(0, 55);
+            this.groupBox1.Location = new System.Drawing.Point(0, 49);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(653, 68);
             this.groupBox1.TabIndex = 2;
@@ -539,8 +539,8 @@
             this.groupBox3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(6);
-            this.groupBox3.Size = new System.Drawing.Size(653, 55);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 0, 4, 6);
+            this.groupBox3.Size = new System.Drawing.Size(653, 49);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Recivement Address";
@@ -553,9 +553,9 @@
             this.buttonOpenBlockExplorer.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonOpenBlockExplorer.Image = ((System.Drawing.Image)(resources.GetObject("buttonOpenBlockExplorer.Image")));
             this.buttonOpenBlockExplorer.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonOpenBlockExplorer.Location = new System.Drawing.Point(368, 22);
+            this.buttonOpenBlockExplorer.Location = new System.Drawing.Point(316, 16);
             this.buttonOpenBlockExplorer.Name = "buttonOpenBlockExplorer";
-            this.buttonOpenBlockExplorer.Padding = new System.Windows.Forms.Padding(2);
+            this.buttonOpenBlockExplorer.Padding = new System.Windows.Forms.Padding(2, 0, 2, 2);
             this.buttonOpenBlockExplorer.Size = new System.Drawing.Size(157, 27);
             this.buttonOpenBlockExplorer.TabIndex = 2;
             this.buttonOpenBlockExplorer.Text = "Open in Block Explorer";
@@ -572,12 +572,12 @@
             this.buttonClipboardAddress.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonClipboardAddress.Image = ((System.Drawing.Image)(resources.GetObject("buttonClipboardAddress.Image")));
             this.buttonClipboardAddress.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonClipboardAddress.Location = new System.Drawing.Point(191, 22);
+            this.buttonClipboardAddress.Location = new System.Drawing.Point(184, 16);
             this.buttonClipboardAddress.Name = "buttonClipboardAddress";
-            this.buttonClipboardAddress.Padding = new System.Windows.Forms.Padding(2);
-            this.buttonClipboardAddress.Size = new System.Drawing.Size(177, 27);
+            this.buttonClipboardAddress.Padding = new System.Windows.Forms.Padding(2, 0, 2, 2);
+            this.buttonClipboardAddress.Size = new System.Drawing.Size(132, 27);
             this.buttonClipboardAddress.TabIndex = 1;
-            this.buttonClipboardAddress.Text = "Copy Address to clipboard";
+            this.buttonClipboardAddress.Text = "Copy to clipboard";
             this.buttonClipboardAddress.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.buttonClipboardAddress.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonClipboardAddress.UseVisualStyleBackColor = true;
@@ -587,11 +587,11 @@
             // 
             this.textZilAddress.AutoSize = true;
             this.textZilAddress.Dock = System.Windows.Forms.DockStyle.Left;
-            this.textZilAddress.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textZilAddress.Location = new System.Drawing.Point(6, 22);
+            this.textZilAddress.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.textZilAddress.Location = new System.Drawing.Point(4, 16);
             this.textZilAddress.Name = "textZilAddress";
-            this.textZilAddress.Padding = new System.Windows.Forms.Padding(0, 0, 25, 0);
-            this.textZilAddress.Size = new System.Drawing.Size(185, 21);
+            this.textZilAddress.Padding = new System.Windows.Forms.Padding(0, 4, 25, 0);
+            this.textZilAddress.Size = new System.Drawing.Size(180, 21);
             this.textZilAddress.TabIndex = 0;
             this.textZilAddress.Text = "zil1xxxxxxxxxxxxxxxxxx";
             // 
@@ -604,7 +604,7 @@
             // 
             this.splitter1.BackColor = System.Drawing.Color.Gainsboro;
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.splitter1.Location = new System.Drawing.Point(0, 259);
+            this.splitter1.Location = new System.Drawing.Point(0, 253);
             this.splitter1.Name = "splitter1";
             this.splitter1.Size = new System.Drawing.Size(653, 4);
             this.splitter1.TabIndex = 7;
@@ -615,9 +615,9 @@
             this.panelTabsTransactions.Controls.Add(this.panelTabPagesTransactions);
             this.panelTabsTransactions.Controls.Add(this.toolStripTransactions);
             this.panelTabsTransactions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelTabsTransactions.Location = new System.Drawing.Point(0, 263);
+            this.panelTabsTransactions.Location = new System.Drawing.Point(0, 257);
             this.panelTabsTransactions.Name = "panelTabsTransactions";
-            this.panelTabsTransactions.Size = new System.Drawing.Size(653, 273);
+            this.panelTabsTransactions.Size = new System.Drawing.Size(653, 279);
             this.panelTabsTransactions.TabIndex = 8;
             // 
             // panelTabPagesTransactions
@@ -628,7 +628,7 @@
             this.panelTabPagesTransactions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTabPagesTransactions.Location = new System.Drawing.Point(0, 25);
             this.panelTabPagesTransactions.Name = "panelTabPagesTransactions";
-            this.panelTabPagesTransactions.Size = new System.Drawing.Size(653, 248);
+            this.panelTabPagesTransactions.Size = new System.Drawing.Size(653, 254);
             this.panelTabPagesTransactions.TabIndex = 2;
             // 
             // gridViewAllTransactions
@@ -700,7 +700,7 @@
             this.panelTabsHoldings.Controls.Add(this.panelTabPagesHoldings);
             this.panelTabsHoldings.Controls.Add(this.toolStripHoldings);
             this.panelTabsHoldings.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelTabsHoldings.Location = new System.Drawing.Point(0, 123);
+            this.panelTabsHoldings.Location = new System.Drawing.Point(0, 117);
             this.panelTabsHoldings.Name = "panelTabsHoldings";
             this.panelTabsHoldings.Size = new System.Drawing.Size(653, 136);
             this.panelTabsHoldings.TabIndex = 9;

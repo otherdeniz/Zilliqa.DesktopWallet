@@ -61,6 +61,10 @@ namespace Zilligraph.Database.Storage
 
         public List<DataFile> DataFiles => _dataFiles ??= LoadDataFiles();
 
+        public bool InitialisationCompleted => _initialisationCompleted;
+
+        public decimal InitialisationCompletedPercent { get; private set; }
+
         public void EnsureInitialised(bool wait)
         {
             if (_initialisationCompleted)
@@ -89,18 +93,17 @@ namespace Zilligraph.Database.Storage
 
                 if (DataFiles[0].HasRows)
                 {
-                    // upgrade TableInfo
-                    if (TableInfo.DataFileInfos[0].LastRecordNumber == 0)
-                    {
-                        var recordCount = DataFiles[0].AllRows().Count();
-                        TableInfo.DataFileInfos[0].LastRecordNumber = recordCount;
-                        TableInfo.Save();
-                    }
-
                     // add new Indexes
                     var newIndexes = Indexes.Select(i => i.Value).Where(i => !i.IndexExists).ToList();
                     if (newIndexes.Any())
                     {
+                        foreach (var index in newIndexes)
+                        {
+                            index.StartBulkInsert();
+                        }
+
+                        decimal recordCount = RecordCount;
+                        decimal recordNumber = 0;
                         foreach (var row in DataFiles[0].AllRows())
                         {
                             var record = row.DecompressRowObject<TRecordModel>();
@@ -108,10 +111,20 @@ namespace Zilligraph.Database.Storage
                             {
                                 index.AddRecordIndex(Convert.ToUInt64(row.RowPosition + 1), record);
                             }
+                            recordNumber++;
+                            if (recordCount > 0)
+                            {
+                                InitialisationCompletedPercent = 100m / recordCount * recordNumber;
+                            }
+                        }
+                        foreach (var index in newIndexes)
+                        {
+                            index.EndBulkInsert();
                         }
                     }
                 }
 
+                InitialisationCompletedPercent = 100;
                 _initialisationCompleted = true;
             }
         }

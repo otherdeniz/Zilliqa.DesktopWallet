@@ -32,6 +32,16 @@ namespace Zilligraph.Database.Storage
         protected IndexContentFile IndexContentFile =>
             _indexContentFile ??= new IndexContentFile(this, IndexTypeInfo.HashLength);
 
+        public void StartBulkInsert()
+        {
+            IndexContentFile.StartBulkInsert();
+        }
+
+        public void EndBulkInsert()
+        {
+            IndexContentFile.EndBulkInsert();
+        }
+
         public abstract void AddRecordIndex(ulong recordPoint, object record);
 
         protected void AddRecordIndexValue(ulong recordPoint, object value)

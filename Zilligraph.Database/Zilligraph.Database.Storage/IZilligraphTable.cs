@@ -22,6 +22,8 @@ namespace Zilligraph.Database.Storage
         DataPathBuilder PathBuilder { get; }
 
         Dictionary<string, ZilligraphTableIndexBase> Indexes { get; }
+        bool InitialisationCompleted { get; }
+        decimal InitialisationCompletedPercent { get; }
 
         void AddRecord(object record);
 

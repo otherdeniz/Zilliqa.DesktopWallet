@@ -9,6 +9,7 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
         private DataContractCall? _dataContractCall;
 
         [RequiredValue]
+        [SchemaIndex]
         [JsonProperty("A")]
         public int BlockNumber { get; set; }
 

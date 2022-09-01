@@ -11,6 +11,7 @@ namespace Zilligraph.Database.Storage.Index
         private readonly string _filePath;
         private readonly object _fileLock = new();
         private readonly byte[] _lastRecordPointer = BitConverter.GetBytes((ulong)0);
+        private FileStream? _bulkInsertFileStream;
 
         public IndexContentFile(ZilligraphTableIndexBase tableFieldIndex, int hashBytesLength)
         {
@@ -24,6 +25,10 @@ namespace Zilligraph.Database.Storage.Index
         public ulong CreateChain(byte[] indexHash, ulong recordPoint)
         {
             if (indexHash.Length != _hashBytesLength) throw new RuntimeException("index hash length mismatch");
+            if (_bulkInsertFileStream != null)
+            {
+                return Convert.ToUInt32(AppendToStream(_bulkInsertFileStream, indexHash, recordPoint) + 1);
+            }
             lock (_fileLock)
             {
                 using (var fileStream = File.Open(_filePath, FileMode.OpenOrCreate))
@@ -100,42 +105,65 @@ namespace Zilligraph.Database.Storage.Index
             }
         }
 
+        public void StartBulkInsert()
+        {
+            _bulkInsertFileStream = File.Open(_filePath, FileMode.OpenOrCreate);
+        }
+
+        public void EndBulkInsert()
+        {
+            _bulkInsertFileStream?.Dispose();
+            _bulkInsertFileStream = null;
+        }
+
         public void AppendToChain(ulong chainEntryPoint, byte[] valueHash, ulong recordPoint)
         {
             if (valueHash.Length != _hashBytesLength) throw new RuntimeException("index hash length mismatch");
-            lock (_fileLock)
+            if (_bulkInsertFileStream != null)
             {
-                using (var fileStream = File.Open(_filePath, FileMode.OpenOrCreate))
+                AppendToChain(_bulkInsertFileStream, chainEntryPoint, valueHash, recordPoint);
+            }
+            else
+            {
+                lock (_fileLock)
                 {
-                    var addedPosition = AppendToStream(fileStream, valueHash, recordPoint);
-                    long currentPosition = fileStream.Seek(0, SeekOrigin.Begin);
-                    var nextPositionBuffer = new byte[8];
-                    var nextEntryPosition = Convert.ToInt64(chainEntryPoint - 1);
-                    var hasMoreEntries = true;
-                    var chainLength = 0;
-                    while (hasMoreEntries)
+                    using (var fileStream = File.Open(_filePath, FileMode.OpenOrCreate))
                     {
-                        chainLength++;
-                        if (TableFieldIndex.IndexTypeInfo.MaxIndexChainLength > 0
-                            && chainLength >= TableFieldIndex.IndexTypeInfo.MaxIndexChainLength)
-                        {
-                            // this chain has already MAX entries, we upgrade to index-content-parts
-                            // we undo the latest AppendToStream
-                            fileStream.SetLength(addedPosition);
-                            // and throw the upgrade needed Exception
-                            throw new UpgradeNeededException();
-                        }
-                        currentPosition = fileStream.Seek(nextEntryPosition + _hashBytesLength + 8 - currentPosition, SeekOrigin.Current);
-                        if (fileStream.Read(nextPositionBuffer, 0, 8) != 8) throw new RuntimeException("index content read fatal error (nextPositionBuffer)");
-                        currentPosition += 8;
-                        nextEntryPosition = Convert.ToInt64(BitConverter.ToUInt64(nextPositionBuffer));
-                        hasMoreEntries = nextEntryPosition >= currentPosition;
+                        AppendToChain(fileStream, chainEntryPoint, valueHash, recordPoint);
                     }
-
-                    fileStream.Seek(-8, SeekOrigin.Current);
-                    fileStream.Write(BitConverter.GetBytes(Convert.ToUInt64(addedPosition)));
                 }
             }
+        }
+
+        private void AppendToChain(FileStream fileStream, ulong chainEntryPoint, byte[] valueHash, ulong recordPoint)
+        {
+            var addedPosition = AppendToStream(fileStream, valueHash, recordPoint);
+            var currentPosition = fileStream.Position;
+            var nextPositionBuffer = new byte[8];
+            var nextEntryPosition = Convert.ToInt64(chainEntryPoint - 1);
+            var hasMoreEntries = true;
+            var chainLength = 0;
+            while (hasMoreEntries)
+            {
+                chainLength++;
+                if (TableFieldIndex.IndexTypeInfo.MaxIndexChainLength > 0
+                    && chainLength >= TableFieldIndex.IndexTypeInfo.MaxIndexChainLength)
+                {
+                    // this chain has already MAX entries, we upgrade to index-content-parts
+                    // we undo the latest AppendToStream
+                    fileStream.SetLength(addedPosition);
+                    // and throw the upgrade needed Exception
+                    throw new UpgradeNeededException();
+                }
+                currentPosition = fileStream.Seek(nextEntryPosition + _hashBytesLength + 8 - currentPosition, SeekOrigin.Current);
+                if (fileStream.Read(nextPositionBuffer, 0, 8) != 8) throw new RuntimeException("index content read fatal error (nextPositionBuffer)");
+                currentPosition += 8;
+                nextEntryPosition = Convert.ToInt64(BitConverter.ToUInt64(nextPositionBuffer));
+                hasMoreEntries = nextEntryPosition >= currentPosition;
+            }
+
+            fileStream.Seek(-8, SeekOrigin.Current);
+            fileStream.Write(BitConverter.GetBytes(Convert.ToUInt64(addedPosition)));
         }
 
         public IndexRecord? GetFirstIndex(ulong chainEntryPoint, byte[] valueHash)

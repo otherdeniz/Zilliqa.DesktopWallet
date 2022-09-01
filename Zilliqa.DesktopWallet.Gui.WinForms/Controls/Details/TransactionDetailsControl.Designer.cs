@@ -35,7 +35,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "TransactionDetailsControl";
-            this.Size = new System.Drawing.Size(326, 308);
+            this.Size = new System.Drawing.Size(509, 522);
             this.ResumeLayout(false);
 
         }
