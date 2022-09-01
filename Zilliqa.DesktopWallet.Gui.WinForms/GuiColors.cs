@@ -11,5 +11,7 @@
         public static readonly Color UnavailableHoverBackColor = Color.LightPink;
 
         public static readonly Color UnavailableMarkBackColor = Color.DeepPink;
+
+        public static readonly Color LinkForeColor = Color.DarkBlue;
     }
 }

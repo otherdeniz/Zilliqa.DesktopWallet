@@ -13,6 +13,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
     public class TransactionRowViewModelBase : INotifyPropertyChanged
     {
         private readonly Transaction _transactionModel;
+        private BlockNumberValue? _blockNumber;
         private Image? _directionIcon;
         private AddressValue? _otherAddress;
 
@@ -30,6 +31,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [Browsable(false)]
         public Transaction Transaction => _transactionModel;
+
+        [Browsable(false)] 
+        public virtual BlockNumberValue Block => _blockNumber ??= new BlockNumberValue(Transaction.BlockNumber);
 
         [Browsable(false)]
         public virtual TransactionDirection Direction { get; }

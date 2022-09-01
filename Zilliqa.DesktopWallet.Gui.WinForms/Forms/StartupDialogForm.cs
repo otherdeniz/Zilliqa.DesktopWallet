@@ -34,7 +34,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
             if (!_zilligraphTables.All(t => t.InitialisationCompleted))
             {
-                var upgareTable = _zilligraphTables.FirstOrDefault(t => t.InitialisationCompletedPercent < 100);
+                var upgareTable = _zilligraphTables.FirstOrDefault(t =>
+                    t.InitialisationCompletedPercent > 0
+                    && t.InitialisationCompletedPercent < 100);
                 var upgradeTableText = upgareTable == null
                     ? "..."
                     : $"Table '{upgareTable.TableName}' : {upgareTable.InitialisationCompletedPercent:0.0}%";

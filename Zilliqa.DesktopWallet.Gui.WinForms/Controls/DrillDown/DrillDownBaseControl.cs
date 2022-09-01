@@ -22,7 +22,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
 
         public void DrillDownToObject(object viewModel, Action<object?>? afterClose = null, object? afterCloseArgument = null)
         {
-            DrillDownPanel?.DisplayViewModel(viewModel, IsDrillDownMainControl, afterClose, afterCloseArgument);
+            DrillDownPanel?.DisplayValue(viewModel, IsDrillDownMainControl, afterClose, afterCloseArgument);
         }
     }
 }

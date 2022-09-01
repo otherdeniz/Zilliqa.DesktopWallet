@@ -4,7 +4,7 @@
     {
         public static readonly string ApplicationName = "Zilliqa Desktop Wallet";
 
-        public static readonly decimal ApplicationVersion = 1.13m;
+        public static readonly decimal ApplicationVersion = 1.14m;
 
         public static readonly bool IsBeta = true;
 

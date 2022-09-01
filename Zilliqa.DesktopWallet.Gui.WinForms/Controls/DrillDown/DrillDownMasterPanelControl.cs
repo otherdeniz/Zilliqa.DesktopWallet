@@ -4,7 +4,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
 {
     public partial class DrillDownMasterPanelControl : UserControl
     {
-        private readonly List<DisplayViewModelPathItem> _displayHierarchy = new();
+        private readonly List<ViewValuePathItem> _displayHierarchy = new();
         private string? _mainValueUniqueId;
         private readonly HashSet<string> _valueUniqueIds = new();
 
@@ -37,7 +37,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
             return _valueUniqueIds.Contains(valueUniqueId);
         }
 
-        public void DisplayViewModel(object viewModel, bool resetHistory, Action<object?>? afterClose = null, object? afterCloseArgument = null)
+        public void DisplayValue(object viewValue, bool resetHistory, Action<object?>? afterClose = null, object? afterCloseArgument = null)
         {
             if (resetHistory)
             {
@@ -50,36 +50,34 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
                 }
             }
 
-            var viewModelUniqueId = ValueSelectionHelper.GetValueUniqueId(viewModel);
+            var viewModelUniqueId = ValueSelectionHelper.GetValueUniqueId(viewValue);
             if (!_valueUniqueIds.Contains(viewModelUniqueId))
             {
                 _valueUniqueIds.Add(viewModelUniqueId);
             }
 
-            var childControl = DrillDownControlFactory.CreateDisplayControl(viewModel);
+            var childControl = ValueSelectionHelper.CreateDisplayControl(viewValue);
             if (childControl is DrillDownBaseControl drillDownChildControl)
             {
                 drillDownChildControl.DrillDownPanel = this;
             }
-            var pathItem = new DisplayViewModelPathItem(viewModel, viewModelUniqueId, childControl, afterClose);
+            var pathItem = new ViewValuePathItem(viewValue, viewModelUniqueId, childControl, afterClose);
 
+            labelTitle.Text = pathItem.Title;
             _displayHierarchy.Add(pathItem);
+
             if (_displayHierarchy.Count == 1)
             {
-                toolStripLabelTitle.Visible = true;
-                toolStripLabelTitle.Text = viewModel.ToString();
-                toolStripDropDownTitle.Visible = false;
+                toolStripDropDownBack.Enabled = false;
             }
             else
             {
-                toolStripLabelTitle.Visible = false;
-                toolStripDropDownTitle.Visible = true;
-                toolStripDropDownTitle.Text = viewModel.ToString();
-                toolStripDropDownTitle.DropDownItems.Clear();
+                toolStripDropDownBack.Enabled = true;
+                toolStripDropDownBack.DropDownItems.Clear();
                 for (int i = 1; i < _displayHierarchy.Count; i++)
                 {
-                    var pathIndex = _displayHierarchy.Count - i;
-                    var pathButton = new ToolStripMenuItem(_displayHierarchy[pathIndex].ViewModel.ToString());
+                    var pathIndex = _displayHierarchy.Count - i - 1;
+                    var pathButton = new ToolStripMenuItem(_displayHierarchy[pathIndex].Title);
                     pathButton.Tag = pathIndex;
                     pathButton.Click += (sender, args) =>
                     {
@@ -88,6 +86,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
                             GoBackInHistory(itemPathIndex);
                         }
                     };
+                    toolStripDropDownBack.DropDownItems.Add(pathButton);
                 }
             }
 
@@ -117,7 +116,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
 
         }
 
-        private void ShowDisplayControl(DisplayViewModelPathItem pathItem)
+        private void ShowDisplayControl(ViewValuePathItem pathItem)
         {
             panelRightControl.Controls.Clear();
             pathItem.DisplayControl.Dock = DockStyle.Fill;
@@ -139,22 +138,25 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
             }
         }
 
-        private class DisplayViewModelPathItem
+        private class ViewValuePathItem
         {
-            public DisplayViewModelPathItem(object viewModel, 
+            public ViewValuePathItem(object viewValue, 
                 string viewModelUniqueId, 
                 Control displayControl, 
                 Action<object?>? afterClose, 
                 object? afterCloseArgument = null)
             {
-                ViewModel = viewModel;
+                ViewValue = viewValue;
+                Title = ValueSelectionHelper.GetValueTitle(viewValue);
                 DisplayControl = displayControl;
                 ViewModelUniqueId = viewModelUniqueId;
                 AfterClose = afterClose;
                 AfterCloseArgument = afterCloseArgument;
             }
 
-            public object ViewModel { get; }
+            public object ViewValue { get; }
+
+            public string Title { get; }
 
             public Control DisplayControl { get; }
 

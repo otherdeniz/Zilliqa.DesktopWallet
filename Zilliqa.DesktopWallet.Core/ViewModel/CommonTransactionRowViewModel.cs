@@ -23,6 +23,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         public string Date => _date ??= Transaction.Timestamp.ToLocalTime().ToString("g");
 
+        [Browsable(true)]
+        public override BlockNumberValue Block => base.Block;
+
         [Browsable(false)]
         public override TransactionDirection Direction => _innerViewModel?.Direction ?? base.Direction;
 

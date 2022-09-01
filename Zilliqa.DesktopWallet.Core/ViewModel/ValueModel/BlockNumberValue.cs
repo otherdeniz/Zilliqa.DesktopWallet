@@ -2,12 +2,12 @@
 {
     public class BlockNumberValue
     {
-        public BlockNumberValue(long blockNumber)
+        public BlockNumberValue(int blockNumber)
         {
             BlockNumber = blockNumber;
         }
 
-        public long BlockNumber { get; }
+        public int BlockNumber { get; }
 
         public override string ToString()
         {

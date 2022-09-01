@@ -43,7 +43,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public decimal BalanceValue => (Balance < 0 ? 0 : Balance);
 
         [DisplayName("Balance")]
-        public string BalanceDisplay => $"{BalanceValue:#,##0.0000} ({Model.Symbol})";
+        public string BalanceDisplay => $"{BalanceValue:#,##0.0000} {Model.Symbol}";
 
         public int Transactions
         {

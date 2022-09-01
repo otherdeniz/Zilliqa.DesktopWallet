@@ -154,8 +154,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                         _columnDynamicCategories.Add(column.Index, dynamicColumnAttribute.Category);
                     }
 
-                    if (ValueSelectionHelper.IsSelectableCell(propertyInfo.PropertyType))
+                    if (ValueSelectionHelper.IsSelectableGridCell(propertyInfo.PropertyType))
                     {
+                        column.DefaultCellStyle.ForeColor = GuiColors.LinkForeColor;
+                        //column.DefaultCellStyle.Font = new Font(dataGridView.DefaultCellStyle.Font, FontStyle.Underline);
                         _selectableColumns.Add(column.Index, propertyInfo);
                     }
                 }

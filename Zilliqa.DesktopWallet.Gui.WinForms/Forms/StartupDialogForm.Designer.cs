@@ -36,9 +36,10 @@
             // labelStatus
             // 
             this.labelStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelStatus.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelStatus.Location = new System.Drawing.Point(8, 8);
             this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(616, 167);
+            this.labelStatus.Size = new System.Drawing.Size(594, 73);
             this.labelStatus.TabIndex = 1;
             this.labelStatus.Text = "Please wait...";
             this.labelStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -53,7 +54,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(632, 183);
+            this.ClientSize = new System.Drawing.Size(610, 89);
             this.Controls.Add(this.labelStatus);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "StartupDialogForm";

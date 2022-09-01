@@ -18,22 +18,21 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DrillDownMasterPanelControl));
             this.panelRight = new System.Windows.Forms.Panel();
             this.panelRightControl = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panelButtons = new System.Windows.Forms.Panel();
             this.buttonCloseRight = new System.Windows.Forms.Button();
             this.toolStripRight = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabelTitle = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripDropDownTitle = new System.Windows.Forms.ToolStripDropDownButton();
-            this.addressZToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripDropDownBack = new System.Windows.Forms.ToolStripDropDownButton();
             this.splitterRight = new System.Windows.Forms.Splitter();
+            this.labelTitle = new System.Windows.Forms.ToolStripLabel();
             this.panelRight.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.panelButtons.SuspendLayout();
             this.toolStripRight.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelRight
             // 
             this.panelRight.Controls.Add(this.panelRightControl);
-            this.panelRight.Controls.Add(this.panel1);
+            this.panelRight.Controls.Add(this.panelButtons);
             this.panelRight.Dock = System.Windows.Forms.DockStyle.Right;
             this.panelRight.Location = new System.Drawing.Point(806, 0);
             this.panelRight.Name = "panelRight";
@@ -49,15 +48,15 @@
             this.panelRightControl.Size = new System.Drawing.Size(340, 728);
             this.panelRightControl.TabIndex = 2;
             // 
-            // panel1
+            // panelButtons
             // 
-            this.panel1.Controls.Add(this.buttonCloseRight);
-            this.panel1.Controls.Add(this.toolStripRight);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(340, 24);
-            this.panel1.TabIndex = 3;
+            this.panelButtons.Controls.Add(this.buttonCloseRight);
+            this.panelButtons.Controls.Add(this.toolStripRight);
+            this.panelButtons.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelButtons.Location = new System.Drawing.Point(0, 0);
+            this.panelButtons.Name = "panelButtons";
+            this.panelButtons.Size = new System.Drawing.Size(340, 24);
+            this.panelButtons.TabIndex = 3;
             // 
             // buttonCloseRight
             // 
@@ -75,44 +74,26 @@
             // toolStripRight
             // 
             this.toolStripRight.CanOverflow = false;
-            this.toolStripRight.Dock = System.Windows.Forms.DockStyle.Left;
+            this.toolStripRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripRight.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabelTitle,
-            this.toolStripDropDownTitle});
+            this.toolStripDropDownBack,
+            this.labelTitle});
             this.toolStripRight.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStripRight.Location = new System.Drawing.Point(0, 0);
             this.toolStripRight.Name = "toolStripRight";
-            this.toolStripRight.Size = new System.Drawing.Size(40, 24);
+            this.toolStripRight.Size = new System.Drawing.Size(340, 24);
             this.toolStripRight.TabIndex = 2;
             this.toolStripRight.Text = "toolStrip1";
             // 
-            // toolStripLabelTitle
+            // toolStripDropDownBack
             // 
-            this.toolStripLabelTitle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripLabelTitle.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.toolStripLabelTitle.Name = "toolStripLabelTitle";
-            this.toolStripLabelTitle.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
-            this.toolStripLabelTitle.Size = new System.Drawing.Size(39, 19);
-            this.toolStripLabelTitle.Text = "Title1";
-            // 
-            // toolStripDropDownTitle
-            // 
-            this.toolStripDropDownTitle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripDropDownTitle.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addressZToolStripMenuItem});
-            this.toolStripDropDownTitle.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.toolStripDropDownTitle.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownTitle.Image")));
-            this.toolStripDropDownTitle.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownTitle.Name = "toolStripDropDownTitle";
-            this.toolStripDropDownTitle.Size = new System.Drawing.Size(52, 19);
-            this.toolStripDropDownTitle.Text = "Title2";
-            this.toolStripDropDownTitle.Visible = false;
-            // 
-            // addressZToolStripMenuItem
-            // 
-            this.addressZToolStripMenuItem.Name = "addressZToolStripMenuItem";
-            this.addressZToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
-            this.addressZToolStripMenuItem.Text = "Address Z";
+            this.toolStripDropDownBack.Enabled = false;
+            this.toolStripDropDownBack.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.toolStripDropDownBack.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownBack.Image")));
+            this.toolStripDropDownBack.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownBack.Name = "toolStripDropDownBack";
+            this.toolStripDropDownBack.Size = new System.Drawing.Size(61, 20);
+            this.toolStripDropDownBack.Text = "Back";
             // 
             // splitterRight
             // 
@@ -125,6 +106,14 @@
             this.splitterRight.TabStop = false;
             this.splitterRight.Visible = false;
             // 
+            // labelTitle
+            // 
+            this.labelTitle.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelTitle.Name = "labelTitle";
+            this.labelTitle.Padding = new System.Windows.Forms.Padding(8, 4, 0, 0);
+            this.labelTitle.Size = new System.Drawing.Size(63, 19);
+            this.labelTitle.Text = "(loading)";
+            // 
             // DrillDownMasterPanelControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -134,8 +123,8 @@
             this.Name = "DrillDownMasterPanelControl";
             this.Size = new System.Drawing.Size(1146, 752);
             this.panelRight.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.panelButtons.ResumeLayout(false);
+            this.panelButtons.PerformLayout();
             this.toolStripRight.ResumeLayout(false);
             this.toolStripRight.PerformLayout();
             this.ResumeLayout(false);
@@ -147,11 +136,10 @@
         private Panel panelRight;
         private Panel panelRightControl;
         private Splitter splitterRight;
-        private Panel panel1;
+        private Panel panelButtons;
         private Button buttonCloseRight;
         private ToolStrip toolStripRight;
-        private ToolStripLabel toolStripLabelTitle;
-        private ToolStripDropDownButton toolStripDropDownTitle;
-        private ToolStripMenuItem addressZToolStripMenuItem;
+        private ToolStripDropDownButton toolStripDropDownBack;
+        private ToolStripLabel labelTitle;
     }
 }

@@ -38,6 +38,9 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
 
     public string Date => _date ??= Transaction.Timestamp.ToLocalTime().ToString("g");
 
+    [Browsable(true)]
+    public override BlockNumberValue Block => base.Block;
+
     [DisplayName(" ")]
     public Image? LogoIcon => _logoIcon ??= _tokenModel.GetTokenIcon().Icon16;
 
