@@ -40,11 +40,11 @@
             this.buttonSettings = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.buttonMenuDisplayCurrencies = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuFiat = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDisplayCurrencyEur = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDisplayCurrencyChf = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDisplayCurrencyGbp = new System.Windows.Forms.ToolStripMenuItem();
-            this.cryptoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuCrypto = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDisplayCurrencyBtc = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDisplayCurrencyEth = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDisplayCurrencyLtc = new System.Windows.Forms.ToolStripMenuItem();
@@ -152,11 +152,11 @@
             // 
             this.buttonMenuDisplayCurrencies.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.buttonMenuDisplayCurrencies.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem2,
+            this.toolStripMenuFiat,
             this.menuDisplayCurrencyEur,
             this.menuDisplayCurrencyChf,
             this.menuDisplayCurrencyGbp,
-            this.cryptoToolStripMenuItem,
+            this.toolStripMenuCrypto,
             this.menuDisplayCurrencyBtc,
             this.menuDisplayCurrencyEth,
             this.menuDisplayCurrencyLtc});
@@ -166,13 +166,13 @@
             this.buttonMenuDisplayCurrencies.Size = new System.Drawing.Size(173, 28);
             this.buttonMenuDisplayCurrencies.Text = "Display additional Currencies";
             // 
-            // toolStripMenuItem2
+            // toolStripMenuFiat
             // 
-            this.toolStripMenuItem2.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.toolStripMenuItem2.Enabled = false;
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem2.Text = "Fiat";
+            this.toolStripMenuFiat.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.toolStripMenuFiat.Enabled = false;
+            this.toolStripMenuFiat.Name = "toolStripMenuFiat";
+            this.toolStripMenuFiat.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuFiat.Text = "Fiat";
             // 
             // menuDisplayCurrencyEur
             // 
@@ -195,13 +195,13 @@
             this.menuDisplayCurrencyGbp.Text = "British Pound (GBP)";
             this.menuDisplayCurrencyGbp.Click += new System.EventHandler(this.menuDisplayCurrencyGbp_Click);
             // 
-            // cryptoToolStripMenuItem
+            // toolStripMenuCrypto
             // 
-            this.cryptoToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.cryptoToolStripMenuItem.Enabled = false;
-            this.cryptoToolStripMenuItem.Name = "cryptoToolStripMenuItem";
-            this.cryptoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.cryptoToolStripMenuItem.Text = "Crypto";
+            this.toolStripMenuCrypto.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.toolStripMenuCrypto.Enabled = false;
+            this.toolStripMenuCrypto.Name = "toolStripMenuCrypto";
+            this.toolStripMenuCrypto.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuCrypto.Text = "Crypto";
             // 
             // menuDisplayCurrencyBtc
             // 
@@ -368,7 +368,7 @@
         private ToolStripMenuItem menuDisplayCurrencyEth;
         private ToolStripMenuItem menuDisplayCurrencyLtc;
         private ToolStripLabel toolStripLabel1;
-        private ToolStripMenuItem toolStripMenuItem2;
-        private ToolStripMenuItem cryptoToolStripMenuItem;
+        private ToolStripMenuItem toolStripMenuFiat;
+        private ToolStripMenuItem toolStripMenuCrypto;
     }
 }

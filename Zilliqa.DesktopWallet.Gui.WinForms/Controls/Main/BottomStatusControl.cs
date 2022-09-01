@@ -70,7 +70,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 
         private void timerRefreshDbSize_Tick(object sender, EventArgs e)
         {
-            timerRefreshDbSize.Interval = 30000;
+            timerRefreshDbSize.Interval = 60000;
             textDbSize.Text = RepositoryManager.Instance.DatabaseRepository.Database
                 .GetDbSize().BytesToReadable();
         }

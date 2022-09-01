@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
 {

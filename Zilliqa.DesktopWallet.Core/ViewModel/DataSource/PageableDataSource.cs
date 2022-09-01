@@ -24,6 +24,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.DataSource
 
         public Type ViewModelType => typeof(TViewModel);
 
+        public List<TViewModel>? Records => _records;
+
         public long RecordCount { get; private set; }
 
         public int PageSize => _pageSize;
@@ -80,13 +82,27 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.DataSource
             }
         }
 
-        public void InsertRecordToTop(TViewModel record)
+        public TViewModel? GetFirstItem()
+        {
+            return _records?.FirstOrDefault();
+        }
+
+        public void InsertRecord(TViewModel record, bool toTop)
         {
             if (_records != null)
             {
-                var page = GetPage(1);
-                page.Insert(0, record);
-                _records.Insert(0, record);
+                if (toTop)
+                {
+                    var page = GetPage(1);
+                    page.Insert(0, record);
+                    _records.Insert(0, record);
+                }
+                else
+                {
+                    var page = GetPage(PageCount);
+                    page.Add(record);
+                    _records.Add(record);
+                }
                 RefreshRecordCount();
             }
         }
@@ -120,7 +136,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.DataSource
                 ? _records.AsEnumerable()
                 : _records.Skip((pageNumber - 1) * _pageSize);
             var list = listSource.Take(_pageSize).ToList();
-            return pageNumber == 0 
+            return pageNumber == 0 || pageNumber == PageCount
                 ? new BindingList<TViewModel>(list) 
                 : new Collection<TViewModel>(list);
         }

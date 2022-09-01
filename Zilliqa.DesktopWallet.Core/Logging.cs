@@ -8,7 +8,7 @@ namespace Zilliqa.DesktopWallet.Core
     public static class Logging
     {
         private static readonly Regex LogFileNameRegex =
-            new Regex(@"(\d{4})-(\d{2})-(\d{2})\.log", RegexOptions.Compiled);
+            new Regex(@"(\d{4})-(\d{2})-(\d{2})_(\w+)\.log", RegexOptions.Compiled);
         private static readonly object LogFileLock = new();
         private static string? LoggingPath;
 
@@ -50,17 +50,22 @@ namespace Zilliqa.DesktopWallet.Core
 
         public static void LogInfo(string message)
         {
-            WriteToFile($"INFO - {GetTimestamp()} - {message}");
+            WriteToFile("info", $"{GetTimestamp()} - {message}");
+        }
+
+        public static void LogWarning(string message)
+        {
+            WriteToFile("warning", $"{GetTimestamp()} - {message}");
         }
 
         public static void LogError(string message, Exception exception, object? data = null)
         {
-            var logText = $"ERROR - {GetTimestamp()} - {message}{Environment.NewLine}{new ExceptionParser(exception).FullText}";
+            var logText = $"{GetTimestamp()} - {message}{Environment.NewLine}{new ExceptionParser(exception).FullText}";
             if (data != null)
             {
                 logText += Environment.NewLine + "DATA: " + JsonConvert.SerializeObject(data);
             }
-            WriteToFile(logText);
+            WriteToFile("error", logText);
         }
 
         private static string GetTimestamp()
@@ -68,7 +73,7 @@ namespace Zilliqa.DesktopWallet.Core
             return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
-        private static void WriteToFile(string message)
+        private static void WriteToFile(string fileSufix, string message)
         {
             if (LoggingPath == null)
             {
@@ -79,7 +84,7 @@ namespace Zilliqa.DesktopWallet.Core
             {
                 try
                 {
-                    var logFilePath = Path.Combine(LoggingPath, $"{DateTime.Today:yyyy-MM-dd}.log");
+                    var logFilePath = Path.Combine(LoggingPath, $"{DateTime.Today:yyyy-MM-dd}_{fileSufix}.log");
                     using (var fileStream = File.Open(logFilePath, FileMode.OpenOrCreate))
                     {
                         fileStream.Seek(0, SeekOrigin.End);

@@ -184,16 +184,15 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             if (Symbol == "") return;
             try
             {
-                var coinPrice = RepositoryManager.Instance.CoingeckoRepository.GetCoinPrice(Symbol);
-                if (coinPrice != null)
+                RepositoryManager.Instance.CoingeckoRepository.GetCoinPrice(Symbol, cp =>
                 {
-                    ValueUsdToday = coinPrice.MarketData.CurrentPrice.Usd * Amount;
-                    ValueChfToday = coinPrice.MarketData.CurrentPrice.Chf * Amount;
-                    ValueEurToday = coinPrice.MarketData.CurrentPrice.Eur * Amount;
-                    ValueGbpToday = coinPrice.MarketData.CurrentPrice.Gbp * Amount;
-                    ValueBtcToday = coinPrice.MarketData.CurrentPrice.Btc * Amount;
-                    ValueEthToday = coinPrice.MarketData.CurrentPrice.Eth * Amount;
-                    ValueLtcToday = coinPrice.MarketData.CurrentPrice.Ltc * Amount;
+                    ValueUsdToday = cp.MarketData.CurrentPrice.Usd * Amount;
+                    ValueChfToday = cp.MarketData.CurrentPrice.Chf * Amount;
+                    ValueEurToday = cp.MarketData.CurrentPrice.Eur * Amount;
+                    ValueGbpToday = cp.MarketData.CurrentPrice.Gbp * Amount;
+                    ValueBtcToday = cp.MarketData.CurrentPrice.Btc * Amount;
+                    ValueEthToday = cp.MarketData.CurrentPrice.Eth * Amount;
+                    ValueLtcToday = cp.MarketData.CurrentPrice.Ltc * Amount;
                     if (notifiyPropertyChanged)
                     {
                         WinFormsSynchronisationContext.ExecuteSynchronized(() =>
@@ -207,111 +206,108 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                             OnPropertyChanged(nameof(ValueLtcToday));
                         });
                     }
-                }
+                });
 
                 RepositoryManager.Instance.CoingeckoRepository.GetCoinHistory(Transaction.Timestamp, Symbol, ch =>
                 {
-                    if (ch != null)
+                    try
                     {
-                        try
-                        {
-                            ValueUsdThen = ch.MarketData.CurrentPrice.Usd * Amount;
-                            ValueChfThen = ch.MarketData.CurrentPrice.Chf * Amount;
-                            ValueEurThen = ch.MarketData.CurrentPrice.Eur * Amount;
-                            ValueGbpThen = ch.MarketData.CurrentPrice.Gbp * Amount;
-                            ValueBtcThen = ch.MarketData.CurrentPrice.Btc * Amount;
-                            ValueEthThen = ch.MarketData.CurrentPrice.Eth * Amount;
-                            ValueLtcThen = ch.MarketData.CurrentPrice.Ltc * Amount;
+                        ValueUsdThen = ch.MarketData.CurrentPrice.Usd * Amount;
+                        ValueChfThen = ch.MarketData.CurrentPrice.Chf * Amount;
+                        ValueEurThen = ch.MarketData.CurrentPrice.Eur * Amount;
+                        ValueGbpThen = ch.MarketData.CurrentPrice.Gbp * Amount;
+                        ValueBtcThen = ch.MarketData.CurrentPrice.Btc * Amount;
+                        ValueEthThen = ch.MarketData.CurrentPrice.Eth * Amount;
+                        ValueLtcThen = ch.MarketData.CurrentPrice.Ltc * Amount;
 
-                            if (ValueUsdToday != null && ValueUsdThen > 0)
-                            {
-                                var changeValue = ValueUsdToday - ValueUsdThen;
-                                var changePercent = changeValue != 0
-                                    ? 100m / ValueUsdThen * changeValue
-                                    : 0;
-                                ChangeUsd = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
-                                    $"{changePercent:0.00} % ({changeValue:#,##0.00} $)");
-                            }
-                            if (ValueChfToday != null && ValueChfThen > 0)
-                            {
-                                var changeValue = ValueChfToday - ValueChfThen;
-                                var changePercent = changeValue != 0
-                                    ? 100m / ValueChfThen * changeValue
-                                    : 0;
-                                ChangeChf = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
-                                    $"{changePercent:0.00} % ({changeValue:#,##0.00} CHF)");
-                            }
-                            if (ValueEurToday != null && ValueEurThen > 0)
-                            {
-                                var changeValue = ValueEurToday - ValueEurThen;
-                                var changePercent = changeValue != 0
-                                    ? 100m / ValueEurThen * changeValue
-                                    : 0;
-                                ChangeEur = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
-                                    $"{changePercent:0.00} % ({changeValue:#,##0.00} EUR)");
-                            }
-                            if (ValueGbpToday != null && ValueGbpThen > 0)
-                            {
-                                var changeValue = ValueGbpToday - ValueGbpThen;
-                                var changePercent = changeValue != 0
-                                    ? 100m / ValueGbpThen * changeValue
-                                    : 0;
-                                ChangeGbp = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
-                                    $"{changePercent:0.00} % ({changeValue:#,##0.00} GBP)");
-                            }
-                            if (ValueBtcToday != null && ValueBtcThen > 0)
-                            {
-                                var changeValue = ValueBtcToday - ValueBtcThen;
-                                var changePercent = changeValue != 0
-                                    ? 100m / ValueBtcThen * changeValue
-                                    : 0;
-                                ChangeBtc = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
-                                    $"{changePercent:0.00} % ({changeValue:#,##0.00000000} BTC)");
-                            }
-                            if (ValueEthToday != null && ValueEthThen > 0)
-                            {
-                                var changeValue = ValueEthToday - ValueEthThen;
-                                var changePercent = changeValue != 0
-                                    ? 100m / ValueEthThen * changeValue
-                                    : 0;
-                                ChangeEth = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
-                                    $"{changePercent:0.00} % ({changeValue:#,##0.00000} ETH)");
-                            }
-                            if (ValueLtcToday != null && ValueLtcThen > 0)
-                            {
-                                var changeValue = ValueLtcToday - ValueLtcThen;
-                                var changePercent = changeValue != 0
-                                    ? 100m / ValueLtcThen * changeValue
-                                    : 0;
-                                ChangeLtc = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
-                                    $"{changePercent:0.00} % ({changeValue:#,##0.00000} LTC)");
-                            }
-
-                            if (notifiyPropertyChanged)
-                            {
-                                WinFormsSynchronisationContext.ExecuteSynchronized(() =>
-                                {
-                                    OnPropertyChanged(nameof(ValueUsdThen));
-                                    OnPropertyChanged(nameof(ValueChfThen));
-                                    OnPropertyChanged(nameof(ValueEurThen));
-                                    OnPropertyChanged(nameof(ValueGbpThen));
-                                    OnPropertyChanged(nameof(ValueBtcThen));
-                                    OnPropertyChanged(nameof(ValueEthThen));
-                                    OnPropertyChanged(nameof(ValueLtcThen));
-                                    OnPropertyChanged(nameof(ChangeUsd));
-                                    OnPropertyChanged(nameof(ChangeChf));
-                                    OnPropertyChanged(nameof(ChangeEur));
-                                    OnPropertyChanged(nameof(ChangeGbp));
-                                    OnPropertyChanged(nameof(ChangeBtc));
-                                    OnPropertyChanged(nameof(ChangeEth));
-                                    OnPropertyChanged(nameof(ChangeLtc));
-                                });
-                            }
-                        }
-                        catch (Exception)
+                        if (ValueUsdToday != null && ValueUsdThen > 0)
                         {
-                            // ignore
+                            var changeValue = ValueUsdToday - ValueUsdThen;
+                            var changePercent = changeValue != 0
+                                ? 100m / ValueUsdThen * changeValue
+                                : 0;
+                            ChangeUsd = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                                $"{changePercent:0.00} % ({changeValue:#,##0.00} $)");
                         }
+                        if (ValueChfToday != null && ValueChfThen > 0)
+                        {
+                            var changeValue = ValueChfToday - ValueChfThen;
+                            var changePercent = changeValue != 0
+                                ? 100m / ValueChfThen * changeValue
+                                : 0;
+                            ChangeChf = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                                $"{changePercent:0.00} % ({changeValue:#,##0.00} CHF)");
+                        }
+                        if (ValueEurToday != null && ValueEurThen > 0)
+                        {
+                            var changeValue = ValueEurToday - ValueEurThen;
+                            var changePercent = changeValue != 0
+                                ? 100m / ValueEurThen * changeValue
+                                : 0;
+                            ChangeEur = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                                $"{changePercent:0.00} % ({changeValue:#,##0.00} EUR)");
+                        }
+                        if (ValueGbpToday != null && ValueGbpThen > 0)
+                        {
+                            var changeValue = ValueGbpToday - ValueGbpThen;
+                            var changePercent = changeValue != 0
+                                ? 100m / ValueGbpThen * changeValue
+                                : 0;
+                            ChangeGbp = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                                $"{changePercent:0.00} % ({changeValue:#,##0.00} GBP)");
+                        }
+                        if (ValueBtcToday != null && ValueBtcThen > 0)
+                        {
+                            var changeValue = ValueBtcToday - ValueBtcThen;
+                            var changePercent = changeValue != 0
+                                ? 100m / ValueBtcThen * changeValue
+                                : 0;
+                            ChangeBtc = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                                $"{changePercent:0.00} % ({changeValue:#,##0.00000000} BTC)");
+                        }
+                        if (ValueEthToday != null && ValueEthThen > 0)
+                        {
+                            var changeValue = ValueEthToday - ValueEthThen;
+                            var changePercent = changeValue != 0
+                                ? 100m / ValueEthThen * changeValue
+                                : 0;
+                            ChangeEth = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                                $"{changePercent:0.00} % ({changeValue:#,##0.00000} ETH)");
+                        }
+                        if (ValueLtcToday != null && ValueLtcThen > 0)
+                        {
+                            var changeValue = ValueLtcToday - ValueLtcThen;
+                            var changePercent = changeValue != 0
+                                ? 100m / ValueLtcThen * changeValue
+                                : 0;
+                            ChangeLtc = new ValueNumberDisplay(changeValue.GetValueOrDefault(),
+                                $"{changePercent:0.00} % ({changeValue:#,##0.00000} LTC)");
+                        }
+
+                        if (notifiyPropertyChanged)
+                        {
+                            WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                            {
+                                OnPropertyChanged(nameof(ValueUsdThen));
+                                OnPropertyChanged(nameof(ValueChfThen));
+                                OnPropertyChanged(nameof(ValueEurThen));
+                                OnPropertyChanged(nameof(ValueGbpThen));
+                                OnPropertyChanged(nameof(ValueBtcThen));
+                                OnPropertyChanged(nameof(ValueEthThen));
+                                OnPropertyChanged(nameof(ValueLtcThen));
+                                OnPropertyChanged(nameof(ChangeUsd));
+                                OnPropertyChanged(nameof(ChangeChf));
+                                OnPropertyChanged(nameof(ChangeEur));
+                                OnPropertyChanged(nameof(ChangeGbp));
+                                OnPropertyChanged(nameof(ChangeBtc));
+                                OnPropertyChanged(nameof(ChangeEth));
+                                OnPropertyChanged(nameof(ChangeLtc));
+                            });
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        // ignore
                     }
                 });
             }

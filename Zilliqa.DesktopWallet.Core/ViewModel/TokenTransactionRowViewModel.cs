@@ -74,4 +74,8 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
     [GridViewFormat("0.0000 ZIL")]
     public decimal Fee => _fee ??= (Transaction.Receipt.CumulativeGas * Transaction.GasPrice).ZilSatoshisToZil();
 
+    public override void LoadValuesProperties(bool notifiyPropertyChanged)
+    {
+        base.LoadValuesProperties(notifiyPropertyChanged);
+    }
 }

@@ -90,6 +90,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
                     };
                 }
             }
+
+            if (!panelRight.Visible)
+            {
+                panelRight.Width = Width / 2;
+            }
             panelRight.Visible = true;
             splitterRight.Visible = true;
             ShowDisplayControl(pathItem);
@@ -101,6 +106,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
             {
                 components.Dispose();
             }
+            panelRightControl.Controls.Clear();
+            _displayHierarchy.ForEach(h => h.DisplayControl.Dispose());
+            _displayHierarchy.Clear();
             base.Dispose(disposing);
         }
 
@@ -120,8 +128,15 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
         {
             panelRight.Visible = false;
             splitterRight.Visible = false;
-            _displayHierarchy.LastOrDefault()?.AfterClose?.Invoke(null);
+            panelRightControl.Controls.Clear();
+            _displayHierarchy.ForEach(h => h.DisplayControl.Dispose());
+            _displayHierarchy.FirstOrDefault()?.AfterClose?.Invoke(null);
             _displayHierarchy.Clear();
+            _valueUniqueIds.Clear();
+            if (_mainValueUniqueId != null)
+            {
+                _valueUniqueIds.Add(_mainValueUniqueId);
+            }
         }
 
         private class DisplayViewModelPathItem

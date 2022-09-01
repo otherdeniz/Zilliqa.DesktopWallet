@@ -187,7 +187,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                                 }
                                 else
                                 {
-                                    Logging.LogInfo($"TransactionsCrawlerJob: Wrong number of transactions received. Block number: {processBlockNumber}, expected: {blockModel.NumTxns}, received: {blockTransactions.Count}");
+                                    Logging.LogWarning($"TransactionsCrawlerJob: Wrong number of transactions received. Block number: {processBlockNumber}, expected: {blockModel.NumTxns}, received: {blockTransactions.Count}");
                                     loopDelay = 10000;
                                 }
                             }
@@ -266,7 +266,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                             }
                             else
                             {
-                                Logging.LogInfo($"BlocksCrawlerJob: Wrong data received. Expected Block number: {processBlockNumber}, received: {txBlock.BlockNum}");
+                                Logging.LogWarning($"BlocksCrawlerJob: Wrong data received. Expected Block number: {processBlockNumber}, received: {txBlock.BlockNum}");
                                 loopDelay = 10000;
                             }
 

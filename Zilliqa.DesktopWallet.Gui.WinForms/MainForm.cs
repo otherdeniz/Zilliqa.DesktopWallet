@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Data.Files;
 using Zilliqa.DesktopWallet.Core.Services;
@@ -249,5 +250,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
                 d.DisplayEth = false;
             });
         }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Zillifriends.Shared.Common;
 using Zilligraph.Database.Storage;
 using Zilligraph.Database.Storage.FilterQuery;
 using Zilliqa.DesktopWallet.ApiClient;
@@ -149,9 +150,15 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
                     TokenTransactions.Load(transactionViewModels
                         .Where(t => t.TokenTransaction != null)
-                        .Select(t => t.TokenTransaction!)
+                        .Select(t =>
+                        {
+                            AddTokenBalanceTransaction(t.TokenTransaction!, false);
+                            return t.TokenTransaction!;
+                        })
                         .ToList()
                     );
+
+                    TokenBalances.ForEach(t => t.UpdateValuesProperties(true));
 
                     if (_loadCurrencyValues)
                     {
@@ -221,20 +228,21 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         private void OnAddedRecordEventNotified(Transaction record)
         {
             var viewModel = new TransactionViewModels(Address, record);
-            AllTransactions.InsertRecordToTop(viewModel.CommonTransaction);
+            var insertToTop = AllTransactions.GetFirstItem()?.Transaction.Timestamp < record.Timestamp;
+            AllTransactions.InsertRecord(viewModel.CommonTransaction, insertToTop);
             if (viewModel.ZilTransaction != null)
             {
-                ZilTransactions.InsertRecordToTop(viewModel.ZilTransaction);
+                ZilTransactions.InsertRecord(viewModel.ZilTransaction, insertToTop);
             }
             if (viewModel.TokenTransaction != null)
             {
-                TokenTransactions.InsertRecordToTop(viewModel.TokenTransaction);
-                AddTokenBalanceTransaction(viewModel.TokenTransaction);
+                TokenTransactions.InsertRecord(viewModel.TokenTransaction, insertToTop);
+                AddTokenBalanceTransaction(viewModel.TokenTransaction, true);
             }
             OnTransactionsChanged();
         }
 
-        private void AddTokenBalanceTransaction(TokenTransactionRowViewModel viewModel)
+        private void AddTokenBalanceTransaction(TokenTransactionRowViewModel viewModel, bool updateValueProperties)
         {
             var tokenBalance = TokenBalances.FirstOrDefault(t => t.Model.Symbol == viewModel.Symbol);
             if (tokenBalance == null)
@@ -254,6 +262,11 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             else
             {
                 tokenBalance.Balance -= viewModel.Amount;
+            }
+
+            if (updateValueProperties)
+            {
+                tokenBalance.UpdateValuesProperties(true);
             }
         }
 
