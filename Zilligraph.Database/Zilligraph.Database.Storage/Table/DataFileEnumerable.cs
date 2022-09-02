@@ -23,8 +23,12 @@ namespace Zilligraph.Database.Storage.Table
 
         public class DataFileEnumerator : IEnumerator<DataRowBinary>
         {
+            private const int ChunkSize = 1000;
             private readonly DataFileEnumerable _enumerable;
             private bool _endOfFile;
+            private List<DataRowBinary>? _currentChunk;
+            private int _currentChunkIndex;
+            private bool _readNextChunk = true;
 
             public DataFileEnumerator(DataFileEnumerable enumerable)
             {
@@ -37,12 +41,33 @@ namespace Zilligraph.Database.Storage.Table
                 {
                     return false;
                 }
-                var recordPoint = Current == null 
-                    ? 1 
-                    : Convert.ToUInt64(Current.RowPosition + 1 + Current.RowLength + 4);
+
+                if (_readNextChunk && _currentChunk == null)
+                {
+                    var nextRecordPoint = Current == null
+                        ? 1
+                        : Convert.ToUInt64(Current.RowPosition + 1 + Current.RowLength + 4);
+                    _currentChunk = _enumerable._dataFile.ReadChunked(nextRecordPoint, ChunkSize);
+                    _currentChunkIndex = 0;
+                    _readNextChunk = _currentChunk.Count == ChunkSize;
+                }
                 try
                 {
-                    Current = _enumerable._dataFile.Read(recordPoint);
+                    if (_currentChunk?.Count > _currentChunkIndex)
+                    {
+                        Current = _currentChunk[_currentChunkIndex];
+                        _currentChunkIndex++;
+                        if (_currentChunkIndex >= _currentChunk.Count)
+                        {
+                            _currentChunk = null;
+                        }
+                    }
+                    else
+                    {
+                        // End of File
+                        _endOfFile = true;
+                        Current = null;
+                    }
                     return Current != null;
                 }
                 catch (Exception)

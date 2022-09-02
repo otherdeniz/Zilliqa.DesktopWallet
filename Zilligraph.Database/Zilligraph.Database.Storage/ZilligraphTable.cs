@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics;
 using System.Reflection;
 using Zillifriends.Shared.Common;
 using Zilligraph.Database.Contract;
@@ -20,6 +21,7 @@ namespace Zilligraph.Database.Storage
         private Dictionary<string, ZilligraphTableIndexBase>? _indexes;
         private List<ZilligraphTableFieldReference>? _fieldReferences;
         private readonly List<ZilligraphTableEventNotificator<TRecordModel>> _eventNotificators = new List<ZilligraphTableEventNotificator<TRecordModel>>();
+        private bool _initialisationStarted;
         private bool _initialisationCompleted;
         private readonly object _initialisationLock = new();
         private readonly object _transactionLock = new();
@@ -65,33 +67,22 @@ namespace Zilligraph.Database.Storage
 
         public decimal InitialisationCompletedPercent { get; private set; }
 
-        public void EnsureInitialised(bool wait)
+        public void EnsureInitialisationIsStarted()
         {
-            if (_initialisationCompleted)
+            if (_initialisationStarted) return;
+            lock (_initialisationLock)
             {
-                return;
-            }
-
-            if (wait)
-            {
-                Initialise();
-            }
-            else
-            {
+                if (_initialisationStarted) return;
+                _initialisationStarted = true;
                 Task.Run(Initialise);
             }
         }
 
         private void Initialise()
         {
-            lock (_initialisationLock)
+            if (DataFiles[0].HasRows)
             {
-                if (_initialisationCompleted)
-                {
-                    return;
-                }
-
-                if (DataFiles[0].HasRows)
+                try
                 {
                     // add new Indexes
                     var newIndexes = Indexes.Select(i => i.Value).Where(i => !i.IndexExists).ToList();
@@ -124,10 +115,14 @@ namespace Zilligraph.Database.Storage
                     }
                     Database.DbSizeChanged();
                 }
-
-                InitialisationCompletedPercent = 100;
-                _initialisationCompleted = true;
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"DB Init failed! {e.Message}");
+                }
             }
+
+            InitialisationCompletedPercent = 100;
+            _initialisationCompleted = true;
         }
 
         public ZilligraphTableEventNotificator<TRecordModel> AddEventNotificator(Func<TRecordModel, bool> recordMatch,
@@ -145,7 +140,6 @@ namespace Zilligraph.Database.Storage
 
         public bool CreateTransaction(bool waitForFree)
         {
-            EnsureInitialised(true);
             if (CurrenTransaction != null)
             {
                 if (!waitForFree)
@@ -180,8 +174,6 @@ namespace Zilligraph.Database.Storage
 
         private void AddRecordInternal(TRecordModel record)
         {
-            EnsureInitialised(true);
-
             // save Data
             var dataFile = DataFiles.Last();
             var rowBinary = DataRowBinary.CreateNew(record);

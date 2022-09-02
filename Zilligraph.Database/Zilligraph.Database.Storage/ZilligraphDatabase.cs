@@ -80,7 +80,8 @@ namespace Zilligraph.Database.Storage
                 }
 
                 var table = new ZilligraphTable<TRecordModel>(this);
-                table.EnsureInitialised(false);
+                //TODO: move starts of table.EnsureInitialised to Database...)
+                //table.EnsureInitialised(false);
                 _tables.Add(modelType, table);
                 return table;
             }

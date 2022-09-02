@@ -12,8 +12,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         {
             InitializeComponent();
             var database = RepositoryManager.Instance.DatabaseRepository.Database;
-            _zilligraphTables.Add(database.GetTable<Transaction>());
             _zilligraphTables.Add(database.GetTable<Block>());
+            _zilligraphTables.Add(database.GetTable<Transaction>());
         }
 
         public static bool Execute(Form parent)
@@ -32,17 +32,24 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                 return;
             }
 
-            if (!_zilligraphTables.All(t => t.InitialisationCompleted))
+            var upgareTable = _zilligraphTables.FirstOrDefault(t => !t.InitialisationCompleted);
+            if (upgareTable != null)
             {
-                var upgareTable = _zilligraphTables.FirstOrDefault(t =>
-                    t.InitialisationCompletedPercent > 0
-                    && t.InitialisationCompletedPercent < 100);
-                var upgradeTableText = upgareTable == null
-                    ? "..."
-                    : $"Table '{upgareTable.TableName}' : {upgareTable.InitialisationCompletedPercent:0.0}%";
-                labelStatus.Text = $"Upgrading Database {upgradeTableText}";
+                upgareTable.EnsureInitialisationIsStarted();
+                labelStatus.Text = $"Upgrading Database Table '{upgareTable.TableName}' : {upgareTable.InitialisationCompletedPercent:0.00}%";
                 return;
             }
+            //if (!_zilligraphTables.All(t => t.InitialisationCompleted))
+            //{
+            //    var upgareTable = _zilligraphTables.FirstOrDefault(t =>
+            //        t.InitialisationCompletedPercent > 0
+            //        && t.InitialisationCompletedPercent < 100);
+            //    var upgradeTableText = upgareTable == null
+            //        ? "..."
+            //        : $"Table '{upgareTable.TableName}' : {upgareTable.InitialisationCompletedPercent:0.0}%";
+            //    labelStatus.Text = $"Upgrading Database {upgradeTableText}";
+            //    return;
+            //}
 
             DialogResult = DialogResult.OK;
             Close();

@@ -33,6 +33,6 @@ namespace Zilligraph.Database.Storage
 
         object? ReadRecord(ulong recordPoint, bool resolveReferences = true);
 
-        void EnsureInitialised(bool wait);
+        void EnsureInitialisationIsStarted();
     }
 }

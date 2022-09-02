@@ -47,7 +47,7 @@ namespace Zilligraph.Database.Storage.Table
                     {
                         stream.Seek(Convert.ToInt64(recordPoint - 1), SeekOrigin.Begin);
                         var row = DataRowBinary.ReadFromStream(stream);
-                        if (row.RowLength > 0)
+                        if (row?.RowLength > 0)
                         {
                             return row;
                         }
@@ -60,6 +60,39 @@ namespace Zilligraph.Database.Storage.Table
             }
 
             return null;
+        }
+
+        public List<DataRowBinary> ReadChunked(ulong firstRecordPoint, int maxLength)
+        {
+            var resultList = new List<DataRowBinary>();
+            lock (_streamLock)
+            {
+                using (var stream = GetStream())
+                {
+                    stream.Seek(Convert.ToInt64(firstRecordPoint - 1), SeekOrigin.Begin);
+                    for (int i = 0; i < maxLength; i++)
+                    {
+                        try
+                        {
+                            var row = DataRowBinary.ReadFromStream(stream);
+                            if (row?.RowLength > 0)
+                            {
+                                resultList.Add(row);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            throw new RuntimeException($"ReadChunked on firstRecordPoint {firstRecordPoint} failed on Table {Table.TableName}", e);
+                        }
+                    }
+                }
+            }
+
+            return resultList;
         }
 
         public IEnumerable<DataRowBinary> AllRows()

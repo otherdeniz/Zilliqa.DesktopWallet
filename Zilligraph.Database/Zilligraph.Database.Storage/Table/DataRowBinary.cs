@@ -10,17 +10,24 @@ namespace Zilligraph.Database.Storage.Table
 
         public byte[] CompressedRow { get; private set; } = null!;
 
-        public static DataRowBinary ReadFromStream(Stream readableStream)
+        public static DataRowBinary? ReadFromStream(Stream readableStream)
         {
-            var rowBinary = new DataRowBinary
+            try
             {
-                RowPosition = readableStream.Position
-            };
-            var lengthBuffer = new byte[4];
-            _ = readableStream.Read(lengthBuffer, 0, 4);
-            rowBinary.RowLength = Convert.ToInt32(BitConverter.ToUInt32(lengthBuffer));
-            rowBinary.CompressedRow = readableStream.ReadExactly(rowBinary.RowLength);
-            return rowBinary;
+                var rowBinary = new DataRowBinary
+                {
+                    RowPosition = readableStream.Position
+                };
+                var lengthBuffer = new byte[4];
+                _ = readableStream.Read(lengthBuffer, 0, 4);
+                rowBinary.RowLength = Convert.ToInt32(BitConverter.ToUInt32(lengthBuffer));
+                rowBinary.CompressedRow = readableStream.ReadExactly(rowBinary.RowLength);
+                return rowBinary;
+            }
+            catch (EndOfStreamException)
+            {
+                return null;
+            }
         }
 
         public static DataRowBinary CreateNew(object record)

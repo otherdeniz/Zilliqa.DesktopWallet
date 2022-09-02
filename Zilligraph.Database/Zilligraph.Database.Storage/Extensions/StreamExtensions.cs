@@ -10,7 +10,7 @@
             {
                 int read = stream.Read(buffer, offset, count - offset);
                 if (read == 0)
-                    throw new System.IO.EndOfStreamException();
+                    throw new EndOfStreamException();
                 offset += read;
             }
             return buffer;
