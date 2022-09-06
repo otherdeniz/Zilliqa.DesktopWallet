@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
 using Zilliqa.DesktopWallet.ApiClient;
-using Zilliqa.DesktopWallet.Core.Extensions;
-using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
 
@@ -13,7 +11,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         private readonly TransactionRowViewModelBase? _innerViewModel;
         private AddressValue? _otherAddress;
         private string? _date;
-        private decimal? _fee;
 
         public CommonTransactionRowViewModel(Address thisAddress, Transaction transactionModel, TransactionRowViewModelBase? innerViewModel)
             : base(thisAddress, transactionModel)
@@ -94,8 +91,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public string AmountDisplay =>
             _innerViewModel == null ? string.Empty : $"{_innerViewModel.Amount:#,##0.0000} {_innerViewModel.Symbol}";
 
-        [GridViewFormat("0.0000 ZIL")]
-        public decimal Fee => _fee ??= (Transaction.Receipt.CumulativeGas * Transaction.GasPrice).ZilSatoshisToZil();
+        [Browsable(true)]
+        public override decimal Fee => base.Fee;
 
         public override string Symbol => _innerViewModel?.Symbol ?? "";
 

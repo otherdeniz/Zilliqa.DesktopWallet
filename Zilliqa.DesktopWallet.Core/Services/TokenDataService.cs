@@ -1,4 +1,5 @@
-﻿using Zilliqa.DesktopWallet.ApiClient;
+﻿using Zillifriends.Shared.Common;
+using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.ApiClient.ZilstreamApi;
 using Zilliqa.DesktopWallet.ApiClient.ZilstreamApi.Model;
 using Zilliqa.DesktopWallet.Core.Data.Model;
@@ -23,6 +24,12 @@ namespace Zilliqa.DesktopWallet.Core.Services
             }
 
             return _tokenModels;
+        }
+
+        public TokenModel? GetToken(string symbol)
+        {
+            var symbolLowered = symbol.ToLower();
+            return GetTokens(false).AsList().FirstOrDefault(t => t.Symbol.ToLower() == symbolLowered);
         }
 
         public TokenModel? FindTokenByAddress(string tokenAddress)

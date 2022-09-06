@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Runtime.CompilerServices;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core.Annotations;
+using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
@@ -16,6 +17,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         private BlockNumberValue? _blockNumber;
         private Image? _directionIcon;
         private AddressValue? _otherAddress;
+        private decimal? _fee;
 
         public TransactionRowViewModelBase(Address thisAddress, Transaction transactionModel)
         {
@@ -56,6 +58,10 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [Browsable(false)] 
         public virtual string Symbol => "ZIL";
+
+        [Browsable(false)]
+        [GridViewFormat("0.0000 ZIL")]
+        public virtual decimal Fee => _fee ??= (Transaction.Receipt.CumulativeGas * Transaction.GasPrice).ZilSatoshisToZil();
 
         [DisplayName("USD Today")]
         [GridViewFormat("#,##0.00 $")]

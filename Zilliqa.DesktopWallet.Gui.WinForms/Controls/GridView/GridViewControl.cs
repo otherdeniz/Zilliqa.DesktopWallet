@@ -156,11 +156,15 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 
                     if (ValueSelectionHelper.IsSelectableGridCell(propertyInfo.PropertyType))
                     {
-                        column.DefaultCellStyle.ForeColor = GuiColors.LinkForeColor;
-                        //column.DefaultCellStyle.Font = new Font(dataGridView.DefaultCellStyle.Font, FontStyle.Underline);
+                        column.HeaderCell.Style.ForeColor = GuiColors.LinkForeColor;
+                        column.HeaderCell.Style.Font = new Font(dataGridView.DefaultCellStyle.Font, FontStyle.Underline);
                         _selectableColumns.Add(column.Index, propertyInfo);
                     }
                 }
+            }
+            if (dataGridView.Columns.Count > 0)
+            {
+                dataGridView.Columns[0].Frozen = true;
             }
             ApplyVisibleDynamicColumns();
         }
@@ -184,7 +188,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                 var firstPageRecord = (_dataSourcePageable.CurrentPageNumber-1) * _dataSourcePageable.PageSize + 1;
                 var lastPageRecord = firstPageRecord + _dataSourcePageable.PageSize > _dataSourcePageable.RecordCount
                     ? _dataSourcePageable.RecordCount
-                    : firstPageRecord + _dataSourcePageable.PageSize;
+                    : firstPageRecord + _dataSourcePageable.PageSize - 1;
                 labelRecordRange.Text = $"# {firstPageRecord:#,##0} - {lastPageRecord:#,##0}";
                 buttonPageFirst.Enabled = _dataSourcePageable.CurrentPageNumber > 1;
                 buttonPageBack.Enabled = _dataSourcePageable.CurrentPageNumber > 1;
@@ -570,7 +574,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                 {
                     _control.ApplyRowBackground(RowIndex, null);
                 }
-                else if (_control.SelectedItem?.RowIndex == RowIndex)
+                else if (_control.SelectedItem?.RowIndex == RowIndex
+                         && (_control.SelectedItem.CellColumnIndex == null || _control.SelectedItem.CellColumnIndex == ColumnIndex))
                 {
                     _control.ApplyCellBackground(RowIndex, ColumnIndex.Value, GuiColors.SelectedBackColor);
                 }

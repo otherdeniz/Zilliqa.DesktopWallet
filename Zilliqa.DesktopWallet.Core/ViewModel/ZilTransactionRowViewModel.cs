@@ -12,7 +12,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
     {
         private Image? _directionIcon;
         private decimal? _zilAmount;
-        private decimal? _fee;
         private string? _date;
 
         public ZilTransactionRowViewModel(Address thisAddress, Transaction transactionModel)
@@ -44,8 +43,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [GridViewFormat("#,##0.0000 ZIL")]
         public override decimal Amount => _zilAmount ??= Transaction.Amount.ZilSatoshisToZil();
 
-        [GridViewFormat("0.0000 ZIL")]
-        public decimal Fee => _fee ??= (Transaction.Receipt.CumulativeGas * Transaction.GasPrice).ZilSatoshisToZil();
+        [Browsable(true)]
+        public override decimal Fee => base.Fee;
 
 
     }

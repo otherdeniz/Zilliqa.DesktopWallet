@@ -3,7 +3,6 @@ using System.Drawing;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.Extensions;
-using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
 
@@ -19,7 +18,6 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
 
     private decimal? _tokenAmount;
     private string? _date;
-    private decimal? _fee;
 
     public TokenTransactionRowViewModel(Address address, Transaction transactionModel, TokenModel tokenModel)
         :base(address, transactionModel)
@@ -74,11 +72,7 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
     [DisplayName("Amount")] 
     public string AmountDisplay => $"{Amount:#,##0.0000} {Symbol}";
 
-    [GridViewFormat("0.0000 ZIL")]
-    public decimal Fee => _fee ??= (Transaction.Receipt.CumulativeGas * Transaction.GasPrice).ZilSatoshisToZil();
+    [Browsable(true)]
+    public override decimal Fee => base.Fee;
 
-    public override void LoadValuesProperties(bool notifiyPropertyChanged)
-    {
-        base.LoadValuesProperties(notifiyPropertyChanged);
-    }
 }

@@ -40,6 +40,18 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                 control.LoadTransaction(transactionRowViewModel);
                 return control;
             }
+            if (value is Zrc2TokenValue tokenValue)
+            {
+                var control = new TokenDetailsControl();
+                control.LoadToken(tokenValue.Symbol);
+                return control;
+            }
+            if (value is TokenBalanceRowViewModel tokenBalanceRow)
+            {
+                var control = new TokenDetailsControl();
+                control.LoadToken(tokenBalanceRow.Model.Symbol);
+                return control;
+            }
             var genericControl = new GenericObjectControl();
             genericControl.LoadGenericViewModel(value);
             return genericControl;
@@ -54,6 +66,14 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             if (value is Zrc2TokenValue zrc2TokenValue)
             {
                 return $"Token: {zrc2TokenValue}";
+            }
+            if (value is TokenModel tokenModel)
+            {
+                return $"Token: {tokenModel}";
+            }
+            if (value is TokenBalanceRowViewModel tokenBalanceRow)
+            {
+                return $"Token: {tokenBalanceRow.TokenTitle}";
             }
             if (value is BlockNumberValue blockNumber)
             {
@@ -83,6 +103,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             if (value is TokenModel tokenModel)
             {
                 return $"Token-{tokenModel.Symbol}";
+            }
+            if (value is TokenBalanceRowViewModel tokenBalanceRow)
+            {
+                return $"Token-{tokenBalanceRow.Model.Symbol}";
             }
             if (value is BlockNumberValue blockNumber)
             {

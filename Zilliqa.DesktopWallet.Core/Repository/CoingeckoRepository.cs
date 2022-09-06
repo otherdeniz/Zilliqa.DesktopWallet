@@ -24,7 +24,6 @@ namespace Zilliqa.DesktopWallet.Core.Repository
         private readonly object _startupLock = new();
         private readonly Queue<QueuedCoinHistoryRequest> _coinHistoryRequestQueue = new(MaxQueueSize);
         private readonly Queue<QueuedCoinPriceRequest> _coinPriceRequestQueue = new(MaxQueueSize);
-        //private List<TokenModel>? _tokenModels;
         private Dictionary<string, List<string>>? _coinSymbolCoinIds;
         private readonly Dictionary<string, string?> _symbolToCoinId = new();
 
@@ -52,7 +51,6 @@ namespace Zilliqa.DesktopWallet.Core.Repository
                 {
                     try
                     {
-                        //_tokenModels = TokenDataService.Instance.GetTokens(false).AsList();
                         _coinSymbolCoinIds = GetCoinSymbolIds();
 #pragma warning disable CS4014 // task not awaited
                         BackgroundRefreshTask(_backgroundCancellationTokenSource.Token);
@@ -91,7 +89,6 @@ namespace Zilliqa.DesktopWallet.Core.Repository
 
         private async Task BackgroundRefreshTask(CancellationToken cancellationToken)
         {
-            //bool firstRun = true;
             while (!cancellationToken.IsCancellationRequested)
             {
                 try
@@ -129,74 +126,6 @@ namespace Zilliqa.DesktopWallet.Core.Repository
                     WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                         ZilCoinPriceChanged?.Invoke(this, EventArgs.Empty));
 
-                    //if (firstRun)
-                    //{
-                    //    foreach (var tokenSymbol in tokens
-                    //                 .Where(t => t.Symbol != "ZIL")
-                    //                 .Select(t => t.Symbol.ToLower()))
-                    //    {
-                    //        if (!TokenPricesBySymbol.ContainsKey(tokenSymbol) 
-                    //            && coinSymbolIds.TryGetValue(tokenSymbol, out var tokenCoinIds))
-                    //        {
-                    //            foreach (var tokenCoinId in tokenCoinIds)
-                    //            {
-                    //                if (cancellationToken.IsCancellationRequested) return;
-                    //                try
-                    //                {
-                    //                    var tokenCoinPrice = _apiClient.GetCoinPrice(tokenCoinId);
-                    //                    if (CoinIdsWhiteList.Any(w => tokenCoinPrice.Id == w)
-                    //                        || !string.IsNullOrEmpty(tokenCoinPrice.Platforms.Zilliqa))
-                    //                    {
-                    //                        TokenPricesBySymbol.Add(tokenSymbol, tokenCoinPrice);
-                    //                        _symbolToCoinId.Add(tokenSymbol, tokenCoinId);
-                    //                        CoinPriceChanged?.Invoke(this, new CoinPriceChangedEventArgs(tokenSymbol));
-                    //                        break;
-                    //                    }
-                    //                }
-                    //                catch (Exception)
-                    //                {
-                    //                    // get coin price failed
-                    //                }
-                    //            }
-
-                    //            try
-                    //            {
-                    //                await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-                    //            }
-                    //            catch (TaskCanceledException)
-                    //            {
-                    //                return;
-                    //            }
-                    //        }
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    foreach (var tokenSymbol in TokenPricesBySymbol.Select(t => t.Key))
-                    //    {
-                    //        if (_symbolToCoinId.TryGetValue(tokenSymbol, out var coinId))
-                    //        {
-                    //            if (cancellationToken.IsCancellationRequested) return;
-                    //            TokenPricesBySymbol[tokenSymbol] = _apiClient.GetCoinPrice(coinId);
-                    //            CoinPriceChanged?.Invoke(this, new CoinPriceChangedEventArgs(tokenSymbol));
-                    //        }
-
-                    //        try
-                    //        {
-                    //            await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
-                    //        }
-                    //        catch (TaskCanceledException)
-                    //        {
-                    //            return;
-                    //        }
-                    //    }
-                    //    if (cancellationToken.IsCancellationRequested) return;
-                    //    UpdateZilPrice();
-                    //    WinFormsSynchronisationContext.ExecuteSynchronized(() => 
-                    //        ZilCoinPriceChanged?.Invoke(this, EventArgs.Empty));
-                    //}
-
-                    //firstRun = false;
                 }
                 catch (Exception e)
                 {

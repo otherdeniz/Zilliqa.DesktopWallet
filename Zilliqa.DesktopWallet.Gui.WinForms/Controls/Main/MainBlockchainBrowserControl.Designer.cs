@@ -199,8 +199,8 @@
             // propertyGridBlockchainInfo
             // 
             this.propertyGridBlockchainInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGridBlockchainInfo.Enabled = false;
             this.propertyGridBlockchainInfo.HelpVisible = false;
+            this.propertyGridBlockchainInfo.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.propertyGridBlockchainInfo.Location = new System.Drawing.Point(3, 19);
             this.propertyGridBlockchainInfo.Name = "propertyGridBlockchainInfo";
             this.propertyGridBlockchainInfo.PropertySort = System.Windows.Forms.PropertySort.NoSort;

@@ -36,7 +36,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             if (upgareTable != null)
             {
                 upgareTable.EnsureInitialisationIsStarted();
-                labelStatus.Text = $"Upgrading Database Table '{upgareTable.TableName}' : {upgareTable.InitialisationCompletedPercent:0.00}%";
+                if (upgareTable.InitialisationCompletedPercent > 0
+                    && upgareTable.InitialisationCompletedPercent < 100)
+                {
+                    labelStatus.Text = $"Upgrading Database Table '{upgareTable.TableName}' : {upgareTable.InitialisationCompletedPercent:0.00}%";
+                }
                 return;
             }
             //if (!_zilligraphTables.All(t => t.InitialisationCompleted))

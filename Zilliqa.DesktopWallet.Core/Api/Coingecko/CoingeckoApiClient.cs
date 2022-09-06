@@ -73,7 +73,19 @@ namespace Zilliqa.DesktopWallet.Core.Api.Coingecko
                         }
                         else if (retryAfterSeconds == 60)
                         {
-                            throw new ApiCallException($"CoingeckoApiClient Response Code was always TooManyRequests for more than 3 retries (10s, 30s, 60s); URL = {requestUrl};");
+                            retryAfterSeconds = 61;
+                        }
+                        else if (retryAfterSeconds == 61)
+                        {
+                            retryAfterSeconds = 62;
+                        }
+                        else if (retryAfterSeconds == 32)
+                        {
+                            retryAfterSeconds = 63;
+                        }
+                        else if (retryAfterSeconds == 63)
+                        {
+                            throw new ApiCallException($"CoingeckoApiClient Response Code was always TooManyRequests for more than 6 retries (10s, 30s, 60s, 61s, 62s, 63s); URL = {requestUrl};");
                         }
                         await Task.Delay(retryAfterSeconds * 1000);
                     }

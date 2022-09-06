@@ -39,7 +39,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
         {
             _account = account;
             _viewModelOwned = viewModelOwned;
-            textZilAddress.Text = account.AddressBech32;
+            bech32Address.Bech32Address = account.AddressBech32;
             gridViewTokenBalances.LoadData(account.TokenBalances, typeof(TokenBalanceRowViewModel));
             gridViewAllTransactions.LoadData(account.AllTransactions, typeof(CommonTransactionRowViewModel));
             gridViewZilTransactions.LoadData(account.ZilTransactions, typeof(ZilTransactionRowViewModel));
@@ -58,6 +58,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             _account.ZilTransactions.ExecuteAfterLoadCompleted(l => SetTabButtonCountText(tabButtonZilTransactions, l.RecordCount), true);
 
             _account.TokenTransactions.ExecuteAfterLoadCompleted(l => SetTabButtonCountText(tabButtonTokenTransactions, l.RecordCount), true);
+
+            labelCreatedDate.Text = _account.CreatedDate.ToString("g");
 
             labelZilTotalBalance.Text = $"{_account.ZilTotalBalance:#,##0.00} ZIL";
             labelZilLiquidBalance.Text = $"{_account.ZilLiquidBalance:#,##0.00} ZIL";
@@ -96,33 +98,33 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             TabButtonTransactionClick(tabButtonZilTransactions, gridViewZilTransactions);
         }
 
-        private void buttonClipboardAddress_Click(object sender, EventArgs e)
-        {
-            if (_account == null) return;
-            buttonClipboardAddress.BackColor = Color.Green;
-            buttonClipboardAddress.Refresh();
-            timerButtonPressed.Enabled = true;
-            Clipboard.SetText(_account.AccountData.GetAddressBech32());
-        }
+        //private void buttonClipboardAddress_Click(object sender, EventArgs e)
+        //{
+        //    if (_account == null) return;
+        //    buttonClipboardAddress.BackColor = Color.Green;
+        //    buttonClipboardAddress.Refresh();
+        //    timerButtonPressed.Enabled = true;
+        //    Clipboard.SetText(_account.AccountData.GetAddressBech32());
+        //}
 
-        private void buttonOpenBlockExplorer_Click(object sender, EventArgs e)
-        {
-            if (_account == null) return;
-            buttonOpenBlockExplorer.BackColor = Color.Green;
-            buttonOpenBlockExplorer.Refresh();
-            timerButtonPressed.Enabled = true;
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = $"https://viewblock.io/zilliqa/address/{_account.AccountData.GetAddressBech32()}",
-                UseShellExecute = true
-            });
-        }
+        //private void buttonOpenBlockExplorer_Click(object sender, EventArgs e)
+        //{
+        //    if (_account == null) return;
+        //    buttonOpenBlockExplorer.BackColor = Color.Green;
+        //    buttonOpenBlockExplorer.Refresh();
+        //    timerButtonPressed.Enabled = true;
+        //    Process.Start(new ProcessStartInfo
+        //    {
+        //        FileName = $"https://viewblock.io/zilliqa/address/{_account.AccountData.GetAddressBech32()}",
+        //        UseShellExecute = true
+        //    });
+        //}
 
         private void timerButtonPressed_Tick(object sender, EventArgs e)
         {
-            timerButtonPressed.Enabled = false;
-            buttonClipboardAddress.BackColor = SystemColors.Control;
-            buttonOpenBlockExplorer.BackColor = SystemColors.Control;
+            //timerButtonPressed.Enabled = false;
+            //buttonClipboardAddress.BackColor = SystemColors.Control;
+            //buttonOpenBlockExplorer.BackColor = SystemColors.Control;
         }
 
         private void tabButtonZrc2Tokens_Click(object sender, EventArgs e)

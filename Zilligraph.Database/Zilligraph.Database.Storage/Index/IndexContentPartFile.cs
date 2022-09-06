@@ -130,8 +130,7 @@ namespace Zilligraph.Database.Storage.Index
                             }
                             else
                             {
-                                if (fileStream.Seek(8, SeekOrigin.Current) != 8)
-                                    throw new RuntimeException($"index content read fatal error (Seek) - File {_filePath}");
+                                fileStream.Seek(8, SeekOrigin.Current);
                             }
                         }
                     }

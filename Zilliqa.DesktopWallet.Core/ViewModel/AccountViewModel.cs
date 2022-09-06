@@ -40,6 +40,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         public AccountBase AccountData { get; }
 
+        public DateTime CreatedDate { get; private set; } = DateTime.MinValue;
+
         public BindingList<TokenBalanceRowViewModel> TokenBalances { get; } = new();
 
         public PageableDataSource<CommonTransactionRowViewModel> AllTransactions { get; } = new();
@@ -100,6 +102,10 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                         _zilValueUsd = coingeckoRepo.ZilCoinPrice?.MarketData.CurrentPrice.Usd * ZilTotalBalance;
                         _tokensValueUsd = TokenBalances.Any() ? TokenBalances.Sum(t => t.ValueUsd) : 0;
                         _tokensValueZil = TokenBalances.Any() ? TokenBalances.Sum(t => t.ValueZil) : 0;
+                        if (AllTransactions.Records?.Count > 0)
+                        {
+                            CreatedDate = AllTransactions.Records.Min(t => t.Transaction.Timestamp);
+                        }
                         RaiseAfterChange();
                         return;
                     }
@@ -165,6 +171,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                         transactionViewModels.ForEach(t => t.CommonTransaction.LoadValuesProperties(false));
                     }
 
+                    OnTransactionsChanged();
+
                     if (!cancellationToken.IsCancellationRequested)
                     {
                         _transactionEventNotificator = tableTransactions.AddEventNotificator(r => 
@@ -183,45 +191,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                 {
                     Logging.LogError("Account View Model LoadTransactions failed", e);
                 }
-
-                //if (_loadCurrencyValues 
-                //    && !cancellationToken.IsCancellationRequested)
-                //{
-                //    transactionViewModels.ForEach(vm =>
-                //    {
-                //        if (!cancellationToken.IsCancellationRequested)
-                //        {
-                //            vm.LoadValuesProperties(false);
-                //        }
-                //    });
-                //    //TODO: check if re-binding is necessary after all Values loaded
-                //    //var loadPropertiesState = transactionViewModels.Select(vm => vm.LoadValuesProperties(false)).ToList();
-                //    //try
-                //    //{
-                //    //    for (int i = 0; i < 60; i++) // wait max 2 minutes
-                //    //    {
-                //    //        if (loadPropertiesState.All(l => l.IsCompleted))
-                //    //        {
-                //    //            WinFormsSynchronisationContext.ExecuteSynchronized(() =>
-                //    //            {
-
-                //    //                AllTransactions.ResetBindings();
-                //    //                ZilTransactions.ResetBindings();
-                //    //                TokenTransactions.ResetBindings();
-                //    //                TokenBalances.ResetBindings();
-                //    //            });
-                //    //            break;
-                //    //        }
-
-                //    //        Task.Run(async () => await Task.Delay(2000, cancellationToken), cancellationToken).GetAwaiter()
-                //    //            .GetResult();
-                //    //    }
-                //    //}
-                //    //catch (TaskCanceledException)
-                //    //{
-                //    //    // expected
-                //    //}
-                //}
             }, cancellationToken);
         }
 
@@ -239,6 +208,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                 TokenTransactions.InsertRecord(viewModel.TokenTransaction, insertToTop);
                 AddTokenBalanceTransaction(viewModel.TokenTransaction, true);
             }
+            viewModel.CommonTransaction.LoadValuesProperties(true);
             OnTransactionsChanged();
         }
 

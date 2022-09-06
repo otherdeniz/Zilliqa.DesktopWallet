@@ -1,6 +1,6 @@
 ﻿using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 
-namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls
+namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
 {
     public class DrillDownLinkLabel : LinkLabel
     {
