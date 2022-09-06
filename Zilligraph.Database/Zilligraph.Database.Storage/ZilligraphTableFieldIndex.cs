@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Zilligraph.Database.Contract;
 
 namespace Zilligraph.Database.Storage
 {
@@ -6,8 +7,8 @@ namespace Zilligraph.Database.Storage
     {
         private readonly PropertyInfo _propertyInfo;
 
-        internal ZilligraphTableFieldIndex(IZilligraphTable table, PropertyInfo propertyInfo)
-            : base(table, propertyInfo.Name)
+        internal ZilligraphTableFieldIndex(IZilligraphTable table, PropertyInfo propertyInfo, IndexAttributeBase indexAttribute)
+            : base(table, propertyInfo.Name, indexAttribute)
         {
             _propertyInfo = propertyInfo;
             ValueType = _propertyInfo.PropertyType;

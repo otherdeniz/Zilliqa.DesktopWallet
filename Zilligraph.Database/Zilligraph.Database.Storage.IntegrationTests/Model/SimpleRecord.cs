@@ -23,19 +23,19 @@ namespace Zilligraph.Database.Storage.IntegrationTests.Model
             return list;
         }
 
-        [SchemaIndex]
+        [PropertyIndex]
         public string IndexedStringX { get; set; }
 
-        [SchemaIndex]
+        [PropertyIndex]
         public string IndexedStringA { get; set; }
 
-        [SchemaIndex]
+        [PropertyIndex]
         public string IndexedStringB { get; set; }
 
-        [SchemaIndex]
+        [PropertyIndex]
         public int IndexedInt32SmallRange { get; set; }
 
-        [SchemaIndex]
+        [PropertyIndex]
         public int IndexedInt32LargeRange { get; set; }
 
         public string Data { get; set; }

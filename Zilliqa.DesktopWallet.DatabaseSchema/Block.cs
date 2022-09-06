@@ -5,7 +5,7 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
 {
     public class Block
     {
-        [SchemaIndex]
+        [PropertyIndex]
         [JsonProperty("A")]
         public int BlockNumber { get; set; }
 

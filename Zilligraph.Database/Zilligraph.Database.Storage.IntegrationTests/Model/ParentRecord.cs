@@ -20,7 +20,7 @@ namespace Zilligraph.Database.Storage.IntegrationTests.Model
             return list;
         }
 
-        [SchemaIndex]
+        [PropertyIndex]
         public int PrimaryKey { get; set; }
 
         public int AnyNumber { get; set; }

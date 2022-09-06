@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Zilligraph.Database.Contract;
 
 namespace Zilligraph.Database.Storage;
 
@@ -6,8 +7,8 @@ public class ZilligraphTableCalculatedIndex : ZilligraphTableIndexBase
 {
     private readonly MethodInfo _methodInfo;
 
-    internal ZilligraphTableCalculatedIndex(IZilligraphTable table, MethodInfo methodInfo)
-        : base(table, methodInfo.Name)
+    internal ZilligraphTableCalculatedIndex(IZilligraphTable table, MethodInfo methodInfo, IndexAttributeBase indexAttribute)
+        : base(table, methodInfo.Name, indexAttribute)
     {
         _methodInfo = methodInfo;
     }

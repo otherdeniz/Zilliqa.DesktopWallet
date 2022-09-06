@@ -1,4 +1,5 @@
 ﻿using Zillifriends.Shared.Common;
+using Zilligraph.Database.Contract;
 using Zilligraph.Database.Storage.Index;
 
 namespace Zilligraph.Database.Storage
@@ -11,8 +12,9 @@ namespace Zilligraph.Database.Storage
         private readonly Dictionary<ushort, List<IndexContentPartFile>> _indexContentPartFiles = new();
         private bool? _indexExists;
 
-        protected ZilligraphTableIndexBase(IZilligraphTable table, string name)
+        protected ZilligraphTableIndexBase(IZilligraphTable table, string name, IndexAttributeBase indexAttribute)
         {
+            IndexAttribute = indexAttribute;
             Table = table;
             Name = name;
             PathBuilder = new DataPathBuilder(Path.Combine(table.StoragePath, $"Index-{name}"));
@@ -25,6 +27,8 @@ namespace Zilligraph.Database.Storage
         public abstract Type ValueType { get; }
 
         public IndexTypeInfoBase IndexTypeInfo => _indexTypeInfo ??= IndexTypeInfoBase.Create(ValueType);
+
+        public IndexAttributeBase IndexAttribute { get; }
 
         public DataPathBuilder PathBuilder { get; }
 
@@ -51,7 +55,9 @@ namespace Zilligraph.Database.Storage
         {
             var hashBytes = IndexTypeInfo.GetHashBytes(value);
             var hashPrefix16Bit = BitConverter.ToUInt16(hashBytes, 0);
-            var indexChainEntry = IndexHeadFile.GetIndexPoint(hashPrefix16Bit);
+            var indexChainEntry = IndexAttribute.LowDistinctOptimization
+                ? ulong.MaxValue
+                : IndexHeadFile.GetIndexPoint(hashPrefix16Bit);
             if (indexChainEntry == 0)
             {
                 indexChainEntry = IndexContentFile.CreateChain(hashBytes, recordPoint);
@@ -94,7 +100,9 @@ namespace Zilligraph.Database.Storage
         {
             var hashBytes = IndexTypeInfo.GetHashBytes(propertyValue);
             var hashPrefix16Bit = BitConverter.ToUInt16(hashBytes, 0);
-            var indexChainEntry = IndexHeadFile.GetIndexPoint(hashPrefix16Bit);
+            var indexChainEntry = IndexAttribute.LowDistinctOptimization
+                ? ulong.MaxValue
+                : IndexHeadFile.GetIndexPoint(hashPrefix16Bit);
             if (indexChainEntry == 0)
             {
                 return null;
@@ -112,7 +120,9 @@ namespace Zilligraph.Database.Storage
         {
             var hashBytes = IndexTypeInfo.GetHashBytes(propertyValue);
             var hashPrefix16Bit = BitConverter.ToUInt16(hashBytes, 0);
-            var indexChainEntry = IndexHeadFile.GetIndexPoint(hashPrefix16Bit);
+            var indexChainEntry = IndexAttribute.LowDistinctOptimization
+                ? ulong.MaxValue
+                : IndexHeadFile.GetIndexPoint(hashPrefix16Bit);
             if (indexChainEntry == 0)
             {
                 return Enumerable.Empty<IndexRecord>();

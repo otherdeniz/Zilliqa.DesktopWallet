@@ -336,16 +336,16 @@ namespace Zilligraph.Database.Storage
 
             foreach (var propertyInfo in RecordType.GetProperties())
             {
-                if (propertyInfo.GetCustomAttribute(typeof(SchemaIndexAttribute)) is SchemaIndexAttribute)
+                if (propertyInfo.GetCustomAttribute(typeof(PropertyIndexAttribute)) is PropertyIndexAttribute propertyIndexAttribute)
                 {
-                    indexes.Add(propertyInfo.Name, new ZilligraphTableFieldIndex(this, propertyInfo));
+                    indexes.Add(propertyInfo.Name, new ZilligraphTableFieldIndex(this, propertyInfo, propertyIndexAttribute));
                 }
             }
             foreach (var methodInfo in RecordType.GetMethods())
             {
-                if (methodInfo.GetCustomAttribute(typeof(CalculatedIndexAttribute)) is CalculatedIndexAttribute)
+                if (methodInfo.GetCustomAttribute(typeof(CalculatedIndexAttribute)) is CalculatedIndexAttribute calculatedIndexAttribute)
                 {
-                    indexes.Add(methodInfo.Name, new ZilligraphTableCalculatedIndex(this, methodInfo));
+                    indexes.Add(methodInfo.Name, new ZilligraphTableCalculatedIndex(this, methodInfo, calculatedIndexAttribute));
                 }
             }
             return indexes;

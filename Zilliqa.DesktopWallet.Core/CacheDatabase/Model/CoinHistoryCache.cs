@@ -5,7 +5,7 @@ namespace Zilliqa.DesktopWallet.Core.CacheDatabase.Model
 {
     public class CoinHistoryCache
     {
-        [SchemaIndex]
+        [PropertyIndex]
         public DateTime Date { get; set; }
 
         public CoinHistory CoinHistory { get; set; }

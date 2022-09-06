@@ -9,7 +9,7 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
         private DataContractCall? _dataContractCall;
 
         [RequiredValue]
-        [SchemaIndex]
+        [PropertyIndex]
         [JsonProperty("A")]
         public int BlockNumber { get; set; }
 
@@ -21,6 +21,7 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
         public LazyReference<Block> Block { get; set; } = null!;
 
         [JsonProperty("C")]
+        [PropertyIndex(LowDistinctOptimization = true)]
         public int TransactionType { get; set; }
 
         [JsonProperty("D")]
@@ -30,7 +31,7 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
         public TransactionType TransactionTypeEnum => (TransactionType)TransactionType;
 
         [RequiredValue]
-        [SchemaIndex]
+        [PropertyIndex]
         [JsonProperty("E")]
         public string Id { get; set; }
 
@@ -58,14 +59,14 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
         /// <summary>
         /// Hex-Address without leading '0x'
         /// </summary>
-        [SchemaIndex]
+        [PropertyIndex]
         [JsonProperty("M")]
         public string SenderAddress { get; set; }
 
         /// <summary>
         /// Hex-Address without leading '0x'
         /// </summary>
-        [SchemaIndex]
+        [PropertyIndex]
         [JsonProperty("N")]
         public string ToAddress { get; set; }
 

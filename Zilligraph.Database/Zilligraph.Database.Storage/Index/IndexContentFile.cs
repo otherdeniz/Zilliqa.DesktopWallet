@@ -142,11 +142,14 @@ namespace Zilligraph.Database.Storage.Index
             var nextEntryPosition = Convert.ToInt64(chainEntryPoint - 1);
             var hasMoreEntries = true;
             var chainLength = 0;
+            var maxChainLength = TableFieldIndex.IndexAttribute.OverrideMaxChainLength > -1
+                ? TableFieldIndex.IndexAttribute.OverrideMaxChainLength
+                : TableFieldIndex.IndexTypeInfo.MaxIndexChainLength;
             while (hasMoreEntries)
             {
                 chainLength++;
-                if (TableFieldIndex.IndexTypeInfo.MaxIndexChainLength > 0
-                    && chainLength >= TableFieldIndex.IndexTypeInfo.MaxIndexChainLength)
+                if (maxChainLength > 0
+                    && chainLength >= maxChainLength)
                 {
                     // this chain has already MAX entries, we upgrade to index-content-parts
                     // we undo the latest AppendToStream
