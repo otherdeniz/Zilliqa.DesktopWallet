@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Data.Files;
 using Zilliqa.DesktopWallet.Core.Services;
@@ -85,6 +84,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             ShowMainControl(() => mainBlockchainBrowserControl, buttonBlockchain);
         }
 
+        private void buttonSmartContracts_Click(object sender, EventArgs e)
+        {
+            ShowMainControl(() => new MainContractsControl(), buttonSmartContracts, true);
+        }
+
         private void buttonTokens_Click(object sender, EventArgs e)
         {
             ShowMainControl(() => new MainTokensControl(), buttonTokens, true);
@@ -110,6 +114,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             buttonBlockchain.Checked = false;
             buttonWallet.Checked = false;
             buttonTokens.Checked = false;
+            buttonSmartContracts.Checked = false;
             button.Checked = true;
 
             // hide everything

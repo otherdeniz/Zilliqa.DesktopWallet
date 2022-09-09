@@ -46,11 +46,17 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             this.menuIdBlockExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.propertyGridModel = new System.Windows.Forms.PropertyGrid();
+            this.contextMenuBlockNumber = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuBlockCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuBlockOpenExplorer = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuBlockOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.groupBoxDetails.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.contextMenuId.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.contextMenuBlockNumber.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBoxDetails
@@ -104,6 +110,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             this.labelBlockNumber.TabStop = true;
             this.labelBlockNumber.Text = "1";
             this.labelBlockNumber.VisitedLinkColor = System.Drawing.Color.DarkBlue;
+            this.labelBlockNumber.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.labelBlockNumber_LinkClicked);
             // 
             // labelDate
             // 
@@ -176,7 +183,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             this.menuIdBlockExplorer.Image = ((System.Drawing.Image)(resources.GetObject("menuIdBlockExplorer.Image")));
             this.menuIdBlockExplorer.Name = "menuIdBlockExplorer";
             this.menuIdBlockExplorer.Size = new System.Drawing.Size(194, 22);
-            this.menuIdBlockExplorer.Text = "Open in Block Explorer";
+            this.menuIdBlockExplorer.Text = "Show in Block Explorer";
             this.menuIdBlockExplorer.Click += new System.EventHandler(this.menuIdBlockExplorer_Click);
             // 
             // groupBox1
@@ -202,6 +209,45 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             this.propertyGridModel.TabIndex = 1;
             this.propertyGridModel.ToolbarVisible = false;
             // 
+            // contextMenuBlockNumber
+            // 
+            this.contextMenuBlockNumber.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuBlockOpen,
+            this.toolStripSeparator1,
+            this.menuBlockCopy,
+            this.menuBlockOpenExplorer});
+            this.contextMenuBlockNumber.Name = "contextMenuId";
+            this.contextMenuBlockNumber.Size = new System.Drawing.Size(195, 76);
+            // 
+            // menuBlockCopy
+            // 
+            this.menuBlockCopy.Image = ((System.Drawing.Image)(resources.GetObject("menuBlockCopy.Image")));
+            this.menuBlockCopy.Name = "menuBlockCopy";
+            this.menuBlockCopy.Size = new System.Drawing.Size(194, 22);
+            this.menuBlockCopy.Text = "Copy to Clipboard";
+            this.menuBlockCopy.Click += new System.EventHandler(this.menuBlockCopy_Click);
+            // 
+            // menuBlockOpenExplorer
+            // 
+            this.menuBlockOpenExplorer.Image = ((System.Drawing.Image)(resources.GetObject("menuBlockOpenExplorer.Image")));
+            this.menuBlockOpenExplorer.Name = "menuBlockOpenExplorer";
+            this.menuBlockOpenExplorer.Size = new System.Drawing.Size(194, 22);
+            this.menuBlockOpenExplorer.Text = "Show in Block Explorer";
+            this.menuBlockOpenExplorer.Click += new System.EventHandler(this.menuBlockOpenExplorer_Click);
+            // 
+            // menuBlockOpen
+            // 
+            this.menuBlockOpen.Image = ((System.Drawing.Image)(resources.GetObject("menuBlockOpen.Image")));
+            this.menuBlockOpen.Name = "menuBlockOpen";
+            this.menuBlockOpen.Size = new System.Drawing.Size(194, 22);
+            this.menuBlockOpen.Text = "Open";
+            this.menuBlockOpen.Click += new System.EventHandler(this.menuBlockOpen_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(191, 6);
+            // 
             // TransactionDetailsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -219,6 +265,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             this.panel1.PerformLayout();
             this.contextMenuId.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            this.contextMenuBlockNumber.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -239,5 +286,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
         private ToolStripMenuItem menuIdBlockExplorer;
         private GroupBox groupBox1;
         private PropertyGrid propertyGridModel;
+        private ContextMenuStrip contextMenuBlockNumber;
+        private ToolStripMenuItem menuBlockOpen;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem menuBlockCopy;
+        private ToolStripMenuItem menuBlockOpenExplorer;
     }
 }

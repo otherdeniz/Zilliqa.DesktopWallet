@@ -2,13 +2,13 @@
 
 namespace Zilligraph.Database.Storage.Table
 {
-    public class TableInfo : DatFileBase
+    public class TableInfoFile : DatFileBase
     {
         public List<DataFileInfo> DataFileInfos { get; set; } = new List<DataFileInfo>();
 
-        public static TableInfo Load(IZilligraphTable table)
+        public static TableInfoFile Load(IZilligraphTable table)
         {
-            return Load<TableInfo>(table.PathBuilder.GetFilePath("tableinfo.dat"));
+            return Load<TableInfoFile>(table.PathBuilder.GetFilePath("tableinfo.dat"));
         }
 
         public class DataFileInfo

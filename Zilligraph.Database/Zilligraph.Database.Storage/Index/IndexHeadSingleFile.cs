@@ -68,11 +68,6 @@ namespace Zilligraph.Database.Storage.Index
             }
         }
 
-        internal bool FileExists()
-        {
-            return File.Exists(_filePath);
-        }
-
         internal void SaveFile()
         {
             if (_indexPointers == null) return;

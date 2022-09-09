@@ -1,5 +1,7 @@
-﻿using Zillifriends.Shared.Common;
+﻿using Newtonsoft.Json;
+using Zillifriends.Shared.Common;
 using Zilligraph.Database.Contract;
+using Zilligraph.Database.Storage.FilterQuery;
 using Zilligraph.Database.Storage.Index;
 
 namespace Zilligraph.Database.Storage
@@ -9,6 +11,7 @@ namespace Zilligraph.Database.Storage
         private IndexTypeInfoBase? _indexTypeInfo;
         private IndexHeadSingleFile? _indexHeadFile;
         private IndexContentFile? _indexContentFile;
+        private IndexInfoFile? _indexInfoFile;
         private readonly Dictionary<ushort, List<IndexContentPartFile>> _indexContentPartFiles = new();
         private bool? _indexExists;
 
@@ -26,18 +29,31 @@ namespace Zilligraph.Database.Storage
 
         public abstract Type ValueType { get; }
 
-        public IndexTypeInfoBase IndexTypeInfo => _indexTypeInfo ??= IndexTypeInfoBase.Create(ValueType);
+        public IndexTypeInfoBase IndexTypeInfo  => _indexTypeInfo
+                                                   ?? throw new MissingCodeException($"Table {Table.TableName} Index {Name} is not initialised");
 
         public IndexAttributeBase IndexAttribute { get; }
 
         public DataPathBuilder PathBuilder { get; }
 
-        public bool IndexExists => _indexExists ??= IndexHeadFile.FileExists();
+        public bool IndexExists => _indexExists ??= PathBuilder.HasFiles;
 
-        protected IndexHeadSingleFile IndexHeadFile => _indexHeadFile ??= new IndexHeadSingleFile(this);
+        protected IndexInfoFile IndexInfoFile => _indexInfoFile
+                                                 ?? throw new MissingCodeException($"Table {Table.TableName} Index {Name} is not initialised");
 
-        protected IndexContentFile IndexContentFile =>
-            _indexContentFile ??= new IndexContentFile(this, IndexTypeInfo.HashLength);
+        protected IndexHeadSingleFile IndexHeadFile => _indexHeadFile
+                                                       ?? throw new MissingCodeException($"Table {Table.TableName} Index {Name} is not initialised");
+
+        protected IndexContentFile IndexContentFile => _indexContentFile 
+                                                       ?? throw new MissingCodeException($"Table {Table.TableName} Index {Name} is not initialised");
+
+        protected void InitialiseIndex()
+        {
+            _indexTypeInfo ??= IndexTypeInfoBase.Create(ValueType);
+            _indexInfoFile = IndexInfoFile.Load(this);
+            _indexHeadFile = new IndexHeadSingleFile(this);
+            _indexContentFile = new IndexContentFile(this, IndexTypeInfo.HashLength);
+        }
 
         public void StartBulkInsert()
         {
@@ -47,6 +63,30 @@ namespace Zilligraph.Database.Storage
         public void EndBulkInsert()
         {
             IndexContentFile.EndBulkInsert();
+        }
+
+        public bool IndexStateIsValid()
+        {
+            if (string.IsNullOrEmpty(IndexInfoFile.ConfigurationState))
+            {
+                SaveIndexState();
+                return true;
+            }
+            return IndexInfoFile.ConfigurationState == GetConfigurationState();
+        }
+
+        public void SaveIndexState()
+        {
+            IndexInfoFile.ConfigurationState = GetConfigurationState();
+            IndexInfoFile.Save();
+        }
+
+        public void DeleteIndex()
+        {
+            PathBuilder.DeleteFolderContents();
+            _indexExists = false;
+            _indexContentPartFiles.Clear();
+            InitialiseIndex();
         }
 
         public abstract void AddRecordIndex(ulong recordPoint, object record);
@@ -116,9 +156,9 @@ namespace Zilligraph.Database.Storage
             return IndexContentFile.GetFirstIndex(indexChainEntry, hashBytes);
         }
 
-        public IEnumerable<IndexRecord> SearchIndexes(object? propertyValue)
+        public IEnumerable<IndexRecord> SearchIndexes(FilterQueryField fieldFilter)
         {
-            var hashBytes = IndexTypeInfo.GetHashBytes(propertyValue);
+            var hashBytes = IndexTypeInfo.GetHashBytes(fieldFilter.Value);
             var hashPrefix16Bit = BitConverter.ToUInt16(hashBytes, 0);
             var indexChainEntry = IndexAttribute.LowDistinctOptimization
                 ? ulong.MaxValue
@@ -159,6 +199,11 @@ namespace Zilligraph.Database.Storage
                 _indexContentPartFiles.Add(hashPrefix16Bit, partFiles);
                 return partFiles;
             }
+        }
+
+        private string GetConfigurationState()
+        {
+            return JsonConvert.SerializeObject(IndexAttribute, Formatting.None);
         }
     }
 }

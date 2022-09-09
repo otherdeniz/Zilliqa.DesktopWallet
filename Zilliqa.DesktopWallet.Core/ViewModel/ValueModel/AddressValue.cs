@@ -1,10 +1,31 @@
 ﻿using Zilliqa.DesktopWallet.ApiClient;
+using Zilliqa.DesktopWallet.ApiClient.Utils;
 using Zilliqa.DesktopWallet.Core.Services;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
 {
     public class AddressValue
     {
+        public static bool TryParse(string value, out AddressValue? result)
+        {
+            try
+            {
+                if (MusBech32.IsValidZilAddress(value))
+                {
+                    //TODO: add Hex-Regex
+                    result = new AddressValue(value);
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                // failed parsing
+            }
+
+            result = null;
+            return false;
+        }
+
         public static AddressValue? Create(string? address)
         {
             if (address == null)

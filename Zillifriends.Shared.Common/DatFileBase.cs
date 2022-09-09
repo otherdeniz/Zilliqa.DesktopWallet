@@ -20,13 +20,13 @@ namespace Zillifriends.Shared.Common
 
         protected virtual string? FilePath { get; private set; }
 
-        protected static TDatType Load<TDatType>() where TDatType : DatFileBase, new()
+        protected static TDatType Load<TDatType>(bool saveOnCreate = true) where TDatType : DatFileBase, new()
         {
             var datFilePath = GetDatFilePath(DataPathBuilder.Root, typeof(TDatType));
-            return Load<TDatType>(datFilePath);
+            return Load<TDatType>(datFilePath, saveOnCreate);
         }
 
-        protected static TDatType Load<TDatType>(string datFilePath) where TDatType : DatFileBase, new()
+        protected static TDatType Load<TDatType>(string datFilePath, bool saveOnCreate = true) where TDatType : DatFileBase, new()
         {
             if (File.Exists(datFilePath))
             {
@@ -50,7 +50,10 @@ namespace Zillifriends.Shared.Common
             {
                 FilePath = datFilePath
             };
-            createdDatFile.Save();
+            if (saveOnCreate)
+            {
+                createdDatFile.Save();
+            }
             return createdDatFile;
         }
 
@@ -71,23 +74,28 @@ namespace Zillifriends.Shared.Common
             {
                 throw new MissingCodeException($"DatFile {this.GetType()} must be created using Load()");
             }
-            lock (_saveLock)
+            Task.Run(() =>
             {
-                var directory = new FileInfo(FilePath).Directory;
-                if (directory?.Exists == false)
+                lock (_saveLock)
                 {
-                    directory.Create();
-                }
-                using (var fileStream = File.OpenWrite(FilePath))
-                {
-                    using (var fileWriter = new StreamWriter(fileStream, Encoding.UTF8, leaveOpen: true))
+                    var directory = new FileInfo(FilePath).Directory;
+                    if (directory?.Exists == false)
                     {
-                        fileWriter.Write(JsonConvert.SerializeObject(this, SerializerSettings));
-                        fileWriter.Flush();
+                        directory.Create();
                     }
-                    fileStream.SetLength(fileStream.Position);
+
+                    using (var fileStream = File.OpenWrite(FilePath))
+                    {
+                        using (var fileWriter = new StreamWriter(fileStream, Encoding.UTF8, leaveOpen: true))
+                        {
+                            fileWriter.Write(JsonConvert.SerializeObject(this, SerializerSettings));
+                            fileWriter.Flush();
+                        }
+
+                        fileStream.SetLength(fileStream.Position);
+                    }
                 }
-            }
+            });
         }
 
         public void EnsureExists()

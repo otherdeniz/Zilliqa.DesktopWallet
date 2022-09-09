@@ -103,6 +103,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                 components.Dispose();
             }
             DisplayCurrenciesService.Instance.DisplayCurrenciesChanged -= ServiceOnDisplayCurrenciesChanged;
+            _dataSourcePageable = null;
             base.Dispose(disposing);
         }
 

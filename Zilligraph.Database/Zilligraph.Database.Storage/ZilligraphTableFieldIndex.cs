@@ -12,6 +12,7 @@ namespace Zilligraph.Database.Storage
         {
             _propertyInfo = propertyInfo;
             ValueType = _propertyInfo.PropertyType;
+            InitialiseIndex();
         }
 
         public override Type ValueType { get; }

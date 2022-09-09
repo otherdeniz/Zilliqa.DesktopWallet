@@ -1,4 +1,5 @@
-﻿using Zilliqa.DesktopWallet.ApiClient;
+﻿using Zillifriends.Shared.Common;
+using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
@@ -38,6 +39,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             {
                 var control = new TransactionDetailsControl();
                 control.LoadTransaction(transactionRowViewModel);
+                return control;
+            }
+            if (value is TransactionIdValue transactionId)
+            {
+                var control = new TransactionDetailsControl();
+                control.LoadTransaction(transactionId);
                 return control;
             }
             if (value is Zrc2TokenValue tokenValue)
@@ -81,7 +88,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             }
             if (value is TransactionRowViewModelBase transactionRowViewModelBase)
             {
-                return $"Transaction: {transactionRowViewModelBase.Transaction.Id}";
+                return $"Transaction: {transactionRowViewModelBase.Transaction.Id.FromTransactionHexToShortReadable()}";
+            }
+            if (value is TransactionIdValue transactionId)
+            {
+                return $"Transaction: {transactionId.TransactionId.FromTransactionHexToShortReadable()}";
             }
             return $"{value}";
         }
@@ -119,6 +130,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             if (value is Transaction transaction)
             {
                 return $"Trx-{transaction.Id}";
+            }
+            if (value is TransactionIdValue transactionId)
+            {
+                return $"Trx-{transactionId.TransactionId}";
             }
             // generate unique id
             return Guid.NewGuid().ToString("N");

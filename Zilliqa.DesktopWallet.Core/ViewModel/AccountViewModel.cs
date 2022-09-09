@@ -12,9 +12,9 @@ using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
-    public class AccountViewModel
+    public class AccountViewModel : IDisposable
     {
-        private readonly Action<AccountViewModel> _afterChangedAction;
+        private Action<AccountViewModel>? _afterChangedAction;
         private readonly bool _loadCurrencyValues;
         private ZilligraphTableEventNotificator<Transaction>? _transactionEventNotificator;
         private readonly CancellationTokenSource _cancellationTokenSource = new();
@@ -23,7 +23,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         private decimal? _tokensValueUsd;
         private decimal? _tokensValueZil;
 
-        public AccountViewModel(AccountBase accountData, Action<AccountViewModel> afterChangedAction, bool loadCurrencyValues) 
+        public AccountViewModel(AccountBase accountData, Action<AccountViewModel>? afterChangedAction = null, bool loadCurrencyValues = false) 
         {
             AccountData = accountData;
             _afterChangedAction = afterChangedAction;
@@ -64,10 +64,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         private void OnTransactionsChanged()
         {
-            _zilLiquidBalance = null;
-            _zilValueUsd = null;
-            _tokensValueUsd = null;
-            _tokensValueZil = null;
             RefreshBalances();
         }
 
@@ -75,18 +71,22 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         {
             WinFormsSynchronisationContext.ExecuteSynchronized(() =>
             {
-                _afterChangedAction(this);
+                _afterChangedAction?.Invoke(this);
             });
         }
 
-        public void CancelBackgroundTasks()
+        public void Dispose()
         {
+            _afterChangedAction = null;
             _cancellationTokenSource.Cancel();
+            //_cancellationTokenSource.Dispose();
             if (_transactionEventNotificator != null)
             {
                 var tableTransactions = RepositoryManager.Instance.DatabaseRepository.Database.GetTable<Transaction>();
                 tableTransactions.RemoveEventNotificator(_transactionEventNotificator);
             }
+
+            _transactionEventNotificator = null;
         }
 
         private void RefreshBalances()
@@ -100,14 +100,11 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                         _zilLiquidBalance = (await ZilliqaClient.DefaultInstance.GetBalance(Address))?.GetBalance(Unit.ZIL);
                         var coingeckoRepo = RepositoryManager.Instance.CoingeckoRepository;
                         _zilValueUsd = coingeckoRepo.ZilCoinPrice?.MarketData.CurrentPrice.Usd * ZilTotalBalance;
-                        _tokensValueUsd = TokenBalances.Any() ? TokenBalances.Sum(t => t.ValueUsd) : 0;
-                        _tokensValueZil = TokenBalances.Any() ? TokenBalances.Sum(t => t.ValueZil) : 0;
                         if (AllTransactions.Records?.Count > 0)
                         {
                             CreatedDate = AllTransactions.Records.Min(t => t.Transaction.Timestamp);
                         }
-                        RaiseAfterChange();
-                        return;
+                        break;
                     }
                     catch (Exception e)
                     {
@@ -116,7 +113,16 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                     // retry after a few seconds
                     await Task.Delay(Random.Shared.Next(1000, 2000) * i);
                 }
+
+                RefreshTokenBalances();
             });
+        }
+
+        private void RefreshTokenBalances()
+        {
+            _tokensValueUsd = TokenBalances.Any() ? TokenBalances.Sum(t => t.ValueUsd) : 0;
+            _tokensValueZil = TokenBalances.Any() ? TokenBalances.Sum(t => t.ValueZil) : 0;
+            RaiseAfterChange();
         }
 
         private void LoadTransactions(CancellationToken cancellationToken)
@@ -164,7 +170,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                         .ToList()
                     );
 
-                    TokenBalances.ForEach(t => t.UpdateValuesProperties(true));
+                    TokenBalances.ForEach(t => t.UpdateValuesProperties(true, RefreshTokenBalances));
 
                     if (_loadCurrencyValues)
                     {
@@ -236,7 +242,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
             if (updateValueProperties)
             {
-                tokenBalance.UpdateValuesProperties(true);
+                tokenBalance.UpdateValuesProperties(true, RefreshTokenBalances);
             }
         }
 
@@ -273,5 +279,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
             public TokenTransactionRowViewModel? TokenTransaction { get; }
         }
+
     }
 }

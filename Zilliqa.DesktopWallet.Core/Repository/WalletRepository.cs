@@ -6,7 +6,7 @@ using Zilliqa.DesktopWallet.Core.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Core.Repository
 {
-    public class WalletRepository
+    public class WalletRepository : IDisposable
     {
         private readonly List<AccountViewModel> _myAccountsList = new List<AccountViewModel>();
         private readonly List<AccountViewModel> _watchedAccountsList = new List<AccountViewModel>();
@@ -81,10 +81,12 @@ namespace Zilliqa.DesktopWallet.Core.Repository
             }
         }
 
-        public void CancelBackgroundTasks()
+        public void Dispose()
         {
-            _myAccountsList.ForEach(a => a.CancelBackgroundTasks());
-            _watchedAccountsList.ForEach(a => a.CancelBackgroundTasks());
+            _myAccountsList.ForEach(a => a.Dispose());
+            _myAccountsList.Clear();
+            _watchedAccountsList.ForEach(a => a.Dispose());
+            _watchedAccountsList.Clear();
         }
 
         private void OnAccountChanged(AccountViewModel accountViewModel)
@@ -101,5 +103,6 @@ namespace Zilliqa.DesktopWallet.Core.Repository
 
             public AccountViewModel AccountViewModel { get; }
         }
+
     }
 }

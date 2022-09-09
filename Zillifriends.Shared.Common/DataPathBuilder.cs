@@ -32,6 +32,8 @@
 
         public string FullPath => _fullPath;
 
+        public bool HasFiles => Directory.EnumerateFiles(_fullPath).Any();
+
         public string GetFilePath(string filename)
         {
             return Path.Combine(_fullPath, filename);
@@ -40,6 +42,12 @@
         public DataPathBuilder GetSubFolder(string subFolderName)
         {
             return new DataPathBuilder(Path.Combine(_fullPath, subFolderName));
+        }
+
+        public void DeleteFolderContents()
+        {
+            Directory.Delete(_fullPath, true);
+            Directory.CreateDirectory(_fullPath);
         }
     }
 }

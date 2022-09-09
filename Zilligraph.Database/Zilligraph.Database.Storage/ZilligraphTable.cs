@@ -16,11 +16,12 @@ namespace Zilligraph.Database.Storage
         private readonly string _tableName;
         private readonly string _storagePath;
         private List<DataFile>? _dataFiles;
-        private TableInfo? _tableInfo;
+        private TableInfoFile? _tableInfo;
         private Type? _recordType;
         private Dictionary<string, ZilligraphTableIndexBase>? _indexes;
         private List<ZilligraphTableFieldReference>? _fieldReferences;
         private readonly List<ZilligraphTableEventNotificator<TRecordModel>> _eventNotificators = new List<ZilligraphTableEventNotificator<TRecordModel>>();
+        private readonly CancellationTokenSource _initialisationCancellationTokenSource = new();
         private bool _initialisationStarted;
         private bool _initialisationCompleted;
         private readonly object _initialisationLock = new();
@@ -53,7 +54,7 @@ namespace Zilligraph.Database.Storage
 
         public DataPathBuilder PathBuilder { get; }
 
-        public TableInfo TableInfo => _tableInfo ??= TableInfo.Load(this);
+        public TableInfoFile TableInfo => _tableInfo ??= TableInfoFile.Load(this);
 
         public ZilligraphTransaction? CurrenTransaction { get; internal set; }
 
@@ -74,17 +75,20 @@ namespace Zilligraph.Database.Storage
             {
                 if (_initialisationStarted) return;
                 _initialisationStarted = true;
-                Task.Run(Initialise);
+                Task.Run(() => Initialise(_initialisationCancellationTokenSource.Token));
             }
         }
 
-        private void Initialise()
+        private void Initialise(CancellationToken cancellationToken)
         {
             if (DataFiles[0].HasRows)
             {
                 try
                 {
-                    // add new Indexes
+                    // delete outdated indexes to upgrade
+                    Indexes.Select(i => i.Value).Where(i => !i.IndexStateIsValid()).ForEach(i => i.DeleteIndex());
+
+                    // add new Indexes / recreate indexes to upgrade
                     var newIndexes = Indexes.Select(i => i.Value).Where(i => !i.IndexExists).ToList();
                     if (newIndexes.Any())
                     {
@@ -93,27 +97,42 @@ namespace Zilligraph.Database.Storage
                             index.StartBulkInsert();
                         }
 
-                        decimal recordCount = RecordCount;
-                        decimal recordNumber = 0;
-                        foreach (var row in DataFiles[0].AllRows())
+                        try
                         {
-                            var record = row.DecompressRowObject<TRecordModel>();
+                            decimal recordCount = RecordCount;
+                            decimal recordNumber = 0;
+                            foreach (var row in DataFiles[0].AllRows())
+                            {
+                                cancellationToken.ThrowIfCancellationRequested();
+                                var record = row.DecompressRowObject<TRecordModel>();
+                                foreach (var index in newIndexes)
+                                {
+                                    index.AddRecordIndex(Convert.ToUInt64(row.RowPosition + 1), record);
+                                }
+                                recordNumber++;
+                                if (recordCount > 0)
+                                {
+                                    InitialisationCompletedPercent = 100m / recordCount * recordNumber;
+                                }
+                            }
+
                             foreach (var index in newIndexes)
                             {
-                                index.AddRecordIndex(Convert.ToUInt64(row.RowPosition + 1), record);
+                                index.EndBulkInsert();
+                                index.SaveIndexState();
                             }
-                            recordNumber++;
-                            if (recordCount > 0)
-                            {
-                                InitialisationCompletedPercent = 100m / recordCount * recordNumber;
-                            }
+
+                            Database.DbSizeChanged();
                         }
-                        foreach (var index in newIndexes)
+                        catch (TaskCanceledException)
                         {
-                            index.EndBulkInsert();
+                            foreach (var index in newIndexes)
+                            {
+                                index.EndBulkInsert();
+                                index.DeleteIndex();
+                            }
                         }
                     }
-                    Database.DbSizeChanged();
                 }
                 catch (Exception e)
                 {
@@ -273,6 +292,7 @@ namespace Zilligraph.Database.Storage
 
         public void Dispose()
         {
+            _initialisationCancellationTokenSource.Cancel();
             if (_dataFiles?.Any() == true)
             {
                 foreach (var dataFile in _dataFiles)
@@ -324,7 +344,7 @@ namespace Zilligraph.Database.Storage
             };
             if (TableInfo.DataFileInfos.Count == 0)
             {
-                TableInfo.DataFileInfos.Add(new TableInfo.DataFileInfo { FirstRecordNumber = 1 });
+                TableInfo.DataFileInfos.Add(new TableInfoFile.DataFileInfo { FirstRecordNumber = 1 });
                 TableInfo.Save();
             }
             return list;

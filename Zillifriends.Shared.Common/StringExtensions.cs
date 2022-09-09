@@ -50,5 +50,15 @@ namespace Zillifriends.Shared.Common
 
             return bech32;
         }
+
+        public static string FromTransactionHexToShortReadable(this string transactionHex)
+        {
+            if (transactionHex.Length == 64)
+            {
+                return $"0x {transactionHex.Substring(0, 4)}...{transactionHex.Substring(transactionHex.Length - 4, 4)}";
+            }
+
+            return transactionHex;
+        }
     }
 }

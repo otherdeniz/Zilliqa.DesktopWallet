@@ -8,25 +8,26 @@ namespace Zilligraph.Database.Storage.Index
         private readonly IZilligraphTable _table;
         private readonly ZilligraphTableIndexBase _tableFieldIndex;
         private IEnumerator<IndexRecord>? _indexRecordsEnumerator;
-        private readonly object? _filterValue;
+        private readonly FilterQueryField _fieldFilter;
 
-        public FilterFieldSearcher(IZilligraphTable table, FilterQueryField filterQueryField)
+        public FilterFieldSearcher(IZilligraphTable table, FilterQueryField fieldFilter)
         {
             _table = table;
-            if (!_table.Indexes.TryGetValue(filterQueryField.PropertyName, out var fieldIndex))
+            _fieldFilter = fieldFilter;
+            if (!_table.Indexes.TryGetValue(fieldFilter.PropertyName, out var fieldIndex))
             {
                 throw new RuntimeException(
-                    $"missing FieldIndex for Property {filterQueryField.PropertyName} on Table {table.TableName}");
+                    $"missing FieldIndex for Property {fieldFilter.PropertyName} on Table {table.TableName}");
             }
             _tableFieldIndex = fieldIndex;
-            _filterValue = filterQueryField.Value;
+            _fieldFilter = fieldFilter;
         }
 
         public ulong? GetNextRecordPoint()
         {
             if (_indexRecordsEnumerator == null)
             {
-                _indexRecordsEnumerator = _tableFieldIndex.SearchIndexes(_filterValue).GetEnumerator();
+                _indexRecordsEnumerator = _tableFieldIndex.SearchIndexes(_fieldFilter).GetEnumerator();
             }
 
             if (!NoMoreRecords)

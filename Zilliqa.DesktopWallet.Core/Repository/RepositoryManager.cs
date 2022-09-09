@@ -36,7 +36,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
         public void Shutdown()
         {
             _currencyPriceRepository?.CancelBackgroundTasks();
-            _walletRepository?.CancelBackgroundTasks();
+            _walletRepository?.Dispose();
             _blockchainBrowserRepository?.Dispose();
             _dbRepository?.Database.Dispose();
             _currencyPriceRepository = null;

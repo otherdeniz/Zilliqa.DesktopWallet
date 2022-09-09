@@ -29,7 +29,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
 
         public bool ContainsValueUniqueId(object value)
         {
-            return _valueUniqueIds.Contains(ValueSelectionHelper.GetValueUniqueId(value));
+            return ContainsValueUniqueId(ValueSelectionHelper.GetValueUniqueId(value));
         }
 
         public bool ContainsValueUniqueId(string valueUniqueId)

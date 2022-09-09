@@ -11,6 +11,7 @@ public class ZilligraphTableCalculatedIndex : ZilligraphTableIndexBase
         : base(table, methodInfo.Name, indexAttribute)
     {
         _methodInfo = methodInfo;
+        InitialiseIndex();
     }
 
     public override Type ValueType => _methodInfo.ReturnType;

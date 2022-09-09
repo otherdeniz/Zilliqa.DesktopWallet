@@ -15,7 +15,7 @@ namespace Zilligraph.Database.Storage
 
         string TableName { get; }
 
-        TableInfo TableInfo { get; }
+        TableInfoFile TableInfo { get; }
 
         long RecordCount { get; }
 

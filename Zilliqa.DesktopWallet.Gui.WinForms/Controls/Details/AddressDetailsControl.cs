@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView;
@@ -77,7 +76,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             }
             if (_viewModelOwned)
             {
-                _account?.CancelBackgroundTasks();
+                _account?.Dispose();
             }
             base.Dispose(disposing);
         }

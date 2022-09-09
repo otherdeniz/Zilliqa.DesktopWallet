@@ -23,11 +23,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
 
         private void OnLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (_drillDownMasterPanel != null
-                && _viewValue != null)
-            {
-                _drillDownMasterPanel.DisplayValue(_viewValue, false);
-            }
+            //if (_drillDownMasterPanel != null
+            //    && _viewValue != null)
+            //{
+            //    _drillDownMasterPanel.DisplayValue(_viewValue, false);
+            //}
         }
 
     }

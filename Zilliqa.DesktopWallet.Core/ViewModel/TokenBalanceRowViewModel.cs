@@ -101,7 +101,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyLtc)]
         public decimal? ValueLtc { get; private set; }
 
-        public void UpdateValuesProperties(bool notifiyPropertyChanged)
+        public void UpdateValuesProperties(bool notifiyPropertyChanged, Action? propertiesChangedAction = null)
         {
             ValueZil = Model.MarketData.RateZil * BalanceValue;
             RepositoryManager.Instance.CoingeckoRepository.GetCoinPrice(Model.Symbol, cp =>
@@ -129,6 +129,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                         OnPropertyChanged(nameof(ValueLtc));
                     });
                 }
+                propertiesChangedAction?.Invoke();
             });
         }
 

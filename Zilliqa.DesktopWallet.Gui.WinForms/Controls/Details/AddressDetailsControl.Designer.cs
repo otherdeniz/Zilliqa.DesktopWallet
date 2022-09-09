@@ -78,11 +78,11 @@
             this.tabButtonHoldingContracts = new System.Windows.Forms.ToolStripButton();
             this.panelTop = new System.Windows.Forms.Panel();
             this.panel14 = new System.Windows.Forms.Panel();
+            this.labelCreatedDate = new System.Windows.Forms.Label();
+            this.bech32Address = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values.Bech32AddressLabel();
             this.panel13 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.bech32Address = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values.Bech32AddressLabel();
-            this.labelCreatedDate = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.panelBalanceValues.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -758,6 +758,23 @@
             this.panel14.Size = new System.Drawing.Size(568, 44);
             this.panel14.TabIndex = 3;
             // 
+            // labelCreatedDate
+            // 
+            this.labelCreatedDate.AutoSize = true;
+            this.labelCreatedDate.Location = new System.Drawing.Point(2, 23);
+            this.labelCreatedDate.Name = "labelCreatedDate";
+            this.labelCreatedDate.Size = new System.Drawing.Size(91, 15);
+            this.labelCreatedDate.TabIndex = 1;
+            this.labelCreatedDate.Text = "00.00.1900 00:00";
+            // 
+            // bech32Address
+            // 
+            this.bech32Address.AutoSize = true;
+            this.bech32Address.Location = new System.Drawing.Point(2, 0);
+            this.bech32Address.Name = "bech32Address";
+            this.bech32Address.Size = new System.Drawing.Size(372, 23);
+            this.bech32Address.TabIndex = 0;
+            // 
             // panel13
             // 
             this.panel13.AutoSize = true;
@@ -787,23 +804,6 @@
             this.label2.Size = new System.Drawing.Size(52, 15);
             this.label2.TabIndex = 0;
             this.label2.Text = "Address:";
-            // 
-            // bech32Address
-            // 
-            this.bech32Address.AutoSize = true;
-            this.bech32Address.Location = new System.Drawing.Point(2, 0);
-            this.bech32Address.Name = "bech32Address";
-            this.bech32Address.Size = new System.Drawing.Size(372, 23);
-            this.bech32Address.TabIndex = 0;
-            // 
-            // labelCreatedDate
-            // 
-            this.labelCreatedDate.AutoSize = true;
-            this.labelCreatedDate.Location = new System.Drawing.Point(2, 23);
-            this.labelCreatedDate.Name = "labelCreatedDate";
-            this.labelCreatedDate.Size = new System.Drawing.Size(91, 15);
-            this.labelCreatedDate.TabIndex = 1;
-            this.labelCreatedDate.Text = "00.00.1900 00:00";
             // 
             // AddressDetailsControl
             // 
