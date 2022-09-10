@@ -44,7 +44,9 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
                         Console.WriteLine($"Readed for Sorting: {blockRecordPositions.Count:#,##0}");
                     }
                 }
+                Console.WriteLine($"Sorting {blockRecordPositions.Count:#,##0} records");
                 var sortedRecords = blockRecordPositions.OrderBy(b => b.Block);
+                Console.WriteLine("Begin writing records...");
                 int recordCount = 0;
                 foreach (var sortedRecord in sortedRecords)
                 {

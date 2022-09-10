@@ -385,7 +385,24 @@ namespace Zilliqa.DesktopWallet.ApiClient
 				list.Add(new Transaction{Id = Guid.NewGuid().ToString("N"), Receipt = new Receipt() }); //list.Add(await GetTransaction("fffde5f030d6f8e2aa4638a7117a7a063fbffe6e75b02f35393127c3caf6a168")); (not found)
 				list.Add(new Transaction{Id = Guid.NewGuid().ToString("N"), Receipt = new Receipt() }); //list.Add(await GetTransaction("afac1600bfda9d73c9625f3146f7c47bbaf6c4cae621aee4387772d5fd669932")); (not found)
 			}
-            else if (res.Message != "TxBlock has no transactions")
+			else if (res.Message == "Txn Hash not Present"
+					 && blockNum == 175701)
+            {
+				// the block should have 33 transactions but we only see 8, we fake the rest
+                list.Add(await GetTransaction("143e05e2b3c2b376bb4998fc7300cd427c7e667720952d2c8c09177807d17917"));
+                list.Add(await GetTransaction("313a621cc6494548d24002cdfc8a1f638f3c8c52a782af743efeb36e94bf04f1"));
+                list.Add(await GetTransaction("45adcf38da029fdfdb611a920f0f48921cab4f75228afd29f2047e9b00440400"));
+                list.Add(await GetTransaction("92ca26e9e54b54620a484657eb83e26837702ea34c91c85fd86e2577d55485d9"));
+                list.Add(await GetTransaction("92d430ac80a8aef5101a98ea9da6ccccda41f096522bd63d1357a7bc45954eb4"));
+                list.Add(await GetTransaction("d14b91fec8f88db1e4ae1841b24f84a75ab8d4a7913c1a85107d717af2a78132"));
+                list.Add(await GetTransaction("e470d6d9cb46fd232db13a35e7e6d84958426c5c6b5270e23b85416bc5f1c129"));
+                list.Add(await GetTransaction("f928d81696b6388a18e19a38048a2f624be83f6021d7c7dfaffeccae2027d752"));
+                for (int i = 1; i <= 25; i++)
+                {
+                    list.Add(new Transaction { Id = Guid.NewGuid().ToString("N"), Receipt = new Receipt() });
+                }
+			}
+			else if (res.Message != "TxBlock has no transactions")
             {
                 ThrowOnError(res);
 			}
