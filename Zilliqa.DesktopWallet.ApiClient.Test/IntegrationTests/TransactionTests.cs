@@ -41,14 +41,14 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
         [Test]
         public async Task GetTxnBodiesForTxBlockNotEmpty()
         {
-            var txns = await _zil.GetTxnBodiesForTxBlock(1353849);
+            var txns = await _zil.GetTxnBodiesForTxBlock(175334);
             Assert.IsTrue(txns.Any());
         }
 
         [Test]
         public async Task GetTransactionsForTxBlockNotEmpty()
         {
-            var txns = await _zil.GetTransactionsForTxBlock(1353849); 
+            var txns = await _zil.GetTransactionsForTxBlock(175334); 
             Assert.IsTrue(txns.Any());
         }
 
