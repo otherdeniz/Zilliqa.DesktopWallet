@@ -49,6 +49,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaksaCsharp", "LaksaCsharp\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaksaTest", "LaksaTest\LaksaTest.csproj", "{EB8247FB-B977-452F-BB80-B8A992911361}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zilligraph.Database.DbMaintenanceCli", "Zilligraph.Database\Zilligraph.Database.DbMaintenanceCli\Zilligraph.Database.DbMaintenanceCli.csproj", "{1AB3A422-73F4-4A8D-8AFA-7CE5CC0AE0C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zilliqa.DesktopWallet.DbMaintenanceCli", "Zilliqa.DesktopWallet.DbMaintenanceCli\Zilliqa.DesktopWallet.DbMaintenanceCli.csproj", "{B2BE9EE9-E7AC-42B3-8DC9-91FE56C5B8AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -122,6 +126,14 @@ Global
 		{D06A6B28-F9AF-4D78-A003-A02009746B3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB8247FB-B977-452F-BB80-B8A992911361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EB8247FB-B977-452F-BB80-B8A992911361}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AB3A422-73F4-4A8D-8AFA-7CE5CC0AE0C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AB3A422-73F4-4A8D-8AFA-7CE5CC0AE0C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AB3A422-73F4-4A8D-8AFA-7CE5CC0AE0C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AB3A422-73F4-4A8D-8AFA-7CE5CC0AE0C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2BE9EE9-E7AC-42B3-8DC9-91FE56C5B8AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2BE9EE9-E7AC-42B3-8DC9-91FE56C5B8AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2BE9EE9-E7AC-42B3-8DC9-91FE56C5B8AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2BE9EE9-E7AC-42B3-8DC9-91FE56C5B8AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -145,6 +157,8 @@ Global
 		{3E1E5EE8-7AD1-4E92-A249-FE4425EBB00C} = {7F110258-3BCE-4E17-836E-E784317FBB40}
 		{D06A6B28-F9AF-4D78-A003-A02009746B3C} = {989718DB-B00E-4B38-8F84-27E3E3C9D545}
 		{EB8247FB-B977-452F-BB80-B8A992911361} = {989718DB-B00E-4B38-8F84-27E3E3C9D545}
+		{1AB3A422-73F4-4A8D-8AFA-7CE5CC0AE0C5} = {58EA2C23-58CD-4EBC-A522-DC018C2F2DF6}
+		{B2BE9EE9-E7AC-42B3-8DC9-91FE56C5B8AA} = {7F110258-3BCE-4E17-836E-E784317FBB40}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33F6C299-4831-4DA4-9B5F-65B8F3094132}
