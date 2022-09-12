@@ -68,6 +68,18 @@ namespace Zilligraph.Database.Storage
 
         public decimal InitialisationCompletedPercent { get; private set; }
 
+        public void StartBulkOperation()
+        {
+            DataFiles.ForEach(d => d.StartBulkOperation());
+            Indexes.ForEach(i => i.Value.StartBulkInsert());
+        }
+
+        public void EndBulkOperation()
+        {
+            DataFiles.ForEach(d => d.EndBulkOperation());
+            Indexes.ForEach(i => i.Value.EndBulkInsert());
+        }
+
         public void EnsureInitialisationIsStarted()
         {
             if (_initialisationStarted) return;
@@ -199,10 +211,8 @@ namespace Zilligraph.Database.Storage
             var recordPoint = dataFile.Append(rowBinary);
 
             // update indexes
-            foreach (var fieldIndex in Indexes)
-            {
-                fieldIndex.Value.AddRecordIndex(recordPoint, record);
-            }
+            Parallel.ForEach(Indexes.Select(i => i.Value), 
+                fi => fi.AddRecordIndex(recordPoint, record));
 
             // update meta data
             var dataFileInfo = TableInfo.DataFileInfos.Last();

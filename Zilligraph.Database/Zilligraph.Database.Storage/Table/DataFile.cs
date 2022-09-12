@@ -5,7 +5,8 @@ namespace Zilligraph.Database.Storage.Table
     public class DataFile : IDisposable
     {
         private bool? _hasRows;
-        private object _streamLock = new();
+        private readonly object _streamLock = new();
+        private FileStream? _bulkOperationFileStream;
 
         public DataFile(IZilligraphTable table, int fileNumber)
         {
@@ -22,76 +23,115 @@ namespace Zilligraph.Database.Storage.Table
 
         public bool HasRows => _hasRows ??= GetHasRows();
 
+        public void StartBulkOperation()
+        {
+            _bulkOperationFileStream = File.Open(FilePath, FileMode.OpenOrCreate);
+        }
+
+        public void EndBulkOperation()
+        {
+            _bulkOperationFileStream?.Dispose();
+            _bulkOperationFileStream = null;
+        }
+
         public ulong Append(DataRowBinary row)
         {
+            if (_bulkOperationFileStream != null)
+            {
+                return AppendToStream(row, _bulkOperationFileStream);
+            }
+
             lock (_streamLock)
             {
                 using (var stream = GetStream())
                 {
-                    stream.Seek(0, SeekOrigin.End);
-                    ulong recordPoint = Convert.ToUInt64(stream.Position + 1);
-                    row.WriteToStream(stream);
-                    _hasRows = true;
-                    return recordPoint;
+                    return AppendToStream(row, stream);
                 }
             }
         }
 
+        private ulong AppendToStream(DataRowBinary row, FileStream fileStream)
+        {
+            fileStream.Seek(0, SeekOrigin.End);
+            ulong recordPoint = Convert.ToUInt64(fileStream.Position + 1);
+            row.WriteToStream(fileStream);
+            _hasRows = true;
+            return recordPoint;
+        }
+
         public DataRowBinary? Read(ulong recordPoint)
         {
+            if (_bulkOperationFileStream != null)
+            {
+                return ReadFromStream(recordPoint, _bulkOperationFileStream);
+            }
+            
             lock (_streamLock)
             {
-                try
+                using (var stream = GetStream())
                 {
-                    using (var stream = GetStream())
-                    {
-                        stream.Seek(Convert.ToInt64(recordPoint - 1), SeekOrigin.Begin);
-                        var row = DataRowBinary.ReadFromStream(stream);
-                        if (row?.RowLength > 0)
-                        {
-                            return row;
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw new RuntimeException($"Read record point {recordPoint} failed on Table {Table.TableName}", e);
+                    return ReadFromStream(recordPoint, stream);
                 }
             }
+        }
 
+        private DataRowBinary? ReadFromStream(ulong recordPoint, FileStream fileStream)
+        {
+            try
+            {
+                fileStream.Seek(Convert.ToInt64(recordPoint - 1), SeekOrigin.Begin);
+                var row = DataRowBinary.ReadFromStream(fileStream);
+                if (row?.RowLength > 0)
+                {
+                    return row;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new RuntimeException($"Read record point {recordPoint} failed on Table {Table.TableName}", e);
+            }
             return null;
         }
 
         public List<DataRowBinary> ReadChunked(ulong firstRecordPoint, int maxLength)
         {
-            var resultList = new List<DataRowBinary>();
+            if (_bulkOperationFileStream != null)
+            {
+                return ReadChunkedFromStream(firstRecordPoint, maxLength, _bulkOperationFileStream);
+            }
+
             lock (_streamLock)
             {
                 using (var stream = GetStream())
                 {
-                    stream.Seek(Convert.ToInt64(firstRecordPoint - 1), SeekOrigin.Begin);
-                    for (int i = 0; i < maxLength; i++)
-                    {
-                        try
-                        {
-                            var row = DataRowBinary.ReadFromStream(stream);
-                            if (row?.RowLength > 0)
-                            {
-                                resultList.Add(row);
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            throw new RuntimeException($"ReadChunked on firstRecordPoint {firstRecordPoint} failed on Table {Table.TableName}", e);
-                        }
-                    }
+                    return ReadChunkedFromStream(firstRecordPoint, maxLength, stream);
                 }
             }
+        }
 
+        private List<DataRowBinary> ReadChunkedFromStream(ulong firstRecordPoint, int maxLength, FileStream fileStream)
+        {
+            var resultList = new List<DataRowBinary>();
+            fileStream.Seek(Convert.ToInt64(firstRecordPoint - 1), SeekOrigin.Begin);
+            for (int i = 0; i < maxLength; i++)
+            {
+                try
+                {
+                    var row = DataRowBinary.ReadFromStream(fileStream);
+                    if (row?.RowLength > 0)
+                    {
+                        resultList.Add(row);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new RuntimeException($"ReadChunked on firstRecordPoint {firstRecordPoint} failed on Table {Table.TableName}", e);
+                }
+            }
             return resultList;
         }
 

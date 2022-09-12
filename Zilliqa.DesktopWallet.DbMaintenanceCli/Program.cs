@@ -48,6 +48,8 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
                 var sortedRecords = blockRecordPositions.OrderBy(b => b.Block);
                 Console.WriteLine("Begin writing records...");
                 int recordCount = 0;
+                sourceTable.StartBulkOperation();
+                targetTable.StartBulkOperation();
                 foreach (var sortedRecord in sortedRecords)
                 {
                     recordCount++;
@@ -58,6 +60,8 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
                         Console.WriteLine($"Written records: {recordCount:#,##0}");
                     }
                 }
+                sourceTable.EndBulkOperation();
+                targetTable.EndBulkOperation();
                 Console.WriteLine("Finished.");
                 Console.Read();
                 return;
