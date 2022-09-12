@@ -30,7 +30,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             {
                 if (ZilliqaBlockchainCrawler.Instance.IsCompleted)
                 {
-                    textStatus.Text = "Completed";
+                    textStatus.Text = "Blockchain Syncronized";
                 }
                 else
                 {
@@ -38,7 +38,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                                       / Convert.ToDouble(ZilliqaBlockchainCrawler.Instance.NumberOfBlocksOnChain) 
                                       * Convert.ToDouble(ZilliqaBlockchainCrawler.Instance.NumberOfBlocksProcessed);
                     textStatus.Text = $"Downloading ({percentage:0.000}%)";
-                    // ({ZilliqaBlockchainCrawler.Instance.NumberOfBlocksProcessed:#,##0}/{ZilliqaBlockchainCrawler.Instance.NumberOfBlocksOnChain:#,##0})"
                 }
             }
             else

@@ -1,8 +1,9 @@
 ﻿using Zillifriends.Shared.Common;
+using Zilliqa.DesktopWallet.Core.ZilligraphDb;
 
 namespace Zilliqa.DesktopWallet.Core.Data.Files
 {
-    [DatFileName("crawler-state.dat")]
+    [DatFileName($"{ZilliqaBlockchainDbRepository.ZilliqaDbFolder}\\crawler-state.dat")]
     public class CrawlerStateDat : DatFileBase
     {
         private static CrawlerStateDat? _instance;

@@ -33,12 +33,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WalletAddressControl));
             this.toolStripAccountActions = new System.Windows.Forms.ToolStrip();
             this.buttonSend = new System.Windows.Forms.ToolStripButton();
+            this.buttonGetTestZil = new System.Windows.Forms.ToolStripButton();
             this.buttonSendToken = new System.Windows.Forms.ToolStripButton();
             this.separatorSend = new System.Windows.Forms.ToolStripSeparator();
             this.buttonBackupPrivateKey = new System.Windows.Forms.ToolStripButton();
             this.separatorBackup = new System.Windows.Forms.ToolStripSeparator();
             this.buttonRemoveAccount = new System.Windows.Forms.ToolStripButton();
-            this.addressDetails = new AddressDetailsControl();
+            this.addressDetails = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details.AddressDetailsControl();
             this.toolStripAccountActions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,6 +47,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             // 
             this.toolStripAccountActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buttonSend,
+            this.buttonGetTestZil,
             this.buttonSendToken,
             this.separatorSend,
             this.buttonBackupPrivateKey,
@@ -64,6 +66,15 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.buttonSend.Size = new System.Drawing.Size(72, 22);
             this.buttonSend.Text = "Send ZIL";
             this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
+            // 
+            // buttonGetTestZil
+            // 
+            this.buttonGetTestZil.Image = ((System.Drawing.Image)(resources.GetObject("buttonGetTestZil.Image")));
+            this.buttonGetTestZil.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonGetTestZil.Name = "buttonGetTestZil";
+            this.buttonGetTestZil.Size = new System.Drawing.Size(89, 22);
+            this.buttonGetTestZil.Text = "Get Test-ZIL";
+            this.buttonGetTestZil.Click += new System.EventHandler(this.buttonGetTestZil_Click);
             // 
             // buttonSendToken
             // 
@@ -84,8 +95,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.buttonBackupPrivateKey.Image = ((System.Drawing.Image)(resources.GetObject("buttonBackupPrivateKey.Image")));
             this.buttonBackupPrivateKey.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonBackupPrivateKey.Name = "buttonBackupPrivateKey";
-            this.buttonBackupPrivateKey.Size = new System.Drawing.Size(127, 22);
-            this.buttonBackupPrivateKey.Text = "Backup Private Key";
+            this.buttonBackupPrivateKey.Size = new System.Drawing.Size(122, 22);
+            this.buttonBackupPrivateKey.Text = "Export Private Key";
             this.buttonBackupPrivateKey.Click += new System.EventHandler(this.buttonBackupPrivateKey_Click);
             // 
             // separatorBackup
@@ -123,6 +134,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.Controls.Add(this.toolStripAccountActions);
             this.Name = "WalletAddressControl";
             this.Size = new System.Drawing.Size(1047, 683);
+            this.Load += new System.EventHandler(this.WalletAddressControl_Load);
             this.Controls.SetChildIndex(this.toolStripAccountActions, 0);
             this.Controls.SetChildIndex(this.addressDetails, 0);
             this.toolStripAccountActions.ResumeLayout(false);
@@ -142,5 +154,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         private ToolStripSeparator separatorBackup;
         private ToolStripButton buttonRemoveAccount;
         private AddressDetailsControl addressDetails;
+        private ToolStripButton buttonGetTestZil;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Zilliqa.DesktopWallet.ApiClient;
+using Zilliqa.DesktopWallet.ApiClient.Accounts;
 using Zilliqa.DesktopWallet.ApiClient.Utils;
 using Zilliqa.DesktopWallet.Core.Services;
 
@@ -53,6 +54,11 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
         }
 
         public Address Address { get; }
+
+        public string GetAddressHexWithCheckSum()
+        {
+            return Account.ToCheckSumAddress(Address.GetBase16(false));
+        }
 
         public override string ToString()
         {

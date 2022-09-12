@@ -11,5 +11,10 @@
         {
             return Convert.ToDecimal(zilSatoshis) / 1000000000000m;
         }
+
+        public static long ZilToZilSatoshis(this decimal zil)
+        {
+            return Convert.ToInt64(zil * 1000000000000m);
+        }
     }
 }

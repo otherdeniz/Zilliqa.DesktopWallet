@@ -190,8 +190,6 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		/// <summary>
 		/// Gets contractCode, overloaded with Address,Contract
 		/// </summary>
-		/// <param name="address"></param>
-		/// <returns></returns>
 		public async Task<string> GetSmartContractCode(string address)
 		{
 			var res = await _client.GetSmartContractCode(address);
@@ -209,8 +207,6 @@ namespace Zilliqa.DesktopWallet.ApiClient
 		/// <summary>
 		/// Gets Contract Balance, overloaded with: Address,Contract
 		/// </summary>
-		/// <param name="address"></param>
-		/// <returns></returns>
 		public async Task<Balance> GetContractBalance(string address)
 		{
 			var res = await _client.GetContractBalance(address);
@@ -383,8 +379,8 @@ namespace Zilliqa.DesktopWallet.ApiClient
                 list.Add(await GetTransaction("a563d171f9b4357808e4349440e040e650e0fac35c23c7b4f1c33509dd85448f"));
                 list.Add(await GetTransaction("02d8e7e1db997fc7f13440ba02535a2c1f8a6cc94315797c6844f25ea1257c48"));
                 list.Add(await GetTransaction("3f5c87ae8b215f5383e107c044b8faedfea247cd33c0835003bfd67ffa96bab8"));
-				list.Add(new Transaction{Id = Guid.NewGuid().ToString("N"), Receipt = new Receipt() }); //list.Add(await GetTransaction("fffde5f030d6f8e2aa4638a7117a7a063fbffe6e75b02f35393127c3caf6a168")); (not found)
-				list.Add(new Transaction{Id = Guid.NewGuid().ToString("N"), Receipt = new Receipt() }); //list.Add(await GetTransaction("afac1600bfda9d73c9625f3146f7c47bbaf6c4cae621aee4387772d5fd669932")); (not found)
+				list.Add(new Transaction{Id = "fffde5f030d6f8e2aa4638a7117a7a063fbffe6e75b02f35393127c3caf6a168", Receipt = new Receipt() }); //list.Add(await GetTransaction("fffde5f030d6f8e2aa4638a7117a7a063fbffe6e75b02f35393127c3caf6a168")); (not found)
+				list.Add(new Transaction{Id = "afac1600bfda9d73c9625f3146f7c47bbaf6c4cae621aee4387772d5fd669932", Receipt = new Receipt() }); //list.Add(await GetTransaction("afac1600bfda9d73c9625f3146f7c47bbaf6c4cae621aee4387772d5fd669932")); (not found)
 			}
             else if (res.Message == "Txn Hash not Present"
                      && blockNum <= 175701)

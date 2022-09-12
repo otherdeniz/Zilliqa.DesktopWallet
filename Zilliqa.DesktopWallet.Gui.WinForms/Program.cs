@@ -17,7 +17,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
 
-            var zilNetwork = GetArgumentValue(arguments, "network", "mainnet");
+            var zilNetwork = GetArgumentValue(arguments, "network", "mainnet").ToLower();
             ZilliqaClient.UseTestnet = zilNetwork == "testnet";
 
             var dataPath = GetArgumentValue(arguments, "datapath", ZilliqaClient.UseTestnet ? "Testnet" : "Mainnet");

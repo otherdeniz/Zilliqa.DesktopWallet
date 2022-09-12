@@ -45,7 +45,6 @@ namespace Zilliqa.DesktopWallet.ApiClient.Model
         /// <summary>
         /// Set version using the decimal conversion of the bitwise concatenation of CHAIN_ID and MSG_VERSION parameters.
         /// </summary>
-        /// <param name="testnet"></param>
         public void SetVersion(bool testnet)
         {
             //TODO Change to actually do the conversion here

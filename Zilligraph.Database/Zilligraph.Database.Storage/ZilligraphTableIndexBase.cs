@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Zillifriends.Shared.Common;
+﻿using Zillifriends.Shared.Common;
 using Zilligraph.Database.Contract;
 using Zilligraph.Database.Storage.FilterQuery;
 using Zilligraph.Database.Storage.Index;
@@ -72,12 +71,12 @@ namespace Zilligraph.Database.Storage
                 SaveIndexState();
                 return true;
             }
-            return IndexInfoFile.ConfigurationState == GetConfigurationState();
+            return IndexInfoFile.ConfigurationState == IndexAttribute.ToString();
         }
 
         public void SaveIndexState()
         {
-            IndexInfoFile.ConfigurationState = GetConfigurationState();
+            IndexInfoFile.ConfigurationState = IndexAttribute.ToString();
             IndexInfoFile.Save();
         }
 
@@ -201,9 +200,5 @@ namespace Zilligraph.Database.Storage
             }
         }
 
-        private string GetConfigurationState()
-        {
-            return JsonConvert.SerializeObject(IndexAttribute, Formatting.None);
-        }
     }
 }

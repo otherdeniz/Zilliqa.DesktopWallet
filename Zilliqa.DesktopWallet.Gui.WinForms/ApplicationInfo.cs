@@ -1,14 +1,16 @@
-﻿namespace Zilliqa.DesktopWallet.Gui.WinForms
+﻿using Zilliqa.DesktopWallet.ApiClient;
+
+namespace Zilliqa.DesktopWallet.Gui.WinForms
 {
     public static class ApplicationInfo
     {
         public static readonly string ApplicationName = "Zilliqa Desktop Wallet";
 
-        public static readonly decimal ApplicationVersion = 1.18m;
+        public static readonly decimal ApplicationVersion = 1.19m;
 
         public static readonly bool IsBeta = true;
 
-        public static bool IsTestnet { get; set; }
+        public static bool IsTestnet => ZilliqaClient.UseTestnet;
 
         public static string ApplicationVersionText => 
             ApplicationVersion.ToString("0.00") 

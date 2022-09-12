@@ -1,19 +1,14 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
+﻿using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
+using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient.Interfaces;
 
 namespace Zilliqa.DesktopWallet.ApiClient.API
 {
 	public class MusZil_APIClient : IZilliqaAPIClient<MusResult>
 	{
-		private readonly object _requestLock = new object();
-
 		public string Url { get; }
 
 		public MusZil_APIClient(string url)
@@ -33,6 +28,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
 		#endregion
 
 		#region BlockChain
+
 		public async Task<MusResult> GetNetworkId()
 		{
 			var req = RequestFactory.New("GetNetworkId", "");
@@ -164,8 +160,6 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
 		/// <summary>
 		/// Gets contractCode, overloaded with Address,Contract
 		/// </summary>
-		/// <param name="address"></param>
-		/// <returns></returns>
 		public async Task<MusResult> GetContractCode(string address)
 		{
 			var req = new MusRequest("GetSmartContractCode", address.TrimStart('0').TrimStart('x'));
@@ -226,9 +220,11 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 		}
+
 		#endregion
 
 		#region Transactions
+
 		public async Task<MusResult> CreateTransaction(string payload)
 		{
 			var req = RequestFactory.New("CreateTransaction", payload);
@@ -312,36 +308,32 @@ namespace Zilliqa.DesktopWallet.ApiClient.API
 
 		#endregion
 
-		#region Helpers
-
         /// <summary>
 		/// Calls a API method of the Zilliqa API
 		/// </summary>
-		/// <param name="req">MusRequest object to pass request</param>
 		private async Task<APIResponse> CallMethod(MusRequest req)
 		{
             using (var client = new RestClient())
             {
                 var request = new RestRequest(Url, Method.Post);
 
-                request.AddBody(req.ToJson(), "application/json"); // .AddParameter("application/json" , req.ToJson(), ParameterType.RequestBody);
+                request.AddBody(req.ToJson(), "application/json");
                 request.RequestFormat = DataFormat.Json;
 
                 var response = await client.ExecuteAsync(request);
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    throw new Exception("Response was not OK");
+                    throw new ApiCallException("Response was not OK");
                 }
 
                 if (response.Content == null)
                 {
-                    throw new Exception("Response Content was null");
+                    throw new ApiCallException("Response Content was null");
                 }
 
                 return JsonConvert.DeserializeObject<APIResponse>(response.Content);
 			}
 		}
 
-		#endregion
 	}
 }

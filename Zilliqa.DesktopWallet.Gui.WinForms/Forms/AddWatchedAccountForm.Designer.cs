@@ -29,22 +29,22 @@
         private void InitializeComponent()
         {
             this.panelPage1 = new System.Windows.Forms.Panel();
+            this.checkBoxMyAddress = new System.Windows.Forms.CheckBox();
             this.textAddress = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.textWalletName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.checkBoxMyAddress = new System.Windows.Forms.CheckBox();
             this.panelPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(703, 6);
+            this.buttonOk.Location = new System.Drawing.Point(570, 6);
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(620, 6);
+            this.buttonCancel.Location = new System.Drawing.Point(678, 6);
             // 
             // panelPage1
             // 
@@ -59,6 +59,16 @@
             this.panelPage1.Name = "panelPage1";
             this.panelPage1.Size = new System.Drawing.Size(784, 181);
             this.panelPage1.TabIndex = 0;
+            // 
+            // checkBoxMyAddress
+            // 
+            this.checkBoxMyAddress.AutoSize = true;
+            this.checkBoxMyAddress.Location = new System.Drawing.Point(8, 136);
+            this.checkBoxMyAddress.Name = "checkBoxMyAddress";
+            this.checkBoxMyAddress.Size = new System.Drawing.Size(178, 19);
+            this.checkBoxMyAddress.TabIndex = 12;
+            this.checkBoxMyAddress.Text = "This Address is owned by me";
+            this.checkBoxMyAddress.UseVisualStyleBackColor = true;
             // 
             // textAddress
             // 
@@ -109,16 +119,6 @@
             this.label5.TabIndex = 7;
             this.label5.Text = "Account Title";
             // 
-            // checkBoxMyAddress
-            // 
-            this.checkBoxMyAddress.AutoSize = true;
-            this.checkBoxMyAddress.Location = new System.Drawing.Point(8, 136);
-            this.checkBoxMyAddress.Name = "checkBoxMyAddress";
-            this.checkBoxMyAddress.Size = new System.Drawing.Size(178, 19);
-            this.checkBoxMyAddress.TabIndex = 12;
-            this.checkBoxMyAddress.Text = "This Address is owned by me";
-            this.checkBoxMyAddress.UseVisualStyleBackColor = true;
-            // 
             // AddWatchedAccountForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -126,7 +126,7 @@
             this.ClientSize = new System.Drawing.Size(800, 234);
             this.Controls.Add(this.panelPage1);
             this.Name = "AddWatchedAccountForm";
-            this.Text = "AddWatchedAccountForm";
+            this.Text = "Add Watched Account";
             this.Controls.SetChildIndex(this.panelPage1, 0);
             this.panelPage1.ResumeLayout(false);
             this.panelPage1.PerformLayout();

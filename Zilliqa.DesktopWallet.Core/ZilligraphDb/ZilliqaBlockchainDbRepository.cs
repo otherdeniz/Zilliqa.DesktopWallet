@@ -5,9 +5,11 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
 {
     public class ZilliqaBlockchainDbRepository
     {
+        public const string ZilliqaDbFolder = "ZilliqaDB";
+
         public ZilliqaBlockchainDbRepository()
         {
-            Database = new ZilligraphDatabase(DataPathBuilder.Root.GetSubFolder("ZilliqaDB").FullPath);
+            Database = new ZilligraphDatabase(DataPathBuilder.Root.GetSubFolder(ZilliqaDbFolder).FullPath);
         }
 
         public ZilligraphDatabase Database { get; }

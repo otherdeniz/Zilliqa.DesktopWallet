@@ -36,7 +36,15 @@
 
         public string GetFilePath(string filename)
         {
-            return Path.Combine(_fullPath, filename);
+            var filePath = Path.Combine(_fullPath, filename);
+
+            var fileDirectory = new FileInfo(filePath).Directory;
+            if (fileDirectory?.Exists == false)
+            {
+                fileDirectory.Create();
+            }
+
+            return filePath;
         }
 
         public DataPathBuilder GetSubFolder(string subFolderName)

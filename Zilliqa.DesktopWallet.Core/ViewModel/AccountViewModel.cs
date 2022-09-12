@@ -202,20 +202,23 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         private void OnAddedRecordEventNotified(Transaction record)
         {
-            var viewModel = new TransactionViewModels(Address, record);
-            var insertToTop = AllTransactions.GetFirstItem()?.Transaction.Timestamp < record.Timestamp;
-            AllTransactions.InsertRecord(viewModel.CommonTransaction, insertToTop);
-            if (viewModel.ZilTransaction != null)
+            WinFormsSynchronisationContext.ExecuteSynchronized(() =>
             {
-                ZilTransactions.InsertRecord(viewModel.ZilTransaction, insertToTop);
-            }
-            if (viewModel.TokenTransaction != null)
-            {
-                TokenTransactions.InsertRecord(viewModel.TokenTransaction, insertToTop);
-                AddTokenBalanceTransaction(viewModel.TokenTransaction, true);
-            }
-            viewModel.CommonTransaction.LoadValuesProperties(true);
-            OnTransactionsChanged();
+                var viewModel = new TransactionViewModels(Address, record);
+                var insertToTop = AllTransactions.GetFirstItem()?.Transaction.Timestamp < record.Timestamp;
+                AllTransactions.InsertRecord(viewModel.CommonTransaction, insertToTop);
+                if (viewModel.ZilTransaction != null)
+                {
+                    ZilTransactions.InsertRecord(viewModel.ZilTransaction, insertToTop);
+                }
+                if (viewModel.TokenTransaction != null)
+                {
+                    TokenTransactions.InsertRecord(viewModel.TokenTransaction, insertToTop);
+                    AddTokenBalanceTransaction(viewModel.TokenTransaction, true);
+                }
+                viewModel.CommonTransaction.LoadValuesProperties(true);
+                OnTransactionsChanged();
+            });
         }
 
         private void AddTokenBalanceTransaction(TokenTransactionRowViewModel viewModel, bool updateValueProperties)

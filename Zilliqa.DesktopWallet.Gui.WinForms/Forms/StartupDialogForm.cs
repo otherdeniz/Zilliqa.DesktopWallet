@@ -1,5 +1,6 @@
 ﻿using Zilligraph.Database.Storage;
 using Zilliqa.DesktopWallet.Core.Repository;
+using Zilliqa.DesktopWallet.Core.ZilligraphDb;
 using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
@@ -43,17 +44,15 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                 }
                 return;
             }
-            //if (!_zilligraphTables.All(t => t.InitialisationCompleted))
-            //{
-            //    var upgareTable = _zilligraphTables.FirstOrDefault(t =>
-            //        t.InitialisationCompletedPercent > 0
-            //        && t.InitialisationCompletedPercent < 100);
-            //    var upgradeTableText = upgareTable == null
-            //        ? "..."
-            //        : $"Table '{upgareTable.TableName}' : {upgareTable.InitialisationCompletedPercent:0.0}%";
-            //    labelStatus.Text = $"Upgrading Database {upgradeTableText}";
-            //    return;
-            //}
+
+#if !DEBUG
+            if (ZilliqaBlockchainCrawler.Instance.RunningState == RunningState.Stopped)
+            {
+                labelStatus.Text = "Starting Blockchain Sync ...";
+                ZilliqaBlockchainCrawler.Instance.Start();
+                return;
+            }
+#endif
 
             DialogResult = DialogResult.OK;
             Close();

@@ -5,5 +5,10 @@
         public int OverrideMaxChainLength { get; set; } = -1;
 
         public bool LowDistinctOptimization { get; set; }
+
+        public override string ToString()
+        {
+            return $"OverrideMaxChainLength:{OverrideMaxChainLength}|LowDistinctOptimization:{LowDistinctOptimization}";
+        }
     }
 }

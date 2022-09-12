@@ -48,27 +48,27 @@ namespace Zilliqa.DesktopWallet.ApiClient.Accounts
             return ByteUtil.ByteArrayToHexString(KeyPair.PrivateKey.ToByteArray());
         }
 
-        public static string ToCheckSumAddress(string address)
+        public static string ToCheckSumAddress(string addressHex)
         {
-            if (!address.StartsWith("0x"))
+            addressHex = addressHex.ToLower();
+            if (addressHex.StartsWith("0x"))
             {
-                throw new Exception("not a valid base 16 address");
+                addressHex = addressHex.Substring(2);
             }
 
-            address = address.ToLower().Replace("0x", "");
-            string hash = ByteUtil.ByteArrayToHexString(HashUtil.CalculateSha256Hash(ByteUtil.HexStringToByteArray(address)));
+            string hash = ByteUtil.ByteArrayToHexString(HashUtil.CalculateSha256Hash(ByteUtil.HexStringToByteArray(addressHex)));
             StringBuilder ret = new StringBuilder("0x");
             BigInteger v = new BigInteger(ByteUtil.HexStringToByteArray(hash));
-            for (int i = 0; i < address.Length; i++)
+            for (int i = 0; i < addressHex.Length; i++)
             {
-                if ("1234567890".IndexOf(address[i]) != -1)
+                if ("1234567890".IndexOf(addressHex[i]) != -1)
                 {
-                    ret.Append(address[i]);
+                    ret.Append(addressHex[i]);
                 }
                 else
                 {
                     BigInteger checker = v.And(BigInteger.ValueOf(2).Pow(255 - 6 * i));
-                    ret.Append(checker.CompareTo(BigInteger.ValueOf(1)) < 0 ? address[i].ToString().ToLower() : address[i].ToString().ToUpper());
+                    ret.Append(checker.CompareTo(BigInteger.ValueOf(1)) < 0 ? addressHex[i].ToString().ToLower() : addressHex[i].ToString().ToUpper());
                 }
             }
             return ret.ToString();
