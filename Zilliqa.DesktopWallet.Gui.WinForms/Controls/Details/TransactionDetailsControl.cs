@@ -31,7 +31,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
         public void LoadTransaction(TransactionRowViewModelBase transactionViewModel)
         {
             _transactionViewModel = transactionViewModel;
-            labelId.Text = transactionViewModel.Transaction.Id;
+            labelId.Text = $"0x{transactionViewModel.Transaction.Id}";
             labelDate.Text = transactionViewModel.Transaction.Timestamp.ToString("g");
             labelBlockNumber.LoadValue(transactionViewModel.Block, DrillDownPanel);
             propertyGridModel.SelectedObject = transactionViewModel.Transaction;
@@ -49,11 +49,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 
         private void menuIdBlockExplorer_Click(object sender, EventArgs e)
         {
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = $"https://viewblock.io/zilliqa/tx/0x{_transactionViewModel.Transaction.Id}",
-                UseShellExecute = true
-            });
+            BlockExplorerBrowser.ShowTransaction(_transactionViewModel.Transaction.Id);
         }
 
         private void labelBlockNumber_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -73,11 +69,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 
         private void menuBlockOpenExplorer_Click(object sender, EventArgs e)
         {
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = $"https://viewblock.io/zilliqa/tx/0x{_transactionViewModel.Transaction.Id}",
-                UseShellExecute = true
-            });
+            BlockExplorerBrowser.ShowBlock(_transactionViewModel.Block.BlockNumber);
         }
 
     }

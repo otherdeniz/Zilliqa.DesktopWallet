@@ -68,11 +68,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
             buttonBrowse.BackColor = Color.Green;
             buttonBrowse.Refresh();
             timerButtonPressed.Enabled = true;
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = $"https://viewblock.io/zilliqa/address/{_bech32Address}",
-                UseShellExecute = true
-            });
+            BlockExplorerBrowser.ShowAddress(_bech32Address);
         }
 
         private void timerButtonPressed_Tick(object sender, EventArgs e)

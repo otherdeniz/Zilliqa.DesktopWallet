@@ -6,7 +6,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
     {
         public static readonly string ApplicationName = "Zilliqa Desktop Wallet";
 
-        public static readonly decimal ApplicationVersion = 1.19m;
+        public static readonly decimal ApplicationVersion = 1.20m;
 
         public static readonly bool IsBeta = true;
 

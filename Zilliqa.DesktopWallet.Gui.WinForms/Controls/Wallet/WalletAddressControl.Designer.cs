@@ -53,9 +53,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.buttonBackupPrivateKey,
             this.separatorBackup,
             this.buttonRemoveAccount});
+            this.toolStripAccountActions.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStripAccountActions.Location = new System.Drawing.Point(0, 0);
             this.toolStripAccountActions.Name = "toolStripAccountActions";
-            this.toolStripAccountActions.Size = new System.Drawing.Size(703, 25);
+            this.toolStripAccountActions.Size = new System.Drawing.Size(687, 23);
             this.toolStripAccountActions.TabIndex = 2;
             // 
             // buttonSend
@@ -63,7 +64,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.buttonSend.Image = ((System.Drawing.Image)(resources.GetObject("buttonSend.Image")));
             this.buttonSend.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonSend.Name = "buttonSend";
-            this.buttonSend.Size = new System.Drawing.Size(72, 22);
+            this.buttonSend.Size = new System.Drawing.Size(72, 20);
             this.buttonSend.Text = "Send ZIL";
             this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
             // 
@@ -72,7 +73,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.buttonGetTestZil.Image = ((System.Drawing.Image)(resources.GetObject("buttonGetTestZil.Image")));
             this.buttonGetTestZil.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonGetTestZil.Name = "buttonGetTestZil";
-            this.buttonGetTestZil.Size = new System.Drawing.Size(89, 22);
+            this.buttonGetTestZil.Size = new System.Drawing.Size(89, 20);
             this.buttonGetTestZil.Text = "Get Test-ZIL";
             this.buttonGetTestZil.Click += new System.EventHandler(this.buttonGetTestZil_Click);
             // 
@@ -81,35 +82,35 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.buttonSendToken.Image = ((System.Drawing.Image)(resources.GetObject("buttonSendToken.Image")));
             this.buttonSendToken.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonSendToken.Name = "buttonSendToken";
-            this.buttonSendToken.Size = new System.Drawing.Size(136, 22);
-            this.buttonSendToken.Text = "Send Fungible Token";
+            this.buttonSendToken.Size = new System.Drawing.Size(123, 20);
+            this.buttonSendToken.Text = "Send ZRC-2 Token";
             this.buttonSendToken.Click += new System.EventHandler(this.buttonSendToken_Click);
             // 
             // separatorSend
             // 
             this.separatorSend.Name = "separatorSend";
-            this.separatorSend.Size = new System.Drawing.Size(6, 25);
+            this.separatorSend.Size = new System.Drawing.Size(6, 23);
             // 
             // buttonBackupPrivateKey
             // 
             this.buttonBackupPrivateKey.Image = ((System.Drawing.Image)(resources.GetObject("buttonBackupPrivateKey.Image")));
             this.buttonBackupPrivateKey.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonBackupPrivateKey.Name = "buttonBackupPrivateKey";
-            this.buttonBackupPrivateKey.Size = new System.Drawing.Size(122, 22);
-            this.buttonBackupPrivateKey.Text = "Export Private Key";
+            this.buttonBackupPrivateKey.Size = new System.Drawing.Size(124, 20);
+            this.buttonBackupPrivateKey.Text = "Export Private-Key";
             this.buttonBackupPrivateKey.Click += new System.EventHandler(this.buttonBackupPrivateKey_Click);
             // 
             // separatorBackup
             // 
             this.separatorBackup.Name = "separatorBackup";
-            this.separatorBackup.Size = new System.Drawing.Size(6, 25);
+            this.separatorBackup.Size = new System.Drawing.Size(6, 23);
             // 
             // buttonRemoveAccount
             // 
             this.buttonRemoveAccount.Image = ((System.Drawing.Image)(resources.GetObject("buttonRemoveAccount.Image")));
             this.buttonRemoveAccount.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonRemoveAccount.Name = "buttonRemoveAccount";
-            this.buttonRemoveAccount.Size = new System.Drawing.Size(118, 22);
+            this.buttonRemoveAccount.Size = new System.Drawing.Size(118, 20);
             this.buttonRemoveAccount.Text = "Remove Account";
             this.buttonRemoveAccount.Click += new System.EventHandler(this.buttonRemoveAccount_Click);
             // 
@@ -120,10 +121,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.addressDetails.DrillDownPanel = this;
             this.addressDetails.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.addressDetails.IsDrillDownMainControl = true;
-            this.addressDetails.Location = new System.Drawing.Point(0, 25);
+            this.addressDetails.Location = new System.Drawing.Point(0, 23);
             this.addressDetails.Name = "addressDetails";
             this.addressDetails.ShowCurrencyColumns = true;
-            this.addressDetails.Size = new System.Drawing.Size(703, 658);
+            this.addressDetails.Size = new System.Drawing.Size(687, 660);
             this.addressDetails.TabIndex = 3;
             // 
             // WalletAddressControl
@@ -133,7 +134,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.Controls.Add(this.addressDetails);
             this.Controls.Add(this.toolStripAccountActions);
             this.Name = "WalletAddressControl";
-            this.Size = new System.Drawing.Size(1047, 683);
+            this.Size = new System.Drawing.Size(1031, 683);
             this.Load += new System.EventHandler(this.WalletAddressControl_Load);
             this.Controls.SetChildIndex(this.toolStripAccountActions, 0);
             this.Controls.SetChildIndex(this.addressDetails, 0);
