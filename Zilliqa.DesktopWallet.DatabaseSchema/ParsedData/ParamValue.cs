@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.ComponentModel;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -21,6 +22,11 @@ public class ParamValue
             && ParamValueUInt32.TryParse(param.Value, out var valueUInt32))
         {
             return valueUInt32;
+        }
+        if (param.Type == "BNum"
+            && ParamValueUInt32.TryParse(param.Value, out var valueBnum))
+        {
+            return valueBnum;
         }
         if (param.Type == "Uint128"
             && ParamValueUInt128.TryParse(param.Value, out var valueUInt128))
@@ -188,6 +194,7 @@ public class ParamValueHex20BytesWithFunctionName : ParamValue
 
     public string FunctionName { get; private set; } = null!;
 
+    [TypeConverter(typeof(ExpandableObjectConverter))] //only for GUI PropertyGrid
     public ParamValueConstructorWithArguments? Value { get; private set; }
 
     public override string ToString()
@@ -244,6 +251,7 @@ public class ParamValueConstructorWithArgumentsList : ParamValue
 
     public string FunctionName { get; set; } = null!;
 
+    [TypeConverter(typeof(ExpandableObjectConverter))] //only for GUI PropertyGrid
     public List<ParamValueConstructorWithArguments> Calls { get; private set; } = null!;
 }
 

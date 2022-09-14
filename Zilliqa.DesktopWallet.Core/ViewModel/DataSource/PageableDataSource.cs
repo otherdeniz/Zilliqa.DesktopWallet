@@ -10,6 +10,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.DataSource
         private readonly int _pageSize;
         private readonly Dictionary<int, Collection<TViewModel>> _pages = new();
         private List<TViewModel>? _records;
+        private readonly List<AfterLoadCompletedAction> _afterLoadCompletedActions = new();
 
         public PageableDataSource(int pageSize = 1000)
         {
@@ -58,6 +59,18 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.DataSource
             RefreshRecordCount();
             LoadCompleted = true;
             AfterLoadCompleted?.Invoke(this, EventArgs.Empty);
+            _afterLoadCompletedActions.ForEach(a =>
+            {
+                if (a.ExecuteOnWinFormsThread)
+                {
+                    WinFormsSynchronisationContext.ExecuteSynchronized(() => a.Action(this));
+                }
+                else
+                {
+                    a.Action(this);
+                }
+            });
+            _afterLoadCompletedActions.Clear();
         }
 
         public void ExecuteAfterLoadCompleted(Action<IPageableDataSource> action, bool executeOnWinFormsThread = false)
@@ -68,17 +81,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.DataSource
             }
             else
             {
-                AfterLoadCompleted += (sender, args) =>
-                {
-                    if (executeOnWinFormsThread)
-                    {
-                        WinFormsSynchronisationContext.ExecuteSynchronized(() => action(this));
-                    }
-                    else
-                    {
-                        action(this);
-                    }
-                };
+                _afterLoadCompletedActions.Add(new AfterLoadCompletedAction(action, executeOnWinFormsThread));
             }
         }
 
@@ -120,7 +123,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.DataSource
                     pageCount += 1;
                 }
                 PageCount = Convert.ToInt32(pageCount);
-                if (oldPageCount > 0 && oldPageCount != PageCount)
+                if (LoadCompleted && oldPageCount != PageCount)
                 {
                     WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                         PageCountChanged?.Invoke(this, EventArgs.Empty)
@@ -136,9 +139,22 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.DataSource
                 ? _records.AsEnumerable()
                 : _records.Skip((pageNumber - 1) * _pageSize);
             var list = listSource.Take(_pageSize).ToList();
-            return pageNumber == 0 || pageNumber == PageCount
+            return pageNumber == 1 || pageNumber == PageCount
                 ? new BindingList<TViewModel>(list) 
                 : new Collection<TViewModel>(list);
+        }
+
+        private class AfterLoadCompletedAction
+        {
+            public AfterLoadCompletedAction(Action<IPageableDataSource> action, bool executeOnWinFormsThread)
+            {
+                Action = action;
+                ExecuteOnWinFormsThread = executeOnWinFormsThread;
+            }
+
+            public Action<IPageableDataSource> Action { get; }
+
+            public bool ExecuteOnWinFormsThread { get; }
         }
     }
 }

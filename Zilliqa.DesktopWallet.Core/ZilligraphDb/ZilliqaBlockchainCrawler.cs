@@ -119,6 +119,8 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                     .GetTable<Transaction>();
                 var dbTableBlock = RepositoryManager.Instance.DatabaseRepository.Database
                     .GetTable<Block>();
+                var dbTableSmartContract = RepositoryManager.Instance.DatabaseRepository.Database
+                    .GetTable<SmartContract>();
 
                 var newestBlock = NumberOfBlocksOnChain;
                 int loopDelay = 5000;
@@ -167,6 +169,11 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                                         transactionModel.BlockNumber = processBlockNumber;
                                         transactionModel.Timestamp = blockModel.Timestamp;
                                         dbTableTransaction.AddRecord(transactionModel);
+                                        var smartContract = SmartContractModelCreator.CreateModel(transactionModel);
+                                        if (smartContract != null)
+                                        {
+                                            dbTableSmartContract.AddRecord(smartContract);
+                                        }
                                     }
 
                                     if (CrawlerStateDat.Instance.TransactionCrawler.HighestBlock < processBlockNumber)

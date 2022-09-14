@@ -1,4 +1,6 @@
 ﻿using Zilligraph.Database.Storage;
+using Zilligraph.Database.Storage.FilterQuery;
+using Zilliqa.DesktopWallet.Core.ZilligraphDb;
 using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.DbMaintenanceCli
@@ -23,14 +25,15 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
             var sourcePath = sourceFolder.Substring(16);
             var targetPath = targetFolder.Substring(16);
 
+            Console.WriteLine($"from DB: {sourcePath}");
+            Console.WriteLine($"to DB: {targetPath}");
+            var sourceDatabase = new ZilligraphDatabase(sourcePath);
+            var targetDatabase = new ZilligraphDatabase(targetPath);
+
             if (args.Any(a => a == "--order-table=Transaction"))
             {
                 Console.WriteLine("Start: ordering Table 'Transaction' by Block ASC");
-                Console.WriteLine($"from: {sourcePath}");
-                Console.WriteLine($"to: {targetPath}");
                 // order Table Transaction by Timestamp ASC
-                var sourceDatabase = new ZilligraphDatabase(sourcePath);
-                var targetDatabase = new ZilligraphDatabase(targetPath);
                 var sourceTable = sourceDatabase.GetTable<Transaction>();
                 var targetTable = targetDatabase.GetTable<Transaction>();
                 var sourceRows = sourceTable.DataFiles[0].AllRows();
@@ -63,7 +66,40 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
                 sourceTable.EndBulkOperation();
                 targetTable.EndBulkOperation();
                 Console.WriteLine("Finished.");
-                Console.Read();
+                return;
+            }
+
+            if (args.Any(a => a == "--create-table=SmartContract"))
+            {
+                Console.WriteLine("Start: creating Table 'SmartContract'");
+
+                var sourceTable = sourceDatabase.GetTable<Transaction>();
+                var targetTable = targetDatabase.GetTable<SmartContract>();
+
+                sourceTable.StartBulkOperation();
+                targetTable.StartBulkOperation();
+
+                int recordCount = 0;
+                var filter = new FilterQueryField(nameof(Transaction.TransactionType),
+                    (int)TransactionType.ContractDeployment);
+                var transactions = sourceTable.FindRecords(filter);
+                foreach (var transaction in transactions)
+                {
+                    var smartContract = SmartContractModelCreator.CreateModel(transaction);
+                    if (smartContract != null)
+                    {
+                        recordCount++;
+                        targetTable.AddRecord(smartContract);
+                        if (recordCount % 100 == 0)
+                        {
+                            Console.WriteLine($"Written records: {recordCount:#,##0}");
+                        }
+                    }
+                }
+                sourceTable.EndBulkOperation();
+                targetTable.EndBulkOperation();
+
+                Console.WriteLine($"Finished. Total Records written: {recordCount:#,##0}");
                 return;
             }
             Console.WriteLine("argument command is missing");

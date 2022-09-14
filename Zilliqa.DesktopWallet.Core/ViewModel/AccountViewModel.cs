@@ -79,7 +79,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         {
             _afterChangedAction = null;
             _cancellationTokenSource.Cancel();
-            //_cancellationTokenSource.Dispose();
+            //TODO: check if _cancellationTokenSource.Dispose() must be called
             if (_transactionEventNotificator != null)
             {
                 var tableTransactions = RepositoryManager.Instance.DatabaseRepository.Database.GetTable<Transaction>();

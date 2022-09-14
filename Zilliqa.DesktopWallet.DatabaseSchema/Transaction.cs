@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.ComponentModel;
+using Newtonsoft.Json;
 using Zilligraph.Database.Contract;
 using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
@@ -7,6 +8,7 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
     public class Transaction
     {
         private DataContractCall? _dataContractCall;
+        private List<DataParam>? _dataContractDeploymentParams;
 
         [RequiredValue]
         [PropertyIndex]
@@ -18,17 +20,18 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
 
         [SchemaReference(nameof(BlockNumber), nameof(DatabaseSchema.Block.BlockNumber))]
         [JsonIgnore]
+        [Browsable(false)] //only for GUI PropertyGrid
         public LazyReference<Block> Block { get; set; } = null!;
 
         [JsonProperty("C")]
         [PropertyIndex(LowDistinctOptimization = true)]
         public int TransactionType { get; set; }
 
-        [JsonProperty("D")]
-        public bool TransactionFailed { get; set; }
-
         [JsonIgnore]
         public TransactionType TransactionTypeEnum => (TransactionType)TransactionType;
+
+        [JsonProperty("D")]
+        public bool TransactionFailed { get; set; }
 
         [RequiredValue]
         [PropertyIndex]
@@ -71,11 +74,25 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
         public string ToAddress { get; set; }
 
         [JsonProperty("O")]
+        [TypeConverter(typeof(ExpandableObjectConverter))] //only for GUI PropertyGrid
         public TransactionReceipt Receipt { get; set; }
 
         [JsonIgnore]
+        [TypeConverter(typeof(ExpandableObjectConverter))] //only for GUI PropertyGrid
         public DataContractCall DataContractCall => _dataContractCall ??=
-            DataContractCall.TryParse(Data, out var data) ? data : DataContractCall.Empty;
+            TransactionTypeEnum == DatabaseSchema.TransactionType.ContractCall
+            && DataContractCall.TryParse(Data, out var pasedData)
+                ? pasedData
+                : DataContractCall.Empty;
+
+        [JsonIgnore]
+        [TypeConverter(typeof(ExpandableObjectConverter))] //only for GUI PropertyGrid
+        public List<DataParam> DataContractDeploymentParams => _dataContractDeploymentParams ??=
+            TransactionTypeEnum == DatabaseSchema.TransactionType.ContractDeployment
+            && DataParam.TryParseList(Data, out var parsedData)
+            && parsedData != null
+                ? parsedData
+                : new List<DataParam>();
 
         [CalculatedIndex]
         public string? TokenTransferRecipient()
