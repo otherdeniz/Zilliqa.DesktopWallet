@@ -128,11 +128,14 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             {
                 panelMain.Controls.Remove(_mainTransientControl);
                 _mainTransientControl.Dispose();
-                _mainTransientControl = null;
             }
 
             // focus-handle fix (windows removes the focus of the form if focus is on invisible handle)
             this.Focus();
+
+            _mainTransientControl = null;
+            Application.DoEvents();
+            GC.Collect();
 
             // display new control
             var showControl = getMainControl();
@@ -143,6 +146,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
                 panelMain.Controls.Add(showControl);
             }
             showControl.Visible = true;
+
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)

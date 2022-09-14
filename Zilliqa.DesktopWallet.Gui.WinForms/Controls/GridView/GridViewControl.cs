@@ -98,12 +98,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 
         protected override void Dispose(bool disposing)
         {
+            _dataSourcePageable = null;
+            dataGridView.DataSource = null;
             if (disposing && (components != null))
             {
                 components.Dispose();
             }
             DisplayCurrenciesService.Instance.DisplayCurrenciesChanged -= ServiceOnDisplayCurrenciesChanged;
-            _dataSourcePageable = null;
             base.Dispose(disposing);
         }
 

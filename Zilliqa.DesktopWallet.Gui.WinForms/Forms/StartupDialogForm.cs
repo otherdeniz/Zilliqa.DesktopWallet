@@ -1,6 +1,5 @@
 ﻿using Zilligraph.Database.Storage;
 using Zilliqa.DesktopWallet.Core.Repository;
-using Zilliqa.DesktopWallet.Core.ZilligraphDb;
 using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
@@ -15,6 +14,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             var database = RepositoryManager.Instance.DatabaseRepository.Database;
             _zilligraphTables.Add(database.GetTable<Block>());
             _zilligraphTables.Add(database.GetTable<Transaction>());
+            _zilligraphTables.Add(database.GetTable<SmartContract>());
         }
 
         public static bool Execute(Form parent)

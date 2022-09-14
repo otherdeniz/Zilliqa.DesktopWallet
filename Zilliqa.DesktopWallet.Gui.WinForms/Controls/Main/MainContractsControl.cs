@@ -14,6 +14,15 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             InitializeComponent();
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
         private void timerLoading_Tick(object sender, EventArgs e)
         {
             timerLoading.Enabled = false;

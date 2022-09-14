@@ -37,6 +37,13 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.DataSource
 
         public IList? CurrentPage { get; private set; }
 
+        public void Dispose()
+        {
+            _records = null;
+            _pages.Clear();
+            _afterLoadCompletedActions.Clear();
+        }
+
         public IList GetPage(int pageNumber)
         {
             if (_pages.TryGetValue(pageNumber, out var existingPage))
@@ -156,5 +163,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.DataSource
 
             public bool ExecuteOnWinFormsThread { get; }
         }
+
     }
 }

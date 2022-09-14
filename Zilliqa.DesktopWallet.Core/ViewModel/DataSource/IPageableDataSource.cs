@@ -2,7 +2,7 @@
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
 
-public interface IPageableDataSource
+public interface IPageableDataSource : IDisposable
 {
     event EventHandler<EventArgs>? AfterLoadCompleted;
     event EventHandler<EventArgs>? PageCountChanged;
