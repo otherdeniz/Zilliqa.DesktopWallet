@@ -148,6 +148,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                     {
                         column.DefaultCellStyle.BackColor = backgroundAttribute.BackColor;
                     }
+                    if ((propertyInfo.GetCustomAttributes(typeof(ColumnWidthAttribute), false).FirstOrDefault()
+                         ?? parentPropertyInfo?.GetCustomAttributes(typeof(ColumnWidthAttribute), false).FirstOrDefault())
+                        is ColumnWidthAttribute columnWidthAttribute)
+                    {
+                        column.Width = columnWidthAttribute.Width;
+                    }
 
                     if ((propertyInfo.GetCustomAttributes(typeof(GridViewDynamicColumnAttribute), false).FirstOrDefault()
                          ?? parentPropertyInfo?.GetCustomAttributes(typeof(GridViewDynamicColumnAttribute), false).FirstOrDefault())

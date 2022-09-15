@@ -29,5 +29,30 @@ namespace Zilliqa.DesktopWallet.Core.Test
                 .ToString();
             var ownerBech32 = ownerAddress.FromBase16ToBech32Address();
         }
+
+        [TestMethod]
+        public void ContractDeployment_ZilSwapDex()
+        {
+            var trxId = "716f3edd55d23e70134f2687cf6fc3e70c4371a32aa871c4dbfbd74548c6a6f6";
+
+            DataPathBuilder.Setup(Path.Combine("ZilliqaDesktopWallet", "Debug"));
+
+            var db = RepositoryManager.Instance.DatabaseRepository.Database;
+            var transactionTable = db.GetTable<Transaction>();
+            var smartContractTable = db.GetTable<SmartContract>();
+
+            var deploymentTransaction = transactionTable.FindRecord("Id", trxId);
+            var smartContract = smartContractTable.FindRecord("DeploymentTransactionId", trxId);
+
+            Assert.IsNotNull(deploymentTransaction);
+
+            var filter = new FilterQueryField(nameof(Transaction.TransactionType),
+                (int)TransactionType.ContractDeployment);
+            var transactions = transactionTable.FindRecords(filter).Where(t => !t.TransactionFailed);
+            var count = transactions.Count();
+            //var trx2 = transactions.FirstOrDefault(t => t.Id == trxId);
+
+            //Assert.IsNotNull(smartContract);
+        }
     }
 }

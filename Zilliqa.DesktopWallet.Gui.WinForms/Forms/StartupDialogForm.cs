@@ -1,5 +1,7 @@
 ﻿using Zilligraph.Database.Storage;
 using Zilliqa.DesktopWallet.Core.Repository;
+using Zilliqa.DesktopWallet.Core.Services;
+using Zilliqa.DesktopWallet.Core.ZilligraphDb;
 using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
@@ -45,14 +47,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                 return;
             }
 
-#if !DEBUG
+            KnownAddressService.Instance.EnsureInitialised();
+
             if (ZilliqaBlockchainCrawler.Instance.RunningState == RunningState.Stopped)
             {
+#if !DEBUG
                 labelStatus.Text = "Starting Blockchain Sync ...";
                 ZilliqaBlockchainCrawler.Instance.Start();
                 return;
-            }
 #endif
+            }
 
             DialogResult = DialogResult.OK;
             Close();

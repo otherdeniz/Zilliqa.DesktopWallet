@@ -37,6 +37,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [Browsable(true)]
         [DisplayName("Address")]
+        [ColumnWidth(150)]
         public override AddressValue? OtherAddress => base.OtherAddress;
 
         [Browsable(true)]

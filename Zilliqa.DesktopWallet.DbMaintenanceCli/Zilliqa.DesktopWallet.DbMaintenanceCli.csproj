@@ -15,4 +15,10 @@
     <ProjectReference Include="..\Zilliqa.DesktopWallet.DatabaseSchema\Zilliqa.DesktopWallet.DatabaseSchema.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="CreateTable-SmartContract.cmd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

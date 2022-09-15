@@ -48,6 +48,14 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
                 .FirstOrDefault();
         }
 
+        public string ContractTitle()
+        {
+            return ConstructorValues
+                       .Where(p => p.Vname == "name")
+                       .Select(p => p.Value.ToString())
+                       .FirstOrDefault()
+                   ?? ContractName;
+        }
     }
 
 }

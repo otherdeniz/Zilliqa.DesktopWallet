@@ -1,0 +1,2 @@
+Zilliqa.DesktopWallet.DbMaintenanceCli.exe --source-folder=C:\Users\esen\AppData\Roaming\ZilliqaDesktopWallet\Debug\ZilliqaDB --target-folder=C:\Users\esen\AppData\Roaming\ZilliqaDesktopWallet\Debug\ZilliqaDB --create-table=SmartContract
+pause

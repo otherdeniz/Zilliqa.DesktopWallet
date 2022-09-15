@@ -64,9 +64,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
         {
             if (KnownAddressService.Instance.Bech32AddressNames.TryGetValue(Address.GetBech32(), out var addressName))
             {
-                if (addressName.Length > 12)
+                if (addressName.Length > 20)
                 {
-                    addressName = addressName.Substring(0, 12);
+                    addressName = addressName.Substring(0, 20);
                 }
                 return $"{addressName} ({Address})";
             }

@@ -265,6 +265,23 @@ namespace Zilligraph.Database.Storage
             return FindRecordsInternal(queryFilter, null, resolveReferences);
         }
 
+        public IEnumerable<TRecordModel> AllRecords(bool resolveReferences = true)
+        {
+            foreach (var dataFile in DataFiles)
+            {
+                foreach (var dataRowBinary in dataFile.AllRows())
+                {
+                    var record = dataRowBinary.DecompressRowObject<TRecordModel>();
+                    if (resolveReferences)
+                    {
+                        ResolveReferences(record);
+                    }
+
+                    yield return record;
+                }
+            }
+        }
+
         private IEnumerable<TRecordModel> FindRecordsInternal(IFilterQuery queryFilter, Func<TRecordModel, bool>? additionalFilter, bool resolveReferences)
         {
             return new RecordsResultEnumerable<TRecordModel>(this,
@@ -303,13 +320,13 @@ namespace Zilligraph.Database.Storage
         public void Dispose()
         {
             _initialisationCancellationTokenSource.Cancel();
+            _eventNotificators.Clear();
             if (_dataFiles?.Any() == true)
             {
                 foreach (var dataFile in _dataFiles)
                 {
                     dataFile.Dispose();
                 }
-
                 _dataFiles = null;
             }
         }

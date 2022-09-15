@@ -8,7 +8,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
     public static class SmartContractModelCreator
     {
         private static readonly Regex ContractNameRegEx =
-            new Regex(@"^contract (\w+)", RegexOptions.Multiline | RegexOptions.Compiled);
+            new Regex(@"^\s*contract (\w+)", RegexOptions.Multiline | RegexOptions.Compiled);
 
         public static SmartContract? CreateModel(Transaction deploymentTransaction)
         {
@@ -26,11 +26,14 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                     .Where(p => p.Vname == "owner")
                     .Select(p => p.Value.ToString()?.ToLower())
                     .FirstOrDefault();
-                if (ownerAddress == null)
+                if (ownerAddress != null)
                 {
-                    return null;
+                    smartContract.OwnerAddress = ownerAddress;
                 }
-                smartContract.OwnerAddress = ownerAddress;
+                else
+                {
+                    smartContract.OwnerAddress = deploymentTransaction.SenderAddress;
+                }
 
                 var contractNameMatch = ContractNameRegEx.Match(deploymentTransaction.Code);
                 if (!contractNameMatch.Success)

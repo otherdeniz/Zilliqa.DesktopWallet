@@ -1,4 +1,5 @@
-﻿using Zilligraph.Database.Storage;
+﻿using Zillifriends.Shared.Common;
+using Zilligraph.Database.Storage;
 using Zilligraph.Database.Storage.FilterQuery;
 using Zilliqa.DesktopWallet.Core.ZilligraphDb;
 using Zilliqa.DesktopWallet.DatabaseSchema;
@@ -82,7 +83,7 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
                 int recordCount = 0;
                 var filter = new FilterQueryField(nameof(Transaction.TransactionType),
                     (int)TransactionType.ContractDeployment);
-                var transactions = sourceTable.FindRecords(filter);
+                var transactions = sourceTable.FindRecords(filter).Where(t => !t.TransactionFailed);
                 foreach (var transaction in transactions)
                 {
                     var smartContract = SmartContractModelCreator.CreateModel(transaction);
@@ -94,6 +95,11 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
                         {
                             Console.WriteLine($"Written records: {recordCount:#,##0}");
                         }
+                    }
+                    else
+                    {
+                        throw new RuntimeException(
+                            $"SmartContract could not create model for Transaction Id: {transaction.Id}");
                     }
                 }
                 sourceTable.EndBulkOperation();

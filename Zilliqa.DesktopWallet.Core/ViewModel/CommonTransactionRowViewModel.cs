@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
 using Zilliqa.DesktopWallet.ApiClient;
+using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
 
@@ -81,6 +82,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [Browsable(true)]
         [DisplayName("Address")]
+        [ColumnWidth(150)]
         public override AddressValue? OtherAddress => _innerViewModel?.OtherAddress
                                                       ?? (_otherAddress ??= Direction == TransactionDirection.SendTo
                                                           ? new AddressValue(Transaction.ToAddress)

@@ -37,17 +37,18 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
             return _valueUniqueIds.Contains(valueUniqueId);
         }
 
-        public void DisplayValue(object viewValue, bool resetHistory, Action<object?>? afterClose = null, object? afterCloseArgument = null)
+        public void CloseRightPanel()
         {
-            if (resetHistory)
+            panelRight.Visible = false;
+            splitterRight.Visible = false;
+            ResetRightPanel();
+        }
+
+        public void DisplayValue(object viewValue, bool resetRightPanel, Action<object?>? afterClose = null, object? afterCloseArgument = null)
+        {
+            if (resetRightPanel)
             {
-                _displayHierarchy.LastOrDefault()?.AfterClose?.Invoke(afterCloseArgument);
-                _displayHierarchy.Clear();
-                _valueUniqueIds.Clear();
-                if (_mainValueUniqueId != null)
-                {
-                    _valueUniqueIds.Add(_mainValueUniqueId);
-                }
+                ResetRightPanel();
             }
 
             var viewModelUniqueId = ValueSelectionHelper.GetValueUniqueId(viewValue);
@@ -61,12 +62,25 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
             {
                 drillDownChildControl.DrillDownPanel = this;
             }
-            var pathItem = new ViewValuePathItem(viewValue, viewModelUniqueId, childControl, afterClose);
+            var pathItem = new ViewValuePathItem(viewValue, viewModelUniqueId, childControl, afterClose, afterCloseArgument);
 
             labelTitle.Text = pathItem.Title;
             _displayHierarchy.Add(pathItem);
 
-            if (_displayHierarchy.Count == 1)
+            RefreshBackButton();
+
+            if (!panelRight.Visible)
+            {
+                panelRight.Width = Width / 2;
+            }
+            panelRight.Visible = true;
+            splitterRight.Visible = true;
+            ShowDisplayControl(pathItem);
+        }
+
+        private void RefreshBackButton()
+        {
+            if (_displayHierarchy.Count <= 1)
             {
                 toolStripDropDownBack.Enabled = false;
             }
@@ -89,14 +103,23 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
                     toolStripDropDownBack.DropDownItems.Add(pathButton);
                 }
             }
+        }
 
-            if (!panelRight.Visible)
+        private void ResetRightPanel()
+        {
+            panelRightControl.Controls.Clear();
+            _displayHierarchy.ForEach(h => h.DisplayControl.Dispose());
+            var firstPathItem = _displayHierarchy.FirstOrDefault();
+            if (firstPathItem?.AfterClose != null)
             {
-                panelRight.Width = Width / 2;
+                firstPathItem.AfterClose(firstPathItem.AfterCloseArgument);
             }
-            panelRight.Visible = true;
-            splitterRight.Visible = true;
-            ShowDisplayControl(pathItem);
+            _displayHierarchy.Clear();
+            _valueUniqueIds.Clear();
+            if (_mainValueUniqueId != null)
+            {
+                _valueUniqueIds.Add(_mainValueUniqueId);
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -113,7 +136,23 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
 
         private void GoBackInHistory(int pathIndex)
         {
+            panelRightControl.Controls.Clear();
+            var isFirstRemovedItem = true;
+            foreach (var pathItem in _displayHierarchy.Skip(pathIndex + 1).ToArray())
+            {
+                pathItem.DisplayControl.Dispose();
+                if (isFirstRemovedItem 
+                    && pathItem.AfterClose != null)
+                {
+                    pathItem.AfterClose(pathItem.AfterCloseArgument);
+                }
+                isFirstRemovedItem = false;
+                _displayHierarchy.Remove(pathItem);
+                _valueUniqueIds.Remove(pathItem.ViewModelUniqueId);
+            }
 
+            RefreshBackButton();
+            panelRightControl.Controls.Add(_displayHierarchy[pathIndex].DisplayControl);
         }
 
         private void ShowDisplayControl(ViewValuePathItem pathItem)
@@ -125,17 +164,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
 
         private void buttonCloseRight_Click(object sender, EventArgs e)
         {
-            panelRight.Visible = false;
-            splitterRight.Visible = false;
-            panelRightControl.Controls.Clear();
-            _displayHierarchy.ForEach(h => h.DisplayControl.Dispose());
-            _displayHierarchy.FirstOrDefault()?.AfterClose?.Invoke(null);
-            _displayHierarchy.Clear();
-            _valueUniqueIds.Clear();
-            if (_mainValueUniqueId != null)
-            {
-                _valueUniqueIds.Add(_mainValueUniqueId);
-            }
+            CloseRightPanel();
         }
 
         private class ViewValuePathItem
@@ -144,7 +173,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
                 string viewModelUniqueId, 
                 Control displayControl, 
                 Action<object?>? afterClose, 
-                object? afterCloseArgument = null)
+                object? afterCloseArgument)
             {
                 ViewValue = viewValue;
                 Title = ValueSelectionHelper.GetValueTitle(viewValue);
