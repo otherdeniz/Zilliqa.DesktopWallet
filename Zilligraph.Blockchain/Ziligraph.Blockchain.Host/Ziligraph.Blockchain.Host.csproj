@@ -4,7 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <PublishTrimmed>true</PublishTrimmed>
     <UserSecretsId>30e6811d-fd4d-4923-9f26-64173fb52774</UserSecretsId>
-  </PropertyGroup>
+  	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+</PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'UbudKusCoin' ">
     <ExternalConsole>true</ExternalConsole>
   </PropertyGroup>
@@ -41,6 +42,9 @@
     <Compile Remove="obj\**" />
     <EmbeddedResource Remove="obj\**" />
     <None Remove="obj\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\VersionInfo.cs" Link="VersionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Zilligraph.Blockchain.Core\Zilligraph.Blockchain.Core.csproj" />

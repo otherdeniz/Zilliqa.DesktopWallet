@@ -38,6 +38,17 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.Core.Test", "Zilliqa.DesktopWallet.Core.Test\Zilliqa.DesktopWallet.Core.Test.csproj", "{C6DE8D92-226C-495B-AFDB-A6D7A59D44E6}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Zilliqa.DesktopWallet.WindowsInstaller", "Zilliqa.DesktopWallet.WindowsInstaller\Zilliqa.DesktopWallet.WindowsInstaller.vdproj", "{A4BAAED3-966D-4E26-92A1-02BACF6C0F0D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{03B2CEDD-79A2-43A6-B62E-A0D592803115} = {03B2CEDD-79A2-43A6-B62E-A0D592803115}
+		{1AB3A422-73F4-4A8D-8AFA-7CE5CC0AE0C5} = {1AB3A422-73F4-4A8D-8AFA-7CE5CC0AE0C5}
+		{2BBAFCF1-95D8-4DD3-BA79-E074C9EAD170} = {2BBAFCF1-95D8-4DD3-BA79-E074C9EAD170}
+		{3E1E5EE8-7AD1-4E92-A249-FE4425EBB00C} = {3E1E5EE8-7AD1-4E92-A249-FE4425EBB00C}
+		{6E729A48-EB31-49FB-A835-301591DA895A} = {6E729A48-EB31-49FB-A835-301591DA895A}
+		{7965B5E6-70AE-4CA8-81E1-184DFC172134} = {7965B5E6-70AE-4CA8-81E1-184DFC172134}
+		{907FC00E-4501-47F5-82C1-6DBA0D289584} = {907FC00E-4501-47F5-82C1-6DBA0D289584}
+		{B2BE9EE9-E7AC-42B3-8DC9-91FE56C5B8AA} = {B2BE9EE9-E7AC-42B3-8DC9-91FE56C5B8AA}
+		{B4A69D8E-8943-4A81-B2D8-15FA1D3F929D} = {B4A69D8E-8943-4A81-B2D8-15FA1D3F929D}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilligraph.Database.Storage.IntegrationTests", "Zilligraph.Database\Zilligraph.Database.Storage.IntegrationTests\Zilligraph.Database.Storage.IntegrationTests.csproj", "{A03970F1-7D28-4920-B015-6377A021E249}"
 EndProject
@@ -49,9 +60,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaksaCsharp", "LaksaCsharp\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaksaTest", "LaksaTest\LaksaTest.csproj", "{EB8247FB-B977-452F-BB80-B8A992911361}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zilligraph.Database.DbMaintenanceCli", "Zilligraph.Database\Zilligraph.Database.DbMaintenanceCli\Zilligraph.Database.DbMaintenanceCli.csproj", "{1AB3A422-73F4-4A8D-8AFA-7CE5CC0AE0C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilligraph.Database.DbMaintenanceCli", "Zilligraph.Database\Zilligraph.Database.DbMaintenanceCli\Zilligraph.Database.DbMaintenanceCli.csproj", "{1AB3A422-73F4-4A8D-8AFA-7CE5CC0AE0C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zilliqa.DesktopWallet.DbMaintenanceCli", "Zilliqa.DesktopWallet.DbMaintenanceCli\Zilliqa.DesktopWallet.DbMaintenanceCli.csproj", "{B2BE9EE9-E7AC-42B3-8DC9-91FE56C5B8AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.DbMaintenanceCli", "Zilliqa.DesktopWallet.DbMaintenanceCli\Zilliqa.DesktopWallet.DbMaintenanceCli.csproj", "{B2BE9EE9-E7AC-42B3-8DC9-91FE56C5B8AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

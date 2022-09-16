@@ -3,7 +3,12 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
-  </PropertyGroup>
+  	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+</PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\VersionInfo.cs" Link="VersionInfo.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="DotNetEnv" Version="2.3.0" />

@@ -21,6 +21,7 @@
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Version>1.1.0</Version>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -31,6 +32,10 @@
     <Compile Remove="Extensions\**" />
     <EmbeddedResource Remove="Extensions\**" />
     <None Remove="Extensions\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\VersionInfo.cs" Link="VersionInfo.cs" />
   </ItemGroup>
 
   <ItemGroup>
