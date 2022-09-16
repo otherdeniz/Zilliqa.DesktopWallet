@@ -5,6 +5,7 @@ using Zillifriends.Shared.Common;
 using Zilligraph.Database.Contract;
 using Zilligraph.Database.Storage.FilterQuery;
 using Zilligraph.Database.Storage.Index;
+using Zilligraph.Database.Storage.Result;
 using Zilligraph.Database.Storage.Table;
 
 // ReSharper disable InconsistentlySynchronizedField
@@ -231,17 +232,17 @@ namespace Zilligraph.Database.Storage
             Database.DbSizeChanged();
         }
 
-        public TRecordModel? FindRecord(string propertyName, object value, bool resolveReferences = true)
+        public TRecordModel? GetRecord(string propertyName, object value, bool resolveReferences = true)
         {
-            return FindRecordInternal(propertyName, value, resolveReferences);
+            return GetRecordInternal(propertyName, value, resolveReferences);
         }
 
-        object? IZilligraphTable.FindRecord(string propertyName, object value, bool resolveReferences)
+        object? IZilligraphTable.GetRecord(string propertyName, object value, bool resolveReferences)
         {
-            return FindRecordInternal(propertyName, value, resolveReferences);
+            return GetRecordInternal(propertyName, value, resolveReferences);
         }
 
-        private TRecordModel? FindRecordInternal(string propertyName, object value, bool resolveReferences)
+        private TRecordModel? GetRecordInternal(string propertyName, object value, bool resolveReferences)
         {
             if (Indexes.TryGetValue(propertyName, out var fieldIndex))
             {
@@ -255,17 +256,18 @@ namespace Zilligraph.Database.Storage
             return null;
         }
 
-        public IEnumerable<TRecordModel> FindRecords(IFilterQuery queryFilter, Func<TRecordModel, bool>? additionalFilter = null, bool resolveReferences = true)
+        public PagedRecordResult<TRecordModel> GetRecordsPaged(IFilterQuery queryFilter,
+            Func<TRecordModel, bool>? additionalFilter = null, 
+            bool resolveReferences = true, 
+            bool inverseOrder = false,
+            int pageSize = 1000)
         {
-            return FindRecordsInternal(queryFilter, additionalFilter, resolveReferences);
+            var indexSearcher = FilterSearcherFactory.CreateFilterSearcher(this, queryFilter);
+
+            throw new NotImplementedException();
         }
 
-        IEnumerable IZilligraphTable.FindRecords(IFilterQuery queryFilter, bool resolveReferences)
-        {
-            return FindRecordsInternal(queryFilter, null, resolveReferences);
-        }
-
-        public IEnumerable<TRecordModel> AllRecords(bool resolveReferences = true)
+        public IEnumerable<TRecordModel> EnumerateAllRecords(bool resolveReferences = true)
         {
             foreach (var dataFile in DataFiles)
             {
@@ -282,7 +284,17 @@ namespace Zilligraph.Database.Storage
             }
         }
 
-        private IEnumerable<TRecordModel> FindRecordsInternal(IFilterQuery queryFilter, Func<TRecordModel, bool>? additionalFilter, bool resolveReferences)
+        public IEnumerable<TRecordModel> EnumerateRecords(IFilterQuery queryFilter, Func<TRecordModel, bool>? additionalFilter = null, bool resolveReferences = true)
+        {
+            return EnumerateRecordsInternal(queryFilter, additionalFilter, resolveReferences);
+        }
+
+        IEnumerable IZilligraphTable.EnumerateRecords(IFilterQuery queryFilter, bool resolveReferences)
+        {
+            return EnumerateRecordsInternal(queryFilter, null, resolveReferences);
+        }
+
+        private IEnumerable<TRecordModel> EnumerateRecordsInternal(IFilterQuery queryFilter, Func<TRecordModel, bool>? additionalFilter, bool resolveReferences)
         {
             return new RecordsResultEnumerable<TRecordModel>(this,
                 FilterSearcherFactory.CreateFilterSearcher(this, queryFilter),
@@ -356,7 +368,7 @@ namespace Zilligraph.Database.Storage
                     var keyValue = fieldReference.KeyPropertyInfo.GetValue(record);
                     if (keyValue != null)
                     {
-                        var foreignRecord = foreignTable.FindRecord(fieldReference.ForeignKey, keyValue);
+                        var foreignRecord = foreignTable.GetRecord(fieldReference.ForeignKey, keyValue);
                         fieldReference.ReferencePropertyInfo.SetValue(record, foreignRecord);
                     }
                 }

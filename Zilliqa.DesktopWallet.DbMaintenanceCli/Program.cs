@@ -65,10 +65,13 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
 
             Console.WriteLine($"Sorting {blockRecordPositions.Count:#,##0} records");
             var sortedRecords = blockRecordPositions.OrderBy(b => b.Block);
+
             Console.WriteLine("Begin writing records...");
             int recordCount = 0;
+
             sourceTable.StartBulkOperation();
             targetTable.StartBulkOperation();
+
             foreach (var sortedRecord in sortedRecords)
             {
                 recordCount++;
@@ -82,6 +85,7 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
 
             sourceTable.EndBulkOperation();
             targetTable.EndBulkOperation();
+
             Console.WriteLine("Finished.");
         }
 
@@ -99,19 +103,20 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
             int recordCount = 0;
             int importedCount = 0;
             int skippedCount = 0;
+            var printWritingInfo = true;
             var filter = new FilterQueryField(nameof(Transaction.TransactionType),
                 (int)TransactionType.ContractDeployment);
-            var targetTableHasRecord = targetDbSmartContractTable.RecordCount > 0;
-            var transactions = sourceDbTransactionTable.FindRecords(filter).Where(t => !t.TransactionFailed);
+            var checkTargetHasRecord = targetDbSmartContractTable.RecordCount > 0;
             var checkSourceHasRecord = sourceDatabase.DatabasePath != targetDatabase.DatabasePath;
+            var transactions = sourceDbTransactionTable.EnumerateRecords(filter).Where(t => !t.TransactionFailed);
             foreach (var transaction in transactions)
             {
-                if (targetTableHasRecord)
+                if (checkTargetHasRecord)
                 {
-                    if (targetDbSmartContractTable.FindRecord(nameof(SmartContract.DeploymentTransactionId), transaction.Id) ==
+                    if (targetDbSmartContractTable.GetRecord(nameof(SmartContract.DeploymentTransactionId), transaction.Id, false) ==
                         null)
                     {
-                        targetTableHasRecord = false;
+                        checkTargetHasRecord = false;
                     }
                     else
                     {
@@ -121,6 +126,7 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
                             Console.WriteLine($"Skipped records: {skippedCount:#,##0}");
                         }
 
+                        printWritingInfo = true;
                         continue;
                     }
                 }
@@ -130,8 +136,7 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
                     try
                     {
                         var sourceTableRecord =
-                            sourceDbSmartContractTable.FindRecord(nameof(SmartContract.DeploymentTransactionId),
-                                transaction.Id);
+                            sourceDbSmartContractTable.GetRecord(nameof(SmartContract.DeploymentTransactionId), transaction.Id, false);
                         if (sourceTableRecord?.DeploymentTransactionId != transaction.Id)
                         {
                             checkSourceHasRecord = false;
@@ -145,6 +150,7 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
                                 Console.WriteLine($"Imported records from source DB: {importedCount:#,##0}");
                             }
 
+                            printWritingInfo = true;
                             continue;
                         }
                     }
@@ -160,15 +166,17 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
                 {
                     recordCount++;
                     targetDbSmartContractTable.AddRecord(smartContract);
-                    if (recordCount % 100 == 0)
+                    if (recordCount % 100 == 0 || printWritingInfo)
                     {
+                        printWritingInfo = false;
                         Console.WriteLine($"Written records: {recordCount:#,##0}");
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"CANCELING! SmartContract could not create model for Transaction Id: {transaction.Id}");
-                    break;
+                    Console.WriteLine($"WARNING: could not create SmartContract model for Transaction Id: {transaction.Id}");
+                    checkTargetHasRecord = true;
+                    checkSourceHasRecord = sourceDatabase.DatabasePath != targetDatabase.DatabasePath;
                 }
             }
 

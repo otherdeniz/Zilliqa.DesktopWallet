@@ -47,7 +47,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                 return;
             }
 
-            KnownAddressService.Instance.EnsureInitialised();
+            KnownAddressService.Instance.EnsureInitialized();
 
             if (ZilliqaBlockchainCrawler.Instance.RunningState == RunningState.Stopped)
             {

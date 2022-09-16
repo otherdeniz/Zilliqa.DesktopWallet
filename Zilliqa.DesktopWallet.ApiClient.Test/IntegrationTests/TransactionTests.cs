@@ -107,6 +107,15 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
         }
 
         [Test]
+        public async Task GetTransactionContractDeployment_MamboRewardToken()
+        {
+            var hash = "c4024c469d4f7131e93e4a902c08fcd6c505add5517beedafa78871ded3eccbd";
+            var txn = await _zil.GetTransaction(hash);
+            var contractAddress = await _zil.GetContractAddressFromTransactionID(txn.Id);
+            Assert.IsTrue(contractAddress.Bech32.StartsWith("zil1"));
+        }
+
+        [Test]
         public async Task CreateTransactionHasId()
         {
             //TODO figure out how to create transaction tests with signatures

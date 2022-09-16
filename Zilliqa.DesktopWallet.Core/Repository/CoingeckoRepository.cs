@@ -272,7 +272,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
                     if (coinId != null)
                     {
                         var dbTable = RepositoryManager.Instance.CacheDatabase.GetTable<CoinHistoryCache>();
-                        var dbResult = dbTable.FindRecords(new FilterQueryField(nameof(CoinHistoryCache.Date), date),
+                        var dbResult = dbTable.EnumerateRecords(new FilterQueryField(nameof(CoinHistoryCache.Date), date),
                             c => c.CoinHistory.Symbol == symbolLowered).FirstOrDefault();
                         if (dbResult != null)
                         {

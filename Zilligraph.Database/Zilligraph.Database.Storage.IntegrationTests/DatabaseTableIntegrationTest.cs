@@ -34,14 +34,14 @@ namespace Zilligraph.Database.Storage.IntegrationTests
                 // search all matching the first "IndexedStringX"
                 var valueStringX = sourceRecords[0].IndexedStringX;
                 var dbResultStringX = dbTable
-                    .FindRecords(new FilterQueryField(nameof(SimpleRecord.IndexedStringX), valueStringX)).ToList();
+                    .EnumerateRecords(new FilterQueryField(nameof(SimpleRecord.IndexedStringX), valueStringX)).ToList();
                 Assert.AreEqual(sourceRecords.Count, dbResultStringX.Count);
 
                 // search all matching the first "IndexedStringA"
                 var valueStringA = sourceRecords[0].IndexedStringA;
                 var sourceRecordsStringA = sourceRecords.Where(r => r.IndexedStringA == valueStringA).ToList();
                 var dbResultStringA = dbTable
-                    .FindRecords(new FilterQueryField(nameof(SimpleRecord.IndexedStringA), valueStringA)).ToList();
+                    .EnumerateRecords(new FilterQueryField(nameof(SimpleRecord.IndexedStringA), valueStringA)).ToList();
                 Assert.AreEqual(sourceRecordsStringA.Count, dbResultStringA.Count);
                 for (int iStringA = 0; iStringA < sourceRecordsStringA.Count; iStringA++)
                 {
@@ -53,7 +53,7 @@ namespace Zilligraph.Database.Storage.IntegrationTests
                 var valueInt = sourceRecords[0].IndexedInt32SmallRange;
                 var sourceRecordsInt = sourceRecords.Where(r => r.IndexedInt32SmallRange == valueInt).ToList();
                 var dbResultInt = dbTable
-                    .FindRecords(new FilterQueryField(nameof(SimpleRecord.IndexedInt32SmallRange), valueInt)).ToList();
+                    .EnumerateRecords(new FilterQueryField(nameof(SimpleRecord.IndexedInt32SmallRange), valueInt)).ToList();
                 Assert.AreEqual(sourceRecordsInt.Count, dbResultInt.Count);
                 for (int iStringA = 0; iStringA < sourceRecordsInt.Count; iStringA++)
                 {
@@ -90,7 +90,7 @@ namespace Zilligraph.Database.Storage.IntegrationTests
             // Assert
             foreach (var child in childs)
             {
-                var childFromDb = childTable.FindRecord(nameof(ChildRecord.PrimaryKey), child.PrimaryKey);
+                var childFromDb = childTable.GetRecord(nameof(ChildRecord.PrimaryKey), child.PrimaryKey);
                 var parent = parents.First(p => p.PrimaryKey == child.ParentKey);
                 Assert.AreEqual(parent.AnyNumber, childFromDb?.LazyParent?.Value?.AnyNumber);
                 Assert.AreEqual(parent.AnyNumber, childFromDb?.Parent?.AnyNumber);

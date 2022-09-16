@@ -50,11 +50,15 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
 
         public string ContractTitle()
         {
-            return ConstructorValues
+            var nameValue =ConstructorValues
                        .Where(p => p.Vname == "name")
                        .Select(p => p.Value.ToString())
-                       .FirstOrDefault()
-                   ?? ContractName;
+                       .FirstOrDefault();
+            if (nameValue != null)
+            {
+                return $"{nameValue}, {ContractName}";
+            }
+            return ContractName;
         }
     }
 

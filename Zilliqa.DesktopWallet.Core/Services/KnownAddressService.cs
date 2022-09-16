@@ -9,9 +9,9 @@ namespace Zilliqa.DesktopWallet.Core.Services
     {
         public static readonly KnownAddressService Instance = new();
 
-        private readonly object _initialisationLock = new();
-        private Task? _initialisationTask;
-        private bool _isInitialised;
+        private readonly object _initializationLock = new();
+        private Task? _initializationTask;
+        private bool _isInitialized;
 
         private KnownAddressService()
         {
@@ -28,26 +28,28 @@ namespace Zilliqa.DesktopWallet.Core.Services
             }
             return null;
         }
-        public void EnsureInitialised(bool wait = false)
+        public void EnsureInitialized(bool wait = false)
         {
-            if (_isInitialised) return;
-            if (!wait && _initialisationTask != null) return;
-            _initialisationTask = Task.Run(() =>
+            if (_isInitialized) return;
+            if (!wait && _initializationTask != null) return;
+            _initializationTask = Task.Run(() =>
             {
-                lock (_initialisationLock)
+                lock (_initializationLock)
                 {
-                    if (_isInitialised) return;
+                    if (_isInitialized) return;
+                    var startTime = DateTime.Now;
                     var dbTable = RepositoryManager.Instance.DatabaseRepository.Database.GetTable<SmartContract>();
-                    dbTable.AllRecords().ForEach(AddSmartContract);
+                    dbTable.EnumerateAllRecords().ForEach(AddSmartContract);
                     dbTable.AddEventNotificator(_ => true, AddSmartContract);
-                    _isInitialised = true;
+                    Logging.LogInfo($"Initializing Known Address names: adding all Smart Contracts took {(DateTime.Now - startTime).TotalSeconds:0} seconds");
+                    _isInitialized = true;
                 }
             });
             try
             {
-                if (wait && !_initialisationTask.IsCompleted)
+                if (wait && !_initializationTask.IsCompleted)
                 {
-                    _initialisationTask.GetAwaiter().GetResult();
+                    _initializationTask.GetAwaiter().GetResult();
                 }
             }
             catch (Exception)

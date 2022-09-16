@@ -27,9 +27,9 @@ namespace Zilligraph.Database.Storage
 
         void AddRecord(object record);
 
-        IEnumerable FindRecords(IFilterQuery queryFilter, bool resolveReferences = true);
+        IEnumerable EnumerateRecords(IFilterQuery queryFilter, bool resolveReferences = true);
 
-        object? FindRecord(string propertyName, object value, bool resolveReferences = true);
+        object? GetRecord(string propertyName, object value, bool resolveReferences = true);
 
         object? ReadRecord(ulong recordPoint, bool resolveReferences = true);
 

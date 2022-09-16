@@ -144,7 +144,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             {
                 try
                 {
-                    var transactionViewModels = tableTransactions.FindRecords(transactionsFilter)
+                    var transactionViewModels = tableTransactions.EnumerateRecords(transactionsFilter)
                         .OrderByDescending(t => t.Timestamp)
                         .Select(t => new TransactionViewModels(Address, t))
                         .ToList();

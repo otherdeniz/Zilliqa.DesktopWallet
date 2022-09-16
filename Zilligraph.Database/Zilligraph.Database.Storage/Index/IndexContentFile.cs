@@ -5,7 +5,7 @@ namespace Zilligraph.Database.Storage.Index
 {
     public class IndexContentFile
     {
-        private static readonly int _enumerationChunkSize = 250;
+        private static readonly int _enumerationInitialChunkSize = 100;
         private readonly int _hashBytesLength;
         private readonly string _filePath;
         private readonly object _fileLock = new();
@@ -175,7 +175,7 @@ namespace Zilligraph.Database.Storage.Index
 
         public IEnumerable<IndexRecord> EnumerateIndexes(ulong chainEntryPoint, byte[] valueHash)
         {
-            return new IndexContentEnumerable(this, chainEntryPoint, valueHash, _enumerationChunkSize);
+            return new IndexContentEnumerable(this, chainEntryPoint, valueHash, _enumerationInitialChunkSize);
         }
 
         public List<IndexRecord> ReadIndexesChunkt(ulong chainEntryPoint, byte[]? valueHash = null, int maxCount = 0)

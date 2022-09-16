@@ -22,7 +22,7 @@ namespace Zilliqa.DesktopWallet.Core.Test
                 (int)TransactionType.ContractDeployment);
             var indexes = transactionTable.Indexes["TransactionType"].SearchIndexes(filter).Take(10).ToList();
             Assert.AreEqual(10, indexes.Count);
-            var transactions = transactionTable.FindRecords(filter).Take(10).ToList();
+            var transactions = transactionTable.EnumerateRecords(filter).Take(10).ToList();
             Assert.AreEqual(10, transactions.Count);
             var trx = transactions[8];
             var fromBech32 = trx.SenderAddress.FromBase16ToBech32Address();
@@ -42,8 +42,8 @@ namespace Zilliqa.DesktopWallet.Core.Test
             var transactionTable = db.GetTable<Transaction>();
             var smartContractTable = db.GetTable<SmartContract>();
 
-            var deploymentTransaction = transactionTable.FindRecord("Id", trxId);
-            var smartContract = smartContractTable.FindRecord("DeploymentTransactionId", trxId);
+            var deploymentTransaction = transactionTable.GetRecord("Id", trxId);
+            var smartContract = smartContractTable.GetRecord("DeploymentTransactionId", trxId);
             Assert.IsNotNull(deploymentTransaction);
             Assert.IsNotNull(smartContract);
         }
@@ -58,7 +58,22 @@ namespace Zilliqa.DesktopWallet.Core.Test
 
             var db = RepositoryManager.Instance.DatabaseRepository.Database;
             var transactionTable = db.GetTable<Transaction>();
-            var deploymentTransaction = transactionTable.FindRecord("Id", trxId);
+            var deploymentTransaction = transactionTable.GetRecord("Id", trxId);
+
+            var smartContract = SmartContractModelCreator.CreateModel(deploymentTransaction);
+            Assert.IsNotNull(smartContract);
+        }
+
+        [TestMethod]
+        public void ContractDeployment_DeploySmartContract_UnregularCode2_IsParseable()
+        {
+            // this Contract-Code is also edge-case
+            var trxId = "c4024c469d4f7131e93e4a902c08fcd6c505add5517beedafa78871ded3eccbd";
+            DataPathBuilder.Setup(Path.Combine("ZilliqaDesktopWallet", "Debug"));
+
+            var db = RepositoryManager.Instance.DatabaseRepository.Database;
+            var transactionTable = db.GetTable<Transaction>();
+            var deploymentTransaction = transactionTable.GetRecord("Id", trxId);
 
             var smartContract = SmartContractModelCreator.CreateModel(deploymentTransaction);
             Assert.IsNotNull(smartContract);

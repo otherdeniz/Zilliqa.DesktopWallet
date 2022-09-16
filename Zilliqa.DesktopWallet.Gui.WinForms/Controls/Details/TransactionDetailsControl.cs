@@ -20,7 +20,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
         public void LoadTransaction(TransactionIdValue transactionId)
         {
             var transactionModel = RepositoryManager.Instance.DatabaseRepository.Database.GetTable<Transaction>()
-                .FindRecord(nameof(Transaction.Id), transactionId.TransactionId);
+                .GetRecord(nameof(Transaction.Id), transactionId.TransactionId);
             if (transactionModel == null)
             {
                 throw new RuntimeException($"Transaction {transactionId.TransactionId} not found in DB");

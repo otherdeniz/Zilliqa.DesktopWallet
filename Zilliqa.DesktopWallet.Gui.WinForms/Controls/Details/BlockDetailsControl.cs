@@ -27,14 +27,14 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             labelNumber.Text = blockNumber.ToString("#,##0");
             _blockModel = RepositoryManager.Instance.DatabaseRepository.Database
                 .GetTable<Block>()
-                .FindRecord(nameof(Block.BlockNumber), blockNumber, false);
+                .GetRecord(nameof(Block.BlockNumber), blockNumber, false);
             if (_blockModel == null) return;
             labelDate.Text = _blockModel.Timestamp.ToString("g");
 
             // apply transactions
             _transactionsEnumerable = RepositoryManager.Instance.DatabaseRepository.Database
                 .GetTable<Transaction>()
-                .FindRecords(new FilterQueryField(nameof(Block.BlockNumber), blockNumber), resolveReferences: false);
+                .EnumerateRecords(new FilterQueryField(nameof(Block.BlockNumber), blockNumber), resolveReferences: false);
             _transactionsDataSource = new PageableDataSource<BlockTransactionRowViewModel>();
             gridViewTransactions.LoadData(_transactionsDataSource, typeof(BlockTransactionRowViewModel));
             Task.Run(() =>

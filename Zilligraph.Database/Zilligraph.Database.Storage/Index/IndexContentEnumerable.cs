@@ -7,16 +7,16 @@ namespace Zilligraph.Database.Storage.Index
         private readonly IndexContentFile _contentFile;
         private readonly ulong _chainEntryPoint;
         private readonly byte[] _valueHash;
-        private readonly int _chunkSize;
+        private int _chunkSize;
         private List<IndexRecord>? _recordChunk;
         private int _chunkPosition = -1;
 
-        public IndexContentEnumerable(IndexContentFile contentFile, ulong chainEntryPoint, byte[] valueHash, int chunkSize)
+        public IndexContentEnumerable(IndexContentFile contentFile, ulong chainEntryPoint, byte[] valueHash, int initialChunkSize)
         {
             _contentFile = contentFile;
             _chainEntryPoint = chainEntryPoint;
             _valueHash = valueHash;
-            _chunkSize = chunkSize;
+            _chunkSize = initialChunkSize;
         }
 
         public IEnumerator<IndexRecord> GetEnumerator()
@@ -38,6 +38,11 @@ namespace Zilligraph.Database.Storage.Index
                 if (nextEntryPoint == 0)
                 {
                     return null;
+                }
+                if (_recordChunk != null)
+                {
+                    // increase the chunks
+                    _chunkSize *= 2;
                 }
                 _recordChunk = _contentFile.ReadIndexesChunkt(nextEntryPoint, _valueHash, _chunkSize);
                 _chunkPosition = 0;

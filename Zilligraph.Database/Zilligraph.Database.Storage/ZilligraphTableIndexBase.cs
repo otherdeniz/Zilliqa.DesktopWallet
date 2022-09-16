@@ -128,7 +128,7 @@ namespace Zilligraph.Database.Storage
                     IndexHeadFile.SetIndexPoint(hashPrefix16Bit, ulong.MaxValue);
                     byte hashPart4Bit = hashBytes[3].Byte8BitTo4Bit();
                     partFiles[hashPart4Bit].Append(hashBytes, recordPoint);
-                    //IndexContentFile.RemoveChain(indexChainEntry, IndexHeadFile);
+                    //IndexContentFile.RemoveChain(indexChainEntry, IndexHeadFile); //TODO: make DB-Maintenance function to clean up orphan chains
                 }
             }
 

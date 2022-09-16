@@ -8,7 +8,9 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
     public static class SmartContractModelCreator
     {
         private static readonly Regex ContractNameRegEx =
-            new Regex(@"^\s*contract (\w+)", RegexOptions.Multiline | RegexOptions.Compiled);
+            new Regex(@"^\s*contract\s+(\w+)", RegexOptions.Multiline | RegexOptions.Compiled);
+        private static readonly Regex ContractNameSingleLineRegEx =
+            new Regex(@"\s+contract\s+(\w+)\s+\(", RegexOptions.Compiled);
 
         public static SmartContract? CreateModel(Transaction deploymentTransaction)
         {
@@ -36,11 +38,22 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                 }
 
                 var contractNameMatch = ContractNameRegEx.Match(deploymentTransaction.GetPatchedCode() ?? string.Empty);
-                if (!contractNameMatch.Success)
+                if (contractNameMatch.Success)
                 {
-                    return null;
+                    smartContract.ContractName = contractNameMatch.Groups[1].Value;
                 }
-                smartContract.ContractName = contractNameMatch.Groups[1].Value;
+                else
+                {
+                    var contractNameSingleLineMatch = ContractNameSingleLineRegEx.Match(deploymentTransaction.GetPatchedCode() ?? string.Empty);
+                    if (contractNameSingleLineMatch.Success)
+                    {
+                        smartContract.ContractName = contractNameSingleLineMatch.Groups[1].Value;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
 
                 smartContract.ContractAddress = ApiRetryCalls.RetryTaskTillCompleted<Address>(() =>
                         ZilliqaClient.DefaultInstance.GetContractAddressFromTransactionID(deploymentTransaction.Id))

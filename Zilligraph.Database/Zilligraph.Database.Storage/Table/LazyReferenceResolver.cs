@@ -43,7 +43,7 @@ namespace Zilligraph.Database.Storage.Table
             var keyValue = _parentKeyProperty.GetValue(_parent);
             if (keyValue != null)
             {
-                return (TForeignRecord?)_foreignTable.FindRecord(_foreignKey, keyValue);
+                return (TForeignRecord?)_foreignTable.GetRecord(_foreignKey, keyValue);
             }
 
             return null;

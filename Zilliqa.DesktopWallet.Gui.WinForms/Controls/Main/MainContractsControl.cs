@@ -36,7 +36,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                 var filter = new FilterQueryField(nameof(Transaction.TransactionType),
                     (int)TransactionType.ContractDeployment);
 
-                _pageableDataSource.Load(transactionTable.FindRecords(filter).ToList());
+                _pageableDataSource.Load(transactionTable.EnumerateRecords(filter).ToList());
             });
         }
 
