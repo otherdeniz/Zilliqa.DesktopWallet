@@ -29,7 +29,7 @@ namespace Zilligraph.Database.Storage
 
         IEnumerable EnumerateRecords(IFilterQuery queryFilter, bool resolveReferences = true);
 
-        object? GetRecord(string propertyName, object value, bool resolveReferences = true);
+        object? FindRecord(string propertyName, object value, bool resolveReferences = true);
 
         object? ReadRecord(ulong recordPoint, bool resolveReferences = true);
 

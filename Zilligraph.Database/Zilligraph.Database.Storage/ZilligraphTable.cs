@@ -232,17 +232,17 @@ namespace Zilligraph.Database.Storage
             Database.DbSizeChanged();
         }
 
-        public TRecordModel? GetRecord(string propertyName, object value, bool resolveReferences = true)
+        public TRecordModel? FindRecord(string propertyName, object value, bool resolveReferences = true)
         {
-            return GetRecordInternal(propertyName, value, resolveReferences);
+            return FindRecordInternal(propertyName, value, resolveReferences);
         }
 
-        object? IZilligraphTable.GetRecord(string propertyName, object value, bool resolveReferences)
+        object? IZilligraphTable.FindRecord(string propertyName, object value, bool resolveReferences)
         {
-            return GetRecordInternal(propertyName, value, resolveReferences);
+            return FindRecordInternal(propertyName, value, resolveReferences);
         }
 
-        private TRecordModel? GetRecordInternal(string propertyName, object value, bool resolveReferences)
+        private TRecordModel? FindRecordInternal(string propertyName, object value, bool resolveReferences)
         {
             if (Indexes.TryGetValue(propertyName, out var fieldIndex))
             {
@@ -256,7 +256,7 @@ namespace Zilligraph.Database.Storage
             return null;
         }
 
-        public PagedRecordResult<TRecordModel> GetRecordsPaged(IFilterQuery queryFilter,
+        public PagedRecordResult<TRecordModel> FindRecordsPaged(IFilterQuery queryFilter,
             Func<TRecordModel, bool>? additionalFilter = null, 
             bool resolveReferences = true, 
             bool inverseOrder = false,
@@ -368,7 +368,7 @@ namespace Zilligraph.Database.Storage
                     var keyValue = fieldReference.KeyPropertyInfo.GetValue(record);
                     if (keyValue != null)
                     {
-                        var foreignRecord = foreignTable.GetRecord(fieldReference.ForeignKey, keyValue);
+                        var foreignRecord = foreignTable.FindRecord(fieldReference.ForeignKey, keyValue);
                         fieldReference.ReferencePropertyInfo.SetValue(record, foreignRecord);
                     }
                 }

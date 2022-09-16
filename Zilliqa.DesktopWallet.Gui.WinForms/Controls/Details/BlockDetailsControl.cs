@@ -27,7 +27,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             labelNumber.Text = blockNumber.ToString("#,##0");
             _blockModel = RepositoryManager.Instance.DatabaseRepository.Database
                 .GetTable<Block>()
-                .GetRecord(nameof(Block.BlockNumber), blockNumber, false);
+                .FindRecord(nameof(Block.BlockNumber), blockNumber, false);
             if (_blockModel == null) return;
             labelDate.Text = _blockModel.Timestamp.ToString("g");
 

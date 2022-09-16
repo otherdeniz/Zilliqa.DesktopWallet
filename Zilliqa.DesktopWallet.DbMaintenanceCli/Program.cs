@@ -107,18 +107,14 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
             var filter = new FilterQueryField(nameof(Transaction.TransactionType),
                 (int)TransactionType.ContractDeployment);
             var checkTargetHasRecord = targetDbSmartContractTable.RecordCount > 0;
-            var checkSourceHasRecord = sourceDatabase.DatabasePath != targetDatabase.DatabasePath;
             var transactions = sourceDbTransactionTable.EnumerateRecords(filter).Where(t => !t.TransactionFailed);
             foreach (var transaction in transactions)
             {
                 if (checkTargetHasRecord)
                 {
-                    if (targetDbSmartContractTable.GetRecord(nameof(SmartContract.DeploymentTransactionId), transaction.Id, false) ==
-                        null)
-                    {
-                        checkTargetHasRecord = false;
-                    }
-                    else
+                    var targetTableRecord =
+                        targetDbSmartContractTable.FindRecord(nameof(SmartContract.DeploymentTransactionId), transaction.Id, false);
+                    if (targetTableRecord?.DeploymentTransactionId == transaction.Id)
                     {
                         skippedCount++;
                         if (skippedCount % 100 == 0)
@@ -131,17 +127,13 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
                     }
                 }
 
-                if (checkSourceHasRecord)
+                if (sourceDatabase.DatabasePath != targetDatabase.DatabasePath)
                 {
                     try
                     {
                         var sourceTableRecord =
-                            sourceDbSmartContractTable.GetRecord(nameof(SmartContract.DeploymentTransactionId), transaction.Id, false);
-                        if (sourceTableRecord?.DeploymentTransactionId != transaction.Id)
-                        {
-                            checkSourceHasRecord = false;
-                        }
-                        else
+                            sourceDbSmartContractTable.FindRecord(nameof(SmartContract.DeploymentTransactionId), transaction.Id, false);
+                        if (sourceTableRecord?.DeploymentTransactionId == transaction.Id)
                         {
                             importedCount++;
                             targetDbSmartContractTable.AddRecord(sourceTableRecord);
@@ -157,7 +149,6 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
                     catch (Exception)
                     {
                         // import failed, skip import from now on
-                        checkSourceHasRecord = false;
                     }
                 }
 
@@ -175,8 +166,6 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
                 else
                 {
                     Console.WriteLine($"WARNING: could not create SmartContract model for Transaction Id: {transaction.Id}");
-                    checkTargetHasRecord = true;
-                    checkSourceHasRecord = sourceDatabase.DatabasePath != targetDatabase.DatabasePath;
                 }
             }
 

@@ -49,6 +49,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public Address ThisAddress { get; }
 
         [Browsable(false)]
+        [ColumnWidth(150)]
         public virtual AddressValue? OtherAddress => _otherAddress ??= Direction == TransactionDirection.SendTo
             ? new AddressValue(Transaction.ToAddress)
             : new AddressValue(Transaction.SenderAddress);

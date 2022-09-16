@@ -10,7 +10,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
         private static readonly Regex ContractNameRegEx =
             new Regex(@"^\s*contract\s+(\w+)", RegexOptions.Multiline | RegexOptions.Compiled);
         private static readonly Regex ContractNameSingleLineRegEx =
-            new Regex(@"\s+contract\s+(\w+)\s+\(", RegexOptions.Compiled);
+            new Regex(@"\s+contract\s+(\w+)\s*\(", RegexOptions.Compiled);
 
         public static SmartContract? CreateModel(Transaction deploymentTransaction)
         {

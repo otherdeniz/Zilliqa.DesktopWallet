@@ -42,8 +42,8 @@ namespace Zilliqa.DesktopWallet.Core.Test
             var transactionTable = db.GetTable<Transaction>();
             var smartContractTable = db.GetTable<SmartContract>();
 
-            var deploymentTransaction = transactionTable.GetRecord("Id", trxId);
-            var smartContract = smartContractTable.GetRecord("DeploymentTransactionId", trxId);
+            var deploymentTransaction = transactionTable.FindRecord("Id", trxId);
+            var smartContract = smartContractTable.FindRecord("DeploymentTransactionId", trxId);
             Assert.IsNotNull(deploymentTransaction);
             Assert.IsNotNull(smartContract);
         }
@@ -58,7 +58,7 @@ namespace Zilliqa.DesktopWallet.Core.Test
 
             var db = RepositoryManager.Instance.DatabaseRepository.Database;
             var transactionTable = db.GetTable<Transaction>();
-            var deploymentTransaction = transactionTable.GetRecord("Id", trxId);
+            var deploymentTransaction = transactionTable.FindRecord("Id", trxId);
 
             var smartContract = SmartContractModelCreator.CreateModel(deploymentTransaction);
             Assert.IsNotNull(smartContract);
@@ -68,12 +68,12 @@ namespace Zilliqa.DesktopWallet.Core.Test
         public void ContractDeployment_DeploySmartContract_UnregularCode2_IsParseable()
         {
             // this Contract-Code is also edge-case
-            var trxId = "c4024c469d4f7131e93e4a902c08fcd6c505add5517beedafa78871ded3eccbd";
+            var trxId = "3f02fbf8b068bf2ce3c728fd0ea28991b3b26f489805ec0a3bf3f3a043512746";
             DataPathBuilder.Setup(Path.Combine("ZilliqaDesktopWallet", "Debug"));
 
             var db = RepositoryManager.Instance.DatabaseRepository.Database;
             var transactionTable = db.GetTable<Transaction>();
-            var deploymentTransaction = transactionTable.GetRecord("Id", trxId);
+            var deploymentTransaction = transactionTable.FindRecord("Id", trxId);
 
             var smartContract = SmartContractModelCreator.CreateModel(deploymentTransaction);
             Assert.IsNotNull(smartContract);

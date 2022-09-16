@@ -151,7 +151,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                     if (processBlockNumber > 0)
                     {
                         var blockModel =
-                            dbTableBlock.GetRecord(nameof(Block.BlockNumber), processBlockNumber, false);
+                            dbTableBlock.FindRecord(nameof(Block.BlockNumber), processBlockNumber, false);
 
                         if (blockModel != null)
                         {

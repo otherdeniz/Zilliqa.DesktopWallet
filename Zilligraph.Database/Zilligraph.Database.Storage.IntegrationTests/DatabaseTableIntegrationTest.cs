@@ -90,7 +90,7 @@ namespace Zilligraph.Database.Storage.IntegrationTests
             // Assert
             foreach (var child in childs)
             {
-                var childFromDb = childTable.GetRecord(nameof(ChildRecord.PrimaryKey), child.PrimaryKey);
+                var childFromDb = childTable.FindRecord(nameof(ChildRecord.PrimaryKey), child.PrimaryKey);
                 var parent = parents.First(p => p.PrimaryKey == child.ParentKey);
                 Assert.AreEqual(parent.AnyNumber, childFromDb?.LazyParent?.Value?.AnyNumber);
                 Assert.AreEqual(parent.AnyNumber, childFromDb?.Parent?.AnyNumber);

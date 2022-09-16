@@ -37,28 +37,30 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
 
         [JsonProperty("F")]
         [PropertyIndex]
-        public string? ContractAddress { get; set; }
+        public string ContractAddress { get; set; }
 
         [CalculatedIndex]
         public string? TokenSymbol()
         {
-            return ConstructorValues
-                .Where(p => p.Vname == "symbol")
-                .Select(p => p.Value.ToString())
-                .FirstOrDefault();
+            return GetConstructorValue("symbol");
         }
 
         public string ContractTitle()
         {
-            var nameValue =ConstructorValues
-                       .Where(p => p.Vname == "name")
-                       .Select(p => p.Value.ToString())
-                       .FirstOrDefault();
+            var nameValue = GetConstructorValue("name");
             if (nameValue != null)
             {
                 return $"{nameValue}, {ContractName}";
             }
             return ContractName;
+        }
+
+        public string? GetConstructorValue(string vName)
+        {
+            return ConstructorValues
+                .Where(p => p.Vname == vName)
+                .Select(p => p.Value.ToString())
+                .FirstOrDefault();
         }
     }
 
