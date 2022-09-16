@@ -2,6 +2,7 @@
 using Zilligraph.Database.Storage.FilterQuery;
 using Zilliqa.DesktopWallet.ApiClient.Utils;
 using Zilliqa.DesktopWallet.Core.Repository;
+using Zilliqa.DesktopWallet.Core.ZilligraphDb;
 using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Core.Test
@@ -31,7 +32,7 @@ namespace Zilliqa.DesktopWallet.Core.Test
         }
 
         [TestMethod]
-        public void ContractDeployment_ZilSwapDex()
+        public void ContractDeployment_ZilSwapDex_IsInDb()
         {
             var trxId = "716f3edd55d23e70134f2687cf6fc3e70c4371a32aa871c4dbfbd74548c6a6f6";
 
@@ -43,16 +44,24 @@ namespace Zilliqa.DesktopWallet.Core.Test
 
             var deploymentTransaction = transactionTable.FindRecord("Id", trxId);
             var smartContract = smartContractTable.FindRecord("DeploymentTransactionId", trxId);
-
             Assert.IsNotNull(deploymentTransaction);
+            Assert.IsNotNull(smartContract);
+        }
 
-            var filter = new FilterQueryField(nameof(Transaction.TransactionType),
-                (int)TransactionType.ContractDeployment);
-            var transactions = transactionTable.FindRecords(filter).Where(t => !t.TransactionFailed);
-            var count = transactions.Count();
-            //var trx2 = transactions.FirstOrDefault(t => t.Id == trxId);
+        [TestMethod]
+        public void ContractDeployment_DeploySmartContract_UnregularCode_IsParseable()
+        {
+            // this Contract-Code has many "end" statements and no new line before the "contract XXX" statement
+            // its strange why these "end" statements even exist and are valid as used in this Contract-Code, but here we go
+            var trxId = "638a6c4c7eb936e4dfc988c499dea1d0c19eca7aee04e672b0ef0df75b7a4117";
+            DataPathBuilder.Setup(Path.Combine("ZilliqaDesktopWallet", "Debug"));
 
-            //Assert.IsNotNull(smartContract);
+            var db = RepositoryManager.Instance.DatabaseRepository.Database;
+            var transactionTable = db.GetTable<Transaction>();
+            var deploymentTransaction = transactionTable.FindRecord("Id", trxId);
+
+            var smartContract = SmartContractModelCreator.CreateModel(deploymentTransaction);
+            Assert.IsNotNull(smartContract);
         }
     }
 }

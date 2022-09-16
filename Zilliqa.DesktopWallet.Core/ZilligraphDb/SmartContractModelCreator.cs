@@ -35,7 +35,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                     smartContract.OwnerAddress = deploymentTransaction.SenderAddress;
                 }
 
-                var contractNameMatch = ContractNameRegEx.Match(deploymentTransaction.Code);
+                var contractNameMatch = ContractNameRegEx.Match(deploymentTransaction.GetPatchedCode() ?? string.Empty);
                 if (!contractNameMatch.Success)
                 {
                     return null;

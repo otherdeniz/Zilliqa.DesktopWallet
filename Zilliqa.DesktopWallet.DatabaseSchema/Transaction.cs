@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Zilligraph.Database.Contract;
 using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
+using Environment = System.Environment;
 
 namespace Zilliqa.DesktopWallet.DatabaseSchema
 {
@@ -153,6 +154,11 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
             }
 
             return null;
+        }
+
+        public string? GetPatchedCode()
+        {
+            return Code?.Replace("end", Environment.NewLine);
         }
     }
 
