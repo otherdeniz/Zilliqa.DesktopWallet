@@ -1,15 +1,30 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
+using Zilliqa.DesktopWallet.Core.Data.Model;
+using Zilliqa.DesktopWallet.Core.Repository;
+using Zilliqa.DesktopWallet.Core.Services;
+using Zilliqa.DesktopWallet.Gui.WinForms.Forms;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
 {
     public partial class Bech32AddressLabel : UserControl
     {
         private string? _bech32Address;
+        private bool _showAddToWatchedAccounts;
 
         public Bech32AddressLabel()
         {
             InitializeComponent();
+        }
+
+        [DefaultValue(false)]
+        public bool ShowAddToWatchedAccounts
+        {
+            get => _showAddToWatchedAccounts;
+            set
+            {
+                _showAddToWatchedAccounts = value;
+                buttonAddWatchedAccount.Visible = value;
+            }
         }
 
         [Browsable(false)]
@@ -23,6 +38,18 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
                 _bech32Address = value;
                 SetAddressLabel();
                 ApplySize();
+                RefreshButtons();
+            }
+        }
+
+        private void RefreshButtons()
+        {
+            if (_showAddToWatchedAccounts)
+            {
+                var walletRepository = RepositoryManager.Instance.WalletRepository;
+                buttonAddWatchedAccount.Enabled =
+                    walletRepository.MyAccounts.All(a => a.AddressBech32 != _bech32Address)
+                    && walletRepository.WatchedAccounts.All(a => a.AddressBech32 != _bech32Address);
             }
         }
 
@@ -71,6 +98,20 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
             BlockExplorerBrowser.ShowAddress(_bech32Address);
         }
 
+        private void buttonAddWatchedAccount_Click(object sender, EventArgs e)
+        {
+            var result = AddWatchedAccountForm.Execute(this.ParentForm!, 
+                _bech32Address,
+                KnownAddressService.Instance.GetName(_bech32Address));
+
+            if (result != null)
+            {
+                RepositoryManager.Instance.WalletRepository.AddAccount(
+                    WatchedAccount.Create(result.AccountName, result.Address, result.IsMyAccount)
+                );
+            }
+        }
+
         private void timerButtonPressed_Tick(object sender, EventArgs e)
         {
             timerButtonPressed.Enabled = false;
@@ -82,5 +123,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
         {
             ApplySize();
         }
+
     }
 }

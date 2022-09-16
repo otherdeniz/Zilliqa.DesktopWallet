@@ -39,6 +39,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.timerButtonPressed = new System.Windows.Forms.Timer(this.components);
+            this.buttonAddWatchedAccount = new System.Windows.Forms.Button();
             this.panelAddress.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -133,11 +134,25 @@
             this.timerButtonPressed.Interval = 2000;
             this.timerButtonPressed.Tick += new System.EventHandler(this.timerButtonPressed_Tick);
             // 
+            // buttonAddWatchedAccount
+            // 
+            this.buttonAddWatchedAccount.Dock = System.Windows.Forms.DockStyle.Left;
+            this.buttonAddWatchedAccount.Image = ((System.Drawing.Image)(resources.GetObject("buttonAddWatchedAccount.Image")));
+            this.buttonAddWatchedAccount.Location = new System.Drawing.Point(344, 0);
+            this.buttonAddWatchedAccount.Name = "buttonAddWatchedAccount";
+            this.buttonAddWatchedAccount.Size = new System.Drawing.Size(24, 25);
+            this.buttonAddWatchedAccount.TabIndex = 7;
+            this.toolTipButton.SetToolTip(this.buttonAddWatchedAccount, "Add to Watched Accounts");
+            this.buttonAddWatchedAccount.UseVisualStyleBackColor = true;
+            this.buttonAddWatchedAccount.Visible = false;
+            this.buttonAddWatchedAccount.Click += new System.EventHandler(this.buttonAddWatchedAccount_Click);
+            // 
             // Bech32AddressLabel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
+            this.Controls.Add(this.buttonAddWatchedAccount);
             this.Controls.Add(this.buttonBrowse);
             this.Controls.Add(this.buttonCopy);
             this.Controls.Add(this.panelAddress);
@@ -160,5 +175,6 @@
         private Button buttonCopy;
         private Button buttonBrowse;
         private System.Windows.Forms.Timer timerButtonPressed;
+        private Button buttonAddWatchedAccount;
     }
 }

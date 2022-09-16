@@ -15,7 +15,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddressDetailsControl));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panelBalanceValues = new System.Windows.Forms.Panel();
@@ -53,7 +52,6 @@
             this.gridViewTokenBalances = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl();
             this.gridViewZilTransactions = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl();
             this.gridViewTokenTransactions = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl();
-            this.timerButtonPressed = new System.Windows.Forms.Timer(this.components);
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.panelTabsTransactions = new System.Windows.Forms.Panel();
             this.panelTabPagesTransactions = new System.Windows.Forms.Panel();
@@ -535,11 +533,6 @@
             this.gridViewTokenTransactions.SelectionChanged += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.SelectedItemEventArgs>(this.gridView_SelectionChanged);
             this.gridViewTokenTransactions.IsItemSelectable += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.IsItemSelectableEventArgs>(this.gridView_IsItemSelectable);
             // 
-            // timerButtonPressed
-            // 
-            this.timerButtonPressed.Interval = 2000;
-            this.timerButtonPressed.Tick += new System.EventHandler(this.timerButtonPressed_Tick);
-            // 
             // splitter1
             // 
             this.splitter1.BackColor = System.Drawing.Color.Gainsboro;
@@ -889,7 +882,6 @@
         private GridView.GridViewControl gridViewTokenBalances;
         private GridView.GridViewControl gridViewZilTransactions;
         private GridView.GridViewControl gridViewTokenTransactions;
-        private System.Windows.Forms.Timer timerButtonPressed;
         private Splitter splitter1;
         private Panel panelTabsTransactions;
         private ToolStrip toolStripTransactions;

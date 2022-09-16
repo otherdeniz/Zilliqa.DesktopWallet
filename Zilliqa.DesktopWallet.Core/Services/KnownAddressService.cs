@@ -19,6 +19,15 @@ namespace Zilliqa.DesktopWallet.Core.Services
 
         public Dictionary<string, string> Bech32AddressNames { get; } = new();
 
+        public string? GetName(string? addressBech32)
+        {
+            if (addressBech32 != null 
+                && Bech32AddressNames.TryGetValue(addressBech32, out var addressName))
+            {
+                return addressName;
+            }
+            return null;
+        }
         public void EnsureInitialised(bool wait = false)
         {
             if (_isInitialised) return;

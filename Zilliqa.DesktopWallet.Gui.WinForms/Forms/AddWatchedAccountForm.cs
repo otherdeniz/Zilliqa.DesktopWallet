@@ -1,8 +1,4 @@
 ﻿using Zilliqa.DesktopWallet.ApiClient.Utils;
-using Zilliqa.DesktopWallet.Core.Cryptography;
-using Zilliqa.DesktopWallet.Core.Data.Files;
-using Zilliqa.DesktopWallet.Core.ViewModel;
-using Zilliqa.DesktopWallet.Gui.WinForms.Properties;
 using Zilliqa.DesktopWallet.Gui.WinForms.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
@@ -20,10 +16,18 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         public bool IsMyAccount { get; private set; }
 
-        public static AddWatchedAccountResult? Execute(Form parentForm)
+        public static AddWatchedAccountResult? Execute(Form parentForm, string? address = null, string? addressTitle = null)
         {
             using (var form = new AddWatchedAccountForm())
             {
+                if (address != null)
+                {
+                    form.textAddress.Text = address;
+                }
+                if (addressTitle != null)
+                {
+                    form.textWalletName.Text = addressTitle;
+                }
                 if (form.ShowDialog(parentForm) == DialogResult.OK)
                 {
                     return new AddWatchedAccountResult

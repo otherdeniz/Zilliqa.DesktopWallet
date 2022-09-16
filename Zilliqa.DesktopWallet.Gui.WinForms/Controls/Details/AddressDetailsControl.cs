@@ -97,35 +97,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             TabButtonTransactionClick(tabButtonZilTransactions, gridViewZilTransactions);
         }
 
-        //private void buttonClipboardAddress_Click(object sender, EventArgs e)
-        //{
-        //    if (_account == null) return;
-        //    buttonClipboardAddress.BackColor = Color.Green;
-        //    buttonClipboardAddress.Refresh();
-        //    timerButtonPressed.Enabled = true;
-        //    Clipboard.SetText(_account.AccountData.GetAddressBech32());
-        //}
-
-        //private void buttonOpenBlockExplorer_Click(object sender, EventArgs e)
-        //{
-        //    if (_account == null) return;
-        //    buttonOpenBlockExplorer.BackColor = Color.Green;
-        //    buttonOpenBlockExplorer.Refresh();
-        //    timerButtonPressed.Enabled = true;
-        //    Process.Start(new ProcessStartInfo
-        //    {
-        //        FileName = $"https://viewblock.io/zilliqa/address/{_account.AccountData.GetAddressBech32()}",
-        //        UseShellExecute = true
-        //    });
-        //}
-
-        private void timerButtonPressed_Tick(object sender, EventArgs e)
-        {
-            //timerButtonPressed.Enabled = false;
-            //buttonClipboardAddress.BackColor = SystemColors.Control;
-            //buttonOpenBlockExplorer.BackColor = SystemColors.Control;
-        }
-
         private void tabButtonZrc2Tokens_Click(object sender, EventArgs e)
         {
             TabButtonHoldingClick(tabButtonZrc2Tokens, gridViewTokenBalances);
