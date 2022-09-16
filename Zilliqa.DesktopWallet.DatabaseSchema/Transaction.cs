@@ -158,7 +158,7 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
 
         public string? GetPatchedCode()
         {
-            return Code?.Replace("end", Environment.NewLine);
+            return Code?.Replace(" end ", Environment.NewLine);
         }
     }
 
