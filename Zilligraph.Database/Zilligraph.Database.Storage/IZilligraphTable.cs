@@ -34,5 +34,7 @@ namespace Zilligraph.Database.Storage
         object? ReadRecord(ulong recordPoint, bool resolveReferences = true);
 
         void EnsureInitialisationIsStarted();
+
+        IList<long> GetAllRecordPositions();
     }
 }

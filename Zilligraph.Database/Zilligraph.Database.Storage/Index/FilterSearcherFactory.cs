@@ -21,5 +21,10 @@ namespace Zilligraph.Database.Storage.Index
 
             throw new RuntimeException("FilterQuery type not supporteed");
         }
+
+        public static IFilterSearcher CreateAllRecordsSearcher(IZilligraphTable table)
+        {
+            return new AllRecordsFilterSearcher(table);
+        }
     }
 }

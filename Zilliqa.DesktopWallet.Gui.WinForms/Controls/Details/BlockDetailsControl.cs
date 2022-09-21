@@ -36,7 +36,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
                 .GetTable<Transaction>()
                 .EnumerateRecords(new FilterQueryField(nameof(Block.BlockNumber), blockNumber), resolveReferences: false);
             _transactionsDataSource = new PageableDataSource<BlockTransactionRowViewModel>();
-            gridViewTransactions.LoadData(_transactionsDataSource, typeof(BlockTransactionRowViewModel));
+            gridViewTransactions.LoadData(_transactionsDataSource);
             Task.Run(() =>
                 _transactionsDataSource.Load(_transactionsEnumerable.Select(t => new BlockTransactionRowViewModel(t))
                     .ToList())

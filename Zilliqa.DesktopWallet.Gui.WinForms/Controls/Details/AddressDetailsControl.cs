@@ -40,9 +40,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             _viewModelOwned = viewModelOwned;
             bech32Address.Bech32Address = account.AddressBech32;
             gridViewTokenBalances.LoadData(account.TokenBalances, typeof(TokenBalanceRowViewModel));
-            gridViewAllTransactions.LoadData(account.AllTransactions, typeof(CommonTransactionRowViewModel));
-            gridViewZilTransactions.LoadData(account.ZilTransactions, typeof(ZilTransactionRowViewModel));
-            gridViewTokenTransactions.LoadData(account.TokenTransactions, typeof(TokenTransactionRowViewModel));
+            gridViewAllTransactions.LoadData(account.AllTransactions);
+            gridViewZilTransactions.LoadData(account.ZilTransactions);
+            gridViewTokenTransactions.LoadData(account.TokenTransactions);
             RefreshAccountSummaries();
         }
 

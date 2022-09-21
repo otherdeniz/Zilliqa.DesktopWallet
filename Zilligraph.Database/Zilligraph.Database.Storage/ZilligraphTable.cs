@@ -256,15 +256,15 @@ namespace Zilligraph.Database.Storage
             return null;
         }
 
-        public PagedRecordResult<TRecordModel> FindRecordsPaged(IFilterQuery queryFilter,
-            Func<TRecordModel, bool>? additionalFilter = null, 
+        public PagedRecordResult<TRecordModel> FindRecordsPaged(IFilterQuery? queryFilter = null,
             bool resolveReferences = true, 
             bool inverseOrder = false,
             int pageSize = 1000)
         {
-            var indexSearcher = FilterSearcherFactory.CreateFilterSearcher(this, queryFilter);
-
-            throw new NotImplementedException();
+            var indexSearcher = queryFilter != null
+                ? FilterSearcherFactory.CreateFilterSearcher(this, queryFilter)
+                : FilterSearcherFactory.CreateAllRecordsSearcher(this);
+            return new PagedRecordResult<TRecordModel>(this, indexSearcher, resolveReferences, inverseOrder, pageSize);
         }
 
         public IEnumerable<TRecordModel> EnumerateAllRecords(bool resolveReferences = true)
@@ -282,6 +282,12 @@ namespace Zilligraph.Database.Storage
                     yield return record;
                 }
             }
+        }
+
+        public IList<long> GetAllRecordPositions()
+        {
+            //TODO support multiple dataFiles, once implemented multiple DataFiles
+            return DataFiles.Last().AllRowPositions();
         }
 
         public IEnumerable<TRecordModel> EnumerateRecords(IFilterQuery queryFilter, Func<TRecordModel, bool>? additionalFilter = null, bool resolveReferences = true)

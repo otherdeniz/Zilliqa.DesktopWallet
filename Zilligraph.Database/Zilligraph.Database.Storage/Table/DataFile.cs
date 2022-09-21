@@ -144,6 +144,49 @@ namespace Zilligraph.Database.Storage.Table
             return new DataFileEnumerable(this);
         }
 
+        public IList<long> AllRowPositions()
+        {
+            if (!HasRows)
+            {
+                return new List<long>();
+            }
+            if (_bulkOperationFileStream != null)
+            {
+                return AllRowPositionsFromStream(_bulkOperationFileStream);
+            }
+
+            lock (_streamLock)
+            {
+                using (var stream = GetStream())
+                {
+                    return AllRowPositionsFromStream(stream);
+                }
+            }
+        }
+
+        private IList<long> AllRowPositionsFromStream(FileStream fileStream)
+        {
+            var result = new List<long>();
+            try
+            {
+                fileStream.Position = 0;
+                while (fileStream.Position < fileStream.Length - 5)
+                {
+                    result.Add(fileStream.Position);
+                    var lengthBuffer = new byte[4];
+                    _ = fileStream.Read(lengthBuffer, 0, 4);
+                    var rowLength = Convert.ToInt32(BitConverter.ToUInt32(lengthBuffer));
+                    fileStream.Seek(rowLength, SeekOrigin.Current);
+                }
+            }
+            catch (EndOfStreamException)
+            {
+                // end of stream
+            }
+
+            return result;
+        }
+
         public void Dispose()
         {
             lock (_streamLock)

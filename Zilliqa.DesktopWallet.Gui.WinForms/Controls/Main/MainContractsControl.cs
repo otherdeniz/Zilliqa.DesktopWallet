@@ -1,4 +1,4 @@
-﻿using Zilligraph.Database.Storage.FilterQuery;
+﻿using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
 using Zilliqa.DesktopWallet.DatabaseSchema;
@@ -7,8 +7,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 {
     public partial class MainContractsControl : UserControl
     {
-        private PageableDataSource<Transaction>? _pageableDataSource;
-
         public MainContractsControl()
         {
             InitializeComponent();
@@ -26,17 +24,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
         private void timerLoading_Tick(object sender, EventArgs e)
         {
             timerLoading.Enabled = false;
-            _pageableDataSource = new PageableDataSource<Transaction>();
-            _pageableDataSource.ExecuteAfterLoadCompleted(s => gridViewContracts.LoadData(s, typeof(Transaction)), true);
             Task.Run(() =>
             {
-                var db = RepositoryManager.Instance.DatabaseRepository.Database;
-                var transactionTable = db.GetTable<Transaction>();
-
-                var filter = new FilterQueryField(nameof(Transaction.TransactionType),
-                    (int)TransactionType.ContractDeployment);
-
-                _pageableDataSource.Load(transactionTable.EnumerateRecords(filter).ToList());
+                var dataSource = RepositoryManager.Instance.DatabaseRepository.ReadSmartContractViewModelsPaged();
+                WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                {
+                    gridViewContracts.LoadData(dataSource);
+                });
             });
         }
 

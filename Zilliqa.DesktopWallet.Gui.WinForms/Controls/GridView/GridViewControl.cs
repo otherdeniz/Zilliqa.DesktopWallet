@@ -45,16 +45,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
         [DefaultValue(false)]
         public bool DisplayDynamicColumns { get; set; } = false;
 
-        public void LoadData(IPageableDataSource dataSource, Type itemType)
+        public void LoadData(IPageableDataSource dataSource)
         {
             _dataSourcePageable = dataSource;
             _dataSourceList = null;
-            _itemType = itemType;
+            _itemType = dataSource.ViewModelType;
             _columnDynamicCategories.Clear();
             _columnIndexesFormatAttributes.Clear();
             _selectableColumns.Clear();
             ClearSelection();
-            dataGridView.DataSource = GetEmptyGenericList(itemType);
+            dataGridView.DataSource = GetEmptyGenericList(_itemType);
             DataBindingInitialise();
             _dataSourcePageable.ExecuteAfterLoadCompleted(s =>
             {

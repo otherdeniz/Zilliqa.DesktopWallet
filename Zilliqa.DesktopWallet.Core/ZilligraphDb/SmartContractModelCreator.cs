@@ -55,9 +55,15 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                     }
                 }
 
-                smartContract.ContractAddress = ApiRetryCalls.RetryTaskTillCompleted<Address>(() =>
-                        ZilliqaClient.DefaultInstance.GetContractAddressFromTransactionID(deploymentTransaction.Id))
-                    ?.GetBase16(false);
+                var contractAddress = ApiRetryCalls.RetryTaskTillCompleted<Address>(() =>
+                        ZilliqaClient.DefaultInstance
+                            .GetContractAddressFromTransactionID(deploymentTransaction.Id)
+                    )?.GetBase16(false);
+                if (contractAddress == null)
+                {
+                    return null;
+                }
+                smartContract.ContractAddress = contractAddress;
 
                 return smartContract;
             }
