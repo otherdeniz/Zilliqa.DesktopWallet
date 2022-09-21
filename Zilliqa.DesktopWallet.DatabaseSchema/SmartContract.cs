@@ -50,7 +50,7 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
             var nameValue = GetConstructorValue("name");
             if (nameValue != null)
             {
-                return $"{nameValue}, {ContractName}";
+                return $"{ContractName}, {nameValue}";
             }
             return ContractName;
         }

@@ -582,8 +582,10 @@
             this.tabButtonTokenTransactions,
             this.toolStripSeparator5,
             this.tabButtonAllTransactions});
+            this.toolStripTransactions.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStripTransactions.Location = new System.Drawing.Point(0, 0);
             this.toolStripTransactions.Name = "toolStripTransactions";
+            this.toolStripTransactions.Padding = new System.Windows.Forms.Padding(4, 2, 1, 0);
             this.toolStripTransactions.Size = new System.Drawing.Size(653, 25);
             this.toolStripTransactions.TabIndex = 0;
             // 
@@ -659,8 +661,10 @@
             this.tabButtonHoldingNfts,
             this.toolStripSeparator6,
             this.tabButtonHoldingContracts});
+            this.toolStripHoldings.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStripHoldings.Location = new System.Drawing.Point(0, 0);
             this.toolStripHoldings.Name = "toolStripHoldings";
+            this.toolStripHoldings.Padding = new System.Windows.Forms.Padding(4, 2, 1, 0);
             this.toolStripHoldings.Size = new System.Drawing.Size(653, 25);
             this.toolStripHoldings.TabIndex = 0;
             this.toolStripHoldings.Text = "toolStrip1";

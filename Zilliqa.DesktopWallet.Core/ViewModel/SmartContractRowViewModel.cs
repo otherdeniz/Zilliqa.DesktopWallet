@@ -8,6 +8,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
     public class SmartContractRowViewModel
     {
+        private string? _date;
         private string? _contractAddress;
         private AddressValue? _ownerAddress;
 
@@ -19,12 +20,17 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [Browsable(false)]
         public SmartContract SmartContractModel { get; }
 
+        [DisplayName("Created")]
+        public string DeploymentDate => _date ??= SmartContractModel.Timestamp.ToLocalTime().ToString("g");
+
         public string Address => _contractAddress 
             ??= new AddressValue(SmartContractModel.ContractAddress).Address.GetBech32().FromBech32ToShortReadable();
 
-        public string Contract => SmartContractModel.ContractName;
+        [ColumnWidth(250)]
+        public string Title => SmartContractModel.ContractTitle();
 
-        public string? Name => SmartContractModel.GetConstructorValue("name");
+        //[ColumnWidth(200)]
+        //public string? Name => SmartContractModel.GetConstructorValue("name");
 
         [ColumnWidth(150)]
         public AddressValue Owner => _ownerAddress ??= new AddressValue(SmartContractModel.OwnerAddress);

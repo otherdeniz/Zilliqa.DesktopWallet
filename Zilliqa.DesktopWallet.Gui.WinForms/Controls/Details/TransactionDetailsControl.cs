@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Zillifriends.Shared.Common;
+﻿using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;

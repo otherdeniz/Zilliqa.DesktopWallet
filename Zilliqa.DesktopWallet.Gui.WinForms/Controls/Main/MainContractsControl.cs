@@ -1,11 +1,11 @@
 ﻿using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Repository;
-using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
-using Zilliqa.DesktopWallet.DatabaseSchema;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 {
-    public partial class MainContractsControl : UserControl
+    public partial class MainContractsControl : DrillDownMasterPanelControl
     {
         public MainContractsControl()
         {
@@ -29,6 +29,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                 var dataSource = RepositoryManager.Instance.DatabaseRepository.ReadSmartContractViewModelsPaged();
                 WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                 {
+                    groupBoxGrid.Tag ??= groupBoxGrid.Text;
+                    groupBoxGrid.Text = $"{groupBoxGrid.Tag} ({dataSource.RecordCount})";
                     gridViewContracts.LoadData(dataSource);
                 });
             });
@@ -44,10 +46,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 
         private void gridViewContracts_SelectionChanged(object sender, GridView.GridViewControl.SelectedItemEventArgs e)
         {
-            if (e.SelectedItem?.Value is Transaction selectedTransaction)
+            if (e.SelectedItem?.Value != null
+                && sender is GridViewControl gridView)
             {
-                textBoxData.Text = selectedTransaction.Data;
-                textBoxCode.Text = selectedTransaction.Code;
+                DisplayValue(e.SelectedItem.Value, true, o =>
+                {
+                    if (o != gridView)
+                    {
+                        gridView.ClearSelection();
+                    }
+                }, gridView);
             }
         }
     }

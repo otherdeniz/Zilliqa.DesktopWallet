@@ -98,13 +98,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 
         protected override void Dispose(bool disposing)
         {
-            _dataSourcePageable = null;
-            dataGridView.DataSource = null;
             if (disposing && (components != null))
             {
                 components.Dispose();
             }
-            DisplayCurrenciesService.Instance.DisplayCurrenciesChanged -= ServiceOnDisplayCurrenciesChanged;
+            if (!InDesignMode())
+            {
+                _dataSourcePageable = null;
+                dataGridView.DataSource = null;
+                DisplayCurrenciesService.Instance.DisplayCurrenciesChanged -= ServiceOnDisplayCurrenciesChanged;
+            }
             base.Dispose(disposing);
         }
 
@@ -153,6 +156,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                         is ColumnWidthAttribute columnWidthAttribute)
                     {
                         column.Width = columnWidthAttribute.Width;
+                        column.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                     }
 
                     if ((propertyInfo.GetCustomAttributes(typeof(GridViewDynamicColumnAttribute), false).FirstOrDefault()
