@@ -48,6 +48,7 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.tabButtonTransaction = new System.Windows.Forms.ToolStripButton();
             this.syntaxDocument1 = new Alsing.SourceCode.SyntaxDocument(this.components);
+            this.textScillaCode = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values.ScillaCodeTextBox();
             this.groupBoxDetails.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -151,6 +152,7 @@
             // 
             // panelTabPagesTransactions
             // 
+            this.panelTabPagesTransactions.Controls.Add(this.textScillaCode);
             this.panelTabPagesTransactions.Controls.Add(this.textConstructorArguments);
             this.panelTabPagesTransactions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTabPagesTransactions.Location = new System.Drawing.Point(0, 23);
@@ -233,6 +235,14 @@
             this.syntaxDocument1.Modified = false;
             this.syntaxDocument1.UndoStep = 0;
             // 
+            // textScillaCode
+            // 
+            this.textScillaCode.Location = new System.Drawing.Point(213, 58);
+            this.textScillaCode.Name = "textScillaCode";
+            this.textScillaCode.Size = new System.Drawing.Size(168, 153);
+            this.textScillaCode.TabIndex = 1;
+            this.textScillaCode.Visible = false;
+            // 
             // SmartContractDetailsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -279,5 +289,6 @@
         private ToolStripButton tabButtonTransaction;
         private TextBox textConstructorArguments;
         private Alsing.SourceCode.SyntaxDocument syntaxDocument1;
+        private Values.ScillaCodeTextBox textScillaCode;
     }
 }

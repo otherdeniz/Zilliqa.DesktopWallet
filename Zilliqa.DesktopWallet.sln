@@ -64,6 +64,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilligraph.Database.DbMaint
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.DbMaintenanceCli", "Zilliqa.DesktopWallet.DbMaintenanceCli\Zilliqa.DesktopWallet.DbMaintenanceCli.csproj", "{B2BE9EE9-E7AC-42B3-8DC9-91FE56C5B8AA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebPortal", "WebPortal", "{190B12E0-B5AD-4933-99B6-5613E340A9E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -71,7 +71,7 @@ namespace Zilliqa.DesktopWallet.Core.Api.Coingecko.Model
         public CoinMarketCurrencyValues MarketCap { get; set; } = new();
 
         [JsonProperty("market_cap_rank")]
-        public int MarketCapRank { get; set; }
+        public int? MarketCapRank { get; set; }
 
         [JsonProperty("fully_diluted_valuation")]
         public CoinMarketCurrencyValues FullyDilutedValuation { get; set; } = new();

@@ -59,6 +59,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                 control.LoadToken(tokenBalanceRow.Model.Symbol);
                 return control;
             }
+            if (value is SmartContractRowViewModel smartContractRow)
+            {
+                var control = new SmartContractDetailsControl();
+                control.LoadSmartContract(smartContractRow);
+                return control;
+            }
             var genericControl = new GenericObjectControl();
             genericControl.LoadGenericViewModel(value);
             return genericControl;
@@ -93,6 +99,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             if (value is TransactionIdValue transactionId)
             {
                 return $"Transaction: {transactionId.TransactionId.FromTransactionHexToShortReadable()}";
+            }
+            if (value is SmartContractRowViewModel smartContractRow)
+            {
+                return $"Contract: {smartContractRow.Title}";
             }
             return $"{value}";
         }
@@ -134,6 +144,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             if (value is TransactionIdValue transactionId)
             {
                 return $"Trx-{transactionId.TransactionId}";
+            }
+            if (value is SmartContractRowViewModel smartContractRow)
+            {
+                return $"Contract-{smartContractRow.Address}";
             }
             // generate unique id
             return Guid.NewGuid().ToString("N");

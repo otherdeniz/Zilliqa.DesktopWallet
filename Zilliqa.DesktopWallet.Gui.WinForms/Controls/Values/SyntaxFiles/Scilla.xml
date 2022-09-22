@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Language Name="JavaScript" Startblock="Code">
+<FileTypes>
+	<FileType Extension=".JS" Name="JavaScript file"/></FileTypes>
+
+	<Block Name="Code" Style="Code" IsMultiline="true">
+		<Scope Start="{" End="}" Style="Scope" Text="{...}" CauseIndent="true"/>
+    <Scope Start="else" End="else" Style="Scope" Text="else...else" />
+
+		<!-- Keywords that can exist inside this block -->
+		<Keywords>
+			<PatternGroup Name="Instructions" Style="C1" CaseSensitive="true">
+				<Patterns>
+          fun let field match with end in type
+          send
+          import library
+        </Patterns>
+			</PatternGroup>
+			<PatternGroup Name="HeaderStatement" Style="C2" CaseSensitive="true">
+				<Patterns>
+          scilla_version contract transition procedure
+        </Patterns>
+			</PatternGroup>
+			<PatternGroup Name="Type" Style="C3" CaseSensitive="true">
+				<Patterns>
+          True False Bool String ByStr20 BNum Int32 Uint128 Uint32 Uint256
+          Nil
+          Message
+        </Patterns>
+			</PatternGroup>
+			<PatternGroup Name="C4" Style="C4" CaseSensitive="true">
+				<Patterns>
+					! $ % &amp; * + - // / : &lt; = &gt; ? [ ] " | ~ is  new sizeof  typeof unchecked
+				</Patterns>
+			</PatternGroup>
+			<PatternGroup Name="C5" Style="C5" CaseSensitive="true">
+				<Patterns>
+					( ) , ; { }
+				</Patterns>
+			</PatternGroup>
+			<PatternGroup Name="Numbers" Style="Number">
+				<Pattern Text="([0-9]+)" IsComplex="true" />
+			</PatternGroup>
+		</Keywords>
+		<!-- Operators that can exist inside this block -->
+		<Operators>
+			<PatternGroup name="Operators" Style="Operator">
+				<Patterns>
+			 ~ ! @ % " &amp; * ( ) - + = | \ / { } [ ] : ; &quot; ' &lt; &gt; , . ?
+				</Patterns>
+			</PatternGroup>
+		</Operators>
+		<!-- Blocks that can exist inside this block -->
+		<ChildBlocks>
+			<Child Name="Multiline Comment" />
+			<Child Name="Singleline Comment" />
+			<Child Name="String" />
+			<Child Name="Code" />
+		</ChildBlocks>
+	</Block>	
+	<Block Name="Multiline Comment" Style="Comment"  IsMultiline="true">
+		<Scope Start="(*" End="*)" Style="Comment" Text="(*...*)"/>
+	</Block>
+	<Block Name="Singleline Comment" Style="Comment"  IsMultiline="false">
+		<Scope Start="//" End="" Style="Comment" />
+	</Block>
+	<Block Name="String" Style="String" IsMultiline="true">
+		<Scope Start="&quot;" End="&quot;" EscapeChar="" Style="String" />
+
+	</Block>"
+<Style Name="Code" ForeColor="" BackColor="" Bold="false" Italic="false" Underline="false" />
+	<Style Name="Scope" ForeColor="" BackColor="" Bold="false" Italic="false" Underline="false" />
+	<Style Name="Comment" ForeColor="Green" BackColor="" Bold="false" Italic="false" Underline="false" />
+	<Style Name="String" ForeColor="SteelBlue" BackColor="" Bold="false" Italic="false" Underline="false" />
+	<Style Name="Number" ForeColor="Teal" BackColor="" Bold="true" Italic="false" Underline="false" />
+	<Style Name="Keyword" ForeColor="Blue" BackColor="" Bold="true" Italic="false" Underline="false" />
+	<Style Name="Operator" ForeColor="Red" BackColor="" Bold="false" Italic="false" Underline="false" />
+
+	<!-- ULTRAEDIT WORD GROUPS -->
+	<Style Name="C1" ForeColor="Blue" 	BackColor="" Bold="true" Italic="false" Underline="false" />
+	<Style Name="C2" ForeColor="DarkBlue" 	BackColor="" Bold="true" Italic="false" Underline="false" />
+	<Style Name="C3" ForeColor="Magenta" 	BackColor="" Bold="false" Italic="false" Underline="false" />
+	<Style Name="C4" ForeColor="Red" 	BackColor="" Bold="false" Italic="false" Underline="false" />
+	<Style Name="C5" ForeColor="DarkRed" 	BackColor="" Bold="false" Italic="false" Underline="false" />
+	<Style Name="C6" ForeColor="Gold" 	BackColor="" Bold="false" Italic="false" Underline="false" />
+	<Style Name="C7" ForeColor="Green" 	BackColor="" Bold="false" Italic="false" Underline="false" />
+	<Style Name="C8" ForeColor="Silver" 	BackColor="" Bold="false" Italic="false" Underline="false" />
+</Language>

@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.ComponentModel;
+using System.Resources;
 using Alsing.SourceCode;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
 {
     public partial class ScillaCodeTextBox : UserControl
     {
+        private static readonly Lazy<string> SyntaxDefinitionXml = new Lazy<string>(GetSyntaxDefinitionXml);
+
         private string? _text;
 
         public ScillaCodeTextBox()
@@ -23,7 +18,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
         [Browsable(false)]
         [DefaultValue(null)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public string Text
+        public override string? Text
         {
             get
             {
@@ -38,22 +33,23 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
 
         private void LoadText()
         {
+            var syntaxDefinition = new SyntaxDefinitionLoader().LoadXML(SyntaxDefinitionXml.Value);
             var doc = new SyntaxDocument();
-            doc.Text = _text;
-            Alsing.SourceCode.SyntaxDefinition sl = new SyntaxDefinition();
-            sl.SpanDefinitions = new SpanDefinition[]
-            {
-                new SpanDefinition()
-                {
-                    Style = new TextStyle() { ForeColor = Color.Blue }
-                }
-            };
-            //var keywordRow = new Row();
-            //keywordRow.Add("contract");
-            //keywordRow.
-            //doc.KeywordQueue.Add(new Row{});
-
+            doc.Text = _text ?? string.Empty;
+            doc.Parser.Init(syntaxDefinition);
             syntaxBox.Document = doc;
+        }
+
+        private static string GetSyntaxDefinitionXml()
+        {
+            using (var resourceStream =
+                   typeof(ScillaCodeTextBox).Assembly.GetManifestResourceStream(typeof(ScillaCodeTextBox),
+                       "SyntaxFiles.Scilla.xml")
+                   ?? throw new MissingManifestResourceException("The Ressource 'SyntaxFiles\\Scilla.xml' was not found"))
+            {
+                using var reader = new StreamReader(resourceStream);
+                return reader.ReadToEnd();
+            }
         }
     }
 }

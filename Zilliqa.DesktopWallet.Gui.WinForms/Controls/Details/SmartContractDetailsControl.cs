@@ -1,4 +1,4 @@
-﻿using Alsing.SourceCode;
+﻿using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
@@ -9,6 +9,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
         {
             InitializeComponent();
             textConstructorArguments.Dock = DockStyle.Fill;
+            textScillaCode.Dock = DockStyle.Fill;
+        }
+
+        public void LoadSmartContract(SmartContractRowViewModel viewModel)
+        {
+            textScillaCode.Text = viewModel.SmartContractModel.DeploymentTransaction.Value?.Code;
         }
 
         private void TabButtonClick(ToolStripButton button, Control tabPageControl)
@@ -36,9 +42,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             if (!DesignMode)
             {
                 TabButtonClick(tabButtonArguments, textConstructorArguments);
-                //var doc = new SyntaxDocument();
-                //doc.KeywordQueue.Add(new Row{});
-                //syntaxBoxControl1.Document = ;
             }
         }
 
@@ -49,7 +52,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 
         private void tabButtonCode_Click(object sender, EventArgs e)
         {
-
+            TabButtonClick(tabButtonCode, textScillaCode);
         }
 
         private void tabButtonTransaction_Click(object sender, EventArgs e)

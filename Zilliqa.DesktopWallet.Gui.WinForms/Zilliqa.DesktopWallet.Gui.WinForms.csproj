@@ -13,11 +13,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Controls\Values\SyntaxFiles\JavaScript.xml" />
+    <None Remove="Controls\Values\SyntaxFiles\Scilla.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="..\VersionInfo.cs" Link="VersionInfo.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="..\Zilliqa-icon.ico" Link="Zilliqa-icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\Values\SyntaxFiles\JavaScript.xml" />
+    <EmbeddedResource Include="Controls\Values\SyntaxFiles\Scilla.xml" />
   </ItemGroup>
 
   <ItemGroup>
