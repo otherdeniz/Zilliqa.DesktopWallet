@@ -4,11 +4,19 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
 {
     public static class ApplicationInfo
     {
-        public static readonly string ApplicationName = "Zilliqa Desktop Wallet";
+        private static readonly Lazy<decimal> ApplicationVersionLazy = new Lazy<decimal>(() =>
+        {
+            var assemblyName = typeof(ApplicationInfo).Assembly.GetName();
+            return assemblyName.Version == null 
+                ? 0.01m 
+                : decimal.Parse($"{assemblyName.Version.Major}.{assemblyName.Version.Minor:00}");
+        });
 
-        public static readonly decimal ApplicationVersion = 1.24m;
+        public static string ApplicationName => "Zilliqa Desktop Wallet";
 
-        public static readonly bool IsBeta = true;
+        public static decimal ApplicationVersion => ApplicationVersionLazy.Value;
+
+        public static bool IsBeta => true;
 
         public static bool IsTestnet => ZilliqaClient.UseTestnet;
 
