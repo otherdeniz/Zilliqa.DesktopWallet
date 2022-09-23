@@ -8,7 +8,7 @@ using Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 {
-    public partial class BlockDetailsControl : DrillDownBaseControl
+    public partial class BlockDetailsControl : DetailsBaseControl
     {
         private int _blockNumber;
         private Block? _blockModel;
@@ -52,27 +52,5 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             base.Dispose(disposing);
         }
 
-        private void gridViewTransactions_IsItemSelectable(object sender, GridView.GridViewControl.IsItemSelectableEventArgs e)
-        {
-            if (e.SelectedItem?.Value != null)
-            {
-                e.IsSelectable = CanDrillDownToObject(e.SelectedItem.Value);
-            }
-        }
-
-        private void gridViewTransactions_SelectionChanged(object sender, GridView.GridViewControl.SelectedItemEventArgs e)
-        {
-            if (e.SelectedItem?.Value != null
-                && sender is GridViewControl gridView)
-            {
-                DrillDownToObject(e.SelectedItem.Value, o =>
-                {
-                    if (o != gridView)
-                    {
-                        gridView.ClearSelection();
-                    }
-                }, gridView);
-            }
-        }
     }
 }

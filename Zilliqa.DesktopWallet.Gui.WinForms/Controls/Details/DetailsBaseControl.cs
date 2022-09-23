@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 
-namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
+namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 {
-    public partial class DrillDownBaseControl : UserControl
+    public partial class DetailsBaseControl : UserControl
     {
-        public DrillDownBaseControl()
+        public DetailsBaseControl()
         {
             InitializeComponent();
         }

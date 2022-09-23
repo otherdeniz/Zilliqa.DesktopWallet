@@ -1,4 +1,5 @@
-﻿using Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView;
+﻿using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
 {
@@ -7,6 +8,35 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
         private readonly List<ViewValuePathItem> _displayHierarchy = new();
         private string? _mainValueUniqueId;
         private readonly HashSet<string> _valueUniqueIds = new();
+
+        public static DrillDownMasterPanelControl? FindParentDrillDownMasterPanel(Control control)
+        {
+            var parentControl = control.Parent;
+            while (parentControl != null)
+            {
+                if (parentControl is DrillDownMasterPanelControl drillDownMasterPanel)
+                {
+                    return drillDownMasterPanel;
+                }
+                parentControl = parentControl.Parent;
+            }
+            return null;
+        }
+
+        public static bool ControlIsInRightPanel(Control control)
+        {
+            var parentControl = control.Parent;
+            while (parentControl != null)
+            {
+                if (parentControl.Tag is string stringTag 
+                    && stringTag == "PanelRight")
+                {
+                    return true;
+                }
+                parentControl = parentControl.Parent;
+            }
+            return false;
+        }
 
         public DrillDownMasterPanelControl()
         {
@@ -58,7 +88,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
             }
 
             var childControl = ValueSelectionHelper.CreateDisplayControl(viewValue);
-            if (childControl is DrillDownBaseControl drillDownChildControl)
+            if (childControl is DetailsBaseControl drillDownChildControl)
             {
                 drillDownChildControl.DrillDownPanel = this;
             }
@@ -138,21 +168,23 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
         {
             panelRightControl.Controls.Clear();
             var isFirstRemovedItem = true;
-            foreach (var pathItem in _displayHierarchy.Skip(pathIndex + 1).ToArray())
+            foreach (var closePathItem in _displayHierarchy.Skip(pathIndex + 1).ToArray())
             {
-                pathItem.DisplayControl.Dispose();
+                closePathItem.DisplayControl.Dispose();
                 if (isFirstRemovedItem 
-                    && pathItem.AfterClose != null)
+                    && closePathItem.AfterClose != null)
                 {
-                    pathItem.AfterClose(pathItem.AfterCloseArgument);
+                    closePathItem.AfterClose(closePathItem.AfterCloseArgument);
                 }
                 isFirstRemovedItem = false;
-                _displayHierarchy.Remove(pathItem);
-                _valueUniqueIds.Remove(pathItem.ViewModelUniqueId);
+                _displayHierarchy.Remove(closePathItem);
+                _valueUniqueIds.Remove(closePathItem.ViewModelUniqueId);
             }
 
+            var pathItem = _displayHierarchy[pathIndex];
+            labelTitle.Text = pathItem.Title;
             RefreshBackButton();
-            panelRightControl.Controls.Add(_displayHierarchy[pathIndex].DisplayControl);
+            panelRightControl.Controls.Add(pathItem.DisplayControl);
         }
 
         private void ShowDisplayControl(ViewValuePathItem pathItem)

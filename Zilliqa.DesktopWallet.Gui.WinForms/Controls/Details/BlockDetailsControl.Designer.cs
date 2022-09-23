@@ -123,8 +123,6 @@
             this.gridViewTransactions.Name = "gridViewTransactions";
             this.gridViewTransactions.Size = new System.Drawing.Size(380, 342);
             this.gridViewTransactions.TabIndex = 0;
-            this.gridViewTransactions.SelectionChanged += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.SelectedItemEventArgs>(this.gridViewTransactions_SelectionChanged);
-            this.gridViewTransactions.IsItemSelectable += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.IsItemSelectableEventArgs>(this.gridViewTransactions_IsItemSelectable);
             // 
             // BlockDetailsControl
             // 

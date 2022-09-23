@@ -7,7 +7,7 @@ using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 {
-    public partial class TransactionDetailsControl : DrillDownBaseControl
+    public partial class TransactionDetailsControl : DetailsBaseControl
     {
         private TransactionRowViewModelBase _transactionViewModel;
 
@@ -24,6 +24,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             {
                 throw new RuntimeException($"Transaction {transactionId.TransactionId} not found in DB");
             }
+            LoadTransaction(new BlockTransactionRowViewModel(transactionModel));
+        }
+
+        public void LoadTransaction(Transaction transactionModel)
+        {
             LoadTransaction(new BlockTransactionRowViewModel(transactionModel));
         }
 

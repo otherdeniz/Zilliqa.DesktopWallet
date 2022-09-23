@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown.PropertyRow;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
 {
-    public partial class GenericObjectControl : DrillDownBaseControl
+    public partial class GenericObjectControl : DetailsBaseControl
     {
         private object? _viewModel;
 

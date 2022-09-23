@@ -1,5 +1,6 @@
 ﻿using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView;
 
@@ -122,7 +123,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                         resultControl.Dock = DockStyle.Fill;
                         panelResult.Controls.Add(resultControl);
                     }
-                    if (resultControl is DrillDownBaseControl drillDownBaseControl)
+                    if (resultControl is DetailsBaseControl drillDownBaseControl)
                     {
                         drillDownBaseControl.DrillDownPanel = this;
                     }

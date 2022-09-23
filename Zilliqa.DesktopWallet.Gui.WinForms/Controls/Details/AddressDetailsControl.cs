@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel;
 using Zilliqa.DesktopWallet.Core.ViewModel;
-using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 {
-    public partial class AddressDetailsControl : DrillDownBaseControl
+    public partial class AddressDetailsControl : DetailsBaseControl
     {
         private AccountViewModel? _account;
         private bool _viewModelOwned;
@@ -157,27 +156,5 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             tabPageControl.Visible = true;
         }
 
-        private void gridView_SelectionChanged(object sender, GridView.GridViewControl.SelectedItemEventArgs e)
-        {
-            if (e.SelectedItem?.Value != null
-                && sender is GridViewControl gridView)
-            {
-                DrillDownToObject(e.SelectedItem.Value, o =>
-                {
-                    if (o != gridView)
-                    {
-                        gridView.ClearSelection();
-                    }
-                }, gridView);
-            }
-        }
-
-        private void gridView_IsItemSelectable(object sender, GridView.GridViewControl.IsItemSelectableEventArgs e)
-        {
-            if (e.SelectedItem?.Value != null)
-            {
-                e.IsSelectable = CanDrillDownToObject(e.SelectedItem.Value);
-            }
-        }
     }
 }

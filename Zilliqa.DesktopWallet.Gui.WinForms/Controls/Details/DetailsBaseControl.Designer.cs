@@ -1,6 +1,6 @@
-﻿namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
+﻿namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 {
-    partial class DrillDownBaseControl
+    partial class DetailsBaseControl
     {
         /// <summary> 
         /// Required designer variable.

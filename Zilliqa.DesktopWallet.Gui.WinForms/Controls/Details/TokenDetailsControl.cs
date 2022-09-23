@@ -4,7 +4,7 @@ using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 {
-    public partial class TokenDetailsControl : DrillDownBaseControl
+    public partial class TokenDetailsControl : DetailsBaseControl
     {
         public TokenDetailsControl()
         {

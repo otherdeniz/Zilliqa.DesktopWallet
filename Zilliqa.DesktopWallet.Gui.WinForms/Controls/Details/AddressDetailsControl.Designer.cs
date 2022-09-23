@@ -510,8 +510,6 @@
             this.gridViewTokenBalances.Name = "gridViewTokenBalances";
             this.gridViewTokenBalances.Size = new System.Drawing.Size(131, 58);
             this.gridViewTokenBalances.TabIndex = 0;
-            this.gridViewTokenBalances.SelectionChanged += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.SelectedItemEventArgs>(this.gridView_SelectionChanged);
-            this.gridViewTokenBalances.IsItemSelectable += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.IsItemSelectableEventArgs>(this.gridView_IsItemSelectable);
             // 
             // gridViewZilTransactions
             // 
@@ -520,8 +518,6 @@
             this.gridViewZilTransactions.Size = new System.Drawing.Size(131, 111);
             this.gridViewZilTransactions.TabIndex = 1;
             this.gridViewZilTransactions.Visible = false;
-            this.gridViewZilTransactions.SelectionChanged += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.SelectedItemEventArgs>(this.gridView_SelectionChanged);
-            this.gridViewZilTransactions.IsItemSelectable += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.IsItemSelectableEventArgs>(this.gridView_IsItemSelectable);
             // 
             // gridViewTokenTransactions
             // 
@@ -530,8 +526,6 @@
             this.gridViewTokenTransactions.Size = new System.Drawing.Size(143, 111);
             this.gridViewTokenTransactions.TabIndex = 1;
             this.gridViewTokenTransactions.Visible = false;
-            this.gridViewTokenTransactions.SelectionChanged += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.SelectedItemEventArgs>(this.gridView_SelectionChanged);
-            this.gridViewTokenTransactions.IsItemSelectable += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.IsItemSelectableEventArgs>(this.gridView_IsItemSelectable);
             // 
             // splitter1
             // 
@@ -571,8 +565,6 @@
             this.gridViewAllTransactions.Size = new System.Drawing.Size(143, 111);
             this.gridViewAllTransactions.TabIndex = 2;
             this.gridViewAllTransactions.Visible = false;
-            this.gridViewAllTransactions.SelectionChanged += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.SelectedItemEventArgs>(this.gridView_SelectionChanged);
-            this.gridViewAllTransactions.IsItemSelectable += new System.EventHandler<Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl.IsItemSelectableEventArgs>(this.gridView_IsItemSelectable);
             // 
             // toolStripTransactions
             // 
@@ -596,14 +588,14 @@
             this.tabButtonZilTransactions.Image = ((System.Drawing.Image)(resources.GetObject("tabButtonZilTransactions.Image")));
             this.tabButtonZilTransactions.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tabButtonZilTransactions.Name = "tabButtonZilTransactions";
-            this.tabButtonZilTransactions.Size = new System.Drawing.Size(76, 22);
+            this.tabButtonZilTransactions.Size = new System.Drawing.Size(76, 19);
             this.tabButtonZilTransactions.Text = "ZIL Transfers";
             this.tabButtonZilTransactions.Click += new System.EventHandler(this.tabButtonZilTransactions_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
             // 
             // tabButtonTokenTransactions
             // 
@@ -611,14 +603,14 @@
             this.tabButtonTokenTransactions.Image = ((System.Drawing.Image)(resources.GetObject("tabButtonTokenTransactions.Image")));
             this.tabButtonTokenTransactions.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tabButtonTokenTransactions.Name = "tabButtonTokenTransactions";
-            this.tabButtonTokenTransactions.Size = new System.Drawing.Size(127, 22);
+            this.tabButtonTokenTransactions.Size = new System.Drawing.Size(127, 19);
             this.tabButtonTokenTransactions.Text = "ZRC-2 Token Transfers";
             this.tabButtonTokenTransactions.Click += new System.EventHandler(this.tabButtonTokenTransactions_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 23);
             // 
             // tabButtonAllTransactions
             // 
@@ -626,7 +618,7 @@
             this.tabButtonAllTransactions.Image = ((System.Drawing.Image)(resources.GetObject("tabButtonAllTransactions.Image")));
             this.tabButtonAllTransactions.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tabButtonAllTransactions.Name = "tabButtonAllTransactions";
-            this.tabButtonAllTransactions.Size = new System.Drawing.Size(93, 22);
+            this.tabButtonAllTransactions.Size = new System.Drawing.Size(93, 19);
             this.tabButtonAllTransactions.Text = "All Transactions";
             this.tabButtonAllTransactions.Click += new System.EventHandler(this.tabButtonAllTransactions_Click);
             // 
@@ -675,14 +667,14 @@
             this.tabButtonZrc2Tokens.Image = ((System.Drawing.Image)(resources.GetObject("tabButtonZrc2Tokens.Image")));
             this.tabButtonZrc2Tokens.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tabButtonZrc2Tokens.Name = "tabButtonZrc2Tokens";
-            this.tabButtonZrc2Tokens.Size = new System.Drawing.Size(83, 22);
+            this.tabButtonZrc2Tokens.Size = new System.Drawing.Size(83, 19);
             this.tabButtonZrc2Tokens.Text = "ZRC-2 Tokens";
             this.tabButtonZrc2Tokens.Click += new System.EventHandler(this.tabButtonZrc2Tokens_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 23);
             // 
             // tabButtonStakes
             // 
@@ -690,13 +682,13 @@
             this.tabButtonStakes.Image = ((System.Drawing.Image)(resources.GetObject("tabButtonStakes.Image")));
             this.tabButtonStakes.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tabButtonStakes.Name = "tabButtonStakes";
-            this.tabButtonStakes.Size = new System.Drawing.Size(63, 22);
+            this.tabButtonStakes.Size = new System.Drawing.Size(63, 19);
             this.tabButtonStakes.Text = "ZIL Stakes";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 23);
             // 
             // toolStripButton3
             // 
@@ -704,13 +696,13 @@
             this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(89, 22);
+            this.toolStripButton3.Size = new System.Drawing.Size(89, 19);
             this.toolStripButton3.Text = "Liquidity Pools";
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 23);
             // 
             // tabButtonHoldingNfts
             // 
@@ -718,13 +710,13 @@
             this.tabButtonHoldingNfts.Image = ((System.Drawing.Image)(resources.GetObject("tabButtonHoldingNfts.Image")));
             this.tabButtonHoldingNfts.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tabButtonHoldingNfts.Name = "tabButtonHoldingNfts";
-            this.tabButtonHoldingNfts.Size = new System.Drawing.Size(36, 22);
+            this.tabButtonHoldingNfts.Size = new System.Drawing.Size(36, 19);
             this.tabButtonHoldingNfts.Text = "NFTs";
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 23);
             // 
             // tabButtonHoldingContracts
             // 
@@ -732,7 +724,7 @@
             this.tabButtonHoldingContracts.Image = ((System.Drawing.Image)(resources.GetObject("tabButtonHoldingContracts.Image")));
             this.tabButtonHoldingContracts.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tabButtonHoldingContracts.Name = "tabButtonHoldingContracts";
-            this.tabButtonHoldingContracts.Size = new System.Drawing.Size(137, 22);
+            this.tabButtonHoldingContracts.Size = new System.Drawing.Size(137, 19);
             this.tabButtonHoldingContracts.Text = "Owned Smart Contracts";
             // 
             // panelTop

@@ -22,8 +22,8 @@
             this.buttonCloseRight = new System.Windows.Forms.Button();
             this.toolStripRight = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownBack = new System.Windows.Forms.ToolStripDropDownButton();
-            this.splitterRight = new System.Windows.Forms.Splitter();
             this.labelTitle = new System.Windows.Forms.ToolStripLabel();
+            this.splitterRight = new System.Windows.Forms.Splitter();
             this.panelRight.SuspendLayout();
             this.panelButtons.SuspendLayout();
             this.toolStripRight.SuspendLayout();
@@ -47,6 +47,7 @@
             this.panelRightControl.Name = "panelRightControl";
             this.panelRightControl.Size = new System.Drawing.Size(340, 728);
             this.panelRightControl.TabIndex = 2;
+            this.panelRightControl.Tag = "PanelRight";
             // 
             // panelButtons
             // 
@@ -95,6 +96,14 @@
             this.toolStripDropDownBack.Size = new System.Drawing.Size(61, 20);
             this.toolStripDropDownBack.Text = "Back";
             // 
+            // labelTitle
+            // 
+            this.labelTitle.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelTitle.Name = "labelTitle";
+            this.labelTitle.Padding = new System.Windows.Forms.Padding(8, 4, 0, 0);
+            this.labelTitle.Size = new System.Drawing.Size(63, 19);
+            this.labelTitle.Text = "(loading)";
+            // 
             // splitterRight
             // 
             this.splitterRight.BackColor = System.Drawing.SystemColors.ControlLight;
@@ -105,14 +114,6 @@
             this.splitterRight.TabIndex = 1;
             this.splitterRight.TabStop = false;
             this.splitterRight.Visible = false;
-            // 
-            // labelTitle
-            // 
-            this.labelTitle.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelTitle.Name = "labelTitle";
-            this.labelTitle.Padding = new System.Windows.Forms.Padding(8, 4, 0, 0);
-            this.labelTitle.Size = new System.Drawing.Size(63, 19);
-            this.labelTitle.Text = "(loading)";
             // 
             // DrillDownMasterPanelControl
             // 

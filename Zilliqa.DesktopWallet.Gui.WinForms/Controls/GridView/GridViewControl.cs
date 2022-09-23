@@ -5,6 +5,7 @@ using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
 using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 {
@@ -18,6 +19,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
         private readonly Dictionary<int, PropertyInfo> _selectableColumns = new();
         private CellIdentity? _hoverCell;
         private CellIdentity? _selectedCell;
+        private bool _drillDownMasterPanelControlLoaded;
+        private DrillDownMasterPanelControl? _drillDownMasterPanelControl;
+        private bool _controlIsInRightPanel;
 
         public GridViewControl()
         {
@@ -102,11 +106,15 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             {
                 components.Dispose();
             }
-            if (!InDesignMode())
+            try
             {
                 _dataSourcePageable = null;
                 dataGridView.DataSource = null;
                 DisplayCurrenciesService.Instance.DisplayCurrenciesChanged -= ServiceOnDisplayCurrenciesChanged;
+            }
+            catch (Exception)
+            {
+                // ignore
             }
             base.Dispose(disposing);
         }
@@ -220,7 +228,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             {
                 var eventArgs = new IsItemSelectableEventArgs(selectionItem);
                 IsItemSelectable?.Invoke(this, eventArgs);
-                return eventArgs.IsSelectable;
+                if (eventArgs.IsSelectable)
+                {
+                    return CanDrillDownToObject(selectionItem);
+                }
             }
 
             return false;
@@ -258,7 +269,45 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                 SelectedItem = null;
                 _selectedCell = null;
             }
+
+            OnSelectionChanged();
+        }
+
+        private void OnSelectionChanged()
+        {
             SelectionChanged?.Invoke(this, new SelectedItemEventArgs(SelectedItem));
+            if (SelectedItem?.Value != null
+                && GetDrillDownMasterPanel() is DrillDownMasterPanelControl masterPanel)
+            {
+                masterPanel.DisplayValue(SelectedItem.Value, !_controlIsInRightPanel, o =>
+                {
+                    if (o is GridViewControl gv)
+                    {
+                        gv.ClearSelection();
+                    }
+                }, this);
+            }
+        }
+
+        private bool CanDrillDownToObject(object viewModel)
+        {
+            if (GetDrillDownMasterPanel() is DrillDownMasterPanelControl masterPanel)
+            {
+                return masterPanel?.ContainsValueUniqueId(viewModel) == false;
+            }
+            return true;
+        }
+
+        private DrillDownMasterPanelControl? GetDrillDownMasterPanel()
+        {
+            if (!_drillDownMasterPanelControlLoaded)
+            {
+                _drillDownMasterPanelControlLoaded = true;
+                _drillDownMasterPanelControl = DrillDownMasterPanelControl.FindParentDrillDownMasterPanel(this);
+                _controlIsInRightPanel = DrillDownMasterPanelControl.ControlIsInRightPanel(this);
+            }
+
+            return _drillDownMasterPanelControl;
         }
 
         private SelectionItem? GetCellIdentitySelectionItem(CellIdentity cellIdentity)
