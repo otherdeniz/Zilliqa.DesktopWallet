@@ -26,11 +26,13 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public string Address => _contractAddress 
             ??= new AddressValue(SmartContractModel.ContractAddress).Address.GetBech32().FromBech32ToShortReadable();
 
-        [ColumnWidth(250)]
-        public string Title => SmartContractModel.ContractTitle();
+        [ColumnWidth(100)]
+        [DisplayName("Contract Name")]
+        public string ContractName => SmartContractModel.ContractName;
 
-        //[ColumnWidth(200)]
-        //public string? Name => SmartContractModel.GetConstructorValue("name");
+        [ColumnWidth(150)]
+        [DisplayName("Token Name")]
+        public string? TokenName => SmartContractModel.TokenName();
 
         [ColumnWidth(150)]
         public AddressValue Owner => _ownerAddress ??= new AddressValue(SmartContractModel.OwnerAddress);

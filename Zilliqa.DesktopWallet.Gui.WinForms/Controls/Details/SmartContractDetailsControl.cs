@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Zilligraph.Database.Storage.FilterQuery;
 using Zilliqa.DesktopWallet.ApiClient;
+using Zilliqa.DesktopWallet.ApiClient.Utils;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.ViewModel;
@@ -26,8 +27,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             if (deploymentTransaction != null)
             {
                 labelDate.Text = deploymentTransaction.Timestamp.ToLocalTime().ToString("g");
-                labelTitle.Text = viewModel.Title;
-                labelAddress.Text = viewModel.SmartContractModel.ContractAddress;
+                labelTitle.Text = viewModel.SmartContractModel.DisplayName();
+                labelAddress.Text = viewModel.SmartContractModel.ContractAddress.FromBase16ToBech32Address();
                 transactionDetails.LoadTransaction(deploymentTransaction);
                 textScillaCode.Text = deploymentTransaction.Code;
                 var paramsText = JsonConvert.SerializeObject(deploymentTransaction.DataContractDeploymentParams,

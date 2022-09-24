@@ -45,9 +45,14 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
             return GetConstructorValue("symbol");
         }
 
-        public string ContractTitle()
+        public string? TokenName()
         {
-            var nameValue = GetConstructorValue("name");
+            return GetConstructorValue("name");
+        }
+
+        public string DisplayName()
+        {
+            var nameValue = TokenName();
             if (nameValue != null)
             {
                 return $"{ContractName}, {nameValue}";

@@ -23,13 +23,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
         private void timerStartLoading_Tick(object sender, EventArgs e)
         {
             timerStartLoading.Enabled = false;
-            var tokensList = TokenDataService.Instance.GetTokens(true)
+            var tokensList = TokenDataService.Instance.GetTokens(false)
                 .Where(t => t.Symbol != "ZIL")
                 .OrderByDescending(t => t.MarketData.FullyDilutedValuationUsd)
                 .ThenBy(t => t.Id)
                 .Select(t => new TokenRowViewModel(t)).ToList();
             gridViewTokens.LoadData(tokensList, typeof(TokenRowViewModel));
-            groupBoxTokensList.Text = $"ZRC-2 Tokens ({tokensList.Count})";
+            groupBoxTokensList.Text = $"ZRC-2 Tokens ({tokensList.Count:#,##0})";
             panelLoading.Visible = false;
             panelLoaded.Visible = true;
         }

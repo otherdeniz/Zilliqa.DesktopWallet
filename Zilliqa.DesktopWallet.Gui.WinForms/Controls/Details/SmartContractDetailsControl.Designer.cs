@@ -41,6 +41,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.panelTabsTransactions = new System.Windows.Forms.Panel();
             this.panelTabPagesTransactions = new System.Windows.Forms.Panel();
+            this.gridViewTransactions = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl();
             this.transactionDetails = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details.TransactionDetailsControl();
             this.textScillaCode = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values.ScillaCodeTextBox();
             this.textConstructorArguments = new System.Windows.Forms.TextBox();
@@ -50,10 +51,9 @@
             this.tabButtonCode = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.tabButtonArguments = new System.Windows.Forms.ToolStripButton();
-            this.syntaxDocument1 = new Alsing.SourceCode.SyntaxDocument(this.components);
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tabButtonTransactions = new System.Windows.Forms.ToolStripButton();
-            this.gridViewTransactions = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl();
+            this.syntaxDocument1 = new Alsing.SourceCode.SyntaxDocument(this.components);
             this.groupBoxDetails.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -178,6 +178,14 @@
             this.panelTabPagesTransactions.Size = new System.Drawing.Size(525, 385);
             this.panelTabPagesTransactions.TabIndex = 2;
             // 
+            // gridViewTransactions
+            // 
+            this.gridViewTransactions.Location = new System.Drawing.Point(352, 222);
+            this.gridViewTransactions.Name = "gridViewTransactions";
+            this.gridViewTransactions.Size = new System.Drawing.Size(143, 111);
+            this.gridViewTransactions.TabIndex = 3;
+            this.gridViewTransactions.Visible = false;
+            // 
             // transactionDetails
             // 
             this.transactionDetails.BackColor = System.Drawing.Color.White;
@@ -223,10 +231,9 @@
             this.toolStripPages.Size = new System.Drawing.Size(525, 23);
             this.toolStripPages.TabIndex = 0;
             // 
-            // tabButtonTransaction
+            // tabButtonDeployTransaction
             // 
             this.tabButtonDeployTransaction.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tabButtonDeployTransaction.Image = ((System.Drawing.Image)(resources.GetObject("tabButtonTransaction.Image")));
             this.tabButtonDeployTransaction.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tabButtonDeployTransaction.Name = "tabButtonDeployTransaction";
             this.tabButtonDeployTransaction.Size = new System.Drawing.Size(139, 19);
@@ -264,14 +271,6 @@
             this.tabButtonArguments.Text = "Constructor Arguments";
             this.tabButtonArguments.Click += new System.EventHandler(this.tabButtonArguments_Click);
             // 
-            // syntaxDocument1
-            // 
-            this.syntaxDocument1.Lines = new string[] {
-        ""};
-            this.syntaxDocument1.MaxUndoBufferSize = 1000;
-            this.syntaxDocument1.Modified = false;
-            this.syntaxDocument1.UndoStep = 0;
-            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
@@ -287,14 +286,13 @@
             this.tabButtonTransactions.Text = "Transactions";
             this.tabButtonTransactions.Click += new System.EventHandler(this.tabButtonTransactions_Click);
             // 
-            // gridViewTransactions
+            // syntaxDocument1
             // 
-            this.gridViewTransactions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.gridViewTransactions.Location = new System.Drawing.Point(352, 222);
-            this.gridViewTransactions.Name = "gridViewTransactions";
-            this.gridViewTransactions.Size = new System.Drawing.Size(143, 111);
-            this.gridViewTransactions.TabIndex = 3;
-            this.gridViewTransactions.Visible = false;
+            this.syntaxDocument1.Lines = new string[] {
+        ""};
+            this.syntaxDocument1.MaxUndoBufferSize = 1000;
+            this.syntaxDocument1.Modified = false;
+            this.syntaxDocument1.UndoStep = 0;
             // 
             // SmartContractDetailsControl
             // 

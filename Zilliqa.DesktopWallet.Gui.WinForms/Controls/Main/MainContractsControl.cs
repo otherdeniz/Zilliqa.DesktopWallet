@@ -30,7 +30,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                 WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                 {
                     groupBoxGrid.Tag ??= groupBoxGrid.Text;
-                    groupBoxGrid.Text = $"{groupBoxGrid.Tag} ({dataSource.RecordCount})";
+                    groupBoxGrid.Text = $"{groupBoxGrid.Tag} ({dataSource.RecordCount:#,##0})";
                     gridViewContracts.LoadData(dataSource);
                 });
             });

@@ -71,7 +71,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
             if (smartContract.ContractAddress != null)
             {
                 AddUnique(smartContract.ContractAddress.FromBase16ToBech32Address(),
-                    smartContract.ContractTitle());
+                    smartContract.DisplayName());
             }
         }
 

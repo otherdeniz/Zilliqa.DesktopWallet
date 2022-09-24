@@ -9,6 +9,7 @@ using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
 using Zilliqa.DesktopWallet.DatabaseSchema;
+using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
@@ -146,7 +147,11 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                 {
                     var transactionViewModels = tableTransactions.EnumerateRecords(transactionsFilter)
                         .OrderByDescending(t => t.Timestamp)
-                        .Select(t => new TransactionViewModels(Address, t))
+                        .Select(t =>
+                        {
+                            AddTokenBalanceFromContract(t, false);
+                            return new TransactionViewModels(Address, t);
+                        })
                         .ToList();
 
                     AllTransactions.Load(transactionViewModels
@@ -246,6 +251,38 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             if (updateValueProperties)
             {
                 tokenBalance.UpdateValuesProperties(true, RefreshTokenBalances);
+            }
+        }
+
+        private void AddTokenBalanceFromContract(Transaction transaction, bool updateValueProperties)
+        {
+            if (transaction.TransactionTypeEnum != TransactionType.ContractCall) return;
+            var mintedEvent = transaction.Receipt.EventLogs?.FirstOrDefault(e => 
+                e.Eventname == "Minted" ||
+                e.Eventname == "TransferSuccess");
+            if (mintedEvent == null) return;
+            var tokenModel = TokenDataService.Instance.FindTokenByAddress(mintedEvent.Address);
+            if (tokenModel == null) return;
+            var tokenBalance = TokenBalances.FirstOrDefault(t => t.Model.Symbol == tokenModel.Symbol);
+            if (tokenBalance == null)
+            {
+                tokenBalance = new TokenBalanceRowViewModel(tokenModel);
+                WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                {
+                    TokenBalances.Add(tokenBalance);
+                });
+            }
+
+            var amountParam = mintedEvent.Params.FirstOrDefault(p => p.Vname == "amount");
+            if (amountParam?.ResolvedValue is ParamValueUInt128 paramValue)
+            {
+                tokenBalance.Transactions += 1;
+                tokenBalance.Balance += tokenModel.AmountToDecimal(paramValue.Number64);
+
+                if (updateValueProperties)
+                {
+                    tokenBalance.UpdateValuesProperties(true, RefreshTokenBalances);
+                }
             }
         }
 

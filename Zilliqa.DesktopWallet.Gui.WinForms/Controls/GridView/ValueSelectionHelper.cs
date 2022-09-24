@@ -102,7 +102,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             }
             if (value is SmartContractRowViewModel smartContractRow)
             {
-                return $"Contract: {smartContractRow.Title}";
+                return $"Contract: {smartContractRow.SmartContractModel.DisplayName()}";
             }
             return $"{value}";
         }

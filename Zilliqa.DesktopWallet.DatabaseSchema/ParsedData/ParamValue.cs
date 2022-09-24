@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Zilliqa.DesktopWallet.ApiClient.Utils;
 
 namespace Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
@@ -36,12 +37,12 @@ public class ParamValue
         if (ParamValueHex20BytesWithFunctionName.TryParse(param.Type, param.Value,
                 out var valueHex20BytesWithFunctionName))
         {
-            return valueHex20BytesWithFunctionName;
+            return valueHex20BytesWithFunctionName!;
         }
         if (ParamValueConstructorWithArgumentsList.TryParse(param.Type, param.Value,
                 out var valueConstructorWithArgumentsList))
         {
-            return valueConstructorWithArgumentsList;
+            return valueConstructorWithArgumentsList!;
         }
 
         return new ParamValueInvalid();
@@ -141,6 +142,8 @@ public class ParamValueHex20Bytes : ParamValue
 
     public string Hex { get; } = null!;
 
+    public string? Bech32Address => Hex.FromBase16ToBech32Address();
+    
     public override string ToString()
     {
         return Hex;
@@ -169,7 +172,7 @@ public class ParamValueHex20BytesWithFunctionName : ParamValue
 
     private static readonly Regex TypeRegex = new Regex(@"0x([0-9|a-f]{40})\.([\w|\d]+)", RegexOptions.Compiled);
 
-    public static bool TryParse(string type, object value, out ParamValueHex20BytesWithFunctionName paramValue)
+    public static bool TryParse(string type, object value, out ParamValueHex20BytesWithFunctionName? paramValue)
     {
         var match = TypeRegex.Match(type);
         if (match.Success)
@@ -186,15 +189,17 @@ public class ParamValueHex20BytesWithFunctionName : ParamValue
             return true;
         }
 
-        paramValue = null!;
+        paramValue = null;
         return false;
     }
 
     public string Hex { get; private set; } = null!;
 
+    public string? Bech32Address => Hex.FromBase16ToBech32Address();
+
     public string FunctionName { get; private set; } = null!;
 
-    [TypeConverter(typeof(ExpandableObjectConverter))] //only for GUI PropertyGrid
+    [TypeConverter(typeof(ExpandableObjectConverter))] //Attribute only for GUI PropertyGrid
     public ParamValueConstructorWithArguments? Value { get; private set; }
 
     public override string ToString()
@@ -219,7 +224,7 @@ public class ParamValueConstructorWithArgumentsList : ParamValue
 
     private static readonly Regex TypeRegex = new Regex(@"List \(([\w|\d]+)\)", RegexOptions.Compiled);
 
-    public static bool TryParse(string type, object value, out ParamValueConstructorWithArgumentsList paramValue)
+    public static bool TryParse(string type, object value, out ParamValueConstructorWithArgumentsList? paramValue)
     {
         var match = TypeRegex.Match(type);
         if (match.Success && value is JToken jTokenList)
@@ -245,7 +250,7 @@ public class ParamValueConstructorWithArgumentsList : ParamValue
             return true;
         }
 
-        paramValue = null!;
+        paramValue = null;
         return false;
     }
 
@@ -260,13 +265,13 @@ public class ParamValueConstructorWithArguments : ParamValue
     private List<object>? _argumentsRaw;
     private List<object>? _argumentsParsed;
 
-    public static bool TryParse(object value, out ParamValueConstructorWithArguments result)
+    public static bool TryParse(object value, out ParamValueConstructorWithArguments? result)
     {
         if (value is JToken jToken)
         {
             try
             {
-                result = jToken.ToObject<ParamValueConstructorWithArguments>()!;
+                result = jToken.ToObject<ParamValueConstructorWithArguments>();
                 return result != null;
             }
             catch (Exception)

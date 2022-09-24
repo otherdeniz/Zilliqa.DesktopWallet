@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using Newtonsoft.Json;
+using Zilliqa.DesktopWallet.ApiClient.Utils;
 using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
 namespace Zilliqa.DesktopWallet.DatabaseSchema
@@ -22,7 +23,7 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
         public List<Transition> Transitions { get; set; }
 
         [JsonProperty("F")]
-        [TypeConverter(typeof(ExpandableObjectConverter))] //only for GUI PropertyGrid
+        [TypeConverter(typeof(ExpandableObjectConverter))] //Attribute only for GUI PropertyGrid
         public Errors Errors { get; set; }
 
         [JsonProperty("G")]
@@ -36,6 +37,9 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
 
         [JsonProperty("B")]
         public string Address { get; set; }
+
+        [JsonIgnore]
+        public string AddressBech32 => Address.FromBase16ToBech32Address();
 
         [JsonProperty("C")]
         public List<Param> Params { get; set; }
@@ -55,7 +59,7 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
         public object Value { get; set; }
 
         [JsonIgnore]
-        [TypeConverter(typeof(ExpandableObjectConverter))] //only for GUI PropertyGrid
+        [TypeConverter(typeof(ExpandableObjectConverter))] //Attribute only for GUI PropertyGrid
         public ParamValue ResolvedValue => _resolvedValue ??= ParamValue.ResolveParam(this);
     }
 
@@ -68,7 +72,7 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
         public long Depth { get; set; }
 
         [JsonProperty("C")]
-        [TypeConverter(typeof(ExpandableObjectConverter))] //only for GUI PropertyGrid
+        [TypeConverter(typeof(ExpandableObjectConverter))] //Attribute only for GUI PropertyGrid
         public Msg Msg { get; set; }
     }
 

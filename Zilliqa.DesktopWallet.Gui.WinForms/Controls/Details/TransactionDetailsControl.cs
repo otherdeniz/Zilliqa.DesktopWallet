@@ -36,7 +36,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
         {
             _transactionViewModel = transactionViewModel;
             labelId.Text = $"0x{transactionViewModel.Transaction.Id}";
-            labelDate.Text = transactionViewModel.Transaction.Timestamp.ToString("g");
+            labelDate.Text = transactionViewModel.Transaction.Timestamp.ToLocalTime().ToString("g");
             labelBlockNumber.LoadValue(transactionViewModel.Block, DrillDownPanel);
             propertyGridModel.SelectedObject = transactionViewModel.Transaction;
         }

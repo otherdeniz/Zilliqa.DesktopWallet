@@ -78,7 +78,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
         {
             if (resetRightPanel)
             {
-                ResetRightPanel();
+                ResetRightPanel(afterCloseArgument);
             }
 
             var viewModelUniqueId = ValueSelectionHelper.GetValueUniqueId(viewValue);
@@ -135,12 +135,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
             }
         }
 
-        private void ResetRightPanel()
+        private void ResetRightPanel(object? skipAfterCloseArgument = null)
         {
             panelRightControl.Controls.Clear();
             _displayHierarchy.ForEach(h => h.DisplayControl.Dispose());
             var firstPathItem = _displayHierarchy.FirstOrDefault();
-            if (firstPathItem?.AfterClose != null)
+            if (firstPathItem?.AfterClose != null
+                && firstPathItem.AfterCloseArgument != skipAfterCloseArgument)
             {
                 firstPathItem.AfterClose(firstPathItem.AfterCloseArgument);
             }
