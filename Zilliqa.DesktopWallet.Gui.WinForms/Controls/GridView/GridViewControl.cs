@@ -322,7 +322,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                 if (_selectableColumns.TryGetValue(cellIdentity.ColumnIndex.Value, out var cellPropertyInfo))
                 {
                     var cellObject = cellPropertyInfo.GetValue(rowObject);
-                    return new SelectionItem(cellIdentity.RowIndex, cellObject, SelectionItemType.Cell);
+                    return new SelectionItem(cellIdentity.RowIndex, cellObject, SelectionItemType.Cell,
+                        cellIdentity.ColumnIndex.Value);
                 }
             }
 
