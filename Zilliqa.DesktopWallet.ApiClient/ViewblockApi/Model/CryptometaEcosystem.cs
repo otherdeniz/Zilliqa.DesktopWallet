@@ -26,11 +26,11 @@ namespace Zilliqa.DesktopWallet.ApiClient.ViewblockApi.Model
         [JsonProperty("key")]
         public string Key { get; set; }
 
-        [JsonProperty("addresses")]
-        public string[] Addresses { get; set; }
+        [JsonProperty("addresses")] 
+        public string[]? Addresses { get; set; }
 
         [JsonProperty("categories")]
-        public string[] Categories { get; set; }
+        public string[]? Categories { get; set; }
 
         [JsonProperty("links")]
         public CryptometaEcosystemLinks Links { get; set; } = new();

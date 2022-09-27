@@ -8,7 +8,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
     {
         private readonly int _refreshAfterDays = 90;
         //private readonly CancellationTokenSource _refreshCancelTokenSource = new();
-        private bool _refreshStarted;
+        private bool _loadStarted;
 
         public static CryptometaDownloadService Instance { get; } = new();
 
@@ -21,10 +21,10 @@ namespace Zilliqa.DesktopWallet.Core.Services
         //    _refreshCancelTokenSource.Cancel();
         //}
 
-        public void RefreshIfNeeded()
+        public void LoadOrRefresh()
         {
-            if (_refreshStarted) return;
-            _refreshStarted = true;
+            if (_loadStarted) return;
+            _loadStarted = true;
             if (CryptometaFile.Instance.ModifiedDate == null
                 || CryptometaFile.Instance.ModifiedDate.Value.AddDays(_refreshAfterDays) < DateTime.Today)
             {
@@ -56,6 +56,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                         CryptometaFile.Instance.ModifiedDate = DateTime.Today;
                         CryptometaFile.Instance.Save();
                         Logging.LogInfo("CryptometaDownloadService refresh completed");
+                        AddKnownAddresses();
                     }
                     catch (TaskCanceledException)
                     {
@@ -66,6 +67,27 @@ namespace Zilliqa.DesktopWallet.Core.Services
                         Logging.LogError($"CryptometaDownloadService failed: {e.Message}", e);
                     }
                 }); //, _refreshCancelTokenSource.Token);
+            }
+            else
+            {
+                AddKnownAddresses();
+            }
+        }
+
+        private void AddKnownAddresses()
+        {
+            foreach (var asset in CryptometaFile.Instance.Assets)
+            {
+                KnownAddressService.Instance.AddUnique(asset.Bech32Address, $"{asset.NameShort()} ({asset.SymbolShort()})");
+            }
+            foreach (var ecosystem in CryptometaFile.Instance.Ecosystems
+                         .Where(e => e.Addresses != null))
+            {
+                for (int i = 1; i <= ecosystem.Addresses!.Length; i++)
+                {
+                    var address = ecosystem.Addresses![i - 1];
+                    KnownAddressService.Instance.AddUnique(address, $"{ecosystem.Name} #{i}");
+                }
             }
         }
     }

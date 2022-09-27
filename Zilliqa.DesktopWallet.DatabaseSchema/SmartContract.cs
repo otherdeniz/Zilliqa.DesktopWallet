@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
 using Zilligraph.Database.Contract;
 using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
@@ -7,12 +6,6 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
 {
     public class SmartContract
     {
-        public static class ContractNames
-        {
-            public const string FungibleToken = "FungibleToken";
-            public const string NonfungibleToken = "NonfungibleToken";
-        }
-
         [RequiredValue]
         [PropertyIndex]
         [JsonProperty("A")]
@@ -48,7 +41,7 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
         public string ContractAddress { get; set; }
 
         [JsonProperty("H")] 
-        public SmartContractMetadata Metadata { get; set; } = new();
+        public SmartContractTokenData TokenData { get; set; } = new();
 
         public string? TokenName()
         {
@@ -79,53 +72,52 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
             {
                 return 0;
             }
-            if (Metadata.Decimals > 0)
+            if (TokenData.Decimals > 0)
             {
-                var divident = Convert.ToDecimal(Math.Pow(10, Metadata.Decimals));
+                var divident = Convert.ToDecimal(Math.Pow(10, TokenData.Decimals));
                 return amountNumber.Value / divident;
             }
             return amountNumber.Value;
         }
-
     }
 
-    public class SmartContractMetadata
+    public class SmartContractTokenData
     {
         [JsonProperty("A")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonProperty("B")]
-        public string Symbol { get; set; }
+        public string? Symbol { get; set; }
 
         [JsonProperty("C")]
         public int Decimals { get; set; }
 
-        [JsonProperty("D")]
-        public bool PublicTeam { get; set; }
+        //[JsonProperty("D")]
+        //public bool PublicTeam { get; set; }
 
-        [JsonProperty("E")]
-        public bool Trusted { get; set; }
+        //[JsonProperty("E")]
+        //public bool Trusted { get; set; }
 
-        [JsonProperty("F")]
-        public int ViewBlockScore { get; set; }
+        //[JsonProperty("F")]
+        //public int ViewBlockScore { get; set; }
 
-        [JsonProperty("G")]
-        public string? Website { get; set; }
+        //[JsonProperty("G")]
+        //public string? Website { get; set; }
 
-        [JsonProperty("H")]
-        public string? Whitepaper { get; set; }
+        //[JsonProperty("H")]
+        //public string? Whitepaper { get; set; }
 
-        [JsonProperty("I")]
-        public string? Twitter { get; set; }
+        //[JsonProperty("I")]
+        //public string? Twitter { get; set; }
 
-        [JsonProperty("J")]
-        public string? Telegram { get; set; }
+        //[JsonProperty("J")]
+        //public string? Telegram { get; set; }
 
-        [JsonProperty("K")]
-        public string? Github { get; set; }
+        //[JsonProperty("K")]
+        //public string? Github { get; set; }
 
-        [JsonProperty("L")]
-        public string? Linkedin { get; set; }
+        //[JsonProperty("L")]
+        //public string? Linkedin { get; set; }
 
     }
 

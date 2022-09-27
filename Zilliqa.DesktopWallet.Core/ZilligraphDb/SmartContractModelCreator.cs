@@ -7,6 +7,12 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
 {
     public static class SmartContractModelCreator
     {
+        public static class ContractNames
+        {
+            public const string FungibleToken = "FungibleToken";
+            public const string NonfungibleToken = "NonfungibleToken";
+        }
+
         private static readonly Regex ContractNameRegEx =
             new Regex(@"^\s*contract\s+(\w+)", RegexOptions.Multiline | RegexOptions.Compiled);
         private static readonly Regex ContractNameSingleLineRegEx =
@@ -70,6 +76,5 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
 
             return null;
         }
-
     }
 }

@@ -60,7 +60,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
         private static void StartupServices()
         {
             RepositoryManager.Instance.CoingeckoRepository.Startup(false);
-            CryptometaDownloadService.Instance.RefreshIfNeeded();
+            CryptometaDownloadService.Instance.LoadOrRefresh();
         }
     }
 }

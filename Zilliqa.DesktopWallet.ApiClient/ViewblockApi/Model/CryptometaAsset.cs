@@ -44,6 +44,23 @@ namespace Zilliqa.DesktopWallet.ApiClient.ViewblockApi.Model
         [JsonProperty("gen")] 
         public CryptometaAssetGen Gen { get; set; } = new();
 
+        public string NameShort()
+        {
+            if (Name.Length > 20)
+            {
+                return $"{Name[..20]}...";
+            }
+            return Name;
+        }
+
+        public string SymbolShort()
+        {
+            if (Symbol.Length > 8)
+            {
+                return $"{Symbol[..8]}...";
+            }
+            return Symbol;
+        }
     }
 
     public class CryptometaAssetLinks
