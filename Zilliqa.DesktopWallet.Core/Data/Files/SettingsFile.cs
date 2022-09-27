@@ -3,12 +3,12 @@ using Zilliqa.DesktopWallet.Core.Data.Model;
 
 namespace Zilliqa.DesktopWallet.Core.Data.Files
 {
-    [DatFileName("settings.dat")]
-    public class SettingsDat : DatFileBase
+    [DatFileName("settings.json")]
+    public class SettingsFile : DatFileBase
     {
-        private static SettingsDat? _instance;
+        private static SettingsFile? _instance;
 
-        public static SettingsDat Instance => _instance ??= Load<SettingsDat>();
+        public static SettingsFile Instance => _instance ??= Load<SettingsFile>();
 
         #region Fields
 

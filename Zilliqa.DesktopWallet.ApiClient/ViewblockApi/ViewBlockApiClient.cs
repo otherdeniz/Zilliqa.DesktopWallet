@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
+using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient.ViewblockApi.Model;
 
 namespace Zilliqa.DesktopWallet.ApiClient.ViewblockApi
@@ -49,7 +50,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.ViewblockApi
                     }
                     catch (Exception e)
                     {
-                        throw new Exception($"{e.Message} {responseContent}");
+                        throw new ApiCallException($"{e.Message} {responseContent}", e);
                     }
                 } while (getNextPage);
             }

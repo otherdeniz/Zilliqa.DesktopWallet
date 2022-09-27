@@ -28,7 +28,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [ColumnWidth(100)]
         [DisplayName("Contract Name")]
-        public string ContractName => SmartContractModel.ContractName;
+        public string ContractName => SmartContractModel.ContractLibrary;
 
         [ColumnWidth(150)]
         [DisplayName("Token Name")]

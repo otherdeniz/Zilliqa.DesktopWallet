@@ -49,9 +49,9 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.UtilityTests
         [Test]
         public void GetBech32FromBase16()
         {
-            var base16 = "0xa845c1034cd077bd8d32be0447239c7e4be6cb21";
+            var base16 = "0xbea37a0fe8f759d5cfe2ba66913a676260175ba1";
             var bech32 = base16.FromBase16ToBech32Address();
-            Assert.IsNotNull(bech32); //zil14pzuzq6v6pmmmrfjhczywguu0e97djepxt8g3e
+            Assert.IsNotNull(bech32);
         }
 
         [Test]

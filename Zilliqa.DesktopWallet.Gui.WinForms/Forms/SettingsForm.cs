@@ -19,13 +19,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         private void LoadSettings()
         {
-            textViewblockApiKey.Text = SettingsDat.Instance.ViewBlockApiKey;
+            textViewblockApiKey.Text = SettingsFile.Instance.ViewBlockApiKey;
         }
 
         protected override bool OnOk()
         {
-            SettingsDat.Instance.ViewBlockApiKey = textViewblockApiKey.Text;
-            SettingsDat.Instance.Save();
+            SettingsFile.Instance.ViewBlockApiKey = textViewblockApiKey.Text;
+            SettingsFile.Instance.Save();
             return base.OnOk();
         }
 

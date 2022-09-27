@@ -258,8 +258,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         {
             if (transaction.TransactionTypeEnum != TransactionType.ContractCall) return;
             var mintedEvent = transaction.Receipt.EventLogs?.FirstOrDefault(e => 
-                e.Eventname == "Minted" ||
-                e.Eventname == "TransferSuccess");
+                e.Eventname == "Minted");// || e.Eventname == "TransferSuccess");
             if (mintedEvent == null) return;
             var tokenModel = TokenDataService.Instance.FindTokenByAddress(mintedEvent.Address);
             if (tokenModel == null) return;

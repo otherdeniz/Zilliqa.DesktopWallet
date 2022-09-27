@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using Zilligraph.Database.Contract;
 using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
@@ -26,24 +27,28 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
 
         [JsonProperty("C")]
         [PropertyIndex(OverrideMaxChainLength = 100)]
-        public string ContractName { get; set; }
+        public string ContractLibrary { get; set; }
 
         [JsonProperty("D")]
-        public List<DataParam> ConstructorValues { get; set; }
+        [PropertyIndex(LowDistinctOptimization = true)]
+        public int SmartContractType { get; set; }
+
+        [JsonIgnore]
+        public SmartContractType SmartContractTypeEnum => (SmartContractType)SmartContractType;
 
         [JsonProperty("E")]
-        [PropertyIndex]
-        public string OwnerAddress { get; set; }
+        public List<DataParam> ConstructorValues { get; set; }
 
         [JsonProperty("F")]
         [PropertyIndex]
+        public string OwnerAddress { get; set; }
+
+        [JsonProperty("G")]
+        [PropertyIndex]
         public string ContractAddress { get; set; }
 
-        [CalculatedIndex]
-        public string? TokenSymbol()
-        {
-            return GetConstructorValue("symbol");
-        }
+        [JsonProperty("H")] 
+        public SmartContractMetadata Metadata { get; set; } = new();
 
         public string? TokenName()
         {
@@ -55,9 +60,9 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
             var nameValue = TokenName();
             if (nameValue != null)
             {
-                return $"{ContractName}, {nameValue}";
+                return $"{ContractLibrary}, {nameValue}";
             }
-            return ContractName;
+            return ContractLibrary;
         }
 
         public string? GetConstructorValue(string vName)
@@ -67,6 +72,68 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
                 .Select(p => p.Value.ToString())
                 .FirstOrDefault();
         }
+
+        public decimal AmountToDecimal(decimal? amountNumber)
+        {
+            if (amountNumber == null)
+            {
+                return 0;
+            }
+            if (Metadata.Decimals > 0)
+            {
+                var divident = Convert.ToDecimal(Math.Pow(10, Metadata.Decimals));
+                return amountNumber.Value / divident;
+            }
+            return amountNumber.Value;
+        }
+
     }
 
+    public class SmartContractMetadata
+    {
+        [JsonProperty("A")]
+        public string Name { get; set; }
+
+        [JsonProperty("B")]
+        public string Symbol { get; set; }
+
+        [JsonProperty("C")]
+        public int Decimals { get; set; }
+
+        [JsonProperty("D")]
+        public bool PublicTeam { get; set; }
+
+        [JsonProperty("E")]
+        public bool Trusted { get; set; }
+
+        [JsonProperty("F")]
+        public int ViewBlockScore { get; set; }
+
+        [JsonProperty("G")]
+        public string? Website { get; set; }
+
+        [JsonProperty("H")]
+        public string? Whitepaper { get; set; }
+
+        [JsonProperty("I")]
+        public string? Twitter { get; set; }
+
+        [JsonProperty("J")]
+        public string? Telegram { get; set; }
+
+        [JsonProperty("K")]
+        public string? Github { get; set; }
+
+        [JsonProperty("L")]
+        public string? Linkedin { get; set; }
+
+    }
+
+    public enum SmartContractType
+    {
+        GenericDapp = 0,
+        FungibleToken = 1,
+        NonfungibleToken = 2,
+        DecentralisedExchange = 3
+    }
 }

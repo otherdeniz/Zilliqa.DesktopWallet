@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.ComponentModel;
 
 namespace Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
@@ -34,5 +35,6 @@ public class DataParam : IParam
     [JsonProperty("value")]
     public object Value { get; set; }
 
+    [TypeConverter(typeof(ExpandableObjectConverter))] //Attribute only for GUI PropertyGrid
     public ParamValue ResolvedValue => _resolvedValue ??= ParamValue.ResolveParam(this);
 }

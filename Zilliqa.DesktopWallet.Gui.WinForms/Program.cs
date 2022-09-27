@@ -2,6 +2,7 @@ using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Repository;
+using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ZilligraphDb;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms
@@ -59,6 +60,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
         private static void StartupServices()
         {
             RepositoryManager.Instance.CoingeckoRepository.Startup(false);
+            CryptometaDownloadService.Instance.RefreshIfNeeded();
         }
     }
 }

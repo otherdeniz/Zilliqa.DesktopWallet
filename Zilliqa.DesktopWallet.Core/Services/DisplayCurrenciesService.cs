@@ -9,7 +9,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
 
         private DisplayCurrenciesService()
         {
-            CurrentDisplayed = SettingsDat.Instance.DisplayCurrencies;
+            CurrentDisplayed = SettingsFile.Instance.DisplayCurrencies;
         }
 
         public event EventHandler<EventArgs>? DisplayCurrenciesChanged;
@@ -19,7 +19,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
         public void ChangeDisplayedCurrencies(Action<DisplayCurrenciesModel> changeDisplayAction)
         {
             changeDisplayAction(CurrentDisplayed);
-            SettingsDat.Instance.Save();
+            SettingsFile.Instance.Save();
             WinFormsSynchronisationContext.ExecuteSynchronized(() =>
             {
                 DisplayCurrenciesChanged?.Invoke(this, EventArgs.Empty);

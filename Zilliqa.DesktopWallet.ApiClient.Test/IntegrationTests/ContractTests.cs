@@ -43,7 +43,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
         [Test]
         public async Task GetStateNotEmpty()
         {
-            var res = await _zil.GetSmartContractState(_address.RawAddress);
+            var res = await _zil.GetSmartContractState("zil1504065pp76uuxm7s9m2c4gwszhez8pu3mp6r8c");
             Assert.AreNotEqual(null, res);
         }
 

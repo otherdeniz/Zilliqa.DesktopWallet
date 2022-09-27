@@ -42,6 +42,13 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
                 CreateTableSmartContract(sourceDatabase, targetDatabase);
                 return;
             }
+
+            //if (args.Any(a => a == "--create-table=FungibleToken"))
+            //{
+            //    CreateTableFungibleToken(sourceDatabase, targetDatabase);
+            //    return;
+            //}
+            
             Console.WriteLine("argument command is missing");
         }
 
@@ -175,6 +182,90 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
             Console.WriteLine($"Finished. Total Records written: {recordCount:#,##0}");
         }
 
+        //private static void CreateTableFungibleToken(ZilligraphDatabase sourceDatabase, ZilligraphDatabase targetDatabase)
+        //{
+        //    Console.WriteLine("Start: creating Table 'FungibleToken'");
+
+        //    var sourceDbTableSource = sourceDatabase.GetTable<SmartContract>();
+        //    var sourceDbTableTarget = sourceDatabase.GetTable<FungibleToken>();
+        //    var targetDbTableTarget = targetDatabase.GetTable<FungibleToken>();
+
+        //    sourceDbTableSource.StartBulkOperation();
+        //    targetDbTableTarget.StartBulkOperation();
+
+        //    int recordCount = 0;
+        //    int importedCount = 0;
+        //    int skippedCount = 0;
+        //    var printWritingInfo = true;
+        //    var checkTargetHasRecord = targetDbTableTarget.RecordCount > 0;
+        //    var sourceRecords = sourceDbTableSource.EnumerateAllRecords()
+        //        .Where(sc => sc.ConstructorValues.Any(v => v.Vname == "decimals"));
+        //    foreach (var sourceRecord in sourceRecords)
+        //    {
+        //        if (checkTargetHasRecord)
+        //        {
+        //            var targetTableRecord =
+        //                targetDbTableTarget.FindRecord(nameof(FungibleToken.DeploymentTransactionId), sourceRecord.DeploymentTransactionId, false);
+        //            if (targetTableRecord?.DeploymentTransactionId == sourceRecord.DeploymentTransactionId)
+        //            {
+        //                skippedCount++;
+        //                if (skippedCount % 100 == 0)
+        //                {
+        //                    Console.WriteLine($"Skipped records: {skippedCount:#,##0}");
+        //                }
+
+        //                printWritingInfo = true;
+        //                continue;
+        //            }
+        //        }
+
+        //        if (sourceDatabase.DatabasePath != targetDatabase.DatabasePath)
+        //        {
+        //            try
+        //            {
+        //                var sourceTableRecord =
+        //                    sourceDbTableTarget.FindRecord(nameof(FungibleToken.DeploymentTransactionId), sourceRecord.DeploymentTransactionId, false);
+        //                if (sourceTableRecord?.DeploymentTransactionId == sourceRecord.DeploymentTransactionId)
+        //                {
+        //                    importedCount++;
+        //                    targetDbTableTarget.AddRecord(sourceTableRecord);
+        //                    if (importedCount % 100 == 0)
+        //                    {
+        //                        Console.WriteLine($"Imported records from source DB: {importedCount:#,##0}");
+        //                    }
+
+        //                    printWritingInfo = true;
+        //                    continue;
+        //                }
+        //            }
+        //            catch (Exception)
+        //            {
+        //                // import failed, skip import from now on
+        //            }
+        //        }
+
+        //        //var smartContract = SmartContractModelCreator.CreateModel(sourceRecord);
+        //        //if (smartContract != null)
+        //        //{
+        //        //    recordCount++;
+        //        //    targetDbTableTarget.AddRecord(smartContract);
+        //        //    if (recordCount % 100 == 0 || printWritingInfo)
+        //        //    {
+        //        //        printWritingInfo = false;
+        //        //        Console.WriteLine($"Written records: {recordCount:#,##0}");
+        //        //    }
+        //        //}
+        //        //else
+        //        //{
+        //        //    Console.WriteLine($"WARNING: could not create SmartContract model for Transaction Id: {sourceRecord.Id}");
+        //        //}
+        //    }
+
+        //    sourceDbTableSource.EndBulkOperation();
+        //    targetDbTableTarget.EndBulkOperation();
+
+        //    Console.WriteLine($"Finished. Total Records written: {recordCount:#,##0}");
+        //}
     }
 
 }

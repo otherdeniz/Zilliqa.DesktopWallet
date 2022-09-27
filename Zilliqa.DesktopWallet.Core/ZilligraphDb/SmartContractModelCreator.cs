@@ -40,14 +40,14 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                 var contractNameMatch = ContractNameRegEx.Match(deploymentTransaction.GetPatchedCode() ?? string.Empty);
                 if (contractNameMatch.Success)
                 {
-                    smartContract.ContractName = contractNameMatch.Groups[1].Value;
+                    smartContract.ContractLibrary = contractNameMatch.Groups[1].Value;
                 }
                 else
                 {
                     var contractNameSingleLineMatch = ContractNameSingleLineRegEx.Match(deploymentTransaction.GetPatchedCode() ?? string.Empty);
                     if (contractNameSingleLineMatch.Success)
                     {
-                        smartContract.ContractName = contractNameSingleLineMatch.Groups[1].Value;
+                        smartContract.ContractLibrary = contractNameSingleLineMatch.Groups[1].Value;
                     }
                     else
                     {

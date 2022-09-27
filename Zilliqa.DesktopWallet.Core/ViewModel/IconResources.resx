@@ -157,6 +157,12 @@
   <data name="BarBlue16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\navigate_minus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="CircleDotGray16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\circle_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CircleDotGray48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\circle_48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="CircleRigthBlue16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\nav_right_blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
