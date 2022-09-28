@@ -4,6 +4,7 @@ using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
 namespace Zilliqa.DesktopWallet.DatabaseSchema
 {
+    [TableModel(TableKind.NotMutable)]
     public class SmartContract
     {
         [RequiredValue]
@@ -40,12 +41,20 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
         [PropertyIndex]
         public string ContractAddress { get; set; }
 
-        [JsonProperty("H")] 
-        public SmartContractTokenData TokenData { get; set; } = new();
-
         public string? TokenName()
         {
             return GetConstructorValue("name");
+        }
+
+        [CalculatedIndex]
+        public string? TokenSymbol()
+        {
+            return GetConstructorValue("symbol");
+        }
+
+        public int TokenDecimals()
+        {
+            return GetConstructorValue<ParamValueUInt32>("decimals")?.Number32 ?? 0;
         }
 
         public string DisplayName()
@@ -66,59 +75,29 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
                 .FirstOrDefault();
         }
 
+        public TParamValue? GetConstructorValue<TParamValue>(string vName) where TParamValue : ParamValue
+        {
+            return ConstructorValues
+                .Where(p => p.Vname == vName)
+                .Select(p => p.ResolvedValue as TParamValue)
+                .FirstOrDefault();
+        }
+
         public decimal AmountToDecimal(decimal? amountNumber)
         {
             if (amountNumber == null)
             {
                 return 0;
             }
-            if (TokenData.Decimals > 0)
+
+            var decimals = TokenDecimals();
+            if (decimals > 0)
             {
-                var divident = Convert.ToDecimal(Math.Pow(10, TokenData.Decimals));
+                var divident = Convert.ToDecimal(Math.Pow(10, decimals));
                 return amountNumber.Value / divident;
             }
             return amountNumber.Value;
         }
-    }
-
-    public class SmartContractTokenData
-    {
-        [JsonProperty("A")]
-        public string? Name { get; set; }
-
-        [JsonProperty("B")]
-        public string? Symbol { get; set; }
-
-        [JsonProperty("C")]
-        public int Decimals { get; set; }
-
-        //[JsonProperty("D")]
-        //public bool PublicTeam { get; set; }
-
-        //[JsonProperty("E")]
-        //public bool Trusted { get; set; }
-
-        //[JsonProperty("F")]
-        //public int ViewBlockScore { get; set; }
-
-        //[JsonProperty("G")]
-        //public string? Website { get; set; }
-
-        //[JsonProperty("H")]
-        //public string? Whitepaper { get; set; }
-
-        //[JsonProperty("I")]
-        //public string? Twitter { get; set; }
-
-        //[JsonProperty("J")]
-        //public string? Telegram { get; set; }
-
-        //[JsonProperty("K")]
-        //public string? Github { get; set; }
-
-        //[JsonProperty("L")]
-        //public string? Linkedin { get; set; }
-
     }
 
     public enum SmartContractType

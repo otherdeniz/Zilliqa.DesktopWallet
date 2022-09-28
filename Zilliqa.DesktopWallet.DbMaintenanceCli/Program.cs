@@ -58,7 +58,7 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
             // order Table Transaction by Timestamp ASC
             var sourceTable = sourceDatabase.GetTable<Transaction>();
             var targetTable = targetDatabase.GetTable<Transaction>();
-            var sourceRows = sourceTable.DataFiles[0].AllRows();
+            var sourceRows = sourceTable.CompressedDataFiles[0].AllRows();
             var blockRecordPositions = new List<(int Block, long RowPosition)>();
             foreach (var sourceRowBinary in sourceRows)
             {

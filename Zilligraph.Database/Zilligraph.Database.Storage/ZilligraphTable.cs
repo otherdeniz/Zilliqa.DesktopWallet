@@ -16,12 +16,12 @@ namespace Zilligraph.Database.Storage
     {
         private readonly string _tableName;
         private readonly string _storagePath;
-        private List<DataFile>? _dataFiles;
+        private List<DataFile>? _compressedDataFiles;
         private TableInfoFile? _tableInfo;
         private Type? _recordType;
         private Dictionary<string, ZilligraphTableIndexBase>? _indexes;
         private List<ZilligraphTableFieldReference>? _fieldReferences;
-        private readonly List<ZilligraphTableEventNotificator<TRecordModel>> _eventNotificators = new List<ZilligraphTableEventNotificator<TRecordModel>>();
+        private readonly List<ZilligraphTableEventNotificator<TRecordModel>> _eventNotificators = new();
         private readonly CancellationTokenSource _initialisationCancellationTokenSource = new();
         private bool _initialisationStarted;
         private bool _initialisationCompleted;
@@ -63,7 +63,7 @@ namespace Zilligraph.Database.Storage
 
         public List<ZilligraphTableFieldReference> FieldReferences => _fieldReferences ??= GetFieldReferences();
 
-        public List<DataFile> DataFiles => _dataFiles ??= LoadDataFiles();
+        public virtual List<DataFile> CompressedDataFiles => _compressedDataFiles ??= LoadDataFiles();
 
         public bool InitialisationCompleted => _initialisationCompleted;
 
@@ -71,13 +71,13 @@ namespace Zilligraph.Database.Storage
 
         public void StartBulkOperation()
         {
-            DataFiles.ForEach(d => d.StartBulkOperation());
+            CompressedDataFiles.ForEach(d => d.StartBulkOperation());
             Indexes.ForEach(i => i.Value.StartBulkInsert());
         }
 
         public void EndBulkOperation()
         {
-            DataFiles.ForEach(d => d.EndBulkOperation());
+            CompressedDataFiles.ForEach(d => d.EndBulkOperation());
             Indexes.ForEach(i => i.Value.EndBulkInsert());
         }
 
@@ -94,7 +94,7 @@ namespace Zilligraph.Database.Storage
 
         private void Initialise(CancellationToken cancellationToken)
         {
-            if (DataFiles[0].HasRows)
+            if (CompressedDataFiles[0].HasRows)
             {
                 try
                 {
@@ -114,7 +114,7 @@ namespace Zilligraph.Database.Storage
                         {
                             decimal recordCount = RecordCount;
                             decimal recordNumber = 0;
-                            foreach (var row in DataFiles[0].AllRows())
+                            foreach (var row in CompressedDataFiles[0].AllRows())
                             {
                                 cancellationToken.ThrowIfCancellationRequested();
                                 var record = row.DecompressRowObject<TRecordModel>();
@@ -204,11 +204,16 @@ namespace Zilligraph.Database.Storage
             AddRecordInternal((TRecordModel)record);
         }
 
-        private void AddRecordInternal(TRecordModel record)
+        public virtual void UpdateRecord(object record)
+        {
+            throw new NotSupportedException($"The Table {TableName} is not mutable");
+        }
+
+        protected virtual void AddRecordInternal(TRecordModel record)
         {
             // save Data
-            var dataFile = DataFiles.Last();
-            var rowBinary = DataRowBinary.CreateNew(record);
+            var dataFile = CompressedDataFiles.Last();
+            var rowBinary = CompressedDataRowBinary.CreateNew(record);
             var recordPoint = dataFile.Append(rowBinary);
 
             // update indexes
@@ -269,7 +274,7 @@ namespace Zilligraph.Database.Storage
 
         public IEnumerable<TRecordModel> EnumerateAllRecords(bool resolveReferences = true)
         {
-            foreach (var dataFile in DataFiles)
+            foreach (var dataFile in CompressedDataFiles)
             {
                 foreach (var dataRowBinary in dataFile.AllRows())
                 {
@@ -287,7 +292,7 @@ namespace Zilligraph.Database.Storage
         public IList<long> GetAllRecordPositions()
         {
             //TODO support multiple dataFiles, once implemented multiple DataFiles
-            return DataFiles.Last().AllRowPositions();
+            return CompressedDataFiles.Last().AllRowPositions();
         }
 
         public IEnumerable<TRecordModel> EnumerateRecords(IFilterQuery queryFilter, Func<TRecordModel, bool>? additionalFilter = null, bool resolveReferences = true)
@@ -320,7 +325,7 @@ namespace Zilligraph.Database.Storage
 
         private TRecordModel ReadRecordInternal(ulong recordPoint, bool resolveReferences)
         {
-            var dataFile = DataFiles.Last();
+            var dataFile = CompressedDataFiles.Last();
             var rowBinary = dataFile.Read(recordPoint);
             if (rowBinary == null)
             {
@@ -335,17 +340,17 @@ namespace Zilligraph.Database.Storage
             return record;
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             _initialisationCancellationTokenSource.Cancel();
             _eventNotificators.Clear();
-            if (_dataFiles?.Any() == true)
+            if (_compressedDataFiles?.Any() == true)
             {
-                foreach (var dataFile in _dataFiles)
+                foreach (var dataFile in _compressedDataFiles)
                 {
                     dataFile.Dispose();
                 }
-                _dataFiles = null;
+                _compressedDataFiles = null;
             }
         }
 

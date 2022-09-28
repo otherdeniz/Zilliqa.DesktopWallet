@@ -3,6 +3,7 @@ using Zilligraph.Database.Contract;
 
 namespace Zilliqa.DesktopWallet.DatabaseSchema
 {
+    [TableModel(TableKind.NotMutable)]
     public class Block
     {
         [PropertyIndex]

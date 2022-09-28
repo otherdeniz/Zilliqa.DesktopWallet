@@ -2,7 +2,7 @@
 
 namespace Zilligraph.Database.Storage.Table
 {
-    public class DataFileEnumerable : IEnumerable<DataRowBinary>
+    public class DataFileEnumerable : IEnumerable<CompressedDataRowBinary>
     {
         private readonly DataFile _dataFile;
 
@@ -11,7 +11,7 @@ namespace Zilligraph.Database.Storage.Table
             _dataFile = dataFile;
         }
 
-        public IEnumerator<DataRowBinary> GetEnumerator()
+        public IEnumerator<CompressedDataRowBinary> GetEnumerator()
         {
             return new DataFileEnumerator(this);
         }
@@ -21,12 +21,12 @@ namespace Zilligraph.Database.Storage.Table
             return GetEnumerator();
         }
 
-        public class DataFileEnumerator : IEnumerator<DataRowBinary>
+        public class DataFileEnumerator : IEnumerator<CompressedDataRowBinary>
         {
             private const int ChunkSize = 1000;
             private readonly DataFileEnumerable _enumerable;
             private bool _endOfFile;
-            private List<DataRowBinary>? _currentChunk;
+            private List<CompressedDataRowBinary>? _currentChunk;
             private int _currentChunkIndex;
             private bool _readNextChunk = true;
 
@@ -86,7 +86,7 @@ namespace Zilligraph.Database.Storage.Table
             }
 
 #pragma warning disable CS8766 //Nullability
-            public DataRowBinary? Current { get; private set; }
+            public CompressedDataRowBinary? Current { get; private set; }
 #pragma warning restore CS8766
 
             object? IEnumerator.Current => Current;

@@ -22,10 +22,14 @@ namespace Zilligraph.Database.Storage
         DataPathBuilder PathBuilder { get; }
 
         Dictionary<string, ZilligraphTableIndexBase> Indexes { get; }
+
         bool InitialisationCompleted { get; }
+
         decimal InitialisationCompletedPercent { get; }
 
         void AddRecord(object record);
+
+        void UpdateRecord(object record);
 
         IEnumerable EnumerateRecords(IFilterQuery queryFilter, bool resolveReferences = true);
 

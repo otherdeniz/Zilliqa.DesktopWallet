@@ -6,6 +6,7 @@ using Environment = System.Environment;
 
 namespace Zilliqa.DesktopWallet.DatabaseSchema
 {
+    [TableModel(TableKind.NotMutable)]
     public class Transaction
     {
         private DataContractCall? _dataContractCall;

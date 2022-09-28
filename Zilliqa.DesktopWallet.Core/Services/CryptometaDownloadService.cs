@@ -56,7 +56,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                         CryptometaFile.Instance.ModifiedDate = DateTime.Today;
                         CryptometaFile.Instance.Save();
                         Logging.LogInfo("CryptometaDownloadService refresh completed");
-                        AddKnownAddresses();
+                        AfterLoadCompleted();
                     }
                     catch (TaskCanceledException)
                     {
@@ -70,12 +70,15 @@ namespace Zilliqa.DesktopWallet.Core.Services
             }
             else
             {
-                AddKnownAddresses();
+                AfterLoadCompleted();
             }
         }
 
-        private void AddKnownAddresses()
+        private void AfterLoadCompleted()
         {
+            // load Logo images from disk
+            LogoImages.Instance.LoadImages();
+            // add known addresses
             foreach (var asset in CryptometaFile.Instance.Assets)
             {
                 KnownAddressService.Instance.AddUnique(asset.Bech32Address, $"{asset.NameShort()} ({asset.SymbolShort()})");

@@ -1,8 +1,10 @@
 ﻿
 // ReSharper disable InconsistentlySynchronizedField
 
+using System.Reflection;
 using System.Runtime.Caching;
 using Zillifriends.Shared.Common;
+using Zilligraph.Database.Contract;
 
 namespace Zilligraph.Database.Storage
 {
@@ -10,6 +12,7 @@ namespace Zilligraph.Database.Storage
     {
         private readonly MemoryCache _directorySizeCache = new MemoryCache("Database");
         private readonly Dictionary<Type, IZilligraphTable> _tables = new();
+        //private readonly Dictionary<Type, IZilligraphTable> _mutableTables = new();
 
         private long? _dbSize;
 
@@ -64,6 +67,31 @@ namespace Zilligraph.Database.Storage
             _dbSize = null;
         }
 
+        //public ZilligraphMutableTable<TRecordModel> GetMutableTable<TRecordModel>() where TRecordModel : class, new()
+        //{
+        //    var modelType = typeof(TRecordModel);
+        //    if (_mutableTables.ContainsKey(modelType))
+        //    {
+        //        return (ZilligraphMutableTable<TRecordModel>)_mutableTables[modelType];
+        //    }
+
+        //    lock (_mutableTables)
+        //    {
+        //        if (_mutableTables.ContainsKey(modelType))
+        //        {
+        //            return (ZilligraphMutableTable<TRecordModel>)_mutableTables[modelType];
+        //        }
+
+        //        if (GetTableModelKind(modelType) != TableKind.Mutable)
+        //        {
+        //            throw new RuntimeException($"ZilligraphTable '{modelType}' must have TableModelAttribute with TableKind 'Mutable'");
+        //        }
+        //        var table = new ZilligraphMutableTable<TRecordModel>(this);
+        //        _mutableTables.Add(modelType, table);
+        //        return table;
+        //    }
+        //}
+
         public ZilligraphTable<TRecordModel> GetTable<TRecordModel>() where TRecordModel : class, new()
         {
             var modelType = typeof(TRecordModel);
@@ -79,11 +107,23 @@ namespace Zilligraph.Database.Storage
                     return (ZilligraphTable<TRecordModel>)_tables[modelType];
                 }
 
-                var table = new ZilligraphTable<TRecordModel>(this);
-                //TODO: move starts of table.EnsureInitialised to Database...)
-                //table.EnsureInitialised(false);
-                _tables.Add(modelType, table);
-                return table;
+                var tableKind = GetTableModelKind(modelType);
+                if (tableKind == TableKind.NotMutable)
+                {
+                    var table = new ZilligraphTable<TRecordModel>(this);
+                    //TODO: move starts of table.EnsureInitialised to Database...
+                    //table.EnsureInitialised(false);
+                    _tables.Add(modelType, table);
+                    return table;
+                }
+                if (tableKind == TableKind.Mutable)
+                {
+                    var table = new ZilligraphMutableTable<TRecordModel>(this);
+                    _tables.Add(modelType, table);
+                    return table;
+                }
+
+                throw new RuntimeException($"ZilligraphTable '{modelType}' must have TableModelAttribute");
             }
         }
 
@@ -101,14 +141,22 @@ namespace Zilligraph.Database.Storage
                     return _tables[recordType];
                 }
 
-                var tableType = typeof(ZilligraphTable<>).MakeGenericType(new Type[] { recordType });
-                if (Activator.CreateInstance(tableType, new object?[] { this }) is IZilligraphTable table)
+                var tableKind = GetTableModelKind(recordType);
+                if (tableKind == TableKind.NotMutable)
                 {
+                    var tableType = typeof(ZilligraphTable<>).MakeGenericType(new Type[] { recordType });
+                    var table = (IZilligraphTable)Activator.CreateInstance(tableType, new object?[] { this })!;
                     _tables.Add(recordType, table);
                     return table;
                 }
-
-                throw new RuntimeException($"ZilligraphTable instance of Type '{tableType}' generation failed");
+                if (tableKind == TableKind.Mutable)
+                {
+                    var tableType = typeof(ZilligraphMutableTable<>).MakeGenericType(new Type[] { recordType });
+                    var table = (IZilligraphTable)Activator.CreateInstance(tableType, new object?[] { this })!;
+                    _tables.Add(recordType, table);
+                    return table;
+                }
+                throw new RuntimeException($"ZilligraphTable '{recordType}' must have TableModelAttribute");
             }
         }
 
@@ -123,6 +171,12 @@ namespace Zilligraph.Database.Storage
 
                 _tables.Clear();
             }
+        }
+
+        private static TableKind? GetTableModelKind(Type tableType)
+        {
+            var attribute = tableType.GetCustomAttribute<TableModelAttribute>(false);
+            return attribute?.TableKind;
         }
     }
 }

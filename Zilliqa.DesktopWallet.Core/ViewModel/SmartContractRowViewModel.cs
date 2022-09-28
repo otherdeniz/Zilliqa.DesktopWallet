@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
+using System.Drawing;
 using Zillifriends.Shared.Common;
+using Zilliqa.DesktopWallet.Core.Data.Images;
 using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
@@ -11,10 +13,13 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         private string? _date;
         private string? _contractAddress;
         private AddressValue? _ownerAddress;
+        private Image? _logoIcon;
+        private readonly AddressValue _address;
 
         public SmartContractRowViewModel(SmartContract smartContractModel)
         {
             SmartContractModel = smartContractModel;
+            _address = new AddressValue(SmartContractModel.ContractAddress);
         }
 
         [Browsable(false)]
@@ -23,12 +28,36 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [DisplayName("Created")]
         public string DeploymentDate => _date ??= SmartContractModel.Timestamp.ToLocalTime().ToString("g");
 
+        [DisplayName(" ")]
+        public Image? Logo => _logoIcon 
+            ??= LogoImages.Instance.GetImage(_address.Address.GetBech32()).Icon16;
+
         public string Address => _contractAddress 
-            ??= new AddressValue(SmartContractModel.ContractAddress).Address.GetBech32().FromBech32ToShortReadable();
+            ??= _address.Address.GetBech32().FromBech32ToShortReadable();
+
+        public string Type
+        {
+            get
+            {
+                switch (SmartContractModel.SmartContractTypeEnum)
+                {
+                    case SmartContractType.GenericDapp:
+                        return "DApp";
+                    case SmartContractType.FungibleToken:
+                        return "Fungible Token";
+                    case SmartContractType.NonfungibleToken:
+                        return "NFT";
+                    case SmartContractType.DecentralisedExchange:
+                        return "DEX";
+                    default:
+                        return "";
+                }
+            }
+        }
 
         [ColumnWidth(100)]
-        [DisplayName("Contract Name")]
-        public string ContractName => SmartContractModel.ContractLibrary;
+        [DisplayName("Library")]
+        public string ContractLibrary => SmartContractModel.ContractLibrary;
 
         [ColumnWidth(150)]
         [DisplayName("Token Name")]

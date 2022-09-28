@@ -25,35 +25,38 @@ namespace Zilliqa.DesktopWallet.Core.Data.Images
 
         protected DataPathBuilder DataPathBuilder { get; }
 
+        public void LoadImages()
+        {
+            _imagesCache.Clear();
+            foreach (var file16 in Directory.GetFiles(DataPathBuilder.FullPath, "*_16.png"))
+            {
+                var key = new FileInfo(file16).Name.Substring(0, file16.Length-7);
+                try
+                {
+                    var pngFile16 = DataPathBuilder.GetFilePath($"{key}_16.png");
+                    var pngFile48 = DataPathBuilder.GetFilePath($"{key}_48.png");
+                    var model = new IconModel
+                    {
+                        Icon16 = Image.FromFile(pngFile16),
+                        Icon48 = Image.FromFile(pngFile48)
+                    };
+                    _imagesCache.Add(key, model);
+
+                }
+                catch (Exception)
+                {
+                    // ignore any error
+                }
+            }
+        }
+
         public IconModel GetImage(string key)
         {
             if (_imagesCache.TryGetValue(key, out var iconModel))
             {
                 return iconModel;
             }
-
-            try
-            {
-                var model = DefaultIcon;
-                var pngFile16 = DataPathBuilder.GetFilePath($"{key}_16.png");
-                var pngFile48 = DataPathBuilder.GetFilePath($"{key}_48.png");
-                if (File.Exists(pngFile16) && File.Exists(pngFile48))
-                {
-                    model = new IconModel
-                    {
-                        Icon16 = Image.FromFile(pngFile16),
-                        Icon48 = Image.FromFile(pngFile48)
-                    };
-                }
-                _imagesCache.Add(key, model);
-                return model;
-
-            }
-            catch (Exception)
-            {
-                // ignore any error
-                return DefaultIcon;
-            }
+            return DefaultIcon;
         }
 
         public void SaveImage(string key, byte[] imageData)

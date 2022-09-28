@@ -34,7 +34,7 @@ namespace Zilligraph.Database.Storage.Table
             _bulkOperationFileStream = null;
         }
 
-        public ulong Append(DataRowBinary row)
+        public ulong Append(CompressedDataRowBinary row)
         {
             if (_bulkOperationFileStream != null)
             {
@@ -50,7 +50,7 @@ namespace Zilligraph.Database.Storage.Table
             }
         }
 
-        private ulong AppendToStream(DataRowBinary row, FileStream fileStream)
+        private ulong AppendToStream(CompressedDataRowBinary row, FileStream fileStream)
         {
             fileStream.Seek(0, SeekOrigin.End);
             ulong recordPoint = Convert.ToUInt64(fileStream.Position + 1);
@@ -59,7 +59,7 @@ namespace Zilligraph.Database.Storage.Table
             return recordPoint;
         }
 
-        public DataRowBinary? Read(ulong recordPoint)
+        public CompressedDataRowBinary? Read(ulong recordPoint)
         {
             if (_bulkOperationFileStream != null)
             {
@@ -75,12 +75,12 @@ namespace Zilligraph.Database.Storage.Table
             }
         }
 
-        private DataRowBinary? ReadFromStream(ulong recordPoint, FileStream fileStream)
+        private CompressedDataRowBinary? ReadFromStream(ulong recordPoint, FileStream fileStream)
         {
             try
             {
                 fileStream.Seek(Convert.ToInt64(recordPoint - 1), SeekOrigin.Begin);
-                var row = DataRowBinary.ReadFromStream(fileStream);
+                var row = CompressedDataRowBinary.ReadFromStream(fileStream);
                 if (row?.RowLength > 0)
                 {
                     return row;
@@ -93,7 +93,7 @@ namespace Zilligraph.Database.Storage.Table
             return null;
         }
 
-        public List<DataRowBinary> ReadChunked(ulong firstRecordPoint, int maxLength)
+        public List<CompressedDataRowBinary> ReadChunked(ulong firstRecordPoint, int maxLength)
         {
             if (_bulkOperationFileStream != null)
             {
@@ -109,15 +109,15 @@ namespace Zilligraph.Database.Storage.Table
             }
         }
 
-        private List<DataRowBinary> ReadChunkedFromStream(ulong firstRecordPoint, int maxLength, FileStream fileStream)
+        private List<CompressedDataRowBinary> ReadChunkedFromStream(ulong firstRecordPoint, int maxLength, FileStream fileStream)
         {
-            var resultList = new List<DataRowBinary>();
+            var resultList = new List<CompressedDataRowBinary>();
             fileStream.Seek(Convert.ToInt64(firstRecordPoint - 1), SeekOrigin.Begin);
             for (int i = 0; i < maxLength; i++)
             {
                 try
                 {
-                    var row = DataRowBinary.ReadFromStream(fileStream);
+                    var row = CompressedDataRowBinary.ReadFromStream(fileStream);
                     if (row?.RowLength > 0)
                     {
                         resultList.Add(row);
@@ -135,11 +135,11 @@ namespace Zilligraph.Database.Storage.Table
             return resultList;
         }
 
-        public IEnumerable<DataRowBinary> AllRows()
+        public IEnumerable<CompressedDataRowBinary> AllRows()
         {
             if (!HasRows)
             {
-                return Enumerable.Empty<DataRowBinary>();
+                return Enumerable.Empty<CompressedDataRowBinary>();
             }
             return new DataFileEnumerable(this);
         }

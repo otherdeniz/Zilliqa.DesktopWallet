@@ -38,11 +38,14 @@ namespace Zilliqa.DesktopWallet.ApiClient.ViewblockApi.Model
         [JsonProperty("trusted")]
         public bool Trusted { get; set; }
 
+        [JsonProperty("product")]
+        public bool Product { get; set; }
+
         [JsonProperty("links")] 
-        public CryptometaAssetLinks Links { get; set; } = new();
+        public CryptometaLinks Links { get; set; } = new();
 
         [JsonProperty("gen")] 
-        public CryptometaAssetGen Gen { get; set; } = new();
+        public CryptometaGen Gen { get; set; } = new();
 
         public string NameShort()
         {
@@ -61,30 +64,5 @@ namespace Zilliqa.DesktopWallet.ApiClient.ViewblockApi.Model
             }
             return Symbol;
         }
-    }
-
-    public class CryptometaAssetLinks
-    {
-        [JsonProperty("twitter")]
-        public string Twitter { get; set; }
-
-        [JsonProperty("telegram")]
-        public string Telegram { get; set; }
-
-        [JsonProperty("github")]
-        public string Github { get; set; }
-
-        [JsonProperty("linkedin")]
-        public string Linkedin { get; set; }
-
-    }
-
-    public class CryptometaAssetGen
-    {
-        [JsonProperty("logo")]
-        public string Logo { get; set; }
-
-        [JsonProperty("score")]
-        public int Score { get; set; }
     }
 }

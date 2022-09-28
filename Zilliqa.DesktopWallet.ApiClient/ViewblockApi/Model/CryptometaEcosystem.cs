@@ -33,33 +33,10 @@ namespace Zilliqa.DesktopWallet.ApiClient.ViewblockApi.Model
         public string[]? Categories { get; set; }
 
         [JsonProperty("links")]
-        public CryptometaEcosystemLinks Links { get; set; } = new();
+        public CryptometaLinks Links { get; set; } = new();
 
         [JsonProperty("gen")]
-        public CryptometaEcosystemGen Gen { get; set; } = new();
-
-    }
-
-    public class CryptometaEcosystemLinks
-    {
-        [JsonProperty("twitter")]
-        public string Twitter { get; set; }
-
-        [JsonProperty("telegram")]
-        public string Telegram { get; set; }
-
-        [JsonProperty("facebook")]
-        public string Facebook { get; set; }
-
-        [JsonProperty("linkedin")]
-        public string Linkedin { get; set; }
-
-    }
-
-    public class CryptometaEcosystemGen
-    {
-        [JsonProperty("logo")]
-        public string Logo { get; set; }
+        public CryptometaGen Gen { get; set; } = new();
 
     }
 
