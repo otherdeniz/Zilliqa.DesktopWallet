@@ -7,7 +7,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
 {
     public static class SmartContractModelCreator
     {
-        public static class ContractNames
+        public static class LibraryNames
         {
             public const string FungibleToken = "FungibleToken";
             public const string NonfungibleToken = "NonfungibleToken";
@@ -17,6 +17,8 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
             new Regex(@"^\s*contract\s+(\w+)", RegexOptions.Multiline | RegexOptions.Compiled);
         private static readonly Regex ContractNameSingleLineRegEx =
             new Regex(@"\s+contract\s+(\w+)\s*\(", RegexOptions.Compiled);
+        private static readonly Regex FieldRegEx =
+            new Regex(@"^\s*field\s+(\w+)\s*:", RegexOptions.Multiline | RegexOptions.Compiled);
 
         public static SmartContract? CreateModel(Transaction deploymentTransaction)
         {
@@ -43,14 +45,15 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                     smartContract.OwnerAddress = deploymentTransaction.SenderAddress;
                 }
 
-                var contractNameMatch = ContractNameRegEx.Match(deploymentTransaction.GetPatchedCode() ?? string.Empty);
+                var patchedCode = deploymentTransaction.GetPatchedCode() ?? string.Empty;
+                var contractNameMatch = ContractNameRegEx.Match(patchedCode);
                 if (contractNameMatch.Success)
                 {
                     smartContract.ContractLibrary = contractNameMatch.Groups[1].Value;
                 }
                 else
                 {
-                    var contractNameSingleLineMatch = ContractNameSingleLineRegEx.Match(deploymentTransaction.GetPatchedCode() ?? string.Empty);
+                    var contractNameSingleLineMatch = ContractNameSingleLineRegEx.Match(patchedCode);
                     if (contractNameSingleLineMatch.Success)
                     {
                         smartContract.ContractLibrary = contractNameSingleLineMatch.Groups[1].Value;
@@ -61,6 +64,10 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                     }
                 }
 
+                smartContract.StateFields = FieldRegEx.Matches(patchedCode)
+                    .Select(f => f.Groups[1].Value)
+                    .ToArray();
+
                 var contractAddress = ApiRetryCalls.RetryTaskTillCompleted<Address>(() =>
                         ZilliqaClient.DefaultInstance
                             .GetContractAddressFromTransactionID(deploymentTransaction.Id)
@@ -70,6 +77,24 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                     return null;
                 }
                 smartContract.ContractAddress = contractAddress;
+
+                if (smartContract.TokenDecimals() > 0 
+                    || smartContract.ContractLibrary == LibraryNames.FungibleToken)
+                {
+                    smartContract.SmartContractType = (int)SmartContractType.FungibleToken;
+                }
+                else if (smartContract.ContractLibrary == LibraryNames.NonfungibleToken)
+                {
+                    smartContract.SmartContractType = (int)SmartContractType.NonfungibleToken;
+                }
+                else if (smartContract.StateFields.Any(f => f == "pools"))
+                {
+                    smartContract.SmartContractType = (int)SmartContractType.DecentralisedExchange;
+                }
+                else
+                {
+                    smartContract.SmartContractType = (int)SmartContractType.GenericDapp;
+                }
 
                 return smartContract;
             }

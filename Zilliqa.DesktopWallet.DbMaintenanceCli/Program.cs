@@ -26,7 +26,7 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
             var targetPath = targetFolder.Substring(16);
 
             Console.WriteLine($"from DB: {sourcePath}");
-            Console.WriteLine($"to DB: {targetPath}");
+            Console.WriteLine($"to   DB: {targetPath}");
 
             var sourceDatabase = new ZilligraphDatabase(sourcePath);
             var targetDatabase = new ZilligraphDatabase(targetPath);

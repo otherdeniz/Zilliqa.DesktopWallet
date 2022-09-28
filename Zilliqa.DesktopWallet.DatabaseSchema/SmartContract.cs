@@ -20,7 +20,6 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
         public DateTime Timestamp { get; set; }
 
         [JsonProperty("C")]
-        [PropertyIndex(OverrideMaxChainLength = 100)]
         public string ContractLibrary { get; set; }
 
         [JsonProperty("D")]
@@ -40,6 +39,9 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
         [JsonProperty("G")]
         [PropertyIndex]
         public string ContractAddress { get; set; }
+
+        [JsonProperty("H")]
+        public string[] StateFields { get; set; }
 
         public string? TokenName()
         {
