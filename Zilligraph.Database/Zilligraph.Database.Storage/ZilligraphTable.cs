@@ -92,7 +92,7 @@ namespace Zilligraph.Database.Storage
             }
         }
 
-        private void Initialise(CancellationToken cancellationToken)
+        protected virtual void Initialise(CancellationToken cancellationToken)
         {
             if (CompressedDataFiles[0].HasRows)
             {
@@ -289,10 +289,18 @@ namespace Zilligraph.Database.Storage
             }
         }
 
-        public IList<long> GetAllRecordPositions()
+        public virtual IList<long> GetAllRecordPositions()
         {
-            //TODO support multiple dataFiles, once implemented multiple DataFiles
-            return CompressedDataFiles.Last().AllRowPositions();
+            if (CompressedDataFiles.Count == 1)
+            {
+                return CompressedDataFiles[0].AllRowPositions();
+            }
+            var result = new List<long>();
+            foreach (var dataFile in CompressedDataFiles)
+            {
+                result.AddRange(dataFile.AllRowPositions());
+            }
+            return result;
         }
 
         public IEnumerable<TRecordModel> EnumerateRecords(IFilterQuery queryFilter, Func<TRecordModel, bool>? additionalFilter = null, bool resolveReferences = true)
@@ -323,7 +331,7 @@ namespace Zilligraph.Database.Storage
             return ReadRecordInternal(recordPoint, resolveReferences);
         }
 
-        private TRecordModel ReadRecordInternal(ulong recordPoint, bool resolveReferences)
+        protected virtual TRecordModel ReadRecordInternal(ulong recordPoint, bool resolveReferences)
         {
             var dataFile = CompressedDataFiles.Last();
             var rowBinary = dataFile.Read(recordPoint);
