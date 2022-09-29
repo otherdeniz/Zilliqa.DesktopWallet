@@ -1,6 +1,7 @@
 ﻿using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.ApiClient.Utils;
+using Zilliqa.DesktopWallet.Core.Api.Coingecko.Model;
 using Zilliqa.DesktopWallet.Core.Data.Files;
 using Zilliqa.DesktopWallet.Core.Data.Images;
 using Zilliqa.DesktopWallet.Core.Data.Model;
@@ -35,7 +36,9 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 try
                 {
                     Logging.LogInfo("TokenDataService.StartLoadTokens: loading all Tokens from Cryptometa Assets");
-                    foreach (var cryptometaAsset in CryptometaFile.Instance.Assets)
+                    foreach (var cryptometaAsset in CryptometaFile.Instance.Assets
+                                 .Where(a => !string.IsNullOrEmpty(a.Symbol)
+                                             && a.Symbol.ToLower() != "zil"))
                     {
                         var tokenModel = tokenModels.FirstOrDefault(t => t.Symbol == cryptometaAsset.Symbol);
                         if (tokenModel == null)
@@ -53,16 +56,17 @@ namespace Zilliqa.DesktopWallet.Core.Services
                     Logging.LogInfo("TokenDataService.StartLoadTokens: loading all Tokens from Smart Contracts");
                     foreach (var smartContract in RepositoryManager.Instance.DatabaseRepository.Database
                                  .GetTable<SmartContract>().EnumerateAllRecords()
-                                 .Where(sc => sc.TokenSymbol() != null))
+                                 .Where(sc => !string.IsNullOrEmpty(sc.TokenSymbol()) 
+                                              && sc.TokenSymbol()?.ToLower() != "zil"))
                     {
-                        var contractSymbol = smartContract.TokenSymbol()!;
+                        var contractSymbol = smartContract.TokenSymbol();
                         var contractAddressBech32 = smartContract.ContractAddress.FromBase16ToBech32Address();
                         var tokenModel = tokenModels.FirstOrDefault(t => t.Symbol == contractSymbol);
                         if (tokenModel == null)
                         {
                             tokenModel = new TokenModel
                             {
-                                Symbol = contractSymbol,
+                                Symbol = contractSymbol!,
                                 Name = smartContract.TokenName() ?? string.Empty,
                                 Icon = LogoImages.Instance.GetImage(contractAddressBech32)
                             };
@@ -75,19 +79,43 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 }
                 catch (Exception e)
                 {
-                    Logging.LogError("TokenDataService.StartLoadTokens failed", e);
+                    Logging.LogError("TokenDataService.StartLoadTokens: loading failed", e);
+                }
+                foreach (var coinPrice in TokenPriceFile.Instance.CoinPrices)
+                {
+                    var symbolLowered = coinPrice.Symbol.ToLower();
+                    tokenModels.FirstOrDefault(t => t.Symbol.ToLower() == symbolLowered)
+                        ?.LoadPriceProperties(coinPrice);
                 }
 
                 _tokenModels = tokenModels
-                    .OrderByDescending(t => t.CryptometaAsset?.Gen.Score ?? -1)
+                    .OrderByDescending(t => t.MarketCapUsd ?? -1)
+                    .ThenByDescending(t => t.CryptometaAsset?.Gen.Score ?? -1)
                     .ThenByDescending(t => t.CreatedDate ?? DateTime.MinValue)
                     .ToList();
                 _tokenAddressDictionary = null;
                 _tokenModelsLoaded = true;
+                Logging.LogInfo("TokenDataService.StartLoadTokens: loading completed");
 
-                Logging.LogInfo("TokenDataService.StartLoadTokens: loading price-infos");
-                _tokenModels.ForEach(t => t.LoadPriceProperties());
-                Logging.LogInfo("TokenDataService.StartLoadTokens completed");
+                if ((TokenPriceFile.Instance.ModifiedDate ?? DateTime.MinValue) < DateTime.Today.AddDays(-1))
+                {
+                    Logging.LogInfo("TokenDataService.StartLoadTokens: Refresh price-infos begin");
+                    var coinPrices = new List<CoinPrice>();
+                    foreach (var tokenModel in _tokenModels)
+                    {
+                        if (string.IsNullOrEmpty(tokenModel.Symbol)
+                            || !(tokenModel.CryptometaAsset?.Gen.Score > 0)) break;
+                        RepositoryManager.Instance.CoingeckoRepository.GetCoinPrice(tokenModel.Symbol, cp =>
+                        {
+                            tokenModel.LoadPriceProperties(cp);
+                            coinPrices.Add(cp);
+                        }, false);
+                    }
+                    TokenPriceFile.Instance.ModifiedDate = DateTime.Now;
+                    TokenPriceFile.Instance.CoinPrices = coinPrices;
+                    TokenPriceFile.Instance.Save();
+                    Logging.LogInfo("TokenDataService.StartLoadTokens: Refresh price-infos completed");
+                }
 
                 _loading = false;
             });
@@ -104,7 +132,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
         public TokenModel? GetToken(string symbol)
         {
             var symbolLowered = symbol.ToLower();
-            return _tokenModels?.FirstOrDefault(t => t.Symbol.ToLower() == symbolLowered);
+            return _tokenModels?.FirstOrDefault(t => t.Symbol?.ToLower() == symbolLowered);
         }
 
         public TokenModelByAddress? FindTokenByAddress(string tokenAddress)

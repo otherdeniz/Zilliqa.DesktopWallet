@@ -33,26 +33,21 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
 
         public decimal? MarketCapUsd { get; private set; }
 
-        public virtual void LoadPriceProperties()
+        public virtual void LoadPriceProperties(CoinPrice coinPrice)
         {
-            if (string.IsNullOrEmpty(Symbol) 
-                || !(CryptometaAsset?.Gen.Score > 0)) return;
-            RepositoryManager.Instance.CoingeckoRepository.GetCoinPrice(Symbol, cp =>
+            CoinPrice = coinPrice;
+            PriceUsd = coinPrice.MarketData.CurrentPrice.Usd;
+            var zilPrice = RepositoryManager.Instance.CoingeckoRepository.ZilCoinPrice?.MarketData
+                .CurrentPrice.Usd;
+            if (PriceUsd > 0 && zilPrice > 0)
             {
-                CoinPrice = cp;
-                PriceUsd = cp.MarketData.CurrentPrice.Usd;
-                var zilPrice = RepositoryManager.Instance.CoingeckoRepository.ZilCoinPrice?.MarketData
-                    .CurrentPrice.Usd;
-                if (PriceUsd > 0 && zilPrice > 0)
-                {
-                    PriceZil = PriceUsd / zilPrice;
-                }
-                MarketCapUsd = cp.MarketData.MarketCap.Usd;
-                if (MaxSupply == null)
-                {
-                    MaxSupply = cp.MarketData.MaxSupply ?? cp.MarketData.TotalSupply;
-                }
-            }, false);
+                PriceZil = PriceUsd / zilPrice;
+            }
+            MarketCapUsd = coinPrice.MarketData.MarketCap.Usd;
+            if (MaxSupply == null)
+            {
+                MaxSupply = coinPrice.MarketData.MaxSupply ?? coinPrice.MarketData.TotalSupply;
+            }
         }
     }
 
