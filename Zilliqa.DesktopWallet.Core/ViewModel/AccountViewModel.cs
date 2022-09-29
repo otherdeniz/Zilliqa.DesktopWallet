@@ -296,14 +296,21 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                     ZilTransaction = new ZilTransactionRowViewModel(thisAddress, transaction);
                     innerViewModel = ZilTransaction;
                 }
-                else if (transaction.TransactionTypeEnum == TransactionType.ContractCall
-                         && transaction.DataContractCall.Tag == "Transfer")
+                else if (transaction.TransactionTypeEnum == TransactionType.ContractCall)
                 {
                     var tokenModel = TokenDataService.Instance.FindTokenByAddress(transaction.ToAddress);
-                    if (tokenModel != null)
+                    if (transaction.DataContractCall.Tag == "Transfer")
                     {
-                        TokenTransaction = new TokenTransactionRowViewModel(thisAddress, transaction, tokenModel);
-                        innerViewModel = TokenTransaction;
+                        if (tokenModel != null)
+                        {
+                            TokenTransaction = new TokenTransactionRowViewModel(thisAddress, transaction, tokenModel);
+                            innerViewModel = TokenTransaction;
+                        }
+                    }
+                    else
+                    {
+                        ContractCallTransaction = new ContractCallTransactionRowViewModel(thisAddress, transaction);
+                        innerViewModel = ContractCallTransaction;
                     }
                 }
 
@@ -317,6 +324,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             public ZilTransactionRowViewModel? ZilTransaction { get; }
 
             public TokenTransactionRowViewModel? TokenTransaction { get; }
+
+            public ContractCallTransactionRowViewModel? ContractCallTransaction { get; }
         }
 
     }

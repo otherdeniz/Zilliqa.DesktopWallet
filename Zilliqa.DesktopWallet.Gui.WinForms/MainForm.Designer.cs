@@ -35,6 +35,8 @@
             this.buttonTokens = new System.Windows.Forms.ToolStripButton();
             this.buttonExit = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.buttonSmartContracts = new System.Windows.Forms.ToolStripButton();
+            this.buttonEcosystem = new System.Windows.Forms.ToolStripButton();
             this.buttonBlockchain = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonSettings = new System.Windows.Forms.ToolStripButton();
@@ -50,14 +52,12 @@
             this.menuDisplayCurrencyLtc = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMain = new System.Windows.Forms.Panel();
             this.mainWalletControl = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.MainWalletControl();
-            this.mainBlockchainBrowserControl = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.MainBlockExplorerControl();
             this.panelBottom = new System.Windows.Forms.Panel();
             this.groupBoxNotifications = new System.Windows.Forms.GroupBox();
             this.panelNotifications = new System.Windows.Forms.Panel();
             this.groupBoxStatus = new System.Windows.Forms.GroupBox();
             this.bottomStatusControl1 = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.BottomStatusControl();
             this.timerInit = new System.Windows.Forms.Timer(this.components);
-            this.buttonSmartContracts = new System.Windows.Forms.ToolStripButton();
             this.toolStripMain.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.panelBottom.SuspendLayout();
@@ -74,6 +74,7 @@
             this.buttonExit,
             this.toolStripSeparator2,
             this.buttonSmartContracts,
+            this.buttonEcosystem,
             this.buttonBlockchain,
             this.toolStripSeparator1,
             this.buttonSettings,
@@ -99,8 +100,8 @@
             this.buttonTokens.Image = ((System.Drawing.Image)(resources.GetObject("buttonTokens.Image")));
             this.buttonTokens.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonTokens.Name = "buttonTokens";
-            this.buttonTokens.Size = new System.Drawing.Size(107, 28);
-            this.buttonTokens.Text = "ZRC-2 Tokens";
+            this.buttonTokens.Size = new System.Drawing.Size(71, 28);
+            this.buttonTokens.Text = "Tokens";
             this.buttonTokens.Click += new System.EventHandler(this.buttonTokens_Click);
             // 
             // buttonExit
@@ -118,6 +119,24 @@
             this.toolStripSeparator2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
+            // 
+            // buttonSmartContracts
+            // 
+            this.buttonSmartContracts.Image = ((System.Drawing.Image)(resources.GetObject("buttonSmartContracts.Image")));
+            this.buttonSmartContracts.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonSmartContracts.Name = "buttonSmartContracts";
+            this.buttonSmartContracts.Size = new System.Drawing.Size(120, 28);
+            this.buttonSmartContracts.Text = "Smart Contracts";
+            this.buttonSmartContracts.Click += new System.EventHandler(this.buttonSmartContracts_Click);
+            // 
+            // buttonEcosystem
+            // 
+            this.buttonEcosystem.Image = ((System.Drawing.Image)(resources.GetObject("buttonEcosystem.Image")));
+            this.buttonEcosystem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonEcosystem.Name = "buttonEcosystem";
+            this.buttonEcosystem.Size = new System.Drawing.Size(91, 28);
+            this.buttonEcosystem.Text = "Ecosystem";
+            this.buttonEcosystem.Click += new System.EventHandler(this.buttonEcosystem_Click);
             // 
             // buttonBlockchain
             // 
@@ -232,7 +251,6 @@
             this.panelMain.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panelMain.BackgroundImage")));
             this.panelMain.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.panelMain.Controls.Add(this.mainWalletControl);
-            this.panelMain.Controls.Add(this.mainBlockchainBrowserControl);
             this.panelMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMain.Location = new System.Drawing.Point(0, 31);
             this.panelMain.Name = "panelMain";
@@ -243,20 +261,11 @@
             // mainWalletControl
             // 
             this.mainWalletControl.BackColor = System.Drawing.Color.White;
-            this.mainWalletControl.Location = new System.Drawing.Point(498, 91);
+            this.mainWalletControl.Location = new System.Drawing.Point(45, 50);
             this.mainWalletControl.Name = "mainWalletControl";
             this.mainWalletControl.Size = new System.Drawing.Size(475, 299);
             this.mainWalletControl.TabIndex = 1;
             this.mainWalletControl.Visible = false;
-            // 
-            // mainBlockchainBrowserControl
-            // 
-            this.mainBlockchainBrowserControl.BackColor = System.Drawing.Color.White;
-            this.mainBlockchainBrowserControl.Location = new System.Drawing.Point(21, 38);
-            this.mainBlockchainBrowserControl.Name = "mainBlockchainBrowserControl";
-            this.mainBlockchainBrowserControl.Size = new System.Drawing.Size(449, 214);
-            this.mainBlockchainBrowserControl.TabIndex = 0;
-            this.mainBlockchainBrowserControl.Visible = false;
             // 
             // panelBottom
             // 
@@ -318,15 +327,6 @@
             this.timerInit.Interval = 10;
             this.timerInit.Tick += new System.EventHandler(this.timerInit_Tick);
             // 
-            // buttonSmartContracts
-            // 
-            this.buttonSmartContracts.Image = ((System.Drawing.Image)(resources.GetObject("buttonSmartContracts.Image")));
-            this.buttonSmartContracts.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.buttonSmartContracts.Name = "buttonSmartContracts";
-            this.buttonSmartContracts.Size = new System.Drawing.Size(120, 28);
-            this.buttonSmartContracts.Text = "Smart Contracts";
-            this.buttonSmartContracts.Click += new System.EventHandler(this.buttonSmartContracts_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -363,7 +363,6 @@
         private Panel panelMain;
         private ToolStripButton buttonTokens;
         private Controls.Main.MainWalletControl mainWalletControl;
-        private Controls.Main.MainBlockExplorerControl mainBlockchainBrowserControl;
         private Panel panelBottom;
         private GroupBox groupBoxNotifications;
         private Panel panelNotifications;
@@ -382,5 +381,6 @@
         private ToolStripMenuItem toolStripMenuFiat;
         private ToolStripMenuItem toolStripMenuCrypto;
         private ToolStripButton buttonSmartContracts;
+        private ToolStripButton buttonEcosystem;
     }
 }

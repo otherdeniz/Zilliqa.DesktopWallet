@@ -31,18 +31,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public string Address => _contractAddress 
             ??= _address.Address.GetBech32().FromBech32ToShortReadable();
 
-        [DisplayName(" ")]
-        public Image? Logo => _logoIcon 
-            ??= LogoImages.Instance.GetImage(_address.Address.GetBech32()).Icon16;
-
-        [ColumnWidth(100)]
-        [DisplayName("Library")]
-        public string ContractLibrary => SmartContractModel.ContractLibrary;
-
-        [ColumnWidth(150)]
-        [DisplayName("Token Name")]
-        public string? TokenName => SmartContractModel.TokenName();
-
         public string Type
         {
             get
@@ -62,6 +50,14 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                 }
             }
         }
+
+        [DisplayName(" ")]
+        public Image? Logo => _logoIcon 
+            ??= LogoImages.Instance.GetImage(_address.Address.GetBech32()).Icon16;
+
+        [ColumnWidth(150)]
+        [DisplayName("Name")]
+        public string TokenName => SmartContractModel.TokenName() ?? SmartContractModel.ContractLibrary;
 
         [ColumnWidth(150)]
         public AddressValue Owner => _ownerAddress ??= new AddressValue(SmartContractModel.OwnerAddress);

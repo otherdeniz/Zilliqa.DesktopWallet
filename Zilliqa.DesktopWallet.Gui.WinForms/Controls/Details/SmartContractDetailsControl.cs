@@ -6,7 +6,6 @@ using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
-using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 {

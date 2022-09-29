@@ -7,7 +7,7 @@ using Zilliqa.DesktopWallet.DatabaseSchema;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 
-namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
+namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
 {
     public static class ValueSelectionHelper
     {
@@ -65,6 +65,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                 control.LoadSmartContract(smartContractRow);
                 return control;
             }
+            if (value is EcosystemRowViewModel ecosystemRow)
+            {
+                var control = new EcosystemDetailsControl();
+                control.LoadEcosystem(ecosystemRow);
+                return control;
+            }
             var genericControl = new GenericObjectControl();
             genericControl.LoadGenericViewModel(value);
             return genericControl;
@@ -103,6 +109,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             if (value is SmartContractRowViewModel smartContractRow)
             {
                 return $"Contract: {smartContractRow.SmartContractModel.DisplayName()}";
+            }
+            if (value is EcosystemRowViewModel ecosystemRow)
+            {
+                return $"Ecosystem: {ecosystemRow.Name}";
             }
             return $"{value}";
         }
@@ -148,6 +158,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             if (value is SmartContractRowViewModel smartContractRow)
             {
                 return $"Contract-{smartContractRow.Address}";
+            }
+            if (value is EcosystemRowViewModel ecosystemRow)
+            {
+                return $"Ecosystem-{ecosystemRow.Name}";
             }
             // generate unique id
             return Guid.NewGuid().ToString("N");

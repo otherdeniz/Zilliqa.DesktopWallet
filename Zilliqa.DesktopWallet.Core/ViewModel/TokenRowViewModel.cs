@@ -19,13 +19,14 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [Browsable(false)]
         public TokenModel Model => _model;
 
+        [DisplayName(" ")]
         public Image? Icon => _icon ??= _model.Icon.Icon16;
-
-        [DisplayName("Symbol")]
-        public string SymbolShort => _model.Symbol.TokenSymbolShort();
 
         [DisplayName("Name")]
         public string NameShort => _model.Name.TokenNameShort();
+
+        [DisplayName("Symbol")]
+        public string SymbolShort => _model.Symbol.TokenSymbolShort();
 
         [DisplayName("Created")]
         [GridViewFormat("d")]

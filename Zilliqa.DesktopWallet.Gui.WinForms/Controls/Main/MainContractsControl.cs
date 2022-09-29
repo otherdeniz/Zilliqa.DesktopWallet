@@ -1,7 +1,6 @@
 ﻿using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
-using Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 {
@@ -44,19 +43,19 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             }
         }
 
-        private void gridViewContracts_SelectionChanged(object sender, GridView.GridViewControl.SelectedItemEventArgs e)
-        {
-            if (e.SelectedItem?.Value != null
-                && sender is GridViewControl gridView)
-            {
-                DisplayValue(e.SelectedItem.Value, true, o =>
-                {
-                    if (o != gridView)
-                    {
-                        gridView.ClearSelection();
-                    }
-                }, gridView);
-            }
-        }
+        //private void gridViewContracts_SelectionChanged(object sender, GridView.GridViewControl.SelectedItemEventArgs e)
+        //{
+        //    if (e.SelectedItem?.Value != null
+        //        && sender is GridViewControl gridView)
+        //    {
+        //        DisplayValue(e.SelectedItem.Value, true, o =>
+        //        {
+        //            if (o != gridView)
+        //            {
+        //                gridView.ClearSelection();
+        //            }
+        //        }, gridView);
+        //    }
+        //}
     }
 }

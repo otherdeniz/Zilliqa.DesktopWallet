@@ -88,10 +88,17 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                                                           ? new AddressValue(Transaction.ToAddress)
                                                           : new AddressValue(Transaction.SenderAddress));
 
+        [ColumnWidth(100)]
+        public string? Method => _innerViewModel is ContractCallTransactionRowViewModel contractRowViewModel
+            ? contractRowViewModel.Method
+            : null;
+
         [Browsable(true)]
         [DisplayName("Amount")]
         public string AmountDisplay =>
-            _innerViewModel == null ? string.Empty : $"{_innerViewModel.Amount:#,##0.0000} {_innerViewModel.Symbol}";
+            _innerViewModel == null || _innerViewModel.Amount == 0 
+                ? string.Empty 
+                : $"{_innerViewModel.Amount:#,##0.0000} {_innerViewModel.Symbol}";
 
         [Browsable(true)]
         public override decimal Fee => base.Fee;

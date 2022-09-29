@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.ComponentModel;
 using System.Reflection;
+using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
 using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 {
@@ -48,6 +50,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 
         [DefaultValue(false)]
         public bool DisplayDynamicColumns { get; set; } = false;
+
+        [DefaultValue(1)]
+        public int FrozenColumns { get; set; } = 1;
 
         public void LoadData(IPageableDataSource dataSource)
         {
@@ -182,9 +187,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                     }
                 }
             }
-            if (dataGridView.Columns.Count > 0)
+            if (dataGridView.Columns.Count > FrozenColumns)
             {
-                dataGridView.Columns[0].Frozen = true;
+                for (int i = 0; i < FrozenColumns; i++)
+                {
+                    dataGridView.Columns[i].Frozen = true;
+                }
             }
             ApplyVisibleDynamicColumns();
         }

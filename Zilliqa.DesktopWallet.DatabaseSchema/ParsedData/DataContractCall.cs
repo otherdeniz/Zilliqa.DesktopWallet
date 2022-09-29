@@ -34,8 +34,7 @@ public class DataContractCall
                 if (contractCall != null)
                 {
                     result = contractCall;
-                    return result.Tag != null
-                           && result.Params.Any();
+                    return result.Tag != null;
                 }
             }
             catch (Exception)
