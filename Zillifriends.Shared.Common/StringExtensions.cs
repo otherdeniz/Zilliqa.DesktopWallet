@@ -60,5 +60,24 @@ namespace Zillifriends.Shared.Common
 
             return transactionHex;
         }
+
+        public static string? TokenNameShort(this string? tokenName)
+        {
+            if (tokenName?.Length > 20)
+            {
+                return $"{tokenName[..20]}...";
+            }
+            return tokenName;
+        }
+
+        public static string? TokenSymbolShort(this string? tokenSymbol)
+        {
+            if (tokenSymbol?.Length > 8)
+            {
+                return $"{tokenSymbol[..8]}...";
+            }
+            return tokenSymbol;
+        }
+
     }
 }

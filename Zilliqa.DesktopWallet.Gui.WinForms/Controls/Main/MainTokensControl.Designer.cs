@@ -142,6 +142,7 @@
             // 
             // gridViewTokens
             // 
+            this.gridViewTokens.DisplayDynamicColumns = true;
             this.gridViewTokens.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridViewTokens.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.gridViewTokens.Location = new System.Drawing.Point(3, 19);

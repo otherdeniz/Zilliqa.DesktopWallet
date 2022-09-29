@@ -23,13 +23,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
         private void timerStartLoading_Tick(object sender, EventArgs e)
         {
             timerStartLoading.Enabled = false;
-            var tokensList = TokenDataService.Instance.GetTokens(false)
-                .Where(t => t.Symbol != "ZIL")
-                .OrderByDescending(t => t.MarketData.FullyDilutedValuationUsd)
-                .ThenBy(t => t.Id)
-                .Select(t => new TokenRowViewModel(t)).ToList();
-            gridViewTokens.LoadData(tokensList, typeof(TokenRowViewModel));
-            groupBoxTokensList.Text = $"ZRC-2 Tokens ({tokensList.Count:#,##0})";
+            var dataSource = TokenDataService.Instance.GetTokensDataSource();
+            gridViewTokens.LoadData(dataSource);
+            groupBoxTokensList.Text = $"ZRC-2 Tokens ({dataSource.RecordCount:#,##0})";
             panelLoading.Visible = false;
             panelLoaded.Visible = true;
         }
@@ -53,16 +49,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             {
                 groupBoxTokenDetails.Visible = true;
                 groupBoxMarketData.Visible = true;
-                pictureBoxIcon.Image = token.Model.GetTokenIcon().Icon48;
-                labelName.Text = token.Name;
-                labelSymbol.Text = token.Symbol;
-                labelContractAddress.Text = token.Model.AddressBech32;
-                labelInitSupply.Text = token.Model.MarketData.InitSupply.ToString("#,##0");
-                labelMaxSupply.Text = token.Model.MarketData.MaxSupply.ToString("#,##0");
-                linkLabelWebsite.Text = token.Model.WebsiteUrl;
-                linkLabelTelegram.Text = token.Model.TelegramUrl;
-                linkLabelWhitepaper.Text = token.Model.WhitepaperUrl;
-                propertyGridMarketData.SelectedObject = token.Model.MarketData;
+                pictureBoxIcon.Image = token.Model.Icon.Icon48;
+                labelName.Text = token.Model.Name;
+                labelSymbol.Text = token.Model.Symbol;
+                //labelContractAddress.Text = token.Model.ContractAddressesBech32;
+                //labelInitSupply.Text = token.Model.MarketData.InitSupply.ToString("#,##0");
+                //labelMaxSupply.Text = token.Model.MarketData.MaxSupply.ToString("#,##0");
+                //linkLabelWebsite.Text = token.Model.WebsiteUrl;
+                //linkLabelTelegram.Text = token.Model.TelegramUrl;
+                //linkLabelWhitepaper.Text = token.Model.WhitepaperUrl;
+                //propertyGridMarketData.SelectedObject = token.Model.MarketData;
             }
         }
     }

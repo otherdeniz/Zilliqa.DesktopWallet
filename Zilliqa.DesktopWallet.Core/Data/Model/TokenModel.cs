@@ -1,45 +1,88 @@
-﻿namespace Zilliqa.DesktopWallet.Core.Data.Model
+﻿using Zilliqa.DesktopWallet.ApiClient.Utils;
+using Zilliqa.DesktopWallet.ApiClient.ViewblockApi.Model;
+using Zilliqa.DesktopWallet.Core.Api.Coingecko.Model;
+using Zilliqa.DesktopWallet.Core.Repository;
+using Zilliqa.DesktopWallet.DatabaseSchema;
+
+namespace Zilliqa.DesktopWallet.Core.Data.Model
 {
     public class TokenModel
     {
-        public long Id { get; set; }
+        public string Symbol { get; set; }
 
         public string Name { get; set; }
 
-        public string Symbol { get; set; }
+        public IconModel Icon { get; set; }
 
-        public string AddressBech32 { get; set; }
+        public List<string> ContractAddressesBech32 { get; set; } = new();
 
-        public string IconUrl { get; set; }
+        public List<SmartContract> SmartContractModels { get; set; } = new();
 
-        public int Decimals { get; set; }
+        public CryptometaAsset? CryptometaAsset { get; set; }
 
-        public string WebsiteUrl { get; set; }
+        public DateTime? CreatedDate => SmartContractModels.Any() 
+            ? SmartContractModels.Min(s => s.Timestamp) : null;
 
-        public string TelegramUrl { get; set; }
+        public decimal? MaxSupply { get; private set; }
 
-        public string WhitepaperUrl { get; set; }
+        public CoinPrice? CoinPrice { get; private set; }
 
-        public int Score { get; set; }
+        public decimal? PriceZil { get; private set; }
 
-        public bool Bridged { get; set; }
+        public decimal? PriceUsd { get; private set; }
 
-        public string SupplySkipAddresses { get; set; }
+        public decimal? MarketCapUsd { get; private set; }
 
-        public TokenMarketDataModel MarketData { get; set; }
-
-        public decimal AmountToDecimal(decimal? amountNumber)
+        public virtual void LoadPriceProperties()
         {
-            if (amountNumber == null)
+            if (string.IsNullOrEmpty(Symbol) 
+                || !(CryptometaAsset?.Gen.Score > 0)) return;
+            RepositoryManager.Instance.CoingeckoRepository.GetCoinPrice(Symbol, cp =>
             {
-                return 0;
-            }
-            if (Decimals > 0)
-            {
-                var divident = Convert.ToDecimal(Math.Pow(10, Decimals));
-                return amountNumber.Value / divident;
-            }
-            return amountNumber.Value;
+                CoinPrice = cp;
+                PriceUsd = cp.MarketData.CurrentPrice.Usd;
+                var zilPrice = RepositoryManager.Instance.CoingeckoRepository.ZilCoinPrice?.MarketData
+                    .CurrentPrice.Usd;
+                if (PriceUsd > 0 && zilPrice > 0)
+                {
+                    PriceZil = PriceUsd / zilPrice;
+                }
+                MarketCapUsd = cp.MarketData.MarketCap.Usd;
+                if (MaxSupply == null)
+                {
+                    MaxSupply = cp.MarketData.MaxSupply ?? cp.MarketData.TotalSupply;
+                }
+            }, false);
         }
+    }
+
+    public class TokenModelByAddress
+    {
+        public static bool TryParse(TokenModel tokenModel, string contractAddressBech32,
+            out TokenModelByAddress? result)
+        {
+            var smartContract = tokenModel.SmartContractModels.FirstOrDefault(s =>
+                s.ContractAddress.FromBase16ToBech32Address() == contractAddressBech32);
+            if (smartContract != null)
+            {
+                result = new TokenModelByAddress
+                {
+                    TokenModel = tokenModel,
+                    ContractAddressBech32 = contractAddressBech32,
+                    SmartContract = smartContract
+                };
+                return true;
+            }
+
+            result = null;
+            return false;
+        }
+
+        public TokenModel TokenModel { get; private set; } = null!;
+
+        public string ContractAddressBech32 { get; private set; } = null!;
+
+        public SmartContract SmartContract { get; private set; } = null!;
+
     }
 }

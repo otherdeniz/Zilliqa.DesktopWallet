@@ -110,7 +110,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             {
                 _dataSourcePageable = null;
                 dataGridView.DataSource = null;
-                DisplayCurrenciesService.Instance.DisplayCurrenciesChanged -= ServiceOnDisplayCurrenciesChanged;
+                SettingsService.Instance.DisplayCurrenciesChanged -= ServiceOnDisplayCurrenciesChanged;
             }
             catch (Exception)
             {
@@ -347,7 +347,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 
         private bool IsDynamicColumnCategoryVisible(DynamicColumnCategory category)
         {
-            var currentDisplay = DisplayCurrenciesService.Instance.CurrentDisplayed;
+            var currentDisplay = SettingsService.Instance.CurrentDisplayedCurrencies;
             switch (category)
             {
                 case DynamicColumnCategory.CurrencyUsd:
@@ -377,7 +377,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
         {
             if (!InDesignMode())
             {
-                DisplayCurrenciesService.Instance.DisplayCurrenciesChanged += ServiceOnDisplayCurrenciesChanged;
+                SettingsService.Instance.DisplayCurrenciesChanged += ServiceOnDisplayCurrenciesChanged;
             }
         }
 

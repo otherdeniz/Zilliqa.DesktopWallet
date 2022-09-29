@@ -25,7 +25,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public TokenModel Model { get; }
 
         [DisplayName(" ")]
-        public Image? Icon => _icon ??= Model.GetTokenIcon().Icon16;
+        public Image? Icon => _icon ??= Model.Icon.Icon16;
 
         [DisplayName("Token")]
         public string TokenTitle => $"{Model.Name} ({Model.Symbol})";
@@ -55,10 +55,10 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             }
         }
 
-        [DisplayName("Value ZIL")]
-        [GridViewFormat("#,##0.00 ZIL")]
-        [GridViewBackground(243, 255, 243)]
-        public decimal? ValueZil { get; private set; }
+        //[DisplayName("Value ZIL")]
+        //[GridViewFormat("#,##0.00 ZIL")]
+        //[GridViewBackground(243, 255, 243)]
+        //public decimal? ValueZil { get; private set; }
 
         [DisplayName("Value USD")]
         [GridViewFormat("#,##0.00 $")]
@@ -103,7 +103,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         public void UpdateValuesProperties(bool notifiyPropertyChanged, Action? propertiesChangedAction = null)
         {
-            ValueZil = Model.MarketData.RateZil * BalanceValue;
+            //ValueZil = Model.MarketData.RateZil * BalanceValue;
             RepositoryManager.Instance.CoingeckoRepository.GetCoinPrice(Model.Symbol, cp =>
             {
                 ValueUsd = cp.MarketData.CurrentPrice.Usd * BalanceValue;
@@ -119,7 +119,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                     {
                         OnPropertyChanged(nameof(Transactions));
                         OnPropertyChanged(nameof(BalanceDisplay));
-                        OnPropertyChanged(nameof(ValueZil));
+                        //OnPropertyChanged(nameof(ValueZil));
                         OnPropertyChanged(nameof(ValueUsd));
                         OnPropertyChanged(nameof(ValueChf));
                         OnPropertyChanged(nameof(ValueEur));

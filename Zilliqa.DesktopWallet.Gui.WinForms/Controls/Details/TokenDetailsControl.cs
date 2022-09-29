@@ -17,15 +17,15 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             if (tokenModel != null)
             {
                 groupBoxTokenDetails.Visible = true;
-                pictureBoxIcon.Image = tokenModel.GetTokenIcon().Icon48;
+                pictureBoxIcon.Image = tokenModel.Icon.Icon48;
                 labelName.Text = tokenModel.Name;
                 labelSymbol.Text = tokenModel.Symbol;
-                labelContractAddress.Text = tokenModel.AddressBech32;
-                labelInitSupply.Text = tokenModel.MarketData.InitSupply.ToString("#,##0");
-                labelMaxSupply.Text = tokenModel.MarketData.MaxSupply.ToString("#,##0");
-                linkLabelWebsite.Text = tokenModel.WebsiteUrl;
-                linkLabelTelegram.Text = tokenModel.TelegramUrl;
-                linkLabelWhitepaper.Text = tokenModel.WhitepaperUrl;
+                //labelContractAddress.Text = tokenModel.AddressBech32;
+                //labelInitSupply.Text = tokenModel.MarketData.InitSupply.ToString("#,##0");
+                //labelMaxSupply.Text = tokenModel.MarketData.MaxSupply.ToString("#,##0");
+                //linkLabelWebsite.Text = tokenModel.WebsiteUrl;
+                //linkLabelTelegram.Text = tokenModel.TelegramUrl;
+                //linkLabelWhitepaper.Text = tokenModel.WhitepaperUrl;
             }
 
         }

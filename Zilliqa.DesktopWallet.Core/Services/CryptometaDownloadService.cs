@@ -78,11 +78,13 @@ namespace Zilliqa.DesktopWallet.Core.Services
         {
             // load Logo images from disk
             LogoImages.Instance.LoadImages();
-            // add known addresses
-            foreach (var asset in CryptometaFile.Instance.Assets)
-            {
-                KnownAddressService.Instance.AddUnique(asset.Bech32Address, $"{asset.NameShort()} ({asset.SymbolShort()})");
-            }
+
+            // COMMENTED OUT! already loaded, by KnownAddressService AddSmartContract function
+            //// add known addresses
+            //foreach (var asset in CryptometaFile.Instance.Assets)
+            //{
+            //    KnownAddressService.Instance.AddUnique(asset.Bech32Address, $"{asset.NameShort()} ({asset.SymbolShort()})");
+            //}
             foreach (var ecosystem in CryptometaFile.Instance.Ecosystems
                          .Where(e => e.Addresses != null))
             {
@@ -92,6 +94,9 @@ namespace Zilliqa.DesktopWallet.Core.Services
                     KnownAddressService.Instance.AddUnique(address, $"{ecosystem.Name} #{i}");
                 }
             }
+
+            // load token models
+            TokenDataService.Instance.StartLoadTokens();
         }
     }
 }

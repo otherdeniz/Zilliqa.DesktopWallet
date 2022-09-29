@@ -122,7 +122,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         private void RefreshTokenBalances()
         {
             _tokensValueUsd = TokenBalances.Any() ? TokenBalances.Sum(t => t.ValueUsd) : 0;
-            _tokensValueZil = TokenBalances.Any() ? TokenBalances.Sum(t => t.ValueZil) : 0;
+            _tokensValueZil = 0; // TokenBalances.Any() ? TokenBalances.Sum(t => t.ValueZil) : 0;
             RaiseAfterChange();
         }
 
@@ -260,12 +260,12 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             var mintedEvent = transaction.Receipt.EventLogs?.FirstOrDefault(e => 
                 e.Eventname == "Minted");// || e.Eventname == "TransferSuccess");
             if (mintedEvent == null) return;
-            var tokenModel = TokenDataService.Instance.FindTokenByAddress(mintedEvent.Address);
-            if (tokenModel == null) return;
-            var tokenBalance = TokenBalances.FirstOrDefault(t => t.Model.Symbol == tokenModel.Symbol);
+            var tokenByAddress = TokenDataService.Instance.FindTokenByAddress(mintedEvent.Address);
+            if (tokenByAddress == null) return;
+            var tokenBalance = TokenBalances.FirstOrDefault(t => t.Model.Symbol == tokenByAddress.TokenModel.Symbol);
             if (tokenBalance == null)
             {
-                tokenBalance = new TokenBalanceRowViewModel(tokenModel);
+                tokenBalance = new TokenBalanceRowViewModel(tokenByAddress.TokenModel);
                 WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                 {
                     TokenBalances.Add(tokenBalance);
@@ -276,7 +276,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             if (amountParam?.ResolvedValue is ParamValueUInt128 paramValue)
             {
                 tokenBalance.Transactions += 1;
-                tokenBalance.Balance += tokenModel.AmountToDecimal(paramValue.Number64);
+                tokenBalance.Balance += tokenByAddress.SmartContract.AmountToDecimal(paramValue.Number64);
 
                 if (updateValueProperties)
                 {

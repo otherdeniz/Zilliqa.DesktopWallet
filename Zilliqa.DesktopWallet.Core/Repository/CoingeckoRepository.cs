@@ -134,7 +134,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
             }
         }
 
-        public void GetCoinPrice(string symbol, Action<CoinPrice> afterDataReceived)
+        public void GetCoinPrice(string symbol, Action<CoinPrice> afterDataReceived, bool loadInBackground = true)
         {
             var symbolLowered = symbol.ToLower();
             if (symbolLowered == "zil" 
@@ -148,16 +148,27 @@ namespace Zilliqa.DesktopWallet.Core.Repository
                 afterDataReceived(tokenCoinPrice);
                 return;
             }
-            try
+            if (loadInBackground)
             {
-                if (_coinPriceRequestQueue.Count < MaxQueueSize)
+                try
                 {
-                    _coinPriceRequestQueue.Enqueue(new QueuedCoinPriceRequest(symbolLowered, afterDataReceived));
+                    if (_coinPriceRequestQueue.Count < MaxQueueSize)
+                    {
+                        _coinPriceRequestQueue.Enqueue(new QueuedCoinPriceRequest(symbolLowered, afterDataReceived));
+                    }
+                }
+                catch (Exception)
+                {
+                    // to much in the queue, skip this request
                 }
             }
-            catch (Exception)
+            else
             {
-                // to much in the queue, skip this request
+                var coinPrice = GetOrAddTokenCoinPrice(symbolLowered);
+                if (coinPrice != null)
+                {
+                    afterDataReceived(coinPrice);
+                }
             }
         }
 
@@ -243,9 +254,11 @@ namespace Zilliqa.DesktopWallet.Core.Repository
                             return tokenCoinPrice;
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         // get coin price failed
+                        Logging.LogWarning(
+                            $"CoingeckoRepository.GetOrAddTokenCoinPrice('{symbolLowered}') failed with error: {ex.GetType()} - {ex.Message}");
                     }
                 }
             }
@@ -285,7 +298,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
                             if (apiResult == null)
                             {
                                 Logging.LogWarning(
-                                    $"GetCoinHistory of Symbol {symbolLowered} @ {date.ToShortDateString()} - ApiClient returned NULL");
+                                    $"CoingeckoRepository.GetCoinHistory({date.ToShortDateString()},{symbolLowered}) ApiClient returned NULL");
                                 apiResult = CoinHistory.CreateEmpty(symbolLowered);
                             }
                             else if (!string.IsNullOrEmpty(apiResult.Name)
@@ -300,9 +313,10 @@ namespace Zilliqa.DesktopWallet.Core.Repository
 
                             return apiResult;
                         }
-                        catch (Exception e)
+                        catch (Exception ex)
                         {
-                            Logging.LogError($"GetCoinHistory of Symbol {symbolLowered} failed", e);
+                            Logging.LogWarning(
+                                $"CoingeckoRepository.GetCoinHistory({date.ToShortDateString()},{symbolLowered}) failed with error: {ex.GetType()} - {ex.Message}");
                         }
 
                     }

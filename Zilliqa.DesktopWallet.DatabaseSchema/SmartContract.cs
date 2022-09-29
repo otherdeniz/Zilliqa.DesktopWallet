@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Zillifriends.Shared.Common;
 using Zilligraph.Database.Contract;
 using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
@@ -64,7 +65,7 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
             var nameValue = TokenName();
             if (nameValue != null)
             {
-                return $"{ContractLibrary}, {nameValue}";
+                return $"{ContractLibrary}, {nameValue.TokenNameShort()}";
             }
             return ContractLibrary;
         }

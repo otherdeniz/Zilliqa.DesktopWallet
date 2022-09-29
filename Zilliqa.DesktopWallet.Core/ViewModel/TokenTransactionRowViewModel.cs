@@ -2,7 +2,6 @@
 using System.Drawing;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core.Data.Model;
-using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
 
@@ -10,7 +9,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel;
 
 public class TokenTransactionRowViewModel : TransactionRowViewModelBase
 {
-    private readonly TokenModel _tokenModel;
+    private readonly TokenModelByAddress _tokenModelByAddress;
     private Image? _logoIcon;
     private Image? _directionIcon;
     private AddressValue? _otherAddress;
@@ -19,10 +18,10 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
     private decimal? _tokenAmount;
     private string? _date;
 
-    public TokenTransactionRowViewModel(Address address, Transaction transactionModel, TokenModel tokenModel)
+    public TokenTransactionRowViewModel(Address address, Transaction transactionModel, TokenModelByAddress tokenModelByAddress)
         :base(address, transactionModel)
     {
-        _tokenModel = tokenModel;
+        _tokenModelByAddress = tokenModelByAddress;
         Direction = address.Equals(transactionModel.TokenTransferSender())
             ? TransactionDirection.SendTo
             : TransactionDirection.ReceiveFrom;
@@ -32,7 +31,7 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
     public override TransactionDirection Direction { get; }
 
     [Browsable(false)] 
-    public TokenModel TokenModel => _tokenModel;
+    public TokenModel TokenModel => _tokenModelByAddress.TokenModel;
 
     public string Date => _date ??= Transaction.Timestamp.ToLocalTime().ToString("g");
 
@@ -40,12 +39,12 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
     public override BlockNumberValue Block => base.Block;
 
     [DisplayName(" ")]
-    public Image? LogoIcon => _logoIcon ??= _tokenModel.GetTokenIcon().Icon16;
+    public Image? LogoIcon => _logoIcon ??= _tokenModelByAddress.TokenModel.Icon.Icon16;
 
-    public Zrc2TokenValue Token => _token ??= new Zrc2TokenValue(_tokenModel);
+    public Zrc2TokenValue Token => _token ??= new Zrc2TokenValue(_tokenModelByAddress.TokenModel);
 
     [Browsable(false)]
-    public override string Symbol => _tokenModel.Symbol;
+    public override string Symbol => _tokenModelByAddress.TokenModel.Symbol;
 
     [Browsable(true)]
     [DisplayName(" ")]
@@ -67,7 +66,10 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
               ?? base.OtherAddress);
 
     [Browsable(false)]
-    public override decimal Amount => _tokenAmount ??= _tokenModel.AmountToDecimal(Transaction.TokenTransferAmount());
+    public override decimal Amount => _tokenAmount 
+        ??= _tokenModelByAddress.SmartContract?.AmountToDecimal(Transaction.TokenTransferAmount()) 
+            ?? Transaction.TokenTransferAmount() 
+            ?? 0m;
 
     [DisplayName("Amount")] 
     public string AmountDisplay => $"{Amount:#,##0.0000} {Symbol}";

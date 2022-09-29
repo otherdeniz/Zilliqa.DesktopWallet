@@ -167,7 +167,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
 
         private void InitDisplayedCurrencies()
         {
-            var currentDisplay = DisplayCurrenciesService.Instance.CurrentDisplayed;
+            var currentDisplay = SettingsService.Instance.CurrentDisplayedCurrencies;
             menuDisplayCurrencyEur.Checked = currentDisplay.DisplayEur;
             menuDisplayCurrencyChf.Checked = currentDisplay.DisplayChf;
             menuDisplayCurrencyGbp.Checked = currentDisplay.DisplayGbp;
@@ -182,7 +182,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             menuDisplayCurrencyEur.Checked = display;
             menuDisplayCurrencyChf.Checked = false;
             menuDisplayCurrencyGbp.Checked = false;
-            DisplayCurrenciesService.Instance.ChangeDisplayedCurrencies(d =>
+            SettingsService.Instance.ChangeDisplayedCurrencies(d =>
             {
                 d.DisplayEur = display;
                 d.DisplayChf = false;
@@ -196,7 +196,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             menuDisplayCurrencyChf.Checked = display;
             menuDisplayCurrencyEur.Checked = false;
             menuDisplayCurrencyGbp.Checked = false;
-            DisplayCurrenciesService.Instance.ChangeDisplayedCurrencies(d =>
+            SettingsService.Instance.ChangeDisplayedCurrencies(d =>
             {
                 d.DisplayChf = display;
                 d.DisplayEur = false;
@@ -210,7 +210,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             menuDisplayCurrencyGbp.Checked = display;
             menuDisplayCurrencyChf.Checked = false;
             menuDisplayCurrencyEur.Checked = false;
-            DisplayCurrenciesService.Instance.ChangeDisplayedCurrencies(d =>
+            SettingsService.Instance.ChangeDisplayedCurrencies(d =>
             {
                 d.DisplayGbp = display;
                 d.DisplayChf = false;
@@ -224,7 +224,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             menuDisplayCurrencyBtc.Checked = display;
             menuDisplayCurrencyEth.Checked = false;
             menuDisplayCurrencyLtc.Checked = false;
-            DisplayCurrenciesService.Instance.ChangeDisplayedCurrencies(d =>
+            SettingsService.Instance.ChangeDisplayedCurrencies(d =>
             {
                 d.DisplayBtc = display;
                 d.DisplayEth = false;
@@ -238,7 +238,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             menuDisplayCurrencyEth.Checked = display;
             menuDisplayCurrencyBtc.Checked = false;
             menuDisplayCurrencyLtc.Checked = false;
-            DisplayCurrenciesService.Instance.ChangeDisplayedCurrencies(d =>
+            SettingsService.Instance.ChangeDisplayedCurrencies(d =>
             {
                 d.DisplayEth = display;
                 d.DisplayBtc = false;
@@ -252,7 +252,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             menuDisplayCurrencyLtc.Checked = display;
             menuDisplayCurrencyBtc.Checked = false;
             menuDisplayCurrencyEth.Checked = false;
-            DisplayCurrenciesService.Instance.ChangeDisplayedCurrencies(d =>
+            SettingsService.Instance.ChangeDisplayedCurrencies(d =>
             {
                 d.DisplayLtc = display;
                 d.DisplayBtc = false;

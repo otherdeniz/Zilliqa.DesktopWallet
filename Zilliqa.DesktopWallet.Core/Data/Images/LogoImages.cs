@@ -30,7 +30,8 @@ namespace Zilliqa.DesktopWallet.Core.Data.Images
             _imagesCache.Clear();
             foreach (var file16 in Directory.GetFiles(DataPathBuilder.FullPath, "*_16.png"))
             {
-                var key = new FileInfo(file16).Name.Substring(0, file16.Length-7);
+                var file16Name = new FileInfo(file16).Name;
+                var key = file16Name.Substring(0, file16Name.Length-7);
                 try
                 {
                     var pngFile16 = DataPathBuilder.GetFilePath($"{key}_16.png");

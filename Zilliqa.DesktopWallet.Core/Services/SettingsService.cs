@@ -3,22 +3,22 @@ using Zilliqa.DesktopWallet.Core.Data.Model;
 
 namespace Zilliqa.DesktopWallet.Core.Services
 {
-    public class DisplayCurrenciesService
+    public class SettingsService
     {
-        public static DisplayCurrenciesService Instance { get; } = new();
+        public static SettingsService Instance { get; } = new();
 
-        private DisplayCurrenciesService()
+        private SettingsService()
         {
-            CurrentDisplayed = SettingsFile.Instance.DisplayCurrencies;
+            CurrentDisplayedCurrencies = SettingsFile.Instance.DisplayCurrencies;
         }
 
         public event EventHandler<EventArgs>? DisplayCurrenciesChanged;
 
-        public DisplayCurrenciesModel CurrentDisplayed { get; }
+        public DisplayCurrenciesModel CurrentDisplayedCurrencies { get; }
 
         public void ChangeDisplayedCurrencies(Action<DisplayCurrenciesModel> changeDisplayAction)
         {
-            changeDisplayAction(CurrentDisplayed);
+            changeDisplayAction(CurrentDisplayedCurrencies);
             SettingsFile.Instance.Save();
             WinFormsSynchronisationContext.ExecuteSynchronized(() =>
             {

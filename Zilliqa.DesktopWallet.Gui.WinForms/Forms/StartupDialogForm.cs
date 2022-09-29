@@ -47,6 +47,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                 return;
             }
 
+            if (!TokenDataService.Instance.TokenModelsLoaded)
+            {
+                labelStatus.Text = "Loading ZRC-2 Token List ...";
+                return;
+            }
+
             KnownAddressService.Instance.EnsureInitialized();
 
             if (ZilliqaBlockchainCrawler.Instance.RunningState == RunningState.Stopped)

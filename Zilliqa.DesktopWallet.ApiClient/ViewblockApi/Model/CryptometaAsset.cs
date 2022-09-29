@@ -1,5 +1,6 @@
 ﻿#nullable enable
 using Newtonsoft.Json;
+using Zillifriends.Shared.Common;
 
 namespace Zilliqa.DesktopWallet.ApiClient.ViewblockApi.Model
 {
@@ -49,20 +50,12 @@ namespace Zilliqa.DesktopWallet.ApiClient.ViewblockApi.Model
 
         public string NameShort()
         {
-            if (Name.Length > 20)
-            {
-                return $"{Name[..20]}...";
-            }
-            return Name;
+            return Name.TokenNameShort();
         }
 
         public string SymbolShort()
         {
-            if (Symbol.Length > 8)
-            {
-                return $"{Symbol[..8]}...";
-            }
-            return Symbol;
+            return Symbol.TokenSymbolShort();
         }
     }
 }
