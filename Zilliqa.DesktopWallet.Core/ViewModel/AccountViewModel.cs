@@ -257,32 +257,59 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         private void AddTokenBalanceFromContract(Transaction transaction, bool updateValueProperties)
         {
             if (transaction.TransactionTypeEnum != TransactionType.ContractCall) return;
-            var mintedEvent = transaction.Receipt.EventLogs?.FirstOrDefault(e => 
-                e.Eventname == "Minted");// || e.Eventname == "TransferSuccess");
-            if (mintedEvent == null) return;
-            var tokenByAddress = TokenDataService.Instance.FindTokenByAddress(mintedEvent.Address);
-            if (tokenByAddress == null) return;
-            var tokenBalance = TokenBalances.FirstOrDefault(t => t.Model.Symbol == tokenByAddress.TokenModel.Symbol);
+
+            // TODO: get Minted from Transition as well (is better)
+            // Event "Minted"
+            if (transaction.Receipt.EventLogs?.FirstOrDefault(e => e.Eventname == "Minted")
+                is { } mintedEvent
+                && mintedEvent.Params.FirstOrDefault(p => p.Vname == "amount")?.ResolvedValue 
+                    is ParamValueUInt128 paramValueMintedAmount)
+            {
+                var tokenByAddress = TokenDataService.Instance.FindTokenByAddress(mintedEvent.Address);
+                if (tokenByAddress != null)
+                {
+                    var tokenBalance = GetOrAddTokenBalance(tokenByAddress.TokenModel);
+                    tokenBalance.Transactions += 1;
+                    tokenBalance.Balance += tokenByAddress.SmartContract.AmountToDecimal(paramValueMintedAmount.Number64);
+                    if (updateValueProperties)
+                    {
+                        tokenBalance.UpdateValuesProperties(true, RefreshTokenBalances);
+                    }
+                }
+
+            }
+            // Transition "Transfer"
+            else if (transaction.Receipt.Transitions?.FirstOrDefault(t => t.Msg.Tag == "Transfer")
+                         is { } transferTransition
+                     && transferTransition.Msg.Params?.FirstOrDefault(t => t.Vname == "amount")?.ResolvedValue
+                         is ParamValueUInt128 paramTokenAmount)
+            {
+                var tokenByAddress = TokenDataService.Instance.FindTokenByAddress(transferTransition.Msg.Recipient);
+                if (tokenByAddress != null)
+                {
+                    var tokenBalance = GetOrAddTokenBalance(tokenByAddress.TokenModel);
+                    tokenBalance.Transactions += 1;
+                    tokenBalance.Balance += tokenByAddress.SmartContract.AmountToDecimal(paramTokenAmount.Number64);
+                    if (updateValueProperties)
+                    {
+                        tokenBalance.UpdateValuesProperties(true, RefreshTokenBalances);
+                    }
+                }
+            }
+        }
+
+        private TokenBalanceRowViewModel GetOrAddTokenBalance(TokenModel tokenModel)
+        {
+            var tokenBalance = TokenBalances.FirstOrDefault(t => t.Model.Symbol == tokenModel.Symbol);
             if (tokenBalance == null)
             {
-                tokenBalance = new TokenBalanceRowViewModel(tokenByAddress.TokenModel);
+                tokenBalance = new TokenBalanceRowViewModel(tokenModel);
                 WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                 {
                     TokenBalances.Add(tokenBalance);
                 });
             }
-
-            var amountParam = mintedEvent.Params.FirstOrDefault(p => p.Vname == "amount");
-            if (amountParam?.ResolvedValue is ParamValueUInt128 paramValue)
-            {
-                tokenBalance.Transactions += 1;
-                tokenBalance.Balance += tokenByAddress.SmartContract.AmountToDecimal(paramValue.Number64);
-
-                if (updateValueProperties)
-                {
-                    tokenBalance.UpdateValuesProperties(true, RefreshTokenBalances);
-                }
-            }
+            return tokenBalance;
         }
 
         private class TransactionViewModels

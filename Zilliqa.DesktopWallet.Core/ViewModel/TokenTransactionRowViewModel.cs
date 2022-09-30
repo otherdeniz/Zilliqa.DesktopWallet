@@ -48,9 +48,11 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
 
     [Browsable(true)]
     [DisplayName(" ")]
-    public override Image? DirectionIcon => _directionIcon ??= Direction == TransactionDirection.SendTo
-        ? IconResources.ArrowRightViolet16
-        : IconResources.ArrowLeftViolet16;
+    public override Image? DirectionIcon => _directionIcon ??= Transaction.TransactionFailed
+        ? IconResources.Warning16
+        : Direction == TransactionDirection.SendTo
+            ? IconResources.ArrowRightViolet16
+            : IconResources.ArrowLeftViolet16;
 
     [DisplayName(" ")]
     public string DirectionLabel => Direction == TransactionDirection.SendTo 

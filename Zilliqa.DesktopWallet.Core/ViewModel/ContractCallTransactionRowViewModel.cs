@@ -42,9 +42,11 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [Browsable(true)]
         [DisplayName(" ")]
-        public override Image? DirectionIcon => _directionIcon ??= Direction == TransactionDirection.SendTo
-            ? IconResources.ArrowRightBlue16
-            : IconResources.ArrowLeftBlue16;
+        public override Image? DirectionIcon => _directionIcon ??= Transaction.TransactionFailed
+            ? IconResources.Warning16
+            : Direction == TransactionDirection.SendTo
+                ? IconResources.ArrowRightBlue16
+                : IconResources.ArrowLeftBlue16;
 
         [DisplayName(" ")]
         public string DirectionLabel => Direction == TransactionDirection.SendTo
@@ -75,14 +77,22 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                     Symbol = "ZIL"
                 };
             }
-            else if (transactionModel.DataContractCall.Params?.FirstOrDefault(t => t.Vname == "token_address")
-                         is { } paramTokenAddressHex
-                     && AddressValue.TryParse(paramTokenAddressHex.ResolvedValue.ToString(), out var paramTokenAddress)
-                     && transactionModel.DataContractCall.Params?.FirstOrDefault(t => t.Vname == "token_amount")?.ResolvedValue
+            else if (transactionModel.DataContractCall.Tag == "WithdrawStakeRewards"
+                     && transactionModel.Receipt.Transitions?.FirstOrDefault(t => t.Msg.Tag == "AddFunds")
+                         is { } withdrawStakeAddFundsTransition)
+            {
+                result = new ContractCallInfo
+                {
+                    Amount = withdrawStakeAddFundsTransition.Msg.Amount.ZilSatoshisToZil(),
+                    Symbol = "ZIL"
+                };
+            }
+            else if (transactionModel.Receipt.Transitions?.FirstOrDefault(t => t.Msg.Tag == "Transfer")
+                     is { } transferTransition
+                     && transferTransition.Msg.Params?.FirstOrDefault(t => t.Vname == "amount")?.ResolvedValue
                          is ParamValueUInt128 paramTokenAmount)
             {
-
-                var tokenModel = TokenDataService.Instance.FindTokenByAddress(paramTokenAddress!.Address);
+                var tokenModel = TokenDataService.Instance.FindTokenByAddress(transferTransition.Msg.Recipient);
                 if (tokenModel != null)
                 {
                     result = new ContractCallInfo

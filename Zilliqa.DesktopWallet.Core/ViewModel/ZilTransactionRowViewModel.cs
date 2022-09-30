@@ -26,9 +26,11 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [Browsable(true)]
         [DisplayName(" ")]
-        public override Image? DirectionIcon => _directionIcon ??= Direction == TransactionDirection.SendTo
-            ? IconResources.ArrowRightGreen16
-            : IconResources.ArrowLeftGreen16;
+        public override Image? DirectionIcon => _directionIcon ??= Transaction.TransactionFailed
+            ? IconResources.Warning16
+            : Direction == TransactionDirection.SendTo
+                ? IconResources.ArrowRightGreen16
+                : IconResources.ArrowLeftGreen16;
 
         [DisplayName(" ")]
         public string DirectionLabel => Direction == TransactionDirection.SendTo 

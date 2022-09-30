@@ -58,6 +58,10 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         {
             get
             {
+                if (Transaction.TransactionFailed)
+                {
+                    return IconResources.Warning16;
+                }
                 if (_innerViewModel != null)
                 {
                     return _innerViewModel.DirectionIcon;
