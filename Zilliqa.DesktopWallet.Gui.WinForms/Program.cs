@@ -15,9 +15,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
         [STAThread]
         static void Main(string[] arguments)
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-
             var zilNetwork = GetArgumentValue(arguments, "network", "mainnet").ToLower();
             ZilliqaClient.UseTestnet = zilNetwork == "testnet";
 
@@ -26,6 +23,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
 
             Logging.Setup(Path.Combine(DataPathBuilder.UserDataRoot.FullPath, "Log"));
 
+#if !DEBUG
+            if (!SingleInstance.IsFirstInstance)
+            {
+                Logging.LogInfo("Application already running, exiting.");
+                return;
+            }
+#endif
             if (arguments.Length == 0)
             {
                 Logging.LogInfo("Startup with no arguments");
@@ -41,7 +45,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             StartupServices();
 
             ApplicationConfiguration.Initialize();
-            Application.Run(new MainForm());
+            var mainForm = new MainForm();
+#if !DEBUG
+            SingleInstance.SetMainForm(mainForm);
+#endif
+            Application.Run(mainForm);
             ZilliqaBlockchainCrawler.Instance.Stop(true);
             RepositoryManager.Instance.Shutdown();
         }

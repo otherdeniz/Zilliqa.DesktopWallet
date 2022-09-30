@@ -6,7 +6,7 @@ using Zilliqa.DesktopWallet.Gui.WinForms.Forms;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms
 {
-    public partial class MainForm : Form
+    public partial class MainForm : Form, ISingleInstanceForm
     {
         private Control? _mainTransientControl;
         private ShutdownDialogForm? _shutdownDialogForm;
@@ -14,6 +14,19 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
         public MainForm()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// SingleInstanceForm Message Event
+        /// </summary>
+        public event WndProcDelegate? WindowProcessMessage;
+
+        /// <summary>
+        /// SingleInstanceForm arguments Handling
+        /// </summary>
+        public void HandleCommand(string[] arguments)
+        {
+            // nothing to do yet
         }
 
         private bool LoadWallet()
