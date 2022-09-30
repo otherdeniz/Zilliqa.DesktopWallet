@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using Zilliqa.DesktopWallet.Core.ViewModel;
-using Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 {
@@ -18,6 +17,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             gridViewZilTransactions.Dock = DockStyle.Fill;
             gridViewTokenTransactions.Dock = DockStyle.Fill;
         }
+
+        public event EventHandler<EventArgs>? AfterRefreshAccountDetails;
 
         [DefaultValue(false)]
         public bool ShowCurrencyColumns
@@ -65,6 +66,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             labelTokensValueUsd.Text = $"{_account.TokensValueUsd:#,##0.00} USD";
             labelZilValueUsd.Text = $"{_account.ZilTotalValueUsd:#,##0.00} USD";
             labelTotalValueUsd.Text = $"{_account.TotalValueUsd:#,##0.00} USD";
+
+            AfterRefreshAccountDetails?.Invoke(this, EventArgs.Empty);
         }
 
         protected override void Dispose(bool disposing)

@@ -6,18 +6,23 @@
 #region Static Code
 
         private static string? _applicationFolderName;
-        private static DataPathBuilder? _rootDataPathBuilder;
+        private static DataPathBuilder? _userRootDataPathBuilder;
+        private static DataPathBuilder? _appRootDataPathBuilder;
 
         public static void Setup(string applicationFolderName)
         {
             _applicationFolderName = applicationFolderName;
-            var appdataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), _applicationFolderName);
-            _rootDataPathBuilder = new DataPathBuilder(appdataPath);
+            var userDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), _applicationFolderName);
+            _userRootDataPathBuilder = new DataPathBuilder(userDataPath);
+            var appDataPath = Path.Combine(Environment.ExpandEnvironmentVariables("%ProgramData%"), _applicationFolderName);
+            _appRootDataPathBuilder = new DataPathBuilder(appDataPath);
         }
 
-        public static DataPathBuilder Root => _rootDataPathBuilder ?? throw new MissingCodeException("DataPathBuilder.Setup not executed");
+        public static DataPathBuilder UserDataRoot => _userRootDataPathBuilder ?? throw new MissingCodeException("DataPathBuilder.Setup not executed");
 
-#endregion
+        public static DataPathBuilder AppDataRoot => _appRootDataPathBuilder ?? throw new MissingCodeException("DataPathBuilder.Setup not executed");
+
+        #endregion
 
         private readonly string _fullPath;
 

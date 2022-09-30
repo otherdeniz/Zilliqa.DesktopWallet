@@ -126,6 +126,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.addressDetails.ShowCurrencyColumns = true;
             this.addressDetails.Size = new System.Drawing.Size(687, 660);
             this.addressDetails.TabIndex = 3;
+            this.addressDetails.AfterRefreshAccountDetails += new System.EventHandler<System.EventArgs>(this.addressDetails_AfterRefreshAccountDetails);
             // 
             // WalletAddressControl
             // 

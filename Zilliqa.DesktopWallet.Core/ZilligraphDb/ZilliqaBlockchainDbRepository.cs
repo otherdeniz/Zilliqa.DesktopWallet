@@ -13,7 +13,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
 
         public ZilliqaBlockchainDbRepository()
         {
-            Database = new ZilligraphDatabase(DataPathBuilder.Root.GetSubFolder(ZilliqaDbFolder).FullPath);
+            Database = new ZilligraphDatabase(DataPathBuilder.AppDataRoot.GetSubFolder(ZilliqaDbFolder).FullPath);
         }
 
         public ZilligraphDatabase Database { get; }

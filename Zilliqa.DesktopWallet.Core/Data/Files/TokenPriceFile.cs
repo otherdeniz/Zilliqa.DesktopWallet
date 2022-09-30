@@ -8,7 +8,7 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
     {
         private static TokenPriceFile? _instance;
 
-        public static TokenPriceFile Instance => _instance ??= Load<TokenPriceFile>();
+        public static TokenPriceFile Instance => _instance ??= Load<TokenPriceFile>(DataPathBuilder.AppDataRoot);
 
         #region Fields
 

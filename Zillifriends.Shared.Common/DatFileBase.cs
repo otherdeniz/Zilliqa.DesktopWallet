@@ -20,9 +20,9 @@ namespace Zillifriends.Shared.Common
 
         protected virtual string? FilePath { get; private set; }
 
-        protected static TDatType Load<TDatType>(bool saveOnCreate = true) where TDatType : DatFileBase, new()
+        protected static TDatType Load<TDatType>(DataPathBuilder dataRoot, bool saveOnCreate = true) where TDatType : DatFileBase, new()
         {
-            var datFilePath = GetDatFilePath(DataPathBuilder.Root, typeof(TDatType));
+            var datFilePath = GetDatFilePath(dataRoot, typeof(TDatType));
             return Load<TDatType>(datFilePath, saveOnCreate);
         }
 

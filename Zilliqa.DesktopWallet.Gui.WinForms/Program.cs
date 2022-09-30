@@ -24,7 +24,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             var dataPath = GetArgumentValue(arguments, "datapath", ZilliqaClient.UseTestnet ? "Testnet" : "Mainnet");
             DataPathBuilder.Setup(Path.Combine("ZilliqaDesktopWallet", dataPath));
 
-            Logging.Setup(Path.Combine(DataPathBuilder.Root.FullPath, "Log"));
+            Logging.Setup(Path.Combine(DataPathBuilder.UserDataRoot.FullPath, "Log"));
 
             if (arguments.Length == 0)
             {

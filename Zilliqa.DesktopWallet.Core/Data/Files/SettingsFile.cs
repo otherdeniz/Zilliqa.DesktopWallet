@@ -8,7 +8,7 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
     {
         private static SettingsFile? _instance;
 
-        public static SettingsFile Instance => _instance ??= Load<SettingsFile>();
+        public static SettingsFile Instance => _instance ??= Load<SettingsFile>(DataPathBuilder.UserDataRoot);
 
         #region Fields
 

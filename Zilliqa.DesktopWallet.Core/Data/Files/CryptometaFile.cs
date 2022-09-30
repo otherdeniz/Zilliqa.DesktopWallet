@@ -8,7 +8,7 @@ public class CryptometaFile : DatFileBase
 {
     private static CryptometaFile? _instance;
 
-    public static CryptometaFile Instance => _instance ??= Load<CryptometaFile>();
+    public static CryptometaFile Instance => _instance ??= Load<CryptometaFile>(DataPathBuilder.AppDataRoot);
 
     #region Fields
 

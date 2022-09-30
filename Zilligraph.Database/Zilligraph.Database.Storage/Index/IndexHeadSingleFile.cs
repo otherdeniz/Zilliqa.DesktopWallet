@@ -13,48 +13,31 @@ namespace Zilligraph.Database.Storage.Index
     {
         private readonly string _filePath;
         private readonly object _fileLock = new();
-        private ulong[]? _indexPointers;
+        private readonly ulong[] _indexPointers;
 
         public IndexHeadSingleFile(ZilligraphTableIndexBase tableFieldIndex)
         {
             TableFieldIndex = tableFieldIndex;
             _filePath = tableFieldIndex.PathBuilder.GetFilePath($"{tableFieldIndex.Name}_head.bin");
+            _indexPointers = LoadOrCreateFile();
         }
 
-        internal ulong[] IndexPointers
-        {
-            get => _indexPointers ??= LoadOrCreateFile();
-            set => _indexPointers = value;
-        }
+        internal ulong[] IndexPointers => _indexPointers;
 
         public ZilligraphTableIndexBase TableFieldIndex { get; }
 
         public IEnumerable<ulong> GetUsedIndexPoints()
         {
-            if (_indexPointers == null)
-            {
-                _indexPointers = LoadOrCreateFile();
-            }
-
             return _indexPointers.Where(i => i > 0);
         }
 
         public ulong GetIndexPoint(UInt16 hashPrefix16Bit)
         {
-            if (_indexPointers == null)
-            {
-                _indexPointers = LoadOrCreateFile();
-            }
-
             return _indexPointers[hashPrefix16Bit];
         }
 
         public void SetIndexPoint(UInt16 hashPrefix16Bit, ulong indexPoint)
         {
-            if (_indexPointers == null)
-            {
-                throw new RuntimeException($"index file {_filePath} not loaded");
-            }
             _indexPointers[hashPrefix16Bit] = indexPoint;
             lock (_fileLock)
             {
@@ -70,7 +53,6 @@ namespace Zilligraph.Database.Storage.Index
 
         internal void SaveFile()
         {
-            if (_indexPointers == null) return;
             lock (_fileLock)
             {
                 using (var fileStream = File.Open(_filePath, FileMode.OpenOrCreate))

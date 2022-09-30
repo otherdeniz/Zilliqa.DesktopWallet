@@ -63,6 +63,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         public decimal TotalValueUsd => ZilTotalValueUsd + TokensValueUsd;
 
+        public bool HasFunds => ZilTotalBalance > 0 || TotalValueUsd > 0;
+
         private void OnTransactionsChanged()
         {
             RefreshBalances();

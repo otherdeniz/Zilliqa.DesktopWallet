@@ -101,7 +101,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.DataSource
         {
             if (_records != null)
             {
-                if (toTop)
+                if (toTop || PageCount == 0)
                 {
                     var page = GetPage(1);
                     page.Insert(0, record);

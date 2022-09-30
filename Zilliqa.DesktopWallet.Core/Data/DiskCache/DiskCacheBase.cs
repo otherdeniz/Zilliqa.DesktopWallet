@@ -10,7 +10,7 @@ namespace Zilliqa.DesktopWallet.Core.Data.DiskCache
         protected DiskCacheBase(string cachingFolderName)
         {
             CachingFolderName = cachingFolderName;
-            DataPathBuilder = DataPathBuilder.Root.GetSubFolder(cachingFolderName);
+            DataPathBuilder = DataPathBuilder.AppDataRoot.GetSubFolder(cachingFolderName);
         }
 
         protected string CachingFolderName { get; }

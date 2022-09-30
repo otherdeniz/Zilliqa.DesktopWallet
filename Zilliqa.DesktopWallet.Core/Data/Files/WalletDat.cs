@@ -16,7 +16,7 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
 
         public static bool Exists => File.Exists(WalletDatFilePath);
 
-        public static string WalletDatFilePath => _walletDatFilePath ??= DataPathBuilder.Root.GetFilePath("wallet.dat");
+        public static string WalletDatFilePath => _walletDatFilePath ??= DataPathBuilder.UserDataRoot.GetFilePath("wallet.dat");
 
         public static WalletDat CreateNew(PasswordInfo password, string firstAccountName)
         {

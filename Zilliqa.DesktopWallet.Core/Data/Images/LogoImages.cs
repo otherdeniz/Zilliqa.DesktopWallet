@@ -20,7 +20,7 @@ namespace Zilliqa.DesktopWallet.Core.Data.Images
 
         private LogoImages()
         {
-            DataPathBuilder = DataPathBuilder.Root.GetSubFolder("Images");
+            DataPathBuilder = DataPathBuilder.AppDataRoot.GetSubFolder("Images");
         }
 
         protected DataPathBuilder DataPathBuilder { get; }

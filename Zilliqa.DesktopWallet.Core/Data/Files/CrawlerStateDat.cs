@@ -8,7 +8,7 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
     {
         private static CrawlerStateDat? _instance;
 
-        public static CrawlerStateDat Instance => _instance ??= Load<CrawlerStateDat>();
+        public static CrawlerStateDat Instance => _instance ??= Load<CrawlerStateDat>(DataPathBuilder.AppDataRoot);
 
         #region Fields
 

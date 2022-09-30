@@ -7,7 +7,7 @@ namespace Zilliqa.DesktopWallet.Core.CacheDatabase
     {
         public static ZilligraphDatabase CreateDatabaseInstance()
         {
-            return new ZilligraphDatabase(DataPathBuilder.Root.GetSubFolder("ApiCacheDB").FullPath);
+            return new ZilligraphDatabase(DataPathBuilder.AppDataRoot.GetSubFolder("ApiCacheDB").FullPath);
         }
     }
 }
