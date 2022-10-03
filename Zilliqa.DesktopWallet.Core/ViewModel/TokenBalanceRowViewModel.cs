@@ -1,14 +1,15 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.CompilerServices;
+using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.Core.Data.Model;
-using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Repository;
-using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
+using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
+using Zilliqa.DesktopWallet.ViewModelAttributes;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
-    public class TokenBalanceRowViewModel : INotifyPropertyChanged
+    public class TokenBalanceRowViewModel : INotifyPropertyChanged, IDetailsViewModel
     {
         private Image? _icon;
         private decimal _balance;
@@ -138,5 +139,14 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public string GetUniqueId()
+        {
+            return $"Token-{Model.Symbol}";
+        }
+
+        public string GetDisplayTitle()
+        {
+            return $"Token: {Model.Name.TokenNameShort()} ({Model.Symbol.TokenSymbolShort()})";
+        }
     }
 }

@@ -2,7 +2,7 @@
 using System.Drawing;
 using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.Core.Data.Model;
-using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
+using Zilliqa.DesktopWallet.ViewModelAttributes;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
@@ -99,5 +99,12 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [GridViewFormat("0.00 '%'", UseGreenOrRedNumbers = true)]
         public decimal? ChangePercent7D => _model.CoinPrice?.MarketData.PriceChangePercentage7D;
 
+        [DisplayName("Change 30D")]
+        [GridViewFormat("0.00 '%'", UseGreenOrRedNumbers = true)]
+        public decimal? ChangePercent30D => _model.CoinPrice?.MarketData.PriceChangePercentage30D;
+
+        [DisplayName("Change 1Y")]
+        [GridViewFormat("0.00 '%'", UseGreenOrRedNumbers = true)]
+        public decimal? ChangePercent1Y => _model.CoinPrice?.MarketData.PriceChangePercentage1Y;
     }
 }

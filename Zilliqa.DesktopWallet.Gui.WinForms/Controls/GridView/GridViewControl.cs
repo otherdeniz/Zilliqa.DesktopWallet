@@ -4,10 +4,10 @@ using System.Reflection;
 using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ViewModel;
-using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
 using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values;
+using Zilliqa.DesktopWallet.ViewModelAttributes;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 {

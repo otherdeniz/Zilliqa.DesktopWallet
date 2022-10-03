@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
@@ -39,6 +40,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             _account = account;
             _viewModelOwned = viewModelOwned;
             bech32Address.Bech32Address = account.AddressBech32;
+            bech32Address.ShowAddToWatchedAccounts = !(account.AccountData is MyAccount);
             gridViewTokenBalances.LoadData(account.TokenBalances, typeof(TokenBalanceRowViewModel));
             gridViewAllTransactions.LoadData(account.AllTransactions);
             gridViewZilTransactions.LoadData(account.ZilTransactions);

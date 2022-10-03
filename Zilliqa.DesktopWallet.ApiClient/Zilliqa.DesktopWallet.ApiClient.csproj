@@ -57,6 +57,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Zillifriends.Shared.Common\Zillifriends.Shared.Common.csproj" />
+    <ProjectReference Include="..\Zilliqa.DesktopWallet.ViewModelAttributes\Zilliqa.DesktopWallet.ViewModelAttributes.csproj" />
   </ItemGroup>
 
   <ItemGroup>

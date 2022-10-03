@@ -1,6 +1,6 @@
-﻿namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
+﻿namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details.PropertyRow
 {
-    partial class GenericObjectControl
+    partial class PropertyRowTextList
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,17 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.panelValue = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
-            // DrillDownObjectControl
+            // panelValue
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.Name = "DrillDownObjectControl";
-            this.Size = new System.Drawing.Size(497, 311);
+            this.panelValue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelValue.Location = new System.Drawing.Point(103, 0);
+            this.panelValue.Name = "panelValue";
+            this.panelValue.Size = new System.Drawing.Size(353, 20);
+            this.panelValue.TabIndex = 1;
+            // 
+            // PropertyRowTextList
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.panelValue);
+            this.Name = "PropertyRowTextList";
+            this.Controls.SetChildIndex(this.panelValue, 0);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private Panel panelValue;
     }
 }

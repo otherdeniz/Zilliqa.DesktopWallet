@@ -1,17 +1,18 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.CompilerServices;
+using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core.Annotations;
 using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Repository;
-using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
+using Zilliqa.DesktopWallet.ViewModelAttributes;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
-    public class TransactionRowViewModelBase : INotifyPropertyChanged
+    public class TransactionRowViewModelBase : INotifyPropertyChanged, IDetailsViewModel
     {
         private readonly Transaction _transactionModel;
         private BlockNumberValue? _blockNumber;
@@ -338,6 +339,16 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public string GetUniqueId()
+        {
+            return $"Trx-{Transaction.Id}";
+        }
+
+        public string GetDisplayTitle()
+        {
+            return $"Transaction: {Transaction.Id.FromTransactionHexToShortReadable()}";
         }
     }
 }

@@ -5,7 +5,6 @@ using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details;
-using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
 {
@@ -72,13 +71,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
                 control.LoadSmartContract(smartContractRow);
                 return control;
             }
-            if (value is EcosystemRowViewModel ecosystemRow)
-            {
-                var control = new EcosystemDetailsControl();
-                control.LoadEcosystem(ecosystemRow);
-                return control;
-            }
-            var genericControl = new GenericObjectControl();
+            var genericControl = new GenericDetailsControl();
             genericControl.LoadGenericViewModel(value);
             return genericControl;
         }
@@ -93,37 +86,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
                 }
                 return $"Address: {addressValue}";
             }
-            if (value is Zrc2TokenValue zrc2TokenValue)
+            if (value is IDetailsViewModel detailsViewModel)
             {
-                return $"Token: {zrc2TokenValue}";
-            }
-            if (value is TokenModel tokenModel)
-            {
-                return $"Token: {tokenModel}";
-            }
-            if (value is TokenBalanceRowViewModel tokenBalanceRow)
-            {
-                return $"Token: {tokenBalanceRow.TokenTitle}";
-            }
-            if (value is BlockNumberValue blockNumber)
-            {
-                return $"Block: {blockNumber}";
-            }
-            if (value is TransactionRowViewModelBase transactionRowViewModelBase)
-            {
-                return $"Transaction: {transactionRowViewModelBase.Transaction.Id.FromTransactionHexToShortReadable()}";
-            }
-            if (value is TransactionIdValue transactionId)
-            {
-                return $"Transaction: {transactionId.TransactionId.FromTransactionHexToShortReadable()}";
-            }
-            if (value is SmartContractRowViewModel smartContractRow)
-            {
-                return $"Contract: {smartContractRow.SmartContractModel.DisplayName()}";
-            }
-            if (value is EcosystemRowViewModel ecosystemRow)
-            {
-                return $"Ecosystem: {ecosystemRow.Name}";
+                return detailsViewModel.GetDisplayTitle();
             }
             return $"{value}";
         }
@@ -142,41 +107,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
             {
                 return $"Addr-{address.GetBech32()}";
             }
-            if (value is Zrc2TokenValue zrc2TokenValue)
-            {
-                return $"Token-{zrc2TokenValue.Symbol}";
-            }
-            if (value is TokenModel tokenModel)
-            {
-                return $"Token-{tokenModel.Symbol}";
-            }
-            if (value is TokenBalanceRowViewModel tokenBalanceRow)
-            {
-                return $"Token-{tokenBalanceRow.Model.Symbol}";
-            }
-            if (value is BlockNumberValue blockNumber)
-            {
-                return $"Block-{blockNumber.BlockNumber}";
-            }
-            if (value is TransactionRowViewModelBase transactionRowViewModelBase)
-            {
-                return $"Trx-{transactionRowViewModelBase.Transaction.Id}";
-            }
             if (value is Transaction transaction)
             {
                 return $"Trx-{transaction.Id}";
             }
-            if (value is TransactionIdValue transactionId)
+            if (value is IDetailsViewModel detailsViewModel)
             {
-                return $"Trx-{transactionId.TransactionId}";
-            }
-            if (value is SmartContractRowViewModel smartContractRow)
-            {
-                return $"Contract-{smartContractRow.AddressBech32Short}";
-            }
-            if (value is EcosystemRowViewModel ecosystemRow)
-            {
-                return $"Ecosystem-{ecosystemRow.Name}";
+                return detailsViewModel.GetUniqueId();
             }
             // generate unique id
             return Guid.NewGuid().ToString("N");

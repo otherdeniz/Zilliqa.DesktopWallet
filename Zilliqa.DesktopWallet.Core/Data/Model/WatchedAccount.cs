@@ -2,7 +2,7 @@
 using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.ApiClient.Utils;
-using Zilliqa.DesktopWallet.Core.Extensions;
+using Zilliqa.DesktopWallet.Core.Repository;
 
 namespace Zilliqa.DesktopWallet.Core.Data.Model
 {

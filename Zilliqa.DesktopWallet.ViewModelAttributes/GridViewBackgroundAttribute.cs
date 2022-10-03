@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
+namespace Zilliqa.DesktopWallet.ViewModelAttributes;
 
 [AttributeUsage(AttributeTargets.Property)]
 public class GridViewBackgroundAttribute : Attribute

@@ -32,6 +32,7 @@
     <ProjectReference Include="..\Zilligraph.Database\Zilligraph.Database.Storage\Zilligraph.Database.Storage.csproj" />
     <ProjectReference Include="..\Zilliqa.DesktopWallet.ApiClient\Zilliqa.DesktopWallet.ApiClient.csproj" />
     <ProjectReference Include="..\Zilliqa.DesktopWallet.DatabaseSchema\Zilliqa.DesktopWallet.DatabaseSchema.csproj" />
+    <ProjectReference Include="..\Zilliqa.DesktopWallet.ViewModelAttributes\Zilliqa.DesktopWallet.ViewModelAttributes.csproj" />
   </ItemGroup>
 
   <ItemGroup>

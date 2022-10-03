@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.groupBoxDetails = new System.Windows.Forms.GroupBox();
+            this.labelDescription = new System.Windows.Forms.TextBox();
+            this.labelName = new System.Windows.Forms.Label();
+            this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel7 = new System.Windows.Forms.Panel();
             this.linkLabelWhitepaper = new System.Windows.Forms.LinkLabel();
@@ -48,10 +51,8 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.labelContractAddress = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.labelName = new System.Windows.Forms.Label();
-            this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
-            this.labelDescription = new System.Windows.Forms.TextBox();
             this.groupBoxDetails.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel7.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -59,7 +60,6 @@
             this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBoxDetails
@@ -76,6 +76,41 @@
             this.groupBoxDetails.TabIndex = 3;
             this.groupBoxDetails.TabStop = false;
             this.groupBoxDetails.Text = "Ecosystem";
+            // 
+            // labelDescription
+            // 
+            this.labelDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelDescription.BackColor = System.Drawing.Color.White;
+            this.labelDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.labelDescription.Enabled = false;
+            this.labelDescription.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelDescription.Location = new System.Drawing.Point(60, 46);
+            this.labelDescription.Multiline = true;
+            this.labelDescription.Name = "labelDescription";
+            this.labelDescription.ReadOnly = true;
+            this.labelDescription.Size = new System.Drawing.Size(350, 39);
+            this.labelDescription.TabIndex = 7;
+            this.labelDescription.Text = "...";
+            // 
+            // labelName
+            // 
+            this.labelName.AutoSize = true;
+            this.labelName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelName.Location = new System.Drawing.Point(60, 22);
+            this.labelName.Name = "labelName";
+            this.labelName.Size = new System.Drawing.Size(16, 21);
+            this.labelName.TabIndex = 5;
+            this.labelName.Text = "-";
+            // 
+            // pictureBoxIcon
+            // 
+            this.pictureBoxIcon.Location = new System.Drawing.Point(6, 22);
+            this.pictureBoxIcon.Name = "pictureBoxIcon";
+            this.pictureBoxIcon.Size = new System.Drawing.Size(48, 48);
+            this.pictureBoxIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxIcon.TabIndex = 4;
+            this.pictureBoxIcon.TabStop = false;
             // 
             // panel1
             // 
@@ -289,41 +324,6 @@
             this.label4.TabIndex = 1;
             this.label4.Text = "Contract Address:";
             // 
-            // labelName
-            // 
-            this.labelName.AutoSize = true;
-            this.labelName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelName.Location = new System.Drawing.Point(60, 22);
-            this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(16, 21);
-            this.labelName.TabIndex = 5;
-            this.labelName.Text = "-";
-            // 
-            // pictureBoxIcon
-            // 
-            this.pictureBoxIcon.Location = new System.Drawing.Point(6, 22);
-            this.pictureBoxIcon.Name = "pictureBoxIcon";
-            this.pictureBoxIcon.Size = new System.Drawing.Size(48, 48);
-            this.pictureBoxIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxIcon.TabIndex = 4;
-            this.pictureBoxIcon.TabStop = false;
-            // 
-            // labelDescription
-            // 
-            this.labelDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelDescription.BackColor = System.Drawing.Color.White;
-            this.labelDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.labelDescription.Enabled = false;
-            this.labelDescription.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelDescription.Location = new System.Drawing.Point(60, 46);
-            this.labelDescription.Multiline = true;
-            this.labelDescription.Name = "labelDescription";
-            this.labelDescription.ReadOnly = true;
-            this.labelDescription.Size = new System.Drawing.Size(350, 39);
-            this.labelDescription.TabIndex = 7;
-            this.labelDescription.Text = "...";
-            // 
             // EcosystemDetailsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -334,6 +334,7 @@
             this.Size = new System.Drawing.Size(416, 368);
             this.groupBoxDetails.ResumeLayout(false);
             this.groupBoxDetails.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
@@ -347,7 +348,6 @@
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).EndInit();
             this.ResumeLayout(false);
 
         }

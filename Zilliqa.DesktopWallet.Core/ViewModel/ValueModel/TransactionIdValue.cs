@@ -1,6 +1,8 @@
-﻿namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
+﻿using Zillifriends.Shared.Common;
+
+namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
 {
-    public class TransactionIdValue
+    public class TransactionIdValue : IDetailsViewModel
     {
         public static bool TryParse(string value, out TransactionIdValue? result)
         {
@@ -39,6 +41,16 @@
         public override string ToString()
         {
             return $"0x {TransactionId}";
+        }
+
+        public string GetUniqueId()
+        {
+            return $"Trx-{TransactionId}";
+        }
+
+        public string GetDisplayTitle()
+        {
+            return $"Transaction: {TransactionId.FromTransactionHexToShortReadable()}";
         }
     }
 }

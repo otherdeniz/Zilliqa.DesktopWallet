@@ -74,7 +74,6 @@
             this.bech32Address.AutoSize = true;
             this.bech32Address.Location = new System.Drawing.Point(2, 0);
             this.bech32Address.Name = "bech32Address";
-            this.bech32Address.ShowAddToWatchedAccounts = true;
             this.bech32Address.Size = new System.Drawing.Size(372, 23);
             this.bech32Address.TabIndex = 0;
             // 

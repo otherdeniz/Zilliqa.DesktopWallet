@@ -1,12 +1,14 @@
-﻿using Zilliqa.DesktopWallet.ApiClient.Utils;
+﻿using Zillifriends.Shared.Common;
+using Zilliqa.DesktopWallet.ApiClient.Utils;
 using Zilliqa.DesktopWallet.ApiClient.ViewblockApi.Model;
 using Zilliqa.DesktopWallet.Core.Api.Coingecko.Model;
 using Zilliqa.DesktopWallet.Core.Repository;
+using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Core.Data.Model
 {
-    public class TokenModel
+    public class TokenModel : IDetailsViewModel
     {
         public string Symbol { get; set; }
 
@@ -48,6 +50,16 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
             {
                 MaxSupply = coinPrice.MarketData.MaxSupply ?? coinPrice.MarketData.TotalSupply;
             }
+        }
+
+        public string GetUniqueId()
+        {
+            return $"Token-{Symbol}";
+        }
+
+        public string GetDisplayTitle()
+        {
+            return $"Token: {Name.TokenNameShort()} ({Symbol.TokenSymbolShort()})";
         }
     }
 

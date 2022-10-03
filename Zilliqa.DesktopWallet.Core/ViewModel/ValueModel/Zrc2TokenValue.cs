@@ -2,7 +2,7 @@
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
 {
-    public class Zrc2TokenValue
+    public class Zrc2TokenValue : IDetailsViewModel
     {
         private readonly string? _displayText;
 
@@ -22,6 +22,16 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
         public override string ToString()
         {
             return _displayText ?? Symbol;
+        }
+
+        public string GetUniqueId()
+        {
+            return $"Token-{Symbol}";
+        }
+
+        public string GetDisplayTitle()
+        {
+            return $"Token: {ToString()}";
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Zilliqa.DesktopWallet.Core.ViewModel.Attributes
+﻿namespace Zilliqa.DesktopWallet.ViewModelAttributes
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class GridViewFormatAttribute : Attribute

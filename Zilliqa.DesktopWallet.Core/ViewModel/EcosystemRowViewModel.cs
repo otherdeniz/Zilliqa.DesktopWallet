@@ -4,11 +4,13 @@ using Zilliqa.DesktopWallet.ApiClient.ViewblockApi.Model;
 using Zilliqa.DesktopWallet.Core.Data.Files;
 using Zilliqa.DesktopWallet.Core.Data.Images;
 using Zilliqa.DesktopWallet.Core.Data.Model;
-using Zilliqa.DesktopWallet.Core.ViewModel.Attributes;
+using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
+using Zilliqa.DesktopWallet.ViewModelAttributes;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
-    public class EcosystemRowViewModel
+    [DetailsTitle("IconModel", "Name", "Description")]
+    public class EcosystemRowViewModel : IDetailsViewModel
     {
         public static List<EcosystemRowViewModel> CreateViewModel()
         {
@@ -42,7 +44,34 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         public string Category => CryptometaEcosystem.Categories?.FirstOrDefault() ?? "";
 
-        public int Addresses => CryptometaEcosystem.Addresses?.Length ?? 0;
+        [DisplayName("Addresses")]
+        public int AddressCount => CryptometaEcosystem.Addresses?.Length ?? 0;
+
+        [Browsable(false)]
+        [DetailsProperty(DetailsPropertyType.TextList)]
+        public string[] Categories => CryptometaEcosystem.Categories ?? new string[]{};
+
+        [Browsable(false)]
+        [DetailsProperty(DetailsPropertyType.AddressList)]
+        public string[] Addresses => CryptometaEcosystem.Addresses ?? new string[] { };
+
+        [Browsable(false)]
+        [DetailsProperty(DetailsPropertyType.Url)]
+        public string Website => CryptometaEcosystem.Web;
+
+        [Browsable(false)]
+        [DetailsObject(null)]
+        public CryptometaLinks Links => CryptometaEcosystem.Links;
+
+        public string GetUniqueId()
+        {
+            return $"Ecosystem-{Name}";
+        }
+
+        public string GetDisplayTitle()
+        {
+            return $"Ecosystem: {Name}";
+        }
 
         private int CategoryPriority()
         {
@@ -59,5 +88,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             }
             return 9;
         }
+
     }
 }

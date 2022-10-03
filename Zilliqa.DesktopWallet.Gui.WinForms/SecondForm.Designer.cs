@@ -38,14 +38,14 @@
             this.masterPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.masterPanel.Location = new System.Drawing.Point(0, 0);
             this.masterPanel.Name = "masterPanel";
-            this.masterPanel.Size = new System.Drawing.Size(810, 528);
+            this.masterPanel.Size = new System.Drawing.Size(804, 581);
             this.masterPanel.TabIndex = 0;
             // 
             // SecondForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(810, 528);
+            this.ClientSize = new System.Drawing.Size(804, 581);
             this.Controls.Add(this.masterPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SecondForm";

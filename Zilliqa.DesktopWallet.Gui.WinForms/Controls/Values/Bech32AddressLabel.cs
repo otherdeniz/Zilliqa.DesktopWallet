@@ -2,6 +2,8 @@
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.Services;
+using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 using Zilliqa.DesktopWallet.Gui.WinForms.Forms;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
@@ -9,14 +11,14 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
     public partial class Bech32AddressLabel : UserControl
     {
         private string? _bech32Address;
-        private bool _showAddToWatchedAccounts;
+        private bool _showAddToWatchedAccounts = true;
 
         public Bech32AddressLabel()
         {
             InitializeComponent();
         }
 
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool ShowAddToWatchedAccounts
         {
             get => _showAddToWatchedAccounts;
@@ -78,6 +80,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
             label4.Refresh();
             panelAddress.Width = label4.Left + label4.Width;
             Height = label1.Height;
+        }
+
+        private void buttonOpen_Click(object sender, EventArgs e)
+        {
+            var masterPanel = DrillDownMasterPanelControl.FindParentDrillDownMasterPanel(this);
+            var controlIsInRightPanel = DrillDownMasterPanelControl.ControlIsInRightPanel(this);
+            if (masterPanel != null && Bech32Address != null)
+            {
+                masterPanel.DisplayValue(new AddressValue(Bech32Address), !controlIsInRightPanel, _ => {}, this);
+            }
         }
 
         private void buttonCopy_Click(object sender, EventArgs e)
