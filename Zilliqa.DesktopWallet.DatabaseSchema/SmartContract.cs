@@ -21,7 +21,7 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
         public DateTime Timestamp { get; set; }
 
         [JsonProperty("C")]
-        public string ContractLibrary { get; set; }
+        public string ContractName { get; set; }
 
         [JsonProperty("D")]
         [PropertyIndex(LowDistinctOptimization = true)]
@@ -65,9 +65,9 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
             var nameValue = TokenName();
             if (nameValue != null)
             {
-                return $"{ContractLibrary}, {nameValue.TokenNameShort()}";
+                return $"{ContractName}, {nameValue.TokenNameShort()}";
             }
-            return ContractLibrary;
+            return ContractName;
         }
 
         public string? GetConstructorValue(string vName)

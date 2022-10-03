@@ -28,5 +28,12 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.Accounts
             var bech32 = "0xbea37a0fe8f759d5cfe2ba66913a676260175ba1".FromBase16ToBech32Address();
             Assert.AreEqual("zil1h63h5rlg7avatnlzhfnfzwn8vfspwkapzdy2aw", bech32);
         }
+
+        [Test]
+        public void GetHexFromBech32()
+        {
+            var hexAddress = "zil1x5dr0c5yrfzu0uk7rrhyt7tguyryzcnn8q75pc".FromBech32ToBase16Address(false);
+
+        }
     }
 }

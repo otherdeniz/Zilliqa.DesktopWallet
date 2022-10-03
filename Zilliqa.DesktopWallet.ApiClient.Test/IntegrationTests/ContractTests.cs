@@ -97,5 +97,20 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
             Assert.IsTrue(zilBalance > 0);
         }
 
+        [Test]
+        public async Task StakingGetSsnList()
+        {
+            var zilClient = new ZilliqaClient(false); // mainnet
+            var stakingProxyAddress = "zil1v25at4s3eh9w34uqqhe3vdvfsvcwq6un3fupc2".FromBech32ToBase16Address(false); // "62a9d5d611cdcae8d78005f31635898330e06b93";
+
+            var resImplementation = await zilClient.GetSmartContractSubState(new object[] { stakingProxyAddress, "implementation", new object[] { } });
+            var stakingImplementationAddress = ((JToken)resImplementation).First.First.Value<string>();
+            var res = await zilClient.GetSmartContractSubState(new object[] { stakingImplementationAddress.Substring(2), "ssnlist", new object[] { } });
+        }
+
+        public async Task StakingGetPendingWithdrawAmount()
+        {
+
+        }
     }
 }

@@ -108,6 +108,18 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
             ShowDisplayControl(pathItem);
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            panelRightControl.Controls.Clear();
+            _displayHierarchy.ForEach(h => h.DisplayControl?.Dispose());
+            _displayHierarchy.Clear();
+            base.Dispose(disposing);
+        }
+
         private void RefreshBackButton()
         {
             if (_displayHierarchy.Count <= 1)
@@ -138,7 +150,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
         private void ResetRightPanel(object? skipAfterCloseArgument = null)
         {
             panelRightControl.Controls.Clear();
-            _displayHierarchy.ForEach(h => h.DisplayControl.Dispose());
+            _displayHierarchy.ForEach(h => h.DisplayControl?.Dispose());
             var firstPathItem = _displayHierarchy.FirstOrDefault();
             if (firstPathItem?.AfterClose != null
                 && firstPathItem.AfterCloseArgument != skipAfterCloseArgument)
@@ -153,25 +165,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
             }
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            panelRightControl.Controls.Clear();
-            _displayHierarchy.ForEach(h => h.DisplayControl.Dispose());
-            _displayHierarchy.Clear();
-            base.Dispose(disposing);
-        }
-
         private void GoBackInHistory(int pathIndex)
         {
             panelRightControl.Controls.Clear();
             var isFirstRemovedItem = true;
             foreach (var closePathItem in _displayHierarchy.Skip(pathIndex + 1).ToArray())
             {
-                closePathItem.DisplayControl.Dispose();
+                closePathItem.DisplayControl?.Dispose();
                 if (isFirstRemovedItem 
                     && closePathItem.AfterClose != null)
                 {
@@ -185,14 +185,37 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
             var pathItem = _displayHierarchy[pathIndex];
             labelTitle.Text = pathItem.Title;
             RefreshBackButton();
-            panelRightControl.Controls.Add(pathItem.DisplayControl);
+            panelRightControl.Controls.Add(pathItem.DisplayControl!);
         }
 
         private void ShowDisplayControl(ViewValuePathItem pathItem)
         {
             panelRightControl.Controls.Clear();
-            pathItem.DisplayControl.Dock = DockStyle.Fill;
-            panelRightControl.Controls.Add(pathItem.DisplayControl);
+            pathItem.DisplayControl!.Dock = DockStyle.Fill;
+            panelRightControl.Controls.Add(pathItem.DisplayControl!);
+        }
+
+        private void buttonOpenWindow_Click(object sender, EventArgs e)
+        {
+            var openPathItem = _displayHierarchy.LastOrDefault();
+            if (openPathItem != null)
+            {
+                var openControl = openPathItem.DisplayControl;
+                openPathItem.DisplayControl = null;
+                if (_displayHierarchy.Count > 1)
+                {
+                    GoBackInHistory(_displayHierarchy.Count - 2);
+                }
+                else
+                {
+                    CloseRightPanel();
+                }
+
+                if (openControl != null)
+                {
+                    SecondForm.ShowDetailsAsForm(openControl);
+                }
+            }
         }
 
         private void buttonCloseRight_Click(object sender, EventArgs e)
@@ -220,7 +243,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
 
             public string Title { get; }
 
-            public Control DisplayControl { get; }
+            public Control? DisplayControl { get; set; }
 
             public string ViewModelUniqueId { get; }
 

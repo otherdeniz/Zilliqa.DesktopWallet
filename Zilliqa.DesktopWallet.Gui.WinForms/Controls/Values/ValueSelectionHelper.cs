@@ -22,6 +22,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
         {
             if (value is AddressValue addressValue)
             {
+                if (addressValue.SmartContract != null)
+                {
+                    var scViewModel = new SmartContractRowViewModel(addressValue.SmartContract);
+                    var scControl = new SmartContractDetailsControl();
+                    scControl.LoadSmartContract(scViewModel);
+                    return scControl;
+                }
                 var control = new AddressDetailsControl();
                 var vm = new AccountViewModel(WatchedAccount.Create(addressValue.Address),
                     _ => control.RefreshAccountSummaries(),
@@ -80,6 +87,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
         {
             if (value is AddressValue addressValue)
             {
+                if (addressValue.SmartContract != null)
+                {
+                    return $"Contract: {addressValue.SmartContract.DisplayName()}";
+                }
                 return $"Address: {addressValue}";
             }
             if (value is Zrc2TokenValue zrc2TokenValue)
@@ -121,6 +132,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
         {
             if (value is AddressValue addressValue)
             {
+                if (addressValue.SmartContract != null)
+                {
+                    return $"Contract-{addressValue.Address.GetBech32().FromBech32ToShortReadable()}";
+                }
                 return $"Addr-{addressValue.Address.GetBech32()}";
             }
             if (value is Address address)
@@ -157,7 +172,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
             }
             if (value is SmartContractRowViewModel smartContractRow)
             {
-                return $"Contract-{smartContractRow.Address}";
+                return $"Contract-{smartContractRow.AddressBech32Short}";
             }
             if (value is EcosystemRowViewModel ecosystemRow)
             {

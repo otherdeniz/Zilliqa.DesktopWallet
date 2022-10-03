@@ -65,7 +65,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
                 WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                 {
                     tabButtonTransactions.Tag ??= tabButtonTransactions.Text;
-                    tabButtonTransactions.Text = $"{tabButtonTransactions.Tag} ({dataSource.RecordCount})";
+                    tabButtonTransactions.Text = $"{tabButtonTransactions.Tag} ({dataSource.RecordCount:#,##0})";
                     gridViewTransactions.LoadData(dataSource);
                 });
             });

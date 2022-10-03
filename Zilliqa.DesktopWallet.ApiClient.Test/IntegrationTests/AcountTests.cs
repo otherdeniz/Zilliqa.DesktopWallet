@@ -28,5 +28,6 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
             Assert.IsFalse(res.GetBalance() < 0);
         }
 
+
     }
 }

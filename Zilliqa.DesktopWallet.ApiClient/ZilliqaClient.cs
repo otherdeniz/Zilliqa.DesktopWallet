@@ -269,11 +269,11 @@ namespace Zilliqa.DesktopWallet.ApiClient
 			it.AllValues = res.Result;
 			return it;
 		}
-		public async Task<string> GetSmartContractSubState(object[] parameters)
+		public async Task<object> GetSmartContractSubState(object[] parameters)
 		{
 			var res = await _client.GetSmartContractSubState(parameters);
             ThrowOnError(res);
-			return (string)res.Result;
+			return res.Result;
 		}
 		public async Task<string> GetSmartContractInit(string address)
 		{
@@ -370,8 +370,7 @@ namespace Zilliqa.DesktopWallet.ApiClient
 			{
 				list = ((JToken)res.Result).ToObject<List<Transaction>>();
 			}
-			else if (res.Message == "Failed to get Microblock"
-                     && blockNum == 1664279)
+			else if (res.Message == "Failed to get Microblock" && blockNum == 1664279)
             {
                 // On Dec-15 2021, Zilliqa had a major AWS outage, that caused the loss of microblocks for the TX block 1664279
                 // Because of the network outage, some of the sender nodes lost the message. That caused public nodes to not receive it and hence the API for that particular block is not queryable.
@@ -382,8 +381,16 @@ namespace Zilliqa.DesktopWallet.ApiClient
 				list.Add(new Transaction{Id = "fffde5f030d6f8e2aa4638a7117a7a063fbffe6e75b02f35393127c3caf6a168", Receipt = new Receipt() }); //list.Add(await GetTransaction("fffde5f030d6f8e2aa4638a7117a7a063fbffe6e75b02f35393127c3caf6a168")); (not found)
 				list.Add(new Transaction{Id = "afac1600bfda9d73c9625f3146f7c47bbaf6c4cae621aee4387772d5fd669932", Receipt = new Receipt() }); //list.Add(await GetTransaction("afac1600bfda9d73c9625f3146f7c47bbaf6c4cae621aee4387772d5fd669932")); (not found)
 			}
-            else if (res.Message == "Txn Hash not Present"
-                     && blockNum <= 175701)
+            else if (res.Message == "Failed to get Microblock" && UseTestnet)
+            {
+                var block = await GetTxBlock(blockNum);
+                for (int i = 0; i < block.Header.NumTxns; i++)
+                {
+					list.Add(new Transaction { Id = Guid.NewGuid().ToString("N"), Receipt = new Receipt() });
+				}
+            }
+			else if ((res.Message == "Txn Hash not Present" && blockNum <= 175701)
+                     || (res.Message == "Txn Hash not Present" && UseTestnet))
             {
                 // the block should have more transactions but we only see a few, we fake the rest
 				var transactionIdLists = await GetTransactionsForTxBlock(blockNum);

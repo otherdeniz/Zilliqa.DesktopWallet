@@ -158,7 +158,10 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                             try
                             {
                                 var apiclient = new ZilliqaClient();
-                                var blockTransactions = await apiclient.GetTxnBodiesForTxBlock(processBlockNumber);
+                                
+                                var blockTransactions = blockModel.NumTxns == 0 
+                                    ? new List<ApiModel.Transaction>() 
+                                    : await apiclient.GetTxnBodiesForTxBlock(processBlockNumber);
 
                                 if (blockTransactions.Count == blockModel.NumTxns)
                                 {

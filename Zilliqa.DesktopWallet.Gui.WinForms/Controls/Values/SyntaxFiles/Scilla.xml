@@ -11,14 +11,14 @@
 		<Keywords>
 			<PatternGroup Name="Instructions" Style="C1" CaseSensitive="true">
 				<Patterns>
-          fun let field match with end in type
-          send
-          import library
+          import library contract transition procedure
         </Patterns>
 			</PatternGroup>
 			<PatternGroup Name="HeaderStatement" Style="C2" CaseSensitive="true">
 				<Patterns>
-          scilla_version contract transition procedure
+          scilla_version
+          fun let field match with end in type
+          send
         </Patterns>
 			</PatternGroup>
 			<PatternGroup Name="Type" Style="C3" CaseSensitive="true">

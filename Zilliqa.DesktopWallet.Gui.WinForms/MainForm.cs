@@ -8,12 +8,15 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
 {
     public partial class MainForm : Form, ISingleInstanceForm
     {
+        public static MainForm? Instance { get; private set; }
+
         private Control? _mainTransientControl;
         private ShutdownDialogForm? _shutdownDialogForm;
 
         public MainForm()
         {
             InitializeComponent();
+            Instance = this;
         }
 
         /// <summary>
@@ -83,6 +86,22 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             WinFormsSynchronisationContext.WinFormsMainContext = SynchronizationContext.Current;
             this.Text = ApplicationInfo.MainFormTitle;
             InitDisplayedCurrencies();
+            var screen = Screen.FromControl(this);
+            var formWidth = Convert.ToInt32(Convert.ToDecimal(screen.Bounds.Width) * 0.8m);
+            if (formWidth > 2000)
+            {
+                formWidth = 2000;
+            }
+            var formHeight = Convert.ToInt32(Convert.ToDecimal(screen.Bounds.Height) * 0.8m);
+            if (formHeight > 1000)
+            {
+                formHeight = 1000;
+            }
+            Top = Convert.ToInt32(Convert.ToDecimal(screen.Bounds.Height - formHeight) / 2m);
+            var left = Convert.ToInt32(Convert.ToDecimal(screen.Bounds.Width - formWidth) / 2m);
+            Left = left < 250 ? left : 250;
+            Height = formHeight;
+            Width = formWidth;
         }
 
         private void buttonWallet_Click(object sender, EventArgs e)
@@ -112,6 +131,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             ShowMainControl(() => new MainEcosystemControl(), buttonEcosystem, true);
         }
 
+        private void buttonStakingNodes_Click(object sender, EventArgs e)
+        {
+            ShowMainControl(() => new MainStakingNodesControl(), buttonStakingNodes, true);
+        }
+
         private void buttonSettings_Click(object sender, EventArgs e)
         {
             SettingsForm.Execute(this);
@@ -134,6 +158,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             buttonTokens.Checked = false;
             buttonSmartContracts.Checked = false;
             buttonEcosystem.Checked = false;
+            buttonStakingNodes.Checked = false;
             button.Checked = true;
 
             // hide everything

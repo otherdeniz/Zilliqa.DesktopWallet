@@ -1,11 +1,9 @@
-﻿using System.Diagnostics;
-using Zilliqa.DesktopWallet.Core.Extensions;
-using Zilliqa.DesktopWallet.Core.Services;
-using Zilliqa.DesktopWallet.Core.ViewModel;
+﻿using Zilliqa.DesktopWallet.Core.Services;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 {
-    public partial class MainTokensControl : UserControl
+    public partial class MainTokensControl : DrillDownMasterPanelControl
     {
         public MainTokensControl()
         {
@@ -25,41 +23,42 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             timerStartLoading.Enabled = false;
             var dataSource = TokenDataService.Instance.GetTokensDataSource();
             gridViewTokens.LoadData(dataSource);
-            groupBoxTokensList.Text = $"ZRC-2 Tokens ({dataSource.RecordCount:#,##0})";
-            panelLoading.Visible = false;
-            panelLoaded.Visible = true;
+            groupBoxTokensList.Tag ??= groupBoxTokensList.Text;
+            groupBoxTokensList.Text = $"{groupBoxTokensList.Tag} ({dataSource.RecordCount:#,##0})";
+            //panelLoading.Visible = false;
+            //panelLoaded.Visible = true;
         }
 
-        private void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            if (sender is LinkLabel linkLabel
-                && linkLabel.Text.StartsWith("http"))
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = linkLabel.Text,
-                    UseShellExecute = true
-                });
-            }
-        }
+        //private void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        //{
+        //    if (sender is LinkLabel linkLabel
+        //        && linkLabel.Text.StartsWith("http"))
+        //    {
+        //        Process.Start(new ProcessStartInfo
+        //        {
+        //            FileName = linkLabel.Text,
+        //            UseShellExecute = true
+        //        });
+        //    }
+        //}
 
-        private void gridViewTokens_SelectionChanged(object sender, GridView.GridViewControl.SelectedItemEventArgs e)
-        {
-            if (e.SelectedItem?.Value is TokenRowViewModel token)
-            {
-                groupBoxTokenDetails.Visible = true;
-                groupBoxMarketData.Visible = true;
-                pictureBoxIcon.Image = token.Model.Icon.Icon48;
-                labelName.Text = token.Model.Name;
-                labelSymbol.Text = token.Model.Symbol;
-                //labelContractAddress.Text = token.Model.ContractAddressesBech32;
-                //labelInitSupply.Text = token.Model.MarketData.InitSupply.ToString("#,##0");
-                //labelMaxSupply.Text = token.Model.MarketData.MaxSupply.ToString("#,##0");
-                //linkLabelWebsite.Text = token.Model.WebsiteUrl;
-                //linkLabelTelegram.Text = token.Model.TelegramUrl;
-                //linkLabelWhitepaper.Text = token.Model.WhitepaperUrl;
-                //propertyGridMarketData.SelectedObject = token.Model.MarketData;
-            }
-        }
+        //private void gridViewTokens_SelectionChanged(object sender, GridView.GridViewControl.SelectedItemEventArgs e)
+        //{
+        //    if (e.SelectedItem?.Value is TokenRowViewModel token)
+        //    {
+        //        groupBoxTokenDetails.Visible = true;
+        //        groupBoxMarketData.Visible = true;
+        //        pictureBoxIcon.Image = token.Model.Icon.Icon48;
+        //        labelName.Text = token.Model.Name;
+        //        labelSymbol.Text = token.Model.Symbol;
+        //        //labelContractAddress.Text = token.Model.ContractAddressesBech32;
+        //        //labelInitSupply.Text = token.Model.MarketData.InitSupply.ToString("#,##0");
+        //        //labelMaxSupply.Text = token.Model.MarketData.MaxSupply.ToString("#,##0");
+        //        //linkLabelWebsite.Text = token.Model.WebsiteUrl;
+        //        //linkLabelTelegram.Text = token.Model.TelegramUrl;
+        //        //linkLabelWhitepaper.Text = token.Model.WhitepaperUrl;
+        //        //propertyGridMarketData.SelectedObject = token.Model.MarketData;
+        //    }
+        //}
     }
 }

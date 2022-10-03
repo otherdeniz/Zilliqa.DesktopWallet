@@ -35,6 +35,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                 separatorSend.Visible = true;
                 buttonBackupPrivateKey.Visible = true;
                 separatorBackup.Visible = true;
+                menuStaking.Visible = true;
                 buttonRemoveAccount.Enabled = !_account.HasFunds;
             }
             else
@@ -44,6 +45,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                 separatorSend.Visible = false;
                 buttonBackupPrivateKey.Visible = false;
                 separatorBackup.Visible = false;
+                menuStaking.Visible = false;
             }
             addressDetails.BindAccountViewModel(account, false);
         }

@@ -93,9 +93,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                                                           : new AddressValue(Transaction.SenderAddress));
 
         [ColumnWidth(100)]
-        public string? Method => _innerViewModel is ContractCallTransactionRowViewModel contractRowViewModel
-            ? contractRowViewModel.Method
-            : null;
+        public string? Method => Transaction.DataContractCall.Tag;
 
         [Browsable(true)]
         [DisplayName("Amount")]

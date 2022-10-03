@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using Zilliqa.DesktopWallet.ApiClient.API;
 using Zilliqa.DesktopWallet.ApiClient.Model;
 using Zilliqa.DesktopWallet.ApiClient.Utils;
 using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
@@ -48,7 +49,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
         [Test]
         public async Task GetTransactionsForTxBlockNotEmpty()
         {
-            var txns = await _zil.GetTransactionsForTxBlock(175334); 
+            var txns = await _zil.GetTransactionsForTxBlock(175334);
             Assert.IsTrue(txns.Any());
         }
 

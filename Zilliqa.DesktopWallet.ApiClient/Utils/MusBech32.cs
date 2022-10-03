@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Zilliqa.DesktopWallet.ApiClient.Utils
 {
     public static class MusBech32
     {
+        public static readonly Regex Bech32AddressRegEx = new Regex("^zil1([a-z]|[0-9]){38}$", RegexOptions.Compiled);
+        public static readonly Regex HexAddressRegEx = new Regex("^0x([a-f]|[A-F]|[0-9]){40}$", RegexOptions.Compiled);
+
         public const string HRP = "zil";
 
         /**
@@ -90,16 +94,10 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
             return res.Substring(0,42);
         }
 
-        public static bool IsValidZilAddress(string bech32Address)
+        public static bool IsValidZilAddress(string addressString, bool allowBech32 = true, bool allowHex = true)
         {
-            try
-            {
-                return Decode(bech32Address).Hrp == HRP;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return (allowBech32 && Bech32AddressRegEx.IsMatch(addressString))
+                   || (allowHex && HexAddressRegEx.IsMatch(addressString));
         }
 
         public static Bech32 Decode(string str)

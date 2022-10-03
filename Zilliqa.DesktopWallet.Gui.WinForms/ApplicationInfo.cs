@@ -27,6 +27,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
         public static string NetworkTitle => IsTestnet ? "TESTNET" : "MAINNET";
 
         public static string MainFormTitle => 
-            $"{ApplicationName} (v{ApplicationVersionText}) - {NetworkTitle}";
+            $"{ApplicationName} by Zillifriends (v{ApplicationVersionText}) - {NetworkTitle}";
     }
 }

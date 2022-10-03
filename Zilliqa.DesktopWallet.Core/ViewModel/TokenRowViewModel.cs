@@ -23,10 +23,10 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public Image? Icon => _icon ??= _model.Icon.Icon16;
 
         [DisplayName("Name")]
-        public string NameShort => _model.Name.TokenNameShort();
+        public string NameShort => _model.Name.TokenNameShort() ?? "";
 
         [DisplayName("Symbol")]
-        public string SymbolShort => _model.Symbol.TokenSymbolShort();
+        public string SymbolShort => _model.Symbol.TokenSymbolShort() ?? "";
 
         [DisplayName("Created")]
         [GridViewFormat("d")]
@@ -34,18 +34,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [DisplayName("Score")]
         public int? Score => _model.CryptometaAsset?.Gen.Score;
-
-        [DisplayName("Max Supply")]
-        [GridViewFormat("#,##0")]
-        public decimal? MaxSupply => _model.MaxSupply;
-
-        [DisplayName("Change 24h")]
-        [GridViewFormat("0.00 '%'", UseGreenOrRedNumbers = true)]
-        public decimal? ChangePercent24H => _model.CoinPrice?.MarketData.PriceChangePercentage24H;
-
-        [DisplayName("Change 7D")]
-        [GridViewFormat("0.00 '%'", UseGreenOrRedNumbers = true)]
-        public decimal? ChangePercent7D => _model.CoinPrice?.MarketData.PriceChangePercentage7D;
 
         [DisplayName("Price ZIL")]
         [GridViewFormat("#,##0.0000 ZIL")]
@@ -98,6 +86,18 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [GridViewBackground(KnownColor.LightGray)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyLtc)]
         public decimal? PriceLtc => _model.CoinPrice?.MarketData.CurrentPrice.Ltc;
+
+        [DisplayName("Max Supply")]
+        [GridViewFormat("#,##0")]
+        public decimal? MaxSupply => _model.MaxSupply;
+
+        [DisplayName("Change 24h")]
+        [GridViewFormat("0.00 '%'", UseGreenOrRedNumbers = true)]
+        public decimal? ChangePercent24H => _model.CoinPrice?.MarketData.PriceChangePercentage24H;
+
+        [DisplayName("Change 7D")]
+        [GridViewFormat("0.00 '%'", UseGreenOrRedNumbers = true)]
+        public decimal? ChangePercent7D => _model.CoinPrice?.MarketData.PriceChangePercentage7D;
 
     }
 }

@@ -37,6 +37,7 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonSmartContracts = new System.Windows.Forms.ToolStripButton();
             this.buttonEcosystem = new System.Windows.Forms.ToolStripButton();
+            this.buttonStakingNodes = new System.Windows.Forms.ToolStripButton();
             this.buttonBlockchain = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonSettings = new System.Windows.Forms.ToolStripButton();
@@ -75,6 +76,7 @@
             this.toolStripSeparator2,
             this.buttonSmartContracts,
             this.buttonEcosystem,
+            this.buttonStakingNodes,
             this.buttonBlockchain,
             this.toolStripSeparator1,
             this.buttonSettings,
@@ -82,7 +84,7 @@
             this.buttonMenuDisplayCurrencies});
             this.toolStripMain.Location = new System.Drawing.Point(0, 0);
             this.toolStripMain.Name = "toolStripMain";
-            this.toolStripMain.Size = new System.Drawing.Size(1236, 31);
+            this.toolStripMain.Size = new System.Drawing.Size(1264, 31);
             this.toolStripMain.TabIndex = 0;
             this.toolStripMain.Text = "toolStrip1";
             // 
@@ -138,13 +140,22 @@
             this.buttonEcosystem.Text = "Ecosystem";
             this.buttonEcosystem.Click += new System.EventHandler(this.buttonEcosystem_Click);
             // 
+            // buttonStakingNodes
+            // 
+            this.buttonStakingNodes.Image = ((System.Drawing.Image)(resources.GetObject("buttonStakingNodes.Image")));
+            this.buttonStakingNodes.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonStakingNodes.Name = "buttonStakingNodes";
+            this.buttonStakingNodes.Size = new System.Drawing.Size(111, 28);
+            this.buttonStakingNodes.Text = "Staking Nodes";
+            this.buttonStakingNodes.Click += new System.EventHandler(this.buttonStakingNodes_Click);
+            // 
             // buttonBlockchain
             // 
             this.buttonBlockchain.Image = ((System.Drawing.Image)(resources.GetObject("buttonBlockchain.Image")));
             this.buttonBlockchain.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonBlockchain.Name = "buttonBlockchain";
-            this.buttonBlockchain.Size = new System.Drawing.Size(138, 28);
-            this.buttonBlockchain.Text = "Blockchain Browser";
+            this.buttonBlockchain.Size = new System.Drawing.Size(131, 28);
+            this.buttonBlockchain.Text = "Blockchain Search";
             this.buttonBlockchain.Click += new System.EventHandler(this.buttonBlockchain_Click);
             // 
             // toolStripSeparator1
@@ -255,7 +266,7 @@
             this.panelMain.Location = new System.Drawing.Point(0, 31);
             this.panelMain.Name = "panelMain";
             this.panelMain.Padding = new System.Windows.Forms.Padding(2);
-            this.panelMain.Size = new System.Drawing.Size(1236, 577);
+            this.panelMain.Size = new System.Drawing.Size(1264, 570);
             this.panelMain.TabIndex = 1;
             // 
             // mainWalletControl
@@ -273,9 +284,9 @@
             this.panelBottom.Controls.Add(this.groupBoxNotifications);
             this.panelBottom.Controls.Add(this.groupBoxStatus);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelBottom.Location = new System.Drawing.Point(0, 608);
+            this.panelBottom.Location = new System.Drawing.Point(0, 601);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1236, 160);
+            this.panelBottom.Size = new System.Drawing.Size(1264, 160);
             this.panelBottom.TabIndex = 2;
             // 
             // groupBoxNotifications
@@ -285,7 +296,7 @@
             this.groupBoxNotifications.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.groupBoxNotifications.Location = new System.Drawing.Point(302, 0);
             this.groupBoxNotifications.Name = "groupBoxNotifications";
-            this.groupBoxNotifications.Size = new System.Drawing.Size(934, 160);
+            this.groupBoxNotifications.Size = new System.Drawing.Size(962, 160);
             this.groupBoxNotifications.TabIndex = 0;
             this.groupBoxNotifications.TabStop = false;
             this.groupBoxNotifications.Text = "Notifications";
@@ -296,7 +307,7 @@
             this.panelNotifications.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelNotifications.Location = new System.Drawing.Point(3, 19);
             this.panelNotifications.Name = "panelNotifications";
-            this.panelNotifications.Size = new System.Drawing.Size(928, 138);
+            this.panelNotifications.Size = new System.Drawing.Size(956, 138);
             this.panelNotifications.TabIndex = 0;
             // 
             // groupBoxStatus
@@ -331,7 +342,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1236, 768);
+            this.ClientSize = new System.Drawing.Size(1264, 761);
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelBottom);
             this.Controls.Add(this.toolStripMain);
@@ -382,5 +393,6 @@
         private ToolStripMenuItem toolStripMenuCrypto;
         private ToolStripButton buttonSmartContracts;
         private ToolStripButton buttonEcosystem;
+        private ToolStripButton buttonStakingNodes;
     }
 }

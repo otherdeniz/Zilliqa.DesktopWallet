@@ -11,7 +11,7 @@ using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 {
-    public partial class GridViewControl : DesignableUserControl
+    public partial class GridViewControl : DesignableUserControl, IMasterPanelRelatedControl
     {
         private Type? _itemType;
         private IList? _dataSourceList;
@@ -53,6 +53,25 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 
         [DefaultValue(1)]
         public int FrozenColumns { get; set; } = 1;
+
+        public void ResetMasterPanel()
+        {
+            _drillDownMasterPanelControlLoaded = false;
+            _drillDownMasterPanelControl = null;
+        }
+
+        private DrillDownMasterPanelControl? GetDrillDownMasterPanel()
+        {
+            if (!_drillDownMasterPanelControlLoaded)
+            {
+                _drillDownMasterPanelControlLoaded = true;
+                _drillDownMasterPanelControl = DrillDownMasterPanelControl.FindParentDrillDownMasterPanel(this);
+                _controlIsInRightPanel = DrillDownMasterPanelControl.ControlIsInRightPanel(this);
+            }
+
+            return _drillDownMasterPanelControl;
+        }
+
 
         public void LoadData(IPageableDataSource dataSource)
         {
@@ -304,18 +323,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                 return masterPanel?.ContainsValueUniqueId(viewModel) == false;
             }
             return true;
-        }
-
-        private DrillDownMasterPanelControl? GetDrillDownMasterPanel()
-        {
-            if (!_drillDownMasterPanelControlLoaded)
-            {
-                _drillDownMasterPanelControlLoaded = true;
-                _drillDownMasterPanelControl = DrillDownMasterPanelControl.FindParentDrillDownMasterPanel(this);
-                _controlIsInRightPanel = DrillDownMasterPanelControl.ControlIsInRightPanel(this);
-            }
-
-            return _drillDownMasterPanelControl;
         }
 
         private SelectionItem? GetCellIdentitySelectionItem(CellIdentity cellIdentity)
