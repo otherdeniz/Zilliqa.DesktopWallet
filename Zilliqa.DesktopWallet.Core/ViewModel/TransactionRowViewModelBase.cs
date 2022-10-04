@@ -12,7 +12,7 @@ using Zilliqa.DesktopWallet.ViewModelAttributes;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
-    public class TransactionRowViewModelBase : INotifyPropertyChanged, IDetailsViewModel
+    public class TransactionRowViewModelBase : INotifyPropertyChanged, IDetailsLabel
     {
         private readonly Transaction _transactionModel;
         private BlockNumberValue? _blockNumber;

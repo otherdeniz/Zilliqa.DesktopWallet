@@ -1,9 +1,9 @@
 ﻿namespace Zilliqa.DesktopWallet.ViewModelAttributes
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class DetailsObjectAttribute : Attribute
+    public class DetailsChildPropertiesAttribute : Attribute
     {
-        public DetailsObjectAttribute(string? groupName)
+        public DetailsChildPropertiesAttribute(string? groupName)
         {
             GroupName = groupName;
         }

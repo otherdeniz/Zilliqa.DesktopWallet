@@ -8,12 +8,12 @@ using Zilliqa.DesktopWallet.ViewModelAttributes;
 namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
     [DetailsTitle(nameof(Icon48), nameof(Name), nameof(ApiUrl))]
-    public class StakingNodeRowViewModel : IDetailsViewModel
+    public class StakingNodeViewModel : IDetailsLabel
     {
-        public static List<StakingNodeRowViewModel> CreateViewModel()
+        public static List<StakingNodeViewModel> CreateViewModel()
         {
             return StakingService.Instance.GetSeedNodeList()
-                .Select(ssn => new StakingNodeRowViewModel(ssn))
+                .Select(ssn => new StakingNodeViewModel(ssn))
                 .OrderByDescending(ssn => ssn.StakedAmount)
                 .ToList();
         }
@@ -21,7 +21,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         private AddressValue? _ssnAddress;
         private AddressValue? _commissionAddress;
 
-        public StakingNodeRowViewModel(StakingSeedNode stakingSeedNodeModel)
+        public StakingNodeViewModel(StakingSeedNode stakingSeedNodeModel)
         {
             StakingSeedNodeModel = stakingSeedNodeModel;
         }

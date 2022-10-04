@@ -2,7 +2,7 @@
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
 {
-    public class Zrc2TokenValue : IDetailsViewModel
+    public class Zrc2TokenValue : IDetailsLabel
     {
         private readonly string? _displayText;
 

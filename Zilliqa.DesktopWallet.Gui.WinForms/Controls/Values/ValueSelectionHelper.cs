@@ -23,9 +23,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
             {
                 if (addressValue.SmartContract != null)
                 {
-                    var scViewModel = new SmartContractRowViewModel(addressValue.SmartContract);
-                    var scControl = new SmartContractDetailsControl();
-                    scControl.LoadSmartContract(scViewModel);
+                    var scViewModel = new SmartContractViewModel(addressValue.SmartContract);
+                    var scControl = new GenericDetailsControl();
+                    scControl.LoadViewModel(scViewModel);
                     return scControl;
                 }
                 var control = new AddressDetailsControl();
@@ -34,6 +34,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
                     false);
                 control.BindAccountViewModel(vm, true);
                 return control;
+            }
+            if (value is ScillaCodeValue scillaCode)
+            {
+                return new ScillaCodeTextBox
+                {
+                    Text = scillaCode.Code
+                };
             }
             if (value is BlockNumberValue blockNumberValue)
             {
@@ -53,6 +60,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
                 control.LoadTransaction(transactionId);
                 return control;
             }
+            if (value is Transaction transactionModel)
+            {
+                var control = new TransactionDetailsControl();
+                control.LoadTransaction(transactionModel);
+                return control;
+            }
             if (value is Zrc2TokenValue tokenValue)
             {
                 var control = new TokenDetailsControl();
@@ -63,12 +76,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
             {
                 var control = new TokenDetailsControl();
                 control.LoadToken(tokenBalanceRow.Model.Symbol);
-                return control;
-            }
-            if (value is SmartContractRowViewModel smartContractRow)
-            {
-                var control = new SmartContractDetailsControl();
-                control.LoadSmartContract(smartContractRow);
                 return control;
             }
             var genericControl = new GenericDetailsControl();
@@ -86,7 +93,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
                 }
                 return $"Address: {addressValue}";
             }
-            if (value is IDetailsViewModel detailsViewModel)
+            if (value is Transaction transaction)
+            {
+                return $"Transaction: {transaction.Id}";
+            }
+            if (value is IDetailsLabel detailsViewModel)
             {
                 return detailsViewModel.GetDisplayTitle();
             }
@@ -111,7 +122,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
             {
                 return $"Trx-{transaction.Id}";
             }
-            if (value is IDetailsViewModel detailsViewModel)
+            if (value is IDetailsLabel detailsViewModel)
             {
                 return detailsViewModel.GetUniqueId();
             }

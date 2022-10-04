@@ -13,10 +13,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
         private void timerLoading_Tick(object sender, EventArgs e)
         {
             timerLoading.Enabled = false;
-            var dataSource = StakingNodeRowViewModel.CreateViewModel();
+            var dataSource = StakingNodeViewModel.CreateViewModel();
             groupBoxGrid.Tag ??= groupBoxGrid.Text;
             groupBoxGrid.Text = $"{groupBoxGrid.Tag} ({dataSource.Count:#,##0})";
-            gridViewStakingNodes.LoadData(dataSource, typeof(StakingNodeRowViewModel));
+            gridViewStakingNodes.LoadData(dataSource, typeof(StakingNodeViewModel));
         }
 
         private void MainStakingNodesControl_Load(object sender, EventArgs e)

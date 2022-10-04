@@ -9,7 +9,7 @@ using Zilliqa.DesktopWallet.ViewModelAttributes;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
-    public class TokenBalanceRowViewModel : INotifyPropertyChanged, IDetailsViewModel
+    public class TokenBalanceRowViewModel : INotifyPropertyChanged, IDetailsLabel
     {
         private Image? _icon;
         private decimal _balance;

@@ -3,7 +3,6 @@ using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
-using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 {
@@ -14,6 +13,22 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
         public TransactionDetailsControl()
         {
             InitializeComponent();
+        }
+
+        public override void LoadViewModel(object viewModel)
+        {
+            if (viewModel is TransactionIdValue transactionIdValue)
+            {
+                LoadTransaction(transactionIdValue);
+            }
+            else if (viewModel is Transaction transactionModel)
+            {
+                LoadTransaction(transactionModel);
+            }
+            else if (viewModel is TransactionRowViewModelBase transactionViewModel)
+            {
+                LoadTransaction(transactionViewModel);
+            }
         }
 
         public void LoadTransaction(TransactionIdValue transactionId)

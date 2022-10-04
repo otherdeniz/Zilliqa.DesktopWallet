@@ -18,12 +18,12 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
 
         public ZilligraphDatabase Database { get; }
 
-        public PageableLazyDataSource<SmartContractRowViewModel, SmartContract> ReadSmartContractViewModelsPaged(
+        public PageableLazyDataSource<SmartContractViewModel, SmartContract> ReadSmartContractViewModelsPaged(
             IFilterQuery? queryFilter = null,
             bool inverseOrder = true,
             int pageSize = 1000)
         {
-            return ReadViewModelsPaged<SmartContractRowViewModel, SmartContract>(r => new SmartContractRowViewModel(r),
+            return ReadViewModelsPaged<SmartContractViewModel, SmartContract>(r => new SmartContractViewModel(r),
                 queryFilter, true, inverseOrder, pageSize);
         }
 

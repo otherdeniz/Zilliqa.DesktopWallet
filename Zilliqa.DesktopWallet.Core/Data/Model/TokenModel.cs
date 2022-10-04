@@ -8,7 +8,7 @@ using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Core.Data.Model
 {
-    public class TokenModel : IDetailsViewModel
+    public class TokenModel : IDetailsLabel
     {
         public string Symbol { get; set; }
 

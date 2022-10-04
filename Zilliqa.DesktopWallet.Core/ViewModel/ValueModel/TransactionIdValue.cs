@@ -2,7 +2,7 @@
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
 {
-    public class TransactionIdValue : IDetailsViewModel
+    public class TransactionIdValue : IDetailsLabel
     {
         public static bool TryParse(string value, out TransactionIdValue? result)
         {

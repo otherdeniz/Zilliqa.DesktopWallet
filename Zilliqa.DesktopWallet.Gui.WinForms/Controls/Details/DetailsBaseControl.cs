@@ -16,6 +16,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
         [DefaultValue(false)]
         public bool IsDrillDownMainControl { get; set; }
 
+        public virtual void LoadViewModel(object viewModel)
+        {
+        }
+
         public bool CanDrillDownToObject(object viewModel)
         {
             return DrillDownPanel?.ContainsValueUniqueId(viewModel) == false;

@@ -1,9 +1,13 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
 using Zilliqa.DesktopWallet.ApiClient;
+using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Data.Model;
+using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details.PropertyRow;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values;
 using Zilliqa.DesktopWallet.ViewModelAttributes;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
@@ -24,6 +28,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             var propertiesHeight = 0;
             propertiesHeight += AddControls(panelProperties, _viewModel);
             propertiesHeight += AddHeader(viewModelType, viewModel);
+            var hasTabs = AddTabs(viewModel);
+            splitterTabs.Visible = hasTabs;
+            panelTabs.Visible = hasTabs;
             panelProperties.Height = propertiesHeight;
         }
 
@@ -51,6 +58,92 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             }
 
             return 0;
+        }
+
+        private bool AddTabs(object viewModelObject)
+        {
+            var hasTabs = false;
+            var vmType = viewModelObject.GetType();
+            foreach (var propertyInfo in vmType.GetProperties())
+            {
+                if (propertyInfo.GetCustomAttribute(typeof(DetailsChildObjectAttribute))
+                    is DetailsChildObjectAttribute detailsChildObjectAttribute)
+                {
+                    var propertyValue = propertyInfo.GetValue(viewModelObject);
+                    if (propertyValue != null)
+                    {
+                        var pageControl = ValueSelectionHelper.CreateDisplayControl(propertyValue);
+                        AddTab(detailsChildObjectAttribute.DisplayName, pageControl);
+                        hasTabs = true;
+                    }
+                }
+            }
+            foreach (var methodInfo in vmType.GetMethods())
+            {
+                if (methodInfo.GetCustomAttribute(typeof(DetailsGridViewAttribute))
+                    is DetailsGridViewAttribute detailsGridViewAttribute)
+                {
+                    var gridView = new GridViewControl();
+                    var button = AddTab(detailsGridViewAttribute.DisplayName, gridView);
+                    Task.Run(() =>
+                    {
+                        var dataSource = methodInfo.Invoke(viewModelObject, new object?[]{});
+                        if (dataSource is IPageableDataSource pageableDataSource)
+                        {
+                            WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                            {
+                                button.Tag ??= button.Text;
+                                button.Text = $"{button.Tag} ({pageableDataSource.RecordCount:#,##0})";
+                                gridView.LoadData(pageableDataSource);
+                            });
+                        }
+                    });
+                    hasTabs = true;
+                }
+
+            }
+            return hasTabs;
+        }
+
+        private ToolStripButton AddTab(string name, Control pageControl)
+        {
+            var isFirst = panelTabPages.Controls.Count == 0;
+            pageControl.Dock = DockStyle.Fill;
+            pageControl.Visible = false;
+            panelTabPages.Controls.Add(pageControl);
+            var button = new ToolStripButton
+            {
+                Text = name
+            };
+            button.Click += (sender, args) => TabButtonClick(button, pageControl);
+            var seperator = new ToolStripSeparator();
+            toolStripTabs.Items.Add(button);
+            toolStripTabs.Items.Add(seperator);
+            if (isFirst)
+            {
+                TabButtonClick(button, pageControl);
+            }
+            return button;
+        }
+
+        private void TabButtonClick(ToolStripButton button, Control tabPageControl)
+        {
+            foreach (var item in toolStripTabs.Items)
+            {
+                if (item is ToolStripButton itemButton)
+                {
+                    itemButton.Checked = false;
+                    itemButton.Font = new Font(itemButton.Font, FontStyle.Regular);
+                }
+            }
+            button.Checked = true;
+            button.Font = new Font(button.Font, FontStyle.Bold);
+
+            foreach (Control pageControl in panelTabPages.Controls)
+            {
+                pageControl.Visible = false;
+            }
+            tabPageControl.Visible = true;
         }
 
         private int AddControls(Control toPanel, object viewModelObject)
@@ -104,14 +197,14 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
                     {
                         rowControl.Dock = DockStyle.Top;
                         rowControl.Font = new Font(Font, FontStyle.Regular);
-                        rowControl.NameMinWidth = 100;
+                        rowControl.NameMinWidth = 120;
                         toPanel.Controls.Add(rowControl);
                         height += rowControl.Height;
                     }
                 }
-                if ((propertyInfo.GetCustomAttribute(typeof(DetailsObjectAttribute))
-                     ?? parentPropertyInfo?.GetCustomAttribute(typeof(DetailsObjectAttribute)))
-                    is DetailsObjectAttribute detailsObjectAttribute 
+                if ((propertyInfo.GetCustomAttribute(typeof(DetailsChildPropertiesAttribute))
+                     ?? parentPropertyInfo?.GetCustomAttribute(typeof(DetailsChildPropertiesAttribute)))
+                    is DetailsChildPropertiesAttribute detailsObjectAttribute 
                     && propertyValue != null)
                 {
                     if (!string.IsNullOrEmpty(detailsObjectAttribute.GroupName))

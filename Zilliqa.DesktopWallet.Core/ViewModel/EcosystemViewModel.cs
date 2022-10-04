@@ -10,19 +10,19 @@ using Zilliqa.DesktopWallet.ViewModelAttributes;
 namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
     [DetailsTitle("IconModel", "Name", "Description")]
-    public class EcosystemRowViewModel : IDetailsViewModel
+    public class EcosystemViewModel : IDetailsLabel
     {
-        public static List<EcosystemRowViewModel> CreateViewModel()
+        public static List<EcosystemViewModel> CreateViewModelList()
         {
             return CryptometaFile.Instance.Ecosystems
-                .Select(e => new EcosystemRowViewModel(e))
+                .Select(e => new EcosystemViewModel(e))
                 .OrderBy(e => e.CategoryPriority())
                 .ThenBy(e => e.Category)
                 .ThenBy(e => e.Name)
                 .ToList();
         }
 
-        public EcosystemRowViewModel(CryptometaEcosystem cryptometaEcosystem)
+        public EcosystemViewModel(CryptometaEcosystem cryptometaEcosystem)
         {
             CryptometaEcosystem = cryptometaEcosystem;
         }
@@ -60,7 +60,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public string Website => CryptometaEcosystem.Web;
 
         [Browsable(false)]
-        [DetailsObject(null)]
+        [DetailsChildProperties(null)]
         public CryptometaLinks Links => CryptometaEcosystem.Links;
 
         public string GetUniqueId()

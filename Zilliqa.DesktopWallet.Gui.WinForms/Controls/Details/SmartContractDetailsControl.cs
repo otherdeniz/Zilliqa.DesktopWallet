@@ -20,7 +20,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             gridViewTransactions.Dock = DockStyle.Fill;
         }
 
-        public void LoadSmartContract(SmartContractRowViewModel viewModel)
+        public void LoadSmartContract(SmartContractViewModel viewModel)
         {
             var deploymentTransaction = viewModel.SmartContractModel.DeploymentTransaction.Value;
             if (deploymentTransaction != null)
@@ -42,7 +42,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             }
         }
 
-        private void LoadTransactions(SmartContractRowViewModel viewModel)
+        private void LoadTransactions(SmartContractViewModel viewModel)
         {
             Task.Run(() =>
             {

@@ -1,6 +1,6 @@
 ﻿namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
 {
-    public interface IDetailsViewModel
+    public interface IDetailsLabel
     {
         string GetUniqueId();
 

@@ -193,6 +193,16 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Block48 {
+            get {
+                object obj = ResourceManager.GetObject("Block48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CircleDotGray16 {
             get {
                 object obj = ResourceManager.GetObject("CircleDotGray16", resourceCulture);

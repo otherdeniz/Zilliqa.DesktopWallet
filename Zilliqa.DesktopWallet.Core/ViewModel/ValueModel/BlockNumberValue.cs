@@ -1,6 +1,6 @@
 ﻿namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
 {
-    public class BlockNumberValue : IDetailsViewModel
+    public class BlockNumberValue : IDetailsLabel
     {
         public BlockNumberValue(int blockNumber)
         {

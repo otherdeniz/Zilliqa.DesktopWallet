@@ -4,14 +4,14 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 {
     public partial class EcosystemDetailsControl : UserControl
     {
-        private EcosystemRowViewModel? _viewModel;
+        private EcosystemViewModel? _viewModel;
 
         public EcosystemDetailsControl()
         {
             InitializeComponent();
         }
 
-        public void LoadEcosystem(EcosystemRowViewModel viewModel)
+        public void LoadEcosystem(EcosystemViewModel viewModel)
         {
             _viewModel = viewModel;
             pictureBoxIcon.Image = viewModel.IconModel.Icon48;

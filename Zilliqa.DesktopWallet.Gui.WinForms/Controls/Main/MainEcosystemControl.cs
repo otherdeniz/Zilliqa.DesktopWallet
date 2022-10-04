@@ -13,10 +13,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
         private void timerLoading_Tick(object sender, EventArgs e)
         {
             timerLoading.Enabled = false;
-            var dataSource = EcosystemRowViewModel.CreateViewModel();
+            var dataSource = EcosystemViewModel.CreateViewModelList();
             groupBoxGrid.Tag ??= groupBoxGrid.Text;
             groupBoxGrid.Text = $"{groupBoxGrid.Tag} ({dataSource.Count:#,##0})";
-            gridViewEcosystem.LoadData(dataSource, typeof(EcosystemRowViewModel));
+            gridViewEcosystem.LoadData(dataSource, typeof(EcosystemViewModel));
         }
 
         private void MainEcosystemControl_Load(object sender, EventArgs e)
