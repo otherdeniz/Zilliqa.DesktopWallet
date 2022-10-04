@@ -1,10 +1,12 @@
-﻿using Zillifriends.Shared.Common;
+﻿using System.Runtime.Caching;
+using Zillifriends.Shared.Common;
 using Zilligraph.Database.Storage.FilterQuery;
 
 namespace Zilligraph.Database.Storage.Index
 {
     public class FilterFieldSearcher : IFilterSearcher
     {
+        private static readonly MemoryCache Cache = new MemoryCache("FilterFieldSearcher");
         private readonly IZilligraphTable _table;
         private readonly ZilligraphTableIndexBase _tableFieldIndex;
         private IEnumerator<IndexRecord>? _indexRecordsEnumerator;
@@ -27,7 +29,19 @@ namespace Zilligraph.Database.Storage.Index
         {
             if (_indexRecordsEnumerator == null)
             {
-                _indexRecordsEnumerator = _tableFieldIndex.SearchIndexes(_fieldFilter).GetEnumerator();
+                if (_fieldFilter.Cache)
+                {
+                    _indexRecordsEnumerator = Cache.GetOrAdd(
+                              $"{_table.RecordType.Name}.{_fieldFilter.PropertyName}[{_fieldFilter.Compare}]{_fieldFilter.Value?.ToString()}",
+                              TimeSpan.FromMinutes(5),
+                              () => _tableFieldIndex.SearchIndexes(_fieldFilter).ToList())
+                          ?.GetEnumerator()
+                      ?? Enumerable.Empty<IndexRecord>().GetEnumerator();
+                }
+                else
+                {
+                    _indexRecordsEnumerator = _tableFieldIndex.SearchIndexes(_fieldFilter).GetEnumerator();
+                }
             }
 
             if (!NoMoreRecords)

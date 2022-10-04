@@ -3,10 +3,13 @@
     public class FilterQueryField : IFilterQuery
     {
         public FilterQueryField(string propertyName, object? value,
-            FilterIndexCompare compare = FilterIndexCompare.Equals)
+            FilterIndexCompare compare = FilterIndexCompare.Equals,
+            bool cache = false)
         {
             PropertyName = propertyName;
             Value = value;
+            Compare = compare;
+            Cache = cache;
         }
 
         public object? Value { get; }
@@ -14,6 +17,8 @@
         public string PropertyName { get; }
 
         public FilterIndexCompare Compare { get; }
+
+        public bool Cache { get; }
     }
 
     public enum FilterIndexCompare
