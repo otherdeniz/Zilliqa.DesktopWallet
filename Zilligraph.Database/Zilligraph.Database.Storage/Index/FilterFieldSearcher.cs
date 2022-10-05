@@ -10,6 +10,7 @@ namespace Zilligraph.Database.Storage.Index
         private readonly IZilligraphTable _table;
         private readonly ZilligraphTableIndexBase _tableFieldIndex;
         private IEnumerator<IndexRecord>? _indexRecordsEnumerator;
+        private IEnumerator<ulong>? _cachedRecordsEnumerator;
         private readonly FilterQueryField _fieldFilter;
 
         public FilterFieldSearcher(IZilligraphTable table, FilterQueryField fieldFilter)
@@ -27,23 +28,31 @@ namespace Zilligraph.Database.Storage.Index
 
         public ulong? GetNextRecordPoint()
         {
-            if (_indexRecordsEnumerator == null)
+            if (_fieldFilter.Cache)
             {
-                if (_fieldFilter.Cache)
+                if (_cachedRecordsEnumerator == null)
                 {
-                    _indexRecordsEnumerator = Cache.GetOrAdd(
-                              $"{_table.RecordType.Name}.{_fieldFilter.PropertyName}[{_fieldFilter.Compare}]{_fieldFilter.Value?.ToString()}",
-                              TimeSpan.FromMinutes(5),
-                              () => _tableFieldIndex.SearchIndexes(_fieldFilter).ToList())
-                          ?.GetEnumerator()
-                      ?? Enumerable.Empty<IndexRecord>().GetEnumerator();
+                    _cachedRecordsEnumerator = Cache.GetOrAdd(
+                               $"{_table.RecordType.Name}.{_fieldFilter.PropertyName}[{_fieldFilter.Compare}]{_fieldFilter.Value?.ToString()}",
+                               TimeSpan.FromMinutes(5),
+                               () => _tableFieldIndex.SearchIndexes(_fieldFilter).Select(i => i.RecordPoint).ToList())
+                           ?.GetEnumerator()
+                       ?? Enumerable.Empty<ulong>().GetEnumerator();
                 }
-                else
+                if (!NoMoreRecords 
+                    && !_cachedRecordsEnumerator.MoveNext())
                 {
-                    _indexRecordsEnumerator = _tableFieldIndex.SearchIndexes(_fieldFilter).GetEnumerator();
+                    NoMoreRecords = true;
                 }
+                return NoMoreRecords 
+                    ? null 
+                    : _cachedRecordsEnumerator.Current;
             }
 
+            if (_indexRecordsEnumerator == null)
+            {
+                _indexRecordsEnumerator = _tableFieldIndex.SearchIndexes(_fieldFilter).GetEnumerator();
+            }
             if (!NoMoreRecords)
             {
                 _indexRecordsEnumerator.MoveNext();
