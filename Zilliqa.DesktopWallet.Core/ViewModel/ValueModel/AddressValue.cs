@@ -15,7 +15,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
             {
                 if (MusBech32.IsValidZilAddress(value))
                 {
-                    //TODO: add Hex-Regex
                     result = new AddressValue(value);
                     return true;
                 }

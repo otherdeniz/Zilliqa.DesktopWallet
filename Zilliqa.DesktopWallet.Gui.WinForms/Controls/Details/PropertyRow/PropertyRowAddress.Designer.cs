@@ -33,16 +33,16 @@
             // 
             // labelName
             // 
-            this.labelName.Padding = new System.Windows.Forms.Padding(4);
-            this.labelName.Size = new System.Drawing.Size(100, 23);
+            this.labelName.Padding = new System.Windows.Forms.Padding(4, 4, 0, 4);
+            this.labelName.Size = new System.Drawing.Size(96, 23);
             // 
             // bech32Address
             // 
             this.bech32Address.AutoSize = true;
             this.bech32Address.Dock = System.Windows.Forms.DockStyle.Top;
-            this.bech32Address.Location = new System.Drawing.Point(103, 0);
+            this.bech32Address.Location = new System.Drawing.Point(99, 0);
             this.bech32Address.Name = "bech32Address";
-            this.bech32Address.Size = new System.Drawing.Size(430, 23);
+            this.bech32Address.Size = new System.Drawing.Size(434, 23);
             this.bech32Address.TabIndex = 1;
             // 
             // PropertyRowAddress

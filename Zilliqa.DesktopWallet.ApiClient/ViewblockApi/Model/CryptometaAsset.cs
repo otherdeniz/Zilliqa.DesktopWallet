@@ -50,12 +50,12 @@ namespace Zilliqa.DesktopWallet.ApiClient.ViewblockApi.Model
 
         public string NameShort()
         {
-            return Name.TokenNameShort();
+            return Name.TokenNameShort() ?? "";
         }
 
         public string SymbolShort()
         {
-            return Symbol.TokenSymbolShort();
+            return Symbol.TokenSymbolShort() ?? "";
         }
     }
 }

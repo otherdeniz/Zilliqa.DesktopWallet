@@ -121,6 +121,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
                 RepositoryManager.Instance.WalletRepository.AddAccount(
                     WatchedAccount.Create(result.AccountName, result.Address, result.IsMyAccount)
                 );
+                buttonAddWatchedAccount.Enabled = false;
             }
         }
 

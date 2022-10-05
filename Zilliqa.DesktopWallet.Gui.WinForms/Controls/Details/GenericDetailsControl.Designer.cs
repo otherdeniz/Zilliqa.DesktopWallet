@@ -38,6 +38,7 @@
             // 
             // panelProperties
             // 
+            this.panelProperties.AutoScroll = true;
             this.panelProperties.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelProperties.Location = new System.Drawing.Point(2, 2);
             this.panelProperties.Name = "panelProperties";
@@ -58,9 +59,9 @@
             // panelTabPages
             // 
             this.panelTabPages.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelTabPages.Location = new System.Drawing.Point(0, 21);
+            this.panelTabPages.Location = new System.Drawing.Point(0, 2);
             this.panelTabPages.Name = "panelTabPages";
-            this.panelTabPages.Size = new System.Drawing.Size(550, 219);
+            this.panelTabPages.Size = new System.Drawing.Size(550, 238);
             this.panelTabPages.TabIndex = 2;
             // 
             // toolStripTabs
@@ -69,7 +70,7 @@
             this.toolStripTabs.Location = new System.Drawing.Point(0, 0);
             this.toolStripTabs.Name = "toolStripTabs";
             this.toolStripTabs.Padding = new System.Windows.Forms.Padding(4, 2, 1, 0);
-            this.toolStripTabs.Size = new System.Drawing.Size(550, 21);
+            this.toolStripTabs.Size = new System.Drawing.Size(550, 2);
             this.toolStripTabs.TabIndex = 0;
             // 
             // splitterTabs

@@ -40,13 +40,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelDescription.BackColor = System.Drawing.Color.White;
             this.labelDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.labelDescription.Enabled = false;
             this.labelDescription.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelDescription.Location = new System.Drawing.Point(57, 27);
             this.labelDescription.Multiline = true;
             this.labelDescription.Name = "labelDescription";
             this.labelDescription.ReadOnly = true;
-            this.labelDescription.Size = new System.Drawing.Size(587, 36);
+            this.labelDescription.Size = new System.Drawing.Size(587, 34);
             this.labelDescription.TabIndex = 10;
             this.labelDescription.Text = "...";
             // 
@@ -77,7 +76,7 @@
             this.Controls.Add(this.labelName);
             this.Controls.Add(this.pictureBoxIcon);
             this.Name = "TitleTextWithIcon48Panel";
-            this.Size = new System.Drawing.Size(647, 70);
+            this.Size = new System.Drawing.Size(647, 64);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

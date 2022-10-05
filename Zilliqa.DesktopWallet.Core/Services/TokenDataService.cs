@@ -97,7 +97,8 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 _tokenModelsLoaded = true;
                 Logging.LogInfo("TokenDataService.StartLoadTokens: loading completed");
 
-                if ((TokenPriceFile.Instance.ModifiedDate ?? DateTime.MinValue) < DateTime.Today.AddDays(-1))
+                if (TokenPriceFile.Instance.CoinPrices.Count == 0 
+                    || (TokenPriceFile.Instance.ModifiedDate ?? DateTime.MinValue) < DateTime.Today.AddDays(-1))
                 {
                     Logging.LogInfo("TokenDataService.StartLoadTokens: Refresh price-infos begin");
                     var coinPrices = new List<CoinPrice>();

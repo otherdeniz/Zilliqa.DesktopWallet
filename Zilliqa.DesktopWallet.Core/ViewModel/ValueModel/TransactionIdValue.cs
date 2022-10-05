@@ -1,4 +1,6 @@
 ﻿using Zillifriends.Shared.Common;
+using Zilliqa.DesktopWallet.Core.Repository;
+using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
 {
@@ -37,6 +39,13 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
         /// without leading '0x'
         /// </summary>
         public string TransactionId { get; }
+
+        public Transaction GetTransaction()
+        {
+            return RepositoryManager.Instance.DatabaseRepository.Database.GetTable<Transaction>()
+                       .FindRecord(nameof(Transaction.Id), TransactionId)
+                   ?? throw new RuntimeException($"Transaction Id '{TransactionId}' not found in DB");
+        }
 
         public override string ToString()
         {

@@ -1,13 +1,16 @@
 ﻿using Zilliqa.DesktopWallet.Core.Data.Model;
+using Zilliqa.DesktopWallet.Core.Services;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
 {
     public class Zrc2TokenValue : IDetailsLabel
     {
+        private TokenModel? _tokenModel;
         private readonly string? _displayText;
 
         public Zrc2TokenValue(TokenModel tokenModel)
         {
+            _tokenModel = tokenModel;
             _displayText = $"{tokenModel.Name} ({tokenModel.Symbol})";
             Symbol = tokenModel.Symbol;
         }
@@ -18,6 +21,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
         }
 
         public string Symbol { get; }
+
+        public TokenModel? TokenModel => _tokenModel ??= TokenDataService.Instance.GetToken(Symbol);
 
         public override string ToString()
         {

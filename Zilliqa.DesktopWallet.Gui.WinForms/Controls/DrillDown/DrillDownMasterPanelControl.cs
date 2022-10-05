@@ -101,7 +101,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
 
             if (!panelRight.Visible)
             {
-                panelRight.Width = Width / 2;
+                panelRight.Width = Convert.ToInt32(Width * 0.4);
             }
             panelRight.Visible = true;
             splitterRight.Visible = true;
@@ -134,6 +134,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
                 {
                     var pathIndex = _displayHierarchy.Count - i - 1;
                     var pathButton = new ToolStripMenuItem(_displayHierarchy[pathIndex].Title);
+                    pathButton.Image =
+                        _displayHierarchy[pathIndex].DisplayControl is GenericDetailsControl genericControl
+                            ? genericControl.Logo48
+                            : null;
                     pathButton.Tag = pathIndex;
                     pathButton.Click += (sender, args) =>
                     {
@@ -162,6 +166,14 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
             if (_mainValueUniqueId != null)
             {
                 _valueUniqueIds.Add(_mainValueUniqueId);
+            }
+        }
+
+        private void toolStripDropDownBack_ButtonClick(object sender, EventArgs e)
+        {
+            if (_displayHierarchy.Count > 1)
+            {
+                GoBackInHistory(_displayHierarchy.Count - 2);
             }
         }
 

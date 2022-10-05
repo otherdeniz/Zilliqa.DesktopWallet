@@ -14,24 +14,37 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 {
     public partial class GenericDetailsControl : DetailsBaseControl
     {
+        private readonly bool _displayTabs;
         private object? _viewModel;
 
-        public GenericDetailsControl()
+        public GenericDetailsControl(bool displayTabs)
         {
+            _displayTabs = displayTabs;
             InitializeComponent();
         }
 
-        public void LoadGenericViewModel(object viewModel)
+        [Browsable(false)]
+        [DefaultValue(null)]
+        public Image? Logo48 { get; private set; }
+
+        public override void LoadViewModel(object viewModel)
         {
             _viewModel = viewModel;
             var viewModelType = viewModel.GetType();
             var propertiesHeight = 0;
             propertiesHeight += AddControls(panelProperties, _viewModel);
             propertiesHeight += AddHeader(viewModelType, viewModel);
-            var hasTabs = AddTabs(viewModel);
+            var hasTabs = _displayTabs && AddTabs(viewModel);
             splitterTabs.Visible = hasTabs;
             panelTabs.Visible = hasTabs;
-            panelProperties.Height = propertiesHeight;
+            if (!hasTabs)
+            {
+                panelProperties.Dock = DockStyle.Fill;
+            }
+            else
+            {
+                panelProperties.Height = propertiesHeight;
+            }
         }
 
         private int AddHeader(Type viewModelType, object viewModelObject)
@@ -48,6 +61,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
                 var image48 = imagePropertyValue is IconModel iconModel 
                     ? iconModel.Icon48 
                     : imagePropertyValue as Image;
+                Logo48 = image48;
                 var control = new TitleTextWithIcon48Panel
                 {
                     Dock = DockStyle.Top
@@ -72,7 +86,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
                     var propertyValue = propertyInfo.GetValue(viewModelObject);
                     if (propertyValue != null)
                     {
-                        var pageControl = ValueSelectionHelper.CreateDisplayControl(propertyValue);
+                        var pageControl = ValueSelectionHelper.CreateDisplayControl(propertyValue, false);
                         AddTab(detailsChildObjectAttribute.DisplayName, pageControl);
                         hasTabs = true;
                     }
@@ -314,7 +328,19 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
                         return urlControl;
                     }
                     break;
-
+                case DetailsPropertyType.BlockNumber:
+                    var blockNumber = value is int intValue 
+                        ? intValue 
+                        : value is BlockNumberValue blockNumberValue 
+                            ? blockNumberValue.BlockNumber 
+                            : 0;
+                    if (blockNumber > 0)
+                    {
+                        var urlControl = new PropertyRowBlockNumber();
+                        urlControl.LoadValue(title, blockNumber);
+                        return urlControl;
+                    }
+                    break;
             }
             return null;
         }

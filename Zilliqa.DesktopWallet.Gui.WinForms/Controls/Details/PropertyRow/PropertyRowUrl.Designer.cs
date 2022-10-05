@@ -31,12 +31,17 @@
             this.linkLabelUrl = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
+            // labelName
+            // 
+            this.labelName.Padding = new System.Windows.Forms.Padding(4, 0, 0, 4);
+            this.labelName.Size = new System.Drawing.Size(96, 19);
+            // 
             // linkLabelUrl
             // 
             this.linkLabelUrl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.linkLabelUrl.Location = new System.Drawing.Point(103, 0);
+            this.linkLabelUrl.Location = new System.Drawing.Point(99, 0);
             this.linkLabelUrl.Name = "linkLabelUrl";
-            this.linkLabelUrl.Size = new System.Drawing.Size(353, 19);
+            this.linkLabelUrl.Size = new System.Drawing.Size(357, 19);
             this.linkLabelUrl.TabIndex = 4;
             this.linkLabelUrl.TabStop = true;
             this.linkLabelUrl.Text = "none";

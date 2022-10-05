@@ -36,24 +36,14 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public string Name => StakingSeedNodeModel.Name;
 
         [DetailsProperty]
-        [Browsable(false)]
-        [DisplayName("API URL")]
-        public string ApiUrl => StakingSeedNodeModel.ApiUrl;
-
-        [DetailsProperty]
-        [Browsable(false)]
-        [DisplayName("Staking API URL")]
-        public string StakingApiUrl => StakingSeedNodeModel.StakingApiUrl;
+        [DisplayName("Commission")]
+        [GridViewFormat("0.00 '%'")]
+        public decimal CommissionRate => StakingSeedNodeModel.CommissionRate / 10000000;
 
         [DetailsProperty]
         [DisplayName("Staked")]
         [GridViewFormat("#,##0.0 ZIL")]
         public decimal StakedAmount => StakingSeedNodeModel.StakeAmount.ZilSatoshisToZil();
-
-        [DetailsProperty]
-        [DisplayName("Commission")]
-        [GridViewFormat("0.00 '%'")]
-        public decimal CommissionRate => StakingSeedNodeModel.CommissionRate / 10000000;
 
         [DetailsProperty]
         [DisplayName("Buffered")]
@@ -74,6 +64,16 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [DisplayName("Commission Address")]
         [ColumnWidth(150)]
         public AddressValue CommissionAddress => _commissionAddress ??= new AddressValue(StakingSeedNodeModel.CommissioningAddress);
+
+        [DetailsProperty]
+        [Browsable(false)]
+        [DisplayName("API URL")]
+        public string ApiUrl => StakingSeedNodeModel.ApiUrl;
+
+        [DetailsProperty]
+        [Browsable(false)]
+        [DisplayName("Staking API URL")]
+        public string StakingApiUrl => StakingSeedNodeModel.StakingApiUrl;
 
         public string GetUniqueId()
         {

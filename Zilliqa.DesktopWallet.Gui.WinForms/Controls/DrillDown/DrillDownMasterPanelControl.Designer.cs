@@ -21,10 +21,10 @@
             this.panelButtons = new System.Windows.Forms.Panel();
             this.buttonCloseRight = new System.Windows.Forms.Button();
             this.toolStripRight = new System.Windows.Forms.ToolStrip();
-            this.toolStripDropDownBack = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripDropDownBack = new System.Windows.Forms.ToolStripSplitButton();
             this.labelTitle = new System.Windows.Forms.ToolStripLabel();
-            this.splitterRight = new System.Windows.Forms.Splitter();
             this.buttonOpenWindow = new System.Windows.Forms.ToolStripButton();
+            this.splitterRight = new System.Windows.Forms.Splitter();
             this.panelRight.SuspendLayout();
             this.panelButtons.SuspendLayout();
             this.toolStripRight.SuspendLayout();
@@ -95,8 +95,9 @@
             this.toolStripDropDownBack.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownBack.Image")));
             this.toolStripDropDownBack.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownBack.Name = "toolStripDropDownBack";
-            this.toolStripDropDownBack.Size = new System.Drawing.Size(61, 20);
+            this.toolStripDropDownBack.Size = new System.Drawing.Size(64, 20);
             this.toolStripDropDownBack.Text = "Back";
+            this.toolStripDropDownBack.ButtonClick += new System.EventHandler(this.toolStripDropDownBack_ButtonClick);
             // 
             // labelTitle
             // 
@@ -105,6 +106,15 @@
             this.labelTitle.Padding = new System.Windows.Forms.Padding(8, 4, 0, 0);
             this.labelTitle.Size = new System.Drawing.Size(63, 19);
             this.labelTitle.Text = "(loading)";
+            // 
+            // buttonOpenWindow
+            // 
+            this.buttonOpenWindow.Image = ((System.Drawing.Image)(resources.GetObject("buttonOpenWindow.Image")));
+            this.buttonOpenWindow.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonOpenWindow.Name = "buttonOpenWindow";
+            this.buttonOpenWindow.Size = new System.Drawing.Size(116, 20);
+            this.buttonOpenWindow.Text = "Open in Window";
+            this.buttonOpenWindow.Click += new System.EventHandler(this.buttonOpenWindow_Click);
             // 
             // splitterRight
             // 
@@ -116,15 +126,6 @@
             this.splitterRight.TabIndex = 1;
             this.splitterRight.TabStop = false;
             this.splitterRight.Visible = false;
-            // 
-            // buttonOpenWindow
-            // 
-            this.buttonOpenWindow.Image = ((System.Drawing.Image)(resources.GetObject("buttonOpenWindow.Image")));
-            this.buttonOpenWindow.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.buttonOpenWindow.Name = "buttonOpenWindow";
-            this.buttonOpenWindow.Size = new System.Drawing.Size(116, 20);
-            this.buttonOpenWindow.Text = "Open in Window";
-            this.buttonOpenWindow.Click += new System.EventHandler(this.buttonOpenWindow_Click);
             // 
             // DrillDownMasterPanelControl
             // 
@@ -151,8 +152,8 @@
         private Panel panelButtons;
         private Button buttonCloseRight;
         private ToolStrip toolStripRight;
-        private ToolStripDropDownButton toolStripDropDownBack;
         private ToolStripLabel labelTitle;
         private ToolStripButton buttonOpenWindow;
+        private ToolStripSplitButton toolStripDropDownBack;
     }
 }

@@ -58,7 +58,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         {
             if (validateValues)
             {
-                if (!MusBech32.IsValidZilAddress(textAddress.Text))
+                if (!MusBech32.IsValidZilAddress(textAddress.Text, allowHex:false))
                 {
                     MessageBox.Show("Invalid Zilliqa Address", "The Zilliqa Address is not valid",
                         MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
