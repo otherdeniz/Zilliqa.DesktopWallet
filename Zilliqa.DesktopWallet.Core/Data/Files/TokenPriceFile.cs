@@ -12,7 +12,9 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
 
         #region Fields
 
-        public DateTime? ModifiedDate { get; set; }
+        public DateTime? ExistingAssetsRefresh { get; set; }
+
+        public DateTime? NewAssetsAdded { get; set; }
 
         public List<CoinPrice> CoinPrices { get; set; } = new();
 

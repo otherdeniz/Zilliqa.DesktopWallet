@@ -80,7 +80,6 @@
             this.Controls.Add(this.buttonOpen);
             this.Controls.Add(this.labelNumber);
             this.Name = "PropertyRowBlockNumber";
-            this.Size = new System.Drawing.Size(456, 24);
             this.Controls.SetChildIndex(this.labelNumber, 0);
             this.Controls.SetChildIndex(this.buttonOpen, 0);
             this.ResumeLayout(false);

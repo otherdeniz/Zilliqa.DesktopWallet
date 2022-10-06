@@ -13,14 +13,11 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         private AddressValue? _toAddress;
         private decimal? _zilAmount;
         private decimal? _fee;
-        private string? _date;
 
         public BlockTransactionRowViewModel(Transaction transactionModel) 
             : base(new Address(transactionModel.SenderAddress), transactionModel)
         {
         }
-
-        public string Date => _date ??= Transaction.Timestamp.ToLocalTime().ToString("g");
 
         [DisplayName("Type")]
         public string TransactionType
@@ -44,21 +41,24 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             }
         }
 
+        public string? Method => Transaction.DataContractCall.Tag;
+
         [Browsable(true)]
         [DisplayName("From")]
-        public AddressValue? FromAddress => _fromAddress ??= new AddressValue(Transaction.SenderAddress);
+        public AddressValue FromAddress => _fromAddress ??= new AddressValue(Transaction.SenderAddress);
 
         [Browsable(true)]
         [DisplayName("To")]
-        public AddressValue? ToAddress => _toAddress ??= new AddressValue(Transaction.ToAddress);
+        public AddressValue ToAddress => _toAddress ??= new AddressValue(Transaction.ToAddress);
 
         [Browsable(true)]
         [GridViewFormat("#,##0.0000 ZIL")]
         [DisplayName("ZIL Amount")]
         public override decimal Amount => _zilAmount ??= Transaction.Amount.ZilSatoshisToZil();
 
+        [Browsable(true)]
         [GridViewFormat("0.0000 ZIL")]
-        public decimal Fee => _fee ??= (Transaction.Receipt.CumulativeGas * Transaction.GasPrice).ZilSatoshisToZil();
+        public override decimal Fee => _fee ??= (Transaction.Receipt.CumulativeGas * Transaction.GasPrice).ZilSatoshisToZil();
 
     }
 }

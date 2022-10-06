@@ -2,11 +2,12 @@
 using System.Drawing;
 using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.Core.Data.Model;
+using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.ViewModelAttributes;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
-    public class TokenRowViewModel
+    public class TokenRowViewModel : IDetailsLabel
     {
         private readonly TokenModel _model;
         private Image? _icon;
@@ -106,5 +107,15 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [DisplayName("Change 1Y")]
         [GridViewFormat("0.00 '%'", UseGreenOrRedNumbers = true)]
         public decimal? ChangePercent1Y => _model.CoinPrice?.MarketData.PriceChangePercentage1Y;
+
+        public string GetUniqueId()
+        {
+            return $"Token-{Model.Symbol}";
+        }
+
+        public string GetDisplayTitle()
+        {
+            return $"Token: {Model.Name.TokenNameShort()} ({Model.Symbol.TokenSymbolShort()})";
+        }
     }
 }

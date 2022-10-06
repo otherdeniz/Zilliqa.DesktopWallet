@@ -1,6 +1,11 @@
 ﻿using System.ComponentModel;
+using Zilligraph.Database.Storage.FilterQuery;
+using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Data.Model;
+using Zilliqa.DesktopWallet.Core.Repository;
+using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ViewModel;
+using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 {
@@ -14,9 +19,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
         {
             InitializeComponent();
             gridViewTokenBalances.Dock = DockStyle.Fill;
+            gridViewOwnedContracts.Dock = DockStyle.Fill;
+
             gridViewAllTransactions.Dock = DockStyle.Fill;
             gridViewZilTransactions.Dock = DockStyle.Fill;
             gridViewTokenTransactions.Dock = DockStyle.Fill;
+
         }
 
         public event EventHandler<EventArgs>? AfterRefreshAccountDetails;
@@ -46,6 +54,25 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             gridViewZilTransactions.LoadData(account.ZilTransactions);
             gridViewTokenTransactions.LoadData(account.TokenTransactions);
             RefreshAccountSummaries();
+            Task.Run(() =>
+            {
+                var ownedContractsDataSource = RepositoryManager.Instance.DatabaseRepository
+                    .ReadViewModelsPaged<SmartContractViewModel, SmartContract>(s =>
+                            new SmartContractViewModel(s),
+                        new FilterQueryField(nameof(SmartContract.OwnerAddress), _account.Address.GetBase16(false)));
+                if (ownedContractsDataSource.RecordCount > 0)
+                {
+                    WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                    {
+                        tabButtonOwnedContracts.Tag ??= tabButtonOwnedContracts.Text;
+                        tabButtonOwnedContracts.Text =
+                            $"{tabButtonOwnedContracts.Tag} ({ownedContractsDataSource.RecordCount:#,##0})";
+                        tabButtonOwnedContracts.Visible = true;
+                        tabSeparatorOwnedContracts.Visible = true;
+                        gridViewOwnedContracts.LoadData(ownedContractsDataSource);
+                    });
+                }
+            });
         }
 
         public void RefreshAccountSummaries()
@@ -64,6 +91,14 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 
             labelZilTotalBalance.Text = $"{_account.ZilTotalBalance:#,##0.00} ZIL";
             labelZilLiquidBalance.Text = $"{_account.ZilLiquidBalance:#,##0.00} ZIL";
+            labelZilStakedBalance.Text = $"{_account.ZilStakedBalance:#,##0.00} ZIL";
+
+            //if (_account.ZilStakedBalance > 0 && !panelUnclaimedRewards.Visible)
+            //{
+            //    var unclaimedRewards = StakingService.Instance.GetPendingWithdrawAmount(_account.Address);
+            //    panelUnclaimedRewards.Visible = true;
+            //    labelUnclaimedRewards.Text = $"{unclaimedRewards:#,##0.00} ZIL";
+            //}
 
             labelTokensValueUsd.Text = $"{_account.TokensValueUsd:#,##0.00} USD";
             labelZilValueUsd.Text = $"{_account.ZilTotalValueUsd:#,##0.00} USD";
@@ -104,6 +139,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
         private void tabButtonZrc2Tokens_Click(object sender, EventArgs e)
         {
             TabButtonHoldingClick(tabButtonZrc2Tokens, gridViewTokenBalances);
+        }
+
+        private void tabButtonStakes_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabButtonOwnedContracts_Click(object sender, EventArgs e)
+        {
+            TabButtonHoldingClick(tabButtonOwnedContracts, gridViewOwnedContracts);
         }
 
         private void TabButtonHoldingClick(ToolStripButton button, Control tabPageControl)

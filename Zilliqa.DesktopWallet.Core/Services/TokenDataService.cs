@@ -76,46 +76,76 @@ namespace Zilliqa.DesktopWallet.Core.Services
                         tokenModel.ContractAddressesBech32.Add(contractAddressBech32);
                         tokenModel.SmartContractModels.Add(smartContract);
                     }
+                    foreach (var coinPrice in TokenPriceFile.Instance.CoinPrices)
+                    {
+                        var symbolLowered = coinPrice.Symbol.ToLower();
+                        tokenModels.FirstOrDefault(t => t.Symbol.ToLower() == symbolLowered)
+                            ?.LoadPriceProperties(coinPrice);
+                    }
+
+                    _tokenModels = tokenModels
+                        .OrderByDescending(t => t.MarketCapUsd ?? -1)
+                        .ThenByDescending(t => t.CryptometaAsset?.Gen.Score ?? -1)
+                        .ThenByDescending(t => t.CreatedDate ?? DateTime.MinValue)
+                        .ToList();
+                    _tokenAddressDictionary = null;
+                    _tokenModelsLoaded = true;
+                    Logging.LogInfo("TokenDataService.StartLoadTokens: loading completed");
+
+                    bool refreshExisting = false;
+                    bool refreshNew = false;
+                    IEnumerable<TokenModel> refreshAssets = Enumerable.Empty<TokenModel>();
+                    if (TokenPriceFile.Instance.CoinPrices.Count == 0
+                        || (TokenPriceFile.Instance.NewAssetsAdded ?? DateTime.MinValue) < DateTime.Today.AddDays(-30))
+                    {
+                        refreshNew = true;
+                        refreshExisting = true;
+                        refreshAssets = _tokenModels.Where(t =>
+                            !string.IsNullOrEmpty(t.Symbol) && t.CryptometaAsset?.Gen.Score > 10);
+                    }
+                    else if ((TokenPriceFile.Instance.ExistingAssetsRefresh ?? DateTime.MinValue) < DateTime.Today.AddDays(-1))
+                    {
+                        refreshExisting = true;
+                        refreshAssets = _tokenModels.Where(t => TokenPriceFile.Instance.CoinPrices.Any(cp => cp.Symbol == t.Symbol));
+                    }
+                    if (refreshNew || refreshExisting)
+                    {
+                        Logging.LogInfo("TokenDataService.StartLoadTokens: Refresh price-infos begin");
+                        var coinPrices = new List<CoinPrice>();
+                        foreach (var tokenModel in refreshAssets)
+                        {
+                            try
+                            {
+                                RepositoryManager.Instance.CoingeckoRepository.GetCoinPrice(tokenModel.Symbol, cp =>
+                                {
+                                    tokenModel.LoadPriceProperties(cp);
+                                    coinPrices.Add(cp);
+                                }, false);
+                            }
+                            catch (Exception e)
+                            {
+                                Logging.LogError($"CoingeckoRepository.GetCoinPrice({tokenModel.Symbol}) failed", e);
+                            }
+                        }
+                        if (refreshNew)
+                        {
+                            TokenPriceFile.Instance.NewAssetsAdded = DateTime.Now;
+                        }
+                        if (refreshExisting)
+                        {
+                            TokenPriceFile.Instance.ExistingAssetsRefresh = DateTime.Now;
+                        }
+                        if (coinPrices.Count > 0)
+                        {
+                            TokenPriceFile.Instance.CoinPrices = coinPrices;
+                            TokenPriceFile.Instance.Save();
+                        }
+                        Logging.LogInfo("TokenDataService.StartLoadTokens: Refresh price-infos completed");
+                    }
                 }
                 catch (Exception e)
                 {
                     Logging.LogError("TokenDataService.StartLoadTokens: loading failed", e);
-                }
-                foreach (var coinPrice in TokenPriceFile.Instance.CoinPrices)
-                {
-                    var symbolLowered = coinPrice.Symbol.ToLower();
-                    tokenModels.FirstOrDefault(t => t.Symbol.ToLower() == symbolLowered)
-                        ?.LoadPriceProperties(coinPrice);
-                }
-
-                _tokenModels = tokenModels
-                    .OrderByDescending(t => t.MarketCapUsd ?? -1)
-                    .ThenByDescending(t => t.CryptometaAsset?.Gen.Score ?? -1)
-                    .ThenByDescending(t => t.CreatedDate ?? DateTime.MinValue)
-                    .ToList();
-                _tokenAddressDictionary = null;
-                _tokenModelsLoaded = true;
-                Logging.LogInfo("TokenDataService.StartLoadTokens: loading completed");
-
-                if (TokenPriceFile.Instance.CoinPrices.Count == 0 
-                    || (TokenPriceFile.Instance.ModifiedDate ?? DateTime.MinValue) < DateTime.Today.AddDays(-1))
-                {
-                    Logging.LogInfo("TokenDataService.StartLoadTokens: Refresh price-infos begin");
-                    var coinPrices = new List<CoinPrice>();
-                    foreach (var tokenModel in _tokenModels)
-                    {
-                        if (string.IsNullOrEmpty(tokenModel.Symbol)
-                            || !(tokenModel.CryptometaAsset?.Gen.Score > 0)) break;
-                        RepositoryManager.Instance.CoingeckoRepository.GetCoinPrice(tokenModel.Symbol, cp =>
-                        {
-                            tokenModel.LoadPriceProperties(cp);
-                            coinPrices.Add(cp);
-                        }, false);
-                    }
-                    TokenPriceFile.Instance.ModifiedDate = DateTime.Now;
-                    TokenPriceFile.Instance.CoinPrices = coinPrices;
-                    TokenPriceFile.Instance.Save();
-                    Logging.LogInfo("TokenDataService.StartLoadTokens: Refresh price-infos completed");
                 }
 
                 _loading = false;

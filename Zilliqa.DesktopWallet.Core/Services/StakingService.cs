@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient;
+using Zilliqa.DesktopWallet.Core.Extensions;
 
 namespace Zilliqa.DesktopWallet.Core.Services
 {
@@ -58,6 +59,50 @@ namespace Zilliqa.DesktopWallet.Core.Services
             return jsonResult.First?.First?.Children().Select(t => new StakingSeedNode(t)).ToList()
                 ?? throw new RuntimeException("Failed to get SeedNodeList of Staking Implementation Contract");
         }
+
+        /// <summary>
+        /// value is in ZIL
+        /// </summary>
+        public List<StakingDelegatorAmount> GetStakedAmounts(Address delegatorAddress)
+        {
+            try
+            {
+                var keyValues = Task.Run(async () =>
+                    await ZilliqaClient.DefaultInstance.GetSmartContractSubStateValues<long>(
+                        ImplementationAddress, "deposit_amt_deleg", delegatorAddress.GetBase16(true))
+                ).GetAwaiter().GetResult();
+                return keyValues.Select(kv => new StakingDelegatorAmount(kv.Key, kv.Value)).ToList();
+            }
+            catch (Exception e)
+            {
+                Logging.LogError($"StakingService.GetStakedAmount('{delegatorAddress.GetBech32()}') failed", e);
+                return new List<StakingDelegatorAmount>();
+            }
+        }
+
+        public decimal GetNodePendingWithdrawAmounts(Address delegatorAddress, string stakeNode)
+        { 
+            try
+            {
+                var jsonResult = Task.Run(async () =>
+                {
+                    return await ZilliqaClient.DefaultInstance.GetSmartContractSubState(new object[]
+                        { stakeNode, "withdrawal_pending", new object[] { delegatorAddress.GetBase16(true) } });
+                }).GetAwaiter().GetResult() as JToken;
+                var amountJTokens = jsonResult?.First?.First?.First?.First;
+                return 0; // jsonResult?.First?.First?.First?.First?.Value<long>().ZilSatoshisToZil() ?? 0;
+            }
+            catch (Exception e)
+            {
+                Logging.LogError($"StakingService.GetNodePendingWithdrawAmounts('{delegatorAddress.GetBech32()}', '{stakeNode}') failed", e);
+                return 0;
+            }
+        }
+
+        public List<StakingNodeDelegator> GetDelegatorsOfNode(string stakeNodeAddress)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class StakingProxyContract
@@ -74,6 +119,30 @@ namespace Zilliqa.DesktopWallet.Core.Services
         public decimal Version { get; }
 
         public bool IsMainnet { get; }
+    }
+
+    public class StakingDelegatorAmount
+    {
+        public StakingDelegatorAmount(string stakingNode, long stakeAmountZilSatoshis)
+        {
+            StakingNode = stakingNode;
+            StakeAmount = stakeAmountZilSatoshis.ZilSatoshisToZil();
+        }
+
+        public string StakingNode { get; }
+        public decimal StakeAmount { get; }
+    }
+
+    public class StakingNodeDelegator
+    {
+        public StakingNodeDelegator(JToken delegatorJToken)
+        {
+            DelegatorAddress = ((JProperty)delegatorJToken).Name;
+            StakeAmount = delegatorJToken.First?.Value<long>().ZilSatoshisToZil() ?? 0;
+        }
+        public string DelegatorAddress { get; }
+
+        public decimal StakeAmount { get; }
     }
 
     public class StakingSeedNode

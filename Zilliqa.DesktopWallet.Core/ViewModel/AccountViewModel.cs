@@ -20,16 +20,19 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         private ZilligraphTableEventNotificator<Transaction>? _transactionEventNotificator;
         private readonly CancellationTokenSource _cancellationTokenSource = new();
         private decimal? _zilLiquidBalance;
+        private decimal? _zilStakedBalance;
         private decimal? _zilValueUsd;
         private decimal? _tokensValueUsd;
         private decimal? _tokensValueZil;
+        private long? _refreshedBalancesRecordCount;
+        private List<StakingDelegatorAmount>? _stakingDelegatorAmounts;
 
         public AccountViewModel(AccountBase accountData, Action<AccountViewModel>? afterChangedAction = null, bool loadCurrencyValues = false) 
         {
             AccountData = accountData;
             _afterChangedAction = afterChangedAction;
             _loadCurrencyValues = loadCurrencyValues;
-            RefreshBalances();
+            RefreshBalances(true);
             LoadTransactions(_cancellationTokenSource.Token);
         }
 
@@ -53,7 +56,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         public decimal ZilLiquidBalance => _zilLiquidBalance ?? 0m;
 
-        public decimal ZilTotalBalance => ZilLiquidBalance; // + Staked Balance + Liquidity Pools Balances
+        public decimal ZilStakedBalance => _zilStakedBalance ?? 0m;
+
+        public decimal ZilTotalBalance => ZilLiquidBalance + ZilStakedBalance; // + Staked Balance + Liquidity Pools Balances
 
         public decimal ZilTotalValueUsd => _zilValueUsd ?? 0m;
 
@@ -65,9 +70,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         public bool HasFunds => ZilTotalBalance > 0 || TotalValueUsd > 0;
 
-        private void OnTransactionsChanged()
+        private void OnTransactionsChanged(bool callPublicApi)
         {
-            RefreshBalances();
+            RefreshBalances(callPublicApi);
         }
 
         private void RaiseAfterChange()
@@ -92,15 +97,24 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             _transactionEventNotificator = null;
         }
 
-        private void RefreshBalances()
+        private void RefreshBalances(bool callPublicApi)
         {
+            if (_refreshedBalancesRecordCount == AllTransactions.RecordCount) return;
+            _refreshedBalancesRecordCount = AllTransactions.RecordCount;
             Task.Run(async () =>
             {
+                if (callPublicApi)
+                {
+                    _stakingDelegatorAmounts = StakingService.Instance.GetStakedAmounts(Address);
+                    _zilStakedBalance = _stakingDelegatorAmounts.Count > 0
+                        ? _stakingDelegatorAmounts.Sum(s => s.StakeAmount)
+                        : 0;
+                    _zilLiquidBalance = (await ZilliqaClient.DefaultInstance.GetBalance(Address))?.GetBalance(Unit.ZIL);
+                }
                 for (int i = 1; i <= 3; i++)
                 {
                     try
                     {
-                        _zilLiquidBalance = (await ZilliqaClient.DefaultInstance.GetBalance(Address))?.GetBalance(Unit.ZIL);
                         var coingeckoRepo = RepositoryManager.Instance.CoingeckoRepository;
                         _zilValueUsd = coingeckoRepo.ZilCoinPrice?.MarketData.CurrentPrice.Usd * ZilTotalBalance;
                         if (AllTransactions.Records?.Count > 0)
@@ -184,7 +198,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                         transactionViewModels.ForEach(t => t.CommonTransaction.LoadValuesProperties(false));
                     }
 
-                    OnTransactionsChanged();
+                    OnTransactionsChanged(false);
 
                     if (!cancellationToken.IsCancellationRequested)
                     {
@@ -225,7 +239,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                     AddTokenBalanceTransaction(viewModel.TokenTransaction, true);
                 }
                 viewModel.CommonTransaction.LoadValuesProperties(true);
-                OnTransactionsChanged();
+                OnTransactionsChanged(true);
             });
         }
 

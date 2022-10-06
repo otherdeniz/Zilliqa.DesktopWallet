@@ -33,15 +33,16 @@
             // 
             // labelName
             // 
-            this.labelName.Padding = new System.Windows.Forms.Padding(4, 0, 0, 4);
-            this.labelName.Size = new System.Drawing.Size(96, 19);
+            this.labelName.Padding = new System.Windows.Forms.Padding(4);
+            this.labelName.Size = new System.Drawing.Size(100, 23);
             // 
             // linkLabelUrl
             // 
             this.linkLabelUrl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.linkLabelUrl.Location = new System.Drawing.Point(99, 0);
+            this.linkLabelUrl.Location = new System.Drawing.Point(103, 0);
             this.linkLabelUrl.Name = "linkLabelUrl";
-            this.linkLabelUrl.Size = new System.Drawing.Size(357, 19);
+            this.linkLabelUrl.Padding = new System.Windows.Forms.Padding(0, 2, 4, 4);
+            this.linkLabelUrl.Size = new System.Drawing.Size(353, 22);
             this.linkLabelUrl.TabIndex = 4;
             this.linkLabelUrl.TabStop = true;
             this.linkLabelUrl.Text = "none";
@@ -53,6 +54,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.linkLabelUrl);
             this.Name = "PropertyRowUrl";
+            this.Size = new System.Drawing.Size(456, 24);
             this.Controls.SetChildIndex(this.linkLabelUrl, 0);
             this.ResumeLayout(false);
             this.PerformLayout();

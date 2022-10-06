@@ -39,6 +39,9 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panelUnclaimedRewards = new System.Windows.Forms.Panel();
+            this.labelUnclaimedRewards = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.labelZilStakedBalance = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -64,16 +67,18 @@
             this.tabButtonAllTransactions = new System.Windows.Forms.ToolStripButton();
             this.panelTabsHoldings = new System.Windows.Forms.Panel();
             this.panelTabPagesHoldings = new System.Windows.Forms.Panel();
+            this.gridViewOwnedContracts = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl();
+            this.gridViewStakes = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl();
             this.toolStripHoldings = new System.Windows.Forms.ToolStrip();
             this.tabButtonZrc2Tokens = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tabSeparatorStakes = new System.Windows.Forms.ToolStripSeparator();
             this.tabButtonStakes = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tabButtonHoldingNfts = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.tabButtonHoldingContracts = new System.Windows.Forms.ToolStripButton();
+            this.tabSeparatorOwnedContracts = new System.Windows.Forms.ToolStripSeparator();
+            this.tabButtonOwnedContracts = new System.Windows.Forms.ToolStripButton();
             this.panelTop = new System.Windows.Forms.Panel();
             this.panel14 = new System.Windows.Forms.Panel();
             this.labelCreatedDate = new System.Windows.Forms.Label();
@@ -92,6 +97,7 @@
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel1.SuspendLayout();
+            this.panelUnclaimedRewards.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -117,7 +123,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox1.Location = new System.Drawing.Point(0, 44);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(653, 68);
+            this.groupBox1.Size = new System.Drawing.Size(735, 68);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Balance Details";
@@ -131,7 +137,7 @@
             this.panelBalanceValues.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelBalanceValues.Location = new System.Drawing.Point(3, 42);
             this.panelBalanceValues.Name = "panelBalanceValues";
-            this.panelBalanceValues.Size = new System.Drawing.Size(647, 23);
+            this.panelBalanceValues.Size = new System.Drawing.Size(729, 23);
             this.panelBalanceValues.TabIndex = 2;
             // 
             // panel6
@@ -375,6 +381,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.panelUnclaimedRewards);
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.panel2);
@@ -382,8 +389,45 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(3, 19);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(647, 23);
+            this.panel1.Size = new System.Drawing.Size(729, 23);
             this.panel1.TabIndex = 1;
+            // 
+            // panelUnclaimedRewards
+            // 
+            this.panelUnclaimedRewards.AutoSize = true;
+            this.panelUnclaimedRewards.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panelUnclaimedRewards.Controls.Add(this.labelUnclaimedRewards);
+            this.panelUnclaimedRewards.Controls.Add(this.label7);
+            this.panelUnclaimedRewards.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelUnclaimedRewards.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.panelUnclaimedRewards.Location = new System.Drawing.Point(460, 0);
+            this.panelUnclaimedRewards.Name = "panelUnclaimedRewards";
+            this.panelUnclaimedRewards.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.panelUnclaimedRewards.Size = new System.Drawing.Size(222, 23);
+            this.panelUnclaimedRewards.TabIndex = 5;
+            this.panelUnclaimedRewards.Visible = false;
+            // 
+            // labelUnclaimedRewards
+            // 
+            this.labelUnclaimedRewards.AutoSize = true;
+            this.labelUnclaimedRewards.Dock = System.Windows.Forms.DockStyle.Left;
+            this.labelUnclaimedRewards.Location = new System.Drawing.Point(169, 0);
+            this.labelUnclaimedRewards.Name = "labelUnclaimedRewards";
+            this.labelUnclaimedRewards.Padding = new System.Windows.Forms.Padding(3);
+            this.labelUnclaimedRewards.Size = new System.Drawing.Size(53, 21);
+            this.labelUnclaimedRewards.TabIndex = 2;
+            this.labelUnclaimedRewards.Text = "0.00 ZIL";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label7.Location = new System.Drawing.Point(10, 0);
+            this.label7.Name = "label7";
+            this.label7.Padding = new System.Windows.Forms.Padding(3);
+            this.label7.Size = new System.Drawing.Size(159, 21);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "Unclaimed Staking Rewards";
             // 
             // panel4
             // 
@@ -393,7 +437,7 @@
             this.panel4.Controls.Add(this.label6);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.panel4.Location = new System.Drawing.Point(307, 0);
+            this.panel4.Location = new System.Drawing.Point(311, 0);
             this.panel4.Name = "panel4";
             this.panel4.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
             this.panel4.Size = new System.Drawing.Size(149, 23);
@@ -428,11 +472,11 @@
             this.panel3.Controls.Add(this.labelZilLiquidBalance);
             this.panel3.Controls.Add(this.label4);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.panel3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.panel3.Location = new System.Drawing.Point(160, 0);
             this.panel3.Name = "panel3";
             this.panel3.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.panel3.Size = new System.Drawing.Size(147, 23);
+            this.panel3.Size = new System.Drawing.Size(151, 23);
             this.panel3.TabIndex = 2;
             // 
             // labelZilLiquidBalance
@@ -442,7 +486,7 @@
             this.labelZilLiquidBalance.Location = new System.Drawing.Point(94, 0);
             this.labelZilLiquidBalance.Name = "labelZilLiquidBalance";
             this.labelZilLiquidBalance.Padding = new System.Windows.Forms.Padding(3);
-            this.labelZilLiquidBalance.Size = new System.Drawing.Size(53, 21);
+            this.labelZilLiquidBalance.Size = new System.Drawing.Size(57, 21);
             this.labelZilLiquidBalance.TabIndex = 2;
             this.labelZilLiquidBalance.Text = "0.00 ZIL";
             // 
@@ -510,6 +554,7 @@
             this.gridViewTokenBalances.Name = "gridViewTokenBalances";
             this.gridViewTokenBalances.Size = new System.Drawing.Size(131, 58);
             this.gridViewTokenBalances.TabIndex = 0;
+            this.gridViewTokenBalances.Visible = false;
             // 
             // gridViewZilTransactions
             // 
@@ -533,7 +578,7 @@
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
             this.splitter1.Location = new System.Drawing.Point(0, 248);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(653, 4);
+            this.splitter1.Size = new System.Drawing.Size(735, 4);
             this.splitter1.TabIndex = 7;
             this.splitter1.TabStop = false;
             // 
@@ -544,7 +589,7 @@
             this.panelTabsTransactions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTabsTransactions.Location = new System.Drawing.Point(0, 252);
             this.panelTabsTransactions.Name = "panelTabsTransactions";
-            this.panelTabsTransactions.Size = new System.Drawing.Size(653, 284);
+            this.panelTabsTransactions.Size = new System.Drawing.Size(735, 284);
             this.panelTabsTransactions.TabIndex = 8;
             // 
             // panelTabPagesTransactions
@@ -555,7 +600,7 @@
             this.panelTabPagesTransactions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTabPagesTransactions.Location = new System.Drawing.Point(0, 25);
             this.panelTabPagesTransactions.Name = "panelTabPagesTransactions";
-            this.panelTabPagesTransactions.Size = new System.Drawing.Size(653, 259);
+            this.panelTabPagesTransactions.Size = new System.Drawing.Size(735, 259);
             this.panelTabPagesTransactions.TabIndex = 2;
             // 
             // gridViewAllTransactions
@@ -578,7 +623,7 @@
             this.toolStripTransactions.Location = new System.Drawing.Point(0, 0);
             this.toolStripTransactions.Name = "toolStripTransactions";
             this.toolStripTransactions.Padding = new System.Windows.Forms.Padding(4, 2, 1, 0);
-            this.toolStripTransactions.Size = new System.Drawing.Size(653, 25);
+            this.toolStripTransactions.Size = new System.Drawing.Size(735, 25);
             this.toolStripTransactions.TabIndex = 0;
             // 
             // tabButtonZilTransactions
@@ -629,35 +674,55 @@
             this.panelTabsHoldings.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTabsHoldings.Location = new System.Drawing.Point(0, 112);
             this.panelTabsHoldings.Name = "panelTabsHoldings";
-            this.panelTabsHoldings.Size = new System.Drawing.Size(653, 136);
+            this.panelTabsHoldings.Size = new System.Drawing.Size(735, 136);
             this.panelTabsHoldings.TabIndex = 9;
             // 
             // panelTabPagesHoldings
             // 
+            this.panelTabPagesHoldings.Controls.Add(this.gridViewOwnedContracts);
+            this.panelTabPagesHoldings.Controls.Add(this.gridViewStakes);
             this.panelTabPagesHoldings.Controls.Add(this.gridViewTokenBalances);
             this.panelTabPagesHoldings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTabPagesHoldings.Location = new System.Drawing.Point(0, 25);
             this.panelTabPagesHoldings.Name = "panelTabPagesHoldings";
-            this.panelTabPagesHoldings.Size = new System.Drawing.Size(653, 111);
+            this.panelTabPagesHoldings.Size = new System.Drawing.Size(735, 111);
             this.panelTabPagesHoldings.TabIndex = 1;
+            // 
+            // gridViewOwnedContracts
+            // 
+            this.gridViewOwnedContracts.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.gridViewOwnedContracts.Location = new System.Drawing.Point(359, 26);
+            this.gridViewOwnedContracts.Name = "gridViewOwnedContracts";
+            this.gridViewOwnedContracts.Size = new System.Drawing.Size(131, 58);
+            this.gridViewOwnedContracts.TabIndex = 2;
+            this.gridViewOwnedContracts.Visible = false;
+            // 
+            // gridViewStakes
+            // 
+            this.gridViewStakes.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.gridViewStakes.Location = new System.Drawing.Point(182, 26);
+            this.gridViewStakes.Name = "gridViewStakes";
+            this.gridViewStakes.Size = new System.Drawing.Size(131, 58);
+            this.gridViewStakes.TabIndex = 1;
+            this.gridViewStakes.Visible = false;
             // 
             // toolStripHoldings
             // 
             this.toolStripHoldings.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tabButtonZrc2Tokens,
-            this.toolStripSeparator2,
+            this.tabSeparatorStakes,
             this.tabButtonStakes,
             this.toolStripSeparator3,
             this.toolStripButton3,
             this.toolStripSeparator4,
             this.tabButtonHoldingNfts,
-            this.toolStripSeparator6,
-            this.tabButtonHoldingContracts});
+            this.tabSeparatorOwnedContracts,
+            this.tabButtonOwnedContracts});
             this.toolStripHoldings.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStripHoldings.Location = new System.Drawing.Point(0, 0);
             this.toolStripHoldings.Name = "toolStripHoldings";
             this.toolStripHoldings.Padding = new System.Windows.Forms.Padding(4, 2, 1, 0);
-            this.toolStripHoldings.Size = new System.Drawing.Size(653, 25);
+            this.toolStripHoldings.Size = new System.Drawing.Size(735, 25);
             this.toolStripHoldings.TabIndex = 0;
             this.toolStripHoldings.Text = "toolStrip1";
             // 
@@ -667,14 +732,15 @@
             this.tabButtonZrc2Tokens.Image = ((System.Drawing.Image)(resources.GetObject("tabButtonZrc2Tokens.Image")));
             this.tabButtonZrc2Tokens.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tabButtonZrc2Tokens.Name = "tabButtonZrc2Tokens";
-            this.tabButtonZrc2Tokens.Size = new System.Drawing.Size(83, 19);
-            this.tabButtonZrc2Tokens.Text = "ZRC-2 Tokens";
+            this.tabButtonZrc2Tokens.Size = new System.Drawing.Size(96, 19);
+            this.tabButtonZrc2Tokens.Text = "Fungible Tokens";
             this.tabButtonZrc2Tokens.Click += new System.EventHandler(this.tabButtonZrc2Tokens_Click);
             // 
-            // toolStripSeparator2
+            // tabSeparatorStakes
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 23);
+            this.tabSeparatorStakes.Name = "tabSeparatorStakes";
+            this.tabSeparatorStakes.Size = new System.Drawing.Size(6, 23);
+            this.tabSeparatorStakes.Visible = false;
             // 
             // tabButtonStakes
             // 
@@ -684,11 +750,14 @@
             this.tabButtonStakes.Name = "tabButtonStakes";
             this.tabButtonStakes.Size = new System.Drawing.Size(63, 19);
             this.tabButtonStakes.Text = "ZIL Stakes";
+            this.tabButtonStakes.Visible = false;
+            this.tabButtonStakes.Click += new System.EventHandler(this.tabButtonStakes_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 23);
+            this.toolStripSeparator3.Visible = false;
             // 
             // toolStripButton3
             // 
@@ -698,11 +767,13 @@
             this.toolStripButton3.Name = "toolStripButton3";
             this.toolStripButton3.Size = new System.Drawing.Size(89, 19);
             this.toolStripButton3.Text = "Liquidity Pools";
+            this.toolStripButton3.Visible = false;
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 23);
+            this.toolStripSeparator4.Visible = false;
             // 
             // tabButtonHoldingNfts
             // 
@@ -712,20 +783,24 @@
             this.tabButtonHoldingNfts.Name = "tabButtonHoldingNfts";
             this.tabButtonHoldingNfts.Size = new System.Drawing.Size(36, 19);
             this.tabButtonHoldingNfts.Text = "NFTs";
+            this.tabButtonHoldingNfts.Visible = false;
             // 
-            // toolStripSeparator6
+            // tabSeparatorOwnedContracts
             // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 23);
+            this.tabSeparatorOwnedContracts.Name = "tabSeparatorOwnedContracts";
+            this.tabSeparatorOwnedContracts.Size = new System.Drawing.Size(6, 23);
+            this.tabSeparatorOwnedContracts.Visible = false;
             // 
-            // tabButtonHoldingContracts
+            // tabButtonOwnedContracts
             // 
-            this.tabButtonHoldingContracts.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tabButtonHoldingContracts.Image = ((System.Drawing.Image)(resources.GetObject("tabButtonHoldingContracts.Image")));
-            this.tabButtonHoldingContracts.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tabButtonHoldingContracts.Name = "tabButtonHoldingContracts";
-            this.tabButtonHoldingContracts.Size = new System.Drawing.Size(137, 19);
-            this.tabButtonHoldingContracts.Text = "Owned Smart Contracts";
+            this.tabButtonOwnedContracts.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tabButtonOwnedContracts.Image = ((System.Drawing.Image)(resources.GetObject("tabButtonOwnedContracts.Image")));
+            this.tabButtonOwnedContracts.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tabButtonOwnedContracts.Name = "tabButtonOwnedContracts";
+            this.tabButtonOwnedContracts.Size = new System.Drawing.Size(137, 19);
+            this.tabButtonOwnedContracts.Text = "Owned Smart Contracts";
+            this.tabButtonOwnedContracts.Visible = false;
+            this.tabButtonOwnedContracts.Click += new System.EventHandler(this.tabButtonOwnedContracts_Click);
             // 
             // panelTop
             // 
@@ -734,7 +809,7 @@
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(653, 44);
+            this.panelTop.Size = new System.Drawing.Size(735, 44);
             this.panelTop.TabIndex = 10;
             // 
             // panel14
@@ -744,7 +819,7 @@
             this.panel14.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel14.Location = new System.Drawing.Point(85, 0);
             this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(568, 44);
+            this.panel14.Size = new System.Drawing.Size(650, 44);
             this.panel14.TabIndex = 3;
             // 
             // labelCreatedDate
@@ -806,7 +881,7 @@
             this.Controls.Add(this.panelTop);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Name = "AddressDetailsControl";
-            this.Size = new System.Drawing.Size(653, 536);
+            this.Size = new System.Drawing.Size(735, 536);
             this.Load += new System.EventHandler(this.WalletAddressDetails_Load);
             this.groupBox1.ResumeLayout(false);
             this.panelBalanceValues.ResumeLayout(false);
@@ -827,6 +902,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panelUnclaimedRewards.ResumeLayout(false);
+            this.panelUnclaimedRewards.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.panel3.ResumeLayout(false);
@@ -889,10 +966,10 @@
         private Panel panelTabPagesHoldings;
         private ToolStrip toolStripHoldings;
         private ToolStripButton tabButtonZrc2Tokens;
-        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripSeparator tabSeparatorStakes;
         private ToolStripButton tabButtonStakes;
         private ToolStripSeparator toolStripSeparator3;
-        private ToolStripButton tabButtonHoldingContracts;
+        private ToolStripButton tabButtonOwnedContracts;
         private ToolStripSeparator toolStripSeparator4;
         private ToolStripButton tabButtonHoldingNfts;
         private Panel panel11;
@@ -912,7 +989,7 @@
         private ToolStripSeparator toolStripSeparator5;
         private ToolStripButton tabButtonAllTransactions;
         private ToolStripButton toolStripButton3;
-        private ToolStripSeparator toolStripSeparator6;
+        private ToolStripSeparator tabSeparatorOwnedContracts;
         private GridView.GridViewControl gridViewAllTransactions;
         private Panel panelTop;
         private Panel panel14;
@@ -921,5 +998,10 @@
         private Label label2;
         private Label labelCreatedDate;
         private Values.Bech32AddressLabel bech32Address;
+        private Panel panelUnclaimedRewards;
+        private Label labelUnclaimedRewards;
+        private Label label7;
+        private GridView.GridViewControl gridViewOwnedContracts;
+        private GridView.GridViewControl gridViewStakes;
     }
 }

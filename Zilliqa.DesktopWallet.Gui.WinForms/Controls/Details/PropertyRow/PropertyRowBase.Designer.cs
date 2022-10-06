@@ -41,7 +41,7 @@
             this.panelLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelLeft.Location = new System.Drawing.Point(0, 0);
             this.panelLeft.Name = "panelLeft";
-            this.panelLeft.Size = new System.Drawing.Size(103, 20);
+            this.panelLeft.Size = new System.Drawing.Size(103, 24);
             this.panelLeft.TabIndex = 0;
             // 
             // labelName
@@ -49,8 +49,8 @@
             this.labelName.AutoSize = true;
             this.labelName.Location = new System.Drawing.Point(0, 0);
             this.labelName.Name = "labelName";
-            this.labelName.Padding = new System.Windows.Forms.Padding(4, 0, 4, 4);
-            this.labelName.Size = new System.Drawing.Size(100, 19);
+            this.labelName.Padding = new System.Windows.Forms.Padding(4);
+            this.labelName.Size = new System.Drawing.Size(100, 23);
             this.labelName.TabIndex = 1;
             this.labelName.Text = "[PropertyName]";
             // 
@@ -61,7 +61,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panelLeft);
             this.Name = "PropertyRowBase";
-            this.Size = new System.Drawing.Size(456, 20);
+            this.Size = new System.Drawing.Size(456, 24);
             this.Load += new System.EventHandler(this.PropertyRowBase_Load);
             this.panelLeft.ResumeLayout(false);
             this.panelLeft.PerformLayout();

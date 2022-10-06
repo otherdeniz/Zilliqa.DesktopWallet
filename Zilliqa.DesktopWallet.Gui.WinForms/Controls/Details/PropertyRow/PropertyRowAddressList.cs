@@ -1,4 +1,5 @@
-﻿using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values;
+﻿using Zilliqa.DesktopWallet.ApiClient;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details.PropertyRow
 {
@@ -15,15 +16,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details.PropertyRow
             var textHeigth = 0;
             foreach (var text in value.Reverse())
             {
-                var bech32Address = new Bech32AddressLabel
+                var addressValue = new Address(text);
+                var bech32AddressLabel = new Bech32AddressLabel
                 {
                     Dock = DockStyle.Top,
                     BorderStyle = BorderStyle.None,
                     BackColor = BackColor,
-                    Bech32Address = text
+                    Bech32Address = addressValue.GetBech32()
                 };
-                panelValue.Controls.Add(bech32Address);
-                textHeigth += bech32Address.Height;
+                panelValue.Controls.Add(bech32AddressLabel);
+                textHeigth += bech32AddressLabel.Height;
             }
             Height = textHeigth + 4;
         }

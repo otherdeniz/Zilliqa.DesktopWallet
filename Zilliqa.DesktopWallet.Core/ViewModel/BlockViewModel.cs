@@ -2,6 +2,7 @@
 using System.Drawing;
 using Zillifriends.Shared.Common;
 using Zilligraph.Database.Storage.FilterQuery;
+using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
@@ -37,20 +38,25 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [Browsable(false)]
         public string SubTitle => $"{BlockModel.NumTxns:#,##0} Transactions";
 
-        [DisplayName("Timestamp")] 
-        public DateTime Timestamp => BlockModel.Timestamp;
+        [DisplayName("Timestamp")]
+        [DetailsProperty]
+        public string Timestamp => BlockModel.Timestamp.ToString("g");
+
+        [DisplayName("Transaction Fees")]
+        [DetailsProperty]
+        public string TxnFees => BlockModel.TxnFees.ZilSatoshisToZil().ToString("#,##0.0000 ZIL");
 
         [DisplayName("Gas limit")]
+        [DetailsProperty]
         public string GasLimit => BlockModel.GasLimit.ToString("#,##0");
 
         [DisplayName("Gas used")]
+        [DetailsProperty]
         public string GasUsed => BlockModel.GasUsed.ToString("#,##0");
 
         [DisplayName("Rewards")]
-        public string Rewards => BlockModel.Rewards.ToString("#,##0");
-
-        [DisplayName("Transaction Fees")]
-        public string TxnFees => BlockModel.TxnFees.ToString("#,##0");
+        [DetailsProperty]
+        public string Rewards => BlockModel.Rewards.ZilSatoshisToZil().ToString("#,##0.0000 ZIL");
 
         [DetailsGridView("Transactions")]
         public PageableLazyDataSource<BlockTransactionRowViewModel, Transaction> TransactionsDataSource()

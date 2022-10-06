@@ -136,11 +136,11 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [DetailsProperty]
         [DisplayName("Gas Limit")]
-        public string GasLimit => TransactionModel.GasLimit.ZilSatoshisToZil().ToString("#,##0.00000000 ZIL");
+        public string GasLimit => TransactionModel.GasLimit.ToString("#,##0");
 
         [DetailsProperty]
         [DisplayName("Gas Price")]
-        public string GasPrice => TransactionModel.GasPrice.ZilSatoshisToZil().ToString("#,##0.00000000 ZIL");
+        public string GasPrice => TransactionModel.GasPrice.ZilSatoshisToZil().ToString("#,##0.000000 ZIL");
 
         [DetailsProperty]
         [DisplayName("Nonce")]
