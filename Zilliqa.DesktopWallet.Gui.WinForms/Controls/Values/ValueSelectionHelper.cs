@@ -61,6 +61,14 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
             {
                 viewModel = detailsViewModel.GetViewModel();
             }
+
+            if (viewModel is AccountViewModel accountViewModel)
+            {
+                var control = new AddressDetailsControl();
+                accountViewModel.AfterChangedAction = _ => control.RefreshAccountSummaries();
+                control.BindAccountViewModel(accountViewModel, true);
+                return control;
+            }
             var genericControl = new GenericDetailsControl(displayTabs);
             genericControl.LoadViewModel(viewModel);
             return genericControl;

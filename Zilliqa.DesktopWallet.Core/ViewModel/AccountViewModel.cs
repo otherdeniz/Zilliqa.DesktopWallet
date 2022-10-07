@@ -15,7 +15,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
     public class AccountViewModel : IDisposable
     {
-        private Action<AccountViewModel>? _afterChangedAction;
         private readonly bool _loadCurrencyValues;
         private ZilligraphTableEventNotificator<Transaction>? _transactionEventNotificator;
         private readonly CancellationTokenSource _cancellationTokenSource = new();
@@ -30,11 +29,13 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public AccountViewModel(AccountBase accountData, Action<AccountViewModel>? afterChangedAction = null, bool loadCurrencyValues = false) 
         {
             AccountData = accountData;
-            _afterChangedAction = afterChangedAction;
+            AfterChangedAction = afterChangedAction;
             _loadCurrencyValues = loadCurrencyValues;
             RefreshBalances(true);
             LoadTransactions(_cancellationTokenSource.Token);
         }
+
+        public Action<AccountViewModel>? AfterChangedAction { get; set; }
 
         public Address Address => AccountData.Address;
 
@@ -79,13 +80,13 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         {
             WinFormsSynchronisationContext.ExecuteSynchronized(() =>
             {
-                _afterChangedAction?.Invoke(this);
+                AfterChangedAction?.Invoke(this);
             });
         }
 
         public void Dispose()
         {
-            _afterChangedAction = null;
+            AfterChangedAction = null;
             _cancellationTokenSource.Cancel();
             //TODO: check if _cancellationTokenSource.Dispose() must be called
             if (_transactionEventNotificator != null)

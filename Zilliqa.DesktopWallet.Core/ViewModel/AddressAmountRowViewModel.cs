@@ -9,11 +9,12 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
     public class AddressAmountRowViewModel : IDetailsLabel, IDetailsViewModel
     {
-        public AddressAmountRowViewModel(string addressHex, decimal amount)
+        public AddressAmountRowViewModel(string addressHex, decimal amount, decimal share)
         {
             AddressHex = addressHex;
             AddressText = new AddressValue(addressHex).ToString();
             Amount = amount;
+            Share = share;
         }
 
         [Browsable(false)] 
@@ -24,6 +25,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [GridViewFormat("#,##0.0000")] 
         public decimal Amount { get; }
+
+        [GridViewFormat("0.000 '%'")]
+        public decimal Share { get; }
 
         public object GetViewModel()
         {

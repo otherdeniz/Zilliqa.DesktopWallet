@@ -80,9 +80,12 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public PageableDataSource<AddressAmountRowViewModel> AllDelegators()
         {
             var dataSource = new PageableDataSource<AddressAmountRowViewModel>();
-            dataSource.Load(StakingService.Instance.GetDelegators(StakingSeedNodeModel.SsnAddress)
-                .OrderByDescending(s => s.StakeAmount)
-                .Select(s => new AddressAmountRowViewModel(s.DelegatorAddress, s.StakeAmount)).ToList());
+            var delegators = StakingService.Instance.GetDelegators(StakingSeedNodeModel.SsnAddress);
+            var sumAmount = delegators.Any() ? delegators.Sum(d => d.StakeAmount) : 0;
+            dataSource.Load(delegators.OrderByDescending(s => s.StakeAmount)
+                .Select(s => new AddressAmountRowViewModel(s.DelegatorAddress, s.StakeAmount,
+                    sumAmount > 0 ? 100m / sumAmount * s.StakeAmount : 0))
+                .ToList());
             return dataSource;
         }
 

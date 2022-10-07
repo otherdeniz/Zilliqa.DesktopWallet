@@ -30,6 +30,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
             }
         }
 
+        [DefaultValue(true)]
+        public bool ShowCaption { get; set; } = true;
+
         [Browsable(false)]
         [DefaultValue(null)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -61,7 +64,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
             if (_bech32Address?.Length == 42)
             {
                 var caption = KnownAddressService.Instance.GetName(_bech32Address);
-                if (caption != null)
+                if (caption != null && ShowCaption)
                 {
                     labelCaption.Text = $"{caption.TokenNameShort()}:";
                 }
