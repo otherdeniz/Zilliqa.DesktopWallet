@@ -66,16 +66,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
                 var caption = KnownAddressService.Instance.GetName(_bech32Address);
                 if (caption != null && ShowCaption)
                 {
+                    label3.Text = "...";
                     labelCaption.Text = $"{caption.TokenNameShort()}:";
+                    labelCaption.Visible = true;
                 }
                 else
                 {
+                    label3.Text = _bech32Address.Substring(7, 32);
                     labelCaption.Visible = false;
                 }
                 label2.Text = _bech32Address.Substring(4, 3);
-                label3.Text = caption == null 
-                    ? _bech32Address.Substring(7, 32)
-                    : "...";
                 label4.Text = _bech32Address.Substring(39);
             }
             else
@@ -101,9 +101,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
         {
             var masterPanel = DrillDownMasterPanelControl.FindParentDrillDownMasterPanel(this);
             var controlIsInRightPanel = DrillDownMasterPanelControl.ControlIsInRightPanel(this);
-            if (masterPanel != null && Bech32Address != null)
+            if (Bech32Address != null)
             {
-                masterPanel.DisplayValue(new AddressValue(Bech32Address), !controlIsInRightPanel, _ => {}, this);
+                if (masterPanel != null)
+                {
+                    masterPanel.DisplayValue(new AddressValue(Bech32Address), !controlIsInRightPanel, _ => { }, this);
+                }
+                else
+                {
+                    SecondForm.ShowDetailsAsForm(ValueSelectionHelper.CreateDisplayControl(new AddressValue(Bech32Address)));
+                }
             }
         }
 

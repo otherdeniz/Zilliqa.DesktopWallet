@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Data.Files;
 using Zilliqa.DesktopWallet.Core.Services;
@@ -304,5 +306,20 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             });
         }
 
+        private void buttonToolsOpenWalletFolder_Click(object sender, EventArgs e)
+        {
+            Process.Start("explorer.exe", DataPathBuilder.UserDataRoot.FullPath);
+        }
+
+        private void buttonToolsOpenDbFolder_Click(object sender, EventArgs e)
+        {
+            Process.Start("explorer.exe", DataPathBuilder.AppDataRoot.FullPath);
+        }
+
+        private void buttonToolsAddressConverter_Click(object sender, EventArgs e)
+        {
+            var form = new AddressConverterToolForm();
+            form.Show(this);
+        }
     }
 }

@@ -49,6 +49,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         public BindingList<TokenBalanceRowViewModel> TokenBalances { get; } = new();
 
+        public BindingList<AddressStakedRowViewModel> Stakes { get; } = new();
+
         public PageableDataSource<CommonTransactionRowViewModel> AllTransactions { get; } = new();
 
         public PageableDataSource<ZilTransactionRowViewModel> ZilTransactions { get; } = new();
@@ -111,6 +113,14 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                         ? _stakingDelegatorAmounts.Sum(s => s.StakeAmount)
                         : 0;
                     _zilLiquidBalance = (await ZilliqaClient.DefaultInstance.GetBalance(Address))?.GetBalance(Unit.ZIL);
+                    if (_stakingDelegatorAmounts.Count > 0)
+                    {
+                        Stakes.Clear();
+                        foreach (var stakingDelegatorAmount in _stakingDelegatorAmounts)
+                        {
+                            Stakes.Add(new AddressStakedRowViewModel(stakingDelegatorAmount));
+                        }
+                    }
                 }
                 for (int i = 1; i <= 3; i++)
                 {

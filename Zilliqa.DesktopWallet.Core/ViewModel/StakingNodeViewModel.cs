@@ -69,12 +69,12 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [DetailsProperty]
         [Browsable(false)]
         [DisplayName("API URL")]
-        public string ApiUrl => StakingSeedNodeModel.ApiUrl;
+        public string? ApiUrl => StakingSeedNodeModel.ApiUrl;
 
         [DetailsProperty]
         [Browsable(false)]
         [DisplayName("Staking API URL")]
-        public string StakingApiUrl => StakingSeedNodeModel.StakingApiUrl;
+        public string? StakingApiUrl => StakingSeedNodeModel.StakingApiUrl;
 
         [DetailsGridView("Delegators")]
         public PageableDataSource<AddressAmountRowViewModel> AllDelegators()

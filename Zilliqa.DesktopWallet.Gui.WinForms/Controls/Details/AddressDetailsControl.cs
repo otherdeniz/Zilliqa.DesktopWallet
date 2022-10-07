@@ -19,6 +19,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
         {
             InitializeComponent();
             gridViewTokenBalances.Dock = DockStyle.Fill;
+            gridViewStakes.Dock = DockStyle.Fill;
             gridViewOwnedContracts.Dock = DockStyle.Fill;
 
             gridViewAllTransactions.Dock = DockStyle.Fill;
@@ -39,6 +40,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             {
                 _showCurrencyColumns = value;
                 gridViewTokenBalances.DisplayDynamicColumns = value;
+                gridViewStakes.DisplayDynamicColumns = value;
                 gridViewAllTransactions.DisplayDynamicColumns = value;
                 gridViewZilTransactions.DisplayDynamicColumns = value;
                 gridViewTokenTransactions.DisplayDynamicColumns = value;
@@ -52,6 +54,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             bech32Address.Bech32Address = account.AddressBech32;
             bech32Address.ShowAddToWatchedAccounts = !(account.AccountData is MyAccount);
             gridViewTokenBalances.LoadData(account.TokenBalances, typeof(TokenBalanceRowViewModel));
+            gridViewStakes.LoadData(account.Stakes, typeof(AddressStakedRowViewModel));
             gridViewAllTransactions.LoadData(account.AllTransactions);
             gridViewZilTransactions.LoadData(account.ZilTransactions);
             gridViewTokenTransactions.LoadData(account.TokenTransactions);
@@ -83,13 +86,22 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 
             SetTabButtonCountText(tabButtonZrc2Tokens, _account.TokenBalances.Count);
 
+            if (_account.Stakes.Count > 0)
+            {
+                tabSeparatorStakes.Visible = true;
+                tabButtonStakes.Visible = true;
+                SetTabButtonCountText(tabButtonStakes, _account.Stakes.Count);
+            }
+
             _account.AllTransactions.ExecuteAfterLoadCompleted(l => SetTabButtonCountText(tabButtonAllTransactions, l.RecordCount), true);
 
             _account.ZilTransactions.ExecuteAfterLoadCompleted(l => SetTabButtonCountText(tabButtonZilTransactions, l.RecordCount), true);
 
             _account.TokenTransactions.ExecuteAfterLoadCompleted(l => SetTabButtonCountText(tabButtonTokenTransactions, l.RecordCount), true);
 
-            labelCreatedDate.Text = _account.CreatedDate.ToString("g");
+            labelCreatedDate.Text = _account.CreatedDate == DateTime.MinValue 
+                ? "-" 
+                : _account.CreatedDate.ToString("g");
 
             labelZilTotalBalance.Text = $"{_account.ZilTotalBalance:#,##0.00} ZIL";
             labelZilLiquidBalance.Text = $"{_account.ZilLiquidBalance:#,##0.00} ZIL";
@@ -161,7 +173,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 
         private void tabButtonStakes_Click(object sender, EventArgs e)
         {
-
+            TabButtonHoldingClick(tabButtonStakes, gridViewStakes);
         }
 
         private void tabButtonOwnedContracts_Click(object sender, EventArgs e)

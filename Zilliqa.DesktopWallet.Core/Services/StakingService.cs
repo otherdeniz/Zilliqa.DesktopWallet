@@ -19,6 +19,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
 
         private StakingProxyContract? _currentProxy;
         private string? _currentImplementationAddress;
+        private List<StakingSeedNode>? _stakingSeedNodes;
 
         private StakingService()
         {
@@ -51,13 +52,17 @@ namespace Zilliqa.DesktopWallet.Core.Services
 
         public List<StakingSeedNode> GetSeedNodeList()
         {
-            var jsonResult = (JToken)Task.Run(async () =>
+            if (_stakingSeedNodes == null)
             {
-                return await ZilliqaClient.DefaultInstance.GetSmartContractSubState(new object[]
-                    { ImplementationAddress, "ssnlist", new object[] { } });
-            }).GetAwaiter().GetResult();
-            return jsonResult.First?.First?.Children().Select(t => new StakingSeedNode(t)).ToList()
-                ?? throw new RuntimeException("Failed to get SeedNodeList of Staking Implementation Contract");
+                var jsonResult = (JToken)Task.Run(async () =>
+                {
+                    return await ZilliqaClient.DefaultInstance.GetSmartContractSubState(new object[]
+                        { ImplementationAddress, "ssnlist", new object[] { } });
+                }).GetAwaiter().GetResult();
+                _stakingSeedNodes = jsonResult.First?.First?.Children().Select(t => new StakingSeedNode(t)).ToList()
+                       ?? throw new RuntimeException("Failed to get SeedNodeList of Staking Implementation Contract");
+            }
+            return _stakingSeedNodes;
         }
 
         /// <summary>
@@ -180,6 +185,12 @@ namespace Zilliqa.DesktopWallet.Core.Services
         //    "<commssion rewards>",
         //    "<ssn commission receiving address>"
         //]
+        public StakingSeedNode(string address)
+        {
+            SsnAddress = address;
+            Name = address;
+            CommissioningAddress = address;
+        }
         public StakingSeedNode(JToken ssnJToken)
         {
             SsnAddress = ((JProperty)ssnJToken).Name;
@@ -198,8 +209,8 @@ namespace Zilliqa.DesktopWallet.Core.Services
         public decimal StakeAmount { get; }
         public decimal StakeRewards { get; }
         public string Name { get; }
-        public string StakingApiUrl { get; }
-        public string ApiUrl { get; }
+        public string? StakingApiUrl { get; }
+        public string? ApiUrl { get; }
         public decimal BufferedDeposit { get; }
         public decimal CommissionRate { get; }
         public decimal CommissionRewards { get; }

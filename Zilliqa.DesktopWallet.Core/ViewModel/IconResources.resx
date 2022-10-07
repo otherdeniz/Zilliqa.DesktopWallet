@@ -169,6 +169,24 @@
   <data name="CircleRigthBlue16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\nav_right_blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="SmileyLove24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\emoji_smiley_love_24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SmileyLove32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\emoji_smiley_love_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SmileyQuestion24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\emoji_smiley_question_24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SmileyQuestion32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\emoji_smiley_question_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SmileySmile24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\emoji_smiley_smile_24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SmileySmile32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\emoji_smiley_smile_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="StakingNode48" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\server_network.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

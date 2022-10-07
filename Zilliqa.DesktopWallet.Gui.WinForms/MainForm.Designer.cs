@@ -51,6 +51,11 @@
             this.menuDisplayCurrencyBtc = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDisplayCurrencyEth = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDisplayCurrencyLtc = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonMenuTools = new System.Windows.Forms.ToolStripDropDownButton();
+            this.buttonToolsOpenWalletFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonToolsOpenDbFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.buttonToolsAddressConverter = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMain = new System.Windows.Forms.Panel();
             this.mainWalletControl = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.MainWalletControl();
             this.panelBottom = new System.Windows.Forms.Panel();
@@ -81,10 +86,11 @@
             this.toolStripSeparator1,
             this.buttonSettings,
             this.toolStripLabel1,
-            this.buttonMenuDisplayCurrencies});
+            this.buttonMenuDisplayCurrencies,
+            this.buttonMenuTools});
             this.toolStripMain.Location = new System.Drawing.Point(0, 0);
             this.toolStripMain.Name = "toolStripMain";
-            this.toolStripMain.Size = new System.Drawing.Size(1264, 31);
+            this.toolStripMain.Size = new System.Drawing.Size(1239, 31);
             this.toolStripMain.TabIndex = 0;
             this.toolStripMain.Text = "toolStrip1";
             // 
@@ -256,6 +262,49 @@
             this.menuDisplayCurrencyLtc.Text = "Litecoin (LTC)";
             this.menuDisplayCurrencyLtc.Click += new System.EventHandler(this.menuDisplayCurrencyLtc_Click);
             // 
+            // buttonMenuTools
+            // 
+            this.buttonMenuTools.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.buttonMenuTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.buttonToolsOpenWalletFolder,
+            this.buttonToolsOpenDbFolder,
+            this.toolStripSeparator3,
+            this.buttonToolsAddressConverter});
+            this.buttonMenuTools.Image = ((System.Drawing.Image)(resources.GetObject("buttonMenuTools.Image")));
+            this.buttonMenuTools.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonMenuTools.Name = "buttonMenuTools";
+            this.buttonMenuTools.Size = new System.Drawing.Size(71, 28);
+            this.buttonMenuTools.Text = "Tools";
+            // 
+            // buttonToolsOpenWalletFolder
+            // 
+            this.buttonToolsOpenWalletFolder.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsOpenWalletFolder.Image")));
+            this.buttonToolsOpenWalletFolder.Name = "buttonToolsOpenWalletFolder";
+            this.buttonToolsOpenWalletFolder.Size = new System.Drawing.Size(255, 30);
+            this.buttonToolsOpenWalletFolder.Text = "Open Users Wallet Folder";
+            this.buttonToolsOpenWalletFolder.Click += new System.EventHandler(this.buttonToolsOpenWalletFolder_Click);
+            // 
+            // buttonToolsOpenDbFolder
+            // 
+            this.buttonToolsOpenDbFolder.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsOpenDbFolder.Image")));
+            this.buttonToolsOpenDbFolder.Name = "buttonToolsOpenDbFolder";
+            this.buttonToolsOpenDbFolder.Size = new System.Drawing.Size(255, 30);
+            this.buttonToolsOpenDbFolder.Text = "Open Program Database Folder";
+            this.buttonToolsOpenDbFolder.Click += new System.EventHandler(this.buttonToolsOpenDbFolder_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(252, 6);
+            // 
+            // buttonToolsAddressConverter
+            // 
+            this.buttonToolsAddressConverter.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsAddressConverter.Image")));
+            this.buttonToolsAddressConverter.Name = "buttonToolsAddressConverter";
+            this.buttonToolsAddressConverter.Size = new System.Drawing.Size(255, 30);
+            this.buttonToolsAddressConverter.Text = "Zilliqa Address Format Converter";
+            this.buttonToolsAddressConverter.Click += new System.EventHandler(this.buttonToolsAddressConverter_Click);
+            // 
             // panelMain
             // 
             this.panelMain.BackColor = System.Drawing.SystemColors.Control;
@@ -266,7 +315,7 @@
             this.panelMain.Location = new System.Drawing.Point(0, 31);
             this.panelMain.Name = "panelMain";
             this.panelMain.Padding = new System.Windows.Forms.Padding(2);
-            this.panelMain.Size = new System.Drawing.Size(1264, 570);
+            this.panelMain.Size = new System.Drawing.Size(1239, 570);
             this.panelMain.TabIndex = 1;
             // 
             // mainWalletControl
@@ -286,7 +335,7 @@
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelBottom.Location = new System.Drawing.Point(0, 601);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1264, 160);
+            this.panelBottom.Size = new System.Drawing.Size(1239, 160);
             this.panelBottom.TabIndex = 2;
             // 
             // groupBoxNotifications
@@ -296,7 +345,7 @@
             this.groupBoxNotifications.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.groupBoxNotifications.Location = new System.Drawing.Point(302, 0);
             this.groupBoxNotifications.Name = "groupBoxNotifications";
-            this.groupBoxNotifications.Size = new System.Drawing.Size(962, 160);
+            this.groupBoxNotifications.Size = new System.Drawing.Size(937, 160);
             this.groupBoxNotifications.TabIndex = 0;
             this.groupBoxNotifications.TabStop = false;
             this.groupBoxNotifications.Text = "Notifications";
@@ -307,7 +356,7 @@
             this.panelNotifications.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelNotifications.Location = new System.Drawing.Point(3, 19);
             this.panelNotifications.Name = "panelNotifications";
-            this.panelNotifications.Size = new System.Drawing.Size(956, 138);
+            this.panelNotifications.Size = new System.Drawing.Size(931, 138);
             this.panelNotifications.TabIndex = 0;
             // 
             // groupBoxStatus
@@ -342,7 +391,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1264, 761);
+            this.ClientSize = new System.Drawing.Size(1239, 761);
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelBottom);
             this.Controls.Add(this.toolStripMain);
@@ -394,5 +443,10 @@
         private ToolStripButton buttonSmartContracts;
         private ToolStripButton buttonEcosystem;
         private ToolStripButton buttonStakingNodes;
+        private ToolStripDropDownButton buttonMenuTools;
+        private ToolStripMenuItem buttonToolsOpenWalletFolder;
+        private ToolStripMenuItem buttonToolsOpenDbFolder;
+        private ToolStripSeparator toolStripSeparator3;
+        private ToolStripMenuItem buttonToolsAddressConverter;
     }
 }

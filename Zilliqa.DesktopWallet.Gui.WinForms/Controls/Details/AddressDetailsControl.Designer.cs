@@ -748,8 +748,8 @@
             this.tabButtonStakes.Image = ((System.Drawing.Image)(resources.GetObject("tabButtonStakes.Image")));
             this.tabButtonStakes.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tabButtonStakes.Name = "tabButtonStakes";
-            this.tabButtonStakes.Size = new System.Drawing.Size(63, 19);
-            this.tabButtonStakes.Text = "ZIL Stakes";
+            this.tabButtonStakes.Size = new System.Drawing.Size(55, 19);
+            this.tabButtonStakes.Text = "Stakings";
             this.tabButtonStakes.Visible = false;
             this.tabButtonStakes.Click += new System.EventHandler(this.tabButtonStakes_Click);
             // 
@@ -836,7 +836,8 @@
             this.bech32Address.AutoSize = true;
             this.bech32Address.Location = new System.Drawing.Point(2, 0);
             this.bech32Address.Name = "bech32Address";
-            this.bech32Address.Size = new System.Drawing.Size(443, 23);
+            this.bech32Address.ShowCaption = false;
+            this.bech32Address.Size = new System.Drawing.Size(505, 23);
             this.bech32Address.TabIndex = 0;
             // 
             // panel13
