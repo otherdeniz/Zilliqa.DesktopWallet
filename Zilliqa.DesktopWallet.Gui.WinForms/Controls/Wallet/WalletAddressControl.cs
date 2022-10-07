@@ -71,7 +71,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         {
             if (_account?.AccountData is MyAccount myAccount)
             {
-                var sendZilResult = SendZilForm.Execute(this.ParentForm!);
+                var sendZilResult = SendZilForm.Execute(this.ParentForm!, _account);
                 if (sendZilResult != null)
                 {
                     var transactionInfo = SendTransactionService.Instance.SendZilToAddress(
