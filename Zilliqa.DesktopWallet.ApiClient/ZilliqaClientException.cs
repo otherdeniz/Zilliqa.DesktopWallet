@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Zilliqa.DesktopWallet.ApiClient
 {
@@ -8,7 +6,10 @@ namespace Zilliqa.DesktopWallet.ApiClient
     {
         public ZilliqaClientException(string message) : base(message)
         {
-            
         }
+    }
+
+    public class ZilliqaClientTestnetNoData : Exception
+    {
     }
 }

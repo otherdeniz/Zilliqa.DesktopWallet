@@ -158,9 +158,9 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                             try
                             {
                                 var apiclient = new ZilliqaClient();
-                                
-                                var blockTransactions = blockModel.NumTxns == 0 
-                                    ? new List<ApiModel.Transaction>() 
+
+                                var blockTransactions = blockModel.NumTxns == 0
+                                    ? new List<ApiModel.Transaction>()
                                     : await apiclient.GetTxnBodiesForTxBlock(processBlockNumber);
 
                                 if (blockTransactions.Count == blockModel.NumTxns)
@@ -183,11 +183,13 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                                     {
                                         CrawlerStateDat.Instance.TransactionCrawler.HighestBlock = processBlockNumber;
                                     }
+
                                     if (CrawlerStateDat.Instance.TransactionCrawler.LowestBlock > processBlockNumber ||
                                         CrawlerStateDat.Instance.TransactionCrawler.LowestBlock == 0)
                                     {
                                         CrawlerStateDat.Instance.TransactionCrawler.LowestBlock = processBlockNumber;
                                     }
+
                                     CrawlerStateDat.Instance.Save();
 
                                     LastDownloadedBlockdate = blockModel.Timestamp.ToLocalTime();
@@ -197,9 +199,17 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                                 }
                                 else
                                 {
-                                    Logging.LogWarning($"TransactionsCrawlerJob: Wrong number of transactions received. Block number: {processBlockNumber}, expected: {blockModel.NumTxns}, received: {blockTransactions.Count}");
+                                    Logging.LogWarning(
+                                        $"TransactionsCrawlerJob: Wrong number of transactions received. Block number: {processBlockNumber}, expected: {blockModel.NumTxns}, received: {blockTransactions.Count}");
                                     loopDelay = 10000;
                                 }
+                            }
+                            catch (ZilliqaClientTestnetNoData)
+                            {
+                                Logging.LogWarning($"No more Data on TESTNET below Block Number {blockModel.BlockNumber}");
+                                CrawlerStateDat.Instance.TransactionCrawler.LowestBlock = 0;
+                                CrawlerStateDat.Instance.Save();
+                                loopDelay = 5000;
                             }
                             catch (Exception e)
                             {

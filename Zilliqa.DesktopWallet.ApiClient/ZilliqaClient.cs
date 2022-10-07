@@ -399,11 +399,7 @@ namespace Zilliqa.DesktopWallet.ApiClient
 			}
             else if (res.Message == "Failed to get Microblock" && UseTestnet)
             {
-                var block = await GetTxBlock(blockNum);
-                for (int i = 0; i < block.Header.NumTxns; i++)
-                {
-					list.Add(new Transaction { Id = Guid.NewGuid().ToString("N"), Receipt = new Receipt() });
-				}
+                throw new ZilliqaClientTestnetNoData();
             }
 			else if ((res.Message == "Txn Hash not Present" && blockNum <= 175701)
                      || (res.Message == "Txn Hash not Present" && UseTestnet))
