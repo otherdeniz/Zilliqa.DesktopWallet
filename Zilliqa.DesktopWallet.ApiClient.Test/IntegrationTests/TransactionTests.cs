@@ -104,7 +104,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
             var hash = "716f3edd55d23e70134f2687cf6fc3e70c4371a32aa871c4dbfbd74548c6a6f6";
             var txn = await _zil.GetTransaction(hash);
             var contractAddress = await _zil.GetContractAddressFromTransactionID(txn.Id);
-            Assert.IsTrue(contractAddress.Bech32.StartsWith("zil1"));
+            Assert.IsTrue(contractAddress.GetBech32().StartsWith("zil1"));
         }
 
         [Test]
@@ -113,28 +113,28 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
             var hash = "c4024c469d4f7131e93e4a902c08fcd6c505add5517beedafa78871ded3eccbd";
             var txn = await _zil.GetTransaction(hash);
             var contractAddress = await _zil.GetContractAddressFromTransactionID(txn.Id);
-            Assert.IsTrue(contractAddress.Bech32.StartsWith("zil1"));
+            Assert.IsTrue(contractAddress.GetBech32().StartsWith("zil1"));
         }
 
-        [Test]
-        public async Task CreateTransactionHasId()
-        {
-            //TODO figure out how to create transaction tests with signatures
+        //[Test]
+        //public async Task CreateTransactionHasId()
+        //{
+        //    //TODO figure out how to create transaction tests with signatures
 
-            var tx = new TransactionPayload() {
-                ToAddr = "4C352ba2Bd33245CDA180699e6B5c6334AB5dC26",
-                Amount = "1000000000000",
-                GasPrice = "1000000000",
-                GasLimit = "1",
-                Code = "",
-                Data = "",
-                Priority = false
-            };
-            tx.SetVersion(true);
-            var signed = _wallet.SignWith(tx,_account,true);
-            var info = await _zil.CreateTransaction(signed);
-            Assert.IsNotNull(info);
-        }
+        //    var tx = new TransactionPayload() {
+        //        ToAddr = "4C352ba2Bd33245CDA180699e6B5c6334AB5dC26",
+        //        Amount = "1000000000000",
+        //        GasPrice = "1000000000",
+        //        GasLimit = "1",
+        //        Code = "",
+        //        Data = "",
+        //        Priority = false
+        //    };
+        //    tx.SetVersion(true);
+        //    var signed = _wallet.SignWith(tx,_account,true);
+        //    var info = await _zil.CreateTransaction(signed);
+        //    Assert.IsNotNull(info);
+        //}
 
         [Test]
         public async Task SpecificBlockNumberReturnsAllTransactions()

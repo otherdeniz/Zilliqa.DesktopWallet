@@ -51,6 +51,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Model
         {
             [JsonProperty("Info")]
             public string InfoMessage { get; set; }
+
             [JsonProperty("TranID")]
             public string TransactionId { get; set; }
         }

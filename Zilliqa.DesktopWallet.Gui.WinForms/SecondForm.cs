@@ -44,7 +44,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
         {
             this.Text = ApplicationInfo.MainFormTitle;
             var screen = Screen.FromControl(this);
-            Left = screen.Bounds.Width - Width - (MainForm.Instance?.Left ?? 0);
+            Left = screen.Bounds.Width - Width - 50;
         }
 
         private void SecondForm_FormClosing(object sender, FormClosingEventArgs e)

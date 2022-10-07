@@ -7,6 +7,8 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
     public class WalletDat : DatFileBase
     {
 
+        public const int MinPasswordLength = 12;
+
         #region Static Code
 
         private static string? _walletDatFilePath;

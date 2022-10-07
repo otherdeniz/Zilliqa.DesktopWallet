@@ -207,7 +207,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                             catch (ZilliqaClientTestnetNoData)
                             {
                                 Logging.LogWarning($"No more Data on TESTNET below Block Number {blockModel.BlockNumber}");
-                                CrawlerStateDat.Instance.TransactionCrawler.LowestBlock = 0;
+                                CrawlerStateDat.Instance.TransactionCrawler.LowestBlock = 1;
                                 CrawlerStateDat.Instance.Save();
                                 loopDelay = 5000;
                             }

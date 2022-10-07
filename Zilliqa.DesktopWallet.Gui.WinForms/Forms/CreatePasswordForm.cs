@@ -1,4 +1,5 @@
-﻿using Zilliqa.DesktopWallet.Core.ViewModel;
+﻿using Zilliqa.DesktopWallet.Core.Data.Files;
+using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Gui.WinForms.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
@@ -55,7 +56,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         private bool CheckPassword()
         {
             var nameOk = textWalletName.Text.Length >= 1;
-            var passwordOk = textPassword1.Text.Length >= 12 
+            var passwordOk = textPassword1.Text.Length >= WalletDat.MinPasswordLength 
                                && textPassword1.Text == textPassword2.Text;
             buttonOk.Enabled = passwordOk && nameOk;
             return passwordOk && nameOk;

@@ -35,7 +35,7 @@ namespace Zilligraph.Database.Storage
 
         public DataPathBuilder PathBuilder { get; }
 
-        public bool IndexExists => _indexExists ??= PathBuilder.HasFiles;
+        public bool IndexExists => _indexExists ??= PathBuilder.HasFiles("*_content*");
 
         protected IndexInfoFile IndexInfoFile => _indexInfoFile
                                                  ?? throw new MissingCodeException($"Table {Table.TableName} Index {Name} is not initialised");
@@ -66,6 +66,10 @@ namespace Zilligraph.Database.Storage
 
         public bool IndexStateIsValid()
         {
+            if (!IndexExists)
+            {
+                return false;
+            }
             if (string.IsNullOrEmpty(IndexInfoFile.ConfigurationState))
             {
                 SaveIndexState();

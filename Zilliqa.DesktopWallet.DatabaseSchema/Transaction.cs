@@ -97,6 +97,12 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
                 : new List<DataParam>();
 
         [CalculatedIndex]
+        public string? ContractMethod()
+        {
+            return DataContractCall.Tag;
+        }
+
+        [CalculatedIndex]
         public string? TokenTransferRecipient()
         {
             if (!TransactionFailed &&

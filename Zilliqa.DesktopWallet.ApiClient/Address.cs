@@ -23,6 +23,8 @@ namespace Zilliqa.DesktopWallet.ApiClient
         }
 
         private string _rawAddress;
+        private string _bech32;
+        private string _base16WithLeading0x;
 
         public Address()
         {
@@ -32,12 +34,6 @@ namespace Zilliqa.DesktopWallet.ApiClient
             _rawAddress = rawAddress;
             ParseRawAddress(rawAddress);
         }
-
-        [JsonIgnore]
-        public string Bech32 { get; private set; }
-
-        [JsonIgnore]
-        public string Base16WithLeading0x { get; private set; }
 
         [JsonProperty("Raw")]
         public string RawAddress
@@ -60,21 +56,16 @@ namespace Zilliqa.DesktopWallet.ApiClient
 
         public string GetBech32()
         {
-            if (Bech32 == null)
-            {
-                Bech32 = MusBech32.FromBase16ToBech32Address(Base16WithLeading0x);
-            }
-            return Bech32;
+            return _bech32 ??= MusBech32.FromBase16ToBech32Address(_base16WithLeading0x);
         }
 
         public string GetBase16(bool withLeading0x)
         {
-            if (Base16WithLeading0x == null)
+            if (_base16WithLeading0x == null)
             {
-                Base16WithLeading0x = MusBech32.FromBech32ToBase16Address(Bech32);
+                _base16WithLeading0x = MusBech32.FromBech32ToBase16Address(_bech32);
             }
-
-            return withLeading0x ? Base16WithLeading0x : Base16WithLeading0x.Substring(2);
+            return withLeading0x ? _base16WithLeading0x : _base16WithLeading0x.Substring(2);
         }
 
         public bool Equals(string otherAddress)
@@ -96,17 +87,17 @@ namespace Zilliqa.DesktopWallet.ApiClient
             if (rawAddress.StartsWith("zil"))
             {
                 RawEncoding = AddressEncoding.Bech32;
-                Bech32 = rawAddress;
+                _bech32 = rawAddress;
             }
             else if (rawAddress.StartsWith("0x"))
             {
                 RawEncoding = AddressEncoding.Base16WithLeading0x;
-                Base16WithLeading0x = rawAddress;
+                _base16WithLeading0x = rawAddress;
             }
             else
             {
                 RawEncoding = AddressEncoding.Base16;
-                Base16WithLeading0x = $"0x{rawAddress}";
+                _base16WithLeading0x = $"0x{rawAddress}";
             }
         }
     }

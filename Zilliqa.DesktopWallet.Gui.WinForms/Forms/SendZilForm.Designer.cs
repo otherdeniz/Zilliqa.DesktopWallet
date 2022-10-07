@@ -141,6 +141,7 @@
             this.textFee.ReadOnly = true;
             this.textFee.Size = new System.Drawing.Size(90, 23);
             this.textFee.TabIndex = 1;
+            this.textFee.TabStop = false;
             this.textFee.TextChanged += new System.EventHandler(this.textAmount_TextChanged);
             // 
             // textAvailableFunds
@@ -150,6 +151,7 @@
             this.textAvailableFunds.ReadOnly = true;
             this.textAvailableFunds.Size = new System.Drawing.Size(163, 23);
             this.textAvailableFunds.TabIndex = 1;
+            this.textAvailableFunds.TabStop = false;
             this.textAvailableFunds.TextChanged += new System.EventHandler(this.textAmount_TextChanged);
             // 
             // textGasPrice
@@ -159,6 +161,7 @@
             this.textGasPrice.ReadOnly = true;
             this.textGasPrice.Size = new System.Drawing.Size(90, 23);
             this.textGasPrice.TabIndex = 1;
+            this.textGasPrice.TabStop = false;
             this.textGasPrice.TextChanged += new System.EventHandler(this.textAmount_TextChanged);
             // 
             // textAmount

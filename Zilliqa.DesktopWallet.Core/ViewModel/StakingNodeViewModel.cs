@@ -39,7 +39,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [DetailsProperty]
         [DisplayName("Commission")]
         [GridViewFormat("0.00 '%'")]
-        public decimal CommissionRate => StakingSeedNodeModel.CommissionRate / 10000000;
+        public decimal CommissionRate => StakingSeedNodeModel.CommissionRatePercent;
 
         [DetailsProperty]
         [DisplayName("Staked")]

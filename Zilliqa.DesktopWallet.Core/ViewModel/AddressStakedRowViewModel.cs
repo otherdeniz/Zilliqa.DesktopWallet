@@ -19,8 +19,11 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                 ?? new StakingSeedNode(stakingDelegatorAmount.StakingNode));
         }
 
+        [Browsable(false)]
+        public StakingSeedNode StakingNode => _stakingNodeViewModel.StakingSeedNodeModel;
+
         [DisplayName("Staking Node")]
-        public string StakingNode => _stakingNodeViewModel.Name;
+        public string StakingNodeName => _stakingNodeViewModel.Name;
 
         [DisplayName("Staked Amount")]
         [GridViewFormat("#,##0.00 ZIL")]

@@ -22,7 +22,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class IconResources {
+    public class IconResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Zilliqa.DesktopWallet.Core.ViewModel.IconResources", typeof(IconResources).Assembly);
@@ -51,7 +51,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ArrowLeftBlue16 {
+        public static System.Drawing.Bitmap ArrowLeftBlue16 {
             get {
                 object obj = ResourceManager.GetObject("ArrowLeftBlue16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -73,7 +73,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ArrowLeftGray16 {
+        public static System.Drawing.Bitmap ArrowLeftGray16 {
             get {
                 object obj = ResourceManager.GetObject("ArrowLeftGray16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -83,7 +83,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ArrowLeftGreen16 {
+        public static System.Drawing.Bitmap ArrowLeftGreen16 {
             get {
                 object obj = ResourceManager.GetObject("ArrowLeftGreen16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -93,7 +93,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ArrowLeftOrange16 {
+        public static System.Drawing.Bitmap ArrowLeftOrange16 {
             get {
                 object obj = ResourceManager.GetObject("ArrowLeftOrange16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -103,7 +103,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ArrowLeftRed16 {
+        public static System.Drawing.Bitmap ArrowLeftRed16 {
             get {
                 object obj = ResourceManager.GetObject("ArrowLeftRed16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -113,7 +113,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ArrowLeftViolet16 {
+        public static System.Drawing.Bitmap ArrowLeftViolet16 {
             get {
                 object obj = ResourceManager.GetObject("ArrowLeftViolet16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -123,7 +123,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ArrowRightBlue16 {
+        public static System.Drawing.Bitmap ArrowRightBlue16 {
             get {
                 object obj = ResourceManager.GetObject("ArrowRightBlue16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -133,7 +133,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ArrowRightGray16 {
+        public static System.Drawing.Bitmap ArrowRightGray16 {
             get {
                 object obj = ResourceManager.GetObject("ArrowRightGray16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -143,7 +143,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ArrowRightGreen16 {
+        public static System.Drawing.Bitmap ArrowRightGreen16 {
             get {
                 object obj = ResourceManager.GetObject("ArrowRightGreen16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -153,7 +153,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ArrowRightOrange16 {
+        public static System.Drawing.Bitmap ArrowRightOrange16 {
             get {
                 object obj = ResourceManager.GetObject("ArrowRightOrange16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -163,7 +163,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ArrowRightRed16 {
+        public static System.Drawing.Bitmap ArrowRightRed16 {
             get {
                 object obj = ResourceManager.GetObject("ArrowRightRed16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -173,7 +173,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ArrowRightViolet16 {
+        public static System.Drawing.Bitmap ArrowRightViolet16 {
             get {
                 object obj = ResourceManager.GetObject("ArrowRightViolet16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -183,7 +183,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap BarBlue16 {
+        public static System.Drawing.Bitmap BarBlue16 {
             get {
                 object obj = ResourceManager.GetObject("BarBlue16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -193,7 +193,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Block48 {
+        public static System.Drawing.Bitmap Block48 {
             get {
                 object obj = ResourceManager.GetObject("Block48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -203,7 +203,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap CircleDotGray16 {
+        public static System.Drawing.Bitmap CircleDotGray16 {
             get {
                 object obj = ResourceManager.GetObject("CircleDotGray16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -213,7 +213,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap CircleDotGray48 {
+        public static System.Drawing.Bitmap CircleDotGray48 {
             get {
                 object obj = ResourceManager.GetObject("CircleDotGray48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -223,7 +223,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap CircleRigthBlue16 {
+        public static System.Drawing.Bitmap CircleRigthBlue16 {
             get {
                 object obj = ResourceManager.GetObject("CircleRigthBlue16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -233,7 +233,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap SmileyLove24 {
+        public static System.Drawing.Bitmap SmileyLove24 {
             get {
                 object obj = ResourceManager.GetObject("SmileyLove24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -243,7 +243,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap SmileyLove32 {
+        public static System.Drawing.Bitmap SmileyLove32 {
             get {
                 object obj = ResourceManager.GetObject("SmileyLove32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -253,7 +253,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap SmileyQuestion24 {
+        public static System.Drawing.Bitmap SmileyQuestion24 {
             get {
                 object obj = ResourceManager.GetObject("SmileyQuestion24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -263,7 +263,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap SmileyQuestion32 {
+        public static System.Drawing.Bitmap SmileyQuestion32 {
             get {
                 object obj = ResourceManager.GetObject("SmileyQuestion32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -273,7 +273,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap SmileySmile24 {
+        public static System.Drawing.Bitmap SmileySmile24 {
             get {
                 object obj = ResourceManager.GetObject("SmileySmile24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -283,7 +283,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap SmileySmile32 {
+        public static System.Drawing.Bitmap SmileySmile32 {
             get {
                 object obj = ResourceManager.GetObject("SmileySmile32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -293,7 +293,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap StakingNode48 {
+        public static System.Drawing.Bitmap StakingNode48 {
             get {
                 object obj = ResourceManager.GetObject("StakingNode48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -303,7 +303,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Transaction48 {
+        public static System.Drawing.Bitmap Transaction48 {
             get {
                 object obj = ResourceManager.GetObject("Transaction48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -313,7 +313,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap TransactionFailed48 {
+        public static System.Drawing.Bitmap TransactionFailed48 {
             get {
                 object obj = ResourceManager.GetObject("TransactionFailed48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -323,7 +323,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Warning16 {
+        public static System.Drawing.Bitmap Warning16 {
             get {
                 object obj = ResourceManager.GetObject("Warning16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));

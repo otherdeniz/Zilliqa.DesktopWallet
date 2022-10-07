@@ -99,7 +99,7 @@ namespace Zilligraph.Database.Storage
                 try
                 {
                     // delete outdated indexes to upgrade
-                    Indexes.Select(i => i.Value).Where(i => !i.IndexStateIsValid()).ForEach(i => i.DeleteIndex());
+                    Indexes.Select(i => i.Value).Where(i => i.IndexExists && !i.IndexStateIsValid()).ForEach(i => i.DeleteIndex());
 
                     // add new Indexes / recreate indexes to upgrade
                     var newIndexes = Indexes.Select(i => i.Value).Where(i => !i.IndexExists).ToList();

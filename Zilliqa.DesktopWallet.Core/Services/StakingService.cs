@@ -15,6 +15,9 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 new ("351a37e2841a45c7f2de18ee45f968e106416273", 1.0m, false) // zil1x5dr0c5yrfzu0uk7rrhyt7tguyryzcnn8q75pc
             });
 
+        public static readonly string ContractMethodStake = "DelegateStake";
+        public static readonly string ContractMethodClaim = "WithdrawStakeRewards";
+
         public static StakingService Instance { get; } = new();
 
         private StakingProxyContract? _currentProxy;
@@ -213,6 +216,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
         public string? ApiUrl { get; }
         public decimal BufferedDeposit { get; }
         public decimal CommissionRate { get; }
+        public decimal CommissionRatePercent => CommissionRate / 10000000;
         public decimal CommissionRewards { get; }
         public string CommissioningAddress { get; }
     }

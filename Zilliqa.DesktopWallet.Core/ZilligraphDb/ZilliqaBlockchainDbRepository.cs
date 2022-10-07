@@ -1,8 +1,10 @@
 ﻿using Zillifriends.Shared.Common;
 using Zilligraph.Database.Storage;
 using Zilligraph.Database.Storage.FilterQuery;
+using Zilligraph.Database.Storage.Index;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
+using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
@@ -17,6 +19,39 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
         }
 
         public ZilligraphDatabase Database { get; }
+
+        public Transaction? GetLatestContractCallTransaction(AddressValue contractAddress, string method)
+        {
+            var filter = new FilterCombination
+            {
+                Method = FilterQueryCombinationMethod.And,
+                Queries = new List<IFilterQuery>
+                {
+                    new FilterQueryField(nameof(Transaction.ToAddress), contractAddress.Address.GetBase16(false)),
+                    new FilterQueryField(nameof(Transaction.ContractMethod), method)
+                }
+            };
+            var table = Database.GetTable<Transaction>();
+            var filterSearcher = FilterSearcherFactory.CreateFilterSearcher(table, filter);
+            ulong? recordPoint = null;
+            while (!filterSearcher.NoMoreRecords)
+            {
+                var nextPoint = filterSearcher.GetNextRecordPoint();
+                if (nextPoint != null)
+                {
+                    recordPoint = nextPoint;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            if (recordPoint != null)
+            {
+                return table.ReadRecord(recordPoint.Value);
+            }
+            return null;
+        }
 
         public PageableLazyDataSource<SmartContractViewModel, SmartContract> ReadSmartContractViewModelsPaged(
             IFilterQuery? queryFilter = null,

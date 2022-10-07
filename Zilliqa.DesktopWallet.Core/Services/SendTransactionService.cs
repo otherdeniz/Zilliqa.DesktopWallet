@@ -11,6 +11,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
     public class SendTransactionService
     {
         public static int GasLimitZilTransfer = 50;
+        public static int GasLimitDefaultContractCall = 30000;
 
         public static SendTransactionService Instance { get; } = new();
 
@@ -18,19 +19,59 @@ namespace Zilliqa.DesktopWallet.Core.Services
         {
         }
 
-        public Transaction.Info SendZilToAddress(AddressValue toAddress, decimal amount, string senderPrivateKey)
+        public SendTransactionResult CallContract(Account senderAccount, 
+            AddressValue contractAddress, 
+            string method, 
+            decimal zilAmount = 0, 
+            object[]? arguments = null, 
+            int? gasLimit = null)
         {
-            return SendZilToAddress(toAddress, amount, new Account(senderPrivateKey));
+            var result = new SendTransactionResult(
+                $"Call Contract {contractAddress.Address.GetBech32()} method {method}");
+            Task.Run(async () =>
+            {
+                try
+                {
+                    var tx = new TransactionPayload
+                    {
+                        ToAddr = contractAddress.GetAddressHexWithCheckSum(),
+                        Amount = zilAmount.ZilToZilSatoshis().ToString("0"),
+                        GasPrice = RepositoryManager.Instance.BlockchainBrowserRepository.MinimumGasPrice.ToString("0"),
+                        GasLimit = GasLimitZilTransfer.ToString(),
+                        Code = "",
+                        Data = "",
+                        Priority = false
+                    };
+                    tx.SetVersion(ZilliqaClient.UseTestnet);
+                    var signed = await SignWithAsync(tx, senderAccount, true);
+                    var info = await ZilliqaClient.DefaultInstance.CreateTransaction(signed);
+                    result.Message = info.InfoMessage;
+                    result.TransactionId = info.TransactionId;
+                }
+                catch (Exception e)
+                {
+                    result.Success = false;
+                    result.Message = e.Message;
+                }
+            }).GetAwaiter().GetResult();
+            return result;
         }
 
-        public Transaction.Info SendZilToAddress(AddressValue toAddress, decimal amount, Account senderAccount)
+        public SendTransactionResult SendZilToAddress(string senderPrivateKey, AddressValue toAddress, decimal amount)
         {
-            return Task.Run(async () => await SendZilToAddressAsync(toAddress, amount, senderAccount))
+            return SendZilToAddress(new Account(senderPrivateKey), toAddress, amount);
+        }
+
+        public SendTransactionResult SendZilToAddress(Account senderAccount, AddressValue toAddress, decimal amount)
+        {
+            return Task.Run(async () => await SendZilToAddressAsync(senderAccount, toAddress, amount))
                 .GetAwaiter().GetResult();
         }
 
-        public async Task<Transaction.Info> SendZilToAddressAsync(AddressValue toAddress, decimal amount, Account senderAccount)
+        public async Task<SendTransactionResult> SendZilToAddressAsync(Account senderAccount, AddressValue toAddress, decimal amount)
         {
+            var result = new SendTransactionResult(
+                $"Send {amount:#,##0.0000} ZIL from {senderAccount.Address.GetBech32()} to {toAddress.Address.GetBech32()}");
             try
             {
                 var tx = new TransactionPayload
@@ -43,17 +84,18 @@ namespace Zilliqa.DesktopWallet.Core.Services
                     Data = "",
                     Priority = false
                 };
-                tx.SetVersion(true);
+                tx.SetVersion(ZilliqaClient.UseTestnet);
                 var signed = await SignWithAsync(tx, senderAccount, true);
-                return await ZilliqaClient.DefaultInstance.CreateTransaction(signed);
+                var info = await ZilliqaClient.DefaultInstance.CreateTransaction(signed);
+                result.Message = info.InfoMessage;
+                result.TransactionId = info.TransactionId;
             }
             catch (Exception e)
             {
-                return new Transaction.Info
-                {
-                    InfoMessage = e.Message
-                };
+                result.Success = false;
+                result.Message = e.Message;
             }
+            return result;
         }
 
         public async Task<TransactionPayload> SignWithAsync(TransactionPayload transaction, Account signer, bool getNonce = false)
@@ -87,5 +129,19 @@ namespace Zilliqa.DesktopWallet.Core.Services
             return transaction;
         }
 
+    }
+
+    
+    public class SendTransactionResult
+    {
+        public SendTransactionResult(string payloadInfo)
+        {
+            PayloadInfo = payloadInfo;
+        }
+
+        public string PayloadInfo { get; }
+        public bool Success { get; set; }
+        public string? Message { get; set; }
+        public string? TransactionId { get; set; }
     }
 }

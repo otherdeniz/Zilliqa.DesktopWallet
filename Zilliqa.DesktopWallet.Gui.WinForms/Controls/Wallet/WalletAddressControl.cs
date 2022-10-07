@@ -74,12 +74,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                 var sendZilResult = SendZilForm.Execute(this.ParentForm!, _account);
                 if (sendZilResult != null)
                 {
-                    var transactionInfo = SendTransactionService.Instance.SendZilToAddress(
+                    var sendResult = SendTransactionService.Instance.SendZilToAddress(
+                        myAccount.AccountDetails,
                         sendZilResult.ToAddress, 
-                        sendZilResult.Amount, 
-                        myAccount.AccountDetails);
-                    MessageBox.Show(transactionInfo.InfoMessage, "Transaction Info", 
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        sendZilResult.Amount);
+                    TransactionCreatedForm.ExecuteShow(this.ParentForm!, sendResult);
                 }
             }
         }
@@ -136,12 +135,36 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 
         private void buttonStakingStake_Click(object sender, EventArgs e)
         {
-
+            if (_account?.AccountData is MyAccount myAccount)
+            {
+                var stakeResult = StakingStakeForm.Execute(this.ParentForm!, _account);
+                if (stakeResult != null)
+                {
+                    //var transactionInfo = SendTransactionService.Instance.SendZilToAddress(
+                    //    sendZilResult.ToAddress,
+                    //    sendZilResult.Amount,
+                    //    myAccount.AccountDetails);
+                    MessageBox.Show("bla bla bla", "Transaction Info",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
 
-        private void buttonStakingWithdraw_Click(object sender, EventArgs e)
+        private void buttonStakingClaim_Click(object sender, EventArgs e)
         {
-
+            if (_account?.AccountData is MyAccount myAccount)
+            {
+                var claimResult = StakingClaimForm.Execute(this.ParentForm!);
+                if (claimResult != null)
+                {
+                    //var transactionInfo = SendTransactionService.Instance.SendZilToAddress(
+                    //    sendZilResult.ToAddress,
+                    //    sendZilResult.Amount,
+                    //    myAccount.AccountDetails);
+                    MessageBox.Show("bla bla bla", "Transaction Info",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
 
         private void buttonStakingUnstake_Click(object sender, EventArgs e)
@@ -153,5 +176,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         {
 
         }
+
     }
 }

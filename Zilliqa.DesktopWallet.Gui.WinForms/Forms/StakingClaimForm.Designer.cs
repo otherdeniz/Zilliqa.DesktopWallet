@@ -28,27 +28,42 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(570, 6);
+            this.buttonOk.Location = new System.Drawing.Point(454, 6);
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(678, 6);
+            this.buttonCancel.Location = new System.Drawing.Point(562, 6);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label2.Location = new System.Drawing.Point(11, 17);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(288, 15);
+            this.label2.TabIndex = 103;
+            this.label2.Text = "This Operation claims all your pending Stake Rewards";
             // 
             // StakingClaimForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(684, 190);
+            this.Controls.Add(this.label2);
             this.Name = "StakingClaimForm";
             this.Text = "Claim Pending Stake Rewards";
+            this.Controls.SetChildIndex(this.label2, 0);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+        private Label label2;
     }
 }

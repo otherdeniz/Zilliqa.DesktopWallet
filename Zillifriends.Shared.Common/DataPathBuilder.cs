@@ -37,7 +37,10 @@
 
         public string FullPath => _fullPath;
 
-        public bool HasFiles => Directory.EnumerateFiles(_fullPath).Any();
+        public bool HasFiles(string pattern)
+        {
+            return Directory.EnumerateFiles(_fullPath, pattern).Any();
+        }
 
         public string GetFilePath(string filename)
         {

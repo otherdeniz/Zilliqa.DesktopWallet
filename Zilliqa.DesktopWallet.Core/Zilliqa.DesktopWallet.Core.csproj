@@ -45,7 +45,7 @@
 
   <ItemGroup>
     <EmbeddedResource Update="ViewModel\IconResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>IconResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

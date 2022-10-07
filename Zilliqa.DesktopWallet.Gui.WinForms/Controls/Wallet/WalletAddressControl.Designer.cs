@@ -37,8 +37,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.buttonSendToken = new System.Windows.Forms.ToolStripButton();
             this.menuStaking = new System.Windows.Forms.ToolStripDropDownButton();
             this.buttonStakingStake = new System.Windows.Forms.ToolStripMenuItem();
-            this.buttonStakingWithdraw = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonStakingClaim = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonStakingUnstake = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonStakeGetPendingWithdraw = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSmartContracts = new System.Windows.Forms.ToolStripDropDownButton();
             this.buttonSmartContractCall = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonSmartContractDeploy = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,7 +48,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.separatorBackup = new System.Windows.Forms.ToolStripSeparator();
             this.buttonRemoveAccount = new System.Windows.Forms.ToolStripButton();
             this.addressDetails = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details.AddressDetailsControl();
-            this.buttonStakeGetPendingWithdraw = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripAccountActions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -100,7 +100,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             // 
             this.menuStaking.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buttonStakingStake,
-            this.buttonStakingWithdraw,
+            this.buttonStakingClaim,
             this.buttonStakingUnstake,
             this.buttonStakeGetPendingWithdraw});
             this.menuStaking.Image = ((System.Drawing.Image)(resources.GetObject("menuStaking.Image")));
@@ -116,12 +116,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.buttonStakingStake.Text = "Stake Funds";
             this.buttonStakingStake.Click += new System.EventHandler(this.buttonStakingStake_Click);
             // 
-            // buttonStakingWithdraw
+            // buttonStakingClaim
             // 
-            this.buttonStakingWithdraw.Name = "buttonStakingWithdraw";
-            this.buttonStakingWithdraw.Size = new System.Drawing.Size(193, 22);
-            this.buttonStakingWithdraw.Text = "Claim Rewards";
-            this.buttonStakingWithdraw.Click += new System.EventHandler(this.buttonStakingWithdraw_Click);
+            this.buttonStakingClaim.Name = "buttonStakingClaim";
+            this.buttonStakingClaim.Size = new System.Drawing.Size(193, 22);
+            this.buttonStakingClaim.Text = "Claim Rewards";
+            this.buttonStakingClaim.Click += new System.EventHandler(this.buttonStakingClaim_Click);
             // 
             // buttonStakingUnstake
             // 
@@ -129,6 +129,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.buttonStakingUnstake.Size = new System.Drawing.Size(193, 22);
             this.buttonStakingUnstake.Text = "Unstake";
             this.buttonStakingUnstake.Click += new System.EventHandler(this.buttonStakingUnstake_Click);
+            // 
+            // buttonStakeGetPendingWithdraw
+            // 
+            this.buttonStakeGetPendingWithdraw.Name = "buttonStakeGetPendingWithdraw";
+            this.buttonStakeGetPendingWithdraw.Size = new System.Drawing.Size(193, 22);
+            this.buttonStakeGetPendingWithdraw.Text = "Get Pending Withdraw";
+            this.buttonStakeGetPendingWithdraw.Click += new System.EventHandler(this.buttonStakeGetPendingWithdraw_Click);
             // 
             // menuSmartContracts
             // 
@@ -196,13 +203,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.addressDetails.TabIndex = 3;
             this.addressDetails.AfterRefreshAccountDetails += new System.EventHandler<System.EventArgs>(this.addressDetails_AfterRefreshAccountDetails);
             // 
-            // buttonStakeGetPendingWithdraw
-            // 
-            this.buttonStakeGetPendingWithdraw.Name = "buttonStakeGetPendingWithdraw";
-            this.buttonStakeGetPendingWithdraw.Size = new System.Drawing.Size(193, 22);
-            this.buttonStakeGetPendingWithdraw.Text = "Get Pending Withdraw";
-            this.buttonStakeGetPendingWithdraw.Click += new System.EventHandler(this.buttonStakeGetPendingWithdraw_Click);
-            // 
             // WalletAddressControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -234,7 +234,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         private ToolStripButton buttonGetTestZil;
         private ToolStripDropDownButton menuStaking;
         private ToolStripMenuItem buttonStakingStake;
-        private ToolStripMenuItem buttonStakingWithdraw;
+        private ToolStripMenuItem buttonStakingClaim;
         private ToolStripMenuItem buttonStakingUnstake;
         private ToolStripDropDownButton menuSmartContracts;
         private ToolStripMenuItem buttonSmartContractCall;

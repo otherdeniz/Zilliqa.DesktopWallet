@@ -58,6 +58,7 @@
             // 
             // buttonOk
             // 
+            this.buttonOk.Enabled = false;
             this.buttonOk.Location = new System.Drawing.Point(462, 6);
             // 
             // buttonCancel
@@ -93,7 +94,7 @@
             this.panelPage1.Location = new System.Drawing.Point(8, 8);
             this.panelPage1.Name = "panelPage1";
             this.panelPage1.Size = new System.Drawing.Size(676, 315);
-            this.panelPage1.TabIndex = 100;
+            this.panelPage1.TabIndex = 0;
             // 
             // comboBoxSsn
             // 
@@ -104,7 +105,7 @@
             this.comboBoxSsn.Location = new System.Drawing.Point(3, 18);
             this.comboBoxSsn.Name = "comboBoxSsn";
             this.comboBoxSsn.Size = new System.Drawing.Size(667, 23);
-            this.comboBoxSsn.TabIndex = 14;
+            this.comboBoxSsn.TabIndex = 0;
             this.comboBoxSsn.SelectedIndexChanged += new System.EventHandler(this.comboBoxSsn_SelectedIndexChanged);
             // 
             // labelNodeHint
@@ -128,6 +129,7 @@
             // 
             // buttonSendMax
             // 
+            this.buttonSendMax.Enabled = false;
             this.buttonSendMax.Location = new System.Drawing.Point(173, 156);
             this.buttonSendMax.Name = "buttonSendMax";
             this.buttonSendMax.Size = new System.Drawing.Size(75, 23);
@@ -135,6 +137,7 @@
             this.buttonSendMax.TabStop = false;
             this.buttonSendMax.Text = "Stake max.";
             this.buttonSendMax.UseVisualStyleBackColor = true;
+            this.buttonSendMax.Click += new System.EventHandler(this.buttonSendMax_Click);
             // 
             // label13
             // 
@@ -181,6 +184,8 @@
             this.textClaimFee.ReadOnly = true;
             this.textClaimFee.Size = new System.Drawing.Size(90, 23);
             this.textClaimFee.TabIndex = 1;
+            this.textClaimFee.TabStop = false;
+            this.textClaimFee.Text = "(loading)";
             // 
             // label1
             // 
@@ -199,6 +204,8 @@
             this.textStakeFee.ReadOnly = true;
             this.textStakeFee.Size = new System.Drawing.Size(90, 23);
             this.textStakeFee.TabIndex = 1;
+            this.textStakeFee.TabStop = false;
+            this.textStakeFee.Text = "(loading)";
             // 
             // textAvailableFunds
             // 
@@ -207,6 +214,7 @@
             this.textAvailableFunds.ReadOnly = true;
             this.textAvailableFunds.Size = new System.Drawing.Size(163, 23);
             this.textAvailableFunds.TabIndex = 1;
+            this.textAvailableFunds.TabStop = false;
             // 
             // textGasPrice
             // 
@@ -215,6 +223,7 @@
             this.textGasPrice.ReadOnly = true;
             this.textGasPrice.Size = new System.Drawing.Size(90, 23);
             this.textGasPrice.TabIndex = 1;
+            this.textGasPrice.TabStop = false;
             // 
             // label12
             // 
