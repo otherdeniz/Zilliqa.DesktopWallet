@@ -12,7 +12,7 @@ using Zilliqa.DesktopWallet.ViewModelAttributes;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
-    public class TransactionRowViewModelBase : INotifyPropertyChanged, IDetailsLabel
+    public class TransactionRowViewModelBase : INotifyPropertyChanged, IDetailsLabel, IDetailsViewModel
     {
         private readonly Transaction _transactionModel;
         private BlockNumberValue? _blockNumber;
@@ -333,6 +333,11 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         {
             var arrowText = Direction == TransactionDirection.ReceiveFrom ? "<-" : "->";
             return $"{Transaction.TransactionTypeEnum} Transaction {arrowText} {OtherAddress}";
+        }
+
+        public object GetViewModel()
+        {
+            return new TransactionDetailsViewModel(Transaction);
         }
 
         [NotifyPropertyChangedInvocator]

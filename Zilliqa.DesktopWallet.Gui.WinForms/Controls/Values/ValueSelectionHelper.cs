@@ -53,50 +53,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
                     SelectedObject = transactionReceipt
                 };
             }
-            else if (value is BlockNumberValue blockNumberValue)
-            {
-                try
-                {
-                    viewModel = new BlockViewModel(blockNumberValue.BlockNumber);
-                }
-                catch (Exception e)
-                {
-                    viewModel = new ErrorDetailsViewModel(e.Message);
-                }
-            }
-            else if (value is TransactionRowViewModelBase transactionRowViewModel)
-            {
-                viewModel = new TransactionDetailsViewModel(transactionRowViewModel.Transaction);
-            }
-            else if (value is TransactionIdValue transactionId)
-            {
-                try
-                {
-                    viewModel = new TransactionDetailsViewModel(transactionId.GetTransaction());
-                }
-                catch (Exception e)
-                {
-                    viewModel = new ErrorDetailsViewModel(e.Message);
-                }
-            }
             else if (value is Transaction transactionModel)
             {
                 viewModel = new TransactionDetailsViewModel(transactionModel);
             }
-            else if (value is Zrc2TokenValue tokenValue)
+            else if (value is IDetailsViewModel detailsViewModel)
             {
-                var tokenModel = tokenValue.TokenModel;
-                viewModel = tokenModel == null
-                    ? new ErrorDetailsViewModel($"Token '{tokenValue.Symbol}' not found")
-                    : new TokenDetailsViewModel(tokenModel);
-            }
-            else if (value is TokenBalanceRowViewModel tokenBalanceRow)
-            {
-                viewModel = new TokenDetailsViewModel(tokenBalanceRow.Model);
-            }
-            else if (value is TokenRowViewModel tokenRow)
-            {
-                viewModel = new TokenDetailsViewModel(tokenRow.Model);
+                viewModel = detailsViewModel.GetViewModel();
             }
             var genericControl = new GenericDetailsControl(displayTabs);
             genericControl.LoadViewModel(viewModel);

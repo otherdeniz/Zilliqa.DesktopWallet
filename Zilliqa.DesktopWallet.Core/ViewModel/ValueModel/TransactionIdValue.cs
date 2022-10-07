@@ -4,7 +4,7 @@ using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
 {
-    public class TransactionIdValue : IDetailsLabel
+    public class TransactionIdValue : IDetailsLabel, IDetailsViewModel
     {
         public static bool TryParse(string value, out TransactionIdValue? result)
         {
@@ -50,6 +50,18 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
         public override string ToString()
         {
             return $"0x {TransactionId}";
+        }
+
+        public object GetViewModel()
+        {
+            try
+            {
+                return new TransactionDetailsViewModel(GetTransaction());
+            }
+            catch (Exception e)
+            {
+                return new ErrorDetailsViewModel(e.Message);
+            }
         }
 
         public string GetUniqueId()

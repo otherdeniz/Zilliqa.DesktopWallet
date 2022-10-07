@@ -3,7 +3,7 @@ using Zilliqa.DesktopWallet.Core.Services;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
 {
-    public class Zrc2TokenValue : IDetailsLabel
+    public class Zrc2TokenValue : IDetailsLabel, IDetailsViewModel
     {
         private TokenModel? _tokenModel;
         private readonly string? _displayText;
@@ -27,6 +27,14 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
         public override string ToString()
         {
             return _displayText ?? Symbol;
+        }
+
+        public object GetViewModel()
+        {
+            return TokenModel == null
+                ? new ErrorDetailsViewModel($"Token '{Symbol}' not found")
+                : new TokenDetailsViewModel(TokenModel);
+
         }
 
         public string GetUniqueId()

@@ -7,7 +7,7 @@ using Zilliqa.DesktopWallet.ViewModelAttributes;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
-    public class TokenRowViewModel : IDetailsLabel
+    public class TokenRowViewModel : IDetailsLabel, IDetailsViewModel
     {
         private readonly TokenModel _model;
         private Image? _icon;
@@ -116,6 +116,11 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public string GetDisplayTitle()
         {
             return $"Token: {Model.Name.TokenNameShort()} ({Model.Symbol.TokenSymbolShort()})";
+        }
+
+        public object GetViewModel()
+        {
+            return new TokenDetailsViewModel(Model);
         }
     }
 }

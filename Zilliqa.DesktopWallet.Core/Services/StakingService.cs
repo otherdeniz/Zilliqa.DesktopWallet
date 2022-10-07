@@ -69,7 +69,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
             try
             {
                 var keyValues = Task.Run(async () =>
-                    await ZilliqaClient.DefaultInstance.GetSmartContractSubStateValues<long>(
+                    await ZilliqaClient.DefaultInstance.GetSmartContractSubStateValues<decimal>(
                         ImplementationAddress, "deposit_amt_deleg", delegatorAddress.GetBase16(true))
                 ).GetAwaiter().GetResult();
                 return keyValues.Select(kv => new StakingDelegatorAmount(kv.Key, kv.Value)).ToList();
@@ -90,7 +90,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
             try
             {
                 var keyValues = Task.Run(async () =>
-                    await ZilliqaClient.DefaultInstance.GetSmartContractSubStateValues<long>(
+                    await ZilliqaClient.DefaultInstance.GetSmartContractSubStateValues<decimal>(
                         ImplementationAddress, "ssn_deleg_amt", new Address(stakeNodeAddress).GetBase16(true))
                 ).GetAwaiter().GetResult();
                 return keyValues.Select(kv => new StakingNodeDelegator(kv.Key, kv.Value)).ToList();
@@ -142,7 +142,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
 
     public class StakingDelegatorAmount
     {
-        public StakingDelegatorAmount(string stakingNode, long stakeAmountZilSatoshis)
+        public StakingDelegatorAmount(string stakingNode, decimal stakeAmountZilSatoshis)
         {
             StakingNode = stakingNode;
             StakeAmount = stakeAmountZilSatoshis.ZilSatoshisToZil();
@@ -153,7 +153,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
 
     public class StakingNodeDelegator
     {
-        public StakingNodeDelegator(string delegatorAddress, long stakeAmountZilSatoshis)
+        public StakingNodeDelegator(string delegatorAddress, decimal stakeAmountZilSatoshis)
         {
             DelegatorAddress = delegatorAddress;
             StakeAmount = stakeAmountZilSatoshis.ZilSatoshisToZil();
