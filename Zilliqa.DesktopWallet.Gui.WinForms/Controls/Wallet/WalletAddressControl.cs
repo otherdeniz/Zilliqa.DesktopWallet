@@ -133,5 +133,25 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                 buttonRemoveAccount.Enabled = !_account.HasFunds;
             }
         }
+
+        private void buttonStakingStake_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonStakingWithdraw_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonStakingUnstake_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonStakeGetPendingWithdraw_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

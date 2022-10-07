@@ -42,7 +42,7 @@
             this.bech32Address.Dock = System.Windows.Forms.DockStyle.Top;
             this.bech32Address.Location = new System.Drawing.Point(99, 0);
             this.bech32Address.Name = "bech32Address";
-            this.bech32Address.Size = new System.Drawing.Size(434, 23);
+            this.bech32Address.Size = new System.Drawing.Size(431, 23);
             this.bech32Address.TabIndex = 1;
             // 
             // PropertyRowAddress
@@ -51,7 +51,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.bech32Address);
             this.Name = "PropertyRowAddress";
-            this.Size = new System.Drawing.Size(533, 26);
+            this.Size = new System.Drawing.Size(530, 26);
             this.Controls.SetChildIndex(this.bech32Address, 0);
             this.ResumeLayout(false);
             this.PerformLayout();

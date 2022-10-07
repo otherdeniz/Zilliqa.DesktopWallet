@@ -2,6 +2,7 @@
 using System.Drawing;
 using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Services;
+using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.ViewModelAttributes;
 
@@ -74,6 +75,15 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [Browsable(false)]
         [DisplayName("Staking API URL")]
         public string StakingApiUrl => StakingSeedNodeModel.StakingApiUrl;
+
+        [DetailsGridView("Delegators")]
+        public PageableDataSource<AddressAmountRowViewModel> AllDelegators()
+        {
+            var dataSource = new PageableDataSource<AddressAmountRowViewModel>();
+            dataSource.Load(StakingService.Instance.GetDelegators(StakingSeedNodeModel.SsnAddress)
+                .Select(s => new AddressAmountRowViewModel(s.DelegatorAddress, s.StakeAmount)).ToList());
+            return dataSource;
+        }
 
         public string GetUniqueId()
         {

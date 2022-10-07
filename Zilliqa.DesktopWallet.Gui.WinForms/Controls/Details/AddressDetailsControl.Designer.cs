@@ -39,8 +39,8 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panelUnclaimedRewards = new System.Windows.Forms.Panel();
-            this.labelUnclaimedRewards = new System.Windows.Forms.Label();
+            this.panelPendingWithraw = new System.Windows.Forms.Panel();
+            this.labelPendingWithdraw = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.labelZilStakedBalance = new System.Windows.Forms.Label();
@@ -97,7 +97,7 @@
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel1.SuspendLayout();
-            this.panelUnclaimedRewards.SuspendLayout();
+            this.panelPendingWithraw.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -381,7 +381,7 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.panelUnclaimedRewards);
+            this.panel1.Controls.Add(this.panelPendingWithraw);
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.panel2);
@@ -392,31 +392,31 @@
             this.panel1.Size = new System.Drawing.Size(729, 23);
             this.panel1.TabIndex = 1;
             // 
-            // panelUnclaimedRewards
+            // panelPendingWithraw
             // 
-            this.panelUnclaimedRewards.AutoSize = true;
-            this.panelUnclaimedRewards.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panelUnclaimedRewards.Controls.Add(this.labelUnclaimedRewards);
-            this.panelUnclaimedRewards.Controls.Add(this.label7);
-            this.panelUnclaimedRewards.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelUnclaimedRewards.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.panelUnclaimedRewards.Location = new System.Drawing.Point(460, 0);
-            this.panelUnclaimedRewards.Name = "panelUnclaimedRewards";
-            this.panelUnclaimedRewards.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.panelUnclaimedRewards.Size = new System.Drawing.Size(222, 23);
-            this.panelUnclaimedRewards.TabIndex = 5;
-            this.panelUnclaimedRewards.Visible = false;
+            this.panelPendingWithraw.AutoSize = true;
+            this.panelPendingWithraw.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panelPendingWithraw.Controls.Add(this.labelPendingWithdraw);
+            this.panelPendingWithraw.Controls.Add(this.label7);
+            this.panelPendingWithraw.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelPendingWithraw.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.panelPendingWithraw.Location = new System.Drawing.Point(460, 0);
+            this.panelPendingWithraw.Name = "panelPendingWithraw";
+            this.panelPendingWithraw.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.panelPendingWithraw.Size = new System.Drawing.Size(208, 23);
+            this.panelPendingWithraw.TabIndex = 5;
+            this.panelPendingWithraw.Visible = false;
             // 
-            // labelUnclaimedRewards
+            // labelPendingWithdraw
             // 
-            this.labelUnclaimedRewards.AutoSize = true;
-            this.labelUnclaimedRewards.Dock = System.Windows.Forms.DockStyle.Left;
-            this.labelUnclaimedRewards.Location = new System.Drawing.Point(169, 0);
-            this.labelUnclaimedRewards.Name = "labelUnclaimedRewards";
-            this.labelUnclaimedRewards.Padding = new System.Windows.Forms.Padding(3);
-            this.labelUnclaimedRewards.Size = new System.Drawing.Size(53, 21);
-            this.labelUnclaimedRewards.TabIndex = 2;
-            this.labelUnclaimedRewards.Text = "0.00 ZIL";
+            this.labelPendingWithdraw.AutoSize = true;
+            this.labelPendingWithdraw.Dock = System.Windows.Forms.DockStyle.Left;
+            this.labelPendingWithdraw.Location = new System.Drawing.Point(155, 0);
+            this.labelPendingWithdraw.Name = "labelPendingWithdraw";
+            this.labelPendingWithdraw.Padding = new System.Windows.Forms.Padding(3);
+            this.labelPendingWithdraw.Size = new System.Drawing.Size(53, 21);
+            this.labelPendingWithdraw.TabIndex = 2;
+            this.labelPendingWithdraw.Text = "0.00 ZIL";
             // 
             // label7
             // 
@@ -425,9 +425,9 @@
             this.label7.Location = new System.Drawing.Point(10, 0);
             this.label7.Name = "label7";
             this.label7.Padding = new System.Windows.Forms.Padding(3);
-            this.label7.Size = new System.Drawing.Size(159, 21);
+            this.label7.Size = new System.Drawing.Size(145, 21);
             this.label7.TabIndex = 1;
-            this.label7.Text = "Unclaimed Staking Rewards";
+            this.label7.Text = "Pending Stake Withdraw:";
             // 
             // panel4
             // 
@@ -683,9 +683,9 @@
             this.panelTabPagesHoldings.Controls.Add(this.gridViewStakes);
             this.panelTabPagesHoldings.Controls.Add(this.gridViewTokenBalances);
             this.panelTabPagesHoldings.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelTabPagesHoldings.Location = new System.Drawing.Point(0, 25);
+            this.panelTabPagesHoldings.Location = new System.Drawing.Point(0, 24);
             this.panelTabPagesHoldings.Name = "panelTabPagesHoldings";
-            this.panelTabPagesHoldings.Size = new System.Drawing.Size(735, 111);
+            this.panelTabPagesHoldings.Size = new System.Drawing.Size(735, 112);
             this.panelTabPagesHoldings.TabIndex = 1;
             // 
             // gridViewOwnedContracts
@@ -722,7 +722,7 @@
             this.toolStripHoldings.Location = new System.Drawing.Point(0, 0);
             this.toolStripHoldings.Name = "toolStripHoldings";
             this.toolStripHoldings.Padding = new System.Windows.Forms.Padding(4, 2, 1, 0);
-            this.toolStripHoldings.Size = new System.Drawing.Size(735, 25);
+            this.toolStripHoldings.Size = new System.Drawing.Size(735, 24);
             this.toolStripHoldings.TabIndex = 0;
             this.toolStripHoldings.Text = "toolStrip1";
             // 
@@ -836,7 +836,7 @@
             this.bech32Address.AutoSize = true;
             this.bech32Address.Location = new System.Drawing.Point(2, 0);
             this.bech32Address.Name = "bech32Address";
-            this.bech32Address.Size = new System.Drawing.Size(386, 23);
+            this.bech32Address.Size = new System.Drawing.Size(443, 23);
             this.bech32Address.TabIndex = 0;
             // 
             // panel13
@@ -902,8 +902,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panelUnclaimedRewards.ResumeLayout(false);
-            this.panelUnclaimedRewards.PerformLayout();
+            this.panelPendingWithraw.ResumeLayout(false);
+            this.panelPendingWithraw.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.panel3.ResumeLayout(false);
@@ -998,8 +998,8 @@
         private Label label2;
         private Label labelCreatedDate;
         private Values.Bech32AddressLabel bech32Address;
-        private Panel panelUnclaimedRewards;
-        private Label labelUnclaimedRewards;
+        private Panel panelPendingWithraw;
+        private Label labelPendingWithdraw;
         private Label label7;
         private GridView.GridViewControl gridViewOwnedContracts;
         private GridView.GridViewControl gridViewStakes;

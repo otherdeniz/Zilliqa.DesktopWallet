@@ -61,6 +61,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
         }
 
         /// <summary>
+        /// Get Staked Funds for a Delegator on each SSN
         /// value is in ZIL
         /// </summary>
         public List<StakingDelegatorAmount> GetStakedAmounts(Address delegatorAddress)
@@ -80,29 +81,47 @@ namespace Zilliqa.DesktopWallet.Core.Services
             }
         }
 
-        public decimal GetNodePendingWithdrawAmounts(Address delegatorAddress, string stakeNode)
-        { 
+        /// <summary>
+        /// Get all Delegators for SSN
+        /// value is in ZIL
+        /// </summary>
+        public List<StakingNodeDelegator> GetDelegators(string stakeNodeAddress)
+        {
             try
             {
-                var jsonResult = Task.Run(async () =>
-                {
-                    return await ZilliqaClient.DefaultInstance.GetSmartContractSubState(new object[]
-                        { stakeNode, "withdrawal_pending", new object[] { delegatorAddress.GetBase16(true) } });
-                }).GetAwaiter().GetResult() as JToken;
-                var amountJTokens = jsonResult?.First?.First?.First?.First;
-                return 0; // jsonResult?.First?.First?.First?.First?.Value<long>().ZilSatoshisToZil() ?? 0;
+                var keyValues = Task.Run(async () =>
+                    await ZilliqaClient.DefaultInstance.GetSmartContractSubStateValues<long>(
+                        ImplementationAddress, "ssn_deleg_amt", new Address(stakeNodeAddress).GetBase16(true))
+                ).GetAwaiter().GetResult();
+                return keyValues.Select(kv => new StakingNodeDelegator(kv.Key, kv.Value)).ToList();
             }
             catch (Exception e)
             {
-                Logging.LogError($"StakingService.GetNodePendingWithdrawAmounts('{delegatorAddress.GetBech32()}', '{stakeNode}') failed", e);
+                Logging.LogError($"StakingService.GetDelegators('{stakeNodeAddress}') failed", e);
+                return new List<StakingNodeDelegator>();
+            }
+        }
+
+        public decimal GetPendingWithdrawAmount(Address delegatorAddress)
+        { 
+            try
+            {
+                var keyValues = Task.Run(async () =>
+                    await ZilliqaClient.DefaultInstance.GetSmartContractSubStateValues<long>(
+                        ImplementationAddress, "withdrawal_pending", delegatorAddress.GetBase16(true))
+                ).GetAwaiter().GetResult().ToList();
+                return
+                    keyValues.Any()
+                        ? keyValues.Sum(kv => kv.Value).ZilSatoshisToZil()
+                        : 0;
+            }
+            catch (Exception e)
+            {
+                Logging.LogError($"StakingService.GetPendingWithdrawAmounts('{delegatorAddress.GetBech32()}') failed", e);
                 return 0;
             }
         }
 
-        public List<StakingNodeDelegator> GetDelegatorsOfNode(string stakeNodeAddress)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class StakingProxyContract
@@ -128,20 +147,18 @@ namespace Zilliqa.DesktopWallet.Core.Services
             StakingNode = stakingNode;
             StakeAmount = stakeAmountZilSatoshis.ZilSatoshisToZil();
         }
-
         public string StakingNode { get; }
         public decimal StakeAmount { get; }
     }
 
     public class StakingNodeDelegator
     {
-        public StakingNodeDelegator(JToken delegatorJToken)
+        public StakingNodeDelegator(string delegatorAddress, long stakeAmountZilSatoshis)
         {
-            DelegatorAddress = ((JProperty)delegatorJToken).Name;
-            StakeAmount = delegatorJToken.First?.Value<long>().ZilSatoshisToZil() ?? 0;
+            DelegatorAddress = delegatorAddress;
+            StakeAmount = stakeAmountZilSatoshis.ZilSatoshisToZil();
         }
         public string DelegatorAddress { get; }
-
         public decimal StakeAmount { get; }
     }
 

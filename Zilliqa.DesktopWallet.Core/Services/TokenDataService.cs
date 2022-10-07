@@ -68,13 +68,18 @@ namespace Zilliqa.DesktopWallet.Core.Services
                             {
                                 Symbol = contractSymbol!,
                                 Name = smartContract.TokenName() ?? string.Empty,
-                                Icon = LogoImages.Instance.GetImage(contractAddressBech32)
+                                Icon = LogoImages.Instance.GetImage(smartContract.ContractAddress.FromBase16ToBech32Address())
                             };
                             tokenModels.Add(tokenModel);
-                            KnownAddressService.Instance.AddUnique(contractAddressBech32, $"{tokenModel.Name.TokenNameShort()} ({tokenModel.Symbol.TokenSymbolShort()})");
+                            //KnownAddressService.Instance.AddUnique(contractAddressBech32, $"{tokenModel.Name.TokenNameShort()} ({tokenModel.Symbol.TokenSymbolShort()})");
+                            tokenModel.SmartContractModels.Add(smartContract);
                         }
-                        tokenModel.ContractAddressesBech32.Add(contractAddressBech32);
-                        tokenModel.SmartContractModels.Add(smartContract);
+                        else if (tokenModel.SmartContractModels.Any(s => s.OwnerAddress == smartContract.OwnerAddress) 
+                                 || CryptometaFile.Instance.Assets.Any(a => a.Bech32Address == contractAddressBech32 && a.Symbol == tokenModel.Symbol))
+                        {
+                            tokenModel.SmartContractModels.Add(smartContract);
+                        }
+                        //tokenModel.ContractAddressesBech32.Add(contractAddressBech32);
                     }
                     foreach (var coinPrice in TokenPriceFile.Instance.CoinPrices)
                     {

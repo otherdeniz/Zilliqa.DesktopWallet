@@ -13,6 +13,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 {
     public partial class SendZilForm : DialogBaseForm
     {
+        private AccountViewModel _account = null!;
+
         public SendZilForm()
         {
             InitializeComponent();
@@ -24,10 +26,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         public string Password { get; private set; } = string.Empty;
 
-        public static SendZilResult? Execute(Form parentForm)
+        public static SendZilResult? Execute(Form parentForm, AccountViewModel account)
         {
             using (var form = new SendZilForm())
             {
+                form._account = account;
                 if (form.ShowDialog(parentForm) == DialogResult.OK)
                 {
                     return new SendZilResult()
@@ -74,9 +77,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         private void SendZilForm_Load(object sender, EventArgs e)
         {
-            var gasCost = RepositoryManager.Instance.BlockchainBrowserRepository.MinimumGasPrice *
+            textGasPrice.Text = RepositoryManager.Instance.BlockchainBrowserRepository.MinimumGasPrice
+                .ZilSatoshisToZil().ToString(CultureInfo.CurrentCulture);
+            var currentFee = RepositoryManager.Instance.BlockchainBrowserRepository.MinimumGasPrice *
                           SendTransactionService.GasLimitZilTransfer;
-            textGasPrice.Text = gasCost.ZilSatoshisToZil().ToString(CultureInfo.CurrentCulture);
+            textFee.Text = currentFee.ZilSatoshisToZil().ToString(CultureInfo.CurrentCulture);
+            textAvailableFunds.Text = _account.ZilLiquidBalance.ToString("#,##0.0000", CultureInfo.CurrentCulture);
         }
 
         private void textToAddress_TextChanged(object sender, EventArgs e)
@@ -94,5 +100,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             CheckFields(false);
         }
 
+        private void buttonSendMax_Click(object sender, EventArgs e)
+        {
+            var currentFee = RepositoryManager.Instance.BlockchainBrowserRepository.MinimumGasPrice *
+                             SendTransactionService.GasLimitZilTransfer;
+            textAmount.Text = (_account.ZilLiquidBalance - currentFee.ZilSatoshisToZil())
+                .ToString(CultureInfo.CurrentCulture);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core.Api;
 using Zilliqa.DesktopWallet.Core.ContractCode;
@@ -28,7 +29,15 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
 
                 var ownerAddress = deploymentTransaction.DataContractDeploymentParams
                     .Where(p => p.Vname == "owner")
-                    .Select(p => p.Value.ToString()?.ToLower())
+                    .Select(p =>
+                    {
+                        var addr = p.Value.ToString()?.ToLower();
+                        if (addr?.StartsWith("0x") == true)
+                        {
+                            addr = addr.Substring(2);
+                        }
+                        return addr;
+                    })
                     .FirstOrDefault();
                 smartContract.OwnerAddress = ownerAddress ?? deploymentTransaction.SenderAddress;
 

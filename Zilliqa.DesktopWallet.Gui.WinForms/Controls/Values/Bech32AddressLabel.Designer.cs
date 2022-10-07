@@ -41,6 +41,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.timerButtonPressed = new System.Windows.Forms.Timer(this.components);
+            this.labelCaption = new System.Windows.Forms.Label();
             this.panelAddress.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,7 +58,7 @@
             // 
             this.buttonCopy.Dock = System.Windows.Forms.DockStyle.Left;
             this.buttonCopy.Image = ((System.Drawing.Image)(resources.GetObject("buttonCopy.Image")));
-            this.buttonCopy.Location = new System.Drawing.Point(320, 0);
+            this.buttonCopy.Location = new System.Drawing.Point(375, 0);
             this.buttonCopy.Name = "buttonCopy";
             this.buttonCopy.Size = new System.Drawing.Size(24, 25);
             this.buttonCopy.TabIndex = 4;
@@ -69,7 +70,7 @@
             // 
             this.buttonBrowse.Dock = System.Windows.Forms.DockStyle.Left;
             this.buttonBrowse.Image = ((System.Drawing.Image)(resources.GetObject("buttonBrowse.Image")));
-            this.buttonBrowse.Location = new System.Drawing.Point(344, 0);
+            this.buttonBrowse.Location = new System.Drawing.Point(399, 0);
             this.buttonBrowse.Name = "buttonBrowse";
             this.buttonBrowse.Size = new System.Drawing.Size(24, 25);
             this.buttonBrowse.TabIndex = 5;
@@ -81,7 +82,7 @@
             // 
             this.buttonAddWatchedAccount.Dock = System.Windows.Forms.DockStyle.Left;
             this.buttonAddWatchedAccount.Image = ((System.Drawing.Image)(resources.GetObject("buttonAddWatchedAccount.Image")));
-            this.buttonAddWatchedAccount.Location = new System.Drawing.Point(368, 0);
+            this.buttonAddWatchedAccount.Location = new System.Drawing.Point(423, 0);
             this.buttonAddWatchedAccount.Name = "buttonAddWatchedAccount";
             this.buttonAddWatchedAccount.Size = new System.Drawing.Size(24, 25);
             this.buttonAddWatchedAccount.TabIndex = 7;
@@ -93,7 +94,7 @@
             // 
             this.buttonOpen.Dock = System.Windows.Forms.DockStyle.Left;
             this.buttonOpen.Image = ((System.Drawing.Image)(resources.GetObject("buttonOpen.Image")));
-            this.buttonOpen.Location = new System.Drawing.Point(296, 0);
+            this.buttonOpen.Location = new System.Drawing.Point(351, 0);
             this.buttonOpen.Name = "buttonOpen";
             this.buttonOpen.Size = new System.Drawing.Size(24, 25);
             this.buttonOpen.TabIndex = 8;
@@ -108,9 +109,9 @@
             this.panelAddress.Controls.Add(this.label2);
             this.panelAddress.Controls.Add(this.label1);
             this.panelAddress.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelAddress.Location = new System.Drawing.Point(0, 0);
+            this.panelAddress.Location = new System.Drawing.Point(57, 0);
             this.panelAddress.Name = "panelAddress";
-            this.panelAddress.Size = new System.Drawing.Size(296, 25);
+            this.panelAddress.Size = new System.Drawing.Size(294, 25);
             this.panelAddress.TabIndex = 6;
             // 
             // label4
@@ -162,6 +163,18 @@
             this.timerButtonPressed.Interval = 2000;
             this.timerButtonPressed.Tick += new System.EventHandler(this.timerButtonPressed_Tick);
             // 
+            // labelCaption
+            // 
+            this.labelCaption.AutoSize = true;
+            this.labelCaption.Dock = System.Windows.Forms.DockStyle.Left;
+            this.labelCaption.Location = new System.Drawing.Point(0, 0);
+            this.labelCaption.Margin = new System.Windows.Forms.Padding(0);
+            this.labelCaption.Name = "labelCaption";
+            this.labelCaption.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
+            this.labelCaption.Size = new System.Drawing.Size(57, 23);
+            this.labelCaption.TabIndex = 5;
+            this.labelCaption.Text = "[Caption]";
+            // 
             // Bech32AddressLabel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -172,12 +185,14 @@
             this.Controls.Add(this.buttonCopy);
             this.Controls.Add(this.buttonOpen);
             this.Controls.Add(this.panelAddress);
+            this.Controls.Add(this.labelCaption);
             this.Name = "Bech32AddressLabel";
-            this.Size = new System.Drawing.Size(428, 25);
+            this.Size = new System.Drawing.Size(472, 25);
             this.Resize += new System.EventHandler(this.Bech32AddressLabel_Resize);
             this.panelAddress.ResumeLayout(false);
             this.panelAddress.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -193,5 +208,6 @@
         private System.Windows.Forms.Timer timerButtonPressed;
         private Button buttonAddWatchedAccount;
         private Button buttonOpen;
+        private Label labelCaption;
     }
 }

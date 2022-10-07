@@ -2,7 +2,7 @@
   "profiles": {
     "Zilliqa.DesktopWallet.DbMaintenanceCli": {
       "commandName": "Project",
-      "commandLineArgs": "--source-folder=C:\\Users\\esen\\AppData\\Roaming\\ZilliqaDesktopWallet\\Debug\\ZilliqaDB --target-folder=C:\\Users\\esen\\AppData\\Roaming\\ZilliqaDesktopWallet\\Debug\\ZilliqaDB --create-table=SmartContract"
+      "commandLineArgs": "--source-folder=C:\\ProgramData\\ZilliqaDesktopWallet\\Mainnet\\ZilliqaDB --target-folder=C:\\ProgramData\\ZilliqaDesktopWallet\\Mainnet\\ZilliqaDB_2 --create-table=SmartContract"
     }
   }
 }

@@ -142,6 +142,10 @@ namespace Zilliqa.DesktopWallet.DbMaintenanceCli
                             sourceDbSmartContractTable.FindRecord(nameof(SmartContract.DeploymentTransactionId), transaction.Id, false);
                         if (sourceTableRecord?.DeploymentTransactionId == transaction.Id)
                         {
+                            if (sourceTableRecord.OwnerAddress.StartsWith("0x"))
+                            {
+                                sourceTableRecord.OwnerAddress = sourceTableRecord.OwnerAddress.Substring(2);
+                            }
                             importedCount++;
                             targetDbSmartContractTable.AddRecord(sourceTableRecord);
                             if (importedCount % 100 == 0)

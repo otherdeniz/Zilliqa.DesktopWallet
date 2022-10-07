@@ -10,13 +10,18 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
 {
     public class TokenModel : IDetailsLabel
     {
+        private List<string>? _contractAddressesBech32;
+
         public string Symbol { get; set; }
 
         public string Name { get; set; }
 
         public IconModel Icon { get; set; }
 
-        public List<string> ContractAddressesBech32 { get; set; } = new();
+#pragma warning disable S2365 // Properties should not make collection or array copies
+        public List<string> ContractAddressesBech32 => _contractAddressesBech32 ??=
+            SmartContractModels.Select(s => s.ContractAddress.FromBase16ToBech32Address()).ToList();
+#pragma warning restore S2365 // Properties should not make collection or array copies
 
         public List<SmartContract> SmartContractModels { get; set; } = new();
 

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.Services;
@@ -59,8 +60,19 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
         {
             if (_bech32Address?.Length == 42)
             {
+                var caption = KnownAddressService.Instance.GetName(_bech32Address);
+                if (caption != null)
+                {
+                    labelCaption.Text = $"{caption.TokenNameShort()}:";
+                }
+                else
+                {
+                    labelCaption.Visible = false;
+                }
                 label2.Text = _bech32Address.Substring(4, 3);
-                label3.Text = _bech32Address.Substring(7, 32);
+                label3.Text = caption == null 
+                    ? _bech32Address.Substring(7, 32)
+                    : "...";
                 label4.Text = _bech32Address.Substring(39);
             }
             else

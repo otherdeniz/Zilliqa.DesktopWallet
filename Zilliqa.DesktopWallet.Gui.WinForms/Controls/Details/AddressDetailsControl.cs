@@ -13,7 +13,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
     {
         private AccountViewModel? _account;
         private bool _viewModelOwned;
-        private bool _showCurrencyColumns = false;
+        private bool _showCurrencyColumns;
 
         public AddressDetailsControl()
         {
@@ -28,6 +28,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
         }
 
         public event EventHandler<EventArgs>? AfterRefreshAccountDetails;
+
+        public decimal PendingStakeWithdraw { get; private set; }
 
         [DefaultValue(false)]
         public bool ShowCurrencyColumns
@@ -93,12 +95,28 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             labelZilLiquidBalance.Text = $"{_account.ZilLiquidBalance:#,##0.00} ZIL";
             labelZilStakedBalance.Text = $"{_account.ZilStakedBalance:#,##0.00} ZIL";
 
-            //if (_account.ZilStakedBalance > 0 && !panelUnclaimedRewards.Visible)
-            //{
-            //    var unclaimedRewards = StakingService.Instance.GetPendingWithdrawAmount(_account.Address);
-            //    panelUnclaimedRewards.Visible = true;
-            //    labelUnclaimedRewards.Text = $"{unclaimedRewards:#,##0.00} ZIL";
-            //}
+            if (_account.ZilStakedBalance > 0)
+            {
+                Task.Run(() =>
+                {
+                    PendingStakeWithdraw = StakingService.Instance.GetPendingWithdrawAmount(_account.Address);
+                    if (PendingStakeWithdraw > 0)
+                    {
+                        WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                        {
+                            panelPendingWithraw.Visible = true;
+                            labelPendingWithdraw.Text = $"{PendingStakeWithdraw:#,##0.00} ZIL";
+                        });
+                    }
+                    else if (panelPendingWithraw.Visible)
+                    {
+                        WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                        {
+                            panelPendingWithraw.Visible = false;
+                        });
+                    }
+                });
+            }
 
             labelTokensValueUsd.Text = $"{_account.TokensValueUsd:#,##0.00} USD";
             labelZilValueUsd.Text = $"{_account.ZilTotalValueUsd:#,##0.00} USD";
