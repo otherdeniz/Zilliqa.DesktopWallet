@@ -26,8 +26,8 @@ namespace Zilliqa.DesktopWallet.Core.Services
             object[]? arguments = null, 
             int? gasLimit = null)
         {
-            var result = new SendTransactionResult(
-                $"Call Contract {contractAddress.Address.GetBech32()} method {method}");
+            var result = new SendTransactionResult(senderAccount.Address, contractAddress.Address,
+                $"Call Contract method {method}");
             Task.Run(async () =>
             {
                 try
@@ -70,8 +70,8 @@ namespace Zilliqa.DesktopWallet.Core.Services
 
         public async Task<SendTransactionResult> SendZilToAddressAsync(Account senderAccount, AddressValue toAddress, decimal amount)
         {
-            var result = new SendTransactionResult(
-                $"Send {amount:#,##0.0000} ZIL from {senderAccount.Address.GetBech32()} to {toAddress.Address.GetBech32()}");
+            var result = new SendTransactionResult(senderAccount.Address, toAddress.Address,
+                $"Send {amount:#,##0.0000} ZIL");
             try
             {
                 var tx = new TransactionPayload
@@ -134,11 +134,15 @@ namespace Zilliqa.DesktopWallet.Core.Services
     
     public class SendTransactionResult
     {
-        public SendTransactionResult(string payloadInfo)
+        public SendTransactionResult(Address sender, Address recipient, string payloadInfo)
         {
+            Sender = sender;
+            Recipient = recipient;
             PayloadInfo = payloadInfo;
         }
 
+        public Address Sender { get; }
+        public Address Recipient { get; }
         public string PayloadInfo { get; }
         public bool Success { get; set; }
         public string? Message { get; set; }

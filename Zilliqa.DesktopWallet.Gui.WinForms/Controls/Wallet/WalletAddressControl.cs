@@ -130,6 +130,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             if (_account?.AccountData is MyAccount)
             {
                 buttonRemoveAccount.Enabled = !_account.HasFunds;
+                var hasStakes = _account.ZilStakedBalance > 0;
+                buttonStakingClaim.Enabled = hasStakes;
+                buttonStakingUnstake.Enabled = hasStakes;
+                buttonStakeGetPendingWithdraw.Enabled = hasStakes;
             }
         }
 

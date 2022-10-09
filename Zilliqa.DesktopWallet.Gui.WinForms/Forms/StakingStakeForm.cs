@@ -124,7 +124,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             foreach (var stakingSeedNode in _seedNodes)
             {
                 comboBoxSsn.Items.Add(
-                    $"{stakingSeedNode.Name}   -   Staked: {stakingSeedNode.CommissionRatePercent:#,##0} ZIL   -   Commission: {stakingSeedNode.CommissionRatePercent:0.00}%");
+                    $"{stakingSeedNode.Name}   -   Staked: {stakingSeedNode.StakeAmount:#,##0} ZIL   -   Commission: {stakingSeedNode.CommissionRatePercent:0.00}%");
                 if (_account.Stakes.Any(s => s.StakingNode.SsnAddress == stakingSeedNode.SsnAddress)
                     && comboBoxSsn.SelectedIndex == -1)
                 {
