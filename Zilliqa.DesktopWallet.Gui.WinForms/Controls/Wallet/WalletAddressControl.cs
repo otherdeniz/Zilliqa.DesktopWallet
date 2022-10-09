@@ -78,7 +78,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                         myAccount.AccountDetails,
                         sendZilResult.ToAddress, 
                         sendZilResult.Amount);
-                    TransactionCreatedForm.ExecuteShow(this.ParentForm!, sendResult);
+                    TransactionSendResultForm.ExecuteShow(this.ParentForm!, sendResult);
                 }
             }
         }
