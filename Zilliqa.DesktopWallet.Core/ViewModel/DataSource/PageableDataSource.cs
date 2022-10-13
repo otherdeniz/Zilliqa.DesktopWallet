@@ -8,13 +8,15 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.DataSource
         where TViewModel : class
     {
         private readonly int _pageSize;
+        private readonly Func<TViewModel, string, bool>? _searchFunction;
         private readonly Dictionary<int, Collection<TViewModel>> _pages = new();
         private List<TViewModel>? _records;
         private readonly List<AfterLoadCompletedAction> _afterLoadCompletedActions = new();
 
-        public PageableDataSource(int pageSize = 1000)
+        public PageableDataSource(int pageSize = 1000, Func<TViewModel, string, bool>? searchFunction = null)
         {
             _pageSize = pageSize;
+            _searchFunction = searchFunction;
         }
 
         public event EventHandler<EventArgs>? AfterLoadCompleted;
@@ -22,6 +24,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.DataSource
         public event EventHandler<EventArgs>? PageCountChanged;
 
         public bool LoadCompleted { get; private set; }
+
+        public bool CanSearch => _searchFunction != null;
 
         public Type ViewModelType => typeof(TViewModel);
 
@@ -34,6 +38,19 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.DataSource
         public int PageCount { get; private set; }
 
         public int CurrentPageNumber { get; private set; }
+
+        public IList Search(string searchText)
+        {
+            if (_searchFunction == null)
+            {
+                throw new NotSupportedException("Search Function not provided");
+            }
+            if (_records == null)
+            {
+                throw new NotSupportedException("Records not loaded");
+            }
+            return _records.Where(r => _searchFunction(r, searchText)).Take(_pageSize).ToList();
+        }
 
         public IList? CurrentPage { get; private set; }
 

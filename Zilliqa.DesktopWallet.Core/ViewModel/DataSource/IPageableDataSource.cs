@@ -17,7 +17,11 @@ public interface IPageableDataSource : IDisposable
 
     bool LoadCompleted { get; }
 
+    bool CanSearch { get; }
+
     int CurrentPageNumber { get; }
+
+    IList Search(string searchText);
 
     IList? CurrentPage { get; }
 

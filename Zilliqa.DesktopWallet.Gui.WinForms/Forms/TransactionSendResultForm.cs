@@ -1,5 +1,7 @@
-﻿using Zilliqa.DesktopWallet.Core.Services;
+﻿using Zilliqa.DesktopWallet.Core.Repository;
+using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
+using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 {
@@ -14,25 +16,52 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             form.labelTransactionPayload.Text = sendTransactionResult.PayloadInfo;
             form.labelTransactionMessage.Text = sendTransactionResult.Message;
             form.labelId.Text = sendTransactionResult.TransactionId;
-            if (sendTransactionResult.Success)
+            form._transactionId = sendTransactionResult.TransactionId;
+            if (sendTransactionResult.TransactionId != null 
+                && sendTransactionResult.Success)
             {
-                form.pictureBox1.Image = form.imageListStatus.Images[1];
-                form.labelStatus.Text = "waiting for confirmation";
+                form.RefreshTransactionStatus();
+                form.timerRefreshStatus.Enabled = true;
             }
             else
             {
                 form.pictureBox1.Image = form.imageListStatus.Images[2];
-                form.labelStatus.Text = "failed";
+                form.labelStatus.Text = "Failed";
             }
-            form.timerAutoClose.Enabled = true;
             form.Show(parentForm);
         }
 
+        private string? _transactionId;
         private int _closeSeconds = 9;
 
         public TransactionSendResultForm()
         {
             InitializeComponent();
+        }
+
+        private void RefreshTransactionStatus()
+        {
+            if (_transactionId == null) return;
+            var foundTransaction = RepositoryManager.Instance.DatabaseRepository.Database.GetTable<Transaction>()
+                .FindRecord(nameof(Transaction.Id), _transactionId);
+            if (foundTransaction == null)
+            {
+                pictureBox1.Image = imageListStatus.Images[0];
+                labelStatus.Text = "Waiting for block download";
+            }
+            else if (foundTransaction.TransactionFailed)
+            {
+                pictureBox1.Image = imageListStatus.Images[2];
+                labelStatus.Text = "Failed";
+                timerRefreshStatus.Enabled = false;
+            }
+            else
+            {
+                pictureBox1.Image = imageListStatus.Images[1];
+                labelStatus.Text = "Completed";
+                timerRefreshStatus.Enabled = false;
+                timerAutoClose.Enabled = true;
+            }
         }
 
         private void buttonClose_Click(object sender, EventArgs e)
@@ -42,7 +71,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         private void timerRefreshStatus_Tick(object sender, EventArgs e)
         {
-
+            RefreshTransactionStatus();
         }
 
         private void timerAutoClose_Tick(object sender, EventArgs e)

@@ -59,7 +59,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
             int pageSize = 1000)
         {
             return ReadViewModelsPaged<SmartContractViewModel, SmartContract>(r => new SmartContractViewModel(r),
-                queryFilter, true, inverseOrder, pageSize);
+                queryFilter, true, inverseOrder, pageSize, searchFunction: (vm, s) => vm.SearchTerm.Contains(s));
         }
 
         public PageableLazyDataSource<TViewModel, TRecordModel> ReadViewModelsPaged<TViewModel, TRecordModel>(
@@ -68,13 +68,14 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
             bool resolveReferences = true,
             bool inverseOrder = true, 
             int pageSize = 1000,
-            bool loadFirstPage = true)
+            bool loadFirstPage = true,
+            Func<TViewModel, string, bool>? searchFunction = null)
                 where TViewModel : class
                 where TRecordModel : class, new()
         {
             var pagedRecords = Database.GetTable<TRecordModel>()
                 .FindRecordsPaged(queryFilter, resolveReferences, inverseOrder, pageSize);
-            var result = new PageableLazyDataSource<TViewModel, TRecordModel>(pageSize);
+            var result = new PageableLazyDataSource<TViewModel, TRecordModel>(pageSize, searchFunction);
             result.Load(pagedRecords, recordToViewModelMapping);
             if (loadFirstPage)
             {

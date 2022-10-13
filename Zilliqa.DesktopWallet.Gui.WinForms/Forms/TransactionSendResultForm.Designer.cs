@@ -54,7 +54,7 @@
             // buttonClose
             // 
             this.buttonClose.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonClose.Location = new System.Drawing.Point(183, 167);
+            this.buttonClose.Location = new System.Drawing.Point(199, 167);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(119, 27);
             this.buttonClose.TabIndex = 0;
@@ -88,7 +88,7 @@
             // labelTransactionPayload
             // 
             this.labelTransactionPayload.AutoSize = true;
-            this.labelTransactionPayload.Location = new System.Drawing.Point(172, 69);
+            this.labelTransactionPayload.Location = new System.Drawing.Point(166, 69);
             this.labelTransactionPayload.Name = "labelTransactionPayload";
             this.labelTransactionPayload.Size = new System.Drawing.Size(16, 15);
             this.labelTransactionPayload.TabIndex = 3;
@@ -97,7 +97,7 @@
             // labelTransactionMessage
             // 
             this.labelTransactionMessage.AutoSize = true;
-            this.labelTransactionMessage.Location = new System.Drawing.Point(172, 88);
+            this.labelTransactionMessage.Location = new System.Drawing.Point(166, 88);
             this.labelTransactionMessage.Name = "labelTransactionMessage";
             this.labelTransactionMessage.Size = new System.Drawing.Size(16, 15);
             this.labelTransactionMessage.TabIndex = 4;
@@ -133,7 +133,7 @@
             // labelId
             // 
             this.labelId.AutoSize = true;
-            this.labelId.Location = new System.Drawing.Point(172, 107);
+            this.labelId.Location = new System.Drawing.Point(166, 107);
             this.labelId.Name = "labelId";
             this.labelId.Size = new System.Drawing.Size(16, 15);
             this.labelId.TabIndex = 4;
@@ -151,7 +151,7 @@
             // labelStatus
             // 
             this.labelStatus.AutoSize = true;
-            this.labelStatus.Location = new System.Drawing.Point(172, 126);
+            this.labelStatus.Location = new System.Drawing.Point(166, 126);
             this.labelStatus.Name = "labelStatus";
             this.labelStatus.Size = new System.Drawing.Size(16, 15);
             this.labelStatus.TabIndex = 4;
@@ -169,7 +169,7 @@
             // labelSender
             // 
             this.labelSender.AutoSize = true;
-            this.labelSender.Location = new System.Drawing.Point(172, 31);
+            this.labelSender.Location = new System.Drawing.Point(166, 31);
             this.labelSender.Name = "labelSender";
             this.labelSender.Size = new System.Drawing.Size(16, 15);
             this.labelSender.TabIndex = 3;
@@ -187,7 +187,7 @@
             // labelRecipient
             // 
             this.labelRecipient.AutoSize = true;
-            this.labelRecipient.Location = new System.Drawing.Point(172, 50);
+            this.labelRecipient.Location = new System.Drawing.Point(166, 50);
             this.labelRecipient.Name = "labelRecipient";
             this.labelRecipient.Size = new System.Drawing.Size(16, 15);
             this.labelRecipient.TabIndex = 3;
@@ -211,7 +211,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(487, 206);
+            this.ClientSize = new System.Drawing.Size(518, 206);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.labelStatus);

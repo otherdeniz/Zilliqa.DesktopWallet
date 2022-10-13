@@ -28,6 +28,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
         {
             var result = new SendTransactionResult(senderAccount.Address, contractAddress.Address,
                 $"Call Contract method {method}");
+            gasLimit ??= GasLimitDefaultContractCall;
             Task.Run(async () =>
             {
                 try
@@ -37,7 +38,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                         ToAddr = contractAddress.GetAddressHexWithCheckSum(),
                         Amount = zilAmount.ZilToZilSatoshis().ToString("0"),
                         GasPrice = RepositoryManager.Instance.BlockchainBrowserRepository.MinimumGasPrice.ToString("0"),
-                        GasLimit = GasLimitZilTransfer.ToString(),
+                        GasLimit = gasLimit.ToString(),
                         Code = "",
                         Data = "",
                         Priority = false

@@ -22,7 +22,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         public string ToAddress { get; private set; } = string.Empty;
 
-        public decimal Amount { get; private set; } = 0;
+        public decimal Amount { get; private set; }
 
         public string Password { get; private set; } = string.Empty;
 
@@ -78,7 +78,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         private void SendZilForm_Load(object sender, EventArgs e)
         {
             textGasPrice.Text = RepositoryManager.Instance.BlockchainBrowserRepository.MinimumGasPrice
-                .ZilSatoshisToZil().ToString(CultureInfo.CurrentCulture);
+                .ToString("#,##0", CultureInfo.CurrentCulture);
             var currentFee = RepositoryManager.Instance.BlockchainBrowserRepository.MinimumGasPrice *
                           SendTransactionService.GasLimitZilTransfer;
             textFee.Text = currentFee.ZilSatoshisToZil().ToString(CultureInfo.CurrentCulture);

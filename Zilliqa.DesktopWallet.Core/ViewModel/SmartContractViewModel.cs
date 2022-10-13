@@ -33,6 +33,10 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [Browsable(false)]
         public Image Icon48 => LogoImages.Instance.GetImage(_address.Address.GetBech32()).Icon48!;
 
+        [Browsable(false)]
+        public string SearchTerm =>
+            $"{SmartContractModel.ContractName.ToLower()}|{SmartContractModel.TokenName()?.ToLower()}|{SmartContractModel.TokenSymbol()?.ToLower()}";
+
         [DetailsProperty]
         [Browsable(false)]
         [DisplayName("Contract Address")]

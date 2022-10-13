@@ -54,10 +54,10 @@ namespace Zilliqa.DesktopWallet.ApiClient.Model
         public byte[] Encode()
         {
 
-            BigInteger amount = BigInteger.ValueOf(long.Parse(Amount));
-            BigInteger gasPrice = BigInteger.ValueOf(long.Parse(GasPrice));
+            var amount = BigInteger.ValueOf(long.Parse(Amount));
+            var gasPrice = BigInteger.ValueOf(long.Parse(GasPrice));
 
-            ProtoTransactionInfo info = new ProtoTransactionInfo();
+            var info = new ProtoTransactionInfo();
             info.Version = (uint)Version;
             info.Nonce = (ulong)Nonce;
             info.Toaddr = ByteString.CopyFrom(ByteUtil.HexStringToByteArray(ToAddr.ToLower()));
@@ -75,11 +75,8 @@ namespace Zilliqa.DesktopWallet.ApiClient.Model
                 info.Data = ByteString.CopyFrom(System.Text.Encoding.Default.GetBytes(Data));
             }
 
-
             return info.ToByteArray();
-
         }
-
        
     }
 }

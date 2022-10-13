@@ -1,5 +1,4 @@
-﻿using Zillifriends.Shared.Common;
-using Zilliqa.DesktopWallet.ApiClient;
+﻿using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.ApiClient.Utils;
 using Zilliqa.DesktopWallet.Core.Api.Coingecko.Model;
 using Zilliqa.DesktopWallet.Core.Data.Files;
@@ -71,7 +70,6 @@ namespace Zilliqa.DesktopWallet.Core.Services
                                 Icon = LogoImages.Instance.GetImage(smartContract.ContractAddress.FromBase16ToBech32Address())
                             };
                             tokenModels.Add(tokenModel);
-                            //KnownAddressService.Instance.AddUnique(contractAddressBech32, $"{tokenModel.Name.TokenNameShort()} ({tokenModel.Symbol.TokenSymbolShort()})");
                             tokenModel.SmartContractModels.Add(smartContract);
                         }
                         else if (tokenModel.SmartContractModels.Any(s => s.OwnerAddress == smartContract.OwnerAddress) 
@@ -79,7 +77,6 @@ namespace Zilliqa.DesktopWallet.Core.Services
                         {
                             tokenModel.SmartContractModels.Add(smartContract);
                         }
-                        //tokenModel.ContractAddressesBech32.Add(contractAddressBech32);
                     }
                     foreach (var coinPrice in TokenPriceFile.Instance.CoinPrices)
                     {
@@ -160,7 +157,9 @@ namespace Zilliqa.DesktopWallet.Core.Services
         public IPageableDataSource GetTokensDataSource()
         {
             //TODO: caching? (lets have a look, how long it takes to load)
-            var dataSource = new PageableDataSource<TokenRowViewModel>();
+            var dataSource = new PageableDataSource<TokenRowViewModel>(
+                searchFunction: (vm, s) => vm.Model.Name?.ToLower().Contains(s) == true 
+                                           || vm.Model.Symbol?.ToLower().Contains(s) == true);
             dataSource.Load(TokenModels.Select(t => new TokenRowViewModel(t)).ToList());
             return dataSource;
         }

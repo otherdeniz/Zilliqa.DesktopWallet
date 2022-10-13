@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using Zillifriends.Shared.Common;
 using Zilligraph.Database.Storage.Result;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
@@ -10,14 +11,16 @@ public class PageableLazyDataSource<TViewModel, TRecordModel> : IPageableDataSou
     where TRecordModel : class, new()
 {
     private readonly int _pageSize;
+    private readonly Func<TViewModel, string, bool>? _searchFunction;
     private readonly Dictionary<int, Collection<TViewModel>> _pages = new();
     private PagedRecordResult<TRecordModel>? _pagedRecords;
     private Func<TRecordModel, TViewModel>? _recordToViewModelMapping;
     private readonly List<AfterLoadCompletedAction> _afterLoadCompletedActions = new();
 
-    public PageableLazyDataSource(int pageSize = 1000)
+    public PageableLazyDataSource(int pageSize = 1000, Func<TViewModel, string, bool>? searchFunction = null)
     {
         _pageSize = pageSize;
+        _searchFunction = searchFunction;
     }
 
     public event EventHandler<EventArgs>? AfterLoadCompleted;
@@ -25,6 +28,8 @@ public class PageableLazyDataSource<TViewModel, TRecordModel> : IPageableDataSou
     public event EventHandler<EventArgs>? PageCountChanged;
 
     public bool LoadCompleted { get; private set; }
+
+    public bool CanSearch => _searchFunction != null;
 
     public Type ViewModelType => typeof(TViewModel);
 
@@ -35,6 +40,56 @@ public class PageableLazyDataSource<TViewModel, TRecordModel> : IPageableDataSou
     public int PageCount { get; private set; }
 
     public int CurrentPageNumber { get; private set; }
+
+    public IList Search(string searchText)
+    {
+        if (_searchFunction == null)
+        {
+            throw new NotSupportedException("Search Function not provided");
+        }
+        if (_pagedRecords == null)
+        {
+            throw new NotSupportedException("Records not loaded");
+        }
+        if (PageCount == 0)
+        {
+            return new List<AfterLoadCompletedAction>();
+        }
+        var page1Result = GetPage(1).OfType<TViewModel>().Where(r => _searchFunction(r, searchText)).ToList();
+        if (PageCount > 1)
+        {
+            var result = new BindableSearchResultList<TViewModel>(page1Result);
+            Task.Run(() =>
+            {
+                try
+                {
+                    for (int i = 2; i <= PageCount; i++)
+                    {
+                        if (result.Count >= _pageSize) break;
+                        var pageResult = GetPage(i).OfType<TViewModel>().Where(r => _searchFunction(r, searchText));
+                        WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                        {
+                            foreach (var addItem in pageResult)
+                            {
+                                result.Add(addItem);
+                                if (result.Count >= _pageSize) break;
+                            }
+                        });
+                    }
+                }
+                catch (Exception)
+                {
+                    // ignore
+                }
+                WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                {
+                    result.RaiseLoadCompleted();
+                });
+            });
+            return result;
+        }
+        return page1Result;
+    }
 
     public IList? CurrentPage { get; private set; }
 

@@ -31,6 +31,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             labelLoading.Visible = true;
             dataGridView.Visible = false;
             toolStripPaging.Visible = false;
+            toolStripSearch.Visible = false;
         }
 
         public event EventHandler<SelectedItemEventArgs>? SelectionChanged;
@@ -44,6 +45,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 
         [DefaultValue(true)]
         public bool EnableSelection { get; set; } = true;
+
+        [DefaultValue(true)]
+        public bool EnableSearch { get; set; } = true;
 
         [DefaultValue(false)]
         public bool AutoSelectFirstRow { get; set; } = false;
@@ -86,6 +90,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             DataBindingInitialise();
             _dataSourcePageable.ExecuteAfterLoadCompleted(s =>
             {
+                InitSearchToolbar();
                 if (_dataSourcePageable == s)
                 {
                     _dataSourceList = s.GetPage(1);
@@ -143,6 +148,29 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             base.Dispose(disposing);
         }
 
+        private void LoadSearchResult(string searchText)
+        {
+            if (_dataSourcePageable != null)
+            {
+                var dataSource = _dataSourcePageable.Search(searchText.ToLower());
+                _dataSourceList = dataSource;
+                dataGridView.DataSource = _dataSourceList;
+                toolStripPaging.Visible = false;
+                separatorSearching.Visible = true;
+                labelSearching.Visible = true;
+                if (dataSource is IBindableSearchResultList bindableSearchResultList)
+                {
+                    labelSearching.Text = "Searching...";
+                    bindableSearchResultList.LoadCompleted += (sender, args) => 
+                        labelSearching.Text = $"{dataSource.Count:#,##0} Records found";
+                }
+                else
+                {
+                    labelSearching.Text = $"{dataSource.Count:#,##0} Records found";
+                }
+            }
+        }
+
         private void LoadDataPage(int pageNumber)
         {
             if (_dataSourcePageable != null)
@@ -151,6 +179,18 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                 _dataSourceList = dataSource;
                 dataGridView.DataSource = _dataSourceList;
                 RefreshPagingButtons();
+            }
+        }
+
+        private void InitSearchToolbar()
+        {
+            if (_dataSourcePageable?.CanSearch == true && EnableSearch)
+            {
+                toolStripSearch.Visible = true;
+            }
+            else
+            {
+                toolStripSearch.Visible = false;
             }
         }
 
@@ -520,6 +560,35 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                         }
                     }
                 }
+            }
+        }
+
+        private void textSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                buttonSearch_Click(sender, e);
+            }
+        }
+
+        private void buttonSearch_Click(object sender, EventArgs e)
+        {
+            if (buttonSearch.Checked)
+            {
+                // show all
+                separatorSearching.Visible = false;
+                labelSearching.Visible = false;
+                buttonSearch.Checked = false;
+                textSearch.Enabled = true;
+                textSearch.Text = "";
+                LoadDataPage(1);
+            }
+            else if (textSearch.Text.Length > 3)
+            {
+                // search
+                buttonSearch.Checked = true;
+                textSearch.Enabled = false;
+                LoadSearchResult(textSearch.Text);
             }
         }
 
