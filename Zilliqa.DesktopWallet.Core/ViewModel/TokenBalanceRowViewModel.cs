@@ -12,8 +12,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
     public class TokenBalanceRowViewModel : INotifyPropertyChanged, IDetailsLabel, IDetailsViewModel
     {
         private Image? _icon;
-        private decimal _balance;
-        private int _transactions;
 
         public TokenBalanceRowViewModel(TokenModel tokenModel)
         {
@@ -29,32 +27,18 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public Image? Icon => _icon ??= Model.Icon.Icon16;
 
         [DisplayName("Token")]
-        public string TokenTitle => $"{Model.Name} ({Model.Symbol})";
+        public string TokenTitle => $"{Model.Name?.TokenNameShort()} ({Model.Symbol?.TokenSymbolShort()})";
 
         [Browsable(false)]
-        public decimal Balance
-        {
-            get => _balance;
-            set
-            {
-                _balance = value;
-            }
-        }
+        public decimal Balance { get; set; }
 
         [Browsable(false)] 
         public decimal BalanceValue => (Balance < 0 ? 0 : Balance);
 
         [DisplayName("Balance")]
-        public string BalanceDisplay => $"{BalanceValue:#,##0.0000} {Model.Symbol}";
+        public string BalanceDisplay => $"{BalanceValue:#,##0.0000} {Model.Symbol?.TokenSymbolShort()}";
 
-        public int Transactions
-        {
-            get => _transactions;
-            set
-            {
-                _transactions = value;
-            }
-        }
+        public int Transactions { get; set; }
 
         //[DisplayName("Value ZIL")]
         //[GridViewFormat("#,##0.00 ZIL")]

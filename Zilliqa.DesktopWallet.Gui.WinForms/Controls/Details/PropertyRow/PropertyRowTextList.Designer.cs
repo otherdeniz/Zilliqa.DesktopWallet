@@ -36,7 +36,8 @@
             this.panelValue.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelValue.Location = new System.Drawing.Point(103, 0);
             this.panelValue.Name = "panelValue";
-            this.panelValue.Size = new System.Drawing.Size(353, 20);
+            this.panelValue.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
+            this.panelValue.Size = new System.Drawing.Size(353, 24);
             this.panelValue.TabIndex = 1;
             // 
             // PropertyRowTextList

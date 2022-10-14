@@ -267,8 +267,8 @@
             this.tabButtonArguments.Image = ((System.Drawing.Image)(resources.GetObject("tabButtonArguments.Image")));
             this.tabButtonArguments.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tabButtonArguments.Name = "tabButtonArguments";
-            this.tabButtonArguments.Size = new System.Drawing.Size(136, 19);
-            this.tabButtonArguments.Text = "Constructor Arguments";
+            this.tabButtonArguments.Size = new System.Drawing.Size(70, 19);
+            this.tabButtonArguments.Text = "Arguments";
             this.tabButtonArguments.Click += new System.EventHandler(this.tabButtonArguments_Click);
             // 
             // toolStripSeparator2

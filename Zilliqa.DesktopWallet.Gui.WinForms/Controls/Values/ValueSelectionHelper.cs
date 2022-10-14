@@ -43,6 +43,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
                     Text = scillaCode.Code
                 };
             }
+            else if (value is ContractFieldsValues contractFieldsValues)
+            {
+                return new ContractFieldsControl
+                {
+                    ContractFieldsValues = contractFieldsValues
+                };
+            }
             else if (value is TransactionReceipt transactionReceipt)
             {
                 return new PropertyGrid

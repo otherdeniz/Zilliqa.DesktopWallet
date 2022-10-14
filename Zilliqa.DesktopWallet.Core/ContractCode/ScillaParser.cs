@@ -13,7 +13,7 @@ namespace Zilliqa.DesktopWallet.Core.ContractCode
         public static readonly Regex TransitionRegEx =
             new Regex(@"transition ([A-z]+)\s*\(((?:[A-z\d:\s,]|\([A-z\d:\s,]*\))*)\)", RegexOptions.Multiline | RegexOptions.Compiled);
         public static readonly Regex TransitionArgumentRegEx =
-            new Regex(@"([A-z]*):((?:[A-z\d:\s]|\([A-z\d:\s]*\))*)", RegexOptions.Multiline | RegexOptions.Compiled);
+            new Regex(@"([A-z]*)\s*:\s*((?:[A-z\d:\s]|\([A-z\d:\s]*\))*)", RegexOptions.Multiline | RegexOptions.Compiled);
 
         public ScillaParser(string code)
         {

@@ -583,7 +583,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                 textSearch.Text = "";
                 LoadDataPage(1);
             }
-            else if (textSearch.Text.Length > 3)
+            else if (textSearch.Text.Length >= 3)
             {
                 // search
                 buttonSearch.Checked = true;

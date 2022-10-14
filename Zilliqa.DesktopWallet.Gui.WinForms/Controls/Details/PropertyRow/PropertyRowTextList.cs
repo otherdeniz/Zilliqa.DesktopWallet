@@ -24,7 +24,9 @@
                 panelValue.Controls.Add(textBox);
                 textHeigth += textBox.Height;
             }
-            Height = textHeigth + 4;
+            Height = textHeigth == 0 
+                ? 24 
+                : textHeigth + 8;
         }
     }
 }

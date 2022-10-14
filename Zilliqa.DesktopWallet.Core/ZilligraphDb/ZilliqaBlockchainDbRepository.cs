@@ -59,7 +59,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
             int pageSize = 1000)
         {
             return ReadViewModelsPaged<SmartContractViewModel, SmartContract>(r => new SmartContractViewModel(r),
-                queryFilter, true, inverseOrder, pageSize, searchFunction: (vm, s) => vm.SearchTerm.Contains(s));
+                queryFilter, true, inverseOrder, pageSize);
         }
 
         public PageableLazyDataSource<TViewModel, TRecordModel> ReadViewModelsPaged<TViewModel, TRecordModel>(

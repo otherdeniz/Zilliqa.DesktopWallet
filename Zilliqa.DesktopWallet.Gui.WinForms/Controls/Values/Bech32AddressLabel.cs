@@ -44,18 +44,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
                 _bech32Address = value;
                 SetAddressLabel();
                 ApplySize();
-                RefreshButtons();
-            }
-        }
-
-        private void RefreshButtons()
-        {
-            if (_showAddToWatchedAccounts)
-            {
-                var walletRepository = RepositoryManager.Instance.WalletRepository;
-                buttonAddWatchedAccount.Enabled =
-                    walletRepository.MyAccounts.All(a => a.AddressBech32 != _bech32Address)
-                    && walletRepository.WatchedAccounts.All(a => a.AddressBech32 != _bech32Address);
             }
         }
 
@@ -95,6 +83,32 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
             label4.Refresh();
             panelAddress.Width = label4.Left + label4.Width;
             Height = label1.Height;
+        }
+
+        private void RefreshButtons()
+        {
+            if (_bech32Address == null) return;
+            if (_showAddToWatchedAccounts)
+            {
+                var walletRepository = RepositoryManager.Instance.WalletRepository;
+                buttonAddWatchedAccount.Enabled =
+                    walletRepository.MyAccounts.All(a => a.AddressBech32 != _bech32Address)
+                    && walletRepository.WatchedAccounts.All(a => a.AddressBech32 != _bech32Address);
+            }
+            var masterPanel = DrillDownMasterPanelControl.FindParentDrillDownMasterPanel(this);
+            if (masterPanel?.ContainsValueUniqueId(
+                    ValueSelectionHelper.GetValueUniqueId(new AddressValue(_bech32Address))) == true)
+            {
+                buttonBrowse.Enabled = false;
+            }
+        }
+
+        private void Bech32AddressLabel_Load(object sender, EventArgs e)
+        {
+            if (!DesignMode)
+            {
+                RefreshButtons();
+            }
         }
 
         private void buttonOpen_Click(object sender, EventArgs e)

@@ -7,6 +7,7 @@ using Zilliqa.DesktopWallet.ViewModelAttributes;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
+    [GridSearchable(nameof(SearchTerm))]
     public class TokenRowViewModel : IDetailsLabel, IDetailsViewModel
     {
         private readonly TokenModel _model;
@@ -20,14 +21,19 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [Browsable(false)]
         public TokenModel Model => _model;
 
+        [Browsable(false)] 
+        public string SearchTerm => $"{Name?.ToLower()}|{Symbol?.ToLower()}";
+
         [DisplayName(" ")]
         public Image? Icon => _icon ??= _model.Icon.Icon16;
 
         [DisplayName("Name")]
-        public string NameShort => _model.Name.TokenNameShort() ?? "";
+        [ColumnWidth(120)]
+        public string Name => _model.Name;
 
         [DisplayName("Symbol")]
-        public string SymbolShort => _model.Symbol.TokenSymbolShort() ?? "";
+        [ColumnWidth(60)]
+        public string Symbol => _model.Symbol;
 
         [DisplayName("Created")]
         [GridViewFormat("d")]

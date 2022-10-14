@@ -157,9 +157,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
         public IPageableDataSource GetTokensDataSource()
         {
             //TODO: caching? (lets have a look, how long it takes to load)
-            var dataSource = new PageableDataSource<TokenRowViewModel>(
-                searchFunction: (vm, s) => vm.Model.Name?.ToLower().Contains(s) == true 
-                                           || vm.Model.Symbol?.ToLower().Contains(s) == true);
+            var dataSource = new PageableDataSource<TokenRowViewModel>();
             dataSource.Load(TokenModels.Select(t => new TokenRowViewModel(t)).ToList());
             return dataSource;
         }

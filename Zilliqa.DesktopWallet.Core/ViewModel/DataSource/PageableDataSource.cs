@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Reflection;
+using Zilliqa.DesktopWallet.ViewModelAttributes;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel.DataSource
 {
@@ -16,7 +18,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.DataSource
         public PageableDataSource(int pageSize = 1000, Func<TViewModel, string, bool>? searchFunction = null)
         {
             _pageSize = pageSize;
-            _searchFunction = searchFunction;
+            _searchFunction = searchFunction ?? CreateSearchFunction();
         }
 
         public event EventHandler<EventArgs>? AfterLoadCompleted;
@@ -166,6 +168,21 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.DataSource
             return pageNumber == 1 || pageNumber == PageCount
                 ? new BindingList<TViewModel>(list) 
                 : new Collection<TViewModel>(list);
+        }
+
+        private Func<TViewModel, string, bool>? CreateSearchFunction()
+        {
+            if (ViewModelType.GetCustomAttribute(typeof(GridSearchableAttribute))
+                is GridSearchableAttribute gridSearchableAttribute)
+            {
+                var searchPropertyInfo = ViewModelType.GetProperty(gridSearchableAttribute.SearchTermProperty);
+                if (searchPropertyInfo != null)
+                {
+                    return (vm, s) => searchPropertyInfo.GetValue(vm) is string stringValue
+                                      && stringValue.ToLower().Contains(s);
+                }
+            }
+            return null;
         }
 
         private class AfterLoadCompletedAction

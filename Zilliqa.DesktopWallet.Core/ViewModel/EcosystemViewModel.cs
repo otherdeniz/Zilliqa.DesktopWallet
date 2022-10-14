@@ -10,6 +10,7 @@ using Zilliqa.DesktopWallet.ViewModelAttributes;
 namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
     [DetailsTitle("IconModel", "Name", "Description")]
+    [GridSearchable(nameof(SearchTerm))]
     public class EcosystemViewModel : IDetailsLabel
     {
         public static List<EcosystemViewModel> CreateViewModelList()
@@ -32,6 +33,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [Browsable(false)]
         public IconModel IconModel => LogoImages.Instance.GetImage(CryptometaEcosystem.Key);
+
+        [Browsable(false)]
+        public string SearchTerm => $"{Name.ToLower()}|{Category.ToLower()}|{Description.ToLower()}";
 
         [DisplayName(" ")]
         public Image? Icon16 => IconModel.Icon16;

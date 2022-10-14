@@ -13,6 +13,7 @@ using Zilliqa.DesktopWallet.ViewModelAttributes;
 namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
     [DetailsTitle(nameof(Icon48), nameof(ContractName), nameof(Type))]
+    [GridSearchable(nameof(SearchTerm))]
     public class SmartContractViewModel : IDetailsLabel
     {
         private string? _date;
@@ -89,6 +90,10 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [Browsable(false)]
         [DetailsChildObject("Code")]
         public ScillaCodeValue Code => new ScillaCodeValue(SmartContractModel.DeploymentTransaction.Value?.Code ?? "");
+
+        [Browsable(false)]
+        [DetailsChildObject("Contract Details")]
+        public ContractFieldsValues ContractFieldsValues => new ContractFieldsValues(SmartContractModel);
 
         [DetailsGridView("Transactions")]
         public PageableLazyDataSource<ContractCallTransactionRowViewModel, Transaction> ContractTransactionsDataSource()

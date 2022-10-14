@@ -188,6 +188,7 @@
             this.Controls.Add(this.labelCaption);
             this.Name = "Bech32AddressLabel";
             this.Size = new System.Drawing.Size(472, 25);
+            this.Load += new System.EventHandler(this.Bech32AddressLabel_Load);
             this.Resize += new System.EventHandler(this.Bech32AddressLabel_Resize);
             this.panelAddress.ResumeLayout(false);
             this.panelAddress.PerformLayout();

@@ -10,7 +10,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.Utils
     public static class MusBech32
     {
         public static readonly Regex Bech32AddressRegEx = new Regex("^zil1([a-z]|[0-9]){38}$", RegexOptions.Compiled);
-        public static readonly Regex HexAddressRegEx = new Regex("^0x([a-f]|[A-F]|[0-9]){40}$", RegexOptions.Compiled);
+        public static readonly Regex HexAddressRegEx = new Regex("^(?:0x)?([a-f]|[A-F]|[0-9]){40}$", RegexOptions.Compiled);
 
         public const string HRP = "zil";
 

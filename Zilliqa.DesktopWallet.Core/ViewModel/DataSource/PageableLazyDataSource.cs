@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using Zillifriends.Shared.Common;
+using System.Reflection;
 using Zilligraph.Database.Storage.Result;
+using Zilliqa.DesktopWallet.ViewModelAttributes;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
 
@@ -20,7 +21,7 @@ public class PageableLazyDataSource<TViewModel, TRecordModel> : IPageableDataSou
     public PageableLazyDataSource(int pageSize = 1000, Func<TViewModel, string, bool>? searchFunction = null)
     {
         _pageSize = pageSize;
-        _searchFunction = searchFunction;
+        _searchFunction = searchFunction ?? CreateSearchFunction();
     }
 
     public event EventHandler<EventArgs>? AfterLoadCompleted;
@@ -158,25 +159,20 @@ public class PageableLazyDataSource<TViewModel, TRecordModel> : IPageableDataSou
         }
     }
 
-    //public void InsertRecord(TViewModel record, bool toTop)
-    //{
-    //    if (_records != null)
-    //    {
-    //        if (toTop)
-    //        {
-    //            var page = GetPage(1);
-    //            page.Insert(0, record);
-    //            _records.Insert(0, record);
-    //        }
-    //        else
-    //        {
-    //            var page = GetPage(PageCount);
-    //            page.Add(record);
-    //            _records.Add(record);
-    //        }
-    //        RefreshRecordCount();
-    //    }
-    //}
+    private Func<TViewModel, string, bool>? CreateSearchFunction()
+    {
+        if (ViewModelType.GetCustomAttribute(typeof(GridSearchableAttribute)) 
+            is GridSearchableAttribute gridSearchableAttribute)
+        {
+            var searchPropertyInfo = ViewModelType.GetProperty(gridSearchableAttribute.SearchTermProperty);
+            if (searchPropertyInfo != null)
+            {
+                return (vm, s) => searchPropertyInfo.GetValue(vm) is string stringValue 
+                                  && stringValue.ToLower().Contains(s);
+            }
+        }
+        return null;
+    }
 
     private void RefreshRecordCount()
     {
