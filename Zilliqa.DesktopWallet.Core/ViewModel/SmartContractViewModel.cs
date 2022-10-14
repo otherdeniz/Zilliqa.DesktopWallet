@@ -1,10 +1,13 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
+using Newtonsoft.Json.Linq;
 using Zillifriends.Shared.Common;
 using Zilligraph.Database.Storage.FilterQuery;
 using Zilliqa.DesktopWallet.ApiClient;
+using Zilliqa.DesktopWallet.Core.ContractCode;
 using Zilliqa.DesktopWallet.Core.Data.Images;
 using Zilliqa.DesktopWallet.Core.Repository;
+using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
@@ -20,6 +23,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         private string? _contractAddress;
         private AddressValue? _ownerAddress;
         private Image? _logoIcon;
+        private ScillaCodeValue? _scillaCodeValue;
         private readonly AddressValue _address;
 
         public SmartContractViewModel(SmartContract smartContractModel)
@@ -81,7 +85,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [DetailsProperty]
         [ColumnWidth(150)]
-        public AddressValue Owner => _ownerAddress ??= new AddressValue(SmartContractModel.OwnerAddress);
+        public AddressValue Owner => _ownerAddress ??= 
+            new AddressValue(SmartContractModel.OwnerAddress);
 
         [Browsable(false)]
         [DetailsChildObject("Deployment Transaction")]
@@ -89,7 +94,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [Browsable(false)]
         [DetailsChildObject("Code")]
-        public ScillaCodeValue Code => new ScillaCodeValue(SmartContractModel.DeploymentTransaction.Value?.Code ?? "");
+        public ScillaCodeValue Code => _scillaCodeValue ??= 
+            new ScillaCodeValue(SmartContractModel.DeploymentTransaction.Value?.Code ?? "");
 
         [Browsable(false)]
         [DetailsChildObject("Contract Details")]
@@ -120,6 +126,44 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                 .ReadViewModelsPaged<ContractCallTransactionRowViewModel, Transaction>(t =>
                         new ContractCallTransactionRowViewModel(contractAddress, t),
                     filter);
+            return dataSource;
+        }
+
+        [Browsable(false)] 
+        public bool HasHolders => Code.ScillaParser.ParseFields().Any(f => f == "balances");
+
+        [DetailsGridView("Holders", nameof(HasHolders))]
+        public PageableDataSource<AddressAmountRowViewModel> GetHolders()
+        {
+            var dataSource = new PageableDataSource<AddressAmountRowViewModel>();
+            try
+            {
+                var holdersJToken = Task.Run(async () =>
+                    await ZilliqaClient.DefaultInstance.GetSmartContractSubStateValue<JToken>(
+                        SmartContractModel.ContractAddress, "balances")
+                ).GetAwaiter().GetResult();
+                if (holdersJToken != null)
+                {
+                    var holders = holdersJToken.Children().OfType<JProperty>()
+                        .Select(p => (p.Name, p.Value.Value<decimal>()))
+                        .Where(h => h.Item2 > 0).ToList();
+                    var sumAmount = holders.Any() 
+                        ? holders.Sum(h => h.Item2) 
+                        : 0m;
+                    dataSource.Load(holders.OrderByDescending(h => h.Item2)
+                        .Select(h => new AddressAmountRowViewModel(h.Name, h.Item2,
+                            sumAmount > 0 ? 100m / sumAmount * h.Item2 : 0))
+                        .ToList());
+                }
+                else
+                {
+                    dataSource.Load(new List<AddressAmountRowViewModel>());
+                }
+            }
+            catch (Exception e)
+            {
+                Logging.LogError($"SmartContractViewModel.GetHolders() of Contract {ContractName} failed", e);
+            }
             return dataSource;
         }
 

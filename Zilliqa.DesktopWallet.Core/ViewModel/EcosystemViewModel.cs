@@ -4,6 +4,7 @@ using Zilliqa.DesktopWallet.ApiClient.ViewblockApi.Model;
 using Zilliqa.DesktopWallet.Core.Data.Files;
 using Zilliqa.DesktopWallet.Core.Data.Images;
 using Zilliqa.DesktopWallet.Core.Data.Model;
+using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.ViewModelAttributes;
 
@@ -13,14 +14,16 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
     [GridSearchable(nameof(SearchTerm))]
     public class EcosystemViewModel : IDetailsLabel
     {
-        public static List<EcosystemViewModel> CreateViewModelList()
+        public static PageableDataSource<EcosystemViewModel> CreateViewModelList()
         {
-            return CryptometaFile.Instance.Ecosystems
+            var dataSource = new PageableDataSource<EcosystemViewModel>();
+            dataSource.Load(CryptometaFile.Instance.Ecosystems
                 .Select(e => new EcosystemViewModel(e))
                 .OrderBy(e => e.CategoryPriority())
                 .ThenBy(e => e.Category)
                 .ThenBy(e => e.Name)
-                .ToList();
+                .ToList());
+            return dataSource;
         }
 
         public EcosystemViewModel(CryptometaEcosystem cryptometaEcosystem)
@@ -35,7 +38,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public IconModel IconModel => LogoImages.Instance.GetImage(CryptometaEcosystem.Key);
 
         [Browsable(false)]
-        public string SearchTerm => $"{Name.ToLower()}|{Category.ToLower()}|{Description.ToLower()}";
+        public string SearchTerm => $"{Name}|{Category}|{Description}";
 
         [DisplayName(" ")]
         public Image? Icon16 => IconModel.Icon16;

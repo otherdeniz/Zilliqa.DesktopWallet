@@ -97,6 +97,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
                 if (methodInfo.GetCustomAttribute(typeof(DetailsGridViewAttribute))
                     is DetailsGridViewAttribute detailsGridViewAttribute)
                 {
+                    if (!string.IsNullOrEmpty(detailsGridViewAttribute.IsVisibleProperty)
+                        && vmType.GetProperty(detailsGridViewAttribute.IsVisibleProperty) is { } isVisibleProperty
+                        && isVisibleProperty.GetValue(viewModelObject) is bool boolValue 
+                        && boolValue == false)
+                    {
+                        continue;
+                    }
                     var gridView = new GridViewControl();
                     var button = AddTab(detailsGridViewAttribute.DisplayName, gridView);
                     Task.Run(() =>

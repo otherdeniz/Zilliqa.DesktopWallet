@@ -15,8 +15,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             timerLoading.Enabled = false;
             var dataSource = EcosystemViewModel.CreateViewModelList();
             groupBoxGrid.Tag ??= groupBoxGrid.Text;
-            groupBoxGrid.Text = $"{groupBoxGrid.Tag} ({dataSource.Count:#,##0})";
-            gridViewEcosystem.LoadData(dataSource, typeof(EcosystemViewModel));
+            groupBoxGrid.Text = $"{groupBoxGrid.Tag} ({dataSource.RecordCount:#,##0})";
+            gridViewEcosystem.LoadData(dataSource);
         }
 
         private void MainEcosystemControl_Load(object sender, EventArgs e)
