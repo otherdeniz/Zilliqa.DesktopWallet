@@ -4,10 +4,8 @@ using Newtonsoft.Json.Linq;
 using Zillifriends.Shared.Common;
 using Zilligraph.Database.Storage.FilterQuery;
 using Zilliqa.DesktopWallet.ApiClient;
-using Zilliqa.DesktopWallet.Core.ContractCode;
 using Zilliqa.DesktopWallet.Core.Data.Images;
 using Zilliqa.DesktopWallet.Core.Repository;
-using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
@@ -145,7 +143,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                 if (holdersJToken != null)
                 {
                     var holders = holdersJToken.Children().OfType<JProperty>()
-                        .Select(p => (p.Name, p.Value.Value<decimal>()))
+                        .Select(p => (p.Name, SmartContractModel.AmountToDecimal(p.Value.Value<decimal>())))
                         .Where(h => h.Item2 > 0).ToList();
                     var sumAmount = holders.Any() 
                         ? holders.Sum(h => h.Item2) 
@@ -169,7 +167,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         public string GetUniqueId()
         {
-            return $"Contract-{SmartContractModel.DeploymentTransactionId}";
+            return SmartContractModel.ContractAddress;
         }
 
         public string GetDisplayTitle()

@@ -1,5 +1,4 @@
-﻿using Zillifriends.Shared.Common;
-using Zilliqa.DesktopWallet.ApiClient;
+﻿using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
@@ -68,7 +67,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
             {
                 viewModel = detailsViewModel.GetViewModel();
             }
-
             if (viewModel is AccountViewModel accountViewModel)
             {
                 var control = new AddressDetailsControl();
@@ -106,15 +104,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
         {
             if (value is AddressValue addressValue)
             {
-                if (addressValue.SmartContract != null)
-                {
-                    return $"Contract-{addressValue.Address.GetBech32().FromBech32ToShortReadable()}";
-                }
-                return $"Addr-{addressValue.Address.GetBech32()}";
+                return addressValue.Address.GetBase16(false);
             }
             if (value is Address address)
             {
-                return $"Addr-{address.GetBech32()}";
+                return address.GetBase16(false);
             }
             if (value is Transaction transaction)
             {

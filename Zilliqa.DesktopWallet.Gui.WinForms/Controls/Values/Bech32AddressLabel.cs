@@ -99,7 +99,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
             if (masterPanel?.ContainsValueUniqueId(
                     ValueSelectionHelper.GetValueUniqueId(new AddressValue(_bech32Address))) == true)
             {
-                buttonBrowse.Enabled = false;
+                buttonOpen.Enabled = false;
             }
         }
 

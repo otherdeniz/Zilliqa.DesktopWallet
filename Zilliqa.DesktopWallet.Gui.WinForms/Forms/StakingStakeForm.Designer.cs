@@ -116,8 +116,6 @@
             this.labelNodeHint.Name = "labelNodeHint";
             this.labelNodeHint.Size = new System.Drawing.Size(629, 82);
             this.labelNodeHint.TabIndex = 13;
-            this.labelNodeHint.Text = "...";
-            this.labelNodeHint.Visible = false;
             // 
             // pictureNodeHint
             // 

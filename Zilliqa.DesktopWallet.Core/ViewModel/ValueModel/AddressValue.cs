@@ -80,9 +80,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
         {
             if (KnownAddressService.Instance.Bech32AddressNames.TryGetValue(Address.GetBech32(), out var addressName))
             {
-                if (addressName.Length > 20)
+                if (addressName.Length > 24)
                 {
-                    addressName = addressName.Substring(0, 20);
+                    addressName = addressName.Substring(0, 24);
                 }
                 return $"{addressName} ({Address})";
             }

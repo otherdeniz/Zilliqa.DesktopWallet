@@ -65,6 +65,10 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
             var nameValue = TokenName();
             if (nameValue != null)
             {
+                if (ContractName == "NonfungibleToken")
+                {
+                    return $"NFT, {nameValue.TokenNameShort()}";
+                }
                 return $"{ContractName}, {nameValue.TokenNameShort()}";
             }
             return ContractName;

@@ -3,25 +3,25 @@
     public class DataPathBuilder
     {
 
-#region Static Code
+        #region Static Code
 
-        private static string? _applicationFolderName;
         private static DataPathBuilder? _userRootDataPathBuilder;
         private static DataPathBuilder? _appRootDataPathBuilder;
 
-        public static void Setup(string applicationFolderName)
+        public static void Setup(string applicationFolderName, bool storeUserDataInProgramData = false)
         {
-            _applicationFolderName = applicationFolderName;
-            var userDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), _applicationFolderName);
-            _userRootDataPathBuilder = new DataPathBuilder(userDataPath);
-            var appDataPath = Path.Combine(Environment.ExpandEnvironmentVariables("%ProgramData%"), _applicationFolderName);
+            var appDataPath = Path.Combine(Environment.ExpandEnvironmentVariables("%ProgramData%"), applicationFolderName);
             _appRootDataPathBuilder = new DataPathBuilder(appDataPath);
+            var userDataPath = storeUserDataInProgramData
+                ? appDataPath
+                : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), applicationFolderName);
+            _userRootDataPathBuilder = new DataPathBuilder(userDataPath);
         }
 
         public static DataPathBuilder UserDataRoot => _userRootDataPathBuilder ?? throw new MissingCodeException("DataPathBuilder.Setup not executed");
 
         public static DataPathBuilder AppDataRoot => _appRootDataPathBuilder ?? throw new MissingCodeException("DataPathBuilder.Setup not executed");
-
+        
         #endregion
 
         private readonly string _fullPath;
