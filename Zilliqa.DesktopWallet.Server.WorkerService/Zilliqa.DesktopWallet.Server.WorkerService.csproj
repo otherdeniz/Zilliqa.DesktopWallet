@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-Zilliqa.DesktopWallet.Server.WorkerService-9D569BAB-9937-4B1B-9C80-38EC4F852174</UserSecretsId>
+    <ApplicationIcon>server_icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Service_Install.bat" />
+    <None Remove="Service_Start.bat" />
+    <None Remove="Service_Stop.bat" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="server_icon.ico" />
+    <Content Include="Service_Stop.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Service_Start.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Service_Install.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Zillifriends.Shared.Common\Zillifriends.Shared.Common.csproj" />
+    <ProjectReference Include="..\Zilligraph.Database\Zilligraph.Database.GenericModel\Zilligraph.Database.Contract.csproj" />
+    <ProjectReference Include="..\Zilligraph.Database\Zilligraph.Database.Storage\Zilligraph.Database.Storage.csproj" />
+    <ProjectReference Include="..\Zilliqa.DesktopWallet.ApiClient\Zilliqa.DesktopWallet.ApiClient.csproj" />
+    <ProjectReference Include="..\Zilliqa.DesktopWallet.Core\Zilliqa.DesktopWallet.Core.csproj" />
+    <ProjectReference Include="..\Zilliqa.DesktopWallet.DatabaseSchema\Zilliqa.DesktopWallet.DatabaseSchema.csproj" />
+    <ProjectReference Include="..\Zilliqa.DesktopWallet.ViewModelAttributes\Zilliqa.DesktopWallet.ViewModelAttributes.csproj" />
+  </ItemGroup>
+</Project>

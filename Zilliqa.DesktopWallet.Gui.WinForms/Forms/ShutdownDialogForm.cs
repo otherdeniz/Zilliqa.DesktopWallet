@@ -1,5 +1,4 @@
-﻿using Zilliqa.DesktopWallet.Core.Repository;
-using Zilliqa.DesktopWallet.Core.ZilligraphDb;
+﻿using Zilliqa.DesktopWallet.Core.Services;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 {
@@ -13,8 +12,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         private void timerShutdown_Tick(object sender, EventArgs e)
         {
             timerShutdown.Enabled = false;
-            ZilliqaBlockchainCrawler.Instance.Stop(true);
-            RepositoryManager.Instance.Shutdown();
+            StartupService.Instance.Shutdown();
             Close();
         }
     }

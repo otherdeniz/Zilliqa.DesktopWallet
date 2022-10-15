@@ -50,8 +50,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             SingleInstance.SetMainForm(mainForm);
 #endif
             Application.Run(mainForm);
-            ZilliqaBlockchainCrawler.Instance.Stop(true);
-            RepositoryManager.Instance.Shutdown();
+
+            StartupService.Instance.Shutdown();
         }
 
         private static string GetArgumentValue(string[] arguments, string parameterName, string defaultValue = "")
