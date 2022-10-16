@@ -41,6 +41,7 @@ namespace Zilliqa.DesktopWallet.Core.ContractCode
         {
             return FieldRegEx.Matches(Code)
                 .Select(f => f.Groups[1].Value)
+                .Distinct()
                 .ToArray();
         }
 
