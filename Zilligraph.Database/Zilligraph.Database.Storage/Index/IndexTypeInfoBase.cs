@@ -1,4 +1,5 @@
 ﻿using Zillifriends.Shared.Common;
+using Zilligraph.Database.Contract;
 
 namespace Zilligraph.Database.Storage.Index
 {
@@ -6,11 +7,11 @@ namespace Zilligraph.Database.Storage.Index
     {
         private byte[]? _nullHash;
 
-        public static IndexTypeInfoBase Create(Type valueType)
+        public static IndexTypeInfoBase Create(Type valueType, IndexAttributeBase indexAttribute)
         {
             if (valueType == typeof(string))
             {
-                return new IndexTypeInfoText();
+                return new IndexTypeInfoText(indexAttribute.CaseInsensitive);
             }
             if (valueType == typeof(int))
             {

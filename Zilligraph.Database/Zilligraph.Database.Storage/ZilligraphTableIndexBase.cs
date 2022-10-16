@@ -48,7 +48,7 @@ namespace Zilligraph.Database.Storage
 
         protected void InitialiseIndex()
         {
-            _indexTypeInfo ??= IndexTypeInfoBase.Create(ValueType);
+            _indexTypeInfo ??= IndexTypeInfoBase.Create(ValueType, IndexAttribute);
             _indexInfoFile = IndexInfoFile.Load(this);
             _indexHeadFile = new IndexHeadSingleFile(this);
             _indexContentFile = new IndexContentFile(this, IndexTypeInfo.HashLength);
