@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Org.BouncyCastle.Math;
 using Zilliqa.DesktopWallet.ApiClient.Utils;
 
 namespace Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
@@ -11,28 +12,28 @@ public class ParamValue
 {
     public static ParamValue ResolveParam(IParam param)
     {
-        if (param.Type == "String")
+        if (param.Type == ParamTypes.String)
         {
             return new ParamValueString(param.Value);
         }
-        if (param.Type == "ByStr20")
+        if (param.Type == ParamTypes.ByStr20)
         {
             return new ParamValueHex20Bytes(param.Value);
         }
-        if (param.Type == "Uint32"
+        if (param.Type == ParamTypes.Uint32
             && ParamValueUInt32.TryParse(param.Value, out var valueUInt32))
         {
             return valueUInt32;
         }
-        if (param.Type == "BNum"
+        if (param.Type == ParamTypes.BNum
             && ParamValueUInt32.TryParse(param.Value, out var valueBnum))
         {
             return valueBnum;
         }
-        if (param.Type == "Uint128"
-            && ParamValueUInt128.TryParse(param.Value, out var valueUInt128))
+        if ((param.Type == ParamTypes.Uint128 || param.Type == ParamTypes.Uint256)
+            && ParamValueBigInteger.TryParse(param.Value, out var valueBigInteger))
         {
-            return valueUInt128;
+            return valueBigInteger;
         }
         if (ParamValueHex20BytesWithFunctionName.TryParse(param.Type, param.Value,
                 out var valueHex20BytesWithFunctionName))
@@ -45,15 +46,15 @@ public class ParamValue
             return valueConstructorWithArgumentsList!;
         }
 
-        return new ParamValueInvalid();
+        return new ParamValueUnknown();
     }
 }
 
-public class ParamValueInvalid : ParamValue
+public class ParamValueUnknown : ParamValue
 {
     public override string ToString()
     {
-        return "(invalid value)";
+        return "(unknown value)";
     }
 }
 
@@ -75,32 +76,41 @@ public class ParamValueString : ParamValue
     }
 }
 
-public class ParamValueUInt128 : ParamValue
+public class ParamValueBigInteger : ParamValue
 {
-    public static bool TryParse(object value, out ParamValueUInt128 paramValue)
+    public static bool TryParse(object value, out ParamValueBigInteger paramValue)
     {
-        if (value is string stringValue
-            && decimal.TryParse(stringValue, out var decimalValue))
+        try
         {
-            paramValue = new ParamValueUInt128
+            if (value is string stringValue)
             {
-                Number128 = decimalValue,
-                Number64 = long.TryParse(stringValue, out var longValue) ? longValue : -1
-            };
-            return true;
+                paramValue = new ParamValueBigInteger(new BigInteger(stringValue),
+                    long.TryParse(stringValue, out var longValue) ? longValue : -1);
+                return true;
+            }
+        }
+        catch (Exception)
+        {
+            // failed
         }
 
         paramValue = null!;
         return false;
     }
 
-    public decimal Number128 { get; private set; }
+    public ParamValueBigInteger(BigInteger numberBig, long number64)
+    {
+        NumberBig = numberBig;
+        Number64 = number64;
+    }
 
-    public long Number64 { get; private set; }
+    public BigInteger NumberBig { get; }
+
+    public long Number64 { get; }
 
     public override string ToString()
     {
-        return Number128.ToString("0");
+        return NumberBig.ToString();
     }
 }
 

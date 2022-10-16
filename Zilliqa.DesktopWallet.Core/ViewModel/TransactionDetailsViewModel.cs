@@ -4,6 +4,7 @@ using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
+using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 using Zilliqa.DesktopWallet.ViewModelAttributes;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel
@@ -88,7 +89,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [DisplayName("Error Message")]
         public string? Error => TransactionModel.TransactionFailed 
             ? TransactionModel.Receipt.Exceptions.Select(e => e.Message).FirstOrDefault()
-                ?? TransactionModel.Receipt.Errors.Numbers.Select(n => $"Error Code #{n}").FirstOrDefault()
+                ?? TransactionModel.Receipt.Errors.Numbers.Select(n => $"Error Code #{n} : {(TransactionErrorCodes)n}").FirstOrDefault()
             : null;
 
         [DetailsProperty(DetailsPropertyType.BlockNumber)]
@@ -96,14 +97,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [DetailsProperty]
         public string Date => TransactionModel.Timestamp.ToString("g");
-
-        [DetailsProperty]
-        [DisplayName("Contract Name")]
-        public string? ContractName => ContractAddress?.SmartContract?.ContractName;
-
-        [DetailsProperty]
-        [DisplayName("Contract Method")]
-        public string? Method => TransactionModel.DataContractCall.Tag;
 
         [DetailsProperty]
         [DisplayName("Sender Address")]
@@ -116,6 +109,17 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [DetailsProperty]
         [DisplayName("Recipient Address")]
         public AddressValue? RecipientAddress { get; }
+
+        [DetailsProperty]
+        [DisplayName("Contract Name")]
+        public string? ContractName => ContractAddress?.SmartContract?.ContractName;
+
+        [DetailsProperty]
+        [DisplayName("Contract Method")]
+        public string? Method => TransactionModel.DataContractCall.Tag;
+
+        [DetailsChildProperties("Contract Parameters")]
+        public List<DataParam> DataParams => TransactionModel.DataContractCall.Params;
 
         [DetailsProperty]
         [DisplayName("ZIL Amount")]
@@ -153,5 +157,35 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public ScillaCodeValue? Code => string.IsNullOrEmpty(TransactionModel.Code)
             ? null
             : new ScillaCodeValue(TransactionModel.Code);
+    }
+
+    public enum TransactionErrorCodes
+    {
+        CHECKER_FAILED = 0,
+        RUNNER_FAILED = 1,
+        BALANCE_TRANSFER_FAILED = 2,
+        EXECUTE_CMD_FAILED = 3,
+        EXECUTE_CMD_TIMEOUT = 4,
+        NO_GAS_REMAINING_FOUND = 5,
+        NO_ACCEPTED_FOUND = 6,
+        CALL_CONTRACT_FAILED = 7,
+        CREATE_CONTRACT_FAILED = 8,
+        JSON_OUTPUT_CORRUPTED = 9,
+        CONTRACT_NOT_EXIST = 10,
+        STATE_CORRUPTED = 11,
+        LOG_ENTRY_INSTALL_FAILED = 12,
+        MESSAGE_CORRUPTED = 13,
+        RECEIPT_IS_NULL = 14,
+        MAX_EDGES_REACHED = 15,
+        CHAIN_CALL_DIFF_SHARD = 16,
+        PREPARATION_FAILED = 17,
+        NO_OUTPUT = 18,
+        OUTPUT_ILLEGAL = 19,
+        MAP_DEPTH_MISSING = 20,
+        GAS_NOT_SUFFICIENT = 21,
+        INTERNAL_ERROR = 22,
+        LIBRARY_AS_RECIPIENT = 23,
+        VERSION_INCONSISTENT = 24,
+        LIBRARY_EXTRACTION_FAILED = 25
     }
 }

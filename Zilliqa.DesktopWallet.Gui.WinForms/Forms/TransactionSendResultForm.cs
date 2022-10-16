@@ -1,4 +1,5 @@
-﻿using Zilliqa.DesktopWallet.Core.Repository;
+﻿using Zillifriends.Shared.Common;
+using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
@@ -15,7 +16,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             form.labelRecipient.Text = new AddressValue(sendTransactionResult.Recipient).ToString();
             form.labelTransactionPayload.Text = sendTransactionResult.PayloadInfo;
             form.labelTransactionMessage.Text = sendTransactionResult.Message;
-            form.labelId.Text = sendTransactionResult.TransactionId;
+            form.labelId.Text = sendTransactionResult.TransactionId?.FromTransactionHexToShortReadable();
             form._transactionId = sendTransactionResult.TransactionId;
             if (sendTransactionResult.TransactionId != null 
                 && sendTransactionResult.Success)

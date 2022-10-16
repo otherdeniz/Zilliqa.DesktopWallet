@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System.Globalization;
+using Newtonsoft.Json;
+using Org.BouncyCastle.Math;
 using Zillifriends.Shared.Common;
 using Zilligraph.Database.Contract;
 using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
@@ -96,7 +98,6 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
             {
                 return 0;
             }
-
             var decimals = TokenDecimals();
             if (decimals > 0)
             {
@@ -104,6 +105,23 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
                 return amountNumber.Value / divident;
             }
             return amountNumber.Value;
+        }
+
+        public decimal AmountToDecimal(BigInteger? amountNumber)
+        {
+            if (amountNumber == null)
+            {
+                return 0;
+            }
+            var decimals = TokenDecimals();
+            if (decimals > 0)
+            {
+                var divident = Convert.ToDecimal(Math.Pow(10, decimals));
+                var decimalString = amountNumber.Divide(new BigInteger(divident.ToString(CultureInfo.InvariantCulture)))
+                    .ToString();
+                return decimal.TryParse(decimalString, out var decimalValue) ? decimalValue : 0;
+            }
+            return amountNumber.LongValue;
         }
     }
 

@@ -33,14 +33,14 @@ public class ContractCallAmountInfo
         else if (transactionModel.Receipt.Transitions?.FirstOrDefault(t => t.Msg.Tag == "RecipientAcceptTransfer")
                      is { } transferTransition1
                  && transferTransition1.Msg.Params?.FirstOrDefault(t => t.Vname == "amount")?.ResolvedValue
-                     is ParamValueUInt128 paramTokenAmount1)
+                     is ParamValueBigInteger paramTokenAmount1)
         {
             var tokenByAddress = TokenDataService.Instance.FindTokenByAddress(transferTransition1.Addr);
             if (tokenByAddress != null)
             {
                 result = new ContractCallAmountInfo
                 {
-                    Amount = tokenByAddress.SmartContract.AmountToDecimal(paramTokenAmount1.Number128),
+                    Amount = tokenByAddress.SmartContract.AmountToDecimal(paramTokenAmount1.NumberBig),
                     Symbol = tokenByAddress.TokenModel.Symbol,
                     TokenModel = tokenByAddress
                 };
@@ -49,14 +49,14 @@ public class ContractCallAmountInfo
         else if (transactionModel.Receipt.Transitions?.FirstOrDefault(t => t.Msg.Tag == "Transfer")
                      is { } transferTransition2
                  && transferTransition2.Msg.Params?.FirstOrDefault(t => t.Vname == "amount")?.ResolvedValue
-                     is ParamValueUInt128 paramTokenAmount2)
+                     is ParamValueBigInteger paramTokenAmount2)
         {
             var tokenModel = TokenDataService.Instance.FindTokenByAddress(transferTransition2.Msg.Recipient);
             if (tokenModel != null)
             {
                 result = new ContractCallAmountInfo
                 {
-                    Amount = tokenModel.SmartContract.AmountToDecimal(paramTokenAmount2.Number128),
+                    Amount = tokenModel.SmartContract.AmountToDecimal(paramTokenAmount2.NumberBig),
                     Symbol = tokenModel.TokenModel.Symbol,
                     TokenModel = tokenModel
                 };

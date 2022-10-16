@@ -2,7 +2,10 @@
 using Newtonsoft.Json.Linq;
 using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient;
+using Zilliqa.DesktopWallet.ApiClient.Accounts;
 using Zilliqa.DesktopWallet.Core.Extensions;
+using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
+using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
 namespace Zilliqa.DesktopWallet.Core.Services
 {
@@ -37,6 +40,45 @@ namespace Zilliqa.DesktopWallet.Core.Services
         /// </summary>
         public string ImplementationAddress =>
             _currentImplementationAddress ??= GetImplementationAddress(CurrentProxy.Address);
+
+        public SendTransactionResult SendTransactionStake(Account senderAccount, AddressValue ssnAddress, 
+            decimal zilAmount)
+        {
+            var contractCall = new DataContractCall
+            {
+                Tag = "DelegateStake",
+                Params = new List<DataParam>
+                {
+                    new DataParam
+                    {
+                        Vname = "ssnaddr",
+                        Type = ParamTypes.ByStr20,
+                        Value = ssnAddress.Address.GetBase16(true)
+                    }
+                }
+            };
+            return SendTransactionService.Instance.CallContract(senderAccount, new AddressValue(CurrentProxy.Address),
+                contractCall, zilAmount);
+        }
+
+        public SendTransactionResult SendTransactionClaim(Account senderAccount, AddressValue ssnAddress)
+        {
+            var contractCall = new DataContractCall
+            {
+                Tag = "WithdrawStakeRewards",
+                Params = new List<DataParam>
+                {
+                    new DataParam
+                    {
+                        Vname = "ssnaddr",
+                        Type = ParamTypes.ByStr20,
+                        Value = ssnAddress.Address.GetBase16(true)
+                    }
+                }
+            };
+            return SendTransactionService.Instance.CallContract(senderAccount, new AddressValue(CurrentProxy.Address), 
+                contractCall);
+        }
 
         public string GetImplementationAddress(string proxyAddress)
         {

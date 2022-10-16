@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.label2 = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.checkedListBoxSsn = new System.Windows.Forms.CheckedListBox();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonOk
@@ -43,27 +46,54 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label2.Location = new System.Drawing.Point(11, 17);
+            this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(288, 15);
+            this.label2.Size = new System.Drawing.Size(162, 15);
             this.label2.TabIndex = 103;
-            this.label2.Text = "This Operation claims all your pending Stake Rewards";
+            this.label2.Text = "Stake Nodes to claim rewards";
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.checkedListBoxSsn);
+            this.panel4.Controls.Add(this.label2);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel4.Location = new System.Drawing.Point(8, 8);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(668, 142);
+            this.panel4.TabIndex = 104;
+            // 
+            // checkedListBoxSsn
+            // 
+            this.checkedListBoxSsn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkedListBoxSsn.BackColor = System.Drawing.SystemColors.Control;
+            this.checkedListBoxSsn.FormattingEnabled = true;
+            this.checkedListBoxSsn.Location = new System.Drawing.Point(3, 22);
+            this.checkedListBoxSsn.Name = "checkedListBoxSsn";
+            this.checkedListBoxSsn.Size = new System.Drawing.Size(659, 112);
+            this.checkedListBoxSsn.TabIndex = 104;
+            this.checkedListBoxSsn.SelectedIndexChanged += new System.EventHandler(this.checkedListBoxSsn_SelectedIndexChanged);
             // 
             // StakingClaimForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 190);
-            this.Controls.Add(this.label2);
+            this.ClientSize = new System.Drawing.Size(684, 279);
+            this.Controls.Add(this.panel4);
             this.Name = "StakingClaimForm";
             this.Text = "Claim Pending Stake Rewards";
-            this.Controls.SetChildIndex(this.label2, 0);
+            this.Load += new System.EventHandler(this.StakingClaimForm_Load);
+            this.Controls.SetChildIndex(this.panel4, 0);
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
         private Label label2;
+        private Panel panel4;
+        private CheckedListBox checkedListBoxSsn;
     }
 }

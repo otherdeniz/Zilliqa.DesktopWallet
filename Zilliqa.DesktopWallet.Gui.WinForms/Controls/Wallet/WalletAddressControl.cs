@@ -8,6 +8,7 @@ using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 using Zilliqa.DesktopWallet.Gui.WinForms.Forms;
+using Zilliqa.DesktopWallet.Gui.WinForms.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 {
@@ -144,12 +145,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                 var stakeResult = StakingStakeForm.Execute(this.ParentForm!, _account);
                 if (stakeResult != null)
                 {
-                    //var transactionInfo = SendTransactionService.Instance.SendZilToAddress(
-                    //    sendZilResult.ToAddress,
-                    //    sendZilResult.Amount,
-                    //    myAccount.AccountDetails);
-                    MessageBox.Show("bla bla bla", "Transaction Info",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    var sendResult = StakingService.Instance.SendTransactionStake(
+                        myAccount.AccountDetails,
+                        stakeResult.SsnAddress,
+                        stakeResult.Amount);
+                    TransactionSendResultForm.ExecuteShow(this.ParentForm!, sendResult);
                 }
             }
         }
@@ -158,7 +158,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         {
             if (_account?.AccountData is MyAccount myAccount)
             {
-                var claimResult = StakingClaimForm.Execute(this.ParentForm!);
+                var claimResult = StakingClaimForm.Execute(this.ParentForm!, _account);
                 if (claimResult != null)
                 {
                     //var transactionInfo = SendTransactionService.Instance.SendZilToAddress(

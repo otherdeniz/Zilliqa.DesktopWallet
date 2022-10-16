@@ -115,11 +115,14 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                     _zilLiquidBalance = (await ZilliqaClient.DefaultInstance.GetBalance(Address))?.GetBalance(Unit.ZIL);
                     if (_stakingDelegatorAmounts.Count > 0)
                     {
-                        Stakes.Clear();
-                        foreach (var stakingDelegatorAmount in _stakingDelegatorAmounts)
+                        WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                         {
-                            Stakes.Add(new AddressStakedRowViewModel(stakingDelegatorAmount));
-                        }
+                            Stakes.Clear();
+                            foreach (var stakingDelegatorAmount in _stakingDelegatorAmounts)
+                            {
+                                Stakes.Add(new AddressStakedRowViewModel(stakingDelegatorAmount));
+                            }
+                        });
                     }
                 }
                 for (int i = 1; i <= 3; i++)
@@ -315,14 +318,14 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             if (transaction.Receipt.EventLogs?.FirstOrDefault(e => e.Eventname == "Minted")
                 is { } mintedEvent
                 && mintedEvent.Params.FirstOrDefault(p => p.Vname == "amount")?.ResolvedValue 
-                    is ParamValueUInt128 paramValueMintedAmount)
+                    is ParamValueBigInteger paramValueMintedAmount)
             {
                 var tokenByAddress = TokenDataService.Instance.FindTokenByAddress(mintedEvent.Address);
                 if (tokenByAddress != null)
                 {
                     var tokenBalance = GetOrAddTokenBalance(list, tokenByAddress.TokenModel, addOnWinFormsThread);
                     tokenBalance.Transactions += 1;
-                    tokenBalance.Balance += tokenByAddress.SmartContract.AmountToDecimal(paramValueMintedAmount.Number128);
+                    tokenBalance.Balance += tokenByAddress.SmartContract.AmountToDecimal(paramValueMintedAmount.NumberBig);
                     if (updateValueProperties)
                     {
                         tokenBalance.UpdateValuesProperties(true, RefreshTokenBalances);
@@ -334,14 +337,14 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             else if (transaction.Receipt.Transitions?.FirstOrDefault(t => t.Msg.Tag == "Transfer")
                          is { } transferTransition
                      && transferTransition.Msg.Params?.FirstOrDefault(t => t.Vname == "amount")?.ResolvedValue
-                         is ParamValueUInt128 paramTokenAmount)
+                         is ParamValueBigInteger paramTokenAmount)
             {
                 var tokenByAddress = TokenDataService.Instance.FindTokenByAddress(transferTransition.Msg.Recipient);
                 if (tokenByAddress != null)
                 {
                     var tokenBalance = GetOrAddTokenBalance(list, tokenByAddress.TokenModel, addOnWinFormsThread);
                     tokenBalance.Transactions += 1;
-                    tokenBalance.Balance += tokenByAddress.SmartContract.AmountToDecimal(paramTokenAmount.Number128);
+                    tokenBalance.Balance += tokenByAddress.SmartContract.AmountToDecimal(paramTokenAmount.NumberBig);
                     if (updateValueProperties)
                     {
                         tokenBalance.UpdateValuesProperties(true, RefreshTokenBalances);

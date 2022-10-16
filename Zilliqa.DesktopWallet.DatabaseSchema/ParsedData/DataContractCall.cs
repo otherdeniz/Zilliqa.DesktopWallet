@@ -5,7 +5,11 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
 public class DataContractCall
 {
-    public static readonly DataContractCall Empty = new() { IsEmpty = true };
+    public static readonly DataContractCall Empty = new()
+    {
+        IsEmpty = true, 
+        Params = new List<DataParam>()
+    };
 
     public static bool TryParse(string data, out DataContractCall result)
     {

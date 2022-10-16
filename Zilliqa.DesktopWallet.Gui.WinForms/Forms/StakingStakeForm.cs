@@ -185,8 +185,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         private void buttonSendMax_Click(object sender, EventArgs e)
         {
-            textAmount.Text = (_account.ZilLiquidBalance - _feesToSafe.ZilSatoshisToZil())
-                .ToString(CultureInfo.CurrentCulture);
+            var maxAmount = (_account.ZilLiquidBalance - _feesToSafe.ZilSatoshisToZil());
+            textAmount.Text = maxAmount > 0
+                ? maxAmount.ToString(CultureInfo.CurrentCulture)
+                : "0";
         }
     }
 }

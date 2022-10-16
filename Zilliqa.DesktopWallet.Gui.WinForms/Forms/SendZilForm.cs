@@ -78,7 +78,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         private void SendZilForm_Load(object sender, EventArgs e)
         {
             textGasPrice.Text = RepositoryManager.Instance.BlockchainBrowserRepository.MinimumGasPrice
-                .ToString("#,##0", CultureInfo.CurrentCulture);
+                .ZilSatoshisToZil().ToString(CultureInfo.CurrentCulture);
             var currentFee = RepositoryManager.Instance.BlockchainBrowserRepository.MinimumGasPrice *
                           SendTransactionService.GasLimitZilTransfer;
             textFee.Text = currentFee.ZilSatoshisToZil().ToString(CultureInfo.CurrentCulture);
@@ -104,8 +104,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         {
             var currentFee = RepositoryManager.Instance.BlockchainBrowserRepository.MinimumGasPrice *
                              SendTransactionService.GasLimitZilTransfer;
-            textAmount.Text = (_account.ZilLiquidBalance - currentFee.ZilSatoshisToZil())
-                .ToString(CultureInfo.CurrentCulture);
+            var maxAmount = _account.ZilLiquidBalance - currentFee.ZilSatoshisToZil();
+            textAmount.Text = maxAmount > 0
+                ? maxAmount.ToString(CultureInfo.CurrentCulture)
+                : "0";
         }
     }
 }

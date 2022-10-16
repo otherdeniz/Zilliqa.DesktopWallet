@@ -1,10 +1,13 @@
-﻿using System.ComponentModel;
+﻿using System.Collections;
+using System.ComponentModel;
 using System.Reflection;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
+using Zilliqa.DesktopWallet.DatabaseSchema;
+using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details.PropertyRow;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values;
@@ -169,6 +172,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 
         private int AddControls(Control toPanel, object viewModelObject)
         {
+            if (viewModelObject is IList viewModelList)
+            {
+                return AddListControls(toPanel, viewModelList);
+            }
             var height = 0;
             var vmType = viewModelObject.GetType();
             var vmBaseType = vmType.BaseType;
@@ -233,16 +240,15 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
                         var groupPanel = new GroupBox
                         {
                             Text = detailsObjectAttribute.GroupName,
-                            Font = new Font(Font, FontStyle.Bold),
+                            Font = new Font(Font, FontStyle.Regular),
                             Dock = DockStyle.Top
                         };
-                        var subHeight = 0;
-                        subHeight += AddControls(groupPanel, propertyValue);
+                        var subHeight = AddControls(groupPanel, propertyValue);
                         if (subHeight > 0)
                         {
-                            groupPanel.Height = subHeight + 20;
+                            groupPanel.Height = subHeight + 24;
                             toPanel.Controls.Add(groupPanel);
-                            height += subHeight + 20;
+                            height += subHeight + 24;
                         }
                     }
                     else
@@ -252,6 +258,30 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
                 }
             }
 
+            return height;
+        }
+
+        private int AddListControls(Control toPanel, IList viewModelList)
+        {
+            var height = 0;
+            foreach (var viewModelItem in viewModelList)
+            {
+                PropertyRowBase? rowControl = null;
+                if (viewModelItem is DataParam dataParam)
+                {
+                    var textControl = new PropertyRowText();
+                    textControl.LoadValue(dataParam.Vname, $"[{dataParam.Type}] {dataParam.ResolvedValue}");
+                    rowControl = textControl;
+                }
+                if (rowControl != null)
+                {
+                    rowControl.Dock = DockStyle.Top;
+                    rowControl.Font = new Font(Font, FontStyle.Regular);
+                    rowControl.NameMinWidth = 120;
+                    toPanel.Controls.Add(rowControl);
+                    height += rowControl.Height;
+                }
+            }
             return height;
         }
 

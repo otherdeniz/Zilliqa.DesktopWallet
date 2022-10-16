@@ -26,15 +26,16 @@ public class DataParam : IParam
 
     private ParamValue? _resolvedValue;
 
-    [JsonProperty("type")]
-    public string Type { get; set; }
-
     [JsonProperty("vname")]
     public string Vname { get; set; }
+
+    [JsonProperty("type")]
+    public string Type { get; set; }
 
     [JsonProperty("value")]
     public object Value { get; set; }
 
+    [JsonIgnore]
     [TypeConverter(typeof(ExpandableObjectConverter))] //Attribute only for GUI PropertyGrid
     public ParamValue ResolvedValue => _resolvedValue ??= ParamValue.ResolveParam(this);
 }

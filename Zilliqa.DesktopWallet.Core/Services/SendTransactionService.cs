@@ -1,33 +1,55 @@
-﻿using Zilliqa.DesktopWallet.ApiClient;
+﻿using Newtonsoft.Json;
+using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.ApiClient.Accounts;
 using Zilliqa.DesktopWallet.ApiClient.Crypto;
 using Zilliqa.DesktopWallet.ApiClient.Model;
 using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
+using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
 namespace Zilliqa.DesktopWallet.Core.Services
 {
     public class SendTransactionService
     {
-        public static int GasLimitZilTransfer = 50;
-        public static int GasLimitDefaultContractCall = 30000;
+        public static readonly int GasLimitZilTransfer = 50;
+        public static readonly int GasLimitDefaultContractCall = 30000;
 
         public static SendTransactionService Instance { get; } = new();
+
+        private static readonly JsonSerializerSettings DataSerializerSettings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.None,
+            TypeNameHandling = TypeNameHandling.None
+        };
 
         private SendTransactionService()
         {
         }
 
+        public SendTransactionResult CallContract(Account senderAccount,
+            AddressValue contractAddress,
+            string method,
+            List<DataParam>? parameters = null,
+            decimal zilAmount = 0,
+            int? gasLimit = null)
+        {
+            var contractCall = new DataContractCall
+            {
+                Tag = method,
+                Params = parameters ?? new List<DataParam>()
+            };
+            return CallContract(senderAccount, contractAddress, contractCall, zilAmount, gasLimit);
+        }
+
         public SendTransactionResult CallContract(Account senderAccount, 
             AddressValue contractAddress, 
-            string method, 
+            DataContractCall contractCall, 
             decimal zilAmount = 0, 
-            object[]? arguments = null, 
             int? gasLimit = null)
         {
             var result = new SendTransactionResult(senderAccount.Address, contractAddress.Address,
-                $"Call Contract method {method}");
+                $"Call contract method '{contractCall.Tag}'");
             gasLimit ??= GasLimitDefaultContractCall;
             Task.Run(async () =>
             {
@@ -40,12 +62,13 @@ namespace Zilliqa.DesktopWallet.Core.Services
                         GasPrice = RepositoryManager.Instance.BlockchainBrowserRepository.MinimumGasPrice.ToString("0"),
                         GasLimit = gasLimit.ToString(),
                         Code = "",
-                        Data = "",
+                        Data = JsonConvert.SerializeObject(contractCall, DataSerializerSettings),
                         Priority = false
                     };
                     tx.SetVersion(ZilliqaClient.UseTestnet);
                     var signed = await SignWithAsync(tx, senderAccount, true);
                     var info = await ZilliqaClient.DefaultInstance.CreateTransaction(signed);
+                    result.Success = true;
                     result.Message = info.InfoMessage;
                     result.TransactionId = info.TransactionId;
                 }
@@ -88,6 +111,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 tx.SetVersion(ZilliqaClient.UseTestnet);
                 var signed = await SignWithAsync(tx, senderAccount, true);
                 var info = await ZilliqaClient.DefaultInstance.CreateTransaction(signed);
+                result.Success = true;
                 result.Message = info.InfoMessage;
                 result.TransactionId = info.TransactionId;
             }

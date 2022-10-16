@@ -149,9 +149,9 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
                 if (firstEvent?.Eventname == "TransferSuccess")
                 {
                     var amountParam = firstEvent.Params.FirstOrDefault(p => p.Vname == "amount");
-                    if (amountParam?.ResolvedValue is ParamValueUInt128 value128)
+                    if (amountParam?.ResolvedValue is ParamValueBigInteger valueBigInteger)
                     {
-                        return value128.Number128;
+                        return valueBigInteger.NumberBig.LongValue;
                     }
                     if (amountParam?.ResolvedValue is ParamValueUInt32 value32)
                     {
