@@ -8,7 +8,6 @@ using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 using Zilliqa.DesktopWallet.Gui.WinForms.Forms;
-using Zilliqa.DesktopWallet.Gui.WinForms.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 {
@@ -161,12 +160,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                 var claimResult = StakingClaimForm.Execute(this.ParentForm!, _account);
                 if (claimResult != null)
                 {
-                    //var transactionInfo = SendTransactionService.Instance.SendZilToAddress(
-                    //    sendZilResult.ToAddress,
-                    //    sendZilResult.Amount,
-                    //    myAccount.AccountDetails);
-                    MessageBox.Show("bla bla bla", "Transaction Info",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    var sendResultList = claimResult.SsnAddressList.Select(ssnAddr =>
+                        StakingService.Instance.SendTransactionClaim(
+                            myAccount.AccountDetails,
+                            ssnAddr)
+                        ).ToList();
+                    TransactionSendResultForm.ExecuteShow(this.ParentForm!, sendResultList);
                 }
             }
         }
@@ -181,5 +180,14 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 
         }
 
+        private void buttonSmartContractCall_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonSmartContractDeploy_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

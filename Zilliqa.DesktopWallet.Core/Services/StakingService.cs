@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Runtime.Caching;
 using Newtonsoft.Json.Linq;
 using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient;
@@ -23,6 +24,8 @@ namespace Zilliqa.DesktopWallet.Core.Services
 
         public static StakingService Instance { get; } = new();
 
+        private static readonly MemoryCache Cache = new MemoryCache("StakingService");
+        private static readonly object CacheLock = new();
         private StakingProxyContract? _currentProxy;
         private string? _currentImplementationAddress;
         private List<StakingSeedNode>? _stakingSeedNodes;
@@ -106,8 +109,41 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 }).GetAwaiter().GetResult();
                 _stakingSeedNodes = jsonResult.First?.First?.Children().Select(t => new StakingSeedNode(t)).ToList()
                        ?? throw new RuntimeException("Failed to get SeedNodeList of Staking Implementation Contract");
+                Task.Run(() =>
+                {
+                    var lastCycle = Task.Run(async () =>
+                            await ZilliqaClient.DefaultInstance.GetSmartContractSubStateValue(
+                                ImplementationAddress, "lastrewardcycle"))
+                        .GetAwaiter().GetResult()
+                        .Value<int>();
+                    foreach (var stakingSeedNode in _stakingSeedNodes)
+                    {
+                        stakingSeedNode.CalculateApyLast24H(lastCycle - 15);
+                    }
+                });
             }
             return _stakingSeedNodes;
+        }
+
+        /// <summary>
+        /// Get all Delegators for SSN
+        /// value is in ZIL
+        /// </summary>
+        public List<StakingNodeDelegator> GetDelegators(string stakeNodeAddress)
+        {
+            try
+            {
+                var keyValues = Task.Run(async () =>
+                    await ZilliqaClient.DefaultInstance.GetSmartContractSubStateValues<decimal>(
+                        ImplementationAddress, "ssn_deleg_amt", new Address(stakeNodeAddress).GetBase16(true))
+                ).GetAwaiter().GetResult();
+                return keyValues.Select(kv => new StakingNodeDelegator(kv.Key, kv.Value)).ToList();
+            }
+            catch (Exception e)
+            {
+                Logging.LogError($"StakingService.GetDelegators('{stakeNodeAddress}') failed", e);
+                return new List<StakingNodeDelegator>();
+            }
         }
 
         /// <summary>
@@ -132,24 +168,12 @@ namespace Zilliqa.DesktopWallet.Core.Services
         }
 
         /// <summary>
-        /// Get all Delegators for SSN
+        /// Get unclaimed rewards for a Delegator on each SSN
         /// value is in ZIL
         /// </summary>
-        public List<StakingNodeDelegator> GetDelegators(string stakeNodeAddress)
+        public List<StakingDelegatorAmount> GetUnclaimedRewardAmounts(Address delegatorAddress)
         {
-            try
-            {
-                var keyValues = Task.Run(async () =>
-                    await ZilliqaClient.DefaultInstance.GetSmartContractSubStateValues<decimal>(
-                        ImplementationAddress, "ssn_deleg_amt", new Address(stakeNodeAddress).GetBase16(true))
-                ).GetAwaiter().GetResult();
-                return keyValues.Select(kv => new StakingNodeDelegator(kv.Key, kv.Value)).ToList();
-            }
-            catch (Exception e)
-            {
-                Logging.LogError($"StakingService.GetDelegators('{stakeNodeAddress}') failed", e);
-                return new List<StakingNodeDelegator>();
-            }
+            return new List<StakingDelegatorAmount>();
         }
 
         public decimal GetPendingWithdrawAmount(Address delegatorAddress)
@@ -172,6 +196,18 @@ namespace Zilliqa.DesktopWallet.Core.Services
             }
         }
 
+        public List<StakingSeedNodeRewards> GetStakingSeedNodeRewards()
+        {
+            return Cache.GetOrAdd("GetStakingSeedNodeRewards", TimeSpan.FromMinutes(30), () =>
+            {
+                var jsonResult = (JToken)Task.Run(async () =>
+                {
+                    return await ZilliqaClient.DefaultInstance.GetSmartContractSubState(new object[]
+                        { ImplementationAddress, "stake_ssn_per_cycle", new object[] { } });
+                }).GetAwaiter().GetResult();
+                return jsonResult.First?.First?.Children().Select(t => new StakingSeedNodeRewards(t)).ToList();
+            }, CacheLock) ?? new List<StakingSeedNodeRewards>();
+        }
     }
 
     public class StakingProxyContract
@@ -194,10 +230,10 @@ namespace Zilliqa.DesktopWallet.Core.Services
     {
         public StakingDelegatorAmount(string stakingNode, decimal stakeAmountZilSatoshis)
         {
-            StakingNode = stakingNode;
+            StakingNodeAddress = stakingNode;
             StakeAmount = stakeAmountZilSatoshis.ZilSatoshisToZil();
         }
-        public string StakingNode { get; }
+        public string StakingNodeAddress { get; }
         public decimal StakeAmount { get; }
     }
 
@@ -214,6 +250,8 @@ namespace Zilliqa.DesktopWallet.Core.Services
 
     public class StakingSeedNode
     {
+        private decimal? _apyLast24h;
+
         //"arguments": [
         //    {
         //        "argtypes": [],
@@ -261,5 +299,64 @@ namespace Zilliqa.DesktopWallet.Core.Services
         public decimal CommissionRatePercent => CommissionRate / 10000000;
         public decimal CommissionRewards { get; }
         public string CommissioningAddress { get; }
+
+        public decimal ApyLast24H => _apyLast24h ?? 0;
+
+        public void CalculateApyLast24H(int aboveCycle)
+        {
+            if (_apyLast24h == null)
+            {
+                var ssnRewards = StakingService.Instance.GetStakingSeedNodeRewards()
+                    .FirstOrDefault(ssn => ssn.SsnAddress == SsnAddress);
+                if (ssnRewards != null)
+                {
+                    _apyLast24h = ssnRewards.RewardsPerCycle
+                        .Where(r => r.Cycle > aboveCycle)
+                        .TakeLast(10).Sum(r => r.RewardPercent) * 36.5m;
+                }
+                else
+                {
+                    _apyLast24h = 0;
+                }
+            }
+        }
+    }
+
+    public class StakingSeedNodeRewards
+    {
+        public StakingSeedNodeRewards(JToken ssnJToken)
+        {
+            SsnAddress = ((JProperty)ssnJToken).Name;
+            RewardsPerCycle = ssnJToken.First!.Children()
+                .Select(j => new StakingSeedNodeRewardPerCycle(j))
+                .OrderByDescending(c => c.Cycle)
+                .ToList();
+        }
+
+        public string SsnAddress { get; }
+
+        public List<StakingSeedNodeRewardPerCycle> RewardsPerCycle { get; }
+    }
+
+    public class StakingSeedNodeRewardPerCycle
+    {
+        public StakingSeedNodeRewardPerCycle(JToken cycleJToken)
+        {
+            var cycleJProperty = (JProperty)cycleJToken;
+            Cycle = int.TryParse(cycleJProperty.Name, out var intValue) ? intValue : -1;
+            var argumentList = cycleJProperty.First!.SelectToken("arguments")!.Children().ToList();
+            StakedAmount = argumentList[0].Value<decimal>();
+            RewardAmount = argumentList[1].Value<decimal>();
+        }
+
+        public int Cycle { get; }
+
+        public decimal StakedAmount { get; }
+
+        public decimal RewardAmount { get; }
+
+        public decimal RewardPercent => StakedAmount > 0 && RewardAmount > 0
+            ? 100m / StakedAmount * RewardAmount
+            : 0m;
     }
 }

@@ -52,6 +52,11 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public decimal BufferedDeposit => StakingSeedNodeModel.BufferedDeposit.ZilSatoshisToZil();
 
         [DetailsProperty]
+        [DisplayName("APY %")]
+        [GridViewFormat("0.00 '%'")]
+        public decimal ApyLast24H => StakingSeedNodeModel.ApyLast24H;
+
+        [DetailsProperty]
         [DisplayName("Payed Rewards")]
         [GridViewFormat("#,##0.0 ZIL")]
         public decimal StakeRewards => StakingSeedNodeModel.StakeRewards.ZilSatoshisToZil();

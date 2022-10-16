@@ -8,6 +8,36 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 {
     public partial class TransactionSendResultForm : Form
     {
+        public static void ExecuteShow(Form parentForm, List<SendTransactionResult> sendTransactionResultList)
+        {
+            if (sendTransactionResultList.Count == 1)
+            {
+                ExecuteShow(parentForm, sendTransactionResultList[0]);
+            }
+            else if (sendTransactionResultList.Count > 1)
+            {
+                var form = new TransactionSendResultForm();
+                form.labelSender.Text = new AddressValue(sendTransactionResultList[0].Sender).ToString();
+                form.labelRecipient.Text = new AddressValue(sendTransactionResultList[0].Recipient).ToString();
+                form.labelTransactionPayload.Text = $"{sendTransactionResultList[0].PayloadInfo} ({sendTransactionResultList.Count} Transactions)";
+                form.labelTransactionMessage.Text = sendTransactionResultList[0].Message;
+                form.labelId.Text = string.Join(";", sendTransactionResultList.Where(t => t.TransactionId != null)
+                    .Select(t => t.TransactionId?.FromTransactionHexToShortReadable()));
+                form._transactionId = sendTransactionResultList[0].TransactionId;
+                if (sendTransactionResultList[0].TransactionId != null
+                    && sendTransactionResultList[0].Success)
+                {
+                    form.RefreshTransactionStatus();
+                    form.timerRefreshStatus.Enabled = true;
+                }
+                else
+                {
+                    form.pictureBox1.Image = form.imageListStatus.Images[2];
+                    form.labelStatus.Text = "Failed";
+                }
+                form.Show(parentForm);
+            }
+        }
 
         public static void ExecuteShow(Form parentForm, SendTransactionResult sendTransactionResult)
         {

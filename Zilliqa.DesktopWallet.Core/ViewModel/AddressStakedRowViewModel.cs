@@ -15,8 +15,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             _stakingDelegatorAmount = stakingDelegatorAmount;
             _stakingNodeViewModel = new StakingNodeViewModel(
                 StakingService.Instance.GetSeedNodeList()
-                    .FirstOrDefault(s => s.SsnAddress == stakingDelegatorAmount.StakingNode)
-                ?? new StakingSeedNode(stakingDelegatorAmount.StakingNode));
+                    .FirstOrDefault(s => s.SsnAddress == stakingDelegatorAmount.StakingNodeAddress)
+                ?? new StakingSeedNode(stakingDelegatorAmount.StakingNodeAddress));
         }
 
         [Browsable(false)]

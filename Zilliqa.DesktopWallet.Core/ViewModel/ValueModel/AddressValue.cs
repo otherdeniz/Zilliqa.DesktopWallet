@@ -28,31 +28,34 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
             return false;
         }
 
-        public static AddressValue? Create(string? address)
+        public static AddressValue? Create(string? address, bool displayKnownName = true)
         {
             if (address == null)
             {
                 return null;
             }
-            return new AddressValue(address);
+            return new AddressValue(address, displayKnownName);
         }
-        public static AddressValue? Create(Address? address)
+        public static AddressValue? Create(Address? address, bool displayKnownName = true)
         {
             if (address == null)
             {
                 return null;
             }
-            return new AddressValue(address);
+            return new AddressValue(address, displayKnownName);
         }
 
         private (bool, SmartContract?)? _smartContract;
+        private readonly bool _displayKnownName;
 
-        public AddressValue(string address)
+        public AddressValue(string address, bool displayKnownName = true)
         {
+            _displayKnownName = displayKnownName;
             Address = new Address(address);
         }
-        public AddressValue(Address address)
+        public AddressValue(Address address, bool displayKnownName = true)
         {
+            _displayKnownName = displayKnownName;
             Address = address;
         }
 
@@ -78,7 +81,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
 
         public override string ToString()
         {
-            if (KnownAddressService.Instance.Bech32AddressNames.TryGetValue(Address.GetBech32(), out var addressName))
+            if (_displayKnownName &&
+                KnownAddressService.Instance.Bech32AddressNames.TryGetValue(Address.GetBech32(), out var addressName))
             {
                 if (addressName.Length > 24)
                 {

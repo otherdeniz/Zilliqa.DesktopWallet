@@ -210,7 +210,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                         WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                         {
                             foreach (var tokenBalance in tokenBalances
-                                         .OrderByDescending(t => t.Model.CryptometaAsset?.Gen.Score ?? -1))
+                                         .OrderByDescending(t => t.Model.TokenModel.CryptometaAsset?.Gen.Score ?? -1))
                             {
                                 tokenBalance.UpdateValuesProperties(true, RefreshTokenBalances);
                                 TokenBalances.Add(tokenBalance);
@@ -273,10 +273,11 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             bool updateValueProperties,
             bool addOnWinFormsThread)
         {
-            var tokenBalance = list.FirstOrDefault(t => t.Model.Symbol == viewModel.Symbol);
+            var tokenBalance = list.FirstOrDefault(t =>
+                t.Model.ContractAddressBech32 == viewModel.TokenModelByAddress.ContractAddressBech32);
             if (tokenBalance == null)
             {
-                tokenBalance = new TokenBalanceRowViewModel(viewModel.TokenModel);
+                tokenBalance = new TokenBalanceRowViewModel(viewModel.TokenModelByAddress);
                 if (addOnWinFormsThread)
                 {
                     WinFormsSynchronisationContext.ExecuteSynchronized(() =>
@@ -323,7 +324,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                 var tokenByAddress = TokenDataService.Instance.FindTokenByAddress(mintedEvent.Address);
                 if (tokenByAddress != null)
                 {
-                    var tokenBalance = GetOrAddTokenBalance(list, tokenByAddress.TokenModel, addOnWinFormsThread);
+                    var tokenBalance = GetOrAddTokenBalance(list, tokenByAddress, addOnWinFormsThread);
                     tokenBalance.Transactions += 1;
                     tokenBalance.Balance += tokenByAddress.SmartContract.AmountToDecimal(paramValueMintedAmount.NumberBig);
                     if (updateValueProperties)
@@ -342,7 +343,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                 var tokenByAddress = TokenDataService.Instance.FindTokenByAddress(transferTransition.Msg.Recipient);
                 if (tokenByAddress != null)
                 {
-                    var tokenBalance = GetOrAddTokenBalance(list, tokenByAddress.TokenModel, addOnWinFormsThread);
+                    var tokenBalance = GetOrAddTokenBalance(list, tokenByAddress, addOnWinFormsThread);
                     tokenBalance.Transactions += 1;
                     tokenBalance.Balance += tokenByAddress.SmartContract.AmountToDecimal(paramTokenAmount.NumberBig);
                     if (updateValueProperties)
@@ -354,13 +355,14 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         }
 
         private TokenBalanceRowViewModel GetOrAddTokenBalance(Collection<TokenBalanceRowViewModel> list, 
-            TokenModel tokenModel,
+            TokenModelByAddress tokenModelByAddress,
             bool addOnWinFormsThread)
         {
-            var tokenBalance = list.FirstOrDefault(t => t.Model.Symbol == tokenModel.Symbol);
+            var tokenBalance = list.FirstOrDefault(t =>
+                t.Model.ContractAddressBech32 == tokenModelByAddress.ContractAddressBech32);
             if (tokenBalance == null)
             {
-                tokenBalance = new TokenBalanceRowViewModel(tokenModel);
+                tokenBalance = new TokenBalanceRowViewModel(tokenModelByAddress);
                 if (addOnWinFormsThread)
                 {
                     WinFormsSynchronisationContext.ExecuteSynchronized(() =>

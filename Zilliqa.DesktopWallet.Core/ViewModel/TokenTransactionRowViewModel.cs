@@ -31,7 +31,7 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
     public override TransactionDirection Direction { get; }
 
     [Browsable(false)] 
-    public TokenModel TokenModel => _tokenModelByAddress.TokenModel;
+    public TokenModelByAddress TokenModelByAddress => _tokenModelByAddress;
 
     public string Date => _date ??= Transaction.Timestamp.ToLocalTime().ToString("g");
 

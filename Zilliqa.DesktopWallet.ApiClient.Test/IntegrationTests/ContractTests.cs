@@ -104,13 +104,56 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
             var stakingProxyAddress = "zil1v25at4s3eh9w34uqqhe3vdvfsvcwq6un3fupc2".FromBech32ToBase16Address(false); // "62a9d5d611cdcae8d78005f31635898330e06b93";
 
             var resImplementation = await zilClient.GetSmartContractSubState(new object[] { stakingProxyAddress, "implementation", new object[] { } });
-            var stakingImplementationAddress = ((JToken)resImplementation).First.First.Value<string>();
-            var res = await zilClient.GetSmartContractSubState(new object[] { stakingImplementationAddress.Substring(2), "ssnlist", new object[] { } });
+            var stakingImplementationAddress = ((JToken)resImplementation).First.First.Value<string>().Substring(2);
+            var res = await zilClient.GetSmartContractSubState(new object[] { stakingImplementationAddress, "ssnlist", new object[] { } });
         }
 
-        public async Task StakingGetPendingWithdrawAmount()
+        [Test]
+        public async Task StakingGetPendingWithdrawAmountTestnet()
         {
+            var zilClient = new ZilliqaClient(true); // testnet
+            var stakingImplementationAddress = "a2e4657de8108dd3730eb51f05a1d486d77be2df";
+            var resString = (await zilClient.GetSmartContractSubState(new object[] { stakingImplementationAddress, "stake_ssn_per_cycle", new object[] { } }))
+                .ToString();
 
+            // calculate now, also use data from other calls:
+
+            // deposit_amt_deleg (0x[my_addr_hex])
+
+            // direct_deposit_deleg (0x[my_addr_hex]) -> (null)
+            // buff_deposit_deleg  (0x[my_addr_hex])
+            // deleg_stake_per_cycle  (0x[my_addr_hex]) -> (null)
+            // last_withdraw_cycle_deleg  (0x[my_addr_hex])
+
+            // lastrewardcycle
+
+            // mindelegstake
         }
+
+        [Test]
+        public async Task StakingGetPendingWithdrawAmountMainnet()
+        {
+            var zilClient = new ZilliqaClient(false); // mainnet
+            var stakingProxyAddress = "zil1v25at4s3eh9w34uqqhe3vdvfsvcwq6un3fupc2".FromBech32ToBase16Address(false); // "62a9d5d611cdcae8d78005f31635898330e06b93";
+
+            var resImplementation = await zilClient.GetSmartContractSubState(new object[] { stakingProxyAddress, "implementation", new object[] { } });
+            var stakingImplementationAddress = ((JToken)resImplementation).First.First.Value<string>().Substring(2);
+            var resString = (await zilClient.GetSmartContractSubState(new object[] { stakingImplementationAddress, "stake_ssn_per_cycle", new object[] { } }))
+                .ToString();
+
+            // calculate now, also use data from other calls:
+
+            // deposit_amt_deleg (0x[my_addr_hex])
+
+            // direct_deposit_deleg (0x[my_addr_hex]) -> (null)
+            // buff_deposit_deleg  (0x[my_addr_hex])
+            // deleg_stake_per_cycle  (0x[my_addr_hex]) -> (null)
+            // last_withdraw_cycle_deleg  (0x[my_addr_hex])
+
+            // lastrewardcycle
+
+            // mindelegstake
+        }
+
     }
 }

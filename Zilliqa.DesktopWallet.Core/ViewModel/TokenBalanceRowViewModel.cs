@@ -13,21 +13,27 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
     {
         private Image? _icon;
 
-        public TokenBalanceRowViewModel(TokenModel tokenModel)
+        public TokenBalanceRowViewModel(TokenModelByAddress tokenModelByAddress)
         {
-            Model = tokenModel;
+            Model = tokenModelByAddress;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
         [Browsable(false)]
-        public TokenModel Model { get; }
+        public TokenModelByAddress Model { get; }
 
         [DisplayName(" ")]
-        public Image? Icon => _icon ??= Model.Icon.Icon16;
+        public Image? Icon => _icon ??= Model.TokenModel.Icon.Icon16;
 
         [DisplayName("Token")]
-        public string TokenTitle => $"{Model.Name?.TokenNameShort()} ({Model.Symbol?.TokenSymbolShort()})";
+        public string TokenTitle =>
+            $"{Model.TokenModel.Name?.TokenNameShort()} ({Model.TokenModel.Symbol?.TokenSymbolShort()})"
+            + (Model.TokenIndex > 1
+                ? $" #{Model.TokenIndex}"
+                : "");
+
+        public AddressValue Address => new AddressValue(Model.ContractAddressBech32, false);
 
         [Browsable(false)]
         public decimal Balance { get; set; }
@@ -36,7 +42,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public decimal BalanceValue => (Balance < 0 ? 0 : Balance);
 
         [DisplayName("Balance")]
-        public string BalanceDisplay => $"{BalanceValue:#,##0.0000} {Model.Symbol?.TokenSymbolShort()}";
+        public string BalanceDisplay => $"{BalanceValue:#,##0.0000} {Model.TokenModel.Symbol?.TokenSymbolShort()}";
 
         public int Transactions { get; set; }
 
@@ -89,7 +95,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public void UpdateValuesProperties(bool notifiyPropertyChanged, Action? propertiesChangedAction = null)
         {
             //ValueZil = Model.MarketData.RateZil * BalanceValue;
-            RepositoryManager.Instance.CoingeckoRepository.GetCoinPrice(Model.Symbol, cp =>
+            RepositoryManager.Instance.CoingeckoRepository.GetCoinPrice(Model.TokenModel.Symbol, cp =>
             {
                 ValueUsd = cp.MarketData.CurrentPrice.Usd * BalanceValue;
                 ValueChf = cp.MarketData.CurrentPrice.Chf * BalanceValue;
@@ -125,17 +131,17 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         public string GetUniqueId()
         {
-            return $"Token-{Model.Symbol}";
+            return $"Token-{Model.TokenModel.Symbol}";
         }
 
         public string GetDisplayTitle()
         {
-            return $"Token: {Model.Name.TokenNameShort()} ({Model.Symbol.TokenSymbolShort()})";
+            return $"Token: {Model.TokenModel.Name.TokenNameShort()} ({Model.TokenModel.Symbol.TokenSymbolShort()})";
         }
 
         public object GetViewModel()
         {
-            return new TokenDetailsViewModel(Model);
+            return new TokenDetailsViewModel(Model.TokenModel);
         }
     }
 }

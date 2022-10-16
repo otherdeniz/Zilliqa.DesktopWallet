@@ -66,7 +66,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.toolStripAccountActions.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStripAccountActions.Location = new System.Drawing.Point(0, 0);
             this.toolStripAccountActions.Name = "toolStripAccountActions";
-            this.toolStripAccountActions.Size = new System.Drawing.Size(677, 46);
+            this.toolStripAccountActions.Size = new System.Drawing.Size(758, 42);
             this.toolStripAccountActions.TabIndex = 2;
             // 
             // buttonSend
@@ -147,19 +147,20 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.menuSmartContracts.Name = "menuSmartContracts";
             this.menuSmartContracts.Size = new System.Drawing.Size(121, 20);
             this.menuSmartContracts.Text = "Smart Contracts";
-            this.menuSmartContracts.Visible = false;
             // 
             // buttonSmartContractCall
             // 
             this.buttonSmartContractCall.Name = "buttonSmartContractCall";
             this.buttonSmartContractCall.Size = new System.Drawing.Size(194, 22);
             this.buttonSmartContractCall.Text = "Call Smart Contract";
+            this.buttonSmartContractCall.Click += new System.EventHandler(this.buttonSmartContractCall_Click);
             // 
             // buttonSmartContractDeploy
             // 
             this.buttonSmartContractDeploy.Name = "buttonSmartContractDeploy";
             this.buttonSmartContractDeploy.Size = new System.Drawing.Size(194, 22);
             this.buttonSmartContractDeploy.Text = "Deploy Smart Contract";
+            this.buttonSmartContractDeploy.Click += new System.EventHandler(this.buttonSmartContractDeploy_Click);
             // 
             // separatorSend
             // 
@@ -196,10 +197,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.addressDetails.DrillDownPanel = this;
             this.addressDetails.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.addressDetails.IsDrillDownMainControl = true;
-            this.addressDetails.Location = new System.Drawing.Point(0, 46);
+            this.addressDetails.Location = new System.Drawing.Point(0, 42);
             this.addressDetails.Name = "addressDetails";
             this.addressDetails.ShowCurrencyColumns = true;
-            this.addressDetails.Size = new System.Drawing.Size(677, 637);
+            this.addressDetails.Size = new System.Drawing.Size(758, 641);
             this.addressDetails.TabIndex = 3;
             this.addressDetails.AfterRefreshAccountDetails += new System.EventHandler<System.EventArgs>(this.addressDetails_AfterRefreshAccountDetails);
             // 
@@ -210,7 +211,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.Controls.Add(this.addressDetails);
             this.Controls.Add(this.toolStripAccountActions);
             this.Name = "WalletAddressControl";
-            this.Size = new System.Drawing.Size(1047, 683);
+            this.Size = new System.Drawing.Size(1128, 683);
             this.Load += new System.EventHandler(this.WalletAddressControl_Load);
             this.Controls.SetChildIndex(this.toolStripAccountActions, 0);
             this.Controls.SetChildIndex(this.addressDetails, 0);

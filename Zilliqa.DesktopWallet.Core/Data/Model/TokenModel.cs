@@ -12,9 +12,9 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
     {
         private List<string>? _contractAddressesBech32;
 
-        public string Symbol { get; set; }
+        public string? Symbol { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public IconModel Icon { get; set; }
 
@@ -81,6 +81,7 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
                 {
                     TokenModel = tokenModel,
                     ContractAddressBech32 = contractAddressBech32,
+                    TokenIndex = tokenModel.SmartContractModels.IndexOf(smartContract) + 1,
                     SmartContract = smartContract
                 };
                 return true;
@@ -93,6 +94,8 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
         public TokenModel TokenModel { get; private set; } = null!;
 
         public string ContractAddressBech32 { get; private set; } = null!;
+
+        public int TokenIndex { get; private set; }
 
         public SmartContract SmartContract { get; private set; } = null!;
 

@@ -282,9 +282,16 @@ namespace Zilliqa.DesktopWallet.ApiClient
             string contractField)
 		    where TValue : class
         {
+            return (await GetSmartContractSubStateValue(contract, contractField))?.Value<TValue>();
+        }
+
+        public async Task<JToken> GetSmartContractSubStateValue(
+            string contract,
+            string contractField)
+        {
             var jsonResult = await GetSmartContractSubState(new object[]
                 { contract, contractField, new object [] { } }) as JToken;
-            return jsonResult?.First?.First?.Value<TValue>();
+            return jsonResult?.First?.First;
         }
 
         public async Task<IEnumerable<KeyValuePair<string, TValue>>> GetSmartContractSubStateValues<TValue>(
