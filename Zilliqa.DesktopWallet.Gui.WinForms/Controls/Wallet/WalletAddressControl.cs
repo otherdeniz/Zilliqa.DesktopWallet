@@ -32,20 +32,22 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             {
                 buttonSend.Visible = true;
                 buttonSendToken.Visible = true;
+                menuStaking.Visible = true;
+                menuSmartContracts.Visible = true;
                 separatorSend.Visible = true;
                 buttonBackupPrivateKey.Visible = true;
                 separatorBackup.Visible = true;
-                menuStaking.Visible = true;
                 buttonRemoveAccount.Enabled = !_account.HasFunds;
             }
             else
             {
                 buttonSend.Visible = false;
                 buttonSendToken.Visible = false;
+                menuStaking.Visible = false;
+                menuSmartContracts.Visible = false;
                 separatorSend.Visible = false;
                 buttonBackupPrivateKey.Visible = false;
                 separatorBackup.Visible = false;
-                menuStaking.Visible = false;
             }
             addressDetails.BindAccountViewModel(account, false);
         }

@@ -72,7 +72,6 @@
             this.checkedListBoxSsn.FormattingEnabled = true;
             this.checkedListBoxSsn.Location = new System.Drawing.Point(3, 22);
             this.checkedListBoxSsn.Name = "checkedListBoxSsn";
-            this.checkedListBoxSsn.SelectionMode = System.Windows.Forms.SelectionMode.None;
             this.checkedListBoxSsn.Size = new System.Drawing.Size(659, 112);
             this.checkedListBoxSsn.TabIndex = 104;
             this.checkedListBoxSsn.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxSsn_ItemCheck);

@@ -14,9 +14,8 @@ namespace Zilliqa.DesktopWallet.Core.Services
         public void Startup()
         {
             RepositoryManager.Instance.CoingeckoRepository.Startup(false);
-
             CryptometaDownloadService.Instance.LoadOrRefresh();
-
+            StakingService.Instance.GetStakingSeedNodeRewards();
         }
 
         public void Shutdown()

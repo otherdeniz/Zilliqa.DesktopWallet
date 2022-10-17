@@ -637,7 +637,7 @@
             this.tabButtonZilTransactions.Text = "ZIL Transfers";
             this.tabButtonZilTransactions.Click += new System.EventHandler(this.tabButtonZilTransactions_Click);
             // 
-            // separatorTokenTransactions
+            // tabSeparatorTokenTransactions
             // 
             this.tabSeparatorTokenTransactions.Name = "tabSeparatorTokenTransactions";
             this.tabSeparatorTokenTransactions.Size = new System.Drawing.Size(6, 23);

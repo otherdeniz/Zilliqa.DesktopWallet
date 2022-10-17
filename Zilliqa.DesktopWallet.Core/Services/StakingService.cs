@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.Caching;
 using Newtonsoft.Json.Linq;
 using Zillifriends.Shared.Common;
@@ -173,25 +174,70 @@ namespace Zilliqa.DesktopWallet.Core.Services
         /// </summary>
         public List<StakingDelegatorAmount> GetUnclaimedRewardAmounts(Address delegatorAddress)
         {
-            return new List<StakingDelegatorAmount>();
-            //try
-            //{
-            //    var ssnRewardsPerCycle = GetStakingSeedNodeRewards();
-            //    var keyValues = Task.Run(async () =>
-            //        await ZilliqaClient.DefaultInstance.GetSmartContractSubStateValues<object>(
-            //            ImplementationAddress, "buff_deposit_deleg", delegatorAddress.GetBase16(true))
-            //    ).GetAwaiter().GetResult();
-            //    return keyValues.Select(kv =>
-            //    {
-            //        var valueToken = (JToken)kv.Value;
-            //        return new StakingDelegatorAmount(kv.Key, kv.Value);
-            //    }).ToList();
-            //}
-            //catch (Exception e)
-            //{
-            //    Logging.LogError($"StakingService.GetUnclaimedRewardAmounts('{delegatorAddress.GetBech32()}') failed", e);
-            //    return new List<StakingDelegatorAmount>();
-            //}
+            try
+            {
+                var ssnRewardsPerCycle = GetStakingSeedNodeRewards();
+                var keyValues = Task.Run(async () =>
+                    {
+                        var perCycleValues =
+                            (await ZilliqaClient.DefaultInstance.GetSmartContractSubStateValues<object>(
+                                ImplementationAddress, "buff_deposit_deleg", delegatorAddress.GetBase16(true)))
+                            .Select(kv =>
+                                new KeyValuePair<string, List<(int cycle, decimal amount)>>(kv.Key,
+                                    ((JToken)kv.Value).Children<JProperty>()
+                                    .Select(c => (int.Parse(c.Name) + 1, c.Value.Value<decimal>()))
+                                    .ToList()))
+                            .ToList();
+                        var delegStakeValues =
+                            (await ZilliqaClient.DefaultInstance.GetSmartContractSubStateValues<object>(
+                                ImplementationAddress, "deleg_stake_per_cycle", delegatorAddress.GetBase16(true)))
+                            .Select(kv =>
+                                new KeyValuePair<string, List<(int cycle, decimal amount)>>(kv.Key,
+                                    ((JToken)kv.Value).Children<JProperty>()
+                                    .Select(c => (int.Parse(c.Name), c.Value.Value<decimal>()))
+                                    .ToList()))
+                            .ToList();
+                        foreach (var delegStakeValue in delegStakeValues)
+                        {
+                            if (perCycleValues.Any(v => v.Key == delegStakeValue.Key))
+                            {
+                                perCycleValues.First(v => v.Key == delegStakeValue.Key)
+                                    .Value.AddRange(delegStakeValue.Value);
+                            }
+                            else
+                            {
+                                perCycleValues.Add(delegStakeValue);
+                            }
+                        }
+                        return perCycleValues;
+                    }
+                ).GetAwaiter().GetResult();
+                return keyValues.Select(kv =>
+                {
+                    StakingDelegatorAmount? ssnReward = null;
+                    var ssnRewards = ssnRewardsPerCycle.FirstOrDefault(sr => sr.SsnAddress == kv.Key);
+                    if (ssnRewards != null)
+                    {
+                        var rewardAmount = 0m;
+                        foreach (var cycleAmount in kv.Value)
+                        {
+                            var rewardCycles = ssnRewards.RewardsPerCycle
+                                .Where(rc => rc.Cycle > cycleAmount.cycle).ToList();
+                            if (rewardCycles.Any())
+                            {
+                                rewardAmount = cycleAmount.amount * rewardCycles.Sum(rc => rc.RewardPercent / 100m);
+                            }
+                        }
+                        ssnReward = new StakingDelegatorAmount(kv.Key, rewardAmount);
+                    }
+                    return ssnReward;
+                }).OfType<StakingDelegatorAmount>().ToList();
+            }
+            catch (Exception e)
+            {
+                Logging.LogError($"StakingService.GetUnclaimedRewardAmounts('{delegatorAddress.GetBech32()}') failed", e);
+                return new List<StakingDelegatorAmount>();
+            }
         }
 
         public decimal GetPendingWithdrawAmount(Address delegatorAddress)

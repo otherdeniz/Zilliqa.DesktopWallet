@@ -121,9 +121,9 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
             // deposit_amt_deleg (0x[my_addr_hex])
 
             // direct_deposit_deleg (0x[my_addr_hex]) -> (null)
-            // buff_deposit_deleg  (0x[my_addr_hex])
-            // deleg_stake_per_cycle  (0x[my_addr_hex]) -> (null)
-            // last_withdraw_cycle_deleg  (0x[my_addr_hex])
+            // buff_deposit_deleg  (0x[my_addr_hex]) -> after deposit
+            // deleg_stake_per_cycle  (0x[my_addr_hex]) -> after first claim
+            // last_withdraw_cycle_deleg  (0x[my_addr_hex]) -> last withdraw or deposit cycles
 
             // lastrewardcycle
 
@@ -141,18 +141,6 @@ namespace Zilliqa.DesktopWallet.ApiClient.Test.IntegrationTests
             var resString = (await zilClient.GetSmartContractSubState(new object[] { stakingImplementationAddress, "stake_ssn_per_cycle", new object[] { } }))
                 .ToString();
 
-            // calculate now, also use data from other calls:
-
-            // deposit_amt_deleg (0x[my_addr_hex])
-
-            // direct_deposit_deleg (0x[my_addr_hex]) -> (null)
-            // buff_deposit_deleg  (0x[my_addr_hex])
-            // deleg_stake_per_cycle  (0x[my_addr_hex]) -> (null)
-            // last_withdraw_cycle_deleg  (0x[my_addr_hex])
-
-            // lastrewardcycle
-
-            // mindelegstake
         }
 
     }

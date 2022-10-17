@@ -44,7 +44,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             if (base.OnOk())
             {
                 SsnAddressList.Clear();
-                foreach (int selectedIndex in checkedListBoxSsn.SelectedIndices)
+                foreach (int selectedIndex in checkedListBoxSsn.CheckedIndices)
                 {
                     SsnAddressList.Add(new AddressValue(_stakes![selectedIndex].StakingNode.SsnAddress));
                 }
@@ -62,7 +62,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         {
             foreach (var stake in _stakes!)
             {
-                checkedListBoxSsn.Items.Add($"{stake.StakingNodeName} - Staked: {stake.StakeAmount:#,##0.00} ZIL");
+                checkedListBoxSsn.Items.Add($"{stake.StakingNodeName}  -  Staked: {stake.StakeAmount:#,##0.00} ZIL  -  Unclaimed: {stake.UnclaimedRewards:#,##0.00} ZIL");
             }
         }
 

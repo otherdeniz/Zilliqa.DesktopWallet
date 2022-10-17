@@ -7,16 +7,15 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
     public class AddressStakedRowViewModel : IDetailsLabel, IDetailsViewModel
     {
-        private readonly AccountViewModel _accountViewModel;
         private readonly StakingDelegatorAmount _stakingDelegatorAmount;
+        private readonly StakingDelegatorAmount? _unclaimedRewardAmount;
         private readonly StakingNodeViewModel _stakingNodeViewModel;
-        private decimal? _unclaimedRewards;
 
-        public AddressStakedRowViewModel(AccountViewModel accountViewModel, 
-            StakingDelegatorAmount stakingDelegatorAmount)
+        public AddressStakedRowViewModel(StakingDelegatorAmount stakingDelegatorAmount, 
+            StakingDelegatorAmount? unclaimedRewardAmount)
         {
-            _accountViewModel = accountViewModel;
             _stakingDelegatorAmount = stakingDelegatorAmount;
+            _unclaimedRewardAmount = unclaimedRewardAmount;
             _stakingNodeViewModel = new StakingNodeViewModel(
                 StakingService.Instance.GetSeedNodeList()
                     .FirstOrDefault(s => s.SsnAddress == stakingDelegatorAmount.StakingNodeAddress)
@@ -36,7 +35,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [DisplayName("Unclaimed rewards")]
         [GridViewFormat("#,##0.00 ZIL")]
         [GridViewDynamicColumn(DynamicColumnCategory.Common)]
-        public decimal UnclaimedRewards => _unclaimedRewards ??= 0;
+        public decimal UnclaimedRewards => _unclaimedRewardAmount?.StakeAmount ?? 0;
 
         public string GetUniqueId()
         {

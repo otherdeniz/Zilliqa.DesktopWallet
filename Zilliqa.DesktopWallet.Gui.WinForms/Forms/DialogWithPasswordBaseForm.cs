@@ -15,7 +15,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         protected override bool OnOk()
         {
-            if (!EncryptionUtils.ValidatePasswordHash(textPassword1.Text, WalletDat.Instance.PasswordHash))
+            if (!EncryptionUtils.ValidatePasswordHash(textPassword.Text, WalletDat.Instance.PasswordHash))
             {
                 MessageBox.Show(Resources.EnterPasswordForm_WrongPassword_Text, Resources.EnterPasswordForm_WrongPassword_Title,
                     MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -25,7 +25,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
             if (CheckFields())
             {
-                Password = textPassword1.Text;
+                Password = textPassword.Text;
                 return true;
             }
 
@@ -34,7 +34,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         protected virtual bool CheckFields()
         {
-            return textPassword1.Text.Length >= WalletDat.MinPasswordLength;
+            return textPassword.Text.Length >= WalletDat.MinPasswordLength;
         }
 
         protected void RefreshOkButton()

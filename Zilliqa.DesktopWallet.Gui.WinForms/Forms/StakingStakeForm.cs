@@ -1,35 +1,16 @@
 ﻿using System.Globalization;
 using Zilliqa.DesktopWallet.Core;
-using Zilliqa.DesktopWallet.Core.Cryptography;
-using Zilliqa.DesktopWallet.Core.Data.Files;
 using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
-using Zilliqa.DesktopWallet.Gui.WinForms.Properties;
 using Zilliqa.DesktopWallet.Gui.WinForms.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 {
-    public partial class StakingStakeForm : DialogBaseForm
+    public partial class StakingStakeForm : DialogWithPasswordBaseForm
     {
-        private AccountViewModel _account = null!;
-        private bool _feesLoaded;
-        private decimal _feesToSafe = 20;
-        private List<StakingSeedNode>? _seedNodes;
-
-        public StakingStakeForm()
-        {
-            InitializeComponent();
-        }
-
-        public string SsnAddress { get; private set; } = string.Empty;
-
-        public decimal Amount { get; private set; }
-
-        public string Password { get; private set; } = string.Empty;
-
         public static StakingStakeResult? Execute(Form parentForm, AccountViewModel account)
         {
             using (var form = new StakingStakeForm())
@@ -49,16 +30,37 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             return null;
         }
 
+        private AccountViewModel _account = null!;
+        private bool _feesLoaded;
+        private decimal _feesToSafe = 20;
+        private List<StakingSeedNode>? _seedNodes;
+
+        public StakingStakeForm()
+        {
+            InitializeComponent();
+        }
+
+        public string SsnAddress { get; private set; } = string.Empty;
+
+        public decimal Amount { get; private set; }
+
         protected override bool OnOk()
         {
-            if (CheckFields(true))
+            if (base.OnOk())
             {
                 SsnAddress = GetSelectedSeedNode()!.SsnAddress;
-                Password = textPassword1.Text;
                 Amount = decimal.Parse(textAmount.Text);
                 return true;
             }
             return false;
+        }
+
+        protected override bool CheckFields()
+        {
+            return base.CheckFields()
+                   && _feesLoaded
+                   && GetSelectedSeedNode() != null
+                   && decimal.TryParse(textAmount.Text, out _);
         }
 
         private StakingSeedNode? GetSelectedSeedNode()
@@ -69,25 +71,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             }
 
             return null;
-        }
-
-        private bool CheckFields(bool validatePassword)
-        {
-            if (validatePassword &&
-                !EncryptionUtils.ValidatePasswordHash(textPassword1.Text, WalletDat.Instance.PasswordHash))
-            {
-                MessageBox.Show(Resources.EnterPasswordForm_WrongPassword_Text, Resources.EnterPasswordForm_WrongPassword_Title,
-                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
-                return false;
-            }
-
-            var ok = _feesLoaded
-                     && GetSelectedSeedNode() != null
-                     && decimal.TryParse(textAmount.Text, out _)
-                     && textPassword1.Text.Length >= 1;
-            buttonOk.Enabled = ok;
-            return ok;
         }
 
         private void StakingStakeForm_Load(object sender, EventArgs e)
@@ -116,7 +99,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                     buttonSendMax.Enabled = true;
                     textStakeFee.Text = stakeFee.ZilSatoshisToZil().ToString(CultureInfo.CurrentCulture);
                     textClaimFee.Text = claimFee.ZilSatoshisToZil().ToString(CultureInfo.CurrentCulture);
-                    CheckFields(false);
+                    RefreshOkButton();
                 });
             });
             _seedNodes = StakingService.Instance.GetSeedNodeList().OrderByDescending(s => s.StakeAmount).ToList();
@@ -169,18 +152,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                                          pleaseUseZillifriendsSsn;
                 }
             }
-
-            CheckFields(false);
+            RefreshOkButton();
         }
 
         private void textAmount_TextChanged(object sender, EventArgs e)
         {
-            CheckFields(false);
-        }
-
-        private void textPassword1_TextChanged(object sender, EventArgs e)
-        {
-            CheckFields(false);
+            RefreshOkButton();
         }
 
         private void buttonSendMax_Click(object sender, EventArgs e)

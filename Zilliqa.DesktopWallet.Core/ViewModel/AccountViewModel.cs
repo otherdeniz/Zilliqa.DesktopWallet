@@ -96,7 +96,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                 var tableTransactions = RepositoryManager.Instance.DatabaseRepository.Database.GetTable<Transaction>();
                 tableTransactions.RemoveEventNotificator(_transactionEventNotificator);
             }
-
             _transactionEventNotificator = null;
         }
 
@@ -115,12 +114,15 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                     _zilLiquidBalance = (await ZilliqaClient.DefaultInstance.GetBalance(Address))?.GetBalance(Unit.ZIL);
                     if (_stakingDelegatorAmounts.Count > 0)
                     {
+                        var unclaimedRewards = StakingService.Instance.GetUnclaimedRewardAmounts(Address);
                         WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                         {
                             Stakes.Clear();
                             foreach (var stakingDelegatorAmount in _stakingDelegatorAmounts)
                             {
-                                Stakes.Add(new AddressStakedRowViewModel(this, stakingDelegatorAmount));
+                                Stakes.Add(new AddressStakedRowViewModel(stakingDelegatorAmount, 
+                                    unclaimedRewards.FirstOrDefault(ur => 
+                                        ur.StakingNodeAddress == stakingDelegatorAmount.StakingNodeAddress)));
                             }
                         });
                     }
@@ -131,7 +133,6 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                 {
                     CreatedDate = AllTransactions.Records.Min(t => t.Transaction.Timestamp);
                 }
-
                 RefreshTokenBalances();
             });
         }
