@@ -68,12 +68,14 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.checkedListBoxSsn.BackColor = System.Drawing.SystemColors.Control;
+            this.checkedListBoxSsn.CheckOnClick = true;
             this.checkedListBoxSsn.FormattingEnabled = true;
             this.checkedListBoxSsn.Location = new System.Drawing.Point(3, 22);
             this.checkedListBoxSsn.Name = "checkedListBoxSsn";
+            this.checkedListBoxSsn.SelectionMode = System.Windows.Forms.SelectionMode.None;
             this.checkedListBoxSsn.Size = new System.Drawing.Size(659, 112);
             this.checkedListBoxSsn.TabIndex = 104;
-            this.checkedListBoxSsn.SelectedIndexChanged += new System.EventHandler(this.checkedListBoxSsn_SelectedIndexChanged);
+            this.checkedListBoxSsn.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxSsn_ItemCheck);
             // 
             // StakingClaimForm
             // 

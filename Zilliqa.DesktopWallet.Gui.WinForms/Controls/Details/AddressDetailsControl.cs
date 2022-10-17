@@ -93,11 +93,20 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
                 SetTabButtonCountText(tabButtonStakes, _account.Stakes.Count);
             }
 
-            _account.AllTransactions.ExecuteAfterLoadCompleted(l => SetTabButtonCountText(tabButtonAllTransactions, l.RecordCount), true);
+            _account.AllTransactions.ExecuteAfterLoadCompleted(
+                l => SetTabButtonCountText(tabButtonAllTransactions, l.RecordCount), 
+                true);
 
-            _account.ZilTransactions.ExecuteAfterLoadCompleted(l => SetTabButtonCountText(tabButtonZilTransactions, l.RecordCount), true);
+            _account.ZilTransactions.ExecuteAfterLoadCompleted(
+                l => SetTabButtonCountText(tabButtonZilTransactions, l.RecordCount), 
+                true);
 
-            _account.TokenTransactions.ExecuteAfterLoadCompleted(l => SetTabButtonCountText(tabButtonTokenTransactions, l.RecordCount), true);
+            _account.TokenTransactions.ExecuteAfterLoadCompleted(l =>
+            {
+                tabSeparatorTokenTransactions.Visible = l.RecordCount > 0;
+                tabButtonTokenTransactions.Visible = l.RecordCount > 0;
+                SetTabButtonCountText(tabButtonTokenTransactions, l.RecordCount);
+            }, true);
 
             labelCreatedDate.Text = _account.CreatedDate == DateTime.MinValue 
                 ? "-" 

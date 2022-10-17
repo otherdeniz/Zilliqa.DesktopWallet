@@ -29,12 +29,18 @@ public class FilterOrCombinationSearcher : IFilterSearcher
         {
             toNextChild = false;
             result = _childSearcher[_currentChildSearcher].GetNextRecordPoint();
-            if (result != null 
-                && !_foundRecords.Contains(result.Value))
+            if (result != null)
             {
-                _foundRecords.Add(result.Value);
+                if (!_foundRecords.Contains(result.Value))
+                {
+                    _foundRecords.Add(result.Value);
+                }
+                else
+                {
+                    toNextChild = true;
+                }
             }
-            if (result == null && _childSearcher.Count > _currentChildSearcher + 1)
+            else if (_childSearcher.Count > _currentChildSearcher + 1)
             {
                 _currentChildSearcher++;
                 toNextChild = true;

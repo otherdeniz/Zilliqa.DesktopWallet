@@ -28,7 +28,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [DisplayName("Token")]
         public string TokenTitle =>
-            $"{Model.TokenModel.Name?.TokenNameShort()} ({Model.TokenModel.Symbol?.TokenSymbolShort()})"
+            $"{Model.TokenModel.Name.TokenNameShort()} ({Model.TokenModel.Symbol.TokenSymbolShort()})"
             + (Model.TokenIndex > 1
                 ? $" #{Model.TokenIndex}"
                 : "");
@@ -42,7 +42,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public decimal BalanceValue => (Balance < 0 ? 0 : Balance);
 
         [DisplayName("Balance")]
-        public string BalanceDisplay => $"{BalanceValue:#,##0.0000} {Model.TokenModel.Symbol?.TokenSymbolShort()}";
+        public string BalanceDisplay => $"{BalanceValue:#,##0.0000} {Model.TokenModel.Symbol.TokenSymbolShort()}";
 
         public int Transactions { get; set; }
 

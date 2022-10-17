@@ -13,6 +13,7 @@
 
     public enum DynamicColumnCategory
     {
+        Common,
         CurrencyUsd,
         CurrencyEur,
         CurrencyChf,

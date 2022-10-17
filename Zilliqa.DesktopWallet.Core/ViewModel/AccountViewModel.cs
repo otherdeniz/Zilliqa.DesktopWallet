@@ -120,29 +120,16 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                             Stakes.Clear();
                             foreach (var stakingDelegatorAmount in _stakingDelegatorAmounts)
                             {
-                                Stakes.Add(new AddressStakedRowViewModel(stakingDelegatorAmount));
+                                Stakes.Add(new AddressStakedRowViewModel(this, stakingDelegatorAmount));
                             }
                         });
                     }
                 }
-                for (int i = 1; i <= 3; i++)
+                var coingeckoRepo = RepositoryManager.Instance.CoingeckoRepository;
+                _zilValueUsd = coingeckoRepo.ZilCoinPrice?.MarketData.CurrentPrice.Usd * ZilTotalBalance;
+                if (AllTransactions.Records?.Count > 0)
                 {
-                    try
-                    {
-                        var coingeckoRepo = RepositoryManager.Instance.CoingeckoRepository;
-                        _zilValueUsd = coingeckoRepo.ZilCoinPrice?.MarketData.CurrentPrice.Usd * ZilTotalBalance;
-                        if (AllTransactions.Records?.Count > 0)
-                        {
-                            CreatedDate = AllTransactions.Records.Min(t => t.Transaction.Timestamp);
-                        }
-                        break;
-                    }
-                    catch (Exception e)
-                    {
-                        Logging.LogError($"GetZilLiquidBalance({Address.GetBech32()}) failed", e);
-                    }
-                    // retry after a few seconds
-                    await Task.Delay(Random.Shared.Next(1000, 2000) * i);
+                    CreatedDate = AllTransactions.Records.Min(t => t.Transaction.Timestamp);
                 }
 
                 RefreshTokenBalances();

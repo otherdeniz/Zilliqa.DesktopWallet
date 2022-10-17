@@ -12,9 +12,9 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
     {
         private List<string>? _contractAddressesBech32;
 
-        public string? Symbol { get; set; }
+        public string Symbol { get; set; }
 
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         public IconModel Icon { get; set; }
 

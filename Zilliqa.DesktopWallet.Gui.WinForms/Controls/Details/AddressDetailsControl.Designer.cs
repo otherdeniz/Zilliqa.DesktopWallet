@@ -61,7 +61,7 @@
             this.gridViewAllTransactions = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl();
             this.toolStripTransactions = new System.Windows.Forms.ToolStrip();
             this.tabButtonZilTransactions = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tabSeparatorTokenTransactions = new System.Windows.Forms.ToolStripSeparator();
             this.tabButtonTokenTransactions = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.tabButtonAllTransactions = new System.Windows.Forms.ToolStripButton();
@@ -615,7 +615,7 @@
             // 
             this.toolStripTransactions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tabButtonZilTransactions,
-            this.toolStripSeparator1,
+            this.tabSeparatorTokenTransactions,
             this.tabButtonTokenTransactions,
             this.toolStripSeparator5,
             this.tabButtonAllTransactions});
@@ -637,10 +637,11 @@
             this.tabButtonZilTransactions.Text = "ZIL Transfers";
             this.tabButtonZilTransactions.Click += new System.EventHandler(this.tabButtonZilTransactions_Click);
             // 
-            // toolStripSeparator1
+            // separatorTokenTransactions
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
+            this.tabSeparatorTokenTransactions.Name = "tabSeparatorTokenTransactions";
+            this.tabSeparatorTokenTransactions.Size = new System.Drawing.Size(6, 23);
+            this.tabSeparatorTokenTransactions.Visible = false;
             // 
             // tabButtonTokenTransactions
             // 
@@ -648,8 +649,9 @@
             this.tabButtonTokenTransactions.Image = ((System.Drawing.Image)(resources.GetObject("tabButtonTokenTransactions.Image")));
             this.tabButtonTokenTransactions.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tabButtonTokenTransactions.Name = "tabButtonTokenTransactions";
-            this.tabButtonTokenTransactions.Size = new System.Drawing.Size(127, 19);
-            this.tabButtonTokenTransactions.Text = "ZRC-2 Token Transfers";
+            this.tabButtonTokenTransactions.Size = new System.Drawing.Size(140, 19);
+            this.tabButtonTokenTransactions.Text = "Fungible Token Transfers";
+            this.tabButtonTokenTransactions.Visible = false;
             this.tabButtonTokenTransactions.Click += new System.EventHandler(this.tabButtonTokenTransactions_Click);
             // 
             // toolStripSeparator5
@@ -960,7 +962,7 @@
         private Panel panelTabsTransactions;
         private ToolStrip toolStripTransactions;
         private ToolStripButton tabButtonZilTransactions;
-        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripSeparator tabSeparatorTokenTransactions;
         private ToolStripButton tabButtonTokenTransactions;
         private Panel panelTabPagesTransactions;
         private Panel panelTabsHoldings;

@@ -53,7 +53,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             return false;
         }
 
-        private void checkedListBoxSsn_SelectedIndexChanged(object sender, EventArgs e)
+        private void checkedListBoxSsn_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             RefreshOkButton();
         }
@@ -65,5 +65,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                 checkedListBoxSsn.Items.Add($"{stake.StakingNodeName} - Staked: {stake.StakeAmount:#,##0.00} ZIL");
             }
         }
+
     }
 }

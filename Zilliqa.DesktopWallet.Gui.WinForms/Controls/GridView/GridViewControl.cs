@@ -405,6 +405,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             var currentDisplay = SettingsService.Instance.CurrentDisplayedCurrencies;
             switch (category)
             {
+                case DynamicColumnCategory.Common:
                 case DynamicColumnCategory.CurrencyUsd:
                     return true;
                 case DynamicColumnCategory.CurrencyChf:

@@ -174,6 +174,24 @@ namespace Zilliqa.DesktopWallet.Core.Services
         public List<StakingDelegatorAmount> GetUnclaimedRewardAmounts(Address delegatorAddress)
         {
             return new List<StakingDelegatorAmount>();
+            //try
+            //{
+            //    var ssnRewardsPerCycle = GetStakingSeedNodeRewards();
+            //    var keyValues = Task.Run(async () =>
+            //        await ZilliqaClient.DefaultInstance.GetSmartContractSubStateValues<object>(
+            //            ImplementationAddress, "buff_deposit_deleg", delegatorAddress.GetBase16(true))
+            //    ).GetAwaiter().GetResult();
+            //    return keyValues.Select(kv =>
+            //    {
+            //        var valueToken = (JToken)kv.Value;
+            //        return new StakingDelegatorAmount(kv.Key, kv.Value);
+            //    }).ToList();
+            //}
+            //catch (Exception e)
+            //{
+            //    Logging.LogError($"StakingService.GetUnclaimedRewardAmounts('{delegatorAddress.GetBech32()}') failed", e);
+            //    return new List<StakingDelegatorAmount>();
+            //}
         }
 
         public decimal GetPendingWithdrawAmount(Address delegatorAddress)

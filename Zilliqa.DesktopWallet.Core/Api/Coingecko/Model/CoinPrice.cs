@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System.ComponentModel;
+using Newtonsoft.Json;
+using Zilliqa.DesktopWallet.ViewModelAttributes;
 
 namespace Zilliqa.DesktopWallet.Core.Api.Coingecko.Model
 {
@@ -109,6 +111,9 @@ namespace Zilliqa.DesktopWallet.Core.Api.Coingecko.Model
 
     public class CoinMarketCurrencyValues
     {
+        [JsonProperty("usd")]
+        public decimal? Usd { get; set; }
+
         [JsonProperty("btc")]
         public decimal? Btc { get; set; }
 
@@ -126,9 +131,6 @@ namespace Zilliqa.DesktopWallet.Core.Api.Coingecko.Model
 
         [JsonProperty("gbp")]
         public decimal? Gbp { get; set; }
-
-        [JsonProperty("usd")]
-        public decimal? Usd { get; set; }
 
     }
 }

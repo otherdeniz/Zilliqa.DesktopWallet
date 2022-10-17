@@ -37,6 +37,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                     Logging.LogInfo("TokenDataService.StartLoadTokens: loading all Tokens from Cryptometa Assets");
                     foreach (var cryptometaAsset in CryptometaFile.Instance.Assets
                                  .Where(a => !string.IsNullOrEmpty(a.Symbol)
+                                             && !string.IsNullOrEmpty(a.Name)
                                              && a.Symbol.ToLower() != "zil"))
                     {
                         var tokenModel = tokenModels.FirstOrDefault(t => t.Symbol == cryptometaAsset.Symbol);
@@ -108,7 +109,8 @@ namespace Zilliqa.DesktopWallet.Core.Services
                     else if ((TokenPriceFile.Instance.ExistingAssetsRefresh ?? DateTime.MinValue) < DateTime.Today.AddDays(-1))
                     {
                         refreshExisting = true;
-                        refreshAssets = _tokenModels.Where(t => TokenPriceFile.Instance.CoinPrices.Any(cp => cp.Symbol == t.Symbol));
+                        refreshAssets = _tokenModels.Where(t => 
+                            TokenPriceFile.Instance.CoinPrices.Any(cp => cp.Symbol.ToLower() == t.Symbol.ToLower()));
                     }
                     if (refreshNew || refreshExisting)
                     {
@@ -165,7 +167,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
         public TokenModel? GetToken(string symbol)
         {
             var symbolLowered = symbol.ToLower();
-            return _tokenModels?.FirstOrDefault(t => t.Symbol?.ToLower() == symbolLowered);
+            return _tokenModels?.FirstOrDefault(t => t.Symbol.ToLower() == symbolLowered);
         }
 
         public TokenModelByAddress? FindTokenByAddress(string tokenAddress)

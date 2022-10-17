@@ -1,17 +1,12 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
-using Zilligraph.Database.Storage.FilterQuery;
-using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core.Data.Model;
-using Zilliqa.DesktopWallet.Core.Repository;
-using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
-using Zilliqa.DesktopWallet.DatabaseSchema;
 using Zilliqa.DesktopWallet.ViewModelAttributes;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
-    [DetailsTitle(nameof(Icon48), nameof(Name), nameof(Symbol))]
+    [DetailsTitle(nameof(Icon48), nameof(Title), nameof(SubTitle))]
     public class TokenDetailsViewModel
     {
         public TokenDetailsViewModel(TokenModel model)
@@ -31,10 +26,10 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public Image Icon48 => Model.Icon.Icon48 ?? IconResources.CircleDotGray48;
 
         [Browsable(false)]
-        public string Name => Model.Name;
+        public string Title => $"{Model.Name} ({Model.Symbol})";
 
         [Browsable(false)]
-        public string Symbol => Model.Symbol;
+        public string SubTitle => $"{Model.SmartContractModels.Count} Smart Contracts";
 
         [DisplayName("Created")]
         [DetailsProperty]
@@ -47,6 +42,11 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [DisplayName("More Addresses")]
         [DetailsProperty(DetailsPropertyType.AddressList)]
         public string[] MoreAddresses { get; }
+
+        [DetailsChildProperties("Coingecko Market Data")]
+        public TokenMarketDataViewModel? CoingeckoMarketData => Model.CoinPrice != null
+            ? new TokenMarketDataViewModel(Model.CoinPrice.MarketData)
+            : null;
 
         //[DetailsGridView("Holders")]
         //public PageableLazyDataSource<ContractCallTransactionRowViewModel, Transaction> ContractTransactionsDataSource()
