@@ -156,6 +156,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             panelMyAccounts.Controls.OfType<WalletListItemControl>().ForEach(c => c.IsSelected = false);
             panelWatchedAccounts.Controls.OfType<WalletListItemControl>().ForEach(c => c.IsSelected = false);
             walletListItemControl.IsSelected = true;
+            walletListItemControl.Refresh();
 
             groupAccountDetails.Visible = true;
             groupAccountDetails.Text = walletListItemControl.Account.AccountData.Name;

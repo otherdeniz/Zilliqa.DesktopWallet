@@ -89,7 +89,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
                     var propertyValue = propertyInfo.GetValue(viewModelObject);
                     if (propertyValue != null)
                     {
-                        var pageControl = ValueSelectionHelper.CreateDisplayControl(propertyValue, false);
+                        var pageControl = ControlFactory.CreateDisplayControl(propertyValue, false);
                         AddTab(detailsChildObjectAttribute.DisplayName, pageControl);
                         hasTabs = true;
                     }

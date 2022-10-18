@@ -14,6 +14,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
         private AccountViewModel? _account;
         private bool _viewModelOwned;
         private bool _showCurrencyColumns;
+        private bool _tabHoldingsInitialised;
+        private bool _hasSmartContracts;
 
         public AddressDetailsControl()
         {
@@ -67,14 +69,17 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
                         new FilterQueryField(nameof(SmartContract.OwnerAddress), _account.Address.GetBase16(false)));
                 if (ownedContractsDataSource.RecordCount > 0)
                 {
+                    _hasSmartContracts = true;
                     WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                     {
                         tabButtonOwnedContracts.Tag ??= tabButtonOwnedContracts.Text;
                         tabButtonOwnedContracts.Text =
                             $"{tabButtonOwnedContracts.Tag} ({ownedContractsDataSource.RecordCount:#,##0})";
                         tabButtonOwnedContracts.Visible = true;
-                        tabSeparatorOwnedContracts.Visible = true;
+                        tabSeparatorOwnedContracts.Visible = _account.TokenBalances.Count > 0
+                                                             || _account.Stakes.Count > 0;
                         gridViewOwnedContracts.LoadData(ownedContractsDataSource);
+                        RefreshHoldingsVisibility();
                     });
                 }
             });
@@ -84,14 +89,24 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
         {
             if (_account == null) return;
 
-            SetTabButtonCountText(tabButtonZrc2Tokens, _account.TokenBalances.Count);
+            if (_account.TokenBalances.Count > 0)
+            {
+                tabButtonZrc2Tokens.Visible = true;
+                SetTabButtonCountText(tabButtonZrc2Tokens, _account.TokenBalances.Count);
+            }
+            else
+            {
+                tabButtonZrc2Tokens.Visible = false;
+            }
 
             if (_account.Stakes.Count > 0)
             {
-                tabSeparatorStakes.Visible = true;
+                tabSeparatorStakes.Visible = _account.TokenBalances.Count > 0;
                 tabButtonStakes.Visible = true;
                 SetTabButtonCountText(tabButtonStakes, _account.Stakes.Count);
             }
+
+            RefreshHoldingsVisibility();
 
             _account.AllTransactions.ExecuteAfterLoadCompleted(
                 l => SetTabButtonCountText(tabButtonAllTransactions, l.RecordCount), 
@@ -159,6 +174,36 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             base.Dispose(disposing);
         }
 
+        private void RefreshHoldingsVisibility()
+        {
+            var holdingsVisible = _account!.TokenBalances.Count > 0 
+                                  || _account!.Stakes.Count > 0
+                                  || _hasSmartContracts;
+            panelTabsHoldings.Visible = holdingsVisible;
+            splitterHoldings.Visible = holdingsVisible;
+            if (holdingsVisible)
+            {
+                Controls.SetChildIndex(splitterHoldings, 1);
+            }
+
+            if (!_tabHoldingsInitialised)
+            {
+                if (_account!.TokenBalances.Count > 0)
+                {
+                    TabButtonHoldingClick(tabButtonZrc2Tokens, gridViewTokenBalances);
+                }
+                else if (_account!.Stakes.Count > 0)
+                {
+                    TabButtonHoldingClick(tabButtonStakes, gridViewStakes);
+                }
+                else if (_hasSmartContracts)
+                {
+                    TabButtonHoldingClick(tabButtonOwnedContracts, gridViewOwnedContracts);
+                }
+            }
+
+        }
+
         private void SetTabButtonCountText(ToolStripButton button, long count)
         {
             if (!(button.Tag is string buttonText))
@@ -171,7 +216,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 
         private void WalletAddressDetails_Load(object sender, EventArgs e)
         {
-            TabButtonHoldingClick(tabButtonZrc2Tokens, gridViewTokenBalances);
             TabButtonTransactionClick(tabButtonZilTransactions, gridViewZilTransactions);
         }
 
@@ -192,6 +236,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 
         private void TabButtonHoldingClick(ToolStripButton button, Control tabPageControl)
         {
+            _tabHoldingsInitialised = true;
             foreach (var item in toolStripHoldings.Items)
             {
                 if (item is ToolStripButton itemButton)

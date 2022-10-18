@@ -23,6 +23,8 @@ namespace Zilliqa.DesktopWallet.Core.Services
             TypeNameHandling = TypeNameHandling.None
         };
 
+        private (DateTime Timestamp, string Address, int Nonce)? _nonceCache;
+
         private SendTransactionService()
         {
         }
@@ -138,8 +140,18 @@ namespace Zilliqa.DesktopWallet.Core.Services
             {
                 if (getNonce)
                 {
-                    var result = await ZilliqaClient.DefaultInstance.GetBalance(signer.Address);
-                    transaction.Nonce = (int)result.Nonce + 1;
+                    if (_nonceCache == null
+                        || _nonceCache.Value.Timestamp < DateTime.Now.AddSeconds(-30)
+                        || _nonceCache.Value.Address != signer.Address.GetBase16(false))
+                    {
+                        var addressBalance = await ZilliqaClient.DefaultInstance.GetBalance(signer.Address);
+                        _nonceCache = (DateTime.Now, signer.Address.GetBase16(false), (int)addressBalance.Nonce + 1);
+                    }
+                    else
+                    {
+                        _nonceCache = (DateTime.Now, _nonceCache.Value.Address, _nonceCache.Value.Nonce + 1);
+                    }
+                    transaction.Nonce = _nonceCache.Value.Nonce;
                 }
             }
             catch (Exception e)

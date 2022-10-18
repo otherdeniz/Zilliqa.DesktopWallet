@@ -45,7 +45,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
 
         public void SetMainValueUniqueId(object value)
         {
-            SetMainValueUniqueId(ValueSelectionHelper.GetValueUniqueId(value));
+            SetMainValueUniqueId(ControlFactory.GetValueUniqueId(value));
         }
 
         public void SetMainValueUniqueId(string uniqueId)
@@ -59,7 +59,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
 
         public bool ContainsValueUniqueId(object value)
         {
-            return ContainsValueUniqueId(ValueSelectionHelper.GetValueUniqueId(value));
+            return ContainsValueUniqueId(ControlFactory.GetValueUniqueId(value));
         }
 
         public bool ContainsValueUniqueId(string valueUniqueId)
@@ -81,13 +81,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
                 ResetRightPanel(afterCloseArgument);
             }
 
-            var viewModelUniqueId = ValueSelectionHelper.GetValueUniqueId(viewValue);
+            var viewModelUniqueId = ControlFactory.GetValueUniqueId(viewValue);
             if (!_valueUniqueIds.Contains(viewModelUniqueId))
             {
                 _valueUniqueIds.Add(viewModelUniqueId);
             }
 
-            var childControl = ValueSelectionHelper.CreateDisplayControl(viewValue);
+            var childControl = ControlFactory.CreateDisplayControl(viewValue);
             if (childControl is DetailsBaseControl drillDownChildControl)
             {
                 drillDownChildControl.DrillDownPanel = this;
@@ -244,7 +244,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
                 object? afterCloseArgument)
             {
                 ViewValue = viewValue;
-                Title = ValueSelectionHelper.GetValueTitle(viewValue);
+                Title = ControlFactory.GetValueTitle(viewValue);
                 DisplayControl = displayControl;
                 ViewModelUniqueId = viewModelUniqueId;
                 AfterClose = afterClose;

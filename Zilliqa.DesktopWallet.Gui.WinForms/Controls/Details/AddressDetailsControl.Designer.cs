@@ -55,7 +55,7 @@
             this.gridViewTokenBalances = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl();
             this.gridViewZilTransactions = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl();
             this.gridViewTokenTransactions = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl();
-            this.splitter1 = new System.Windows.Forms.Splitter();
+            this.splitterHoldings = new System.Windows.Forms.Splitter();
             this.panelTabsTransactions = new System.Windows.Forms.Panel();
             this.panelTabPagesTransactions = new System.Windows.Forms.Panel();
             this.gridViewAllTransactions = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl();
@@ -572,15 +572,15 @@
             this.gridViewTokenTransactions.TabIndex = 1;
             this.gridViewTokenTransactions.Visible = false;
             // 
-            // splitter1
+            // splitterHoldings
             // 
-            this.splitter1.BackColor = System.Drawing.Color.Gainsboro;
-            this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.splitter1.Location = new System.Drawing.Point(0, 248);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(735, 4);
-            this.splitter1.TabIndex = 7;
-            this.splitter1.TabStop = false;
+            this.splitterHoldings.BackColor = System.Drawing.Color.Gainsboro;
+            this.splitterHoldings.Dock = System.Windows.Forms.DockStyle.Top;
+            this.splitterHoldings.Location = new System.Drawing.Point(0, 248);
+            this.splitterHoldings.Name = "splitterHoldings";
+            this.splitterHoldings.Size = new System.Drawing.Size(735, 4);
+            this.splitterHoldings.TabIndex = 7;
+            this.splitterHoldings.TabStop = false;
             // 
             // panelTabsTransactions
             // 
@@ -878,7 +878,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panelTabsTransactions);
-            this.Controls.Add(this.splitter1);
+            this.Controls.Add(this.splitterHoldings);
             this.Controls.Add(this.panelTabsHoldings);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panelTop);
@@ -958,7 +958,7 @@
         private GridView.GridViewControl gridViewTokenBalances;
         private GridView.GridViewControl gridViewZilTransactions;
         private GridView.GridViewControl gridViewTokenTransactions;
-        private Splitter splitter1;
+        private Splitter splitterHoldings;
         private Panel panelTabsTransactions;
         private ToolStrip toolStripTransactions;
         private ToolStripButton tabButtonZilTransactions;

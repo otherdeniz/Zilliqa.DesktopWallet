@@ -238,7 +238,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                         _columnDynamicCategories.Add(column.Index, dynamicColumnAttribute.Category);
                     }
 
-                    if (ValueSelectionHelper.IsSelectableGridCell(propertyInfo.PropertyType))
+                    if (ControlFactory.IsSelectableGridCell(propertyInfo.PropertyType))
                     {
                         column.HeaderCell.Style.ForeColor = GuiColors.LinkForeColor;
                         column.HeaderCell.Style.Font = new Font(dataGridView.DefaultCellStyle.Font, FontStyle.Underline);

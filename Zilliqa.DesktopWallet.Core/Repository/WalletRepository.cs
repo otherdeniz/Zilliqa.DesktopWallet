@@ -51,6 +51,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
             {
                 throw new NotSupportedException("Account type not supported");
             }
+            KnownAddressService.Instance.AddUnique(account.GetAddressBech32(), account.Name);
             WalletDat.Instance.Save();
             AccountsListChanged?.Invoke(this, EventArgs.Empty);
         }

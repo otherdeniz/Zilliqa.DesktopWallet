@@ -64,6 +64,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             return null;
         }
 
+        private void StakingUnstakeForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
         private void comboBoxSsn_SelectedIndexChanged(object sender, EventArgs e)
         {
             RefreshOkButton();
@@ -78,5 +83,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         {
 
         }
+
     }
 }

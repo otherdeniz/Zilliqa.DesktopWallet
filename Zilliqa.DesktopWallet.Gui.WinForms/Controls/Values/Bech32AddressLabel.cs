@@ -97,7 +97,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
             }
             var masterPanel = DrillDownMasterPanelControl.FindParentDrillDownMasterPanel(this);
             if (masterPanel?.ContainsValueUniqueId(
-                    ValueSelectionHelper.GetValueUniqueId(new AddressValue(_bech32Address))) == true)
+                    ControlFactory.GetValueUniqueId(new AddressValue(_bech32Address))) == true)
             {
                 buttonOpen.Enabled = false;
             }
@@ -123,7 +123,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
                 }
                 else
                 {
-                    SecondForm.ShowDetailsAsForm(ValueSelectionHelper.CreateDisplayControl(new AddressValue(Bech32Address)));
+                    SecondForm.ShowDetailsAsForm(ControlFactory.CreateDisplayControl(new AddressValue(Bech32Address)));
                 }
             }
         }

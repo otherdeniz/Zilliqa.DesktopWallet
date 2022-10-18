@@ -25,14 +25,14 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [Browsable(false)]
         public StakingSeedNode StakingNode => _stakingNodeViewModel.StakingSeedNodeModel;
 
-        [DisplayName("Staking Node")]
+        [DisplayName("Node")]
         public string StakingNodeName => _stakingNodeViewModel.Name;
 
-        [DisplayName("Staked Amount")]
+        [DisplayName("Staked")]
         [GridViewFormat("#,##0.00 ZIL")]
         public decimal StakeAmount => _stakingDelegatorAmount.StakeAmount;
 
-        [DisplayName("Unclaimed rewards")]
+        [DisplayName("Unclaimed")]
         [GridViewFormat("#,##0.00 ZIL")]
         [GridViewDynamicColumn(DynamicColumnCategory.Common)]
         public decimal UnclaimedRewards => _unclaimedRewardAmount?.StakeAmount ?? 0;

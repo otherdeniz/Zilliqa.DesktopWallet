@@ -1,12 +1,11 @@
 ﻿using Zillifriends.Shared.Common;
-using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 {
     public partial class WalletListItemControl : HighlitableBaseControl
     {
-        private AccountViewModel _accountViewModel;
+        private AccountViewModel? _accountViewModel;
 
         public WalletListItemControl()
         {
@@ -15,19 +14,20 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 
         public event EventHandler<EventArgs> ButtonClicked;
 
-        public AccountViewModel Account => _accountViewModel;
+        public AccountViewModel Account => _accountViewModel!;
 
         public void AssignAccount(AccountViewModel account)
         {
             _accountViewModel = account;
             Tag = account;
-            labelName.Text = $"{account.AccountData.Name} ({account.AccountData.GetAddressBech32().FromBech32ToShortReadable()})";
+            labelName.Text = account.AccountData.Name;
+            labelAddress.Text = account.AccountData.GetAddressBech32().FromBech32ToShortReadable();
             RefreshAccount();
         }
 
         public void RefreshAccount()
         {
-            labelAmount.Text = $"{Account.ZilTotalBalance:#,##0} ZIL + {Account.TokenBalances?.Count ?? 0} Tokens = {Account.TotalValueUsd:#,##0.00} USD";
+            labelAmount.Text = $"{Account.ZilTotalBalance:#,##0.00} ZIL + {Account.TokenBalances?.Count ?? 0} Tokens = {Account.TotalValueUsd:#,##0.00} USD";
         }
 
         protected override void Dispose(bool disposing)

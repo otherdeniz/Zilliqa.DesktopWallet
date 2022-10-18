@@ -160,6 +160,7 @@
             this.Controls.Add(this.panelPage1);
             this.Name = "StakingUnstakeForm";
             this.Text = "Unstake Funds";
+            this.Load += new System.EventHandler(this.StakingUnstakeForm_Load);
             this.Controls.SetChildIndex(this.panelPage1, 0);
             this.panelPage1.ResumeLayout(false);
             this.panelPage1.PerformLayout();

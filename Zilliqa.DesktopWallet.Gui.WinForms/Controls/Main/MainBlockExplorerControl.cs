@@ -92,7 +92,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             labelSearchItemTitle.Visible = _searchValue != null;
             if (_searchValue != null)
             {
-                labelSearchItemTitle.Text = ValueSelectionHelper.GetValueTitle(_searchValue);
+                labelSearchItemTitle.Text = ControlFactory.GetValueTitle(_searchValue);
             }
         }
 
@@ -117,7 +117,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 
                 if (_searchValue != null)
                 {
-                    var resultControl = ValueSelectionHelper.CreateDisplayControl(_searchValue);
+                    var resultControl = ControlFactory.CreateDisplayControl(_searchValue);
                     if (resultControl != null)
                     {
                         resultControl.Dock = DockStyle.Fill;
