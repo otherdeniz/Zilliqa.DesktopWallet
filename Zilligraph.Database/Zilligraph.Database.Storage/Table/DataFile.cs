@@ -75,6 +75,40 @@ namespace Zilligraph.Database.Storage.Table
             }
         }
 
+        public List<CompressedDataRowBinary> Read(IEnumerable<ulong> recordPoints)
+        {
+            var rowBinaries = new List<CompressedDataRowBinary>();
+            if (_bulkOperationFileStream != null)
+            {
+                foreach (var recordPoint in recordPoints)
+                {
+                    var row = ReadFromStream(recordPoint, _bulkOperationFileStream);
+                    if (row != null)
+                    {
+                        rowBinaries.Add(row);
+                    }
+                }
+            }
+            else
+            {
+                lock (_streamLock)
+                {
+                    using (var stream = GetStream())
+                    {
+                        foreach (var recordPoint in recordPoints)
+                        {
+                            var row = ReadFromStream(recordPoint, stream);
+                            if (row != null)
+                            {
+                                rowBinaries.Add(row);
+                            }
+                        }
+                    }
+                }
+            }
+            return rowBinaries;
+        }
+
         private CompressedDataRowBinary? ReadFromStream(ulong recordPoint, FileStream fileStream)
         {
             try

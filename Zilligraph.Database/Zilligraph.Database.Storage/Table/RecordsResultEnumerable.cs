@@ -34,6 +34,8 @@ namespace Zilligraph.Database.Storage.Table
         public class RecordsResultEnumerator : IEnumerator<TRecordModel>
         {
             private readonly RecordsResultEnumerable<TRecordModel> _enumerable;
+            private bool _firstRecordReturned;
+            private Queue<TRecordModel> _resultQueue;
 
             internal RecordsResultEnumerator(RecordsResultEnumerable<TRecordModel> enumerable)
             {
@@ -44,21 +46,66 @@ namespace Zilligraph.Database.Storage.Table
             {
                 while (true)
                 {
-                    var nextRecordPoint = _enumerable._filterSearcher.GetNextRecordPoint();
-                    if (nextRecordPoint == null)
+                    if (!_firstRecordReturned)
                     {
-                        Current = null;
-                        return false;
+                        var nextRecordPoint = _enumerable._filterSearcher.GetNextRecordPoint();
+                        if (nextRecordPoint == null)
+                        {
+                            Current = null;
+                            return false;
+                        }
+                        var record = _enumerable._table.ReadRecord(nextRecordPoint.Value, _enumerable._resolveReferences);
+                        if (_enumerable._additionalFilter == null
+                            || _enumerable._additionalFilter(record))
+                        {
+                            _firstRecordReturned = true;
+                            Current = record;
+                            return true;
+                        }
                     }
-
-                    var record = _enumerable._table.ReadRecord(nextRecordPoint.Value, _enumerable._resolveReferences);
-                    if (_enumerable._additionalFilter == null
-                        || _enumerable._additionalFilter(record))
+                    else
                     {
-                        Current = record;
+                        if (_resultQueue?.Count > 0)
+                        {
+                            Current = _resultQueue.Dequeue();
+                            return true;
+                        }
+                        var nextRecordPoints = GetNextRecordPoints(999);
+                        if (nextRecordPoints.Count == 0)
+                        {
+                            Current = null;
+                            return false;
+                        }
+                        var nextRecords = _enumerable._table.ReadRecords(nextRecordPoints, _enumerable._resolveReferences);
+                        if (_enumerable._additionalFilter != null)
+                        {
+                            nextRecords = nextRecords.Where(r => _enumerable._additionalFilter(r)).ToList();
+                        }
+                        if (nextRecords.Count == 0)
+                        {
+                            Current = null;
+                            return false;
+                        }
+                        _resultQueue = new Queue<TRecordModel>(nextRecords);
+                        Current = _resultQueue.Dequeue();
                         return true;
                     }
                 }
+            }
+
+            private List<ulong> GetNextRecordPoints(int count)
+            {
+                var resultPoints = new List<ulong>(count);
+                do
+                {
+                    var nextRecordPoint = _enumerable._filterSearcher.GetNextRecordPoint();
+                    if (nextRecordPoint == null)
+                    {
+                        break;
+                    }
+                    resultPoints.Add(nextRecordPoint.Value);
+                } while (resultPoints.Count < count);
+                return resultPoints;
             }
 
             public void Reset()

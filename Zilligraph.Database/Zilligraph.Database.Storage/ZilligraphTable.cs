@@ -348,6 +348,21 @@ namespace Zilligraph.Database.Storage
             return record;
         }
 
+        public List<TRecordModel> ReadRecords(IEnumerable<ulong> recordPoints, bool resolveReferences = true)
+        {
+            var dataFile = CompressedDataFiles.Last();
+            var rowBinaries = dataFile.Read(recordPoints);
+            return rowBinaries.Select(r =>
+            {
+                var record = r.DecompressRowObject<TRecordModel>();
+                if (resolveReferences)
+                {
+                    ResolveReferences(record);
+                }
+                return record;
+            }).ToList();
+        }
+
         public virtual void Dispose()
         {
             _initialisationCancellationTokenSource.Cancel();
