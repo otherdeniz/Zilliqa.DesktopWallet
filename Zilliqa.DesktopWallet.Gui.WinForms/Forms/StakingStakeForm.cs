@@ -106,9 +106,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             //TODO: put the Zillifriends-SSN to the top of the list
             foreach (var stakingSeedNode in _seedNodes)
             {
-                comboBoxSsn.Items.Add(
-                    $"{stakingSeedNode.Name}   -   [{stakingSeedNode.CommissionRatePercent:0.00}%]   -   Staked: {stakingSeedNode.StakeAmount.ZilSatoshisToZil():#,##0} ZIL");
-                if (_account.Stakes.Any(s => s.StakingNode.SsnAddress == stakingSeedNode.SsnAddress)
+                var myStake =
+                    _account.Stakes.FirstOrDefault(s => s.StakingNode.SsnAddress == stakingSeedNode.SsnAddress);
+                var ssnText =
+                    $"{stakingSeedNode.Name}   -   [{stakingSeedNode.CommissionRatePercent:0.00}%]   -   All stakes: {stakingSeedNode.StakeAmount.ZilSatoshisToZil():#,##0} ZIL"
+                    + (myStake != null ? $"  -  You staked: {myStake.StakeAmount:#,##0} ZIL" : "");
+                comboBoxSsn.Items.Add(ssnText);
+                if (myStake != null
                     && comboBoxSsn.SelectedIndex == -1)
                 {
                     comboBoxSsn.SelectedIndex = comboBoxSsn.Items.Count- 1;

@@ -32,7 +32,7 @@
             this.comboBoxSsn = new System.Windows.Forms.ComboBox();
             this.buttonUnstakeMax = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
-            this.textAvailableFunds = new System.Windows.Forms.TextBox();
+            this.textStakedFunds = new System.Windows.Forms.TextBox();
             this.textAmount = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -54,7 +54,7 @@
             this.panelPage1.Controls.Add(this.comboBoxSsn);
             this.panelPage1.Controls.Add(this.buttonUnstakeMax);
             this.panelPage1.Controls.Add(this.label8);
-            this.panelPage1.Controls.Add(this.textAvailableFunds);
+            this.panelPage1.Controls.Add(this.textStakedFunds);
             this.panelPage1.Controls.Add(this.textAmount);
             this.panelPage1.Controls.Add(this.label10);
             this.panelPage1.Controls.Add(this.label2);
@@ -99,14 +99,14 @@
             this.label8.TabIndex = 10;
             this.label8.Text = "Staked Funds";
             // 
-            // textAvailableFunds
+            // textStakedFunds
             // 
-            this.textAvailableFunds.Location = new System.Drawing.Point(277, 75);
-            this.textAvailableFunds.Name = "textAvailableFunds";
-            this.textAvailableFunds.ReadOnly = true;
-            this.textAvailableFunds.Size = new System.Drawing.Size(163, 23);
-            this.textAvailableFunds.TabIndex = 3;
-            this.textAvailableFunds.TabStop = false;
+            this.textStakedFunds.Location = new System.Drawing.Point(277, 75);
+            this.textStakedFunds.Name = "textStakedFunds";
+            this.textStakedFunds.ReadOnly = true;
+            this.textStakedFunds.Size = new System.Drawing.Size(163, 23);
+            this.textStakedFunds.TabIndex = 3;
+            this.textStakedFunds.TabStop = false;
             // 
             // textAmount
             // 
@@ -174,7 +174,7 @@
         private ComboBox comboBoxSsn;
         private Button buttonUnstakeMax;
         private Label label8;
-        private TextBox textAvailableFunds;
+        private TextBox textStakedFunds;
         private TextBox textAmount;
         private Label label10;
         private Label label2;

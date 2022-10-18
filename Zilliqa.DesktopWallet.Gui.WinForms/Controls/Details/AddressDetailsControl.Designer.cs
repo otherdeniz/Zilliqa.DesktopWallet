@@ -381,8 +381,8 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.panelPendingWithraw);
             this.panel1.Controls.Add(this.panel4);
+            this.panel1.Controls.Add(this.panelPendingWithraw);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.pictureBox1);
@@ -399,11 +399,12 @@
             this.panelPendingWithraw.Controls.Add(this.labelPendingWithdraw);
             this.panelPendingWithraw.Controls.Add(this.label7);
             this.panelPendingWithraw.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelPendingWithraw.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.panelPendingWithraw.Location = new System.Drawing.Point(460, 0);
+            this.panelPendingWithraw.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.panelPendingWithraw.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.panelPendingWithraw.Location = new System.Drawing.Point(311, 0);
             this.panelPendingWithraw.Name = "panelPendingWithraw";
             this.panelPendingWithraw.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.panelPendingWithraw.Size = new System.Drawing.Size(208, 23);
+            this.panelPendingWithraw.Size = new System.Drawing.Size(221, 23);
             this.panelPendingWithraw.TabIndex = 5;
             this.panelPendingWithraw.Visible = false;
             // 
@@ -411,10 +412,10 @@
             // 
             this.labelPendingWithdraw.AutoSize = true;
             this.labelPendingWithdraw.Dock = System.Windows.Forms.DockStyle.Left;
-            this.labelPendingWithdraw.Location = new System.Drawing.Point(155, 0);
+            this.labelPendingWithdraw.Location = new System.Drawing.Point(164, 0);
             this.labelPendingWithdraw.Name = "labelPendingWithdraw";
             this.labelPendingWithdraw.Padding = new System.Windows.Forms.Padding(3);
-            this.labelPendingWithdraw.Size = new System.Drawing.Size(53, 21);
+            this.labelPendingWithdraw.Size = new System.Drawing.Size(57, 21);
             this.labelPendingWithdraw.TabIndex = 2;
             this.labelPendingWithdraw.Text = "0.00 ZIL";
             // 
@@ -425,7 +426,7 @@
             this.label7.Location = new System.Drawing.Point(10, 0);
             this.label7.Name = "label7";
             this.label7.Padding = new System.Windows.Forms.Padding(3);
-            this.label7.Size = new System.Drawing.Size(145, 21);
+            this.label7.Size = new System.Drawing.Size(154, 21);
             this.label7.TabIndex = 1;
             this.label7.Text = "Pending Stake Withdraw:";
             // 
@@ -437,7 +438,7 @@
             this.panel4.Controls.Add(this.label6);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.panel4.Location = new System.Drawing.Point(311, 0);
+            this.panel4.Location = new System.Drawing.Point(532, 0);
             this.panel4.Name = "panel4";
             this.panel4.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
             this.panel4.Size = new System.Drawing.Size(149, 23);

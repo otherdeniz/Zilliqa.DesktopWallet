@@ -1,4 +1,5 @@
-﻿using Zilliqa.DesktopWallet.Core.ViewModel;
+﻿using System.Globalization;
+using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.Gui.WinForms.ViewModel;
 
@@ -40,7 +41,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         {
             if (base.OnOk())
             {
-                SsnAddress = GetSelectedSeedNode()!.StakingNode.SsnAddress;
+                SsnAddress = GetSelectedStake()!.StakingNode.SsnAddress;
                 Amount = decimal.Parse(textAmount.Text);
                 return true;
             }
@@ -50,11 +51,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         protected override bool CheckFields()
         {
             return base.CheckFields()
-                   && GetSelectedSeedNode() != null
-                   && decimal.TryParse(textAmount.Text, out _);
+                   && GetSelectedStake() != null
+                   && decimal.TryParse(textAmount.Text, out var amountValue)
+                   && amountValue > 0;
         }
 
-        private AddressStakedRowViewModel? GetSelectedSeedNode()
+        private AddressStakedRowViewModel? GetSelectedStake()
         {
             if (_stakes != null && comboBoxSsn.SelectedIndex > -1)
             {
@@ -66,11 +68,21 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         private void StakingUnstakeForm_Load(object sender, EventArgs e)
         {
-
+            if (_stakes == null) return;
+            foreach (var stake in _stakes)
+            {
+                var ssnText = $"{stake.StakingNode.Name}   -   You staked: {stake.StakeAmount:#,##0} ZIL";
+                comboBoxSsn.Items.Add(ssnText);
+            }
         }
 
         private void comboBoxSsn_SelectedIndexChanged(object sender, EventArgs e)
         {
+            var stake = GetSelectedStake();
+            if (stake != null)
+            {
+                textStakedFunds.Text = stake.StakeAmount.ToString("#,##0.0000", CultureInfo.CurrentCulture);
+            }
             RefreshOkButton();
         }
 
@@ -81,7 +93,14 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         private void buttonUnstakeMax_Click(object sender, EventArgs e)
         {
-
+            var stake = GetSelectedStake();
+            if (stake != null)
+            {
+                var maxAmount = stake.StakeAmount - 10m;
+                textAmount.Text = maxAmount > 0
+                    ? maxAmount.ToString(CultureInfo.CurrentCulture)
+                    : "0";
+            }
         }
 
     }

@@ -135,8 +135,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                 var hasStakes = _account.ZilStakedBalance > 0;
                 buttonStakingClaim.Enabled = hasStakes;
                 buttonStakingUnstake.Enabled = hasStakes;
-                buttonStakeGetPendingWithdraw.Enabled = hasStakes;
             }
+        }
+
+        private void addressDetails_PendingStakeWithdrawChanged(object sender, EventArgs e)
+        {
+            buttonStakeGetPendingWithdraw.Enabled = addressDetails.PendingStakeWithdraw > 0;
         }
 
         private void buttonStakingStake_Click(object sender, EventArgs e)
@@ -174,7 +178,18 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 
         private void buttonStakingUnstake_Click(object sender, EventArgs e)
         {
-
+            if (_account?.AccountData is MyAccount myAccount)
+            {
+                var stakeResult = StakingUnstakeForm.Execute(this.ParentForm!, _account);
+                if (stakeResult != null)
+                {
+                    var sendResult = StakingService.Instance.SendTransactionUnstake(
+                        myAccount.AccountDetails,
+                        stakeResult.SsnAddress,
+                        stakeResult.Amount);
+                    TransactionSendResultForm.ExecuteShow(this.ParentForm!, sendResult);
+                }
+            }
         }
 
         private void buttonStakeGetPendingWithdraw_Click(object sender, EventArgs e)
@@ -191,5 +206,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         {
 
         }
+
     }
 }

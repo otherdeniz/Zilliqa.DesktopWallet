@@ -31,6 +31,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
         }
 
         public event EventHandler<EventArgs>? AfterRefreshAccountDetails;
+        public event EventHandler<EventArgs>? PendingStakeWithdrawChanged;
 
         public decimal PendingStakeWithdraw { get; private set; }
 
@@ -140,6 +141,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
                     {
                         WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                         {
+                            PendingStakeWithdrawChanged?.Invoke(this, EventArgs.Empty);
                             panelPendingWithraw.Visible = true;
                             labelPendingWithdraw.Text = $"{PendingStakeWithdraw:#,##0.00} ZIL";
                         });
@@ -148,6 +150,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
                     {
                         WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                         {
+                            PendingStakeWithdrawChanged?.Invoke(this, EventArgs.Empty);
                             panelPendingWithraw.Visible = false;
                         });
                     }

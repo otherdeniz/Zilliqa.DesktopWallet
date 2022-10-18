@@ -164,7 +164,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
                 try
                 {
                     var tokenBalances = new Collection<TokenBalanceRowViewModel>();
-                    var transactionViewModels = tableTransactions.EnumerateRecords(transactionsFilter)
+                    var transactionViewModels = tableTransactions.EnumerateRecords(transactionsFilter, resolveReferences:false)
                         .OrderByDescending(t => t.Timestamp)
                         .Select(t =>
                         {
@@ -240,7 +240,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             {
                 AddTokenBalanceFromContract(TokenBalances, record, false, false);
                 var viewModel = new TransactionViewModels(Address, record);
-                var insertToTop = AllTransactions.GetFirstItem()?.Transaction.Timestamp < record.Timestamp;
+                var insertToTop = AllTransactions.GetFirstItem()?.Transaction.Timestamp <= record.Timestamp;
                 AllTransactions.InsertRecord(viewModel.CommonTransaction, insertToTop);
                 if (viewModel.ZilTransaction != null)
                 {

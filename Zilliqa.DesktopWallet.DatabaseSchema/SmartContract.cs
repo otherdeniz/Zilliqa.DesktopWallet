@@ -116,12 +116,16 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
             var decimals = TokenDecimals();
             if (decimals > 0)
             {
+                if (amountNumber.BitLength <= 64)
+                {
+                    return AmountToDecimal((ulong)amountNumber.LongValue);
+                }
                 var divident = Convert.ToDecimal(Math.Pow(10, decimals));
                 var decimalString = amountNumber.Divide(new BigInteger(divident.ToString(CultureInfo.InvariantCulture)))
                     .ToString();
                 return decimal.TryParse(decimalString, out var decimalValue) ? decimalValue : 0;
             }
-            return amountNumber.LongValue;
+            return (ulong)amountNumber.LongValue;
         }
     }
 

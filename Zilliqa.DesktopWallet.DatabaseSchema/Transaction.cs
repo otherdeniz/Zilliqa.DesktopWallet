@@ -151,7 +151,7 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
                     var amountParam = firstEvent.Params.FirstOrDefault(p => p.Vname == "amount");
                     if (amountParam?.ResolvedValue is ParamValueBigInteger valueBigInteger)
                     {
-                        return valueBigInteger.NumberBig.LongValue;
+                        return (ulong)valueBigInteger.NumberBig.LongValue;
                     }
                     if (amountParam?.ResolvedValue is ParamValueUInt32 value32)
                     {

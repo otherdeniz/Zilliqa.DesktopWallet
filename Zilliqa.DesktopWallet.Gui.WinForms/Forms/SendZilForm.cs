@@ -69,7 +69,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             }
 
             var ok = AddressValue.TryParse(textToAddress.Text, out _)
-                     && decimal.TryParse(textAmount.Text, out _)
+                     && decimal.TryParse(textAmount.Text, out var amountValue)
+                     && amountValue > 0
                      && textPassword1.Text.Length >= 1;
             buttonOk.Enabled = ok;
             return ok;

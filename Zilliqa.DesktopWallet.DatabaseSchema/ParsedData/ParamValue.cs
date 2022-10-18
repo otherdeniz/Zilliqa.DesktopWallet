@@ -46,15 +46,22 @@ public class ParamValue
             return valueConstructorWithArgumentsList!;
         }
 
-        return new ParamValueUnknown();
+        return new ParamValueUnknown(param.Value);
     }
 }
 
 public class ParamValueUnknown : ParamValue
 {
+    public ParamValueUnknown(object value)
+    {
+        Value = value;
+    }
+
+    public object Value { get; }
+
     public override string ToString()
     {
-        return "(unknown value)";
+        return Value.ToString()!;
     }
 }
 
@@ -214,7 +221,7 @@ public class ParamValueHex20BytesWithFunctionName : ParamValue
 
     public override string ToString()
     {
-        return $"{Hex}.{FunctionName}";
+        return $"{Hex}.{FunctionName}({Value?.ToString()})";
     }
 }
 
@@ -251,7 +258,7 @@ public class ParamValueConstructorWithArgumentsList : ParamValue
                 {
                     if (ParamValueConstructorWithArguments.TryParse(listItem, out var valueConstructorWithArguments))
                     {
-                        calls.Add(valueConstructorWithArguments);
+                        calls.Add(valueConstructorWithArguments!);
                     }
                 }
             }
@@ -268,6 +275,11 @@ public class ParamValueConstructorWithArgumentsList : ParamValue
 
     [TypeConverter(typeof(ExpandableObjectConverter))] //only for GUI PropertyGrid
     public List<ParamValueConstructorWithArguments> Calls { get; private set; } = null!;
+
+    public override string ToString()
+    {
+        return $"{FunctionName}({string.Join(",", Calls.Select(a => a.ToString()))})";
+    }
 }
 
 public class ParamValueConstructorWithArguments : ParamValue
@@ -324,7 +336,7 @@ public class ParamValueConstructorWithArguments : ParamValue
                 }
                 else if (TryParse(argument, out var valueConstructorWithArguments))
                 {
-                    list.Add(valueConstructorWithArguments);
+                    list.Add(valueConstructorWithArguments!);
                 }
                 else
                 {
@@ -333,5 +345,10 @@ public class ParamValueConstructorWithArguments : ParamValue
             }
         }
         return list;
+    }
+
+    public override string ToString()
+    {
+        return $"constructor:{Constructor}({string.Join(",",Arguments.Select(a => a.ToString()))})";
     }
 }

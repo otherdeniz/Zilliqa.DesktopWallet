@@ -62,7 +62,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         {
             foreach (var stake in _stakes!)
             {
-                checkedListBoxSsn.Items.Add($"{stake.StakingNodeName}  -  Staked: {stake.StakeAmount:#,##0.00} ZIL  -  Unclaimed: {stake.UnclaimedRewards:#,##0.00} ZIL");
+                checkedListBoxSsn.Items.Add($"{stake.StakingNodeName}  -  You staked: {stake.StakeAmount:#,##0.00} ZIL  -  Unclaimed: {stake.UnclaimedRewards:#,##0.00} ZIL");
             }
         }
 

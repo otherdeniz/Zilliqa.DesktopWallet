@@ -1,7 +1,6 @@
 using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core;
-using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.Services;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms
@@ -23,6 +22,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             Logging.Setup(Path.Combine(DataPathBuilder.UserDataRoot.FullPath, "Log"));
 
 #if !DEBUG
+            var networkText = ZilliqaClient.UseTestnet ? "TESTNET" : "MAINNET";
+            SingleInstance.Setup($"ZILWALLET_{networkText}");
             if (!SingleInstance.IsFirstInstance)
             {
                 Logging.LogInfo("Application already running, exiting.");

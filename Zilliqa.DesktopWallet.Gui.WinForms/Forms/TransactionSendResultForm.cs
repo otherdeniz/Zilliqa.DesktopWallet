@@ -21,7 +21,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                 form.labelRecipient.Text = new AddressValue(sendTransactionResultList[0].Recipient).ToString();
                 form.labelTransactionPayload.Text = $"{sendTransactionResultList[0].PayloadInfo} ({sendTransactionResultList.Count} Transactions)";
                 form.labelTransactionMessage.Text = sendTransactionResultList[0].Message;
-                form.labelId.Text = string.Join(";", sendTransactionResultList.Where(t => t.TransactionId != null)
+                form.labelId.Text = string.Join(" , ", sendTransactionResultList.Where(t => t.TransactionId != null)
                     .Select(t => t.TransactionId?.FromTransactionHexToShortReadable()));
                 form._transactionId = sendTransactionResultList[0].TransactionId;
                 if (sendTransactionResultList[0].TransactionId != null

@@ -66,7 +66,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.toolStripAccountActions.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStripAccountActions.Location = new System.Drawing.Point(0, 0);
             this.toolStripAccountActions.Name = "toolStripAccountActions";
-            this.toolStripAccountActions.Size = new System.Drawing.Size(758, 42);
+            this.toolStripAccountActions.Size = new System.Drawing.Size(758, 23);
             this.toolStripAccountActions.TabIndex = 2;
             // 
             // buttonSend
@@ -112,29 +112,32 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             // buttonStakingStake
             // 
             this.buttonStakingStake.Name = "buttonStakingStake";
-            this.buttonStakingStake.Size = new System.Drawing.Size(193, 22);
+            this.buttonStakingStake.Size = new System.Drawing.Size(224, 22);
             this.buttonStakingStake.Text = "Stake Funds";
             this.buttonStakingStake.Click += new System.EventHandler(this.buttonStakingStake_Click);
             // 
             // buttonStakingClaim
             // 
+            this.buttonStakingClaim.Enabled = false;
             this.buttonStakingClaim.Name = "buttonStakingClaim";
-            this.buttonStakingClaim.Size = new System.Drawing.Size(193, 22);
+            this.buttonStakingClaim.Size = new System.Drawing.Size(224, 22);
             this.buttonStakingClaim.Text = "Claim Rewards";
             this.buttonStakingClaim.Click += new System.EventHandler(this.buttonStakingClaim_Click);
             // 
             // buttonStakingUnstake
             // 
+            this.buttonStakingUnstake.Enabled = false;
             this.buttonStakingUnstake.Name = "buttonStakingUnstake";
-            this.buttonStakingUnstake.Size = new System.Drawing.Size(193, 22);
+            this.buttonStakingUnstake.Size = new System.Drawing.Size(224, 22);
             this.buttonStakingUnstake.Text = "Unstake";
             this.buttonStakingUnstake.Click += new System.EventHandler(this.buttonStakingUnstake_Click);
             // 
             // buttonStakeGetPendingWithdraw
             // 
+            this.buttonStakeGetPendingWithdraw.Enabled = false;
             this.buttonStakeGetPendingWithdraw.Name = "buttonStakeGetPendingWithdraw";
-            this.buttonStakeGetPendingWithdraw.Size = new System.Drawing.Size(193, 22);
-            this.buttonStakeGetPendingWithdraw.Text = "Get Pending Withdraw";
+            this.buttonStakeGetPendingWithdraw.Size = new System.Drawing.Size(224, 22);
+            this.buttonStakeGetPendingWithdraw.Text = "Get Pending Stake Withdraw";
             this.buttonStakeGetPendingWithdraw.Click += new System.EventHandler(this.buttonStakeGetPendingWithdraw_Click);
             // 
             // menuSmartContracts
@@ -197,12 +200,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.addressDetails.DrillDownPanel = this;
             this.addressDetails.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.addressDetails.IsDrillDownMainControl = true;
-            this.addressDetails.Location = new System.Drawing.Point(0, 42);
+            this.addressDetails.Location = new System.Drawing.Point(0, 23);
             this.addressDetails.Name = "addressDetails";
             this.addressDetails.ShowCurrencyColumns = true;
-            this.addressDetails.Size = new System.Drawing.Size(758, 641);
+            this.addressDetails.Size = new System.Drawing.Size(758, 660);
             this.addressDetails.TabIndex = 3;
             this.addressDetails.AfterRefreshAccountDetails += new System.EventHandler<System.EventArgs>(this.addressDetails_AfterRefreshAccountDetails);
+            this.addressDetails.PendingStakeWithdrawChanged += new System.EventHandler<System.EventArgs>(this.addressDetails_PendingStakeWithdrawChanged);
             // 
             // WalletAddressControl
             // 

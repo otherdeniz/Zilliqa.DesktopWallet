@@ -27,7 +27,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public SmartContractViewModel(SmartContract smartContractModel)
         {
             SmartContractModel = smartContractModel;
-            _address = new AddressValue(SmartContractModel.ContractAddress);
+            _address = new AddressValue(SmartContractModel.ContractAddress, false);
         }
 
         [Browsable(false)]

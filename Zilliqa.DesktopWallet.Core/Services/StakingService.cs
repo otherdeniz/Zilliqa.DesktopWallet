@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Caching;
 using Newtonsoft.Json.Linq;
@@ -65,6 +66,32 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 contractCall, zilAmount);
         }
 
+        public SendTransactionResult SendTransactionUnstake(Account senderAccount, AddressValue ssnAddress,
+            decimal zilAmount)
+        {
+            var contractCall = new DataContractCall
+            {
+                Tag = "WithdrawStakeRewardsAmt",
+                Params = new List<DataParam>
+                {
+                    new DataParam
+                    {
+                        Vname = "ssnaddr",
+                        Type = ParamTypes.ByStr20,
+                        Value = ssnAddress.Address.GetBase16(true)
+                    },
+                    new DataParam
+                    {
+                        Vname = "amt",
+                        Type = ParamTypes.Uint128,
+                        Value = zilAmount.ToString(CultureInfo.InvariantCulture)
+                    }
+                }
+            };
+            return SendTransactionService.Instance.CallContract(senderAccount, new AddressValue(CurrentProxy.Address),
+                contractCall);
+        }
+
         public SendTransactionResult SendTransactionClaim(Account senderAccount, AddressValue ssnAddress)
         {
             var contractCall = new DataContractCall
@@ -81,6 +108,17 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 }
             };
             return SendTransactionService.Instance.CallContract(senderAccount, new AddressValue(CurrentProxy.Address), 
+                contractCall);
+        }
+
+        public SendTransactionResult SendTransactionCompleteWithdrawal(Account senderAccount)
+        {
+            var contractCall = new DataContractCall
+            {
+                Tag = "CompleteWithdrawal",
+                Params = new List<DataParam>()
+            };
+            return SendTransactionService.Instance.CallContract(senderAccount, new AddressValue(CurrentProxy.Address),
                 contractCall);
         }
 
@@ -119,7 +157,10 @@ namespace Zilliqa.DesktopWallet.Core.Services
                         .Value<int>();
                     foreach (var stakingSeedNode in _stakingSeedNodes)
                     {
-                        stakingSeedNode.CalculateApyLast24H(lastCycle - 15);
+                        stakingSeedNode.CalculateApy(lastCycle - 12);
+                        KnownAddressService.Instance.AddUnique(
+                            new Address(stakingSeedNode.SsnAddress).GetBech32(),
+                            $"SSN:{stakingSeedNode.Name}");
                     }
                 });
             }
@@ -314,7 +355,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
 
     public class StakingSeedNode
     {
-        private decimal? _apyLast24h;
+        private decimal? _apyLast10D;
 
         //"arguments": [
         //    {
@@ -341,7 +382,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
         public StakingSeedNode(JToken ssnJToken)
         {
             SsnAddress = ((JProperty)ssnJToken).Name;
-            var argumentList = ssnJToken.First.SelectToken("arguments").Children().ToList();
+            var argumentList = ssnJToken.First!.SelectToken("arguments")!.Children().ToList();
             StakeAmount = argumentList[1].Value<decimal>();
             StakeRewards = argumentList[2].Value<decimal>();
             Name = argumentList[3].Value<string>() ?? "";
@@ -364,23 +405,23 @@ namespace Zilliqa.DesktopWallet.Core.Services
         public decimal CommissionRewards { get; }
         public string CommissioningAddress { get; }
 
-        public decimal ApyLast24H => _apyLast24h ?? 0;
+        public decimal ApyLast10D => _apyLast10D ?? 0;
 
-        public void CalculateApyLast24H(int aboveCycle)
+        public void CalculateApy(int aboveCycle)
         {
-            if (_apyLast24h == null)
+            if (_apyLast10D == null)
             {
                 var ssnRewards = StakingService.Instance.GetStakingSeedNodeRewards()
                     .FirstOrDefault(ssn => ssn.SsnAddress == SsnAddress);
                 if (ssnRewards != null)
                 {
-                    _apyLast24h = ssnRewards.RewardsPerCycle
+                    _apyLast10D = ssnRewards.RewardsPerCycle
                         .Where(r => r.Cycle > aboveCycle)
                         .TakeLast(10).Sum(r => r.RewardPercent) * 36.5m;
                 }
                 else
                 {
-                    _apyLast24h = 0;
+                    _apyLast10D = 0;
                 }
             }
         }

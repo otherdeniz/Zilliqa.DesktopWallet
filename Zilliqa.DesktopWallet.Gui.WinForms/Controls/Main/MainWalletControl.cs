@@ -179,7 +179,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 
         private void buttonCreate_Click(object sender, EventArgs e)
         {
-            var result = CreateMyAccountForm.Execute(this.ParentForm);
+            var result = CreateMyAccountForm.Execute(this.ParentForm!);
             if (result != null)
             {
                 _repository?.AddAccount(MyAccount.Create(result.AccountName, result.Password.Password));
@@ -188,7 +188,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 
         private void toolImport_Click(object sender, EventArgs e)
         {
-            var result = ImportMyAccountForm.Execute(this.ParentForm);
+            var result = ImportMyAccountForm.Execute(this.ParentForm!);
             if (result != null)
             {
                 _repository?.AddAccount(MyAccount.Import(result.AccountName, result.PrivateKey, result.Password.Password));
@@ -197,7 +197,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 
         private void buttonAddWatched_Click(object sender, EventArgs e)
         {
-            var result = AddWatchedAccountForm.Execute(this.ParentForm);
+            var result = AddWatchedAccountForm.Execute(this.ParentForm!);
             if (result != null)
             {
                 _repository?.AddAccount(WatchedAccount.Create(result.AccountName, result.Address, result.IsMyAccount));

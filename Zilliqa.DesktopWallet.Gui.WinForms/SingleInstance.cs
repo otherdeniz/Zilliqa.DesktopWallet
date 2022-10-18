@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 
@@ -14,35 +13,38 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
 
         private static readonly EnumWindowsProc EnumWindowProcedure = new EnumWindowsProc(Ewp);
         private static int _mainFormWindowHandle = -1;
-        private static readonly string McThisAppId;
+        private static string? _applicationId;
         private static Mutex? _oMutex;
-        private static readonly bool MutexOwned;
-        private static ISingleInstanceForm _mainForm;
+        private static bool _mutexOwned;
+        private static ISingleInstanceForm? _mainForm;
 
-        static SingleInstance()
+        public static void Setup(string appId)
         {
-            McThisAppId = Assembly.GetEntryAssembly().FullName;
-            _oMutex = new Mutex(true, McThisAppId + "_APPLICATION_MUTEX", out MutexOwned);
-            if (!MutexOwned)
+            if (_applicationId == null)
             {
-                //try to find window for 1 sec
-                MutexOwned = true;
-                var startTime = DateTime.Now;
-                do
+                _applicationId = $"{appId}_APPLICATION";
+                _oMutex = new Mutex(true, $"{_applicationId}_MUTEX", out _mutexOwned);
+                if (!_mutexOwned)
                 {
-                    if (FindWindow())
+                    //try to find window for 1 sec
+                    _mutexOwned = true;
+                    var startTime = DateTime.Now;
+                    do
                     {
-                        //another window found
-                        MutexOwned = false;
-                        break;
-                    }
-                    Task.Run(async () => { await Task.Delay(250).ConfigureAwait(false); });
-                } while ((DateTime.Now - startTime).TotalSeconds < 1);
+                        if (FindWindow())
+                        {
+                            //another window found
+                            _mutexOwned = false;
+                            break;
+                        }
+                        Task.Run(async () => { await Task.Delay(250).ConfigureAwait(false); });
+                    } while ((DateTime.Now - startTime).TotalSeconds < 1);
+                }
+                AppDomain.CurrentDomain.ProcessExit += OnExit;
             }
-            AppDomain.CurrentDomain.ProcessExit += OnExit;
         }
 
-        public static bool IsFirstInstance => MutexOwned;
+        public static bool IsFirstInstance => _mutexOwned;
 
         [DllImport("user32.dll")]
         private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
@@ -59,7 +61,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
         [DllImport("user32.dll", SetLastError = true)]
         private static extern IntPtr SendMessage(IntPtr hWnd, uint message, UIntPtr wParam, IntPtr lParam);
 
-        private static void OnExit(object sender, EventArgs e)
+        private static void OnExit(object? sender, EventArgs e)
         {
             try
             {
@@ -91,7 +93,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             _mainForm = frm;
             try
             {
-                SetProp(frm.Handle, McThisAppId + "_APPLICATION", 1.ToIntPtr());
+                SetProp(frm.Handle, _applicationId!, 1.ToIntPtr());
                 frm.WindowProcessMessage += MainForm_WndProc;
             }
             catch
@@ -158,7 +160,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
         {
             // Check if the windows property is set for this
             // window handle:
-            return GetProp(hWnd, McThisAppId + "_APPLICATION").ToInt32() == 1;
+            return GetProp(hWnd, _applicationId!).ToInt32() == 1;
         }
 
         private static bool FindWindow()
@@ -276,7 +278,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             }
         }
 
-        public static object DeserializeFromBase64String(this string base64String)
+        public static object? DeserializeFromBase64String(this string base64String)
         {
             var formatter = new BinaryFormatter();
             base64String = base64String.Trim();

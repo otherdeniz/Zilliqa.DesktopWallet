@@ -54,7 +54,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [DetailsProperty]
         [DisplayName("APY %")]
         [GridViewFormat("0.00 '%'")]
-        public decimal ApyLast24H => StakingSeedNodeModel.ApyLast24H;
+        public decimal ApyLast10D => StakingSeedNodeModel.ApyLast10D;
 
         [DetailsProperty]
         [DisplayName("Payed Rewards")]
@@ -64,7 +64,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [DetailsProperty]
         [DisplayName("Node Address")]
         [ColumnWidth(150)]
-        public AddressValue SsnAddress => _ssnAddress ??= new AddressValue(StakingSeedNodeModel.SsnAddress);
+        public AddressValue SsnAddress => _ssnAddress ??= new AddressValue(StakingSeedNodeModel.SsnAddress, false);
 
         [DetailsProperty]
         [DisplayName("Commission Address")]
