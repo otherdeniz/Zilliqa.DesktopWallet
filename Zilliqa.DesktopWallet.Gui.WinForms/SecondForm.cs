@@ -1,4 +1,5 @@
-﻿using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
+﻿using Zilliqa.DesktopWallet.ApiClient;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms
 {
@@ -43,6 +44,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
         private void SecondForm_Load(object sender, EventArgs e)
         {
             this.Text = ApplicationInfo.MainFormTitle;
+            if (ZilliqaClient.UseTestnet)
+            {
+                Icon = ImageResources.Zilliqa_icon_testnet;
+            }
             var screen = Screen.FromControl(this);
             Left = screen.Bounds.Width - Width - 50;
         }

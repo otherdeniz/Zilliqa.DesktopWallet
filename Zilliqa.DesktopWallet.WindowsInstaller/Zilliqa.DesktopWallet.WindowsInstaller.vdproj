@@ -25,6 +25,12 @@
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_45E4668D0F0947649E854406A730C2FE"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -151,6 +157,26 @@
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:FALSE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_45E4668D0F0947649E854406A730C2FE"
+            {
+            "SourcePath" = "8:..\\Zilliqa.DesktopWallet.Gui.WinForms\\Zilliqa-icon-testnet.ico"
+            "TargetName" = "8:Zilliqa-icon-testnet.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_8FE2D2A7B49040AE93CE2727DE20CEB3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
             "ReadOnly" = "11:FALSE"
             "Hidden" = "11:FALSE"
             "System" = "11:FALSE"
@@ -350,7 +376,7 @@
             "Target" = "8:_172E3C963F3A47079C544F403714D447"
             "Folder" = "8:_C46C7EB6EA954DF6BD564FCF2D08B3BA"
             "WorkingFolder" = "8:_8FE2D2A7B49040AE93CE2727DE20CEB3"
-            "Icon" = "8:_0F9F491C2D8547FF934B721474C7A928"
+            "Icon" = "8:_45E4668D0F0947649E854406A730C2FE"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_95CC9A5B50054EA4928421E89775E5C0"
@@ -378,7 +404,7 @@
             "Target" = "8:_172E3C963F3A47079C544F403714D447"
             "Folder" = "8:_F0E280CBB84143CAA162F2C5A542358B"
             "WorkingFolder" = "8:_8FE2D2A7B49040AE93CE2727DE20CEB3"
-            "Icon" = "8:_0F9F491C2D8547FF934B721474C7A928"
+            "Icon" = "8:_45E4668D0F0947649E854406A730C2FE"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_DD070444E8C44F64A80ABB712B9E03A4"

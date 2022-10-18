@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Zillifriends.Shared.Common;
+using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Data.Files;
 using Zilliqa.DesktopWallet.Core.Services;
@@ -87,6 +88,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
         {
             WinFormsSynchronisationContext.WinFormsMainContext = SynchronizationContext.Current;
             this.Text = ApplicationInfo.MainFormTitle;
+            if (ZilliqaClient.UseTestnet)
+            {
+                Icon = ImageResources.Zilliqa_icon_testnet;
+                panelMain.BackgroundImage = ImageResources.Zilliqa_icon_512_testnet;
+            }
             InitDisplayedCurrencies();
             var screen = Screen.FromControl(this);
             var formWidth = Convert.ToInt32(Convert.ToDecimal(screen.Bounds.Width) * 0.8m);

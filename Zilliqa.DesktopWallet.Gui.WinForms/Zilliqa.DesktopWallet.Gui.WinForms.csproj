@@ -15,6 +15,9 @@
   <ItemGroup>
     <None Remove="Controls\Values\SyntaxFiles\JavaScript.xml" />
     <None Remove="Controls\Values\SyntaxFiles\Scilla.xml" />
+    <None Remove="Zilliqa-icon-512-mainnet.png" />
+    <None Remove="Zilliqa-icon-512-testnet.png" />
+    <None Remove="Zilliqa-icon-mainnet.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\Zilliqa-icon.ico" Link="Zilliqa-icon.ico" />
+    <Content Include="Zilliqa-icon.ico" Link="Zilliqa-icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,6 +45,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="ImageResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ImageResources.resx</DependentUpon>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -50,6 +58,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="ImageResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ImageResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
