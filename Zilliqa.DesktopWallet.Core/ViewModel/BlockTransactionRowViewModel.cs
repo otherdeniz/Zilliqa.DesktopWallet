@@ -9,6 +9,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 {
     public class BlockTransactionRowViewModel : TransactionRowViewModelBase
     {
+        private TransactionIdValue? _transactionId;
         private AddressValue? _fromAddress;
         private AddressValue? _toAddress;
         private decimal? _zilAmount;
@@ -18,6 +19,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             : base(new Address(transactionModel.SenderAddress), transactionModel)
         {
         }
+
+        [DisplayName("Id")]
+        public TransactionIdValue TransactionId => _transactionId ??= new(Transaction.Id);
 
         [DisplayName("Type")]
         public string TransactionType

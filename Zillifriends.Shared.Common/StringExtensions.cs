@@ -55,7 +55,7 @@ namespace Zillifriends.Shared.Common
         {
             if (transactionHex.Length == 64)
             {
-                return $"0x {transactionHex.Substring(0, 4)}...{transactionHex.Substring(transactionHex.Length - 4, 4)}";
+                return $"{transactionHex.Substring(0, 4)}...{transactionHex.Substring(transactionHex.Length - 4, 4)}";
             }
 
             return transactionHex;

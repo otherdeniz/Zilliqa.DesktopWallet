@@ -59,6 +59,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
             Address = address;
         }
 
+        public bool DisplayKnownName => _displayKnownName;
+
         public Address Address { get; }
 
         public SmartContract? SmartContract

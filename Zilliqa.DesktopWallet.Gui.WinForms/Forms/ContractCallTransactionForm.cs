@@ -3,9 +3,19 @@ using Zilliqa.DesktopWallet.Core.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 {
-    public partial class SendContractCallTransactionForm : DialogWithPasswordBaseForm
+    public partial class ContractCallTransactionForm : DialogWithPasswordBaseForm
     {
-        public SendContractCallTransactionForm()
+        public static void ExecuteShow(Form parentForm, 
+            AccountViewModel? account = null, 
+            string? contractAddress = null)
+        {
+            var form = new ContractCallTransactionForm();
+            form.LoadSenderAccounts(account?.AccountData as MyAccount);
+            //form.ToAddress
+            form.Show(parentForm);
+        }
+
+        public ContractCallTransactionForm()
         {
             InitializeComponent();
         }
@@ -13,13 +23,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         public string ToAddress { get; private set; } = string.Empty;
 
         public decimal Amount { get; private set; }
-
-        public static void ExecuteShow(Form parentForm, AccountViewModel account)
-        {
-            var form = new SendContractCallTransactionForm();
-            form.LoadSenderAccounts(account.AccountData as MyAccount);
-            form.Show(parentForm);
-        }
 
         protected override void ExecuteResult()
         {

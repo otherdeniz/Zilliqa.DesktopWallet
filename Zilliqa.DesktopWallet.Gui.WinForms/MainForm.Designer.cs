@@ -280,7 +280,7 @@
             // 
             this.buttonToolsOpenWalletFolder.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsOpenWalletFolder.Image")));
             this.buttonToolsOpenWalletFolder.Name = "buttonToolsOpenWalletFolder";
-            this.buttonToolsOpenWalletFolder.Size = new System.Drawing.Size(255, 30);
+            this.buttonToolsOpenWalletFolder.Size = new System.Drawing.Size(247, 22);
             this.buttonToolsOpenWalletFolder.Text = "Open Users Wallet Folder";
             this.buttonToolsOpenWalletFolder.Click += new System.EventHandler(this.buttonToolsOpenWalletFolder_Click);
             // 
@@ -288,20 +288,20 @@
             // 
             this.buttonToolsOpenDbFolder.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsOpenDbFolder.Image")));
             this.buttonToolsOpenDbFolder.Name = "buttonToolsOpenDbFolder";
-            this.buttonToolsOpenDbFolder.Size = new System.Drawing.Size(255, 30);
+            this.buttonToolsOpenDbFolder.Size = new System.Drawing.Size(247, 22);
             this.buttonToolsOpenDbFolder.Text = "Open Program Database Folder";
             this.buttonToolsOpenDbFolder.Click += new System.EventHandler(this.buttonToolsOpenDbFolder_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(252, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(244, 6);
             // 
             // buttonToolsAddressConverter
             // 
             this.buttonToolsAddressConverter.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsAddressConverter.Image")));
             this.buttonToolsAddressConverter.Name = "buttonToolsAddressConverter";
-            this.buttonToolsAddressConverter.Size = new System.Drawing.Size(255, 30);
+            this.buttonToolsAddressConverter.Size = new System.Drawing.Size(247, 22);
             this.buttonToolsAddressConverter.Text = "Zilliqa Address Format Converter";
             this.buttonToolsAddressConverter.Click += new System.EventHandler(this.buttonToolsAddressConverter_Click);
             // 

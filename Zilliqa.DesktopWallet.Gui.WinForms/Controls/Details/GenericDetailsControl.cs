@@ -6,11 +6,10 @@ using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
-using Zilliqa.DesktopWallet.DatabaseSchema;
 using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details.PropertyRow;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView;
-using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values;
 using Zilliqa.DesktopWallet.ViewModelAttributes;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
@@ -20,9 +19,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
         private readonly bool _displayTabs;
         private object? _viewModel;
 
-        public GenericDetailsControl(bool displayTabs)
+        public GenericDetailsControl(bool displayTabs, DrillDownMasterPanelControl? masterPanel = null)
         {
             _displayTabs = displayTabs;
+            MasterPanel = masterPanel;
             InitializeComponent();
         }
 

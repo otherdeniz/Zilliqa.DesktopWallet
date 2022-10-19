@@ -1,6 +1,6 @@
 ﻿namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 {
-    partial class SendContractCallTransactionForm
+    partial class ContractCallTransactionForm
     {
         /// <summary>
         /// Required designer variable.

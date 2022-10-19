@@ -4,6 +4,7 @@ using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls
@@ -17,7 +18,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls
                    || valueType == typeof(BlockNumberValue);
         }
 
-        public static Control CreateDisplayControl(object value, bool displayTabs = true)
+        public static Control CreateDisplayControl(object value, 
+            bool displayTabs = true, 
+            DrillDownMasterPanelControl? masterPanel = null)
         {
             var viewModel = value;
             if (value is AddressValue addressValue)
@@ -28,7 +31,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls
                 }
                 else
                 {
-                    var control = new AddressDetailsControl();
+                    var control = new AddressDetailsControl(masterPanel);
                     var vm = new AccountViewModel(WatchedAccount.Create(addressValue.Address),
                         _ => control.RefreshAccountSummaries(),
                         false);
@@ -70,12 +73,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls
             }
             if (viewModel is AccountViewModel accountViewModel)
             {
-                var control = new AddressDetailsControl();
+                var control = new AddressDetailsControl(masterPanel);
                 accountViewModel.AfterChangedAction = _ => control.RefreshAccountSummaries();
                 control.BindAccountViewModel(accountViewModel, true);
                 return control;
             }
-            var genericControl = new GenericDetailsControl(displayTabs);
+            var genericControl = new GenericDetailsControl(displayTabs, masterPanel);
             genericControl.LoadViewModel(viewModel);
             return genericControl;
         }

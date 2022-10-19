@@ -17,12 +17,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details.PropertyRow
 
         public void LoadValue(string title, AddressValue address)
         {
-            LoadValue(title, address.Address);
+            LoadValue(title, address.Address, address.DisplayKnownName);
         }
 
-        public void LoadValue(string title, Address address)
+        public void LoadValue(string title, Address address, bool showCaption = true)
         {
             labelName.Text = title;
+            bech32Address.ShowCaption = showCaption;
             bech32Address.Bech32Address = address.GetBech32();
         }
 

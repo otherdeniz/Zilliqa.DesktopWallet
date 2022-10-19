@@ -37,7 +37,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
             MessageBox.Show(Resources.EnterPasswordForm_WrongPassword_Text, Resources.EnterPasswordForm_WrongPassword_Title,
                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
+            textPassword1.Text = "";
             return false;
         }
     }

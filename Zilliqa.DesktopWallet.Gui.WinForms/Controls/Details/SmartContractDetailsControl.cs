@@ -9,6 +9,7 @@ using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 {
+    // this class is not used any more
     public partial class SmartContractDetailsControl : DetailsBaseControl
     {
         public SmartContractDetailsControl()

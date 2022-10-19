@@ -203,12 +203,15 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 
         private void buttonSmartContractCall_Click(object sender, EventArgs e)
         {
-
+            if (_account?.AccountData is MyAccount)
+            {
+                ContractCallTransactionForm.ExecuteShow(this.ParentForm!, _account);
+            }
         }
 
         private void buttonSmartContractDeploy_Click(object sender, EventArgs e)
         {
-
+            MessageBox.Show("not implemented yet, comming soon");
         }
 
     }

@@ -33,8 +33,9 @@
             this.toolTipButton = new System.Windows.Forms.ToolTip(this.components);
             this.buttonCopy = new System.Windows.Forms.Button();
             this.buttonBrowse = new System.Windows.Forms.Button();
-            this.buttonAddWatchedAccount = new System.Windows.Forms.Button();
+            this.buttonMenuAdd = new System.Windows.Forms.Button();
             this.buttonOpen = new System.Windows.Forms.Button();
+            this.buttonMenuContract = new System.Windows.Forms.Button();
             this.panelAddress = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -42,7 +43,15 @@
             this.label1 = new System.Windows.Forms.Label();
             this.timerButtonPressed = new System.Windows.Forms.Timer(this.components);
             this.labelCaption = new System.Windows.Forms.Label();
+            this.contextMenuAdd = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuAddWatched = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuAddAddressbook = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuContract = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuContractCall = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuContractRedeploy = new System.Windows.Forms.ToolStripMenuItem();
             this.panelAddress.SuspendLayout();
+            this.contextMenuAdd.SuspendLayout();
+            this.contextMenuContract.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolTipButton
@@ -78,17 +87,17 @@
             this.buttonBrowse.UseVisualStyleBackColor = true;
             this.buttonBrowse.Click += new System.EventHandler(this.buttonBrowse_Click);
             // 
-            // buttonAddWatchedAccount
+            // buttonMenuAdd
             // 
-            this.buttonAddWatchedAccount.Dock = System.Windows.Forms.DockStyle.Left;
-            this.buttonAddWatchedAccount.Image = ((System.Drawing.Image)(resources.GetObject("buttonAddWatchedAccount.Image")));
-            this.buttonAddWatchedAccount.Location = new System.Drawing.Point(423, 0);
-            this.buttonAddWatchedAccount.Name = "buttonAddWatchedAccount";
-            this.buttonAddWatchedAccount.Size = new System.Drawing.Size(24, 25);
-            this.buttonAddWatchedAccount.TabIndex = 7;
-            this.toolTipButton.SetToolTip(this.buttonAddWatchedAccount, "Add to Watched Accounts");
-            this.buttonAddWatchedAccount.UseVisualStyleBackColor = true;
-            this.buttonAddWatchedAccount.Click += new System.EventHandler(this.buttonAddWatchedAccount_Click);
+            this.buttonMenuAdd.Dock = System.Windows.Forms.DockStyle.Left;
+            this.buttonMenuAdd.Image = ((System.Drawing.Image)(resources.GetObject("buttonMenuAdd.Image")));
+            this.buttonMenuAdd.Location = new System.Drawing.Point(423, 0);
+            this.buttonMenuAdd.Name = "buttonMenuAdd";
+            this.buttonMenuAdd.Size = new System.Drawing.Size(24, 25);
+            this.buttonMenuAdd.TabIndex = 7;
+            this.toolTipButton.SetToolTip(this.buttonMenuAdd, "Add to ...");
+            this.buttonMenuAdd.UseVisualStyleBackColor = true;
+            this.buttonMenuAdd.Click += new System.EventHandler(this.buttonAdd_Click);
             // 
             // buttonOpen
             // 
@@ -101,6 +110,19 @@
             this.toolTipButton.SetToolTip(this.buttonOpen, "Open");
             this.buttonOpen.UseVisualStyleBackColor = true;
             this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
+            // 
+            // buttonMenuContract
+            // 
+            this.buttonMenuContract.Dock = System.Windows.Forms.DockStyle.Left;
+            this.buttonMenuContract.Image = ((System.Drawing.Image)(resources.GetObject("buttonMenuContract.Image")));
+            this.buttonMenuContract.Location = new System.Drawing.Point(447, 0);
+            this.buttonMenuContract.Name = "buttonMenuContract";
+            this.buttonMenuContract.Size = new System.Drawing.Size(24, 25);
+            this.buttonMenuContract.TabIndex = 9;
+            this.toolTipButton.SetToolTip(this.buttonMenuContract, "Smart Contract Actions ...");
+            this.buttonMenuContract.UseVisualStyleBackColor = true;
+            this.buttonMenuContract.Visible = false;
+            this.buttonMenuContract.Click += new System.EventHandler(this.buttonMenuContract_Click);
             // 
             // panelAddress
             // 
@@ -175,23 +197,74 @@
             this.labelCaption.TabIndex = 5;
             this.labelCaption.Text = "[Caption]";
             // 
+            // contextMenuAdd
+            // 
+            this.contextMenuAdd.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuAddWatched,
+            this.menuAddAddressbook});
+            this.contextMenuAdd.Name = "contextMenuStrip1";
+            this.contextMenuAdd.Size = new System.Drawing.Size(214, 48);
+            // 
+            // menuAddWatched
+            // 
+            this.menuAddWatched.Image = ((System.Drawing.Image)(resources.GetObject("menuAddWatched.Image")));
+            this.menuAddWatched.Name = "menuAddWatched";
+            this.menuAddWatched.Size = new System.Drawing.Size(213, 22);
+            this.menuAddWatched.Text = "Add to Watched Accounts";
+            this.menuAddWatched.Click += new System.EventHandler(this.menuAddWatched_Click);
+            // 
+            // menuAddAddressbook
+            // 
+            this.menuAddAddressbook.Image = ((System.Drawing.Image)(resources.GetObject("menuAddAddressbook.Image")));
+            this.menuAddAddressbook.Name = "menuAddAddressbook";
+            this.menuAddAddressbook.Size = new System.Drawing.Size(213, 22);
+            this.menuAddAddressbook.Text = "Add to Address Book";
+            this.menuAddAddressbook.Click += new System.EventHandler(this.menuAddAddressbook_Click);
+            // 
+            // contextMenuContract
+            // 
+            this.contextMenuContract.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuContractCall,
+            this.menuContractRedeploy});
+            this.contextMenuContract.Name = "contextMenuContract";
+            this.contextMenuContract.Size = new System.Drawing.Size(231, 48);
+            // 
+            // menuContractCall
+            // 
+            this.menuContractCall.Image = ((System.Drawing.Image)(resources.GetObject("menuContractCall.Image")));
+            this.menuContractCall.Name = "menuContractCall";
+            this.menuContractCall.Size = new System.Drawing.Size(230, 22);
+            this.menuContractCall.Text = "Call this Smart Contract";
+            this.menuContractCall.Click += new System.EventHandler(this.menuContractCall_Click);
+            // 
+            // menuContractRedeploy
+            // 
+            this.menuContractRedeploy.Image = ((System.Drawing.Image)(resources.GetObject("menuContractRedeploy.Image")));
+            this.menuContractRedeploy.Name = "menuContractRedeploy";
+            this.menuContractRedeploy.Size = new System.Drawing.Size(230, 22);
+            this.menuContractRedeploy.Text = "Re-Deploy this Smat Contract";
+            this.menuContractRedeploy.Click += new System.EventHandler(this.menuContractRedeploy_Click);
+            // 
             // Bech32AddressLabel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.Controls.Add(this.buttonAddWatchedAccount);
+            this.Controls.Add(this.buttonMenuContract);
+            this.Controls.Add(this.buttonMenuAdd);
             this.Controls.Add(this.buttonBrowse);
             this.Controls.Add(this.buttonCopy);
             this.Controls.Add(this.buttonOpen);
             this.Controls.Add(this.panelAddress);
             this.Controls.Add(this.labelCaption);
             this.Name = "Bech32AddressLabel";
-            this.Size = new System.Drawing.Size(472, 25);
+            this.Size = new System.Drawing.Size(601, 25);
             this.Load += new System.EventHandler(this.Bech32AddressLabel_Load);
             this.Resize += new System.EventHandler(this.Bech32AddressLabel_Resize);
             this.panelAddress.ResumeLayout(false);
             this.panelAddress.PerformLayout();
+            this.contextMenuAdd.ResumeLayout(false);
+            this.contextMenuContract.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -207,8 +280,15 @@
         private Button buttonCopy;
         private Button buttonBrowse;
         private System.Windows.Forms.Timer timerButtonPressed;
-        private Button buttonAddWatchedAccount;
+        private Button buttonMenuAdd;
         private Button buttonOpen;
         private Label labelCaption;
+        private ContextMenuStrip contextMenuAdd;
+        private ToolStripMenuItem menuAddAddressbook;
+        private ToolStripMenuItem menuAddWatched;
+        private Button buttonMenuContract;
+        private ContextMenuStrip contextMenuContract;
+        private ToolStripMenuItem menuContractCall;
+        private ToolStripMenuItem menuContractRedeploy;
     }
 }

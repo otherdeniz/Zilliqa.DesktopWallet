@@ -6,6 +6,7 @@ using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 {
+    // this class is not used any more
     public partial class TransactionDetailsControl : DetailsBaseControl
     {
         private TransactionRowViewModelBase _transactionViewModel;
@@ -52,7 +53,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             _transactionViewModel = transactionViewModel;
             labelId.Text = $"0x{transactionViewModel.Transaction.Id}";
             labelDate.Text = transactionViewModel.Transaction.Timestamp.ToLocalTime().ToString("g");
-            labelBlockNumber.LoadValue(transactionViewModel.Block, DrillDownPanel);
+            labelBlockNumber.LoadValue(transactionViewModel.Block, MasterPanel);
             propertyGridModel.SelectedObject = transactionViewModel.Transaction;
         }
 
@@ -78,7 +79,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 
         private void menuBlockOpen_Click(object sender, EventArgs e)
         {
-            DrillDownPanel?.DisplayValue(_transactionViewModel.Block, false);
+            MasterPanel?.DisplayValue(_transactionViewModel.Block, false);
         }
 
         private void menuBlockCopy_Click(object sender, EventArgs e)

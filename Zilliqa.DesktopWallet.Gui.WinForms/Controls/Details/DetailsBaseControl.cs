@@ -11,7 +11,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
         }
 
         [DefaultValue(null)]
-        public DrillDownMasterPanelControl? DrillDownPanel { get; set; }
+        public DrillDownMasterPanelControl? MasterPanel { get; set; }
 
         [DefaultValue(false)]
         public bool IsDrillDownMainControl { get; set; }
@@ -22,12 +22,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 
         public bool CanDrillDownToObject(object viewModel)
         {
-            return DrillDownPanel?.ContainsValueUniqueId(viewModel) == false;
+            return MasterPanel?.ContainsValueUniqueId(viewModel) == false;
         }
 
         public void DrillDownToObject(object viewModel, Action<object?>? afterClose = null, object? afterCloseArgument = null)
         {
-            DrillDownPanel?.DisplayValue(viewModel, IsDrillDownMainControl, afterClose, afterCloseArgument);
+            MasterPanel?.DisplayValue(viewModel, IsDrillDownMainControl, afterClose, afterCloseArgument);
         }
     }
 }

@@ -125,7 +125,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                     }
                     if (resultControl is DetailsBaseControl drillDownBaseControl)
                     {
-                        drillDownBaseControl.DrillDownPanel = this;
+                        drillDownBaseControl.MasterPanel = this;
                     }
                     Application.DoEvents();
                     panelResult.Focus();

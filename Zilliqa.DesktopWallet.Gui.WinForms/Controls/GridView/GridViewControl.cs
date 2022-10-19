@@ -297,7 +297,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
                 IsItemSelectable?.Invoke(this, eventArgs);
                 if (eventArgs.IsSelectable)
                 {
-                    return CanDrillDownToObject(selectionItem);
+                    return CanDrillDownToObject(selectionItem.Value!);
                 }
             }
 

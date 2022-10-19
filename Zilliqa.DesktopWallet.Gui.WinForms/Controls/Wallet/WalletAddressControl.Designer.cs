@@ -66,7 +66,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.toolStripAccountActions.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStripAccountActions.Location = new System.Drawing.Point(0, 0);
             this.toolStripAccountActions.Name = "toolStripAccountActions";
-            this.toolStripAccountActions.Size = new System.Drawing.Size(758, 23);
+            this.toolStripAccountActions.Size = new System.Drawing.Size(758, 42);
             this.toolStripAccountActions.TabIndex = 2;
             // 
             // buttonSend
@@ -197,13 +197,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             // 
             this.addressDetails.BackColor = System.Drawing.Color.White;
             this.addressDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.addressDetails.DrillDownPanel = this;
+            this.addressDetails.MasterPanel = this;
             this.addressDetails.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.addressDetails.IsDrillDownMainControl = true;
-            this.addressDetails.Location = new System.Drawing.Point(0, 23);
+            this.addressDetails.Location = new System.Drawing.Point(0, 42);
             this.addressDetails.Name = "addressDetails";
             this.addressDetails.ShowCurrencyColumns = true;
-            this.addressDetails.Size = new System.Drawing.Size(758, 660);
+            this.addressDetails.Size = new System.Drawing.Size(758, 641);
             this.addressDetails.TabIndex = 3;
             this.addressDetails.AfterRefreshAccountDetails += new System.EventHandler<System.EventArgs>(this.addressDetails_AfterRefreshAccountDetails);
             this.addressDetails.PendingStakeWithdrawChanged += new System.EventHandler<System.EventArgs>(this.addressDetails_PendingStakeWithdrawChanged);

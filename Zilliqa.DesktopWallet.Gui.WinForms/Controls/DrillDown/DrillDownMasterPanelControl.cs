@@ -18,6 +18,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
                 {
                     return drillDownMasterPanel;
                 }
+                if (parentControl is DetailsBaseControl detailsBaseControl
+                    && detailsBaseControl.MasterPanel != null)
+                {
+                    return detailsBaseControl.MasterPanel;
+                }
+
                 parentControl = parentControl.Parent;
             }
             return null;
@@ -87,10 +93,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
                 _valueUniqueIds.Add(viewModelUniqueId);
             }
 
-            var childControl = ControlFactory.CreateDisplayControl(viewValue);
+            var childControl = ControlFactory.CreateDisplayControl(viewValue, masterPanel:this);
             if (childControl is DetailsBaseControl drillDownChildControl)
             {
-                drillDownChildControl.DrillDownPanel = this;
+                drillDownChildControl.MasterPanel = this;
             }
             var pathItem = new ViewValuePathItem(viewValue, viewModelUniqueId, childControl, afterClose, afterCloseArgument);
 
@@ -225,6 +231,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
 
                 if (openControl != null)
                 {
+                    if (openControl is DetailsBaseControl openDetailsBaseControl)
+                    {
+                        openDetailsBaseControl.MasterPanel = null;
+                    }
                     SecondForm.ShowDetailsAsForm(openControl);
                 }
             }

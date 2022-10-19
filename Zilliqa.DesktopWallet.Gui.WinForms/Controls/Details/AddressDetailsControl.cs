@@ -6,6 +6,7 @@ using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
 {
@@ -17,8 +18,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
         private bool _tabHoldingsInitialised;
         private bool _hasSmartContracts;
 
-        public AddressDetailsControl()
+        public AddressDetailsControl(DrillDownMasterPanelControl? masterPanel = null)
         {
+            MasterPanel = masterPanel;
             InitializeComponent();
             gridViewTokenBalances.Dock = DockStyle.Fill;
             gridViewStakes.Dock = DockStyle.Fill;

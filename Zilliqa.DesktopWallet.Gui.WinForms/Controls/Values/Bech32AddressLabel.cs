@@ -1,9 +1,12 @@
 ﻿using System.ComponentModel;
 using Zillifriends.Shared.Common;
+using Zilliqa.DesktopWallet.ApiClient;
+using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
+using Zilliqa.DesktopWallet.DatabaseSchema;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
 using Zilliqa.DesktopWallet.Gui.WinForms.Forms;
 
@@ -13,6 +16,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
     {
         private string? _bech32Address;
         private bool _showAddToWatchedAccounts = true;
+        private SmartContract? _smartContract;
 
         public Bech32AddressLabel()
         {
@@ -26,7 +30,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
             set
             {
                 _showAddToWatchedAccounts = value;
-                buttonAddWatchedAccount.Visible = value;
+                buttonMenuAdd.Visible = value;
             }
         }
 
@@ -88,10 +92,19 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
         private void RefreshButtons()
         {
             if (_bech32Address == null) return;
+            if (Bech32Address == "zil1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq9yf6pz")
+            {
+                buttonOpen.Visible = false;
+                buttonCopy.Visible = false;
+                buttonBrowse.Visible = false;
+                buttonMenuAdd.Visible = false;
+                buttonMenuContract.Visible = false;
+                return;
+            }
             if (_showAddToWatchedAccounts)
             {
                 var walletRepository = RepositoryManager.Instance.WalletRepository;
-                buttonAddWatchedAccount.Enabled =
+                buttonMenuAdd.Visible =
                     walletRepository.MyAccounts.All(a => a.AddressBech32 != _bech32Address)
                     && walletRepository.WatchedAccounts.All(a => a.AddressBech32 != _bech32Address);
             }
@@ -99,8 +112,19 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
             if (masterPanel?.ContainsValueUniqueId(
                     ControlFactory.GetValueUniqueId(new AddressValue(_bech32Address))) == true)
             {
-                buttonOpen.Enabled = false;
+                buttonOpen.Visible = false;
             }
+
+            Task.Run(() =>
+            {
+                _smartContract = RepositoryManager.Instance.DatabaseRepository.Database.GetTable<SmartContract>()
+                    .FindRecord(nameof(SmartContract.ContractAddress), new Address(_bech32Address).GetBase16(false),
+                        false);
+                WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                {
+                    buttonMenuContract.Visible = _smartContract != null;
+                });
+            });
         }
 
         private void Bech32AddressLabel_Load(object sender, EventArgs e)
@@ -146,21 +170,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
             BlockExplorerBrowser.ShowAddress(_bech32Address);
         }
 
-        private void buttonAddWatchedAccount_Click(object sender, EventArgs e)
-        {
-            var result = AddWatchedAccountForm.Execute(this.ParentForm!, 
-                _bech32Address,
-                KnownAddressService.Instance.GetName(_bech32Address));
-
-            if (result != null)
-            {
-                RepositoryManager.Instance.WalletRepository.AddAccount(
-                    WatchedAccount.Create(result.AccountName, result.Address, result.IsMyAccount)
-                );
-                buttonAddWatchedAccount.Enabled = false;
-            }
-        }
-
         private void timerButtonPressed_Tick(object sender, EventArgs e)
         {
             timerButtonPressed.Enabled = false;
@@ -171,6 +180,45 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
         private void Bech32AddressLabel_Resize(object sender, EventArgs e)
         {
             ApplySize();
+        }
+
+        private void buttonAdd_Click(object sender, EventArgs e)
+        {
+            contextMenuAdd.Show(buttonMenuAdd, 0, buttonMenuAdd.Height);
+        }
+
+        private void buttonMenuContract_Click(object sender, EventArgs e)
+        {
+            contextMenuContract.Show(buttonMenuContract, 0, buttonMenuContract.Height);
+        }
+
+        private void menuAddWatched_Click(object sender, EventArgs e)
+        {
+            var result = AddWatchedAccountForm.Execute(this.ParentForm!,
+                _bech32Address,
+                KnownAddressService.Instance.GetName(_bech32Address));
+            if (result != null)
+            {
+                RepositoryManager.Instance.WalletRepository.AddAccount(
+                    WatchedAccount.Create(result.AccountName, result.Address, result.IsMyAccount)
+                );
+                menuAddWatched.Enabled = false;
+            }
+        }
+
+        private void menuAddAddressbook_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuContractCall_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuContractRedeploy_Click(object sender, EventArgs e)
+        {
+
         }
 
     }

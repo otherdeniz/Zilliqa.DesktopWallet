@@ -49,7 +49,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
 
         public override string ToString()
         {
-            return $"0x {TransactionId}";
+            return TransactionId.FromTransactionHexToShortReadable();
         }
 
         public object GetViewModel()
