@@ -1,10 +1,13 @@
-﻿using Zilliqa.DesktopWallet.Core.ViewModel;
+﻿using Zilliqa.DesktopWallet.Core.Data.Model;
+using Zilliqa.DesktopWallet.Core.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.ViewModel
 {
     public class DialogWithPasswordResult
     {
-        public PasswordInfo Password { get; set; }
+        public MyAccount SenderAccount { get; set; } = null!;
+
+        public PasswordInfo Password { get; set; } = null!;
 
     }
 }

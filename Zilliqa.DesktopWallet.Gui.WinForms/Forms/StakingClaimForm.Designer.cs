@@ -59,8 +59,8 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(8, 8);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(668, 142);
-            this.panel4.TabIndex = 104;
+            this.panel4.Size = new System.Drawing.Size(668, 161);
+            this.panel4.TabIndex = 0;
             // 
             // checkedListBoxSsn
             // 
@@ -72,7 +72,7 @@
             this.checkedListBoxSsn.FormattingEnabled = true;
             this.checkedListBoxSsn.Location = new System.Drawing.Point(3, 22);
             this.checkedListBoxSsn.Name = "checkedListBoxSsn";
-            this.checkedListBoxSsn.Size = new System.Drawing.Size(659, 112);
+            this.checkedListBoxSsn.Size = new System.Drawing.Size(659, 130);
             this.checkedListBoxSsn.TabIndex = 104;
             this.checkedListBoxSsn.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxSsn_ItemCheck);
             // 
@@ -80,8 +80,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 279);
+            this.ClientSize = new System.Drawing.Size(684, 298);
             this.Controls.Add(this.panel4);
+            this.DisplaySenderAccount = false;
             this.Name = "StakingClaimForm";
             this.Text = "Claim Pending Stake Rewards";
             this.Load += new System.EventHandler(this.StakingClaimForm_Load);

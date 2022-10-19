@@ -40,11 +40,11 @@
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(570, 6);
+            this.buttonOk.Location = new System.Drawing.Point(512, 6);
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(678, 6);
+            this.buttonCancel.Location = new System.Drawing.Point(620, 6);
             // 
             // panelPage1
             // 
@@ -57,7 +57,7 @@
             this.panelPage1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelPage1.Location = new System.Drawing.Point(8, 8);
             this.panelPage1.Name = "panelPage1";
-            this.panelPage1.Size = new System.Drawing.Size(784, 181);
+            this.panelPage1.Size = new System.Drawing.Size(726, 167);
             this.panelPage1.TabIndex = 0;
             // 
             // checkBoxMyAddress
@@ -76,7 +76,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textAddress.Location = new System.Drawing.Point(3, 101);
             this.textAddress.Name = "textAddress";
-            this.textAddress.Size = new System.Drawing.Size(775, 23);
+            this.textAddress.Size = new System.Drawing.Size(717, 23);
             this.textAddress.TabIndex = 1;
             this.textAddress.TextChanged += new System.EventHandler(this.textAddress_TextChanged);
             // 
@@ -95,7 +95,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textWalletName.Location = new System.Drawing.Point(3, 38);
             this.textWalletName.Name = "textWalletName";
-            this.textWalletName.Size = new System.Drawing.Size(775, 23);
+            this.textWalletName.Size = new System.Drawing.Size(717, 23);
             this.textWalletName.TabIndex = 0;
             this.textWalletName.TextChanged += new System.EventHandler(this.textWalletName_TextChanged);
             // 
@@ -123,7 +123,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 234);
+            this.ClientSize = new System.Drawing.Size(742, 220);
             this.Controls.Add(this.panelPage1);
             this.Name = "AddWatchedAccountForm";
             this.Text = "Add Watched Account";

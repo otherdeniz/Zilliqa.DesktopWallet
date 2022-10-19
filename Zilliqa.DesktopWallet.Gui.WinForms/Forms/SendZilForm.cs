@@ -1,19 +1,23 @@
 ﻿using System.Globalization;
-using Zilliqa.DesktopWallet.Core.Cryptography;
-using Zilliqa.DesktopWallet.Core.Data.Files;
+using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
-using Zilliqa.DesktopWallet.Gui.WinForms.Properties;
-using Zilliqa.DesktopWallet.Gui.WinForms.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 {
-    public partial class SendZilForm : DialogBaseForm
+    public partial class SendZilForm : DialogWithPasswordBaseForm
     {
-        private AccountViewModel _account = null!;
+        public static void ExecuteShow(Form parentForm, AccountViewModel account)
+        {
+            var form = new SendZilForm();
+            form.LoadSenderAccounts(account.AccountData as MyAccount);
+            form.Show(parentForm);
+        }
+
+        private AccountViewModel? _selectedAccount;
 
         public SendZilForm()
         {
@@ -24,56 +28,38 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         public decimal Amount { get; private set; }
 
-        public string Password { get; private set; } = string.Empty;
-
-        public static SendZilResult? Execute(Form parentForm, AccountViewModel account)
+        protected override void ExecuteResult()
         {
-            using (var form = new SendZilForm())
-            {
-                form._account = account;
-                if (form.ShowDialog(parentForm) == DialogResult.OK)
-                {
-                    return new SendZilResult()
-                    {
-                        Password = new PasswordInfo(form.Password),
-                        ToAddress = new AddressValue(form.ToAddress),
-                        Amount = form.Amount
-                    };
-                }
-            }
-
-            return null;
+            var sendResult = SendTransactionService.Instance.SendZilToAddress(
+                SenderAccount!.AccountDetails,
+                new AddressValue(ToAddress),
+                Amount);
+            TransactionSendResultForm.ExecuteShow(this.Owner, sendResult);
         }
 
         protected override bool OnOk()
         {
-            if (CheckFields(true))
+            if (base.OnOk())
             {
                 ToAddress = textToAddress.Text;
-                Password = textPassword1.Text;
                 Amount = decimal.Parse(textAmount.Text);
                 return true;
             }
             return false;
         }
 
-        private bool CheckFields(bool validatePassword)
+        protected override bool CheckFields()
         {
-            if (validatePassword &&
-                !EncryptionUtils.ValidatePasswordHash(textPassword1.Text, WalletDat.Instance.PasswordHash))
-            {
-                MessageBox.Show(Resources.EnterPasswordForm_WrongPassword_Text, Resources.EnterPasswordForm_WrongPassword_Title,
-                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            return base.CheckFields()
+                   && AddressValue.TryParse(textToAddress.Text, out _)
+                   && decimal.TryParse(textAmount.Text, out var amountValue)
+                   && amountValue > 0;
+        }
 
-                return false;
-            }
-
-            var ok = AddressValue.TryParse(textToAddress.Text, out _)
-                     && decimal.TryParse(textAmount.Text, out var amountValue)
-                     && amountValue > 0
-                     && textPassword1.Text.Length >= 1;
-            buttonOk.Enabled = ok;
-            return ok;
+        protected override void AccountSelected(AccountViewModel selectedAccount)
+        {
+            _selectedAccount = selectedAccount;
+            textAvailableFunds.Text = selectedAccount.ZilLiquidBalance.ToString("#,##0.00##########", CultureInfo.CurrentCulture);
         }
 
         private void SendZilForm_Load(object sender, EventArgs e)
@@ -83,32 +69,34 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             var currentFee = RepositoryManager.Instance.BlockchainBrowserRepository.MinimumGasPrice *
                           SendTransactionService.GasLimitZilTransfer;
             textFee.Text = currentFee.ZilSatoshisToZil().ToString(CultureInfo.CurrentCulture);
-            textAvailableFunds.Text = _account.ZilLiquidBalance.ToString("#,##0.0000", CultureInfo.CurrentCulture);
         }
 
         private void textToAddress_TextChanged(object sender, EventArgs e)
         {
-            CheckFields(false);
+            RefreshOkButton();
         }
 
         private void textAmount_TextChanged(object sender, EventArgs e)
         {
-            CheckFields(false);
+            RefreshOkButton();
         }
 
         private void textPassword1_TextChanged(object sender, EventArgs e)
         {
-            CheckFields(false);
+            RefreshOkButton();
         }
 
         private void buttonSendMax_Click(object sender, EventArgs e)
         {
-            var currentFee = RepositoryManager.Instance.BlockchainBrowserRepository.MinimumGasPrice *
-                             SendTransactionService.GasLimitZilTransfer;
-            var maxAmount = _account.ZilLiquidBalance - currentFee.ZilSatoshisToZil();
-            textAmount.Text = maxAmount > 0
-                ? maxAmount.ToString(CultureInfo.CurrentCulture)
-                : "0";
+            if (_selectedAccount != null)
+            {
+                var currentFee = RepositoryManager.Instance.BlockchainBrowserRepository.MinimumGasPrice *
+                                 SendTransactionService.GasLimitZilTransfer;
+                var maxAmount = _selectedAccount.ZilLiquidBalance - currentFee.ZilSatoshisToZil();
+                textAmount.Text = maxAmount > 0
+                    ? maxAmount.ToString(CultureInfo.CurrentCulture)
+                    : "0";
+            }
         }
     }
 }

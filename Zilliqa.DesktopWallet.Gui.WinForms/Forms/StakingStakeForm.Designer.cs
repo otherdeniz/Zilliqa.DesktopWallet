@@ -294,15 +294,16 @@
             this.panelPage1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelPage1.Location = new System.Drawing.Point(8, 8);
             this.panelPage1.Name = "panelPage1";
-            this.panelPage1.Size = new System.Drawing.Size(676, 242);
+            this.panelPage1.Size = new System.Drawing.Size(676, 237);
             this.panelPage1.TabIndex = 0;
             // 
             // StakingStakeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(692, 379);
+            this.ClientSize = new System.Drawing.Size(692, 374);
             this.Controls.Add(this.panelPage1);
+            this.DisplaySenderAccount = false;
             this.Name = "StakingStakeForm";
             this.Text = "Stake Funds";
             this.Load += new System.EventHandler(this.StakingStakeForm_Load);

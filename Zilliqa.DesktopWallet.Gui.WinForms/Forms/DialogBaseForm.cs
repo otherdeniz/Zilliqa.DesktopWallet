@@ -17,6 +17,11 @@
             return true;
         }
 
+        protected virtual void ExecuteResult()
+        {
+            this.DialogResult = DialogResult.OK;
+        }
+
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             if (OnCancel())
@@ -30,7 +35,11 @@
         {
             if (OnOk())
             {
-                this.DialogResult = DialogResult.OK;
+                buttonOk.Enabled = false;
+                buttonOk.Refresh();
+                buttonCancel.Enabled = false;
+                buttonCancel.Refresh();
+                ExecuteResult();
                 this.Close();
             }
         }

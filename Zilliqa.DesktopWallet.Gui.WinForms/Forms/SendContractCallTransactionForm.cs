@@ -1,4 +1,6 @@
-﻿
+﻿using Zilliqa.DesktopWallet.Core.Data.Model;
+using Zilliqa.DesktopWallet.Core.ViewModel;
+
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 {
     public partial class SendContractCallTransactionForm : DialogWithPasswordBaseForm
@@ -8,9 +10,20 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             InitializeComponent();
         }
 
-        protected override bool CheckFields()
+        public string ToAddress { get; private set; } = string.Empty;
+
+        public decimal Amount { get; private set; }
+
+        public static void ExecuteShow(Form parentForm, AccountViewModel account)
         {
-            return base.CheckFields();
+            var form = new SendContractCallTransactionForm();
+            form.LoadSenderAccounts(account.AccountData as MyAccount);
+            form.Show(parentForm);
+        }
+
+        protected override void ExecuteResult()
+        {
+
         }
 
         protected override bool OnOk()
@@ -20,6 +33,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                 return true;
             }
             return false;
+        }
+
+        protected override bool CheckFields()
+        {
+            return base.CheckFields();
+        }
+
+        protected override void AccountSelected(AccountViewModel selectedAccount)
+        {
+
         }
     }
 }

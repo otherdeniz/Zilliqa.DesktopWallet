@@ -33,7 +33,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                 else
                 {
                     form.pictureBox1.Image = form.imageListStatus.Images[2];
-                    form.labelStatus.Text = "Failed";
+                    form.labelStatus.Text = "Failed sending";
                 }
                 form.Show(parentForm);
             }
@@ -57,7 +57,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             else
             {
                 form.pictureBox1.Image = form.imageListStatus.Images[2];
-                form.labelStatus.Text = "Failed";
+                form.labelStatus.Text = "Failed sending";
             }
             form.Show(parentForm);
         }
@@ -83,7 +83,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             else if (foundTransaction.TransactionFailed)
             {
                 pictureBox1.Image = imageListStatus.Images[2];
-                labelStatus.Text = "Failed";
+                labelStatus.Text = $"Failed on chain\n{foundTransaction.GetErrorMessage()}";
                 timerRefreshStatus.Enabled = false;
             }
             else

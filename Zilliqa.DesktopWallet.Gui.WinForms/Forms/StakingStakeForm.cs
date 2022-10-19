@@ -118,7 +118,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                     comboBoxSsn.SelectedIndex = comboBoxSsn.Items.Count- 1;
                 }
             }
-            textAvailableFunds.Text = _account.ZilLiquidBalance.ToString("#,##0.0000", CultureInfo.CurrentCulture);
+            textAvailableFunds.Text = _account.ZilLiquidBalance.ToString("#,##0.00##########", CultureInfo.CurrentCulture);
         }
 
         private void comboBoxSsn_SelectedIndexChanged(object sender, EventArgs e)

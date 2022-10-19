@@ -144,10 +144,9 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                         {
                             // nothing to process, all completed
                             processBlockNumber = 0;
-                            IsCompleted = true;
                         }
                     }
-
+                    IsCompleted = CrawlerStateDat.Instance.TransactionCrawler.HighestBlock >= newestBlock - 1;
                     if (processBlockNumber > 0)
                     {
                         var blockModel =

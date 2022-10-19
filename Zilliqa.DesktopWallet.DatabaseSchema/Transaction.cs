@@ -163,6 +163,14 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
             return null;
         }
 
+        public string? GetErrorMessage()
+        {
+            return TransactionFailed
+                ? Receipt.Exceptions.Select(e => e.Message).FirstOrDefault()
+                  ?? Receipt.Errors.Numbers.Select(n => $"Error Code #{n} : {(TransactionErrorCodes)n}").FirstOrDefault()
+                : null;
+        }
+
         public string? GetPatchedCode()
         {
             return Code?.Replace(" end ", $"{Environment.NewLine}end{Environment.NewLine}");
@@ -176,4 +184,35 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
         ContractDeployment = 2,
         ContractCall = 3
     }
+
+    public enum TransactionErrorCodes
+    {
+        CHECKER_FAILED = 0,
+        RUNNER_FAILED = 1,
+        BALANCE_TRANSFER_FAILED = 2,
+        EXECUTE_CMD_FAILED = 3,
+        EXECUTE_CMD_TIMEOUT = 4,
+        NO_GAS_REMAINING_FOUND = 5,
+        NO_ACCEPTED_FOUND = 6,
+        CALL_CONTRACT_FAILED = 7,
+        CREATE_CONTRACT_FAILED = 8,
+        JSON_OUTPUT_CORRUPTED = 9,
+        CONTRACT_NOT_EXIST = 10,
+        STATE_CORRUPTED = 11,
+        LOG_ENTRY_INSTALL_FAILED = 12,
+        MESSAGE_CORRUPTED = 13,
+        RECEIPT_IS_NULL = 14,
+        MAX_EDGES_REACHED = 15,
+        CHAIN_CALL_DIFF_SHARD = 16,
+        PREPARATION_FAILED = 17,
+        NO_OUTPUT = 18,
+        OUTPUT_ILLEGAL = 19,
+        MAP_DEPTH_MISSING = 20,
+        GAS_NOT_SUFFICIENT = 21,
+        INTERNAL_ERROR = 22,
+        LIBRARY_AS_RECIPIENT = 23,
+        VERSION_INCONSISTENT = 24,
+        LIBRARY_EXTRACTION_FAILED = 25
+    }
+
 }

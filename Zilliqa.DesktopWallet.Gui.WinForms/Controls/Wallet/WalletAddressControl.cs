@@ -71,23 +71,18 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 
         private void buttonSend_Click(object sender, EventArgs e)
         {
-            if (_account?.AccountData is MyAccount myAccount)
+            if (_account?.AccountData is MyAccount)
             {
-                var sendZilResult = SendZilForm.Execute(this.ParentForm!, _account);
-                if (sendZilResult != null)
-                {
-                    var sendResult = SendTransactionService.Instance.SendZilToAddress(
-                        myAccount.AccountDetails,
-                        sendZilResult.ToAddress, 
-                        sendZilResult.Amount);
-                    TransactionSendResultForm.ExecuteShow(this.ParentForm!, sendResult);
-                }
+                SendZilForm.ExecuteShow(this.ParentForm!, _account);
             }
         }
 
         private void buttonSendToken_Click(object sender, EventArgs e)
         {
-
+            if (_account?.AccountData is MyAccount)
+            {
+                SendTokenForm.ExecuteShow(this.ParentForm!, _account);
+            }
         }
 
         private void buttonBackupPrivateKey_Click(object sender, EventArgs e)
@@ -194,7 +189,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 
         private void buttonStakeGetPendingWithdraw_Click(object sender, EventArgs e)
         {
-
+            if (_account?.AccountData is MyAccount myAccount)
+            {
+                var completeWithdrawResult = StakingCompleteWithdrawForm.Execute(this.ParentForm!);
+                if (completeWithdrawResult != null)
+                {
+                    var sendResult = StakingService.Instance.SendTransactionCompleteWithdrawal(
+                        myAccount.AccountDetails);
+                    TransactionSendResultForm.ExecuteShow(this.ParentForm!, sendResult);
+                }
+            }
         }
 
         private void buttonSmartContractCall_Click(object sender, EventArgs e)

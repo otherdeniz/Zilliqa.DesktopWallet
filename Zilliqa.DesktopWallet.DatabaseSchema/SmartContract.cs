@@ -92,40 +92,51 @@ namespace Zilliqa.DesktopWallet.DatabaseSchema
                 .FirstOrDefault();
         }
 
-        public decimal AmountToDecimal(decimal? amountNumber)
+        public long AmountToTokenSatoshis(decimal amountDecimal)
         {
-            if (amountNumber == null)
-            {
-                return 0;
-            }
             var decimals = TokenDecimals();
             if (decimals > 0)
             {
-                var divident = Convert.ToDecimal(Math.Pow(10, decimals));
-                return amountNumber.Value / divident;
+                var multiplicator = Convert.ToDecimal(Math.Pow(10, decimals));
+                return Convert.ToInt64(amountDecimal * multiplicator);
             }
-            return amountNumber.Value;
+            return Convert.ToInt64(amountDecimal);
         }
 
-        public decimal AmountToDecimal(BigInteger? amountNumber)
+        public decimal AmountToDecimal(decimal? tokenSatoshis)
         {
-            if (amountNumber == null)
+            if (tokenSatoshis == null)
             {
                 return 0;
             }
             var decimals = TokenDecimals();
             if (decimals > 0)
             {
-                if (amountNumber.BitLength <= 64)
+                var divident = Convert.ToDecimal(Math.Pow(10, decimals));
+                return tokenSatoshis.Value / divident;
+            }
+            return tokenSatoshis.Value;
+        }
+
+        public decimal AmountToDecimal(BigInteger? tokenSatoshis)
+        {
+            if (tokenSatoshis == null)
+            {
+                return 0;
+            }
+            var decimals = TokenDecimals();
+            if (decimals > 0)
+            {
+                if (tokenSatoshis.BitLength <= 64)
                 {
-                    return AmountToDecimal((ulong)amountNumber.LongValue);
+                    return AmountToDecimal((ulong)tokenSatoshis.LongValue);
                 }
                 var divident = Convert.ToDecimal(Math.Pow(10, decimals));
-                var decimalString = amountNumber.Divide(new BigInteger(divident.ToString(CultureInfo.InvariantCulture)))
+                var decimalString = tokenSatoshis.Divide(new BigInteger(divident.ToString(CultureInfo.InvariantCulture)))
                     .ToString();
                 return decimal.TryParse(decimalString, out var decimalValue) ? decimalValue : 0;
             }
-            return (ulong)amountNumber.LongValue;
+            return (ulong)tokenSatoshis.LongValue;
         }
     }
 

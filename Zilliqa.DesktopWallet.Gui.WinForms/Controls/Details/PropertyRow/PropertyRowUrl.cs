@@ -22,6 +22,22 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details.PropertyRow
             {
                 return $"https://twitter.com/{value}";
             }
+            if (title.ToLower() == "facebook")
+            {
+                return $"https://www.facebook.com/{value}";
+            }
+            if (title.ToLower() == "linkedin")
+            {
+                return $"https://www.linkedin.com/company/{value}";
+            }
+            if (title.ToLower() == "telegram")
+            {
+                return $"https://t.me/{value}";
+            }
+            if (title.ToLower() == "github")
+            {
+                return $"https://github.com/{value}";
+            }
             return value;
         }
 

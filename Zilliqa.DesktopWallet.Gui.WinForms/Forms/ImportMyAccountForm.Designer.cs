@@ -29,24 +29,24 @@
         private void InitializeComponent()
         {
             this.panelPage1 = new System.Windows.Forms.Panel();
+            this.textPrivateKey = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.textPassword1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textWalletName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.textPrivateKey = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.panelPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(703, 6);
+            this.buttonOk.Location = new System.Drawing.Point(570, 6);
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(620, 6);
+            this.buttonCancel.Location = new System.Drawing.Point(678, 6);
             // 
             // panelPage1
             // 
@@ -61,8 +61,29 @@
             this.panelPage1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelPage1.Location = new System.Drawing.Point(8, 8);
             this.panelPage1.Name = "panelPage1";
-            this.panelPage1.Size = new System.Drawing.Size(784, 298);
+            this.panelPage1.Size = new System.Drawing.Size(784, 278);
             this.panelPage1.TabIndex = 0;
+            // 
+            // textPrivateKey
+            // 
+            this.textPrivateKey.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textPrivateKey.Location = new System.Drawing.Point(3, 101);
+            this.textPrivateKey.Multiline = true;
+            this.textPrivateKey.Name = "textPrivateKey";
+            this.textPrivateKey.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textPrivateKey.Size = new System.Drawing.Size(775, 76);
+            this.textPrivateKey.TabIndex = 1;
+            this.textPrivateKey.TextChanged += new System.EventHandler(this.textPrivateKey_TextChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 83);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(65, 15);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Private Key";
             // 
             // textPassword1
             // 
@@ -125,32 +146,11 @@
             this.label5.TabIndex = 7;
             this.label5.Text = "Account Title";
             // 
-            // textPrivateKey
-            // 
-            this.textPrivateKey.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textPrivateKey.Location = new System.Drawing.Point(3, 101);
-            this.textPrivateKey.Multiline = true;
-            this.textPrivateKey.Name = "textPrivateKey";
-            this.textPrivateKey.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textPrivateKey.Size = new System.Drawing.Size(775, 76);
-            this.textPrivateKey.TabIndex = 1;
-            this.textPrivateKey.TextChanged += new System.EventHandler(this.textPrivateKey_TextChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 83);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(65, 15);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "Private Key";
-            // 
             // ImportMyAccountForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 351);
+            this.ClientSize = new System.Drawing.Size(800, 331);
             this.Controls.Add(this.panelPage1);
             this.Name = "ImportMyAccountForm";
             this.Text = "Import Account";

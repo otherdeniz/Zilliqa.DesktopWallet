@@ -41,8 +41,21 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         {
             if (base.OnOk())
             {
-                SsnAddress = GetSelectedStake()!.StakingNode.SsnAddress;
+                var stake = GetSelectedStake()!;
+                if (stake.UnclaimedRewards > 0)
+                {
+                    MessageBox.Show("This Account has unclaimed stake rewards.\nPlease claim rewards first.", 
+                        "Unstake not possible", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return false;
+                }
+                SsnAddress = stake.StakingNode.SsnAddress;
                 Amount = decimal.Parse(textAmount.Text);
+                if (stake.StakeAmount < Amount + 10)
+                {
+                    MessageBox.Show("This Account has not enough staked funds to unstake this amount.\nYou can only unstake as much as you have staked, minus 10 ZIL.", 
+                        "Unstake not possible", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return false;
+                }
                 return true;
             }
             return false;
@@ -81,7 +94,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             var stake = GetSelectedStake();
             if (stake != null)
             {
-                textStakedFunds.Text = stake.StakeAmount.ToString("#,##0.0000", CultureInfo.CurrentCulture);
+                textStakedFunds.Text = stake.StakeAmount.ToString("#,##0.00##########", CultureInfo.CurrentCulture);
+                buttonUnstakeMax.Enabled = true;
             }
             RefreshOkButton();
         }

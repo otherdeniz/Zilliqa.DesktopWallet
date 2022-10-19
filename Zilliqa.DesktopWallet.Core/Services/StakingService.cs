@@ -71,7 +71,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
         {
             var contractCall = new DataContractCall
             {
-                Tag = "WithdrawStakeRewardsAmt",
+                Tag = "WithdrawStakeAmt",
                 Params = new List<DataParam>
                 {
                     new DataParam
@@ -84,7 +84,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                     {
                         Vname = "amt",
                         Type = ParamTypes.Uint128,
-                        Value = zilAmount.ToString(CultureInfo.InvariantCulture)
+                        Value = zilAmount.ZilToZilSatoshis().ToString(CultureInfo.InvariantCulture)
                     }
                 }
             };

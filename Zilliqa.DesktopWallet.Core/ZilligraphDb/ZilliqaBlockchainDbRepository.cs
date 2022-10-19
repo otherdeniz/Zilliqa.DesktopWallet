@@ -32,25 +32,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                 }
             };
             var table = Database.GetTable<Transaction>();
-            var filterSearcher = FilterSearcherFactory.CreateFilterSearcher(table, filter);
-            ulong? recordPoint = null;
-            while (!filterSearcher.NoMoreRecords)
-            {
-                var nextPoint = filterSearcher.GetNextRecordPoint();
-                if (nextPoint != null)
-                {
-                    recordPoint = nextPoint;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            if (recordPoint != null)
-            {
-                return table.ReadRecord(recordPoint.Value);
-            }
-            return null;
+            return table.FindLastRecord(filter);
         }
 
         public PageableLazyDataSource<SmartContractViewModel, SmartContract> ReadSmartContractViewModelsPaged(

@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Zilligraph.Database.Storage.FilterQuery;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.ApiClient.Accounts;
 using Zilliqa.DesktopWallet.ApiClient.Crypto;
 using Zilliqa.DesktopWallet.ApiClient.Model;
+using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
@@ -14,8 +16,25 @@ namespace Zilliqa.DesktopWallet.Core.Services
     {
         public static readonly int GasLimitZilTransfer = 50;
         public static readonly int GasLimitDefaultContractCall = 30000;
+        private static int? _gasLimitDefaultTokenTransfer;
+        public static int GasLimitDefaultTokenTransfer
+        {
+            get
+            {
+                if (_gasLimitDefaultTokenTransfer == null)
+                {
+                    var lastTransferTransaction = RepositoryManager.Instance.DatabaseRepository.Database
+                        .GetTable<DatabaseSchema.Transaction>().FindLastRecord(
+                            new FilterQueryField(nameof(DatabaseSchema.Transaction.ContractMethod), "Transfer"));
+                    _gasLimitDefaultTokenTransfer =
+                        Convert.ToInt32(lastTransferTransaction?.Receipt.CumulativeGas ?? GasLimitDefaultContractCall);
+                }
+                return _gasLimitDefaultTokenTransfer.Value;
+            }
+        }
 
         public static SendTransactionService Instance { get; } = new();
+
 
         private static readonly JsonSerializerSettings DataSerializerSettings = new JsonSerializerSettings
         {
@@ -81,6 +100,27 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 }
             }).GetAwaiter().GetResult();
             return result;
+        }
+
+        public SendTransactionResult SendTokenToAddress(Account senderAccount, AddressValue toAddress,
+            TokenModelByAddress tokenModelByAddress, decimal amount)
+        {
+            return CallContract(senderAccount, new AddressValue(tokenModelByAddress.ContractAddressBech32), "Transfer",
+                new List<DataParam>
+                {
+                    new DataParam
+                    {
+                        Type = ParamTypes.Uint128,
+                        Vname = "amount",
+                        Value = tokenModelByAddress.SmartContract.AmountToTokenSatoshis(amount)
+                    },
+                    new DataParam
+                    {
+                        Type = ParamTypes.ByStr20,
+                        Vname = "to",
+                        Value = toAddress.Address.GetBase16(false)
+                    }
+                });
         }
 
         public SendTransactionResult SendZilToAddress(string senderPrivateKey, AddressValue toAddress, decimal amount)

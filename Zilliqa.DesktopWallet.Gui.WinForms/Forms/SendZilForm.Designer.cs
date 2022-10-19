@@ -81,7 +81,7 @@
             this.panelPage1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelPage1.Location = new System.Drawing.Point(8, 8);
             this.panelPage1.Name = "panelPage1";
-            this.panelPage1.Size = new System.Drawing.Size(659, 233);
+            this.panelPage1.Size = new System.Drawing.Size(659, 289);
             this.panelPage1.TabIndex = 0;
             // 
             // buttonSendMax
@@ -259,7 +259,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(675, 286);
+            this.ClientSize = new System.Drawing.Size(675, 342);
             this.Controls.Add(this.panelPage1);
             this.Name = "SendZilForm";
             this.Text = "Send ZIL";

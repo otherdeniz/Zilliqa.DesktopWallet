@@ -331,6 +331,29 @@ namespace Zilligraph.Database.Storage
             return ReadRecordInternal(recordPoint, resolveReferences);
         }
 
+        public TRecordModel? FindLastRecord(IFilterQuery filter)
+        {
+            var filterSearcher = FilterSearcherFactory.CreateFilterSearcher(this, filter);
+            ulong? recordPoint = null;
+            while (!filterSearcher.NoMoreRecords)
+            {
+                var nextPoint = filterSearcher.GetNextRecordPoint();
+                if (nextPoint != null)
+                {
+                    recordPoint = nextPoint;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            if (recordPoint != null)
+            {
+                return ReadRecord(recordPoint.Value);
+            }
+            return null;
+        }
+
         protected virtual TRecordModel ReadRecordInternal(ulong recordPoint, bool resolveReferences)
         {
             var dataFile = CompressedDataFiles.Last();

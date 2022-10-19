@@ -29,22 +29,22 @@
         private void InitializeComponent()
         {
             this.panelPage1 = new System.Windows.Forms.Panel();
-            this.textWalletName = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.textPassword1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.textWalletName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.panelPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(540, 6);
+            this.buttonOk.Location = new System.Drawing.Point(401, 6);
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(457, 6);
+            this.buttonCancel.Location = new System.Drawing.Point(509, 6);
             // 
             // panelPage1
             // 
@@ -57,8 +57,29 @@
             this.panelPage1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelPage1.Location = new System.Drawing.Point(8, 8);
             this.panelPage1.Name = "panelPage1";
-            this.panelPage1.Size = new System.Drawing.Size(621, 182);
+            this.panelPage1.Size = new System.Drawing.Size(615, 158);
             this.panelPage1.TabIndex = 0;
+            // 
+            // textPassword1
+            // 
+            this.textPassword1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textPassword1.Location = new System.Drawing.Point(3, 98);
+            this.textPassword1.Name = "textPassword1";
+            this.textPassword1.PasswordChar = '*';
+            this.textPassword1.Size = new System.Drawing.Size(606, 23);
+            this.textPassword1.TabIndex = 1;
+            this.textPassword1.TextChanged += new System.EventHandler(this.textPassword1_TextChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label1.Location = new System.Drawing.Point(3, 80);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(93, 15);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Wallet Password";
             // 
             // textWalletName
             // 
@@ -66,9 +87,19 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textWalletName.Location = new System.Drawing.Point(3, 38);
             this.textWalletName.Name = "textWalletName";
-            this.textWalletName.Size = new System.Drawing.Size(612, 23);
+            this.textWalletName.Size = new System.Drawing.Size(606, 23);
             this.textWalletName.TabIndex = 0;
             this.textWalletName.TextChanged += new System.EventHandler(this.textWalletName_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label3.Location = new System.Drawing.Point(3, 124);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(164, 15);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Your current Wallet password.";
             // 
             // label2
             // 
@@ -90,42 +121,11 @@
             this.label5.TabIndex = 7;
             this.label5.Text = "Account Title";
             // 
-            // textPassword1
-            // 
-            this.textPassword1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textPassword1.Location = new System.Drawing.Point(3, 98);
-            this.textPassword1.Name = "textPassword1";
-            this.textPassword1.PasswordChar = '*';
-            this.textPassword1.Size = new System.Drawing.Size(612, 23);
-            this.textPassword1.TabIndex = 1;
-            this.textPassword1.TextChanged += new System.EventHandler(this.textPassword1_TextChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label1.Location = new System.Drawing.Point(3, 80);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(93, 15);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "Wallet Password";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label3.Location = new System.Drawing.Point(3, 124);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(164, 15);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Your current Wallet password.";
-            // 
             // CreateMyAccountForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(637, 235);
+            this.ClientSize = new System.Drawing.Size(631, 211);
             this.Controls.Add(this.panelPage1);
             this.Name = "CreateMyAccountForm";
             this.Text = "Create Account";

@@ -36,7 +36,7 @@
             // 
             this.labelAmount.AutoSize = true;
             this.labelAmount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelAmount.Location = new System.Drawing.Point(6, 37);
+            this.labelAmount.Location = new System.Drawing.Point(5, 37);
             this.labelAmount.Name = "labelAmount";
             this.labelAmount.Size = new System.Drawing.Size(136, 15);
             this.labelAmount.TabIndex = 2;
@@ -47,7 +47,7 @@
             // 
             this.labelAddress.AutoSize = true;
             this.labelAddress.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelAddress.Location = new System.Drawing.Point(6, 20);
+            this.labelAddress.Location = new System.Drawing.Point(5, 20);
             this.labelAddress.Name = "labelAddress";
             this.labelAddress.Size = new System.Drawing.Size(78, 15);
             this.labelAddress.TabIndex = 2;

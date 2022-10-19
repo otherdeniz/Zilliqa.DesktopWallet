@@ -39,12 +39,12 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panelPendingWithraw = new System.Windows.Forms.Panel();
-            this.labelPendingWithdraw = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.labelZilStakedBalance = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.panelPendingWithraw = new System.Windows.Forms.Panel();
+            this.labelPendingWithdraw = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.labelZilLiquidBalance = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -97,8 +97,8 @@
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel1.SuspendLayout();
-            this.panelPendingWithraw.SuspendLayout();
             this.panel4.SuspendLayout();
+            this.panelPendingWithraw.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -148,10 +148,10 @@
             this.panel6.Controls.Add(this.label8);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel6.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.panel6.Location = new System.Drawing.Point(372, 0);
+            this.panel6.Location = new System.Drawing.Point(357, 0);
             this.panel6.Name = "panel6";
             this.panel6.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.panel6.Size = new System.Drawing.Size(172, 23);
+            this.panel6.Size = new System.Drawing.Size(163, 23);
             this.panel6.TabIndex = 3;
             // 
             // panel11
@@ -162,9 +162,9 @@
             this.panel11.Controls.Add(this.labelTokensValue2);
             this.panel11.Controls.Add(this.labelTokensValue3);
             this.panel11.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel11.Location = new System.Drawing.Point(100, 0);
+            this.panel11.Location = new System.Drawing.Point(94, 0);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(62, 23);
+            this.panel11.Size = new System.Drawing.Size(59, 23);
             this.panel11.TabIndex = 4;
             // 
             // labelTokensValueUsd
@@ -173,8 +173,8 @@
             this.labelTokensValueUsd.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelTokensValueUsd.Location = new System.Drawing.Point(0, 0);
             this.labelTokensValueUsd.Name = "labelTokensValueUsd";
-            this.labelTokensValueUsd.Padding = new System.Windows.Forms.Padding(3);
-            this.labelTokensValueUsd.Size = new System.Drawing.Size(59, 21);
+            this.labelTokensValueUsd.Padding = new System.Windows.Forms.Padding(0, 3, 3, 3);
+            this.labelTokensValueUsd.Size = new System.Drawing.Size(56, 21);
             this.labelTokensValueUsd.TabIndex = 3;
             this.labelTokensValueUsd.Text = "0.00 USD";
             // 
@@ -208,8 +208,8 @@
             this.label8.Dock = System.Windows.Forms.DockStyle.Left;
             this.label8.Location = new System.Drawing.Point(0, 0);
             this.label8.Name = "label8";
-            this.label8.Padding = new System.Windows.Forms.Padding(3);
-            this.label8.Size = new System.Drawing.Size(100, 21);
+            this.label8.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.label8.Size = new System.Drawing.Size(94, 21);
             this.label8.TabIndex = 1;
             this.label8.Text = "All Tokens Value:";
             // 
@@ -221,10 +221,10 @@
             this.panel7.Controls.Add(this.label10);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.panel7.Location = new System.Drawing.Point(193, 0);
+            this.panel7.Location = new System.Drawing.Point(187, 0);
             this.panel7.Name = "panel7";
             this.panel7.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.panel7.Size = new System.Drawing.Size(179, 23);
+            this.panel7.Size = new System.Drawing.Size(170, 23);
             this.panel7.TabIndex = 2;
             // 
             // panel10
@@ -235,9 +235,9 @@
             this.panel10.Controls.Add(this.labelZilValue2);
             this.panel10.Controls.Add(this.labelZilValue3);
             this.panel10.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel10.Location = new System.Drawing.Point(107, 0);
+            this.panel10.Location = new System.Drawing.Point(101, 0);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(62, 23);
+            this.panel10.Size = new System.Drawing.Size(59, 23);
             this.panel10.TabIndex = 4;
             // 
             // labelZilValueUsd
@@ -246,8 +246,8 @@
             this.labelZilValueUsd.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelZilValueUsd.Location = new System.Drawing.Point(0, 0);
             this.labelZilValueUsd.Name = "labelZilValueUsd";
-            this.labelZilValueUsd.Padding = new System.Windows.Forms.Padding(3);
-            this.labelZilValueUsd.Size = new System.Drawing.Size(59, 21);
+            this.labelZilValueUsd.Padding = new System.Windows.Forms.Padding(0, 3, 3, 3);
+            this.labelZilValueUsd.Size = new System.Drawing.Size(56, 21);
             this.labelZilValueUsd.TabIndex = 3;
             this.labelZilValueUsd.Text = "0.00 USD";
             // 
@@ -281,8 +281,8 @@
             this.label10.Dock = System.Windows.Forms.DockStyle.Left;
             this.label10.Location = new System.Drawing.Point(0, 0);
             this.label10.Name = "label10";
-            this.label10.Padding = new System.Windows.Forms.Padding(3);
-            this.label10.Size = new System.Drawing.Size(107, 21);
+            this.label10.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.label10.Size = new System.Drawing.Size(101, 21);
             this.label10.TabIndex = 1;
             this.label10.Text = "ZIL Balance Value:";
             // 
@@ -297,7 +297,7 @@
             this.panel8.Location = new System.Drawing.Point(23, 0);
             this.panel8.Name = "panel8";
             this.panel8.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.panel8.Size = new System.Drawing.Size(170, 23);
+            this.panel8.Size = new System.Drawing.Size(164, 23);
             this.panel8.TabIndex = 1;
             // 
             // panel9
@@ -308,9 +308,9 @@
             this.panel9.Controls.Add(this.labelTotalValue2);
             this.panel9.Controls.Add(this.labelTotalValue3);
             this.panel9.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel9.Location = new System.Drawing.Point(92, 0);
+            this.panel9.Location = new System.Drawing.Point(89, 0);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(68, 23);
+            this.panel9.Size = new System.Drawing.Size(65, 23);
             this.panel9.TabIndex = 3;
             // 
             // labelTotalValueUsd
@@ -319,8 +319,8 @@
             this.labelTotalValueUsd.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelTotalValueUsd.Location = new System.Drawing.Point(0, 0);
             this.labelTotalValueUsd.Name = "labelTotalValueUsd";
-            this.labelTotalValueUsd.Padding = new System.Windows.Forms.Padding(3);
-            this.labelTotalValueUsd.Size = new System.Drawing.Size(65, 21);
+            this.labelTotalValueUsd.Padding = new System.Windows.Forms.Padding(0, 3, 3, 3);
+            this.labelTotalValueUsd.Size = new System.Drawing.Size(62, 21);
             this.labelTotalValueUsd.TabIndex = 3;
             this.labelTotalValueUsd.Text = "0.00 USD";
             // 
@@ -355,8 +355,8 @@
             this.label12.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label12.Location = new System.Drawing.Point(0, 0);
             this.label12.Name = "label12";
-            this.label12.Padding = new System.Windows.Forms.Padding(3);
-            this.label12.Size = new System.Drawing.Size(92, 21);
+            this.label12.Padding = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.label12.Size = new System.Drawing.Size(89, 21);
             this.label12.TabIndex = 1;
             this.label12.Text = "Account Total:";
             // 
@@ -392,44 +392,6 @@
             this.panel1.Size = new System.Drawing.Size(729, 23);
             this.panel1.TabIndex = 1;
             // 
-            // panelPendingWithraw
-            // 
-            this.panelPendingWithraw.AutoSize = true;
-            this.panelPendingWithraw.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panelPendingWithraw.Controls.Add(this.labelPendingWithdraw);
-            this.panelPendingWithraw.Controls.Add(this.label7);
-            this.panelPendingWithraw.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelPendingWithraw.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.panelPendingWithraw.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.panelPendingWithraw.Location = new System.Drawing.Point(311, 0);
-            this.panelPendingWithraw.Name = "panelPendingWithraw";
-            this.panelPendingWithraw.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.panelPendingWithraw.Size = new System.Drawing.Size(221, 23);
-            this.panelPendingWithraw.TabIndex = 5;
-            this.panelPendingWithraw.Visible = false;
-            // 
-            // labelPendingWithdraw
-            // 
-            this.labelPendingWithdraw.AutoSize = true;
-            this.labelPendingWithdraw.Dock = System.Windows.Forms.DockStyle.Left;
-            this.labelPendingWithdraw.Location = new System.Drawing.Point(164, 0);
-            this.labelPendingWithdraw.Name = "labelPendingWithdraw";
-            this.labelPendingWithdraw.Padding = new System.Windows.Forms.Padding(3);
-            this.labelPendingWithdraw.Size = new System.Drawing.Size(57, 21);
-            this.labelPendingWithdraw.TabIndex = 2;
-            this.labelPendingWithdraw.Text = "0.00 ZIL";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label7.Location = new System.Drawing.Point(10, 0);
-            this.label7.Name = "label7";
-            this.label7.Padding = new System.Windows.Forms.Padding(3);
-            this.label7.Size = new System.Drawing.Size(154, 21);
-            this.label7.TabIndex = 1;
-            this.label7.Text = "Pending Stake Withdraw:";
-            // 
             // panel4
             // 
             this.panel4.AutoSize = true;
@@ -438,20 +400,20 @@
             this.panel4.Controls.Add(this.label6);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.panel4.Location = new System.Drawing.Point(532, 0);
+            this.panel4.Location = new System.Drawing.Point(495, 0);
             this.panel4.Name = "panel4";
             this.panel4.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.panel4.Size = new System.Drawing.Size(149, 23);
+            this.panel4.Size = new System.Drawing.Size(140, 23);
             this.panel4.TabIndex = 3;
             // 
             // labelZilStakedBalance
             // 
             this.labelZilStakedBalance.AutoSize = true;
             this.labelZilStakedBalance.Dock = System.Windows.Forms.DockStyle.Left;
-            this.labelZilStakedBalance.Location = new System.Drawing.Point(96, 0);
+            this.labelZilStakedBalance.Location = new System.Drawing.Point(90, 0);
             this.labelZilStakedBalance.Name = "labelZilStakedBalance";
-            this.labelZilStakedBalance.Padding = new System.Windows.Forms.Padding(3);
-            this.labelZilStakedBalance.Size = new System.Drawing.Size(53, 21);
+            this.labelZilStakedBalance.Padding = new System.Windows.Forms.Padding(0, 3, 3, 3);
+            this.labelZilStakedBalance.Size = new System.Drawing.Size(50, 21);
             this.labelZilStakedBalance.TabIndex = 2;
             this.labelZilStakedBalance.Text = "0.00 ZIL";
             // 
@@ -461,10 +423,48 @@
             this.label6.Dock = System.Windows.Forms.DockStyle.Left;
             this.label6.Location = new System.Drawing.Point(10, 0);
             this.label6.Name = "label6";
-            this.label6.Padding = new System.Windows.Forms.Padding(3);
-            this.label6.Size = new System.Drawing.Size(86, 21);
+            this.label6.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.label6.Size = new System.Drawing.Size(80, 21);
             this.label6.TabIndex = 1;
             this.label6.Text = "Staked Funds:";
+            // 
+            // panelPendingWithraw
+            // 
+            this.panelPendingWithraw.AutoSize = true;
+            this.panelPendingWithraw.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panelPendingWithraw.Controls.Add(this.labelPendingWithdraw);
+            this.panelPendingWithraw.Controls.Add(this.label7);
+            this.panelPendingWithraw.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelPendingWithraw.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.panelPendingWithraw.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.panelPendingWithraw.Location = new System.Drawing.Point(296, 0);
+            this.panelPendingWithraw.Name = "panelPendingWithraw";
+            this.panelPendingWithraw.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.panelPendingWithraw.Size = new System.Drawing.Size(199, 23);
+            this.panelPendingWithraw.TabIndex = 5;
+            this.panelPendingWithraw.Visible = false;
+            // 
+            // labelPendingWithdraw
+            // 
+            this.labelPendingWithdraw.AutoSize = true;
+            this.labelPendingWithdraw.Dock = System.Windows.Forms.DockStyle.Left;
+            this.labelPendingWithdraw.Location = new System.Drawing.Point(149, 0);
+            this.labelPendingWithdraw.Name = "labelPendingWithdraw";
+            this.labelPendingWithdraw.Padding = new System.Windows.Forms.Padding(0, 3, 3, 3);
+            this.labelPendingWithdraw.Size = new System.Drawing.Size(50, 21);
+            this.labelPendingWithdraw.TabIndex = 2;
+            this.labelPendingWithdraw.Text = "0.00 ZIL";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label7.Location = new System.Drawing.Point(10, 0);
+            this.label7.Name = "label7";
+            this.label7.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.label7.Size = new System.Drawing.Size(139, 21);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "Pending Stake Withdraw:";
             // 
             // panel3
             // 
@@ -474,20 +474,20 @@
             this.panel3.Controls.Add(this.label4);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.panel3.Location = new System.Drawing.Point(160, 0);
+            this.panel3.Location = new System.Drawing.Point(154, 0);
             this.panel3.Name = "panel3";
             this.panel3.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.panel3.Size = new System.Drawing.Size(151, 23);
+            this.panel3.Size = new System.Drawing.Size(142, 23);
             this.panel3.TabIndex = 2;
             // 
             // labelZilLiquidBalance
             // 
             this.labelZilLiquidBalance.AutoSize = true;
             this.labelZilLiquidBalance.Dock = System.Windows.Forms.DockStyle.Left;
-            this.labelZilLiquidBalance.Location = new System.Drawing.Point(94, 0);
+            this.labelZilLiquidBalance.Location = new System.Drawing.Point(88, 0);
             this.labelZilLiquidBalance.Name = "labelZilLiquidBalance";
-            this.labelZilLiquidBalance.Padding = new System.Windows.Forms.Padding(3);
-            this.labelZilLiquidBalance.Size = new System.Drawing.Size(57, 21);
+            this.labelZilLiquidBalance.Padding = new System.Windows.Forms.Padding(0, 3, 3, 3);
+            this.labelZilLiquidBalance.Size = new System.Drawing.Size(54, 21);
             this.labelZilLiquidBalance.TabIndex = 2;
             this.labelZilLiquidBalance.Text = "0.00 ZIL";
             // 
@@ -497,8 +497,8 @@
             this.label4.Dock = System.Windows.Forms.DockStyle.Left;
             this.label4.Location = new System.Drawing.Point(10, 0);
             this.label4.Name = "label4";
-            this.label4.Padding = new System.Windows.Forms.Padding(3);
-            this.label4.Size = new System.Drawing.Size(84, 21);
+            this.label4.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.label4.Size = new System.Drawing.Size(78, 21);
             this.label4.TabIndex = 1;
             this.label4.Text = "Liquid Funds:";
             // 
@@ -512,17 +512,17 @@
             this.panel2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.panel2.Location = new System.Drawing.Point(24, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(136, 23);
+            this.panel2.Size = new System.Drawing.Size(130, 23);
             this.panel2.TabIndex = 1;
             // 
             // labelZilTotalBalance
             // 
             this.labelZilTotalBalance.AutoSize = true;
             this.labelZilTotalBalance.Dock = System.Windows.Forms.DockStyle.Left;
-            this.labelZilTotalBalance.Location = new System.Drawing.Point(79, 0);
+            this.labelZilTotalBalance.Location = new System.Drawing.Point(76, 0);
             this.labelZilTotalBalance.Name = "labelZilTotalBalance";
-            this.labelZilTotalBalance.Padding = new System.Windows.Forms.Padding(3);
-            this.labelZilTotalBalance.Size = new System.Drawing.Size(57, 21);
+            this.labelZilTotalBalance.Padding = new System.Windows.Forms.Padding(0, 3, 3, 3);
+            this.labelZilTotalBalance.Size = new System.Drawing.Size(54, 21);
             this.labelZilTotalBalance.TabIndex = 2;
             this.labelZilTotalBalance.Text = "0.00 ZIL";
             // 
@@ -532,8 +532,8 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Left;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(3);
-            this.label1.Size = new System.Drawing.Size(79, 21);
+            this.label1.Padding = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.label1.Size = new System.Drawing.Size(76, 21);
             this.label1.TabIndex = 1;
             this.label1.Text = "ZIL Balance:";
             // 
@@ -906,10 +906,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panelPendingWithraw.ResumeLayout(false);
-            this.panelPendingWithraw.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
+            this.panelPendingWithraw.ResumeLayout(false);
+            this.panelPendingWithraw.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);

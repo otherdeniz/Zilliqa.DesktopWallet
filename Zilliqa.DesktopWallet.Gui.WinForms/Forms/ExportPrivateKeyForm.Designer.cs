@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.panelPage1 = new System.Windows.Forms.Panel();
+            this.buttonSelect = new System.Windows.Forms.Button();
             this.textPassword1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textFileName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.buttonSelect = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.panelPage1.SuspendLayout();
             this.SuspendLayout();
@@ -43,11 +43,11 @@
             // buttonOk
             // 
             this.buttonOk.Enabled = false;
-            this.buttonOk.Location = new System.Drawing.Point(552, 6);
+            this.buttonOk.Location = new System.Drawing.Point(525, 6);
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(660, 6);
+            this.buttonCancel.Location = new System.Drawing.Point(633, 6);
             // 
             // panelPage1
             // 
@@ -61,8 +61,19 @@
             this.panelPage1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelPage1.Location = new System.Drawing.Point(8, 8);
             this.panelPage1.Name = "panelPage1";
-            this.panelPage1.Size = new System.Drawing.Size(766, 169);
+            this.panelPage1.Size = new System.Drawing.Size(739, 161);
             this.panelPage1.TabIndex = 100;
+            // 
+            // buttonSelect
+            // 
+            this.buttonSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSelect.Location = new System.Drawing.Point(658, 38);
+            this.buttonSelect.Name = "buttonSelect";
+            this.buttonSelect.Size = new System.Drawing.Size(75, 23);
+            this.buttonSelect.TabIndex = 10;
+            this.buttonSelect.Text = "Select";
+            this.buttonSelect.UseVisualStyleBackColor = true;
+            this.buttonSelect.Click += new System.EventHandler(this.buttonSelect_Click);
             // 
             // textPassword1
             // 
@@ -71,7 +82,7 @@
             this.textPassword1.Location = new System.Drawing.Point(3, 101);
             this.textPassword1.Name = "textPassword1";
             this.textPassword1.PasswordChar = '*';
-            this.textPassword1.Size = new System.Drawing.Size(757, 23);
+            this.textPassword1.Size = new System.Drawing.Size(730, 23);
             this.textPassword1.TabIndex = 2;
             // 
             // label1
@@ -91,7 +102,7 @@
             this.textFileName.Location = new System.Drawing.Point(3, 38);
             this.textFileName.Name = "textFileName";
             this.textFileName.ReadOnly = true;
-            this.textFileName.Size = new System.Drawing.Size(676, 23);
+            this.textFileName.Size = new System.Drawing.Size(649, 23);
             this.textFileName.TabIndex = 0;
             // 
             // label3
@@ -124,17 +135,6 @@
             this.label5.TabIndex = 7;
             this.label5.Text = "Export to File";
             // 
-            // buttonSelect
-            // 
-            this.buttonSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSelect.Location = new System.Drawing.Point(685, 38);
-            this.buttonSelect.Name = "buttonSelect";
-            this.buttonSelect.Size = new System.Drawing.Size(75, 23);
-            this.buttonSelect.TabIndex = 10;
-            this.buttonSelect.Text = "Select";
-            this.buttonSelect.UseVisualStyleBackColor = true;
-            this.buttonSelect.Click += new System.EventHandler(this.buttonSelect_Click);
-            // 
             // saveFileDialog
             // 
             this.saveFileDialog.Filter = "Text File (*.txt)|*.txt|All Files (*.*)|*.*";
@@ -144,7 +144,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(782, 222);
+            this.ClientSize = new System.Drawing.Size(755, 214);
             this.Controls.Add(this.panelPage1);
             this.Name = "ExportPrivateKeyForm";
             this.Text = "Export Private Key";
