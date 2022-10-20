@@ -150,6 +150,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 
         private void LoadSearchResult(string searchText)
         {
+            ClearSelection();
             if (_dataSourcePageable != null)
             {
                 var dataSource = _dataSourcePageable.Search(searchText.ToLower());
@@ -173,6 +174,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
 
         private void LoadDataPage(int pageNumber)
         {
+            ClearSelection();
             if (_dataSourcePageable != null)
             {
                 var dataSource = _dataSourcePageable.GetPage(pageNumber);
