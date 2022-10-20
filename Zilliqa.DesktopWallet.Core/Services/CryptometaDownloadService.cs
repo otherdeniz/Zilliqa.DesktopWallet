@@ -91,7 +91,8 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 for (int i = 1; i <= ecosystem.Addresses!.Length; i++)
                 {
                     var address = ecosystem.Addresses![i - 1];
-                    KnownAddressService.Instance.AddUnique(address, $"{ecosystem.Name} #{i}");
+                    KnownAddressService.Instance.AddUnique(address, $"Ecosystem {ecosystem.Categories?.FirstOrDefault()}", 
+                        $"{ecosystem.Name} #{i}");
                 }
             }
 

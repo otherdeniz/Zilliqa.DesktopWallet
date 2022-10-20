@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.addressTextBox = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values.AddressTextBox();
             this.buttonSendMax = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -37,7 +38,6 @@
             this.textGasPrice = new System.Windows.Forms.TextBox();
             this.textAmount = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.textToAddress = new System.Windows.Forms.TextBox();
             this.labelSymbol2 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -59,6 +59,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.addressTextBox);
             this.panel1.Controls.Add(this.buttonSendMax);
             this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.label8);
@@ -67,7 +68,6 @@
             this.panel1.Controls.Add(this.textGasPrice);
             this.panel1.Controls.Add(this.textAmount);
             this.panel1.Controls.Add(this.label11);
-            this.panel1.Controls.Add(this.textToAddress);
             this.panel1.Controls.Add(this.labelSymbol2);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.label6);
@@ -79,16 +79,27 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(8, 62);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(670, 206);
-            this.panel1.TabIndex = 101;
+            this.panel1.Size = new System.Drawing.Size(670, 240);
+            this.panel1.TabIndex = 0;
+            // 
+            // addressTextBox
+            // 
+            this.addressTextBox.Address = "";
+            this.addressTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.addressTextBox.Location = new System.Drawing.Point(3, 72);
+            this.addressTextBox.Name = "addressTextBox";
+            this.addressTextBox.Size = new System.Drawing.Size(661, 51);
+            this.addressTextBox.TabIndex = 1;
+            this.addressTextBox.AddressChanged += new System.EventHandler<System.EventArgs>(this.addressTextBox_AddressChanged);
             // 
             // buttonSendMax
             // 
             this.buttonSendMax.Enabled = false;
-            this.buttonSendMax.Location = new System.Drawing.Point(188, 120);
+            this.buttonSendMax.Location = new System.Drawing.Point(188, 152);
             this.buttonSendMax.Name = "buttonSendMax";
             this.buttonSendMax.Size = new System.Drawing.Size(75, 23);
-            this.buttonSendMax.TabIndex = 26;
+            this.buttonSendMax.TabIndex = 3;
             this.buttonSendMax.TabStop = false;
             this.buttonSendMax.Text = "Send max.";
             this.buttonSendMax.UseVisualStyleBackColor = true;
@@ -97,7 +108,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(279, 151);
+            this.label9.Location = new System.Drawing.Point(279, 183);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(76, 15);
             this.label9.TabIndex = 24;
@@ -106,7 +117,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(279, 103);
+            this.label8.Location = new System.Drawing.Point(279, 135);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(90, 15);
             this.label8.TabIndex = 25;
@@ -114,62 +125,52 @@
             // 
             // textFee
             // 
-            this.textFee.Location = new System.Drawing.Point(279, 169);
+            this.textFee.Location = new System.Drawing.Point(279, 201);
             this.textFee.Name = "textFee";
             this.textFee.ReadOnly = true;
             this.textFee.Size = new System.Drawing.Size(90, 23);
-            this.textFee.TabIndex = 13;
+            this.textFee.TabIndex = 6;
             this.textFee.TabStop = false;
             // 
             // textAvailableFunds
             // 
-            this.textAvailableFunds.Location = new System.Drawing.Point(279, 121);
+            this.textAvailableFunds.Location = new System.Drawing.Point(279, 153);
             this.textAvailableFunds.Name = "textAvailableFunds";
             this.textAvailableFunds.ReadOnly = true;
             this.textAvailableFunds.Size = new System.Drawing.Size(163, 23);
-            this.textAvailableFunds.TabIndex = 14;
+            this.textAvailableFunds.TabIndex = 4;
             this.textAvailableFunds.TabStop = false;
             // 
             // textGasPrice
             // 
-            this.textGasPrice.Location = new System.Drawing.Point(3, 169);
+            this.textGasPrice.Location = new System.Drawing.Point(3, 201);
             this.textGasPrice.Name = "textGasPrice";
             this.textGasPrice.ReadOnly = true;
             this.textGasPrice.Size = new System.Drawing.Size(90, 23);
-            this.textGasPrice.TabIndex = 15;
+            this.textGasPrice.TabIndex = 5;
             this.textGasPrice.TabStop = false;
             // 
             // textAmount
             // 
-            this.textAmount.Location = new System.Drawing.Point(3, 121);
+            this.textAmount.Location = new System.Drawing.Point(3, 153);
             this.textAmount.Name = "textAmount";
             this.textAmount.Size = new System.Drawing.Size(135, 23);
-            this.textAmount.TabIndex = 16;
+            this.textAmount.TabIndex = 2;
             this.textAmount.TextChanged += new System.EventHandler(this.textAmount_TextChanged);
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(375, 172);
+            this.label11.Location = new System.Drawing.Point(375, 204);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(23, 15);
             this.label11.TabIndex = 17;
             this.label11.Text = "ZIL";
             // 
-            // textToAddress
-            // 
-            this.textToAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textToAddress.Location = new System.Drawing.Point(3, 72);
-            this.textToAddress.Name = "textToAddress";
-            this.textToAddress.Size = new System.Drawing.Size(661, 23);
-            this.textToAddress.TabIndex = 12;
-            this.textToAddress.TextChanged += new System.EventHandler(this.textToAddress_TextChanged);
-            // 
             // labelSymbol2
             // 
             this.labelSymbol2.AutoSize = true;
-            this.labelSymbol2.Location = new System.Drawing.Point(448, 124);
+            this.labelSymbol2.Location = new System.Drawing.Point(448, 156);
             this.labelSymbol2.Name = "labelSymbol2";
             this.labelSymbol2.Size = new System.Drawing.Size(0, 15);
             this.labelSymbol2.TabIndex = 18;
@@ -177,7 +178,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 151);
+            this.label7.Location = new System.Drawing.Point(3, 183);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(101, 15);
             this.label7.TabIndex = 21;
@@ -186,7 +187,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(99, 172);
+            this.label6.Location = new System.Drawing.Point(99, 204);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(23, 15);
             this.label6.TabIndex = 19;
@@ -195,7 +196,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 103);
+            this.label2.Location = new System.Drawing.Point(3, 135);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(51, 15);
             this.label2.TabIndex = 22;
@@ -204,7 +205,7 @@
             // labelSymbol1
             // 
             this.labelSymbol1.AutoSize = true;
-            this.labelSymbol1.Location = new System.Drawing.Point(144, 124);
+            this.labelSymbol1.Location = new System.Drawing.Point(144, 156);
             this.labelSymbol1.Name = "labelSymbol1";
             this.labelSymbol1.Size = new System.Drawing.Size(0, 15);
             this.labelSymbol1.TabIndex = 20;
@@ -227,7 +228,7 @@
             this.comboBoxToken.Location = new System.Drawing.Point(3, 21);
             this.comboBoxToken.Name = "comboBoxToken";
             this.comboBoxToken.Size = new System.Drawing.Size(661, 23);
-            this.comboBoxToken.TabIndex = 10;
+            this.comboBoxToken.TabIndex = 0;
             this.comboBoxToken.SelectedIndexChanged += new System.EventHandler(this.comboBoxToken_SelectedIndexChanged);
             // 
             // label1
@@ -243,7 +244,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(686, 397);
+            this.ClientSize = new System.Drawing.Size(686, 431);
             this.Controls.Add(this.panel1);
             this.Name = "SendTokenForm";
             this.Text = "Send Fungible Token";
@@ -268,12 +269,12 @@
         private TextBox textGasPrice;
         private TextBox textAmount;
         private Label label11;
-        private TextBox textToAddress;
         private Label labelSymbol2;
         private Label label7;
         private Label label6;
         private Label label2;
         private Label labelSymbol1;
         private Label label5;
+        private Controls.Values.AddressTextBox addressTextBox;
     }
 }

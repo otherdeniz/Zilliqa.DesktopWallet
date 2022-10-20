@@ -47,7 +47,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             if (base.OnOk())
             {
                 TokenModelByAddress = GetSelectedToken()!.Model;
-                ToAddress = textToAddress.Text;
+                ToAddress = addressTextBox.Address;
                 Amount = decimal.Parse(textAmount.Text);
                 return true;
             }
@@ -58,7 +58,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         {
             return base.CheckFields()
                 && GetSelectedToken() != null
-                && AddressValue.TryParse(textToAddress.Text, out _)
+                && AddressValue.TryParse(addressTextBox.Address, out _)
                 && decimal.TryParse(textAmount.Text, out var amountValue)
                 && amountValue > 0;
         }
@@ -132,7 +132,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             }
         }
 
-        private void textToAddress_TextChanged(object sender, EventArgs e)
+        private void addressTextBox_AddressChanged(object sender, EventArgs e)
         {
             RefreshOkButton();
         }

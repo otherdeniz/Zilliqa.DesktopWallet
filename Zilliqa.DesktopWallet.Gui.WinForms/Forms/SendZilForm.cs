@@ -41,7 +41,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         {
             if (base.OnOk())
             {
-                ToAddress = textToAddress.Text;
+                ToAddress = addressTextBox.Address;
                 Amount = decimal.Parse(textAmount.Text);
                 return true;
             }
@@ -51,7 +51,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         protected override bool CheckFields()
         {
             return base.CheckFields()
-                   && AddressValue.TryParse(textToAddress.Text, out _)
+                   && AddressValue.TryParse(addressTextBox.Address, out _)
                    && decimal.TryParse(textAmount.Text, out var amountValue)
                    && amountValue > 0;
         }
@@ -81,7 +81,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             RefreshOkButton();
         }
 
-        private void textPassword1_TextChanged(object sender, EventArgs e)
+        private void addressTextBox_AddressChanged(object sender, EventArgs e)
         {
             RefreshOkButton();
         }
@@ -98,5 +98,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                     : "0";
             }
         }
+
     }
 }

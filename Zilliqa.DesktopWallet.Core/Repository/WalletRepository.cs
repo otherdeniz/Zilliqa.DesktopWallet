@@ -15,13 +15,13 @@ namespace Zilliqa.DesktopWallet.Core.Repository
         {
             WalletDat.Instance.MyAccounts.ForEach(a =>
             {
-                KnownAddressService.Instance.AddUnique(a.GetAddressBech32(), a.Name);
+                KnownAddressService.Instance.AddUnique(a.GetAddressBech32(), "Account", a.Name);
                 _myAccountsList.Add(new AccountViewModel(a, OnAccountChanged, true));
             });
             MyAccounts = new ReadOnlyCollection<AccountViewModel>(_myAccountsList);
             WalletDat.Instance.WatchedAccounts.ForEach(a =>
             {
-                KnownAddressService.Instance.AddUnique(a.GetAddressBech32(), a.Name);
+                KnownAddressService.Instance.AddUnique(a.GetAddressBech32(), "Account", a.Name);
                 _watchedAccountsList.Add(new AccountViewModel(a, OnAccountChanged, true));
             });
             WatchedAccounts = new ReadOnlyCollection<AccountViewModel>(_watchedAccountsList);
@@ -51,7 +51,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
             {
                 throw new NotSupportedException("Account type not supported");
             }
-            KnownAddressService.Instance.AddUnique(account.GetAddressBech32(), account.Name);
+            KnownAddressService.Instance.AddUnique(account.GetAddressBech32(), "Account", account.Name);
             WalletDat.Instance.Save();
             AccountsListChanged?.Invoke(this, EventArgs.Empty);
         }

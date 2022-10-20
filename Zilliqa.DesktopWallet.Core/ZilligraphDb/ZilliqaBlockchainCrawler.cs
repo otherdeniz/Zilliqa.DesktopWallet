@@ -38,6 +38,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
             if (RunningState == RunningState.Stopped)
             {
                 RunningState = RunningState.Running;
+                IsCompleted = false;
                 _refreshCancellationTokenSource = new CancellationTokenSource();
                 CrawlerStateDat.Instance.EnsureExists();
                 _blocksCrawlerJobTask = Task.Run(async () =>

@@ -160,6 +160,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                         stakingSeedNode.CalculateApy(lastCycle - 12);
                         KnownAddressService.Instance.AddUnique(
                             new Address(stakingSeedNode.SsnAddress).GetBech32(),
+                            "Staking Node",
                             $"SSN:{stakingSeedNode.Name}");
                     }
                 });

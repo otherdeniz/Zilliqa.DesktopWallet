@@ -18,7 +18,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
         private bool _tabHoldingsInitialised;
         private bool _hasSmartContracts;
 
-        public AddressDetailsControl(DrillDownMasterPanelControl? masterPanel = null)
+        public AddressDetailsControl()
+            :this(null)
+        {
+        }
+        public AddressDetailsControl(DrillDownMasterPanelControl? masterPanel)
         {
             MasterPanel = masterPanel;
             InitializeComponent();

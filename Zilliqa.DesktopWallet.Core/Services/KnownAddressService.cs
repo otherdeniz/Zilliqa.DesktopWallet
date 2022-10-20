@@ -1,6 +1,7 @@
 ﻿using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient.Utils;
 using Zilliqa.DesktopWallet.Core.Repository;
+using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Core.Services
@@ -17,9 +18,9 @@ namespace Zilliqa.DesktopWallet.Core.Services
         {
         }
 
-        public Dictionary<string, string> Bech32AddressNames { get; } = new();
+        public Dictionary<string, KnownAddressViewModel> Bech32AddressNames { get; } = new();
 
-        public string? GetName(string? addressBech32)
+        public KnownAddressViewModel? GetName(string? addressBech32)
         {
             if (addressBech32 != null 
                 && Bech32AddressNames.TryGetValue(addressBech32, out var addressName))
@@ -58,11 +59,16 @@ namespace Zilliqa.DesktopWallet.Core.Services
             }
         }
 
-        public void AddUnique(string bech32, string name)
+        public void AddUnique(string bech32, string category, string name)
         {
             if (!Bech32AddressNames.ContainsKey(bech32))
             {
-                Bech32AddressNames.Add(bech32, name);
+                Bech32AddressNames.Add(bech32, new KnownAddressViewModel
+                {
+                    Address = bech32,
+                    Category = category,
+                    Name = name
+                });
             }
         }
 
@@ -71,6 +77,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
             if (smartContract.ContractAddress != null)
             {
                 AddUnique(smartContract.ContractAddress.FromBase16ToBech32Address(),
+                    "Smart Contract",
                     smartContract.DisplayName());
             }
         }

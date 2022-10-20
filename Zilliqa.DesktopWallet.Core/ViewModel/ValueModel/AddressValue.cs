@@ -84,13 +84,14 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
         public override string ToString()
         {
             if (_displayKnownName &&
-                KnownAddressService.Instance.Bech32AddressNames.TryGetValue(Address.GetBech32(), out var addressName))
+                KnownAddressService.Instance.Bech32AddressNames.TryGetValue(Address.GetBech32(), out var knownAddress))
             {
-                if (addressName.Length > 24)
+                var name = knownAddress.Name;
+                if (name.Length > 24)
                 {
-                    addressName = addressName.Substring(0, 24);
+                    name = name.Substring(0, 24);
                 }
-                return $"{addressName} ({Address})";
+                return $"{name} ({Address})";
             }
             return Address.ToString();
         }

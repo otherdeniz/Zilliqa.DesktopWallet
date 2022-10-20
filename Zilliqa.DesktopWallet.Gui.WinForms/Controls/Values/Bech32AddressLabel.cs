@@ -55,11 +55,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
         {
             if (_bech32Address?.Length == 42)
             {
-                var caption = KnownAddressService.Instance.GetName(_bech32Address);
-                if (caption != null && ShowCaption)
+                var knownAddress = KnownAddressService.Instance.GetName(_bech32Address);
+                if (knownAddress != null && ShowCaption)
                 {
                     label3.Text = "...";
-                    labelCaption.Text = $"{caption.TokenNameShort()}:";
+                    labelCaption.Text = $"{knownAddress.Name.TokenNameShort()}:";
                     labelCaption.Visible = true;
                 }
                 else
@@ -196,7 +196,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
         {
             var result = AddWatchedAccountForm.Execute(this.ParentForm!,
                 _bech32Address,
-                KnownAddressService.Instance.GetName(_bech32Address));
+                KnownAddressService.Instance.GetName(_bech32Address)?.Name);
             if (result != null)
             {
                 RepositoryManager.Instance.WalletRepository.AddAccount(
@@ -208,12 +208,14 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
 
         private void menuAddAddressbook_Click(object sender, EventArgs e)
         {
-
+            AddressBookAddForm.Execute(this.ParentForm!,
+                _bech32Address,
+                KnownAddressService.Instance.GetName(_bech32Address)?.Name);
         }
 
         private void menuContractCall_Click(object sender, EventArgs e)
         {
-
+            ContractCallTransactionForm.ExecuteShow(this.ParentForm!, contractAddress:_bech32Address);
         }
 
         private void menuContractRedeploy_Click(object sender, EventArgs e)

@@ -12,7 +12,7 @@ public class ContractCallAmountInfo
     {
         result = null;
         if (transactionModel.Receipt.Transitions?.FirstOrDefault(t => t.Msg.Tag == "DelegateStake") 
-            is { } delegateStakeTransition)
+                is { } delegateStakeTransition)
         {
             result = new ContractCallAmountInfo
             {
@@ -20,13 +20,12 @@ public class ContractCallAmountInfo
                 Symbol = "ZIL"
             };
         }
-        else if (transactionModel.DataContractCall.Tag == "WithdrawStakeRewards"
-                 && transactionModel.Receipt.Transitions?.FirstOrDefault(t => t.Msg.Tag == "AddFunds")
-                     is { } withdrawStakeAddFundsTransition)
+        else if (transactionModel.Receipt.Transitions?.FirstOrDefault(t => t.Msg.Tag == "AddFunds")
+                    is { } addFundsTransition)
         {
             result = new ContractCallAmountInfo
             {
-                Amount = withdrawStakeAddFundsTransition.Msg.Amount.ZilSatoshisToZil(),
+                Amount = addFundsTransition.Msg.Amount.ZilSatoshisToZil(),
                 Symbol = "ZIL"
             };
         }

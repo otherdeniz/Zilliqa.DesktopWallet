@@ -69,7 +69,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [DetailsProperty]
         [DisplayName("Commission Address")]
         [ColumnWidth(150)]
-        public AddressValue CommissionAddress => _commissionAddress ??= new AddressValue(StakingSeedNodeModel.CommissioningAddress);
+        public AddressValue CommissionAddress => _commissionAddress ??= new AddressValue(StakingSeedNodeModel.CommissioningAddress, false);
 
         [DetailsProperty]
         [Browsable(false)]

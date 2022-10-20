@@ -66,7 +66,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             this.toolStripAccountActions.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStripAccountActions.Location = new System.Drawing.Point(0, 0);
             this.toolStripAccountActions.Name = "toolStripAccountActions";
-            this.toolStripAccountActions.Size = new System.Drawing.Size(758, 42);
+            this.toolStripAccountActions.Size = new System.Drawing.Size(758, 23);
             this.toolStripAccountActions.TabIndex = 2;
             // 
             // buttonSend
@@ -153,6 +153,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             // 
             // buttonSmartContractCall
             // 
+            this.buttonSmartContractCall.Image = ((System.Drawing.Image)(resources.GetObject("buttonSmartContractCall.Image")));
             this.buttonSmartContractCall.Name = "buttonSmartContractCall";
             this.buttonSmartContractCall.Size = new System.Drawing.Size(194, 22);
             this.buttonSmartContractCall.Text = "Call Smart Contract";
@@ -160,6 +161,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             // 
             // buttonSmartContractDeploy
             // 
+            this.buttonSmartContractDeploy.Image = ((System.Drawing.Image)(resources.GetObject("buttonSmartContractDeploy.Image")));
             this.buttonSmartContractDeploy.Name = "buttonSmartContractDeploy";
             this.buttonSmartContractDeploy.Size = new System.Drawing.Size(194, 22);
             this.buttonSmartContractDeploy.Text = "Deploy Smart Contract";
