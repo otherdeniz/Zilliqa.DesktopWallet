@@ -58,7 +58,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
                         labelValid.Visible = true;
                         var bech32 = addressValue!.Address.GetBech32();
                         var addressbookEntry =
-                            AddressBookFile.Instance.Entries.FirstOrDefault(e => e.Address == bech32);
+                            AddressBookFile.Instance.Entries.FirstOrDefault(a => a.Address == bech32);
                         if (addressbookEntry != null)
                         {
                             labelValid.Text = $"Addressbook entry: {addressbookEntry.Name}";

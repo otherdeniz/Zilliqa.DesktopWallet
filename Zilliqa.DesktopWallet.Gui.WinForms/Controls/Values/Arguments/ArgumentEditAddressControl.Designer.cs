@@ -38,6 +38,7 @@
             this.addressTextBox.Name = "addressTextBox";
             this.addressTextBox.Size = new System.Drawing.Size(450, 24);
             this.addressTextBox.TabIndex = 4;
+            this.addressTextBox.AddressChanged += new System.EventHandler<System.EventArgs>(this.addressTextBox_AddressChanged);
             // 
             // ArgumentEditAddressControl
             // 

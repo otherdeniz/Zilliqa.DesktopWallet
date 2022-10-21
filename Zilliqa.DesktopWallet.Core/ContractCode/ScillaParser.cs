@@ -77,8 +77,8 @@ namespace Zilliqa.DesktopWallet.Core.ContractCode
     {
         public CodeTransitionArgument(string name, string type)
         {
-            Name = name;
-            Type = type;
+            Name = name.Trim();
+            Type = type.Trim();
         }
 
         public string Name { get; }

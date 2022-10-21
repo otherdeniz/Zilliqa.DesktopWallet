@@ -6,5 +6,17 @@
         {
             InitializeComponent();
         }
+
+        public override string ArgumentValue
+        {
+            get => textValue.Text; 
+            set => textValue.Text = value;
+        }
+
+        private void textValue_TextChanged(object sender, EventArgs e)
+        {
+            IsValid = IsOptional || !string.IsNullOrEmpty(textValue.Text);
+            RaiseArgumentValueChanged();
+        }
     }
 }

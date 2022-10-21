@@ -28,49 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panelValue = new System.Windows.Forms.Panel();
             this.textValue = new System.Windows.Forms.TextBox();
-            this.panelValue.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // panelValue
-            // 
-            this.panelValue.Controls.Add(this.textValue);
-            this.panelValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelValue.Location = new System.Drawing.Point(162, 0);
-            this.panelValue.Name = "panelValue";
-            this.panelValue.Padding = new System.Windows.Forms.Padding(4);
-            this.panelValue.Size = new System.Drawing.Size(300, 24);
-            this.panelValue.TabIndex = 4;
             // 
             // textValue
             // 
             this.textValue.BackColor = System.Drawing.Color.White;
-            this.textValue.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textValue.Location = new System.Drawing.Point(4, 4);
+            this.textValue.Location = new System.Drawing.Point(162, 0);
             this.textValue.Name = "textValue";
-            this.textValue.ReadOnly = true;
-            this.textValue.Size = new System.Drawing.Size(292, 16);
+            this.textValue.Size = new System.Drawing.Size(300, 23);
             this.textValue.TabIndex = 1;
+            this.textValue.TextChanged += new System.EventHandler(this.textValue_TextChanged);
             // 
             // ArgumentEditStringControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.panelValue);
+            this.Controls.Add(this.textValue);
             this.Name = "ArgumentEditStringControl";
-            this.Controls.SetChildIndex(this.panelValue, 0);
-            this.panelValue.ResumeLayout(false);
-            this.panelValue.PerformLayout();
+            this.Controls.SetChildIndex(this.textValue, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private Panel panelValue;
         private TextBox textValue;
     }
 }

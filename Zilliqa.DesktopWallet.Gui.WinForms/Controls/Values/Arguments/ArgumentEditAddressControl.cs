@@ -6,5 +6,11 @@
         {
             InitializeComponent();
         }
+
+        private void addressTextBox_AddressChanged(object sender, EventArgs e)
+        {
+            IsValid = addressTextBox.Address != null;
+            RaiseArgumentValueChanged();
+        }
     }
 }
