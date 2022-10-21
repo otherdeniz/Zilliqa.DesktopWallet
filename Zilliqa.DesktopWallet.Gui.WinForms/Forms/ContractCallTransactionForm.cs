@@ -1,6 +1,8 @@
 ﻿using System.Globalization;
+using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.ContractCode;
 using Zilliqa.DesktopWallet.Core.Data.Model;
+using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ViewModel;
@@ -54,15 +56,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             TransactionSendResultForm.ExecuteShow(this.Owner, sendResult);
         }
 
-        //protected override bool OnOk()
-        //{
-        //    if (base.OnOk())
-        //    {
-        //        return true;
-        //    }
-        //    return false;
-        //}
-
         protected override bool CheckFields()
         {
             return base.CheckFields()
@@ -75,6 +68,41 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         {
             textAvailableFunds.Text = selectedAccount.ZilLiquidBalance
                 .ToString("#,##0.00##########", CultureInfo.CurrentCulture);
+        }
+
+        private void ContractCallTransactionForm_Load(object sender, EventArgs e)
+        {
+            textGasPrice.Text = RepositoryManager.Instance.BlockchainBrowserRepository.MinimumGasPrice
+                .ZilSatoshisToZil().ToString(CultureInfo.CurrentCulture);
+        }
+
+        private void RefreshExpectedFee()
+        {
+            if (addressTextBox.Address != null 
+                && _codeTransitions != null 
+                && comboBoxMethod.SelectedIndex > -1)
+            {
+                Task.Run(() =>
+                {
+                    var dbRepo = RepositoryManager.Instance.DatabaseRepository;
+                    var lastContractTransaction = dbRepo.GetLatestContractCallTransaction(
+                        addressTextBox.Address, _codeTransitions[comboBoxMethod.SelectedIndex].Name);
+                    var gasLimit = lastContractTransaction?.Receipt.CumulativeGas ??
+                                   SendTransactionService.GasLimitDefaultContractCall / 5;
+                    var expectedFee = RepositoryManager.Instance.BlockchainBrowserRepository.MinimumGasPrice *
+                                      gasLimit;
+                    WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                    {
+                        textGasCost.Text = gasLimit.ToString("#,##0");
+                        textFee.Text = expectedFee.ZilSatoshisToZil().ToString(CultureInfo.CurrentCulture);
+                    });
+                });
+            }
+            else
+            {
+                textGasCost.Text = "";
+                textFee.Text = "";
+            }
         }
 
         private void LoadMethods()
@@ -117,21 +145,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                 _argumentEditControls = new List<ArgumentEditBaseControl>();
                 foreach (var transitionArgument in _codeTransitionArguments.AsEnumerable().Reverse())
                 {
-                    ArgumentEditBaseControl? control;
-                    if (transitionArgument.Type == ParamTypes.ByStr20)
-                    {
-                        control = new ArgumentEditAddressControl();
-                    }
-                    else
-                    {
-                        control = new ArgumentEditStringControl();
-                    }
+                    var control = ArgumentEditBaseControl.CreateControl(transitionArgument.Type);
                     control.ArgumentValueChanged += ArgumentEditControl_ValueChanged;
                     control.NameMinWidth = 90;
                     control.TypeMinWidth = 65;
                     control.Dock = DockStyle.Top;
                     control.ArgumentName = transitionArgument.Name;
-                    control.ArgumentType = transitionArgument.Type;
                     _argumentEditControls.Insert(0, control);
                     panelArguments.Controls.Add(control);
                 }
@@ -151,8 +170,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         private void comboBoxMethod_SelectedIndexChanged(object sender, EventArgs e)
         {
+            RefreshExpectedFee();
             LoadArguments();
             RefreshOkButton();
         }
+
     }
 }

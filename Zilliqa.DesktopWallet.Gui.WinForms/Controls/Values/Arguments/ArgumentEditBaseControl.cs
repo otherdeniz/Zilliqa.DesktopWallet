@@ -1,9 +1,37 @@
 ﻿using System.ComponentModel;
+using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values.Arguments
 {
     public partial class ArgumentEditBaseControl : DesignableUserControl
     {
+        public static ArgumentEditBaseControl CreateControl(string argumentType)
+        {
+            ArgumentEditBaseControl? control;
+            if (argumentType == ParamTypes.ByStr20)
+            {
+                control = new ArgumentEditAddressControl();
+            }
+            else if (argumentType == ParamTypes.Uint32)
+            {
+                control = new ArgumentEditNumberControl { NumberType = EditNumberType.UInt32 };
+            }
+            else if (argumentType == ParamTypes.Uint128)
+            {
+                control = new ArgumentEditNumberControl { NumberType = EditNumberType.UInt128 };
+            }
+            else if (argumentType == ParamTypes.Uint256)
+            {
+                control = new ArgumentEditNumberControl { NumberType = EditNumberType.UInt256 };
+            }
+            else
+            {
+                control = new ArgumentEditStringControl();
+            }
+            control.ArgumentType = argumentType;
+            return control;
+        }
+
         private string _argumentType = "";
         private bool _isValid;
         private bool _isInvalid;

@@ -124,9 +124,9 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(3, 186);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(101, 15);
+            this.label7.Size = new System.Drawing.Size(97, 15);
             this.label7.TabIndex = 7;
-            this.label7.Text = "Current GAS Price";
+            this.label7.Text = "Current gas price";
             // 
             // label10
             // 
@@ -206,27 +206,27 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(261, 138);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(90, 15);
+            this.label8.Size = new System.Drawing.Size(88, 15);
             this.label8.TabIndex = 10;
-            this.label8.Text = "Available Funds";
+            this.label8.Text = "Available funds";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(261, 186);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(118, 15);
+            this.label9.Size = new System.Drawing.Size(115, 15);
             this.label9.TabIndex = 10;
-            this.label9.Text = "Expected Staking Fee";
+            this.label9.Text = "Expected staking fee";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(407, 186);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(127, 15);
+            this.label13.Size = new System.Drawing.Size(123, 15);
             this.label13.TabIndex = 10;
-            this.label13.Text = "Expected Claiming Fee";
+            this.label13.Text = "Expected claiming fee";
             // 
             // buttonSendMax
             // 

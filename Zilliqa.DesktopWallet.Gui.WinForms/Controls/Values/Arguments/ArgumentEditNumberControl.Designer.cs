@@ -28,10 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.textValue = new System.Windows.Forms.TextBox();
+            this.SuspendLayout();
+            // 
+            // textValue
+            // 
+            this.textValue.BackColor = System.Drawing.Color.White;
+            this.textValue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textValue.Location = new System.Drawing.Point(162, 0);
+            this.textValue.Name = "textValue";
+            this.textValue.Size = new System.Drawing.Size(300, 23);
+            this.textValue.TabIndex = 4;
+            this.textValue.TextChanged += new System.EventHandler(this.textValue_TextChanged);
+            // 
+            // ArgumentEditNumberControl
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.textValue);
+            this.Name = "ArgumentEditNumberControl";
+            this.Controls.SetChildIndex(this.textValue, 0);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private TextBox textValue;
     }
 }

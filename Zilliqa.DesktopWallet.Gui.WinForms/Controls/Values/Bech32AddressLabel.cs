@@ -215,12 +215,17 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
 
         private void menuContractCall_Click(object sender, EventArgs e)
         {
-            ContractCallTransactionForm.ExecuteShow(this.ParentForm!, contractAddress:_bech32Address);
+            ContractCallTransactionForm.ExecuteShow(this.ParentForm!, 
+                contractAddress: _bech32Address);
         }
 
         private void menuContractRedeploy_Click(object sender, EventArgs e)
         {
-
+            if (_bech32Address != null)
+            {
+                ContractDeployTransactionForm.ExecuteShow(this.ParentForm!,
+                    templateContract: new AddressValue(_bech32Address).SmartContract);
+            }
         }
 
     }

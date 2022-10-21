@@ -15,6 +15,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
             InitializeComponent();
         }
 
+        public event EventHandler<EventArgs>? TextDocumentChanged;
+
         [Browsable(false)]
         [DefaultValue(null)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -37,6 +39,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values
             var doc = new SyntaxDocument();
             doc.Text = _text ?? string.Empty;
             doc.Parser.Init(syntaxDefinition);
+            doc.Change += (sender, args) =>
+            {
+                _text = doc.Text;
+                TextDocumentChanged?.Invoke(this, EventArgs.Empty);
+            };
             syntaxBox.Document = doc;
         }
 

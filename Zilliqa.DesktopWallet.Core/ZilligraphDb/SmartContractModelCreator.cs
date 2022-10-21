@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using Zillifriends.Shared.Common;
-using Zilliqa.DesktopWallet.ApiClient;
+﻿using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core.Api;
 using Zilliqa.DesktopWallet.Core.ContractCode;
 using Zilliqa.DesktopWallet.DatabaseSchema;
@@ -45,7 +43,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                 var contratName = scillaParser.ParseContractName();
                 if (contratName != null)
                 {
-                    smartContract.ContractName = contratName;
+                    smartContract.ContractName = contratName.Name;
                 }
 
                 smartContract.StateFields = scillaParser.ParseFields();

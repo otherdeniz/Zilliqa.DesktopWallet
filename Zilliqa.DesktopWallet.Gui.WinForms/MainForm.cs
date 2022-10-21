@@ -95,12 +95,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             }
             InitDisplayedCurrencies();
             var screen = Screen.FromControl(this);
-            var formWidth = Convert.ToInt32(Convert.ToDecimal(screen.Bounds.Width) * 0.8m);
+            var formWidth = Convert.ToInt32(Convert.ToDecimal(screen.Bounds.Width) * 0.85m);
             if (formWidth > 2000)
             {
                 formWidth = 2000;
             }
-            var formHeight = Convert.ToInt32(Convert.ToDecimal(screen.Bounds.Height) * 0.8m);
+            var formHeight = Convert.ToInt32(Convert.ToDecimal(screen.Bounds.Height) * 0.85m);
             if (formHeight > 1000)
             {
                 formHeight = 1000;

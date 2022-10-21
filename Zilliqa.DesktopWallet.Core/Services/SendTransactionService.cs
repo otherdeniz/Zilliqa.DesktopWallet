@@ -4,6 +4,7 @@ using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.ApiClient.Accounts;
 using Zilliqa.DesktopWallet.ApiClient.Crypto;
 using Zilliqa.DesktopWallet.ApiClient.Model;
+using Zilliqa.DesktopWallet.Core.ContractCode;
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Repository;
@@ -14,9 +15,11 @@ namespace Zilliqa.DesktopWallet.Core.Services
 {
     public class SendTransactionService
     {
+        public static readonly string ContractDeploymentAddress = "0000000000000000000000000000000000000000";
         public static readonly int GasLimitZilTransfer = 50;
         public static readonly int GasLimitDefaultContractCall = 30000;
         private static int? _gasLimitDefaultTokenTransfer;
+        private static int? _gasLimitDefaultDeployContract;
         public static int GasLimitDefaultTokenTransfer
         {
             get
@@ -30,6 +33,21 @@ namespace Zilliqa.DesktopWallet.Core.Services
                         Convert.ToInt32(lastTransferTransaction?.Receipt.CumulativeGas ?? GasLimitDefaultContractCall);
                 }
                 return _gasLimitDefaultTokenTransfer.Value;
+            }
+        }
+        public static int GasLimitDefaultDeployContract
+        {
+            get
+            {
+                if (_gasLimitDefaultDeployContract == null)
+                {
+                    var lastDeployTransaction = RepositoryManager.Instance.DatabaseRepository.Database
+                        .GetTable<DatabaseSchema.Transaction>().FindLastRecord(
+                            new FilterQueryField(nameof(DatabaseSchema.Transaction.ToAddress), ContractDeploymentAddress));
+                    _gasLimitDefaultDeployContract =
+                        Convert.ToInt32(lastDeployTransaction?.Receipt.CumulativeGas ?? GasLimitDefaultContractCall);
+                }
+                return _gasLimitDefaultDeployContract.Value;
             }
         }
 
@@ -84,6 +102,45 @@ namespace Zilliqa.DesktopWallet.Core.Services
                         GasLimit = gasLimit.ToString(),
                         Code = "",
                         Data = JsonConvert.SerializeObject(contractCall, DataSerializerSettings),
+                        Priority = false
+                    };
+                    tx.SetVersion(ZilliqaClient.UseTestnet);
+                    var signed = await SignWithAsync(tx, senderAccount, true);
+                    var info = await ZilliqaClient.DefaultInstance.CreateTransaction(signed);
+                    result.Success = true;
+                    result.Message = info.InfoMessage;
+                    result.TransactionId = info.TransactionId;
+                }
+                catch (Exception e)
+                {
+                    result.Success = false;
+                    result.Message = e.Message;
+                }
+            }).GetAwaiter().GetResult();
+            return result;
+        }
+
+        public SendTransactionResult DeployContract(Account senderAccount,
+            string scillaCode,
+            List<DataParam>? constructorArguments = null,
+            int? gasLimit = null)
+        {
+            var contractName = new ScillaParser(scillaCode).ParseContractName()?.Name;
+            var result = new SendTransactionResult(senderAccount.Address, new Address(ContractDeploymentAddress),
+                $"Deploy Smart Contract '{contractName}'");
+            gasLimit ??= GasLimitDefaultContractCall;
+            Task.Run(async () =>
+            {
+                try
+                {
+                    var tx = new TransactionPayload
+                    {
+                        ToAddr = ContractDeploymentAddress,
+                        Amount = "0",
+                        GasPrice = RepositoryManager.Instance.BlockchainBrowserRepository.MinimumGasPrice.ToString("0"),
+                        GasLimit = gasLimit.ToString(),
+                        Code = scillaCode,
+                        Data = JsonConvert.SerializeObject(constructorArguments, DataSerializerSettings),
                         Priority = false
                     };
                     tx.SetVersion(ZilliqaClient.UseTestnet);

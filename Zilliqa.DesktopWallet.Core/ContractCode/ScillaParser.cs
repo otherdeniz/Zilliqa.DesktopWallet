@@ -5,14 +5,14 @@ namespace Zilliqa.DesktopWallet.Core.ContractCode
     public class ScillaParser
     {
         public static readonly Regex ContractNameRegEx =
-            new Regex(@"^\s*contract\s+(\w+)", RegexOptions.Multiline | RegexOptions.Compiled);
+            new Regex(@"^\s*contract\s+(\w+)\s*\(((?:[A-z\d:\s,]|\([A-z\d:\s,]*\))*)\)", RegexOptions.Multiline | RegexOptions.Compiled);
         public static readonly Regex ContractNameSingleLineRegEx =
-            new Regex(@"\s+contract\s+(\w+)\s*\(", RegexOptions.Compiled);
+            new Regex(@"\s+contract\s+(\w+)\s*\(((?:[A-z\d:\s,]|\([A-z\d:\s,]*\))*)\)", RegexOptions.Multiline | RegexOptions.Compiled);
         public static readonly Regex FieldRegEx =
             new Regex(@"^\s*field\s+(\w+)\s*:", RegexOptions.Multiline | RegexOptions.Compiled);
         public static readonly Regex TransitionRegEx =
-            new Regex(@"transition ([A-z]+)\s*\(((?:[A-z\d:\s,]|\([A-z\d:\s,]*\))*)\)", RegexOptions.Multiline | RegexOptions.Compiled);
-        public static readonly Regex TransitionArgumentRegEx =
+            new Regex(@"transition\s+([A-z]+)\s*\(((?:[A-z\d:\s,]|\([A-z\d:\s,]*\))*)\)", RegexOptions.Multiline | RegexOptions.Compiled);
+        public static readonly Regex ArgumentRegEx =
             new Regex(@"([A-z]*)\s*:\s*((?:[A-z\d:\s]|\([A-z\d:\s]*\))*)", RegexOptions.Multiline | RegexOptions.Compiled);
 
         public ScillaParser(string code)
@@ -22,17 +22,17 @@ namespace Zilliqa.DesktopWallet.Core.ContractCode
 
         public string Code { get; }
 
-        public string? ParseContractName()
+        public CodeContract? ParseContractName()
         {
-            var contractNameMatch = ContractNameRegEx.Match(Code);
-            if (contractNameMatch.Success)
+            var contractNameMatch1 = ContractNameRegEx.Match(Code);
+            if (contractNameMatch1.Success)
             {
-                return contractNameMatch.Groups[1].Value;
+                return new CodeContract(contractNameMatch1.Groups[1].Value, contractNameMatch1.Groups[2].Value);
             }
-            var contractNameSingleLineMatch = ContractNameSingleLineRegEx.Match(Code);
-            if (contractNameSingleLineMatch.Success)
+            var contractNameMatch2 = ContractNameSingleLineRegEx.Match(Code);
+            if (contractNameMatch2.Success)
             {
-                return contractNameSingleLineMatch.Groups[1].Value;
+                return new CodeContract(contractNameMatch2.Groups[1].Value, contractNameMatch2.Groups[2].Value);
             }
             return null;
         }
@@ -53,21 +53,41 @@ namespace Zilliqa.DesktopWallet.Core.ContractCode
         }
     }
 
-    public class CodeTransition
+    public class CodeContract
     {
-        public CodeTransition(string name, string arguments)
+        public CodeContract(string name, string argumentsJson)
         {
             Name = name;
-            Arguments = arguments;
+            ArgumentsJson = argumentsJson;
         }
 
         public string Name { get; }
 
-        public string Arguments { get; }
+        public string ArgumentsJson { get; }
 
         public List<CodeTransitionArgument> ParseArguments()
         {
-            return ScillaParser.TransitionArgumentRegEx.Matches(Arguments)
+            return ScillaParser.ArgumentRegEx.Matches(ArgumentsJson)
+                .Select(t => new CodeTransitionArgument(t.Groups[1].Value, t.Groups[2].Value))
+                .ToList();
+        }
+    }
+
+    public class CodeTransition
+    {
+        public CodeTransition(string name, string argumentsJson)
+        {
+            Name = name;
+            ArgumentsJson = argumentsJson;
+        }
+
+        public string Name { get; }
+
+        public string ArgumentsJson { get; }
+
+        public List<CodeTransitionArgument> ParseArguments()
+        {
+            return ScillaParser.ArgumentRegEx.Matches(ArgumentsJson)
                 .Select(t => new CodeTransitionArgument(t.Groups[1].Value, t.Groups[2].Value))
                 .ToList();
         }

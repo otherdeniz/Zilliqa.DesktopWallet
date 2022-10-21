@@ -211,7 +211,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 
         private void buttonSmartContractDeploy_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("not implemented yet, comming soon");
+            if (_account?.AccountData is MyAccount)
+            {
+                ContractDeployTransactionForm.ExecuteShow(this.ParentForm!, _account);
+            }
         }
 
     }
