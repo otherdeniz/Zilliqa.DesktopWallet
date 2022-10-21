@@ -1,6 +1,7 @@
 ﻿using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.ApiClient.Accounts;
 using Zilliqa.DesktopWallet.ApiClient.Utils;
+using Zilliqa.DesktopWallet.Core.Data.Files;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.DatabaseSchema;
@@ -83,15 +84,29 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
 
         public override string ToString()
         {
-            if (_displayKnownName &&
-                KnownAddressService.Instance.Bech32AddressNames.TryGetValue(Address.GetBech32(), out var knownAddress))
+            if (_displayKnownName)
             {
-                var name = knownAddress.Name;
-                if (name.Length > 24)
+                var knownAddress = KnownAddressService.Instance.GetName(Address.GetBech32());
+                if (knownAddress != null)
                 {
-                    name = name.Substring(0, 24);
+                    var name = knownAddress.Name;
+                    if (name.Length > 24)
+                    {
+                        name = name.Substring(0, 24);
+                    }
+                    return $"{name} ({Address})";
                 }
-                return $"{name} ({Address})";
+                var addressBookEntry = AddressBookFile.Instance.Entries.FirstOrDefault(a => 
+                    a.Address == Address.GetBech32());
+                if (addressBookEntry != null)
+                {
+                    var name = addressBookEntry.Name;
+                    if (name.Length > 24)
+                    {
+                        name = name.Substring(0, 24);
+                    }
+                    return $"{name} ({Address})";
+                }
             }
             return Address.ToString();
         }

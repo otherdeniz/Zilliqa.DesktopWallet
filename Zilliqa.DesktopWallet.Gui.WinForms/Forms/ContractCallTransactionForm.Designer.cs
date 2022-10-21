@@ -29,8 +29,15 @@
         private void InitializeComponent()
         {
             this.panelPage1 = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.panelArguments = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textGasCost = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.comboBoxMethod = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.addressTextBox = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values.AddressTextBox();
-            this.buttonSendMax = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.textFee = new System.Windows.Forms.TextBox();
@@ -45,6 +52,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.panelPage1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonOk
@@ -57,8 +65,14 @@
             // 
             // panelPage1
             // 
+            this.panelPage1.Controls.Add(this.groupBox1);
+            this.panelPage1.Controls.Add(this.label3);
+            this.panelPage1.Controls.Add(this.textGasCost);
+            this.panelPage1.Controls.Add(this.label12);
+            this.panelPage1.Controls.Add(this.label13);
+            this.panelPage1.Controls.Add(this.comboBoxMethod);
+            this.panelPage1.Controls.Add(this.label1);
             this.panelPage1.Controls.Add(this.addressTextBox);
-            this.panelPage1.Controls.Add(this.buttonSendMax);
             this.panelPage1.Controls.Add(this.label9);
             this.panelPage1.Controls.Add(this.label8);
             this.panelPage1.Controls.Add(this.textFee);
@@ -75,85 +89,167 @@
             this.panelPage1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelPage1.Location = new System.Drawing.Point(8, 62);
             this.panelPage1.Name = "panelPage1";
-            this.panelPage1.Size = new System.Drawing.Size(710, 255);
-            this.panelPage1.TabIndex = 101;
+            this.panelPage1.Size = new System.Drawing.Size(710, 320);
+            this.panelPage1.TabIndex = 0;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.panelArguments);
+            this.groupBox1.Location = new System.Drawing.Point(0, 120);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(710, 100);
+            this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Arguments";
+            // 
+            // panelArguments
+            // 
+            this.panelArguments.AutoScroll = true;
+            this.panelArguments.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelArguments.Location = new System.Drawing.Point(3, 19);
+            this.panelArguments.Name = "panelArguments";
+            this.panelArguments.Size = new System.Drawing.Size(704, 78);
+            this.panelArguments.TabIndex = 0;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(173, 271);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(101, 15);
+            this.label3.TabIndex = 17;
+            this.label3.Text = "Expected gas cost";
+            // 
+            // textGasCost
+            // 
+            this.textGasCost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textGasCost.Location = new System.Drawing.Point(173, 289);
+            this.textGasCost.Name = "textGasCost";
+            this.textGasCost.ReadOnly = true;
+            this.textGasCost.Size = new System.Drawing.Size(90, 23);
+            this.textGasCost.TabIndex = 7;
+            this.textGasCost.TabStop = false;
+            this.textGasCost.Text = "30000";
+            // 
+            // label12
+            // 
+            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(323, 292);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(15, 15);
+            this.label12.TabIndex = 15;
+            this.label12.Text = "=";
+            // 
+            // label13
+            // 
+            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(153, 292);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(14, 15);
+            this.label13.TabIndex = 16;
+            this.label13.Text = "X";
+            // 
+            // comboBoxMethod
+            // 
+            this.comboBoxMethod.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxMethod.FormattingEnabled = true;
+            this.comboBoxMethod.Location = new System.Drawing.Point(3, 91);
+            this.comboBoxMethod.Name = "comboBoxMethod";
+            this.comboBoxMethod.Size = new System.Drawing.Size(701, 23);
+            this.comboBoxMethod.TabIndex = 1;
+            this.comboBoxMethod.SelectedIndexChanged += new System.EventHandler(this.comboBoxMethod_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 73);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(98, 15);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Contract method";
             // 
             // addressTextBox
             // 
-            this.addressTextBox.Address = "";
             this.addressTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.addressTextBox.Location = new System.Drawing.Point(3, 18);
             this.addressTextBox.Name = "addressTextBox";
+            this.addressTextBox.OnlyContractAddresses = true;
             this.addressTextBox.Size = new System.Drawing.Size(701, 51);
             this.addressTextBox.TabIndex = 0;
-            // 
-            // buttonSendMax
-            // 
-            this.buttonSendMax.Location = new System.Drawing.Point(173, 177);
-            this.buttonSendMax.Name = "buttonSendMax";
-            this.buttonSendMax.Size = new System.Drawing.Size(75, 23);
-            this.buttonSendMax.TabIndex = 2;
-            this.buttonSendMax.TabStop = false;
-            this.buttonSendMax.Text = "Send max.";
-            this.buttonSendMax.UseVisualStyleBackColor = true;
+            this.addressTextBox.AddressChanged += new System.EventHandler<System.EventArgs>(this.addressTextBox_AddressChanged);
             // 
             // label9
             // 
+            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(264, 208);
+            this.label9.Location = new System.Drawing.Point(344, 271);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(76, 15);
+            this.label9.Size = new System.Drawing.Size(74, 15);
             this.label9.TabIndex = 10;
-            this.label9.Text = "Expected Fee";
+            this.label9.Text = "Expected fee";
             // 
             // label8
             // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(264, 160);
+            this.label8.Location = new System.Drawing.Point(175, 223);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(90, 15);
+            this.label8.Size = new System.Drawing.Size(88, 15);
             this.label8.TabIndex = 10;
-            this.label8.Text = "Available Funds";
+            this.label8.Text = "Available funds";
             // 
             // textFee
             // 
-            this.textFee.Location = new System.Drawing.Point(264, 226);
+            this.textFee.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textFee.Location = new System.Drawing.Point(344, 289);
             this.textFee.Name = "textFee";
             this.textFee.ReadOnly = true;
             this.textFee.Size = new System.Drawing.Size(90, 23);
-            this.textFee.TabIndex = 5;
+            this.textFee.TabIndex = 8;
             this.textFee.TabStop = false;
             // 
             // textAvailableFunds
             // 
-            this.textAvailableFunds.Location = new System.Drawing.Point(264, 178);
+            this.textAvailableFunds.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textAvailableFunds.Location = new System.Drawing.Point(175, 241);
             this.textAvailableFunds.Name = "textAvailableFunds";
             this.textAvailableFunds.ReadOnly = true;
             this.textAvailableFunds.Size = new System.Drawing.Size(163, 23);
-            this.textAvailableFunds.TabIndex = 3;
+            this.textAvailableFunds.TabIndex = 5;
             this.textAvailableFunds.TabStop = false;
             // 
             // textGasPrice
             // 
-            this.textGasPrice.Location = new System.Drawing.Point(3, 226);
+            this.textGasPrice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textGasPrice.Location = new System.Drawing.Point(3, 289);
             this.textGasPrice.Name = "textGasPrice";
             this.textGasPrice.ReadOnly = true;
             this.textGasPrice.Size = new System.Drawing.Size(90, 23);
-            this.textGasPrice.TabIndex = 4;
+            this.textGasPrice.TabIndex = 6;
             this.textGasPrice.TabStop = false;
             // 
             // textAmount
             // 
-            this.textAmount.Location = new System.Drawing.Point(3, 178);
+            this.textAmount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textAmount.Location = new System.Drawing.Point(3, 241);
             this.textAmount.Name = "textAmount";
             this.textAmount.Size = new System.Drawing.Size(135, 23);
-            this.textAmount.TabIndex = 1;
+            this.textAmount.TabIndex = 3;
             // 
             // label11
             // 
+            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(360, 229);
+            this.label11.Location = new System.Drawing.Point(440, 292);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(23, 15);
             this.label11.TabIndex = 6;
@@ -161,8 +257,9 @@
             // 
             // label10
             // 
+            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(433, 181);
+            this.label10.Location = new System.Drawing.Point(344, 244);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(23, 15);
             this.label10.TabIndex = 6;
@@ -170,17 +267,19 @@
             // 
             // label7
             // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 208);
+            this.label7.Location = new System.Drawing.Point(3, 271);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(101, 15);
+            this.label7.Size = new System.Drawing.Size(97, 15);
             this.label7.TabIndex = 7;
-            this.label7.Text = "Current GAS Price";
+            this.label7.Text = "Current gas price";
             // 
             // label6
             // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(99, 229);
+            this.label6.Location = new System.Drawing.Point(99, 292);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(23, 15);
             this.label6.TabIndex = 6;
@@ -188,17 +287,19 @@
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 160);
+            this.label2.Location = new System.Drawing.Point(3, 223);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(51, 15);
+            this.label2.Size = new System.Drawing.Size(97, 15);
             this.label2.TabIndex = 7;
-            this.label2.Text = "Amount";
+            this.label2.Text = "Send ZIL amount";
             // 
             // label4
             // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(144, 181);
+            this.label4.Location = new System.Drawing.Point(144, 244);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(23, 15);
             this.label4.TabIndex = 6;
@@ -209,21 +310,23 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(3, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(132, 15);
+            this.label5.Size = new System.Drawing.Size(130, 15);
             this.label5.TabIndex = 7;
-            this.label5.Text = "Smart Contract Address";
+            this.label5.Text = "Smart Contract address";
             // 
             // ContractCallTransactionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(726, 446);
+            this.ClientSize = new System.Drawing.Size(726, 511);
             this.Controls.Add(this.panelPage1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.Name = "ContractCallTransactionForm";
             this.Text = "Call Smart Contract";
             this.Controls.SetChildIndex(this.panelPage1, 0);
             this.panelPage1.ResumeLayout(false);
             this.panelPage1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -232,7 +335,6 @@
 
         private Panel panelPage1;
         private Controls.Values.AddressTextBox addressTextBox;
-        private Button buttonSendMax;
         private Label label9;
         private Label label8;
         private TextBox textFee;
@@ -246,5 +348,13 @@
         private Label label2;
         private Label label4;
         private Label label5;
+        private ComboBox comboBoxMethod;
+        private Label label1;
+        private Label label3;
+        private TextBox textGasCost;
+        private Label label12;
+        private Label label13;
+        private GroupBox groupBox1;
+        private Panel panelArguments;
     }
 }

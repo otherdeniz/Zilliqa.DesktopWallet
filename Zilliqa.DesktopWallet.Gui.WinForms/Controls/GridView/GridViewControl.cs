@@ -1,12 +1,10 @@
 ﻿using System.Collections;
 using System.ComponentModel;
 using System.Reflection;
-using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
-using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values;
 using Zilliqa.DesktopWallet.ViewModelAttributes;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
@@ -127,6 +125,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView
             _hoverCell = null;
             _selectedCell = null;
             SelectedItem = null;
+            OnSelectionChanged();
         }
 
         protected override void Dispose(bool disposing)

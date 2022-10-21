@@ -2,7 +2,6 @@
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown;
-using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Values;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 {
@@ -17,13 +16,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 
         private void Initialize()
         {
-
+            // nothing to do yet
         }
 
-        /// <summary> 
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -33,35 +28,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 
             base.Dispose(disposing);
         }
-
-        //private void buttonQueryAddr_Click(object sender, EventArgs e)
-        //{
-        //    var zilClient = new ZilliqaClient();
-
-        //    textApiResult.Text = "(quering balance...)";
-        //    this.Refresh();
-        //    Application.DoEvents();
-
-        //    string resultText = "";
-
-        //    Task.Run(async () =>
-        //    {
-        //        try
-        //        {
-        //            var balance = await zilClient.GetBalance(textBoxQueryAddr.Text.FromBech32ToBase16Address(false));
-        //            resultText = $"Balance = {balance.GetBalance(Unit.ZIL)}\r\n";
-
-        //            var contractBalance = await zilClient.GetContractBalance(textBoxQueryAddr.Text.FromBech32ToBase16Address(false));
-        //            resultText += $"Contract Balance = {contractBalance.GetBalance(Unit.ZIL)}\r\n";
-        //        }
-        //        catch (Exception exception)
-        //        {
-        //            resultText = exception.Message;
-        //        }
-        //    }).GetAwaiter().GetResult();
-
-        //    textApiResult.Text = resultText;
-        //}
 
         private void MainBlockchainBrowserControl_Load(object sender, EventArgs e)
         {

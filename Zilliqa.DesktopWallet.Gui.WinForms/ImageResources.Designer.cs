@@ -63,6 +63,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Check_16 {
+            get {
+                object obj = ResourceManager.GetObject("Check_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Zilliqa_icon_512_mainnet {
             get {
                 object obj = ResourceManager.GetObject("Zilliqa_icon_512_mainnet", resourceCulture);
