@@ -83,7 +83,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         private void LoadConstructorArguments(List<DataParam>? refreshArguments = null)
         {
-            var scillaVersion = ZilliqaClient.UseTestnet ? "0" : "2";
+            var scillaVersion = "0";
             if (refreshArguments?.FirstOrDefault(a => a.Vname == "_scilla_version") is { } scillaVersionParam)
             {
                 scillaVersion = scillaVersionParam.Value.ToString();

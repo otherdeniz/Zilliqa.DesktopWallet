@@ -22,7 +22,9 @@ namespace Zilliqa.DesktopWallet.Core.Services
 
         public List<TokenModel> TokenModels => _tokenModels ?? new List<TokenModel>();
 
-        public bool TokenModelsLoaded => _tokenModelsLoaded;
+        public bool LoadCompleted => _tokenModelsLoaded;
+
+        public string LoadingStatus { get; private set; } = "";
 
         public void StartLoadTokens(bool forceReLoad = false)
         {
@@ -34,6 +36,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 var tokenModels = new List<TokenModel>();
                 try
                 {
+                    LoadingStatus = "Loading Tokens from Crypptometa data";
                     Logging.LogInfo("TokenDataService.StartLoadTokens: loading all Tokens from Cryptometa Assets");
                     foreach (var cryptometaAsset in CryptometaFile.Instance.Assets
                                  .Where(a => !string.IsNullOrEmpty(a.Symbol)
@@ -53,6 +56,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                             tokenModels.Add(tokenModel);
                         }
                     }
+                    LoadingStatus = "Loading Tokens from Smart Contracts";
                     Logging.LogInfo("TokenDataService.StartLoadTokens: loading all Tokens from Smart Contracts");
                     foreach (var smartContract in RepositoryManager.Instance.DatabaseRepository.Database
                                  .GetTable<SmartContract>().EnumerateAllRecords()
@@ -97,25 +101,29 @@ namespace Zilliqa.DesktopWallet.Core.Services
 
                     bool refreshExisting = false;
                     bool refreshNew = false;
-                    IEnumerable<TokenModel> refreshAssets = Enumerable.Empty<TokenModel>();
+                    List<TokenModel> refreshAssets = new List<TokenModel>();
                     if (TokenPriceFile.Instance.CoinPrices.Count == 0
                         || (TokenPriceFile.Instance.NewAssetsAdded ?? DateTime.MinValue) < DateTime.Today.AddDays(-30))
                     {
                         refreshNew = true;
                         refreshExisting = true;
                         refreshAssets = _tokenModels.Where(t =>
-                            !string.IsNullOrEmpty(t.Symbol) && t.CryptometaAsset?.Gen.Score > 10);
+                            !string.IsNullOrEmpty(t.Symbol) && t.CryptometaAsset?.Gen.Score > 10)
+                            .ToList();
                     }
                     else if ((TokenPriceFile.Instance.ExistingAssetsRefresh ?? DateTime.MinValue) < DateTime.Today.AddDays(-1))
                     {
                         refreshExisting = true;
                         refreshAssets = _tokenModels.Where(t => 
-                            TokenPriceFile.Instance.CoinPrices.Any(cp => cp.Symbol.ToLower() == t.Symbol.ToLower()));
+                            TokenPriceFile.Instance.CoinPrices.Any(cp => cp.Symbol.ToLower() == t.Symbol.ToLower()))
+                            .ToList();
                     }
                     if (refreshNew || refreshExisting)
                     {
+                        LoadingStatus = "Refreshing Token prices from Coingecko";
                         Logging.LogInfo("TokenDataService.StartLoadTokens: Refresh price-infos begin");
                         var coinPrices = new List<CoinPrice>();
+                        var refreshedCount = 0m;
                         foreach (var tokenModel in refreshAssets)
                         {
                             try
@@ -129,6 +137,12 @@ namespace Zilliqa.DesktopWallet.Core.Services
                             catch (Exception e)
                             {
                                 Logging.LogError($"CoingeckoRepository.GetCoinPrice({tokenModel.Symbol}) failed", e);
+                            }
+
+                            refreshedCount++;
+                            if (refreshedCount % 10 == 0)
+                            {
+                                LoadingStatus = $"Refreshing Token prices from Coingecko [{100m / refreshAssets.Count * refreshedCount:0}%]";
                             }
                         }
                         if (refreshNew)

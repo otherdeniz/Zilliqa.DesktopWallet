@@ -1,22 +1,13 @@
-﻿using Zilligraph.Database.Storage;
-using Zilliqa.DesktopWallet.Core.Repository;
+﻿using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Services;
-using Zilliqa.DesktopWallet.Core.ZilligraphDb;
-using Zilliqa.DesktopWallet.DatabaseSchema;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 {
     public partial class StartupDialogForm : Form
     {
-        private readonly List<IZilligraphTable> _zilligraphTables = new();
-
         public StartupDialogForm()
         {
             InitializeComponent();
-            var database = RepositoryManager.Instance.DatabaseRepository.Database;
-            _zilligraphTables.Add(database.GetTable<Block>());
-            _zilligraphTables.Add(database.GetTable<Transaction>());
-            _zilligraphTables.Add(database.GetTable<SmartContract>());
         }
 
         public static bool Execute(Form parent)
@@ -27,45 +18,24 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             }
         }
 
-        private void timerRefreshStatus_Tick(object sender, EventArgs e)
+        private void StartupDialogForm_Load(object sender, EventArgs e)
         {
-            if (!RepositoryManager.Instance.CoingeckoRepository.StartupCompleted)
+            labelStatus.Text = StartupService.Instance.StartupStatus;
+            StartupService.Instance.StatusChanged += (sender, args) =>
             {
-                labelStatus.Text = "Starting Services ...";
-                return;
-            }
-
-            var upgareTable = _zilligraphTables.FirstOrDefault(t => !t.InitialisationCompleted);
-            if (upgareTable != null)
-            {
-                upgareTable.EnsureInitialisationIsStarted();
-                if (upgareTable.InitialisationCompletedPercent > 0
-                    && upgareTable.InitialisationCompletedPercent < 100)
+                WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                 {
-                    labelStatus.Text = $"Upgrading Database Table '{upgareTable.TableName}' : {upgareTable.InitialisationCompletedPercent:0.00}%";
-                }
-                return;
-            }
-
-            if (!TokenDataService.Instance.TokenModelsLoaded)
-            {
-                labelStatus.Text = "Loading ZRC-2 Token List ...";
-                return;
-            }
-
-            KnownAddressService.Instance.EnsureInitialized();
-
-            if (ZilliqaBlockchainCrawler.Instance.RunningState == RunningState.Stopped)
-            {
-#if !DEBUG
-                labelStatus.Text = "Starting Blockchain Sync ...";
-                ZilliqaBlockchainCrawler.Instance.Start();
-                return;
-#endif
-            }
-
-            DialogResult = DialogResult.OK;
-            Close();
+                    if (args.IsCompleted)
+                    {
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
+                    else
+                    {
+                        labelStatus.Text = args.StatusText;
+                    }
+                });
+            };
         }
     }
 }

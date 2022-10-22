@@ -7,8 +7,9 @@ namespace Zilliqa.DesktopWallet.Core.Services
     public class CryptometaDownloadService
     {
         private readonly int _refreshAfterDays = 90;
-        //private readonly CancellationTokenSource _refreshCancelTokenSource = new();
+        private readonly CancellationTokenSource _loadCancelTokenSource = new();
         private bool _loadStarted;
+        private bool _loadCompleted;
 
         public static CryptometaDownloadService Instance { get; } = new();
 
@@ -16,10 +17,16 @@ namespace Zilliqa.DesktopWallet.Core.Services
         {
         }
 
-        //public void CancelRefresh()
-        //{
-        //    _refreshCancelTokenSource.Cancel();
-        //}
+        public bool LoadStarted => _loadStarted;
+
+        public bool LoadCompleted => _loadCompleted;
+
+        public string LoadingStatus { get; private set; } = "";
+
+        public void CancelLoad()
+        {
+            _loadCancelTokenSource.Cancel();
+        }
 
         public void LoadOrRefresh()
         {
@@ -30,9 +37,11 @@ namespace Zilliqa.DesktopWallet.Core.Services
             {
                 Task.Run(() =>
                 {
+                    var cancellationToken = _loadCancelTokenSource.Token;
                     try
                     {
-                        Logging.LogInfo("CryptometaDownloadService refresh started");
+                        LoadingStatus = "Downloading assets from Github repository";
+                        Logging.LogInfo($"CryptometaDownloadService LoadOrRefresh: {LoadingStatus}");
                         var logoImages = LogoImages.Instance;
                         var cryptometaClient = new ViewblockCryptometaClient();
                         var allAssets = cryptometaClient.AllAssets();
@@ -44,6 +53,11 @@ namespace Zilliqa.DesktopWallet.Core.Services
                             }
                         }
                         CryptometaFile.Instance.Assets = allAssets.Select(a => a.Asset!).ToList();
+
+                        if (cancellationToken.IsCancellationRequested) return;
+
+                        LoadingStatus = "Downloading ecosystems from Github repository";
+                        Logging.LogInfo($"CryptometaDownloadService LoadOrRefresh: {LoadingStatus}");
                         var allEcosystems = cryptometaClient.AllEcosystems();
                         foreach (var ecosystem in allEcosystems)
                         {
@@ -55,21 +69,28 @@ namespace Zilliqa.DesktopWallet.Core.Services
                         CryptometaFile.Instance.Ecosystems = allEcosystems.Select(a => a.Ecosystem!).ToList();
                         CryptometaFile.Instance.ModifiedDate = DateTime.Today;
                         CryptometaFile.Instance.Save();
-                        Logging.LogInfo("CryptometaDownloadService refresh completed");
+
+                        _loadCompleted = true;
+                        LoadingStatus = "Download completed";
+                        Logging.LogInfo($"CryptometaDownloadService LoadOrRefresh: {LoadingStatus}");
                         AfterLoadCompleted();
                     }
                     catch (TaskCanceledException)
                     {
-                        Logging.LogInfo("CryptometaDownloadService refresh aborted");
+                        LoadingStatus = "Download aborted";
+                        Logging.LogInfo("CryptometaDownloadService LoadOrRefresh: aborted");
                     }
                     catch (Exception e)
                     {
-                        Logging.LogError($"CryptometaDownloadService failed: {e.Message}", e);
+                        LoadingStatus = "Download failed";
+                        Logging.LogError($"CryptometaDownloadService LoadOrRefresh: failed: {e.Message}", e);
                     }
-                }); //, _refreshCancelTokenSource.Token);
+                    _loadCompleted = true;
+                });
             }
             else
             {
+                _loadCompleted = true;
                 AfterLoadCompleted();
             }
         }
@@ -79,12 +100,6 @@ namespace Zilliqa.DesktopWallet.Core.Services
             // load Logo images from disk
             LogoImages.Instance.LoadImages();
 
-            // COMMENTED OUT! already loaded, by KnownAddressService AddSmartContract function
-            //// add known addresses
-            //foreach (var asset in CryptometaFile.Instance.Assets)
-            //{
-            //    KnownAddressService.Instance.AddUnique(asset.Bech32Address, $"{asset.NameShort()} ({asset.SymbolShort()})");
-            //}
             foreach (var ecosystem in CryptometaFile.Instance.Ecosystems
                          .Where(e => e.Addresses != null))
             {
