@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\VersionInfo.cs" Link="VersionInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Zillifriends.Shared.Common\Zillifriends.Shared.Common.csproj" />
     <ProjectReference Include="..\Zilliqa.DesktopWallet.WebContract\Zilliqa.DesktopWallet.WebContract.csproj" />
   </ItemGroup>

@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\VersionInfo.cs" Link="VersionInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Zillifriends.Shared.Common\Zillifriends.Shared.Common.csproj" />
     <ProjectReference Include="..\Zilligraph.Database\Zilligraph.Database.GenericModel\Zilligraph.Database.Contract.csproj" />
     <ProjectReference Include="..\Zilligraph.Database\Zilligraph.Database.Storage\Zilligraph.Database.Storage.csproj" />

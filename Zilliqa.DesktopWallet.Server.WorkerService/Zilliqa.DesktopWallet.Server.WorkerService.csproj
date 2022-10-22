@@ -6,12 +6,17 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-Zilliqa.DesktopWallet.Server.WorkerService-9D569BAB-9937-4B1B-9C80-38EC4F852174</UserSecretsId>
     <ApplicationIcon>server_icon.ico</ApplicationIcon>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Service_Install.bat" />
     <None Remove="Service_Start.bat" />
     <None Remove="Service_Stop.bat" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\VersionInfo.cs" Link="VersionInfo.cs" />
   </ItemGroup>
 
   <ItemGroup>
