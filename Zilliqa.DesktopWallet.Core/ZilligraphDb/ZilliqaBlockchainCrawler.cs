@@ -27,7 +27,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
         public int NumberOfBlocksOnChain
             => RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo.NumberOfBlocks == 0
                 ? 0
-                : RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo.NumberOfBlocks;
+                : RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo.NumberOfBlocks - 1;
 
         public int NumberOfBlocksProcessed { get; private set; }
 
@@ -126,7 +126,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                     .GetTable<SmartContract>();
 
                 var newestBlock = NumberOfBlocksOnChain;
-                int loopDelay = 5000;
+                int loopDelay = 2000;
                 if (newestBlock > 0)
                 {
                     var processBlockNumber = newestBlock;
@@ -226,7 +226,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                         else
                         {
                             // wait for Block to be downloaded before Transaction
-                            loopDelay = 2000;
+                            loopDelay = 1000;
                         }
                     }
                 }
