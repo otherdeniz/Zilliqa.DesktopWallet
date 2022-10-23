@@ -243,7 +243,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                     .GetTable<Block>();
 
                 var newestBlock = NumberOfBlocksOnChain;
-                int loopDelay = 5000;
+                int loopDelay = 2500;
                 if (newestBlock > 0)
                 {
                     var processBlockNumber = newestBlock;
