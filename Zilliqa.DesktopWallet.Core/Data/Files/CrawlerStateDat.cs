@@ -16,6 +16,8 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
 
         public CrawlerByBlockState BlockCrawler { get; set; } = new();
 
+        public DateTime? NewestBlockDate { get; set; }
+
         #endregion
 
         public class CrawlerByBlockState

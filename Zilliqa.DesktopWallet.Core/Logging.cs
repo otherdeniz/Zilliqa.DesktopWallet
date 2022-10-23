@@ -10,7 +10,7 @@ namespace Zilliqa.DesktopWallet.Core
         private static readonly Regex LogFileNameRegex =
             new Regex(@"(\d{4})-(\d{2})-(\d{2})_(\w+)\.log", RegexOptions.Compiled);
         private static readonly object LogFileLock = new();
-        private static string? LoggingPath;
+        private static string? _loggingPath;
 
         public static void Setup(string loggingPath)
         {
@@ -45,7 +45,7 @@ namespace Zilliqa.DesktopWallet.Core
             {
                 Directory.CreateDirectory(loggingPath);
             }
-            LoggingPath = loggingPath;
+            _loggingPath = loggingPath;
         }
 
         public static void LogInfo(string message)
@@ -56,6 +56,7 @@ namespace Zilliqa.DesktopWallet.Core
         public static void LogWarning(string message)
         {
             WriteToFile("warning", $"{GetTimestamp()} - {message}");
+            LogInfo($"WARNING:{message}");
         }
 
         public static void LogError(string message, Exception exception, object? data = null)
@@ -66,6 +67,7 @@ namespace Zilliqa.DesktopWallet.Core
                 logText += Environment.NewLine + "DATA: " + JsonConvert.SerializeObject(data);
             }
             WriteToFile("error", logText);
+            LogInfo($"ERROR:{message} - {exception.Message}");
         }
 
         private static string GetTimestamp()
@@ -75,7 +77,7 @@ namespace Zilliqa.DesktopWallet.Core
 
         private static void WriteToFile(string fileSufix, string message)
         {
-            if (LoggingPath == null)
+            if (_loggingPath == null)
             {
                 return;
             }
@@ -84,7 +86,7 @@ namespace Zilliqa.DesktopWallet.Core
             {
                 try
                 {
-                    var logFilePath = Path.Combine(LoggingPath, $"{DateTime.Today:yyyy-MM-dd}_{fileSufix}.log");
+                    var logFilePath = Path.Combine(_loggingPath, $"{DateTime.Today:yyyy-MM-dd}_{fileSufix}.log");
                     using (var fileStream = File.Open(logFilePath, FileMode.OpenOrCreate))
                     {
                         fileStream.Seek(0, SeekOrigin.End);

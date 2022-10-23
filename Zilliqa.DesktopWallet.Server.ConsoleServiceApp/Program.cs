@@ -51,10 +51,10 @@ internal class Program
 
         // Shutdown
         Console.WriteLine("Shutdown...");
+        Logging.LogInfo("Shutdown");
         SnapshotService.Instance.EndSnapshotTimer();
         ZilliqaBlockchainCrawler.Instance.Stop(true);
         RepositoryManager.Instance.Shutdown();
-
     }
 
     static void MainTest(string[] arguments)

@@ -32,6 +32,7 @@ namespace Zilliqa.DesktopWallet.Server.Core.Services
                 var cancellationToken = _timerCancellationTokenSource.Token;
                 try
                 {
+                    await Task.Delay(TimeSpan.FromSeconds(30), cancellationToken);
                     while (!cancellationToken.IsCancellationRequested)
                     {
                         var snapshotEntries = SnapshotVersionsFile.Load().Snapshots;
@@ -74,14 +75,7 @@ namespace Zilliqa.DesktopWallet.Server.Core.Services
 
         public void CreateSnapshot()
         {
-            if (_createSnapshotTask != null)
-            {
-                throw new RuntimeException("Snapshot creation already running");
-            }
-            if (ZilliqaBlockchainCrawler.Instance.RunningState != RunningState.Stopped)
-            {
-                throw new RuntimeException("Blockchain crawler not in stopped state");
-            }
+            if (_createSnapshotTask != null) return;
             _createSnapshotTask = Task.Run(() =>
             {
                 ZilliqaBlockchainCrawler.Instance.Stop(true);

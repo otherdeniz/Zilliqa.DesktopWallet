@@ -31,7 +31,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
 
         public int NumberOfBlocksProcessed { get; private set; }
 
-        public DateTime? LastDownloadedBlockdate { get; private set; }
+        public DateTime? LastDownloadedBlockdate { get; private set; } = CrawlerStateDat.Instance.NewestBlockDate?.ToLocalTime();
 
         public void Start(int startupDelaySeconds = 5)
         {
@@ -192,6 +192,10 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                                         CrawlerStateDat.Instance.TransactionCrawler.LowestBlock = processBlockNumber;
                                     }
 
+                                    if (blockModel.Timestamp > CrawlerStateDat.Instance.NewestBlockDate)
+                                    {
+                                        CrawlerStateDat.Instance.NewestBlockDate = blockModel.Timestamp;
+                                    }
                                     CrawlerStateDat.Instance.Save();
 
                                     LastDownloadedBlockdate = blockModel.Timestamp.ToLocalTime();
