@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Zillifriends.Shared.Common;
+﻿using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Repository;
@@ -9,7 +8,7 @@ using Zilliqa.DesktopWallet.Server.Core.Services;
 
 namespace Zilliqa.DesktopWallet.Server.ConsoleServiceApp;
 
-internal class Program
+internal static class Program
 {
     static void Main(string[] arguments)
     {
@@ -55,27 +54,6 @@ internal class Program
         SnapshotService.Instance.EndSnapshotTimer();
         ZilliqaBlockchainCrawler.Instance.Stop(true);
         RepositoryManager.Instance.Shutdown();
-    }
-
-    static void MainTest(string[] arguments)
-    {
-        var standardInput = Console.OpenStandardInput();
-        //standardInput.ReadTimeout = Int32.MaxValue;
-        Task.Run(async () =>
-        {
-            for (int i = 0; i < 10; i++)
-            {
-                Console.WriteLine($"Countdown:{10 - i}");
-                await Task.Delay(1000);
-            }
-            standardInput.Write(Encoding.UTF8.GetBytes("A"));
-            await standardInput.FlushAsync();
-        });
-
-        Console.WriteLine("[Press any key to shutdown]");
-        var inputBuffer = new byte[1];
-        var readLength = standardInput.Read(inputBuffer, 0, 1);
-        Console.WriteLine($"Read length = {readLength} ; value = {Encoding.UTF8.GetString(inputBuffer)}");
     }
 
     private static string GetArgumentValue(string[] arguments, string parameterName, string defaultValue = "")
