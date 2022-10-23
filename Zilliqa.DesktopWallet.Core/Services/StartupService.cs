@@ -47,14 +47,14 @@ namespace Zilliqa.DesktopWallet.Core.Services
                     }
                 }
 
-                SetStartupStatus("Startup Coingecko price services");
+                SetStartupStatus("Starting Coingecko price service");
                 RepositoryManager.Instance.CoingeckoRepository.Startup(true);
                 while (!RepositoryManager.Instance.CoingeckoRepository.StartupCompleted)
                 {
                     await Task.Delay(500);
                 }
 
-                SetStartupStatus("Downloading Cryptometa data");
+                SetStartupStatus("Starting Cryptometa data service");
                 CryptometaDownloadService.Instance.LoadOrRefresh();
                 var cryptoMetaLoadingStatus = CryptometaDownloadService.Instance.LoadingStatus;
                 while (!CryptometaDownloadService.Instance.LoadCompleted)

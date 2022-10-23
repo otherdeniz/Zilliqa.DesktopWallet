@@ -8,7 +8,7 @@ public class SnapshotEntry
 
     public DateTime TimestampUtc { get; set; }
 
-    public long BlockHeight { get; set; }
+    public int BlockHeight { get; set; }
 
     public string ZipFilename { get; set; }
 

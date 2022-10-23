@@ -11,6 +11,8 @@ namespace Zilliqa.DesktopWallet.Server.Core.Services
     public class SnapshotService
     {
         private const int SNAPSHOT_INTERVALL_DAYS = 1;
+        private const int SNAPSHOT_FAVORITE_HOUR = 6;
+
         public static SnapshotService Instance { get; } = new();
 
         private readonly CancellationTokenSource _timerCancellationTokenSource = new();
@@ -35,9 +37,26 @@ namespace Zilliqa.DesktopWallet.Server.Core.Services
                     await Task.Delay(TimeSpan.FromSeconds(30), cancellationToken);
                     while (!cancellationToken.IsCancellationRequested)
                     {
-                        var snapshotEntries = SnapshotVersionsFile.Load().Snapshots;
+                        var snapshotVersionsFile = SnapshotVersionsFile.Load();
+                        var snapshotEntries = snapshotVersionsFile.Snapshots;
+                        if (snapshotEntries.Count >= 3)
+                        {
+                            var zipFilePath = DataPathBuilder.AppDataRoot.GetFilePath(snapshotEntries[0].ZipFilename);
+                            try
+                            {
+                                File.Delete(zipFilePath);
+                                snapshotEntries.RemoveAt(0);
+                                snapshotVersionsFile.Save();
+                            }
+                            catch (Exception e)
+                            {
+                                Logging.LogError($"Failed to delete Snapshot '{zipFilePath}'", e);
+                            }
+                        }
                         if (snapshotEntries.Any(s => s.AppVersion == ApplicationInfo.ApplicationVersion
-                                                     && s.TimestampUtc > DateTime.UtcNow.AddDays(0 - SNAPSHOT_INTERVALL_DAYS))
+                                                     && (s.TimestampUtc > DateTime.UtcNow.AddDays(0 - SNAPSHOT_INTERVALL_DAYS - 1)
+                                                         || (s.TimestampUtc > DateTime.UtcNow.AddDays(0 - SNAPSHOT_INTERVALL_DAYS)
+                                                             && DateTime.UtcNow.Hour == SNAPSHOT_FAVORITE_HOUR)))
                             || SnapshotCreationRunning
                             || !ZilliqaBlockchainCrawler.Instance.IsCompleted)
                         {
@@ -83,6 +102,7 @@ namespace Zilliqa.DesktopWallet.Server.Core.Services
                 try
                 {
                     Logging.LogInfo("CreateSnapshot begin...");
+                    var zipTimestamp = DateTime.UtcNow;
                     var zipFileInfo = CreateZipSnapshotFile();
 
                     var snapshotEntry = new SnapshotEntry
@@ -90,7 +110,7 @@ namespace Zilliqa.DesktopWallet.Server.Core.Services
                         Id = Guid.NewGuid().ToString("N"),
                         AppVersion = ApplicationInfo.ApplicationVersion,
                         BlockHeight = CrawlerStateDat.Instance.TransactionCrawler.HighestBlock,
-                        TimestampUtc = DateTime.UtcNow,
+                        TimestampUtc = zipTimestamp,
                         ZipFilename = zipFileInfo.Name,
                         ZipFileSize = zipFileInfo.Length
                     };
