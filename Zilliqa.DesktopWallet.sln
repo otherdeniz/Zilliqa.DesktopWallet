@@ -76,7 +76,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.ViewM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.Server.WorkerService", "Zilliqa.DesktopWallet.Server.WorkerService\Zilliqa.DesktopWallet.Server.WorkerService.csproj", "{FB5202D1-9090-4C60-8F79-1F43033FD686}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zilliqa.DesktopWallet.Server.ConsoleServiceApp", "Zilliqa.DesktopWallet.Server.ConsoleServiceApp\Zilliqa.DesktopWallet.Server.ConsoleServiceApp.csproj", "{D13C4026-F187-4D9D-B765-4F8DDF637CC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.Server.ConsoleServiceApp", "Zilliqa.DesktopWallet.Server.ConsoleServiceApp\Zilliqa.DesktopWallet.Server.ConsoleServiceApp.csproj", "{D13C4026-F187-4D9D-B765-4F8DDF637CC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zilliqa.DesktopWallet.Server.Core", "Zilliqa.DesktopWallet.Server.Core\Zilliqa.DesktopWallet.Server.Core.csproj", "{A2C44130-91B8-4401-A5B5-D26A57C3D130}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -183,6 +185,10 @@ Global
 		{D13C4026-F187-4D9D-B765-4F8DDF637CC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D13C4026-F187-4D9D-B765-4F8DDF637CC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D13C4026-F187-4D9D-B765-4F8DDF637CC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2C44130-91B8-4401-A5B5-D26A57C3D130}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2C44130-91B8-4401-A5B5-D26A57C3D130}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2C44130-91B8-4401-A5B5-D26A57C3D130}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2C44130-91B8-4401-A5B5-D26A57C3D130}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -214,6 +220,7 @@ Global
 		{A2845000-5EF4-4456-BE2C-907B3559C56D} = {7F110258-3BCE-4E17-836E-E784317FBB40}
 		{FB5202D1-9090-4C60-8F79-1F43033FD686} = {190B12E0-B5AD-4933-99B6-5613E340A9E0}
 		{D13C4026-F187-4D9D-B765-4F8DDF637CC1} = {190B12E0-B5AD-4933-99B6-5613E340A9E0}
+		{A2C44130-91B8-4401-A5B5-D26A57C3D130} = {190B12E0-B5AD-4933-99B6-5613E340A9E0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33F6C299-4831-4DA4-9B5F-65B8F3094132}

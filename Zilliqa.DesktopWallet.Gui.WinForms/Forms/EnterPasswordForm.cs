@@ -18,9 +18,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         {
             using (var form = new EnterPasswordForm())
             {
-                if (form.ShowDialog(parentForm) == DialogResult.OK)
+                try
                 {
-                    return new PasswordInfo(form.Password);
+                    if (form.ShowDialog(parentForm) == DialogResult.OK)
+                    {
+                        return new PasswordInfo(form.Password);
+                    }
+                }
+                catch (Exception)
+                {
+                    // app closed
                 }
             }
 

@@ -23,7 +23,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
 
         public bool StartupCompleted { get; private set; }
 
-        public string StartupStatus { get; private set; }
+        public string StartupStatus { get; private set; } = "";
 
         public void Startup()
         {
@@ -81,11 +81,9 @@ namespace Zilliqa.DesktopWallet.Core.Services
 
                 if (ZilliqaBlockchainCrawler.Instance.RunningState == RunningState.Stopped)
                 {
-#if !DEBUG
                     SetStartupStatus("Starting Blockchain Sync");
                     ZilliqaBlockchainCrawler.Instance.Start();
                     await Task.Delay(1500);
-#endif
                 }
 
                 StakingService.Instance.GetStakingSeedNodeRewards();
