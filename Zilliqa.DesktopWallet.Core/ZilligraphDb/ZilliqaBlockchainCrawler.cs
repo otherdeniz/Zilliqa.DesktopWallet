@@ -27,7 +27,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
         public int NumberOfBlocksOnChain
             => RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo.NumberOfBlocks == 0
                 ? 0
-                : RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo.NumberOfBlocks - 1;
+                : RepositoryManager.Instance.BlockchainBrowserRepository.BlockchainInfo.NumberOfBlocks;
 
         public int NumberOfBlocksProcessed { get; private set; }
 
