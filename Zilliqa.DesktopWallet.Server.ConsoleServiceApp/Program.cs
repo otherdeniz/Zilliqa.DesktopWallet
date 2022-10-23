@@ -5,6 +5,7 @@ using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ZilligraphDb;
+using Zilliqa.DesktopWallet.Server.Core.Services;
 
 namespace Zilliqa.DesktopWallet.Server.ConsoleServiceApp;
 
@@ -39,6 +40,9 @@ internal class Program
         {
             Task.Run(async () => await Task.Delay(1000)).GetAwaiter().GetResult();
         }
+        
+        // start Snapshot Timer
+        SnapshotService.Instance.StartSnapshotTimer();
 
         // wait for user input
         Console.WriteLine("Service is running.");
@@ -47,6 +51,7 @@ internal class Program
 
         // Shutdown
         Console.WriteLine("Shutdown...");
+        SnapshotService.Instance.EndSnapshotTimer();
         ZilliqaBlockchainCrawler.Instance.Stop(true);
         RepositoryManager.Instance.Shutdown();
 

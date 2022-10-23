@@ -37,6 +37,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
         {
             if (RunningState == RunningState.Stopped)
             {
+                Logging.LogInfo("ZilliqaBlockchainCrawler: Start");
                 RunningState = RunningState.Running;
                 IsCompleted = false;
                 _refreshCancellationTokenSource = new CancellationTokenSource();
@@ -83,6 +84,7 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
         public void Stop(bool wait = false)
         {
             if (RunningState == RunningState.Stopped) return;
+            Logging.LogInfo("ZilliqaBlockchainCrawler: Stop");
             RunningState = RunningState.Stopping;
             _refreshCancellationTokenSource?.Cancel();
             _refreshCancellationTokenSource = null;

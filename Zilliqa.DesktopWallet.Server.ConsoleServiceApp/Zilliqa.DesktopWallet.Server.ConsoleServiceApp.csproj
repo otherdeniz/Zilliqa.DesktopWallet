@@ -19,6 +19,7 @@
     <ProjectReference Include="..\Zilliqa.DesktopWallet.ApiClient\Zilliqa.DesktopWallet.ApiClient.csproj" />
     <ProjectReference Include="..\Zilliqa.DesktopWallet.Core\Zilliqa.DesktopWallet.Core.csproj" />
     <ProjectReference Include="..\Zilliqa.DesktopWallet.DatabaseSchema\Zilliqa.DesktopWallet.DatabaseSchema.csproj" />
+    <ProjectReference Include="..\Zilliqa.DesktopWallet.Server.Core\Zilliqa.DesktopWallet.Server.Core.csproj" />
     <ProjectReference Include="..\Zilliqa.DesktopWallet.ViewModelAttributes\Zilliqa.DesktopWallet.ViewModelAttributes.csproj" />
   </ItemGroup>
 
