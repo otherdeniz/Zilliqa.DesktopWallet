@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.ContractCode;
 using Zilliqa.DesktopWallet.Core.Data.Model;
@@ -139,7 +138,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             control.Dock = DockStyle.Top;
             control.ArgumentName = name;
             if (currentValue != null 
-                && name != "owner")
+                && argumentType != ParamTypes.ByStr20)
             {
                 control.ArgumentValue = currentValue;
             }

@@ -38,7 +38,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [Browsable(false)]
         public string SearchTerm =>
-            $"{SmartContractModel.ContractName.ToLower()}|{SmartContractModel.TokenName()?.ToLower()}|{SmartContractModel.TokenSymbol()?.ToLower()}";
+            $"{SmartContractModel.ContractName?.ToLower()}|{SmartContractModel.TokenName()?.ToLower()}|{SmartContractModel.TokenSymbol()?.ToLower()}";
 
         [DetailsProperty]
         [Browsable(false)]

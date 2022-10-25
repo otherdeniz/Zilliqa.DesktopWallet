@@ -43,19 +43,5 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             }
         }
 
-        //private void gridViewContracts_SelectionChanged(object sender, GridView.GridViewControl.SelectedItemEventArgs e)
-        //{
-        //    if (e.SelectedItem?.Value != null
-        //        && sender is GridViewControl gridView)
-        //    {
-        //        DisplayValue(e.SelectedItem.Value, true, o =>
-        //        {
-        //            if (o != gridView)
-        //            {
-        //                gridView.ClearSelection();
-        //            }
-        //        }, gridView);
-        //    }
-        //}
     }
 }
