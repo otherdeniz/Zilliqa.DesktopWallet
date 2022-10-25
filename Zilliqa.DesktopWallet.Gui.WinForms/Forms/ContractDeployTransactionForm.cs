@@ -138,7 +138,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             control.TypeMinWidth = 65;
             control.Dock = DockStyle.Top;
             control.ArgumentName = name;
-            if (currentValue != null)
+            if (currentValue != null 
+                && name != "owner")
             {
                 control.ArgumentValue = currentValue;
             }
