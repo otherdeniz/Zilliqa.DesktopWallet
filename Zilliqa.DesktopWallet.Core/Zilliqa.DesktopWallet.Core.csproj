@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="Octokit" Version="3.0.0" />
     <PackageReference Include="Svg" Version="3.4.3" />
     <PackageReference Include="System.Resources.Extensions" Version="6.0.0" />
     <PackageReference Include="System.Runtime.Caching" Version="6.0.0" />
