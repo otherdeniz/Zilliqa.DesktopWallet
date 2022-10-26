@@ -43,7 +43,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             Refresh();
             try
             {
-                //TODO: get newest release info from github
+                var latestRelease = AutoUpdateService.Instance.GetLatestRelease();
+                if (latestRelease != null && latestRelease.Version > ApplicationInfo.ApplicationVersion)
+                {
+                    return UpdateAvailableForm.Execute(this, latestRelease);
+                }
             }
             catch (Exception e)
             {
@@ -63,7 +67,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                     && snapshotInfo.AppVersion == ApplicationInfo.ApplicationVersion 
                     && snapshotInfo.TimestampUtc > (CrawlerStateDat.Instance.NewestBlockDate?.AddDays(1) ?? DateTime.MinValue))
                 {
-                    return DownloadSnapshotDialogForm.Execute(this, snapshotInfo);
+                    return DownloadSnapshotForm.Execute(this, snapshotInfo);
                 }
             }
             catch (Exception e)

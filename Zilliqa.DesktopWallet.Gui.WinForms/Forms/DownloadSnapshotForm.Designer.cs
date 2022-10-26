@@ -1,6 +1,6 @@
 ﻿namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 {
-    partial class DownloadSnapshotDialogForm
+    partial class DownloadSnapshotForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DownloadSnapshotDialogForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DownloadSnapshotForm));
             this.panelQuestion = new System.Windows.Forms.Panel();
             this.panelButtonDownload = new System.Windows.Forms.Panel();
             this.buttonSkip = new System.Windows.Forms.Button();
@@ -419,7 +419,7 @@
             this.timerExtract.Interval = 1000;
             this.timerExtract.Tick += new System.EventHandler(this.timerExtract_Tick);
             // 
-            // DownloadSnapshotDialogForm
+            // DownloadSnapshotForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -430,9 +430,9 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "DownloadSnapshotDialogForm";
+            this.Name = "DownloadSnapshotForm";
             this.Padding = new System.Windows.Forms.Padding(8);
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Blockchain snapshot download";
             this.panelQuestion.ResumeLayout(false);
             this.panelButtonDownload.ResumeLayout(false);

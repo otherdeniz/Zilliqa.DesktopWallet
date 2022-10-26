@@ -67,6 +67,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             if (!StartupDialogForm.Execute(this))
             {
                 Close();
+                return;
             }
             if (LoadWallet())
             {

@@ -7,11 +7,11 @@ using Zilliqa.DesktopWallet.WebContract;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 {
-    public partial class DownloadSnapshotDialogForm : Form
+    public partial class DownloadSnapshotForm : Form
     {
         public static bool Execute(Form parentForm, SnapshotInfo snapshotInfo)
         {
-            using (var form = new DownloadSnapshotDialogForm())
+            using (var form = new DownloadSnapshotForm())
             {
                 form.LoadSnapshotInfo(snapshotInfo);
                 return form.ShowDialog(parentForm) == DialogResult.OK;
@@ -26,7 +26,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         private int _extractFilesDone;
         private bool _cancelDownload;
 
-        public DownloadSnapshotDialogForm()
+        public DownloadSnapshotForm()
         {
             InitializeComponent();
             panelQuestion.Dock = DockStyle.Fill;
