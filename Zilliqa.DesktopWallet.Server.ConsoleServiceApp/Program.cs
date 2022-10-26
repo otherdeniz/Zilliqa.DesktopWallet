@@ -17,7 +17,11 @@ internal static class Program
 
         var dataPath = GetArgumentValue(arguments, "datapath", 
             ZilliqaClient.UseTestnet ? "Server-Testnet" : "Server-Mainnet");
-        DataPathBuilder.Setup(Path.Combine("ZilliqaDesktopWallet", dataPath), true);
+        var rootPathEnvVariable = Environment.GetEnvironmentVariable("ZILSERVERPATH");
+        var rootPath = string.IsNullOrEmpty(rootPathEnvVariable)
+            ? "ZilliqaDesktopWallet"
+            : rootPathEnvVariable;
+        DataPathBuilder.Setup(Path.Combine(rootPath, dataPath), true);
 
         Logging.Setup(Path.Combine(DataPathBuilder.UserDataRoot.FullPath, "Log"));
         var startupText = arguments.Length == 0

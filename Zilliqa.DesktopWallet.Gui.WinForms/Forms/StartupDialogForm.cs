@@ -58,21 +58,25 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         private bool CheckForSnapshotDownload()
         {
-            labelStatus.Text = "Checking for updated blockchain snapshot";
-            Refresh();
-            try
+            if (CrawlerStateDat.Instance.NewestBlockDate == null 
+                || CrawlerStateDat.Instance.NewestBlockDate.Value.AddDays(1) < DateTime.Now)
             {
-                var snapshotInfo = RepositoryManager.Instance.WalletWebClient.GetSnapshotInfo();
-                if (snapshotInfo != null
-                    && snapshotInfo.AppVersion == ApplicationInfo.ApplicationVersion 
-                    && snapshotInfo.TimestampUtc > (CrawlerStateDat.Instance.NewestBlockDate?.AddDays(1) ?? DateTime.MinValue))
+                labelStatus.Text = "Checking for updated blockchain snapshot";
+                Refresh();
+                try
                 {
-                    return DownloadSnapshotForm.Execute(this, snapshotInfo);
+                    var snapshotInfo = RepositoryManager.Instance.WalletWebClient.GetSnapshotInfo();
+                    if (snapshotInfo != null
+                        && snapshotInfo.AppVersion == ApplicationInfo.ApplicationVersion
+                        && snapshotInfo.TimestampUtc > (CrawlerStateDat.Instance.NewestBlockDate?.AddDays(1) ?? DateTime.MinValue))
+                    {
+                        return DownloadSnapshotForm.Execute(this, snapshotInfo);
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                Logging.LogError("Check for updated blockchain snapshot failed", e);
+                catch (Exception e)
+                {
+                    Logging.LogError("Check for updated blockchain snapshot failed", e);
+                }
             }
             return true;
         }
