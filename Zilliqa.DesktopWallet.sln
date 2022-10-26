@@ -29,8 +29,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilligraph.Database.Contrac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilligraph.Database.Storage", "Zilligraph.Database\Zilligraph.Database.Storage\Zilligraph.Database.Storage.csproj", "{2BBAFCF1-95D8-4DD3-BA79-E074C9EAD170}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.TestApp", "Zilliqa.DesktopWallet.TestApp\Zilliqa.DesktopWallet.TestApp.csproj", "{03EF30ED-2AA3-457C-B5FA-06191A343720}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Shared", "_Shared", "{9C2DD6FB-D3F1-4D03-A536-979B9D008AF6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zillifriends.Shared.Common", "Zillifriends.Shared.Common\Zillifriends.Shared.Common.csproj", "{B4A69D8E-8943-4A81-B2D8-15FA1D3F929D}"
@@ -78,7 +76,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.Serve
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.Server.ConsoleServiceApp", "Zilliqa.DesktopWallet.Server.ConsoleServiceApp\Zilliqa.DesktopWallet.Server.ConsoleServiceApp.csproj", "{D13C4026-F187-4D9D-B765-4F8DDF637CC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zilliqa.DesktopWallet.Server.Core", "Zilliqa.DesktopWallet.Server.Core\Zilliqa.DesktopWallet.Server.Core.csproj", "{A2C44130-91B8-4401-A5B5-D26A57C3D130}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.Server.Core", "Zilliqa.DesktopWallet.Server.Core\Zilliqa.DesktopWallet.Server.Core.csproj", "{A2C44130-91B8-4401-A5B5-D26A57C3D130}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -126,10 +124,6 @@ Global
 		{2BBAFCF1-95D8-4DD3-BA79-E074C9EAD170}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BBAFCF1-95D8-4DD3-BA79-E074C9EAD170}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BBAFCF1-95D8-4DD3-BA79-E074C9EAD170}.Release|Any CPU.Build.0 = Release|Any CPU
-		{03EF30ED-2AA3-457C-B5FA-06191A343720}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{03EF30ED-2AA3-457C-B5FA-06191A343720}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{03EF30ED-2AA3-457C-B5FA-06191A343720}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{03EF30ED-2AA3-457C-B5FA-06191A343720}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B4A69D8E-8943-4A81-B2D8-15FA1D3F929D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B4A69D8E-8943-4A81-B2D8-15FA1D3F929D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4A69D8E-8943-4A81-B2D8-15FA1D3F929D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -204,7 +198,6 @@ Global
 		{A6E8F6ED-65B9-4902-9942-650C5A33959B} = {B88CCB2B-E0E3-4146-838B-BCB782D0B479}
 		{907FC00E-4501-47F5-82C1-6DBA0D289584} = {58EA2C23-58CD-4EBC-A522-DC018C2F2DF6}
 		{2BBAFCF1-95D8-4DD3-BA79-E074C9EAD170} = {58EA2C23-58CD-4EBC-A522-DC018C2F2DF6}
-		{03EF30ED-2AA3-457C-B5FA-06191A343720} = {7F110258-3BCE-4E17-836E-E784317FBB40}
 		{B4A69D8E-8943-4A81-B2D8-15FA1D3F929D} = {9C2DD6FB-D3F1-4D03-A536-979B9D008AF6}
 		{C6DE8D92-226C-495B-AFDB-A6D7A59D44E6} = {7F110258-3BCE-4E17-836E-E784317FBB40}
 		{A4BAAED3-966D-4E26-92A1-02BACF6C0F0D} = {7F110258-3BCE-4E17-836E-E784317FBB40}

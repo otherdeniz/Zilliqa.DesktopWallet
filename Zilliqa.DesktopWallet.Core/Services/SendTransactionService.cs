@@ -169,7 +169,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                     {
                         Type = ParamTypes.Uint128,
                         Vname = "amount",
-                        Value = tokenModelByAddress.SmartContract.AmountToTokenSatoshis(amount)
+                        Value = tokenModelByAddress.SmartContract.AmountToTokenSatoshis(amount).ToString("0")
                     },
                     new DataParam
                     {

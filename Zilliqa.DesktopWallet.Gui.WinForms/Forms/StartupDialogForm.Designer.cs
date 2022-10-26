@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.labelStatus = new System.Windows.Forms.Label();
+            this.timerStartup = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // labelStatus
@@ -42,6 +44,11 @@
             this.labelStatus.Text = "Please wait...";
             this.labelStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // timerStartup
+            // 
+            this.timerStartup.Enabled = true;
+            this.timerStartup.Tick += new System.EventHandler(this.timerStartup_Tick);
+            // 
             // StartupDialogForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -53,7 +60,6 @@
             this.Padding = new System.Windows.Forms.Padding(8);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Wallet Startup...";
-            this.Load += new System.EventHandler(this.StartupDialogForm_Load);
             this.ResumeLayout(false);
 
         }
@@ -61,5 +67,6 @@
         #endregion
 
         private Label labelStatus;
+        private System.Windows.Forms.Timer timerStartup;
     }
 }

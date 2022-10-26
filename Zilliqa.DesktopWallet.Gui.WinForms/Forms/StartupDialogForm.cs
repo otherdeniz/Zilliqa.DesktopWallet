@@ -21,22 +21,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             }
         }
 
-        private void StartupDialogForm_Load(object sender, EventArgs e)
-        {
-            if (!CheckForUpdate())
-            {
-                Close();
-                return;
-            }
-            if (!ZilliqaClient.UseTestnet &&
-                !CheckForSnapshotDownload())
-            {
-                Close();
-                return;
-            }
-            StartupServices();
-        }
-
         private bool CheckForUpdate()
         {
             labelStatus.Text = "Checking for application update";
@@ -100,6 +84,23 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                     }
                 });
             };
+        }
+
+        private void timerStartup_Tick(object sender, EventArgs e)
+        {
+            timerStartup.Enabled = false;
+            if (!CheckForUpdate())
+            {
+                Close();
+                return;
+            }
+            if (!ZilliqaClient.UseTestnet &&
+                !CheckForSnapshotDownload())
+            {
+                Close();
+                return;
+            }
+            StartupServices();
         }
     }
 }
