@@ -6,7 +6,7 @@ namespace Zilliqa.DesktopWallet.WebClient
 {
     public class WalletWebClient
     {
-        public const string DefaultServerUrl = "http://zillifriends.org";
+        public const string DefaultServerUrl = "http://api.zillifriends.org";
 
         public WalletWebClient(string? serverUrl = null)
         {
