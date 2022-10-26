@@ -192,7 +192,8 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                                         CrawlerStateDat.Instance.TransactionCrawler.LowestBlock = processBlockNumber;
                                     }
 
-                                    if (blockModel.Timestamp > CrawlerStateDat.Instance.NewestBlockDate)
+                                    if (CrawlerStateDat.Instance.NewestBlockDate == null 
+                                        || blockModel.Timestamp > CrawlerStateDat.Instance.NewestBlockDate)
                                     {
                                         CrawlerStateDat.Instance.NewestBlockDate = blockModel.Timestamp;
                                     }

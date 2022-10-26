@@ -1,4 +1,7 @@
-﻿using Zilliqa.DesktopWallet.Core;
+﻿using Zilliqa.DesktopWallet.ApiClient;
+using Zilliqa.DesktopWallet.Core;
+using Zilliqa.DesktopWallet.Core.Data.Files;
+using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.Services;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
@@ -20,6 +23,59 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         private void StartupDialogForm_Load(object sender, EventArgs e)
         {
+            if (!CheckForUpdate())
+            {
+                Close();
+                return;
+            }
+            if (!ZilliqaClient.UseTestnet &&
+                !CheckForSnapshotDownload())
+            {
+                Close();
+                return;
+            }
+            StartupServices();
+        }
+
+        private bool CheckForUpdate()
+        {
+            labelStatus.Text = "Checking for application update";
+            Refresh();
+            try
+            {
+                //TODO: get newest release info from github
+            }
+            catch (Exception e)
+            {
+                Logging.LogError("Check for application update failed", e);
+            }
+            return true;
+        }
+
+        private bool CheckForSnapshotDownload()
+        {
+            labelStatus.Text = "Checking for updated blockchain snapshot";
+            Refresh();
+            try
+            {
+                var snapshotInfo = RepositoryManager.Instance.WalletWebClient.GetSnapshotInfo();
+                if (snapshotInfo != null
+                    && snapshotInfo.AppVersion == ApplicationInfo.ApplicationVersion 
+                    && snapshotInfo.TimestampUtc > (CrawlerStateDat.Instance.NewestBlockDate?.AddDays(1) ?? DateTime.MinValue))
+                {
+                    return DownloadSnapshotDialogForm.Execute(this, snapshotInfo);
+                }
+            }
+            catch (Exception e)
+            {
+                Logging.LogError("Check for updated blockchain snapshot failed", e);
+            }
+            return true;
+        }
+
+        private void StartupServices()
+        {
+            StartupService.Instance.Startup();
             labelStatus.Text = StartupService.Instance.StartupStatus;
             StartupService.Instance.StatusChanged += (sender, args) =>
             {

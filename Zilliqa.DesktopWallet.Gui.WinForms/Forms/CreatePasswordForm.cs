@@ -19,13 +19,20 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         {
             using (var form = new CreatePasswordForm())
             {
-                if (form.ShowDialog(parentForm) == DialogResult.OK)
+                try
                 {
-                    return new CreateAccountResult
+                    if (form.ShowDialog(parentForm) == DialogResult.OK)
                     {
-                        Password = new PasswordInfo(form.Password),
-                        AccountName = form.AccountName
-                    };
+                        return new CreateAccountResult
+                        {
+                            Password = new PasswordInfo(form.Password),
+                            AccountName = form.AccountName
+                        };
+                    }
+                }
+                catch (Exception)
+                {
+                    // app closed
                 }
             }
 

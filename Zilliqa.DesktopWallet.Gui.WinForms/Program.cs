@@ -1,7 +1,9 @@
 using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core;
+using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.Services;
+using Zilliqa.DesktopWallet.WebClient;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms
 {
@@ -20,6 +22,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             DataPathBuilder.Setup(Path.Combine("ZilliqaDesktopWallet", dataPath));
 
             Logging.Setup(Path.Combine(DataPathBuilder.UserDataRoot.FullPath, "Log"));
+
+            var webServerUrl = GetArgumentValue(arguments, "serverurl");
+            if (!string.IsNullOrEmpty(webServerUrl))
+            {
+                RepositoryManager.Instance.WalletWebClient = new WalletWebClient(webServerUrl.TrimEnd('/'));
+            }
 
 #if !DEBUG
             var networkText = ZilliqaClient.UseTestnet ? "TESTNET" : "MAINNET";
@@ -41,8 +49,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
 
             Application.ThreadException +=
                 (sender, args) => Logging.LogError("Unhandled Thread Exception!", args.Exception);
-
-            StartupService.Instance.Startup();
 
             ApplicationConfiguration.Initialize();
             var mainForm = new MainForm();

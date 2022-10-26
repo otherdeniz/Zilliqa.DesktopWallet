@@ -1,6 +1,7 @@
 ﻿using Zilligraph.Database.Storage;
 using Zilliqa.DesktopWallet.Core.CacheDatabase;
 using Zilliqa.DesktopWallet.Core.ZilligraphDb;
+using Zilliqa.DesktopWallet.WebClient;
 
 namespace Zilliqa.DesktopWallet.Core.Repository
 {
@@ -13,6 +14,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
         private ZilliqaBlockchainDbRepository? _dbRepository;
         private ZilligraphDatabase? _chacheDatabase;
         private CoingeckoRepository? _currencyPriceRepository;
+        private WalletWebClient? _walletWebClient;
 
         private RepositoryManager()
         {
@@ -32,7 +34,13 @@ namespace Zilliqa.DesktopWallet.Core.Repository
 
         public WalletRepository WalletRepository => 
             _walletRepository ??= new WalletRepository();
-        
+
+        public WalletWebClient WalletWebClient
+        {
+            get => _walletWebClient ?? new WalletWebClient();
+            set => _walletWebClient = value;
+        }
+
         public void Shutdown()
         {
             _currencyPriceRepository?.CancelBackgroundTasks();

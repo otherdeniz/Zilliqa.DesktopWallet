@@ -6,9 +6,11 @@ namespace Zilliqa.DesktopWallet.WebClient
 {
     public class WalletWebClient
     {
-        public WalletWebClient(string serverUrl)
+        public const string DefaultServerUrl = "http://zillifriends.org";
+
+        public WalletWebClient(string? serverUrl = null)
         {
-            ServerUrl = serverUrl;
+            ServerUrl = serverUrl ?? DefaultServerUrl;
         }
 
         public string ServerUrl { get; }
@@ -17,7 +19,7 @@ namespace Zilliqa.DesktopWallet.WebClient
         {
             using (var client = GetClient())
             {
-                var request = new RestRequest("snapshot");
+                var request = new RestRequest("snapshot/info");
                 var response = client.Execute(request);
                 if (response.IsSuccessful && !string.IsNullOrEmpty(response.Content))
                 {
@@ -27,9 +29,13 @@ namespace Zilliqa.DesktopWallet.WebClient
             return null;
         }
 
-        public FileDownloadInfo? DownloadSnapshot(string snapshotId, string destinationFilePath)
+        public Stream? DownloadSnapshotStream(string snapshotId)
         {
-            throw new NotImplementedException();
+            using (var client = GetClient())
+            {
+                var request = new RestRequest($"snapshot/download?id={snapshotId}");
+                return client.DownloadStream(request);
+            }
         }
 
         private RestClient GetClient()
