@@ -1,2 +1,2 @@
-﻿sc stop Zilliqa.DesktopWallet.Server.WorkerService
+sc stop Zilliqa.DesktopWallet.Server.WorkerService
 pause

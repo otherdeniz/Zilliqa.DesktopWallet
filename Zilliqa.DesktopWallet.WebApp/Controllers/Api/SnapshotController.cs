@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Zillifriends.Shared.Common;
+using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Server.Core.Files;
 using Zilliqa.DesktopWallet.WebContract;
 
@@ -12,6 +13,7 @@ namespace Zilliqa.DesktopWallet.WebApp.Controllers.Api
         [HttpGet("info")]
         public SnapshotInfo? GetSnapshotInfo()
         {
+            Logging.LogInfo("GetSnapshotInfo()");
             return SnapshotVersionsFile.Load().Snapshots.Select(s => new SnapshotInfo
             {
                 Id = s.Id,
@@ -25,6 +27,7 @@ namespace Zilliqa.DesktopWallet.WebApp.Controllers.Api
         [HttpGet("download")]
         public IActionResult GetSnapshotStream(string id)
         {
+            Logging.LogInfo($"GetSnapshotStream({id})");
             var snapshotInfo = SnapshotVersionsFile.Load().Snapshots.FirstOrDefault(s => s.Id == id);
             if (snapshotInfo != null)
             {
