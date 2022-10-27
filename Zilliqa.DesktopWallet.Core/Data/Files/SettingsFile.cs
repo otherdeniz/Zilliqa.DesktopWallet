@@ -18,7 +18,15 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
 
         public DisplayCurrenciesModel DisplayCurrencies { get; set; } = new();
 
+        public string IncomingSound { get; set; } = IncomingSounds.MoneyCounter;
+
         #endregion
 
+        public static class IncomingSounds
+        {
+            public static readonly string MoneyCounter = "money-counter";
+            public static readonly string KaChing = "ka-ching";
+            public static readonly string CoinsInJar = "coins-in-jar";
+        }
     }
 }

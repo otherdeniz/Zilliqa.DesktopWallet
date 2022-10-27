@@ -40,9 +40,8 @@
             this.buttonStakingNodes = new System.Windows.Forms.ToolStripButton();
             this.buttonBlockchain = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.buttonSettings = new System.Windows.Forms.ToolStripButton();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.buttonMenuDisplayCurrencies = new System.Windows.Forms.ToolStripDropDownButton();
+            this.buttonSettings = new System.Windows.Forms.ToolStripDropDownButton();
+            this.settingMenuDisplayCurrencies = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuFiat = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDisplayCurrencyEur = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDisplayCurrencyChf = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,6 +63,13 @@
             this.groupBoxStatus = new System.Windows.Forms.GroupBox();
             this.bottomStatusControl1 = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.BottomStatusControl();
             this.timerInit = new System.Windows.Forms.Timer(this.components);
+            this.settingMenuIncomingSound = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonAbout = new System.Windows.Forms.ToolStripDropDownButton();
+            this.menuApplicationInfo = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuIncomingSoundNone = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuIncomingSoundMoneyCounter = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuIncomingSoundKaChing = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuIncomingSoundCoinsInJar = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMain.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.panelBottom.SuspendLayout();
@@ -85,8 +91,7 @@
             this.buttonBlockchain,
             this.toolStripSeparator1,
             this.buttonSettings,
-            this.toolStripLabel1,
-            this.buttonMenuDisplayCurrencies,
+            this.buttonAbout,
             this.buttonMenuTools});
             this.toolStripMain.Location = new System.Drawing.Point(0, 0);
             this.toolStripMain.Name = "toolStripMain";
@@ -172,24 +177,19 @@
             // 
             // buttonSettings
             // 
+            this.buttonSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.settingMenuDisplayCurrencies,
+            this.settingMenuIncomingSound});
             this.buttonSettings.Image = ((System.Drawing.Image)(resources.GetObject("buttonSettings.Image")));
             this.buttonSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonSettings.Name = "buttonSettings";
-            this.buttonSettings.Size = new System.Drawing.Size(77, 28);
+            this.buttonSettings.Size = new System.Drawing.Size(86, 28);
             this.buttonSettings.Text = "Settings";
-            this.buttonSettings.Visible = false;
             this.buttonSettings.Click += new System.EventHandler(this.buttonSettings_Click);
             // 
-            // toolStripLabel1
+            // settingMenuDisplayCurrencies
             // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(52, 28);
-            this.toolStripLabel1.Text = "Settings:";
-            // 
-            // buttonMenuDisplayCurrencies
-            // 
-            this.buttonMenuDisplayCurrencies.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.buttonMenuDisplayCurrencies.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.settingMenuDisplayCurrencies.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuFiat,
             this.menuDisplayCurrencyEur,
             this.menuDisplayCurrencyChf,
@@ -198,38 +198,36 @@
             this.menuDisplayCurrencyBtc,
             this.menuDisplayCurrencyEth,
             this.menuDisplayCurrencyLtc});
-            this.buttonMenuDisplayCurrencies.Image = ((System.Drawing.Image)(resources.GetObject("buttonMenuDisplayCurrencies.Image")));
-            this.buttonMenuDisplayCurrencies.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.buttonMenuDisplayCurrencies.Name = "buttonMenuDisplayCurrencies";
-            this.buttonMenuDisplayCurrencies.Size = new System.Drawing.Size(173, 28);
-            this.buttonMenuDisplayCurrencies.Text = "Display additional Currencies";
+            this.settingMenuDisplayCurrencies.Name = "settingMenuDisplayCurrencies";
+            this.settingMenuDisplayCurrencies.Size = new System.Drawing.Size(227, 22);
+            this.settingMenuDisplayCurrencies.Text = "Display additional Currencies";
             // 
             // toolStripMenuFiat
             // 
             this.toolStripMenuFiat.BackColor = System.Drawing.SystemColors.ControlLight;
             this.toolStripMenuFiat.Enabled = false;
             this.toolStripMenuFiat.Name = "toolStripMenuFiat";
-            this.toolStripMenuFiat.Size = new System.Drawing.Size(178, 22);
+            this.toolStripMenuFiat.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuFiat.Text = "Fiat";
             // 
             // menuDisplayCurrencyEur
             // 
             this.menuDisplayCurrencyEur.Name = "menuDisplayCurrencyEur";
-            this.menuDisplayCurrencyEur.Size = new System.Drawing.Size(178, 22);
+            this.menuDisplayCurrencyEur.Size = new System.Drawing.Size(180, 22);
             this.menuDisplayCurrencyEur.Text = "Euro (EUR)";
             this.menuDisplayCurrencyEur.Click += new System.EventHandler(this.menuDisplayCurrencyEur_Click);
             // 
             // menuDisplayCurrencyChf
             // 
             this.menuDisplayCurrencyChf.Name = "menuDisplayCurrencyChf";
-            this.menuDisplayCurrencyChf.Size = new System.Drawing.Size(178, 22);
+            this.menuDisplayCurrencyChf.Size = new System.Drawing.Size(180, 22);
             this.menuDisplayCurrencyChf.Text = "Swiss Franc (CHF)";
             this.menuDisplayCurrencyChf.Click += new System.EventHandler(this.menuDisplayCurrencyChf_Click);
             // 
             // menuDisplayCurrencyGbp
             // 
             this.menuDisplayCurrencyGbp.Name = "menuDisplayCurrencyGbp";
-            this.menuDisplayCurrencyGbp.Size = new System.Drawing.Size(178, 22);
+            this.menuDisplayCurrencyGbp.Size = new System.Drawing.Size(180, 22);
             this.menuDisplayCurrencyGbp.Text = "British Pound (GBP)";
             this.menuDisplayCurrencyGbp.Click += new System.EventHandler(this.menuDisplayCurrencyGbp_Click);
             // 
@@ -238,27 +236,27 @@
             this.toolStripMenuCrypto.BackColor = System.Drawing.SystemColors.ControlLight;
             this.toolStripMenuCrypto.Enabled = false;
             this.toolStripMenuCrypto.Name = "toolStripMenuCrypto";
-            this.toolStripMenuCrypto.Size = new System.Drawing.Size(178, 22);
+            this.toolStripMenuCrypto.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuCrypto.Text = "Crypto";
             // 
             // menuDisplayCurrencyBtc
             // 
             this.menuDisplayCurrencyBtc.Name = "menuDisplayCurrencyBtc";
-            this.menuDisplayCurrencyBtc.Size = new System.Drawing.Size(178, 22);
+            this.menuDisplayCurrencyBtc.Size = new System.Drawing.Size(180, 22);
             this.menuDisplayCurrencyBtc.Text = "Bitcoin (BTC)";
             this.menuDisplayCurrencyBtc.Click += new System.EventHandler(this.menuDisplayCurrencyBtc_Click);
             // 
             // menuDisplayCurrencyEth
             // 
             this.menuDisplayCurrencyEth.Name = "menuDisplayCurrencyEth";
-            this.menuDisplayCurrencyEth.Size = new System.Drawing.Size(178, 22);
+            this.menuDisplayCurrencyEth.Size = new System.Drawing.Size(180, 22);
             this.menuDisplayCurrencyEth.Text = "Ethereum (ETH)";
             this.menuDisplayCurrencyEth.Click += new System.EventHandler(this.menuDisplayCurrencyEth_Click);
             // 
             // menuDisplayCurrencyLtc
             // 
             this.menuDisplayCurrencyLtc.Name = "menuDisplayCurrencyLtc";
-            this.menuDisplayCurrencyLtc.Size = new System.Drawing.Size(178, 22);
+            this.menuDisplayCurrencyLtc.Size = new System.Drawing.Size(180, 22);
             this.menuDisplayCurrencyLtc.Text = "Litecoin (LTC)";
             this.menuDisplayCurrencyLtc.Click += new System.EventHandler(this.menuDisplayCurrencyLtc_Click);
             // 
@@ -280,7 +278,7 @@
             // 
             this.buttonToolsOpenWalletFolder.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsOpenWalletFolder.Image")));
             this.buttonToolsOpenWalletFolder.Name = "buttonToolsOpenWalletFolder";
-            this.buttonToolsOpenWalletFolder.Size = new System.Drawing.Size(247, 22);
+            this.buttonToolsOpenWalletFolder.Size = new System.Drawing.Size(255, 30);
             this.buttonToolsOpenWalletFolder.Text = "Open Users Wallet Folder";
             this.buttonToolsOpenWalletFolder.Click += new System.EventHandler(this.buttonToolsOpenWalletFolder_Click);
             // 
@@ -288,20 +286,20 @@
             // 
             this.buttonToolsOpenDbFolder.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsOpenDbFolder.Image")));
             this.buttonToolsOpenDbFolder.Name = "buttonToolsOpenDbFolder";
-            this.buttonToolsOpenDbFolder.Size = new System.Drawing.Size(247, 22);
+            this.buttonToolsOpenDbFolder.Size = new System.Drawing.Size(255, 30);
             this.buttonToolsOpenDbFolder.Text = "Open Program Database Folder";
             this.buttonToolsOpenDbFolder.Click += new System.EventHandler(this.buttonToolsOpenDbFolder_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(244, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(252, 6);
             // 
             // buttonToolsAddressConverter
             // 
             this.buttonToolsAddressConverter.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsAddressConverter.Image")));
             this.buttonToolsAddressConverter.Name = "buttonToolsAddressConverter";
-            this.buttonToolsAddressConverter.Size = new System.Drawing.Size(247, 22);
+            this.buttonToolsAddressConverter.Size = new System.Drawing.Size(255, 30);
             this.buttonToolsAddressConverter.Text = "Zilliqa Address Format Converter";
             this.buttonToolsAddressConverter.Click += new System.EventHandler(this.buttonToolsAddressConverter_Click);
             // 
@@ -387,6 +385,60 @@
             this.timerInit.Interval = 10;
             this.timerInit.Tick += new System.EventHandler(this.timerInit_Tick);
             // 
+            // settingMenuIncomingSound
+            // 
+            this.settingMenuIncomingSound.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuIncomingSoundNone,
+            this.menuIncomingSoundMoneyCounter,
+            this.menuIncomingSoundKaChing,
+            this.menuIncomingSoundCoinsInJar});
+            this.settingMenuIncomingSound.Name = "settingMenuIncomingSound";
+            this.settingMenuIncomingSound.Size = new System.Drawing.Size(227, 22);
+            this.settingMenuIncomingSound.Text = "Incoming transaction sound";
+            this.settingMenuIncomingSound.Visible = false;
+            // 
+            // buttonAbout
+            // 
+            this.buttonAbout.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.buttonAbout.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuApplicationInfo});
+            this.buttonAbout.Image = ((System.Drawing.Image)(resources.GetObject("buttonAbout.Image")));
+            this.buttonAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonAbout.Name = "buttonAbout";
+            this.buttonAbout.Size = new System.Drawing.Size(77, 28);
+            this.buttonAbout.Text = "About";
+            this.buttonAbout.Visible = false;
+            // 
+            // menuApplicationInfo
+            // 
+            this.menuApplicationInfo.Name = "menuApplicationInfo";
+            this.menuApplicationInfo.Size = new System.Drawing.Size(180, 22);
+            this.menuApplicationInfo.Text = "Application Info";
+            // 
+            // menuIncomingSoundNone
+            // 
+            this.menuIncomingSoundNone.Name = "menuIncomingSoundNone";
+            this.menuIncomingSoundNone.Size = new System.Drawing.Size(180, 22);
+            this.menuIncomingSoundNone.Text = "None";
+            // 
+            // menuIncomingSoundMoneyCounter
+            // 
+            this.menuIncomingSoundMoneyCounter.Name = "menuIncomingSoundMoneyCounter";
+            this.menuIncomingSoundMoneyCounter.Size = new System.Drawing.Size(180, 22);
+            this.menuIncomingSoundMoneyCounter.Text = "Money counter";
+            // 
+            // menuIncomingSoundKaChing
+            // 
+            this.menuIncomingSoundKaChing.Name = "menuIncomingSoundKaChing";
+            this.menuIncomingSoundKaChing.Size = new System.Drawing.Size(180, 22);
+            this.menuIncomingSoundKaChing.Text = "Cashier (ka-ching)";
+            // 
+            // menuIncomingSoundCoinsInJar
+            // 
+            this.menuIncomingSoundCoinsInJar.Name = "menuIncomingSoundCoinsInJar";
+            this.menuIncomingSoundCoinsInJar.Size = new System.Drawing.Size(180, 22);
+            this.menuIncomingSoundCoinsInJar.Text = "Coins in Jar";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -419,7 +471,6 @@
         private ToolStripButton buttonBlockchain;
         private ToolStripButton buttonExit;
         private ToolStripSeparator toolStripSeparator2;
-        private ToolStripButton buttonSettings;
         private Panel panelMain;
         private ToolStripButton buttonTokens;
         private Controls.Main.MainWalletControl mainWalletControl;
@@ -430,14 +481,12 @@
         private System.Windows.Forms.Timer timerInit;
         private Controls.Main.BottomStatusControl bottomStatusControl1;
         private ToolStripSeparator toolStripSeparator1;
-        private ToolStripDropDownButton buttonMenuDisplayCurrencies;
         private ToolStripMenuItem menuDisplayCurrencyEur;
         private ToolStripMenuItem menuDisplayCurrencyChf;
         private ToolStripMenuItem menuDisplayCurrencyGbp;
         private ToolStripMenuItem menuDisplayCurrencyBtc;
         private ToolStripMenuItem menuDisplayCurrencyEth;
         private ToolStripMenuItem menuDisplayCurrencyLtc;
-        private ToolStripLabel toolStripLabel1;
         private ToolStripMenuItem toolStripMenuFiat;
         private ToolStripMenuItem toolStripMenuCrypto;
         private ToolStripButton buttonSmartContracts;
@@ -448,5 +497,14 @@
         private ToolStripMenuItem buttonToolsOpenDbFolder;
         private ToolStripSeparator toolStripSeparator3;
         private ToolStripMenuItem buttonToolsAddressConverter;
+        private ToolStripDropDownButton buttonSettings;
+        private ToolStripMenuItem settingMenuDisplayCurrencies;
+        private ToolStripMenuItem settingMenuIncomingSound;
+        private ToolStripMenuItem menuIncomingSoundNone;
+        private ToolStripMenuItem menuIncomingSoundMoneyCounter;
+        private ToolStripMenuItem menuIncomingSoundKaChing;
+        private ToolStripMenuItem menuIncomingSoundCoinsInJar;
+        private ToolStripDropDownButton buttonAbout;
+        private ToolStripMenuItem menuApplicationInfo;
     }
 }
