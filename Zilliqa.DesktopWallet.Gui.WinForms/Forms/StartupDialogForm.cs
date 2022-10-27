@@ -51,7 +51,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                 {
                     var snapshotInfo = RepositoryManager.Instance.WalletWebClient.GetSnapshotInfo();
                     if (snapshotInfo != null
-                        && snapshotInfo.AppVersion == ApplicationInfo.ApplicationVersion
+                        && snapshotInfo.AppVersion <= ApplicationInfo.ApplicationVersion
                         && snapshotInfo.TimestampUtc > (CrawlerStateDat.Instance.NewestBlockDate?.AddDays(1) ?? DateTime.MinValue))
                     {
                         return DownloadSnapshotForm.Execute(this, snapshotInfo);

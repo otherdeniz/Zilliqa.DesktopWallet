@@ -80,7 +80,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyBtc)]
         public decimal? ValueBtc { get; private set; }
 
-        [DisplayName("Value EUR")]
+        [DisplayName("Value ETH")]
         [GridViewFormat("#,##0.00000 ETH")]
         [GridViewBackground(KnownColor.SkyBlue)]
         [GridViewDynamicColumn(DynamicColumnCategory.CurrencyEth)]

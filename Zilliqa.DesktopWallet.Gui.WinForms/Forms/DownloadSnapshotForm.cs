@@ -94,7 +94,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                             {
                                 isCompleted = true;
                             }
-                        } while (!isCompleted || _cancelDownload);
+                        } while (!_cancelDownload && !isCompleted);
                         downloadStream.Close();
                     }
                     if (_cancelDownload)
