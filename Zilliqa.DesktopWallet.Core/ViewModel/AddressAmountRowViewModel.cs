@@ -12,7 +12,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public AddressAmountRowViewModel(string addressHex, decimal amount, decimal share)
         {
             AddressHex = addressHex;
-            AddressText = new AddressValue(addressHex).ToString();
+            AddressText = AddressValue.TryParse(addressHex, out var addressValue) 
+                ? addressValue!.ToString() 
+                : addressHex;
             Amount = amount;
             Share = share;
         }

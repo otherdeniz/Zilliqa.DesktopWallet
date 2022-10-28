@@ -67,7 +67,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 {
                     Address = bech32,
                     Category = category,
-                    Name = name
+                    Name = name ?? "(no name)"
                 });
             }
         }
