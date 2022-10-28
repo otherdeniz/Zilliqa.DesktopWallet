@@ -185,7 +185,6 @@
             this.buttonSettings.Name = "buttonSettings";
             this.buttonSettings.Size = new System.Drawing.Size(86, 28);
             this.buttonSettings.Text = "Settings";
-            this.buttonSettings.Click += new System.EventHandler(this.buttonSettings_Click);
             // 
             // settingMenuDisplayCurrencies
             // 

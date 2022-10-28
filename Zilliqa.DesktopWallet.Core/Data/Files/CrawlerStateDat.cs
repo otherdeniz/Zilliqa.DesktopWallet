@@ -10,6 +10,11 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
 
         public static CrawlerStateDat Instance => _instance ??= Load<CrawlerStateDat>(DataPathBuilder.AppDataRoot);
 
+        public static void ReloadInstance()
+        {
+            _instance = Load<CrawlerStateDat>(DataPathBuilder.AppDataRoot);
+        }
+
         #region Fields
 
         public CrawlerByBlockState TransactionCrawler { get; set; } = new();

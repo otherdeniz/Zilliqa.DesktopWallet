@@ -139,6 +139,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                     }
                     File.Delete(downloadFile);
 
+                    // reload blockchain data
+                    CrawlerStateDat.ReloadInstance();
+
                     // finished
                     WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                     {
