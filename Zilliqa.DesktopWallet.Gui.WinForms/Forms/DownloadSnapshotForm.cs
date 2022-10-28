@@ -3,6 +3,7 @@ using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Data.Files;
 using Zilliqa.DesktopWallet.Core.Repository;
+using Zilliqa.DesktopWallet.Core.ZilligraphDb;
 using Zilliqa.DesktopWallet.WebContract;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
@@ -141,6 +142,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
                     // reload blockchain data
                     CrawlerStateDat.ReloadInstance();
+                    ZilliqaBlockchainCrawler.Instance.ReloadBlockchainStatusFromDisk();
 
                     // finished
                     WinFormsSynchronisationContext.ExecuteSynchronized(() =>

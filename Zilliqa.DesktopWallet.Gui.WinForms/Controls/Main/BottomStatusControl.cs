@@ -12,6 +12,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             InitializeComponent();
         }
 
+        public void StartRefresh()
+        {
+            timerRefresh.Enabled = true;
+            timerRefreshDbSize.Enabled = true;
+        }
+
         public void StopRefresh()
         {
             timerRefresh.Enabled = false;
@@ -82,11 +88,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 
         private void BottomStatusControl_Load(object sender, EventArgs e)
         {
-            if (!DesignMode)
-            {
-                timerRefresh.Enabled = true;
-                timerRefreshDbSize.Enabled = true;
-            }
         }
 
         private void buttonStart_Click(object sender, EventArgs e)

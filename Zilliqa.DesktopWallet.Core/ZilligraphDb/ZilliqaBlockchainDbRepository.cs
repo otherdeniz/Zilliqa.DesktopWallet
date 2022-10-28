@@ -1,7 +1,6 @@
 ﻿using Zillifriends.Shared.Common;
 using Zilligraph.Database.Storage;
 using Zilligraph.Database.Storage.FilterQuery;
-using Zilligraph.Database.Storage.Index;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;

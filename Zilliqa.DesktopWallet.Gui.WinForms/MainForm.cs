@@ -69,6 +69,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
                 Close();
                 return;
             }
+            panelBottom.Visible = true;
+            bottomStatusControl1.StartRefresh();
             if (LoadWallet())
             {
                 buttonWallet_Click(this, EventArgs.Empty);

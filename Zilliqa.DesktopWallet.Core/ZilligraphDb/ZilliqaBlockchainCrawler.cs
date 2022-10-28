@@ -33,6 +33,12 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
 
         public DateTime? LastDownloadedBlockdate { get; private set; } = CrawlerStateDat.Instance.NewestBlockDate?.ToLocalTime();
 
+        public void ReloadBlockchainStatusFromDisk()
+        {
+            LastDownloadedBlockdate = CrawlerStateDat.Instance.NewestBlockDate?.ToLocalTime();
+            SetNumberOfBlocksProcessed();
+        }
+
         public void Start(int startupDelaySeconds = 5)
         {
             if (RunningState == RunningState.Stopped)
