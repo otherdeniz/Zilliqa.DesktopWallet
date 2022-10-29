@@ -7,7 +7,8 @@ namespace Zilliqa.DesktopWallet.Core.Services
 {
     public class StartupService
     {
-        public static StartupService Instance { get; } = new();
+        private static StartupService? _instance;
+        public static StartupService Instance => _instance ??= new StartupService();
 
         private readonly List<IZilligraphTable> _zilligraphTables = new();
         
@@ -95,6 +96,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
 
         public void Shutdown()
         {
+            NotificationService.Instance.UnregisterEventNotificators();
             ZilliqaBlockchainCrawler.Instance.Stop(true);
             RepositoryManager.Instance.Shutdown();
         }

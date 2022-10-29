@@ -1,16 +1,37 @@
 ﻿using System.Collections;
+using System.ComponentModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls
 {
     public partial class HighlitableBaseControl : UserControl
     {
         private bool _isSelected;
+        private Color? _unselectedBackColor;
 
         public HighlitableBaseControl()
         {
             InitializeComponent();
         }
 
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DefaultValue(null)]
+        public Color? UnselectedBackColor
+        {
+            get => _unselectedBackColor;
+            set
+            {
+                _unselectedBackColor = value;
+                if (!IsSelected && !IsHover && value != null)
+                {
+                    BackColor = value.Value;
+                }
+            }
+        }
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DefaultValue(false)]
         public bool IsSelected
         {
             get => _isSelected;
@@ -21,6 +42,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls
             }
         }
 
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DefaultValue(false)]
+        public bool IsHover { get; set; }
+
         protected virtual void ClickAction()
         {
             // to override
@@ -30,12 +56,14 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls
         {
             if (_isSelected)
             {
+                IsHover = false;
                 this.BackColor = GuiColors.SelectedBackColor;
             }
             else
             {
                 var isMouseOver = ClientRectangle.Contains(PointToClient(MousePosition));
-                BackColor = isMouseOver ? GuiColors.HoverBackColor : GuiColors.DefaultBackColor;
+                IsHover = isMouseOver;
+                BackColor = isMouseOver ? GuiColors.HoverBackColor : UnselectedBackColor ?? GuiColors.DefaultBackColor;
             }
         }
 

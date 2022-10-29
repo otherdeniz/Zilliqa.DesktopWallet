@@ -70,10 +70,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
                 return;
             }
             panelBottom.Visible = true;
-            bottomStatusControl1.StartRefresh();
+            bottomStatus.StartRefresh();
             if (LoadWallet())
             {
                 buttonWallet_Click(this, EventArgs.Empty);
+                NotificationService.Instance.RegisterEventNotificators();
             }
             else
             {
@@ -97,6 +98,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
                 panelMain.BackgroundImage = ImageResources.Zilliqa_icon_512_testnet;
             }
             InitDisplayedCurrencies();
+            LoadSettingIncomingSound();
             var screen = Screen.FromControl(this);
             var formWidth = Convert.ToInt32(Convert.ToDecimal(screen.Bounds.Width) * 0.85m);
             if (formWidth > 2000)
@@ -119,7 +121,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
         {
             mainWalletControl.Initialize();
             ShowMainControl(() => mainWalletControl, buttonWallet);
-
         }
 
         private void buttonBlockchain_Click(object sender, EventArgs e)
@@ -206,7 +207,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
                 this.Enabled = false;
 
                 // stop all refresh Timers
-                bottomStatusControl1.StopRefresh();
+                bottomStatus.StopRefresh();
 
                 // shutdown dialog does all the rest
                 _shutdownDialogForm = new ShutdownDialogForm();
@@ -224,6 +225,15 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             menuDisplayCurrencyBtc.Checked = currentDisplay.DisplayBtc;
             menuDisplayCurrencyEth.Checked = currentDisplay.DisplayEth;
             menuDisplayCurrencyLtc.Checked = currentDisplay.DisplayLtc;
+        }
+
+        private void LoadSettingIncomingSound()
+        {
+            var currentSound = SettingsFile.Instance.IncomingSound;
+            menuIncomingSoundNone.Checked = currentSound == "";
+            menuIncomingSoundMoneyCounter.Checked = currentSound == SettingsFile.IncomingSounds.MoneyCounter;
+            menuIncomingSoundKaChing.Checked = currentSound == SettingsFile.IncomingSounds.KaChing;
+            menuIncomingSoundCoinDrop.Checked = currentSound == SettingsFile.IncomingSounds.CoinDrop;
         }
 
         private void menuDisplayCurrencyEur_Click(object sender, EventArgs e)
@@ -324,6 +334,38 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
         {
             var form = new AddressConverterToolForm();
             form.Show(this);
+        }
+
+        private void menuIncomingSoundNone_Click(object sender, EventArgs e)
+        {
+            SettingsFile.Instance.IncomingSound = "";
+            SettingsFile.Instance.Save();
+            LoadSettingIncomingSound();
+        }
+
+        private void menuIncomingSoundMoneyCounter_Click(object sender, EventArgs e)
+        {
+            SettingsFile.Instance.IncomingSound = SettingsFile.IncomingSounds.MoneyCounter;
+            SettingsFile.Instance.Save();
+            SoundPlayer.PlaySound(SettingsFile.Instance.IncomingSound);
+            LoadSettingIncomingSound();
+
+        }
+
+        private void menuIncomingSoundKaChing_Click(object sender, EventArgs e)
+        {
+            SettingsFile.Instance.IncomingSound = SettingsFile.IncomingSounds.KaChing;
+            SettingsFile.Instance.Save();
+            SoundPlayer.PlaySound(SettingsFile.Instance.IncomingSound);
+            LoadSettingIncomingSound();
+        }
+
+        private void menuIncomingSoundCoinDrop_Click(object sender, EventArgs e)
+        {
+            SettingsFile.Instance.IncomingSound = SettingsFile.IncomingSounds.CoinDrop;
+            SettingsFile.Instance.Save();
+            SoundPlayer.PlaySound(SettingsFile.Instance.IncomingSound);
+            LoadSettingIncomingSound();
         }
     }
 }

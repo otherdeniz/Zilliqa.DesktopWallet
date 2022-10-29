@@ -28,10 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.components = new System.ComponentModel.Container();
+            this.timerRefresh = new System.Windows.Forms.Timer(this.components);
+            this.SuspendLayout();
+            // 
+            // timerRefresh
+            // 
+            this.timerRefresh.Interval = 500;
+            this.timerRefresh.Tick += new System.EventHandler(this.timerRefresh_Tick);
+            // 
+            // BottomNotificationsControl
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Name = "BottomNotificationsControl";
+            this.Size = new System.Drawing.Size(533, 138);
+            this.Load += new System.EventHandler(this.BottomNotificationsControl_Load);
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Timer timerRefresh;
     }
 }

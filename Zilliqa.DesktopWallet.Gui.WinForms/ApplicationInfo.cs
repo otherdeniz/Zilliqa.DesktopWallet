@@ -16,6 +16,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
 
         public static decimal ApplicationVersion => ApplicationVersionLazy.Value;
 
+        public static string ApplicationPath =>
+            new FileInfo(typeof(ApplicationInfo).Assembly.Location).Directory!.FullName;
+
         public static bool IsBeta => true;
 
         public static bool IsTestnet => ZilliqaClient.UseTestnet;

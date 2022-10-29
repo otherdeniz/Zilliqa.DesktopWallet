@@ -4,7 +4,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
 {
     public class BlockchainBrowserRepository : ZilliqaApiClientRepositoryBase
     {
-        public event EventHandler<EventArgs> AfterRefresh;
+        public event EventHandler<EventArgs>? AfterRefresh;
 
         public BlockchainInfo BlockchainInfo { get; private set; } = new();
 

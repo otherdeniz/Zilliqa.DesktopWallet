@@ -8,21 +8,26 @@ namespace Zilliqa.DesktopWallet.Core.Repository
 {
     public class WalletRepository : IDisposable
     {
-        private readonly List<AccountViewModel> _myAccountsList = new List<AccountViewModel>();
-        private readonly List<AccountViewModel> _watchedAccountsList = new List<AccountViewModel>();
+        private readonly List<AccountViewModel> _myAccountsList = new();
+        private readonly List<AccountViewModel> _watchedAccountsList = new();
+        private readonly Dictionary<string, AccountViewModel> _accountsByAddress = new();
 
         public WalletRepository()
         {
             WalletDat.Instance.MyAccounts.ForEach(a =>
             {
                 KnownAddressService.Instance.AddUnique(a.GetAddressBech32(), "Account", a.Name);
-                _myAccountsList.Add(new AccountViewModel(a, OnAccountChanged, true));
+                var accountViewModel = new AccountViewModel(a, OnAccountChanged, true);
+                AddAccountToDictionary(accountViewModel);
+                _myAccountsList.Add(accountViewModel);
             });
             MyAccounts = new ReadOnlyCollection<AccountViewModel>(_myAccountsList);
             WalletDat.Instance.WatchedAccounts.ForEach(a =>
             {
                 KnownAddressService.Instance.AddUnique(a.GetAddressBech32(), "Account", a.Name);
-                _watchedAccountsList.Add(new AccountViewModel(a, OnAccountChanged, true));
+                var accountViewModel = new AccountViewModel(a, OnAccountChanged, true);
+                AddAccountToDictionary(accountViewModel);
+                _watchedAccountsList.Add(accountViewModel);
             });
             WatchedAccounts = new ReadOnlyCollection<AccountViewModel>(_watchedAccountsList);
         }
@@ -40,20 +45,33 @@ namespace Zilliqa.DesktopWallet.Core.Repository
             if (account is MyAccount myAccount)
             {
                 WalletDat.Instance.MyAccounts.Add(myAccount);
-                _myAccountsList.Add(new AccountViewModel(account, OnAccountChanged, true));
+                var accountViewModel = new AccountViewModel(account, OnAccountChanged, true);
+                AddAccountToDictionary(accountViewModel);
+                _myAccountsList.Add(accountViewModel);
             }
             else if (account is WatchedAccount watchedAccount)
             {
                 WalletDat.Instance.WatchedAccounts.Add(watchedAccount);
-                _watchedAccountsList.Add(new AccountViewModel(account, OnAccountChanged, true));
+                var accountViewModel = new AccountViewModel(account, OnAccountChanged, true);
+                AddAccountToDictionary(accountViewModel);
+                _watchedAccountsList.Add(accountViewModel);
             }
             else
             {
                 throw new NotSupportedException("Account type not supported");
             }
+
             KnownAddressService.Instance.AddUnique(account.GetAddressBech32(), "Account", account.Name);
             WalletDat.Instance.Save();
             AccountsListChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void AddAccountToDictionary(AccountViewModel accountViewModel)
+        {
+            if (!_accountsByAddress.ContainsKey(accountViewModel.AddressHex))
+            {
+                _accountsByAddress.Add(accountViewModel.AddressHex, accountViewModel);
+            }
         }
 
         public void RemoveAccount(string id)
@@ -62,6 +80,7 @@ namespace Zilliqa.DesktopWallet.Core.Repository
             {
                 if (_myAccountsList[i].AccountData.Id == id)
                 {
+                    RemoveAccountFromDictionary(_myAccountsList[i]);
                     _myAccountsList.RemoveAt(i);
                     WalletDat.Instance.MyAccounts.RemoveAt(i);
                     WalletDat.Instance.Save();
@@ -69,10 +88,12 @@ namespace Zilliqa.DesktopWallet.Core.Repository
                     return;
                 }
             }
+
             for (int i = 0; i < _watchedAccountsList.Count; i++)
             {
                 if (_watchedAccountsList[i].AccountData.Id == id)
                 {
+                    RemoveAccountFromDictionary(_watchedAccountsList[i]);
                     _watchedAccountsList.RemoveAt(i);
                     WalletDat.Instance.WatchedAccounts.RemoveAt(i);
                     WalletDat.Instance.Save();
@@ -82,8 +103,25 @@ namespace Zilliqa.DesktopWallet.Core.Repository
             }
         }
 
+        private void RemoveAccountFromDictionary(AccountViewModel accountViewModel)
+        {
+            if (_accountsByAddress.ContainsKey(accountViewModel.AddressHex))
+            {
+                _accountsByAddress.Remove(accountViewModel.AddressHex);
+            }
+        }
+
+        public AccountViewModel? FindAccount(string? addressHex)
+        {
+            if (addressHex == null) return null;
+            return _accountsByAddress.TryGetValue(addressHex, out var accountViewModel) 
+                ? accountViewModel 
+                : null;
+        }
+
         public void Dispose()
         {
+            _accountsByAddress.Clear();
             _myAccountsList.ForEach(a => a.Dispose());
             _myAccountsList.Clear();
             _watchedAccountsList.ForEach(a => a.Dispose());

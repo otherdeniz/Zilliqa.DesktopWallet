@@ -54,7 +54,7 @@
             this.menuIncomingSoundNone = new System.Windows.Forms.ToolStripMenuItem();
             this.menuIncomingSoundMoneyCounter = new System.Windows.Forms.ToolStripMenuItem();
             this.menuIncomingSoundKaChing = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuIncomingSoundCoinsInJar = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuIncomingSoundCoinDrop = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonAbout = new System.Windows.Forms.ToolStripDropDownButton();
             this.menuApplicationInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonMenuTools = new System.Windows.Forms.ToolStripDropDownButton();
@@ -66,10 +66,10 @@
             this.mainWalletControl = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.MainWalletControl();
             this.panelBottom = new System.Windows.Forms.Panel();
             this.groupBoxNotifications = new System.Windows.Forms.GroupBox();
-            this.panelNotifications = new System.Windows.Forms.Panel();
             this.groupBoxStatus = new System.Windows.Forms.GroupBox();
-            this.bottomStatusControl1 = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.BottomStatusControl();
+            this.bottomStatus = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.BottomStatusControl();
             this.timerInit = new System.Windows.Forms.Timer(this.components);
+            this.bottomNotifications = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.BottomNotificationsControl();
             this.toolStripMain.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.panelBottom.SuspendLayout();
@@ -265,35 +265,38 @@
             this.menuIncomingSoundNone,
             this.menuIncomingSoundMoneyCounter,
             this.menuIncomingSoundKaChing,
-            this.menuIncomingSoundCoinsInJar});
+            this.menuIncomingSoundCoinDrop});
             this.settingMenuIncomingSound.Name = "settingMenuIncomingSound";
             this.settingMenuIncomingSound.Size = new System.Drawing.Size(227, 22);
             this.settingMenuIncomingSound.Text = "Incoming transaction sound";
-            this.settingMenuIncomingSound.Visible = false;
             // 
             // menuIncomingSoundNone
             // 
             this.menuIncomingSoundNone.Name = "menuIncomingSoundNone";
-            this.menuIncomingSoundNone.Size = new System.Drawing.Size(171, 22);
+            this.menuIncomingSoundNone.Size = new System.Drawing.Size(180, 22);
             this.menuIncomingSoundNone.Text = "None";
+            this.menuIncomingSoundNone.Click += new System.EventHandler(this.menuIncomingSoundNone_Click);
             // 
             // menuIncomingSoundMoneyCounter
             // 
             this.menuIncomingSoundMoneyCounter.Name = "menuIncomingSoundMoneyCounter";
-            this.menuIncomingSoundMoneyCounter.Size = new System.Drawing.Size(171, 22);
+            this.menuIncomingSoundMoneyCounter.Size = new System.Drawing.Size(180, 22);
             this.menuIncomingSoundMoneyCounter.Text = "Money counter";
+            this.menuIncomingSoundMoneyCounter.Click += new System.EventHandler(this.menuIncomingSoundMoneyCounter_Click);
             // 
             // menuIncomingSoundKaChing
             // 
             this.menuIncomingSoundKaChing.Name = "menuIncomingSoundKaChing";
-            this.menuIncomingSoundKaChing.Size = new System.Drawing.Size(171, 22);
+            this.menuIncomingSoundKaChing.Size = new System.Drawing.Size(180, 22);
             this.menuIncomingSoundKaChing.Text = "Cashier (ka-ching)";
+            this.menuIncomingSoundKaChing.Click += new System.EventHandler(this.menuIncomingSoundKaChing_Click);
             // 
-            // menuIncomingSoundCoinsInJar
+            // menuIncomingSoundCoinDrop
             // 
-            this.menuIncomingSoundCoinsInJar.Name = "menuIncomingSoundCoinsInJar";
-            this.menuIncomingSoundCoinsInJar.Size = new System.Drawing.Size(171, 22);
-            this.menuIncomingSoundCoinsInJar.Text = "Coins in Jar";
+            this.menuIncomingSoundCoinDrop.Name = "menuIncomingSoundCoinDrop";
+            this.menuIncomingSoundCoinDrop.Size = new System.Drawing.Size(180, 22);
+            this.menuIncomingSoundCoinDrop.Text = "Coin drop";
+            this.menuIncomingSoundCoinDrop.Click += new System.EventHandler(this.menuIncomingSoundCoinDrop_Click);
             // 
             // buttonAbout
             // 
@@ -392,7 +395,7 @@
             // 
             // groupBoxNotifications
             // 
-            this.groupBoxNotifications.Controls.Add(this.panelNotifications);
+            this.groupBoxNotifications.Controls.Add(this.bottomNotifications);
             this.groupBoxNotifications.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxNotifications.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.groupBoxNotifications.Location = new System.Drawing.Point(302, 0);
@@ -402,18 +405,9 @@
             this.groupBoxNotifications.TabStop = false;
             this.groupBoxNotifications.Text = "Notifications";
             // 
-            // panelNotifications
-            // 
-            this.panelNotifications.AutoScroll = true;
-            this.panelNotifications.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelNotifications.Location = new System.Drawing.Point(3, 19);
-            this.panelNotifications.Name = "panelNotifications";
-            this.panelNotifications.Size = new System.Drawing.Size(931, 138);
-            this.panelNotifications.TabIndex = 0;
-            // 
             // groupBoxStatus
             // 
-            this.groupBoxStatus.Controls.Add(this.bottomStatusControl1);
+            this.groupBoxStatus.Controls.Add(this.bottomStatus);
             this.groupBoxStatus.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBoxStatus.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.groupBoxStatus.Location = new System.Drawing.Point(0, 0);
@@ -423,21 +417,30 @@
             this.groupBoxStatus.TabStop = false;
             this.groupBoxStatus.Text = "Blockchain Status";
             // 
-            // bottomStatusControl1
+            // bottomStatus
             // 
-            this.bottomStatusControl1.BackColor = System.Drawing.Color.White;
-            this.bottomStatusControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bottomStatusControl1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.bottomStatusControl1.Location = new System.Drawing.Point(3, 19);
-            this.bottomStatusControl1.Name = "bottomStatusControl1";
-            this.bottomStatusControl1.Size = new System.Drawing.Size(296, 138);
-            this.bottomStatusControl1.TabIndex = 0;
+            this.bottomStatus.BackColor = System.Drawing.Color.White;
+            this.bottomStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.bottomStatus.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.bottomStatus.Location = new System.Drawing.Point(3, 19);
+            this.bottomStatus.Name = "bottomStatus";
+            this.bottomStatus.Size = new System.Drawing.Size(296, 138);
+            this.bottomStatus.TabIndex = 0;
             // 
             // timerInit
             // 
             this.timerInit.Enabled = true;
             this.timerInit.Interval = 10;
             this.timerInit.Tick += new System.EventHandler(this.timerInit_Tick);
+            // 
+            // bottomNotifications
+            // 
+            this.bottomNotifications.BackColor = System.Drawing.Color.White;
+            this.bottomNotifications.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.bottomNotifications.Location = new System.Drawing.Point(3, 19);
+            this.bottomNotifications.Name = "bottomNotifications";
+            this.bottomNotifications.Size = new System.Drawing.Size(931, 138);
+            this.bottomNotifications.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -476,10 +479,9 @@
         private Controls.Main.MainWalletControl mainWalletControl;
         private Panel panelBottom;
         private GroupBox groupBoxNotifications;
-        private Panel panelNotifications;
         private GroupBox groupBoxStatus;
         private System.Windows.Forms.Timer timerInit;
-        private Controls.Main.BottomStatusControl bottomStatusControl1;
+        private Controls.Main.BottomStatusControl bottomStatus;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem menuDisplayCurrencyEur;
         private ToolStripMenuItem menuDisplayCurrencyChf;
@@ -503,8 +505,9 @@
         private ToolStripMenuItem menuIncomingSoundNone;
         private ToolStripMenuItem menuIncomingSoundMoneyCounter;
         private ToolStripMenuItem menuIncomingSoundKaChing;
-        private ToolStripMenuItem menuIncomingSoundCoinsInJar;
+        private ToolStripMenuItem menuIncomingSoundCoinDrop;
         private ToolStripDropDownButton buttonAbout;
         private ToolStripMenuItem menuApplicationInfo;
+        private Controls.Main.BottomNotificationsControl bottomNotifications;
     }
 }

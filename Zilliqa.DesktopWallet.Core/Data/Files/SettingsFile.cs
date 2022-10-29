@@ -12,10 +12,6 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
 
         #region Fields
 
-        public bool UseCustomViewBlockApiKey { get; set; }
-
-        public string ViewBlockApiKey { get; set; } = string.Empty;
-
         public DisplayCurrenciesModel DisplayCurrencies { get; set; } = new();
 
         public string IncomingSound { get; set; } = IncomingSounds.MoneyCounter;
@@ -27,6 +23,7 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
             public static readonly string MoneyCounter = "money-counter";
             public static readonly string KaChing = "ka-ching";
             public static readonly string CoinsInJar = "coins-in-jar";
+            public static readonly string CoinDrop = "coin-drop";
         }
     }
 }
