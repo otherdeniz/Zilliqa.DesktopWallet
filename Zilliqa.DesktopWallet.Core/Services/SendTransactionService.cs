@@ -175,7 +175,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                     {
                         Type = ParamTypes.ByStr20,
                         Vname = "to",
-                        Value = toAddress.Address.GetBase16(false)
+                        Value = toAddress.Address.GetBase16(true)
                     }
                 });
         }

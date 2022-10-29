@@ -43,7 +43,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                     var tokenModel = TokenDataService.Instance.FindTokenByAddress(t.ToAddress);
                     if (tokenModel != null)
                     {
-                        var account = walletRepo.FindAccount(t.ToAddress)!;
+                        var account = walletRepo.FindAccount(t.TokenTransferRecipient())!;
                         IncomingTokenTransaction?.Invoke(this,
                             new IncominTokenTransactionEventArgs(account, new TokenTransactionRowViewModel(account.Address, t, tokenModel)));
                     }

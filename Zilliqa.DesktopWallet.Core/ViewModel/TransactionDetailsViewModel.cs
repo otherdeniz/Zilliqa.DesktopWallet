@@ -13,26 +13,35 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
     public class TransactionDetailsViewModel
     {
         private readonly ContractCallAmountInfo? _contractCallAmountInfo;
+        private readonly SmartContract? _deployedSmartContract;
 
         public TransactionDetailsViewModel(Transaction transactionModel)
         {
             TransactionModel = transactionModel;
-            var tokenTransferRecipient = TransactionModel.TokenTransferRecipient();
-            if (tokenTransferRecipient == null)
+            if (TransactionModel.TransactionTypeEnum == TransactionType.ContractDeployment)
             {
-                if (TransactionModel.TransactionTypeEnum == TransactionType.ContractCall)
+                _deployedSmartContract = transactionModel.DeployedSmartContract();
+                if (_deployedSmartContract != null)
+                {
+                    ContractAddress = new AddressValue(_deployedSmartContract.ContractAddress);
+                }
+            }
+            else if (TransactionModel.TransactionTypeEnum == TransactionType.ContractCall)
+            {
+                var tokenTransferRecipient = TransactionModel.TokenTransferRecipient();
+                if (tokenTransferRecipient != null)
                 {
                     ContractAddress = new AddressValue(TransactionModel.ToAddress);
+                    RecipientAddress = new AddressValue(tokenTransferRecipient);
                 }
                 else
                 {
-                    RecipientAddress = new AddressValue(TransactionModel.ToAddress);
+                    ContractAddress = new AddressValue(TransactionModel.ToAddress);
                 }
             }
             else
             {
-                ContractAddress = new AddressValue(TransactionModel.ToAddress);
-                RecipientAddress = new AddressValue(tokenTransferRecipient);
+                RecipientAddress = new AddressValue(TransactionModel.ToAddress);
             }
             if (ContractAddress != null 
                 && ContractCallAmountInfo.TryParse(transactionModel, out var callInfo))
@@ -117,6 +126,9 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
 
         [DetailsChildProperties("Contract Parameters")]
         public List<DataParam> DataParams => TransactionModel.DataContractCall.Params;
+
+        [DetailsChildProperties("Deployment Parameters")]
+        public List<DataParam> ContractDeploymentParams => TransactionModel.DataContractDeploymentParams;
 
         [DetailsProperty]
         [DisplayName("ZIL Amount")]

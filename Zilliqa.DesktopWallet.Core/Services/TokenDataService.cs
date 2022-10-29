@@ -43,7 +43,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                                              && !string.IsNullOrEmpty(a.Name)
                                              && a.Symbol.ToLower() != "zil"))
                     {
-                        var tokenModel = tokenModels.FirstOrDefault(t => t.Symbol == cryptometaAsset.Symbol);
+                        var tokenModel = tokenModels.FirstOrDefault(t => t.Symbol.ToLower() == cryptometaAsset.Symbol.ToLower());
                         if (tokenModel == null)
                         {
                             tokenModel = new TokenModel
@@ -63,9 +63,8 @@ namespace Zilliqa.DesktopWallet.Core.Services
                                  .Where(sc => !string.IsNullOrEmpty(sc.TokenSymbol()) 
                                               && sc.TokenSymbol()?.ToLower() != "zil"))
                     {
-                        var contractSymbol = smartContract.TokenSymbol();
-                        //var contractAddressBech32 = smartContract.ContractAddress.FromBase16ToBech32Address();
-                        var tokenModel = tokenModels.FirstOrDefault(t => t.Symbol == contractSymbol);
+                        var contractSymbol = smartContract.TokenSymbol()!;
+                        var tokenModel = tokenModels.FirstOrDefault(t => t.Symbol.ToLower() == contractSymbol.ToLower());
                         if (tokenModel == null)
                         {
                             tokenModel = new TokenModel
@@ -77,8 +76,6 @@ namespace Zilliqa.DesktopWallet.Core.Services
                             tokenModels.Add(tokenModel);
                             tokenModel.SmartContractModels.Add(smartContract);
                         }
-                        //else if (tokenModel.SmartContractModels.Any(s => s.OwnerAddress == smartContract.OwnerAddress) 
-                        //         || CryptometaFile.Instance.Assets.Any(a => a.Bech32Address == contractAddressBech32 && a.Symbol == tokenModel.Symbol))
                         else
                         {
                             tokenModel.SmartContractModels.Add(smartContract);

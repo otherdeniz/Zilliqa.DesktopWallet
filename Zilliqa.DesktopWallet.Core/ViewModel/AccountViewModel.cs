@@ -5,6 +5,7 @@ using Zilligraph.Database.Storage.FilterQuery;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.ApiClient.Enums;
 using Zilliqa.DesktopWallet.Core.Data.Model;
+using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ViewModel.DataSource;
@@ -300,43 +301,71 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             bool updateValueProperties,
             bool addOnWinFormsThread)
         {
-            if (transaction.TransactionTypeEnum != TransactionType.ContractCall) return;
-
-            // TODO: get Minted from Transition as well (is better)
-            // Event "Minted"
-            if (transaction.Receipt.EventLogs?.FirstOrDefault(e => e.Eventname == "Minted")
-                is { } mintedEvent
-                && mintedEvent.Params.FirstOrDefault(p => p.Vname == "amount")?.ResolvedValue 
-                    is ParamValueBigInteger paramValueMintedAmount)
+            if (transaction.TransactionFailed) return;
+            if (transaction.TransactionTypeEnum == TransactionType.ContractCall)
             {
-                var tokenByAddress = TokenDataService.Instance.FindTokenByAddress(mintedEvent.Address);
-                if (tokenByAddress != null)
+                // TODO: get Minted from Transition as well (is better)
+                // Event "Minted"
+                if (transaction.Receipt.EventLogs?.FirstOrDefault(e => e.Eventname == "Minted")
+                    is { } mintedEvent
+                    && mintedEvent.Params.FirstOrDefault(p => p.Vname == "amount")?.ResolvedValue
+                        is ParamValueBigInteger paramValueMintedAmount)
                 {
-                    var tokenBalance = GetOrAddTokenBalance(list, tokenByAddress, addOnWinFormsThread);
-                    tokenBalance.Transactions += 1;
-                    tokenBalance.Balance += tokenByAddress.SmartContract.AmountToDecimal(paramValueMintedAmount.NumberBig);
-                    if (updateValueProperties)
+                    var tokenByAddress = TokenDataService.Instance.FindTokenByAddress(mintedEvent.Address);
+                    if (tokenByAddress != null)
                     {
-                        tokenBalance.UpdateValuesProperties(true, RefreshTokenBalances);
+                        var tokenBalance = GetOrAddTokenBalance(list, tokenByAddress, addOnWinFormsThread);
+                        tokenBalance.Transactions += 1;
+                        tokenBalance.Balance += tokenByAddress.SmartContract.AmountToDecimal(paramValueMintedAmount.NumberBig);
+                        if (updateValueProperties)
+                        {
+                            tokenBalance.UpdateValuesProperties(true, RefreshTokenBalances);
+                        }
+                    }
+
+                }
+                // Transition "Transfer"
+                else if (transaction.Receipt.Transitions?.FirstOrDefault(t => t.Msg.Tag == "Transfer")
+                             is { } transferTransition
+                         && transferTransition.Msg.Params?.FirstOrDefault(t => t.Vname == "amount")?.ResolvedValue
+                             is ParamValueBigInteger paramTokenAmount)
+                {
+                    var tokenByAddress = TokenDataService.Instance.FindTokenByAddress(transferTransition.Msg.Recipient);
+                    if (tokenByAddress != null)
+                    {
+                        var tokenBalance = GetOrAddTokenBalance(list, tokenByAddress, addOnWinFormsThread);
+                        tokenBalance.Transactions += 1;
+                        tokenBalance.Balance += tokenByAddress.SmartContract.AmountToDecimal(paramTokenAmount.NumberBig);
+                        if (updateValueProperties)
+                        {
+                            tokenBalance.UpdateValuesProperties(true, RefreshTokenBalances);
+                        }
                     }
                 }
-
             }
-            // Transition "Transfer"
-            else if (transaction.Receipt.Transitions?.FirstOrDefault(t => t.Msg.Tag == "Transfer")
-                         is { } transferTransition
-                     && transferTransition.Msg.Params?.FirstOrDefault(t => t.Vname == "amount")?.ResolvedValue
-                         is ParamValueBigInteger paramTokenAmount)
+            else if (transaction.TransactionTypeEnum == TransactionType.ContractDeployment)
             {
-                var tokenByAddress = TokenDataService.Instance.FindTokenByAddress(transferTransition.Msg.Recipient);
-                if (tokenByAddress != null)
+                // deploymnet of new Token
+                if (transaction.DataContractDeploymentParams.Any(p => p.Vname == "symbol"))
                 {
-                    var tokenBalance = GetOrAddTokenBalance(list, tokenByAddress, addOnWinFormsThread);
-                    tokenBalance.Transactions += 1;
-                    tokenBalance.Balance += tokenByAddress.SmartContract.AmountToDecimal(paramTokenAmount.NumberBig);
-                    if (updateValueProperties)
+                    var tokenSmartContract = transaction.DeployedSmartContract();
+                    if (tokenSmartContract != null)
                     {
-                        tokenBalance.UpdateValuesProperties(true, RefreshTokenBalances);
+                        var tokenByAddress = TokenDataService.Instance.FindTokenByAddress(tokenSmartContract.ContractAddress);
+                        if (tokenByAddress != null)
+                        {
+                            var initSupply =
+                                transaction.DataContractDeploymentParams.FirstOrDefault(p => p.Vname == "init_supply");
+                            if (initSupply?.ResolvedValue is ParamValueBigInteger initSupplyValue)
+                            {
+                                var tokenBalance = GetOrAddTokenBalance(list, tokenByAddress, addOnWinFormsThread);
+                                tokenBalance.Balance += tokenByAddress.SmartContract.AmountToDecimal(initSupplyValue.NumberBig);
+                                if (updateValueProperties)
+                                {
+                                    tokenBalance.UpdateValuesProperties(true, RefreshTokenBalances);
+                                }
+                            }
+                        }
                     }
                 }
             }

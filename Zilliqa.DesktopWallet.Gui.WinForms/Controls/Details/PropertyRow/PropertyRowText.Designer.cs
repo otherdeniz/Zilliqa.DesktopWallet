@@ -33,11 +33,6 @@
             this.panelValue.SuspendLayout();
             this.SuspendLayout();
             // 
-            // labelName
-            // 
-            this.labelName.Padding = new System.Windows.Forms.Padding(4);
-            this.labelName.Size = new System.Drawing.Size(100, 23);
-            // 
             // textValue
             // 
             this.textValue.BackColor = System.Drawing.Color.White;
@@ -48,6 +43,7 @@
             this.textValue.ReadOnly = true;
             this.textValue.Size = new System.Drawing.Size(345, 16);
             this.textValue.TabIndex = 1;
+            this.textValue.TabStop = false;
             // 
             // panelValue
             // 
@@ -65,7 +61,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panelValue);
             this.Name = "PropertyRowText";
-            this.Size = new System.Drawing.Size(456, 24);
             this.Controls.SetChildIndex(this.panelValue, 0);
             this.panelValue.ResumeLayout(false);
             this.panelValue.PerformLayout();
