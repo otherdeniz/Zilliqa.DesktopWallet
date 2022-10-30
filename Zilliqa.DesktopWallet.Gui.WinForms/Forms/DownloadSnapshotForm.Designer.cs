@@ -424,6 +424,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(424, 224);
+            this.ControlBox = false;
             this.Controls.Add(this.panelDownloadStatus);
             this.Controls.Add(this.panelQuestion);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -432,6 +433,7 @@
             this.MinimizeBox = false;
             this.Name = "DownloadSnapshotForm";
             this.Padding = new System.Windows.Forms.Padding(8);
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Blockchain snapshot download";
             this.panelQuestion.ResumeLayout(false);
