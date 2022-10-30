@@ -99,6 +99,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             }
             InitDisplayedCurrencies();
             LoadSettingIncomingSound();
+            LoadSettingWhales();
             var screen = Screen.FromControl(this);
             var formWidth = Convert.ToInt32(Convert.ToDecimal(screen.Bounds.Width) * 0.85m);
             if (formWidth > 2000)
@@ -236,6 +237,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             menuIncomingSoundCoinDrop.Checked = currentSound == SettingsFile.IncomingSounds.CoinDrop;
         }
 
+        private void LoadSettingWhales()
+        {
+            var currentWhaleNotification = SettingsFile.Instance.WhaleNotificationUsd;
+            settingMenuWhaleNone.Checked = currentWhaleNotification == 0;
+            settingMenuWhale10K.Checked = currentWhaleNotification == 10000;
+            settingMenuWhale50K.Checked = currentWhaleNotification == 50000;
+            settingMenuWhale100K.Checked = currentWhaleNotification == 100000;
+            settingMenuWhale500K.Checked = currentWhaleNotification == 500000;
+        }
+
         private void menuDisplayCurrencyEur_Click(object sender, EventArgs e)
         {
             var display = !menuDisplayCurrencyEur.Checked;
@@ -366,6 +377,47 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             SettingsFile.Instance.Save();
             SoundPlayer.PlaySound(SettingsFile.Instance.IncomingSound);
             LoadSettingIncomingSound();
+        }
+
+        private void buttonToolsSearchWindow_Click(object sender, EventArgs e)
+        {
+            var form = new SearchForm();
+            form.Show(this);
+        }
+
+        private void settingMenuWhaleNone_Click(object sender, EventArgs e)
+        {
+            SettingsFile.Instance.WhaleNotificationUsd = 0;
+            SettingsFile.Instance.Save();
+            LoadSettingWhales();
+        }
+
+        private void settingMenuWhale10K_Click(object sender, EventArgs e)
+        {
+            SettingsFile.Instance.WhaleNotificationUsd = 10000;
+            SettingsFile.Instance.Save();
+            LoadSettingWhales();
+        }
+
+        private void settingMenuWhale50K_Click(object sender, EventArgs e)
+        {
+            SettingsFile.Instance.WhaleNotificationUsd = 50000;
+            SettingsFile.Instance.Save();
+            LoadSettingWhales();
+        }
+
+        private void settingMenuWhale100K_Click(object sender, EventArgs e)
+        {
+            SettingsFile.Instance.WhaleNotificationUsd = 100000;
+            SettingsFile.Instance.Save();
+            LoadSettingWhales();
+        }
+
+        private void settingMenuWhale500K_Click(object sender, EventArgs e)
+        {
+            SettingsFile.Instance.WhaleNotificationUsd = 500000;
+            SettingsFile.Instance.Save();
+            LoadSettingWhales();
         }
     }
 }
