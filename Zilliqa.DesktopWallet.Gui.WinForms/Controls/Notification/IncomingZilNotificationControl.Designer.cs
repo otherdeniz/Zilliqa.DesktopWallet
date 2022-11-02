@@ -35,6 +35,8 @@
             this.labelSender = new System.Windows.Forms.Label();
             this.labelAmount = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.labelValue = new System.Windows.Forms.Label();
+            this.labelValueTitle = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureImage)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,26 +53,26 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(0, 26);
+            this.label1.Location = new System.Drawing.Point(0, 43);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(37, 12);
+            this.label1.Size = new System.Drawing.Size(14, 12);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Account";
+            this.label1.Text = "To";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(0, 43);
+            this.label2.Location = new System.Drawing.Point(0, 26);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(33, 12);
+            this.label2.Size = new System.Drawing.Size(25, 12);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Sender";
+            this.label2.Text = "From";
             // 
             // labelAccount
             // 
             this.labelAccount.AutoSize = true;
-            this.labelAccount.Location = new System.Drawing.Point(45, 25);
+            this.labelAccount.Location = new System.Drawing.Point(45, 42);
             this.labelAccount.Name = "labelAccount";
             this.labelAccount.Size = new System.Drawing.Size(60, 15);
             this.labelAccount.TabIndex = 2;
@@ -79,7 +81,7 @@
             // labelSender
             // 
             this.labelSender.AutoSize = true;
-            this.labelSender.Location = new System.Drawing.Point(45, 42);
+            this.labelSender.Location = new System.Drawing.Point(45, 25);
             this.labelSender.Name = "labelSender";
             this.labelSender.Size = new System.Drawing.Size(51, 15);
             this.labelSender.TabIndex = 2;
@@ -105,10 +107,31 @@
             this.label4.TabIndex = 3;
             this.label4.Text = "Amount";
             // 
+            // labelValue
+            // 
+            this.labelValue.AutoSize = true;
+            this.labelValue.Location = new System.Drawing.Point(45, 77);
+            this.labelValue.Name = "labelValue";
+            this.labelValue.Size = new System.Drawing.Size(43, 15);
+            this.labelValue.TabIndex = 9;
+            this.labelValue.Text = "(Value)";
+            // 
+            // labelValueTitle
+            // 
+            this.labelValueTitle.AutoSize = true;
+            this.labelValueTitle.Font = new System.Drawing.Font("Segoe UI", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelValueTitle.Location = new System.Drawing.Point(0, 78);
+            this.labelValueTitle.Name = "labelValueTitle";
+            this.labelValueTitle.Size = new System.Drawing.Size(22, 12);
+            this.labelValueTitle.TabIndex = 8;
+            this.labelValueTitle.Text = "USD";
+            // 
             // IncomingZilNotificationControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.labelValue);
+            this.Controls.Add(this.labelValueTitle);
             this.Controls.Add(this.labelAmount);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.labelSender);
@@ -123,6 +146,8 @@
             this.Controls.SetChildIndex(this.labelSender, 0);
             this.Controls.SetChildIndex(this.label4, 0);
             this.Controls.SetChildIndex(this.labelAmount, 0);
+            this.Controls.SetChildIndex(this.labelValueTitle, 0);
+            this.Controls.SetChildIndex(this.labelValue, 0);
             ((System.ComponentModel.ISupportInitialize)(this.pictureImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -137,5 +162,7 @@
         private Label labelSender;
         private Label labelAmount;
         private Label label4;
+        private Label labelValue;
+        private Label labelValueTitle;
     }
 }

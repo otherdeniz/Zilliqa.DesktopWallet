@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
 using System.Runtime.Caching;
 using Newtonsoft.Json.Linq;
 using Zillifriends.Shared.Common;
@@ -54,12 +53,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 Tag = "DelegateStake",
                 Params = new List<DataParam>
                 {
-                    new DataParam
-                    {
-                        Vname = "ssnaddr",
-                        Type = ParamTypes.ByStr20,
-                        Value = ssnAddress.Address.GetBase16(true)
-                    }
+                    new ("ssnaddr", ParamTypes.ByStr20, ssnAddress.Address.GetBase16(true))
                 }
             };
             return SendTransactionService.Instance.CallContract(senderAccount, new AddressValue(CurrentProxy.Address),
@@ -74,18 +68,8 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 Tag = "WithdrawStakeAmt",
                 Params = new List<DataParam>
                 {
-                    new DataParam
-                    {
-                        Vname = "ssnaddr",
-                        Type = ParamTypes.ByStr20,
-                        Value = ssnAddress.Address.GetBase16(true)
-                    },
-                    new DataParam
-                    {
-                        Vname = "amt",
-                        Type = ParamTypes.Uint128,
-                        Value = zilAmount.ZilToZilSatoshis().ToString(CultureInfo.InvariantCulture)
-                    }
+                    new ("ssnaddr", ParamTypes.ByStr20, ssnAddress.Address.GetBase16(true)),
+                    new ("amt", ParamTypes.Uint128, zilAmount.ZilToZilSatoshis().ToString(CultureInfo.InvariantCulture))
                 }
             };
             return SendTransactionService.Instance.CallContract(senderAccount, new AddressValue(CurrentProxy.Address),
@@ -99,12 +83,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 Tag = "WithdrawStakeRewards",
                 Params = new List<DataParam>
                 {
-                    new DataParam
-                    {
-                        Vname = "ssnaddr",
-                        Type = ParamTypes.ByStr20,
-                        Value = ssnAddress.Address.GetBase16(true)
-                    }
+                    new ("ssnaddr", ParamTypes.ByStr20, ssnAddress.Address.GetBase16(true))
                 }
             };
             return SendTransactionService.Instance.CallContract(senderAccount, new AddressValue(CurrentProxy.Address), 

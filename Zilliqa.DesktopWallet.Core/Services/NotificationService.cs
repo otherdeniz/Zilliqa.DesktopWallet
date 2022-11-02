@@ -1,4 +1,7 @@
 ﻿using Zilligraph.Database.Storage;
+using Zilliqa.DesktopWallet.ApiClient;
+using Zilliqa.DesktopWallet.Core.Data.Files;
+using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.DatabaseSchema;
@@ -15,6 +18,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
         private readonly List<ZilligraphTableEventNotificator<Transaction>> _transactionEventNotificators = new();
         public event EventHandler<IncominZilTransactionEventArgs>? IncomingZilTransaction;
         public event EventHandler<IncominTokenTransactionEventArgs>? IncomingTokenTransaction;
+        public event EventHandler<WhaleTransactionEventArgs>? WhaleTransaction;
 
 
         public void RegisterEventNotificators()
@@ -47,6 +51,25 @@ namespace Zilliqa.DesktopWallet.Core.Services
                         IncomingTokenTransaction?.Invoke(this,
                             new IncominTokenTransactionEventArgs(account, new TokenTransactionRowViewModel(account.Address, t, tokenModel)));
                     }
+                }
+            ));
+            // Whale transactions
+            _transactionEventNotificators.Add(tableTransaction.AddEventNotificator(t =>
+                {
+                    if (SettingsFile.Instance.WhaleNotificationUsd == 0
+                        || t.TransactionFailed
+                        || t.TransactionTypeEnum != TransactionType.Payment) return false;
+                    var currentZilPrice = RepositoryManager.Instance.CoingeckoRepository.ZilCoinPrice?.MarketData
+                        .CurrentPrice.Usd;
+                    if (currentZilPrice == null) return false;
+                    return t.Amount.ZilSatoshisToZil() * currentZilPrice >= SettingsFile.Instance.WhaleNotificationUsd
+                           && walletRepo.FindAccount(t.SenderAddress) == null
+                           && walletRepo.FindAccount(t.ToAddress) == null;
+                }
+                , t =>
+                {
+                    WhaleTransaction?.Invoke(this,
+                        new WhaleTransactionEventArgs(new ZilTransactionRowViewModel(new Address(t.SenderAddress), t)));
                 }
             ));
         }
@@ -83,6 +106,16 @@ namespace Zilliqa.DesktopWallet.Core.Services
 
             public AccountViewModel AccountViewModel { get; }
             public TokenTransactionRowViewModel TransactionViewModel { get; }
+        }
+
+        public class WhaleTransactionEventArgs : EventArgs
+        {
+            public WhaleTransactionEventArgs(ZilTransactionRowViewModel transactionViewModel)
+            {
+                TransactionViewModel = transactionViewModel;
+            }
+
+            public ZilTransactionRowViewModel TransactionViewModel { get; }
         }
 
     }

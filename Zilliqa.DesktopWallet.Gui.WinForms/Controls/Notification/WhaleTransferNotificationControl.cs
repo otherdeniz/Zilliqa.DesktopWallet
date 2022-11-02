@@ -1,22 +1,27 @@
-﻿using Zilliqa.DesktopWallet.Core.Repository;
+﻿using Zilliqa.DesktopWallet.Core.Data.Files;
+using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel;
+using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Notification
 {
-    public partial class IncomingZilNotificationControl : NotificationBaseControl
+    public partial class WhaleTransferNotificationControl : NotificationBaseControl
     {
         private ZilTransactionRowViewModel? _transactionViewModel;
 
-        public IncomingZilNotificationControl()
+        public WhaleTransferNotificationControl()
         {
             InitializeComponent();
         }
 
-        public void LoadData(AccountViewModel accountViewModel, ZilTransactionRowViewModel transaction)
+        public void LoadData(ZilTransactionRowViewModel transaction)
         {
             _transactionViewModel = transaction;
-            labelAccount.Text = accountViewModel.AccountData.Name;
-            labelSender.Text = transaction.OtherAddress?.ToString();
+            labelFrom.Text = new AddressValue(transaction.ThisAddress).ToString();
+            labelTo.Text = transaction.OtherAddress!.ToString();
+            var isWithdraw = CryptometaFile.Instance.Ecosystems.Any(e =>
+                e.Addresses?.Any(a => a == transaction.ThisAddress.GetBech32()) == true);
+            labelTitle.Text = isWithdraw ? "Whale withdraw" : "Whale transfer";
             labelAmount.Text = $"{transaction.Amount:#,##0.0###} ZIL";
             labelValue.Text =
                 $"{(transaction.Amount * RepositoryManager.Instance.CoingeckoRepository.ZilCoinPrice?.MarketData.CurrentPrice.Usd ?? 0):#,##0.00} $";
@@ -31,5 +36,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Notification
                 SecondForm.ShowDetailsAsForm(ControlFactory.CreateDisplayControl(_transactionViewModel));
             }
         }
+
     }
 }
