@@ -27,6 +27,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Notification
                 {
                     timeAgoText = $"{diffTime.TotalDays:0.0} days";
                 }
+                else if (diffTime.TotalHours > 1)
+                {
+                    timeAgoText = $"{diffTime.TotalHours:0.0} hours";
+                }
                 else if (diffTime.TotalMinutes > 1)
                 {
                     timeAgoText = $"{diffTime.TotalMinutes:0.0} minutes";
