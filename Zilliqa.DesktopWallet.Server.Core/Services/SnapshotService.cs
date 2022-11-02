@@ -10,8 +10,7 @@ namespace Zilliqa.DesktopWallet.Server.Core.Services
 {
     public class SnapshotService
     {
-        private const int SNAPSHOT_INTERVALL_DAYS = 1;
-        private const int SNAPSHOT_FAVORITE_HOUR = 6;
+        private const int SNAPSHOT_INTERVALL_HOURS = 8;
 
         public static SnapshotService Instance { get; } = new();
 
@@ -54,13 +53,11 @@ namespace Zilliqa.DesktopWallet.Server.Core.Services
                             }
                         }
                         if (snapshotEntries.Any(s => s.AppVersion == ApplicationInfo.ApplicationVersion
-                                                     && (s.TimestampUtc > DateTime.UtcNow.AddDays(0 - SNAPSHOT_INTERVALL_DAYS - 1)
-                                                         || (s.TimestampUtc > DateTime.UtcNow.AddDays(0 - SNAPSHOT_INTERVALL_DAYS)
-                                                             && DateTime.UtcNow.Hour == SNAPSHOT_FAVORITE_HOUR)))
+                                                     && s.TimestampUtc > DateTime.UtcNow.AddHours(0 - SNAPSHOT_INTERVALL_HOURS))
                             || SnapshotCreationRunning
                             || !ZilliqaBlockchainCrawler.Instance.IsCompleted)
                         {
-                            await Task.Delay(TimeSpan.FromMinutes(15), cancellationToken);
+                            await Task.Delay(TimeSpan.FromMinutes(10), cancellationToken);
                         }
                         else
                         {

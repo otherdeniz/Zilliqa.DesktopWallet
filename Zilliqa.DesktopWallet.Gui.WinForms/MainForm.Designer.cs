@@ -55,21 +55,28 @@
             this.menuIncomingSoundMoneyCounter = new System.Windows.Forms.ToolStripMenuItem();
             this.menuIncomingSoundKaChing = new System.Windows.Forms.ToolStripMenuItem();
             this.menuIncomingSoundCoinDrop = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingMenuWhale = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingMenuWhaleNone = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingMenuWhale10K = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingMenuWhale50K = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingMenuWhale100K = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingMenuWhale500K = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonAbout = new System.Windows.Forms.ToolStripDropDownButton();
             this.menuApplicationInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonMenuTools = new System.Windows.Forms.ToolStripDropDownButton();
+            this.buttonToolsAddressConverter = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonToolsSearchWindow = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonToolsOpenWalletFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonToolsOpenDbFolder = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.buttonToolsAddressConverter = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMain = new System.Windows.Forms.Panel();
             this.mainWalletControl = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.MainWalletControl();
             this.panelBottom = new System.Windows.Forms.Panel();
             this.groupBoxNotifications = new System.Windows.Forms.GroupBox();
+            this.bottomNotifications = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.BottomNotificationsControl();
             this.groupBoxStatus = new System.Windows.Forms.GroupBox();
             this.bottomStatus = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.BottomStatusControl();
             this.timerInit = new System.Windows.Forms.Timer(this.components);
-            this.bottomNotifications = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.BottomNotificationsControl();
             this.toolStripMain.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.panelBottom.SuspendLayout();
@@ -179,7 +186,8 @@
             // 
             this.buttonSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingMenuDisplayCurrencies,
-            this.settingMenuIncomingSound});
+            this.settingMenuIncomingSound,
+            this.settingMenuWhale});
             this.buttonSettings.Image = ((System.Drawing.Image)(resources.GetObject("buttonSettings.Image")));
             this.buttonSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonSettings.Name = "buttonSettings";
@@ -198,7 +206,7 @@
             this.menuDisplayCurrencyEth,
             this.menuDisplayCurrencyLtc});
             this.settingMenuDisplayCurrencies.Name = "settingMenuDisplayCurrencies";
-            this.settingMenuDisplayCurrencies.Size = new System.Drawing.Size(227, 22);
+            this.settingMenuDisplayCurrencies.Size = new System.Drawing.Size(233, 22);
             this.settingMenuDisplayCurrencies.Text = "Display additional Currencies";
             // 
             // toolStripMenuFiat
@@ -267,7 +275,7 @@
             this.menuIncomingSoundKaChing,
             this.menuIncomingSoundCoinDrop});
             this.settingMenuIncomingSound.Name = "settingMenuIncomingSound";
-            this.settingMenuIncomingSound.Size = new System.Drawing.Size(227, 22);
+            this.settingMenuIncomingSound.Size = new System.Drawing.Size(233, 22);
             this.settingMenuIncomingSound.Text = "Incoming transaction sound";
             // 
             // menuIncomingSoundNone
@@ -298,6 +306,53 @@
             this.menuIncomingSoundCoinDrop.Text = "Coin drop";
             this.menuIncomingSoundCoinDrop.Click += new System.EventHandler(this.menuIncomingSoundCoinDrop_Click);
             // 
+            // settingMenuWhale
+            // 
+            this.settingMenuWhale.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.settingMenuWhaleNone,
+            this.settingMenuWhale10K,
+            this.settingMenuWhale50K,
+            this.settingMenuWhale100K,
+            this.settingMenuWhale500K});
+            this.settingMenuWhale.Name = "settingMenuWhale";
+            this.settingMenuWhale.Size = new System.Drawing.Size(233, 22);
+            this.settingMenuWhale.Text = "Whale transaction notification";
+            // 
+            // settingMenuWhaleNone
+            // 
+            this.settingMenuWhaleNone.Name = "settingMenuWhaleNone";
+            this.settingMenuWhaleNone.Size = new System.Drawing.Size(180, 22);
+            this.settingMenuWhaleNone.Text = "None";
+            this.settingMenuWhaleNone.Click += new System.EventHandler(this.settingMenuWhaleNone_Click);
+            // 
+            // settingMenuWhale10K
+            // 
+            this.settingMenuWhale10K.Name = "settingMenuWhale10K";
+            this.settingMenuWhale10K.Size = new System.Drawing.Size(180, 22);
+            this.settingMenuWhale10K.Text = "Above 10\'000 $";
+            this.settingMenuWhale10K.Click += new System.EventHandler(this.settingMenuWhale10K_Click);
+            // 
+            // settingMenuWhale50K
+            // 
+            this.settingMenuWhale50K.Name = "settingMenuWhale50K";
+            this.settingMenuWhale50K.Size = new System.Drawing.Size(180, 22);
+            this.settingMenuWhale50K.Text = "Above 50\'000 $";
+            this.settingMenuWhale50K.Click += new System.EventHandler(this.settingMenuWhale50K_Click);
+            // 
+            // settingMenuWhale100K
+            // 
+            this.settingMenuWhale100K.Name = "settingMenuWhale100K";
+            this.settingMenuWhale100K.Size = new System.Drawing.Size(180, 22);
+            this.settingMenuWhale100K.Text = "Above 100\'000 $";
+            this.settingMenuWhale100K.Click += new System.EventHandler(this.settingMenuWhale100K_Click);
+            // 
+            // settingMenuWhale500K
+            // 
+            this.settingMenuWhale500K.Name = "settingMenuWhale500K";
+            this.settingMenuWhale500K.Size = new System.Drawing.Size(180, 22);
+            this.settingMenuWhale500K.Text = "Above 500\'000 $";
+            this.settingMenuWhale500K.Click += new System.EventHandler(this.settingMenuWhale500K_Click);
+            // 
             // buttonAbout
             // 
             this.buttonAbout.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -320,21 +375,43 @@
             // 
             this.buttonMenuTools.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.buttonMenuTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.buttonToolsOpenWalletFolder,
-            this.buttonToolsOpenDbFolder,
+            this.buttonToolsAddressConverter,
+            this.buttonToolsSearchWindow,
             this.toolStripSeparator3,
-            this.buttonToolsAddressConverter});
+            this.buttonToolsOpenWalletFolder,
+            this.buttonToolsOpenDbFolder});
             this.buttonMenuTools.Image = ((System.Drawing.Image)(resources.GetObject("buttonMenuTools.Image")));
             this.buttonMenuTools.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonMenuTools.Name = "buttonMenuTools";
             this.buttonMenuTools.Size = new System.Drawing.Size(71, 28);
             this.buttonMenuTools.Text = "Tools";
             // 
+            // buttonToolsAddressConverter
+            // 
+            this.buttonToolsAddressConverter.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsAddressConverter.Image")));
+            this.buttonToolsAddressConverter.Name = "buttonToolsAddressConverter";
+            this.buttonToolsAddressConverter.Size = new System.Drawing.Size(255, 30);
+            this.buttonToolsAddressConverter.Text = "Zilliqa Address Format Converter";
+            this.buttonToolsAddressConverter.Click += new System.EventHandler(this.buttonToolsAddressConverter_Click);
+            // 
+            // buttonToolsSearchWindow
+            // 
+            this.buttonToolsSearchWindow.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsSearchWindow.Image")));
+            this.buttonToolsSearchWindow.Name = "buttonToolsSearchWindow";
+            this.buttonToolsSearchWindow.Size = new System.Drawing.Size(255, 30);
+            this.buttonToolsSearchWindow.Text = "Blockchain Search Window";
+            this.buttonToolsSearchWindow.Click += new System.EventHandler(this.buttonToolsSearchWindow_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(252, 6);
+            // 
             // buttonToolsOpenWalletFolder
             // 
             this.buttonToolsOpenWalletFolder.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsOpenWalletFolder.Image")));
             this.buttonToolsOpenWalletFolder.Name = "buttonToolsOpenWalletFolder";
-            this.buttonToolsOpenWalletFolder.Size = new System.Drawing.Size(247, 22);
+            this.buttonToolsOpenWalletFolder.Size = new System.Drawing.Size(255, 30);
             this.buttonToolsOpenWalletFolder.Text = "Open Users Wallet Folder";
             this.buttonToolsOpenWalletFolder.Click += new System.EventHandler(this.buttonToolsOpenWalletFolder_Click);
             // 
@@ -342,22 +419,9 @@
             // 
             this.buttonToolsOpenDbFolder.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsOpenDbFolder.Image")));
             this.buttonToolsOpenDbFolder.Name = "buttonToolsOpenDbFolder";
-            this.buttonToolsOpenDbFolder.Size = new System.Drawing.Size(247, 22);
+            this.buttonToolsOpenDbFolder.Size = new System.Drawing.Size(255, 30);
             this.buttonToolsOpenDbFolder.Text = "Open Program Database Folder";
             this.buttonToolsOpenDbFolder.Click += new System.EventHandler(this.buttonToolsOpenDbFolder_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(244, 6);
-            // 
-            // buttonToolsAddressConverter
-            // 
-            this.buttonToolsAddressConverter.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsAddressConverter.Image")));
-            this.buttonToolsAddressConverter.Name = "buttonToolsAddressConverter";
-            this.buttonToolsAddressConverter.Size = new System.Drawing.Size(247, 22);
-            this.buttonToolsAddressConverter.Text = "Zilliqa Address Format Converter";
-            this.buttonToolsAddressConverter.Click += new System.EventHandler(this.buttonToolsAddressConverter_Click);
             // 
             // panelMain
             // 
@@ -405,6 +469,16 @@
             this.groupBoxNotifications.TabStop = false;
             this.groupBoxNotifications.Text = "Notifications";
             // 
+            // bottomNotifications
+            // 
+            this.bottomNotifications.BackColor = System.Drawing.Color.White;
+            this.bottomNotifications.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.bottomNotifications.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.bottomNotifications.Location = new System.Drawing.Point(3, 19);
+            this.bottomNotifications.Name = "bottomNotifications";
+            this.bottomNotifications.Size = new System.Drawing.Size(931, 138);
+            this.bottomNotifications.TabIndex = 0;
+            // 
             // groupBoxStatus
             // 
             this.groupBoxStatus.Controls.Add(this.bottomStatus);
@@ -433,15 +507,6 @@
             this.timerInit.Interval = 10;
             this.timerInit.Tick += new System.EventHandler(this.timerInit_Tick);
             // 
-            // bottomNotifications
-            // 
-            this.bottomNotifications.BackColor = System.Drawing.Color.White;
-            this.bottomNotifications.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bottomNotifications.Location = new System.Drawing.Point(3, 19);
-            this.bottomNotifications.Name = "bottomNotifications";
-            this.bottomNotifications.Size = new System.Drawing.Size(931, 138);
-            this.bottomNotifications.TabIndex = 0;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -453,7 +518,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Zilliqa Desktop Wallet";
+            this.Text = " ";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.toolStripMain.ResumeLayout(false);
@@ -509,5 +574,12 @@
         private ToolStripDropDownButton buttonAbout;
         private ToolStripMenuItem menuApplicationInfo;
         private Controls.Main.BottomNotificationsControl bottomNotifications;
+        private ToolStripMenuItem settingMenuWhale;
+        private ToolStripMenuItem settingMenuWhaleNone;
+        private ToolStripMenuItem settingMenuWhale10K;
+        private ToolStripMenuItem settingMenuWhale50K;
+        private ToolStripMenuItem settingMenuWhale100K;
+        private ToolStripMenuItem settingMenuWhale500K;
+        private ToolStripMenuItem buttonToolsSearchWindow;
     }
 }

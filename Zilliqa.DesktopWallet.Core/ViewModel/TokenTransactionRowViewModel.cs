@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
+using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
@@ -74,7 +75,7 @@ public class TokenTransactionRowViewModel : TransactionRowViewModelBase
             ?? 0m;
 
     [DisplayName("Amount")] 
-    public string AmountDisplay => $"{Amount:#,##0.0000} {Symbol}";
+    public string AmountDisplay => $"{Amount:#,##0.####} {Symbol.TokenSymbolShort()}";
 
     [Browsable(true)]
     public override decimal Fee => base.Fee;

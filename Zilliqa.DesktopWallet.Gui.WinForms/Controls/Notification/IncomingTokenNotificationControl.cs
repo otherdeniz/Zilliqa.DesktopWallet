@@ -1,4 +1,5 @@
 ﻿using Zillifriends.Shared.Common;
+using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Notification
@@ -20,6 +21,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Notification
             labelAccount.Text = accountViewModel.AccountData.Name;
             labelSender.Text = transaction.OtherAddress?.ToString();
             labelAmount.Text = transaction.AmountDisplay;
+            labelValueTitle.Visible = false;
+            labelValue.Visible = false;
+            //labelValue.Text =
+            //    $"{(transaction.Amount * RepositoryManager.Instance.CoingeckoRepository.ZilCoinPrice?.MarketData.CurrentPrice.Usd ?? 0):#,##0.00} $";
             CreatedTimestamp = transaction.Transaction.Timestamp;
             RefreshTimeInfo();
         }

@@ -26,6 +26,17 @@ public class DataParam : IParam
 
     private ParamValue? _resolvedValue;
 
+    public DataParam()
+    {
+    }
+
+    public DataParam(string vName, string type, object value)
+    {
+        Vname = vName;
+        Type = type;
+        Value = value;
+    }
+
     [JsonProperty("vname")]
     public string Vname { get; set; }
 

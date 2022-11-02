@@ -19,7 +19,18 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             {
                 NotificationService.Instance.IncomingZilTransaction += OnIncomingZilTransaction;
                 NotificationService.Instance.IncomingTokenTransaction += OnIncomingTokenTransaction;
+                NotificationService.Instance.WhaleTransaction += OnWhaleTransaction;
             }
+        }
+
+        private void OnWhaleTransaction(object? sender, NotificationService.WhaleTransactionEventArgs e)
+        {
+            WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+            {
+                var control = new WhaleTransferNotificationControl();
+                control.LoadData(e.TransactionViewModel);
+                AddNotificationControl(control, panelLevel2);
+            });
         }
 
         private void OnIncomingTokenTransaction(object? sender, NotificationService.IncominTokenTransactionEventArgs e)
@@ -28,7 +39,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             {
                 var control = new IncomingTokenNotificationControl();
                 control.LoadData(e.AccountViewModel, e.TransactionViewModel);
-                AddNotificationControl(control);
+                AddNotificationControl(control, panelLevel1);
                 SoundPlayer.PlaySound(SettingsFile.Instance.IncomingSound);
             });
         }
@@ -39,35 +50,37 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             {
                 var control = new IncomingZilNotificationControl();
                 control.LoadData(e.AccountViewModel, e.TransactionViewModel);
-                AddNotificationControl(control);
+                AddNotificationControl(control, panelLevel1);
                 SoundPlayer.PlaySound(SettingsFile.Instance.IncomingSound);
             });
         }
 
-        private void AddNotificationControl(NotificationBaseControl control)
+        private void AddNotificationControl(NotificationBaseControl control, Panel panelLevel)
         {
-            if (Controls.Count >= 10)
+            if (panelLevel1.Controls.Count + panelLevel2.Controls.Count >= 10)
             {
-                var removeControl = Controls[0];
-                Controls.Remove(removeControl);
+                var removeCollection = panelLevel1.Controls.Count > panelLevel2.Controls.Count
+                    ? panelLevel1.Controls
+                    : panelLevel2.Controls;
+                var removeControl = removeCollection[0];
+                removeCollection.Remove(removeControl);
                 removeControl.Dispose();
             }
             control.UnselectedBackColor = Color.Yellow;
             control.Dock = DockStyle.Left;
-            Controls.Add(control);
+            panelLevel.Controls.Add(control);
             timerRefresh.Enabled = true;
             Refresh();
         }
 
-        private void timerRefresh_Tick(object sender, EventArgs e)
+        private void RefreshControls(Panel panelLevel)
         {
-            if (ParentForm!.WindowState == FormWindowState.Minimized) return;
-            foreach (var notificationControl in Controls.OfType<NotificationBaseControl>().ToList())
+            foreach (var notificationControl in panelLevel.Controls.OfType<NotificationBaseControl>().ToList())
             {
                 notificationControl.RefreshTimeInfo();
                 if (notificationControl.DisplayTicks >= 1200)
                 {
-                    Controls.Remove(notificationControl);
+                    panelLevel.Controls.Remove(notificationControl);
                     notificationControl.Dispose();
                 }
                 else
@@ -80,7 +93,14 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                     notificationControl.DisplayTicks++;
                 }
             }
-            if (Controls.Count == 0)
+        }
+
+        private void timerRefresh_Tick(object sender, EventArgs e)
+        {
+            if (ParentForm!.WindowState == FormWindowState.Minimized) return;
+            RefreshControls(panelLevel1);
+            RefreshControls(panelLevel2);
+            if (panelLevel1.Controls.Count + panelLevel2.Controls.Count == 0)
             {
                 timerRefresh.Enabled = false;
             }

@@ -16,6 +16,8 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
 
         public string IncomingSound { get; set; } = IncomingSounds.MoneyCounter;
 
+        public int WhaleNotificationUsd { get; set; } = 50000;
+
         #endregion
 
         public static class IncomingSounds
