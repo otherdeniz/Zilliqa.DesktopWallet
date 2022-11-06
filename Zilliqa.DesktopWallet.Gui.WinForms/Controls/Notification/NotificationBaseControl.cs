@@ -22,8 +22,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Notification
         {
             if (CreatedTimestamp != null)
             {
-                var timeAgoText = CreatedTimestamp.Value.GetTimeAgoText();
-                labelTimeInfo.Text = $"{CreatedTimestamp.Value:g} - {timeAgoText} ago";
+                var localTime = CreatedTimestamp.Value.ToLocalTime();
+                var timeAgoText = localTime.GetTimeAgoText();
+                labelTimeInfo.Text = $"{localTime:g} - {timeAgoText} ago";
             }
         }
     }

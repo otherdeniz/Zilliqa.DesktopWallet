@@ -209,6 +209,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.DrillDown
         {
             panelRightControl.Controls.Clear();
             pathItem.DisplayControl!.Dock = DockStyle.Fill;
+            pathItem.DisplayControl!.Height = panelRightControl.Height;
             panelRightControl.Controls.Add(pathItem.DisplayControl!);
         }
 

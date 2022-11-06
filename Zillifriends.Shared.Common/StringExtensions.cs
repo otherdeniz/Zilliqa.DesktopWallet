@@ -52,9 +52,9 @@ namespace Zillifriends.Shared.Common
         }
 
 
-        public static string GetTimeAgoText(this DateTime utcDateTime)
+        public static string GetTimeAgoText(this DateTime localDateTime)
         {
-            var diffTime = DateTime.UtcNow - utcDateTime;
+            var diffTime = DateTime.Now - localDateTime;
             string timeAgoText;
             if (diffTime.TotalDays > 1)
             {

@@ -68,8 +68,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 
             if (ZilliqaBlockchainCrawler.Instance.LastDownloadedBlockdate != null)
             {
-                var timeAgoText = ZilliqaBlockchainCrawler.Instance.LastDownloadedBlockdate.Value.GetTimeAgoText();
-                labelLastBlockdate.Text = $"{ZilliqaBlockchainCrawler.Instance.LastDownloadedBlockdate?.ToString("g")}\n{timeAgoText} ago";
+                var timeAgoText = ZilliqaBlockchainCrawler.Instance.LastDownloadedBlockdate.Value >
+                                  DateTime.Now.AddMinutes(-10)
+                    ? ""
+                    : $"\n{ZilliqaBlockchainCrawler.Instance.LastDownloadedBlockdate.Value.GetTimeAgoText()} ago";
+                labelLastBlockdate.Text = $"{ZilliqaBlockchainCrawler.Instance.LastDownloadedBlockdate.Value.ToString("g")}{timeAgoText}";
             }
             else
             {
