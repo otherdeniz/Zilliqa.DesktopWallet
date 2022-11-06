@@ -66,9 +66,18 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             textDbTransactionsCount.Text = RepositoryManager.Instance.DatabaseRepository.Database.GetTable<Transaction>()
                 .RecordCount.ToString("#,##0");
 
-            labelLastBlockdate.Text = ZilliqaBlockchainCrawler.Instance
-                                          .LastDownloadedBlockdate?.ToString("g")
-                                      ?? "-";
+            if (ZilliqaBlockchainCrawler.Instance.LastDownloadedBlockdate != null)
+            {
+                var timeAgoText = ZilliqaBlockchainCrawler.Instance.LastDownloadedBlockdate.Value >
+                                  DateTime.Now.AddMinutes(-10)
+                    ? ""
+                    : $"\n{ZilliqaBlockchainCrawler.Instance.LastDownloadedBlockdate.Value.GetTimeAgoText()} ago";
+                labelLastBlockdate.Text = $"{ZilliqaBlockchainCrawler.Instance.LastDownloadedBlockdate.Value.ToString("g")}{timeAgoText}";
+            }
+            else
+            {
+                labelLastBlockdate.Text = "-";
+            }
 
             RefreshButtons();
         }

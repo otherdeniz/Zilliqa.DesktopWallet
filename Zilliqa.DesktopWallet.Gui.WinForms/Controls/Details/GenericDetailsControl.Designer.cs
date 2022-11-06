@@ -52,7 +52,7 @@
             this.panelTabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTabs.Location = new System.Drawing.Point(2, 201);
             this.panelTabs.Name = "panelTabs";
-            this.panelTabs.Size = new System.Drawing.Size(550, 240);
+            this.panelTabs.Size = new System.Drawing.Size(550, 417);
             this.panelTabs.TabIndex = 9;
             this.panelTabs.Visible = false;
             // 
@@ -61,7 +61,7 @@
             this.panelTabPages.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTabPages.Location = new System.Drawing.Point(0, 2);
             this.panelTabPages.Name = "panelTabPages";
-            this.panelTabPages.Size = new System.Drawing.Size(550, 238);
+            this.panelTabPages.Size = new System.Drawing.Size(550, 415);
             this.panelTabPages.TabIndex = 2;
             // 
             // toolStripTabs
@@ -94,7 +94,8 @@
             this.Controls.Add(this.panelProperties);
             this.Name = "GenericDetailsControl";
             this.Padding = new System.Windows.Forms.Padding(2);
-            this.Size = new System.Drawing.Size(554, 443);
+            this.Size = new System.Drawing.Size(554, 620);
+            this.Load += new System.EventHandler(this.GenericDetailsControl_Load);
             this.panelTabs.ResumeLayout(false);
             this.panelTabs.PerformLayout();
             this.ResumeLayout(false);

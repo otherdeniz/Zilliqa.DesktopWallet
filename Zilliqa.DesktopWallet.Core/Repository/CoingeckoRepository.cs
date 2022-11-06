@@ -1,4 +1,6 @@
-﻿using System.Runtime.Caching;
+﻿using System.Drawing;
+using System.Runtime.Caching;
+using Svg;
 using Zillifriends.Shared.Common;
 using Zilligraph.Database.Storage.FilterQuery;
 using Zilliqa.DesktopWallet.Core.Api.Coingecko;
@@ -13,9 +15,14 @@ namespace Zilliqa.DesktopWallet.Core.Repository
         private const int MaxQueueSize = 1000;
         private static readonly MemoryCache MemoryCache = new MemoryCache("CoingeckoRepository");
         private const string CoinIdZilliqa = "zilliqa";
+        private const int CoinNumberZilliqa = 2687;
         private static readonly string[] CoinIdsWhiteList = new[]
         {
-            "governance-zil"
+            "governance-zil",
+            "bitcoin",
+            "wrapped-bitcoin",
+            "ethereum",
+            "tether"
         };
 
         private readonly CoingeckoApiClient _apiClient;
@@ -132,6 +139,28 @@ namespace Zilliqa.DesktopWallet.Core.Repository
                     Logging.LogError("CoingeckoRepository.BackgroundRefreshTask caused an error, will retry in next iteration", e);
                 }
             }
+        }
+
+        public Image? GetZilSparklineImage()
+        {
+            try
+            {
+                var imageData = _apiClient.GetCoinSparkline(CoinNumberZilliqa.ToString());
+                if (imageData != null)
+                {
+                    using (var imageStream = new MemoryStream(imageData))
+                    {
+                        var svgDocument = SvgDocument.Open<SvgDocument>(imageStream);
+                        return svgDocument.Draw(135, 50);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // skip
+            }
+
+            return null;
         }
 
         public void GetCoinPrice(string symbol, Action<CoinPrice> afterDataReceived, bool loadInBackground = true)

@@ -71,6 +71,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             }
             panelBottom.Visible = true;
             bottomStatus.StartRefresh();
+            bottomZilPrice.StartRefresh();
             if (LoadWallet())
             {
                 buttonWallet_Click(this, EventArgs.Empty);

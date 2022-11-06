@@ -382,5 +382,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
             return null;
         }
 
+        private void GenericDetailsControl_Load(object sender, EventArgs e)
+        {
+            if (panelProperties.Dock != DockStyle.Fill)
+            {
+                var maxPropertiesHeight = Height * 0.65;
+                if (panelProperties.Height > maxPropertiesHeight)
+                {
+                    panelProperties.Height = Convert.ToInt32(maxPropertiesHeight);
+                }
+            }
+        }
     }
 }

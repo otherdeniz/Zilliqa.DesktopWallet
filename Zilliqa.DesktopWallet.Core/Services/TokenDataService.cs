@@ -36,7 +36,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 var tokenModels = new List<TokenModel>();
                 try
                 {
-                    LoadingStatus = "Loading Tokens from Crypptometa data";
+                    LoadingStatus = "Loading Tokens from Cryptometa data";
                     Logging.LogInfo("TokenDataService.StartLoadTokens: loading all Tokens from Cryptometa Assets");
                     foreach (var cryptometaAsset in CryptometaFile.Instance.Assets
                                  .Where(a => !string.IsNullOrEmpty(a.Symbol)
@@ -101,6 +101,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                     bool refreshNew = false;
                     List<TokenModel> refreshAssets = new List<TokenModel>();
                     if (TokenPriceFile.Instance.CoinPrices.Count == 0
+                        || forceReLoad
                         || (TokenPriceFile.Instance.NewAssetsAdded ?? DateTime.MinValue) < DateTime.Today.AddDays(-30))
                     {
                         refreshNew = true;
@@ -126,7 +127,13 @@ namespace Zilliqa.DesktopWallet.Core.Services
                         {
                             try
                             {
-                                RepositoryManager.Instance.CoingeckoRepository.GetCoinPrice(tokenModel.Symbol, cp =>
+                                var resolveSymbol = tokenModel.Symbol;
+                                if (tokenModel.CryptometaAsset?.Gen.Score == 100 
+                                    && (resolveSymbol.StartsWith("z") || resolveSymbol.StartsWith("w")))
+                                {
+                                    resolveSymbol = resolveSymbol.Substring(1);
+                                }
+                                RepositoryManager.Instance.CoingeckoRepository.GetCoinPrice(resolveSymbol, cp =>
                                 {
                                     tokenModel.LoadPriceProperties(cp);
                                     coinPrices.Add(cp);

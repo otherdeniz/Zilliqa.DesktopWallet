@@ -38,6 +38,7 @@
             this.buttonSmartContracts = new System.Windows.Forms.ToolStripButton();
             this.buttonEcosystem = new System.Windows.Forms.ToolStripButton();
             this.buttonStakingNodes = new System.Windows.Forms.ToolStripButton();
+            this.buttonStatistics = new System.Windows.Forms.ToolStripButton();
             this.buttonBlockchain = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonSettings = new System.Windows.Forms.ToolStripDropDownButton();
@@ -74,13 +75,16 @@
             this.panelBottom = new System.Windows.Forms.Panel();
             this.groupBoxNotifications = new System.Windows.Forms.GroupBox();
             this.bottomNotifications = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.BottomNotificationsControl();
+            this.groupBoxZilPrice = new System.Windows.Forms.GroupBox();
             this.groupBoxStatus = new System.Windows.Forms.GroupBox();
             this.bottomStatus = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.BottomStatusControl();
             this.timerInit = new System.Windows.Forms.Timer(this.components);
+            this.bottomZilPrice = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.BottomZilPriceControl();
             this.toolStripMain.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.panelBottom.SuspendLayout();
             this.groupBoxNotifications.SuspendLayout();
+            this.groupBoxZilPrice.SuspendLayout();
             this.groupBoxStatus.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -95,6 +99,7 @@
             this.buttonSmartContracts,
             this.buttonEcosystem,
             this.buttonStakingNodes,
+            this.buttonStatistics,
             this.buttonBlockchain,
             this.toolStripSeparator1,
             this.buttonSettings,
@@ -166,6 +171,15 @@
             this.buttonStakingNodes.Size = new System.Drawing.Size(111, 28);
             this.buttonStakingNodes.Text = "Staking Nodes";
             this.buttonStakingNodes.Click += new System.EventHandler(this.buttonStakingNodes_Click);
+            // 
+            // buttonStatistics
+            // 
+            this.buttonStatistics.Image = ((System.Drawing.Image)(resources.GetObject("buttonStatistics.Image")));
+            this.buttonStatistics.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonStatistics.Name = "buttonStatistics";
+            this.buttonStatistics.Size = new System.Drawing.Size(81, 28);
+            this.buttonStatistics.Text = "Statistics";
+            this.buttonStatistics.Visible = false;
             // 
             // buttonBlockchain
             // 
@@ -281,28 +295,28 @@
             // menuIncomingSoundNone
             // 
             this.menuIncomingSoundNone.Name = "menuIncomingSoundNone";
-            this.menuIncomingSoundNone.Size = new System.Drawing.Size(180, 22);
+            this.menuIncomingSoundNone.Size = new System.Drawing.Size(171, 22);
             this.menuIncomingSoundNone.Text = "None";
             this.menuIncomingSoundNone.Click += new System.EventHandler(this.menuIncomingSoundNone_Click);
             // 
             // menuIncomingSoundMoneyCounter
             // 
             this.menuIncomingSoundMoneyCounter.Name = "menuIncomingSoundMoneyCounter";
-            this.menuIncomingSoundMoneyCounter.Size = new System.Drawing.Size(180, 22);
+            this.menuIncomingSoundMoneyCounter.Size = new System.Drawing.Size(171, 22);
             this.menuIncomingSoundMoneyCounter.Text = "Money counter";
             this.menuIncomingSoundMoneyCounter.Click += new System.EventHandler(this.menuIncomingSoundMoneyCounter_Click);
             // 
             // menuIncomingSoundKaChing
             // 
             this.menuIncomingSoundKaChing.Name = "menuIncomingSoundKaChing";
-            this.menuIncomingSoundKaChing.Size = new System.Drawing.Size(180, 22);
+            this.menuIncomingSoundKaChing.Size = new System.Drawing.Size(171, 22);
             this.menuIncomingSoundKaChing.Text = "Cashier (ka-ching)";
             this.menuIncomingSoundKaChing.Click += new System.EventHandler(this.menuIncomingSoundKaChing_Click);
             // 
             // menuIncomingSoundCoinDrop
             // 
             this.menuIncomingSoundCoinDrop.Name = "menuIncomingSoundCoinDrop";
-            this.menuIncomingSoundCoinDrop.Size = new System.Drawing.Size(180, 22);
+            this.menuIncomingSoundCoinDrop.Size = new System.Drawing.Size(171, 22);
             this.menuIncomingSoundCoinDrop.Text = "Coin drop";
             this.menuIncomingSoundCoinDrop.Click += new System.EventHandler(this.menuIncomingSoundCoinDrop_Click);
             // 
@@ -321,35 +335,35 @@
             // settingMenuWhaleNone
             // 
             this.settingMenuWhaleNone.Name = "settingMenuWhaleNone";
-            this.settingMenuWhaleNone.Size = new System.Drawing.Size(180, 22);
+            this.settingMenuWhaleNone.Size = new System.Drawing.Size(159, 22);
             this.settingMenuWhaleNone.Text = "None";
             this.settingMenuWhaleNone.Click += new System.EventHandler(this.settingMenuWhaleNone_Click);
             // 
             // settingMenuWhale10K
             // 
             this.settingMenuWhale10K.Name = "settingMenuWhale10K";
-            this.settingMenuWhale10K.Size = new System.Drawing.Size(180, 22);
+            this.settingMenuWhale10K.Size = new System.Drawing.Size(159, 22);
             this.settingMenuWhale10K.Text = "Above 10\'000 $";
             this.settingMenuWhale10K.Click += new System.EventHandler(this.settingMenuWhale10K_Click);
             // 
             // settingMenuWhale50K
             // 
             this.settingMenuWhale50K.Name = "settingMenuWhale50K";
-            this.settingMenuWhale50K.Size = new System.Drawing.Size(180, 22);
+            this.settingMenuWhale50K.Size = new System.Drawing.Size(159, 22);
             this.settingMenuWhale50K.Text = "Above 50\'000 $";
             this.settingMenuWhale50K.Click += new System.EventHandler(this.settingMenuWhale50K_Click);
             // 
             // settingMenuWhale100K
             // 
             this.settingMenuWhale100K.Name = "settingMenuWhale100K";
-            this.settingMenuWhale100K.Size = new System.Drawing.Size(180, 22);
+            this.settingMenuWhale100K.Size = new System.Drawing.Size(159, 22);
             this.settingMenuWhale100K.Text = "Above 100\'000 $";
             this.settingMenuWhale100K.Click += new System.EventHandler(this.settingMenuWhale100K_Click);
             // 
             // settingMenuWhale500K
             // 
             this.settingMenuWhale500K.Name = "settingMenuWhale500K";
-            this.settingMenuWhale500K.Size = new System.Drawing.Size(180, 22);
+            this.settingMenuWhale500K.Size = new System.Drawing.Size(159, 22);
             this.settingMenuWhale500K.Text = "Above 500\'000 $";
             this.settingMenuWhale500K.Click += new System.EventHandler(this.settingMenuWhale500K_Click);
             // 
@@ -390,7 +404,7 @@
             // 
             this.buttonToolsAddressConverter.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsAddressConverter.Image")));
             this.buttonToolsAddressConverter.Name = "buttonToolsAddressConverter";
-            this.buttonToolsAddressConverter.Size = new System.Drawing.Size(255, 30);
+            this.buttonToolsAddressConverter.Size = new System.Drawing.Size(247, 22);
             this.buttonToolsAddressConverter.Text = "Zilliqa Address Format Converter";
             this.buttonToolsAddressConverter.Click += new System.EventHandler(this.buttonToolsAddressConverter_Click);
             // 
@@ -398,20 +412,20 @@
             // 
             this.buttonToolsSearchWindow.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsSearchWindow.Image")));
             this.buttonToolsSearchWindow.Name = "buttonToolsSearchWindow";
-            this.buttonToolsSearchWindow.Size = new System.Drawing.Size(255, 30);
+            this.buttonToolsSearchWindow.Size = new System.Drawing.Size(247, 22);
             this.buttonToolsSearchWindow.Text = "Blockchain Search Window";
             this.buttonToolsSearchWindow.Click += new System.EventHandler(this.buttonToolsSearchWindow_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(252, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(244, 6);
             // 
             // buttonToolsOpenWalletFolder
             // 
             this.buttonToolsOpenWalletFolder.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsOpenWalletFolder.Image")));
             this.buttonToolsOpenWalletFolder.Name = "buttonToolsOpenWalletFolder";
-            this.buttonToolsOpenWalletFolder.Size = new System.Drawing.Size(255, 30);
+            this.buttonToolsOpenWalletFolder.Size = new System.Drawing.Size(247, 22);
             this.buttonToolsOpenWalletFolder.Text = "Open Users Wallet Folder";
             this.buttonToolsOpenWalletFolder.Click += new System.EventHandler(this.buttonToolsOpenWalletFolder_Click);
             // 
@@ -419,7 +433,7 @@
             // 
             this.buttonToolsOpenDbFolder.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsOpenDbFolder.Image")));
             this.buttonToolsOpenDbFolder.Name = "buttonToolsOpenDbFolder";
-            this.buttonToolsOpenDbFolder.Size = new System.Drawing.Size(255, 30);
+            this.buttonToolsOpenDbFolder.Size = new System.Drawing.Size(247, 22);
             this.buttonToolsOpenDbFolder.Text = "Open Program Database Folder";
             this.buttonToolsOpenDbFolder.Click += new System.EventHandler(this.buttonToolsOpenDbFolder_Click);
             // 
@@ -449,6 +463,7 @@
             // 
             this.panelBottom.BackColor = System.Drawing.Color.White;
             this.panelBottom.Controls.Add(this.groupBoxNotifications);
+            this.panelBottom.Controls.Add(this.groupBoxZilPrice);
             this.panelBottom.Controls.Add(this.groupBoxStatus);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelBottom.Location = new System.Drawing.Point(0, 601);
@@ -462,9 +477,9 @@
             this.groupBoxNotifications.Controls.Add(this.bottomNotifications);
             this.groupBoxNotifications.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxNotifications.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.groupBoxNotifications.Location = new System.Drawing.Point(302, 0);
+            this.groupBoxNotifications.Location = new System.Drawing.Point(452, 0);
             this.groupBoxNotifications.Name = "groupBoxNotifications";
-            this.groupBoxNotifications.Size = new System.Drawing.Size(937, 160);
+            this.groupBoxNotifications.Size = new System.Drawing.Size(787, 160);
             this.groupBoxNotifications.TabIndex = 0;
             this.groupBoxNotifications.TabStop = false;
             this.groupBoxNotifications.Text = "Notifications";
@@ -476,8 +491,20 @@
             this.bottomNotifications.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.bottomNotifications.Location = new System.Drawing.Point(3, 19);
             this.bottomNotifications.Name = "bottomNotifications";
-            this.bottomNotifications.Size = new System.Drawing.Size(931, 138);
+            this.bottomNotifications.Size = new System.Drawing.Size(781, 138);
             this.bottomNotifications.TabIndex = 0;
+            // 
+            // groupBoxZilPrice
+            // 
+            this.groupBoxZilPrice.Controls.Add(this.bottomZilPrice);
+            this.groupBoxZilPrice.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBoxZilPrice.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.groupBoxZilPrice.Location = new System.Drawing.Point(302, 0);
+            this.groupBoxZilPrice.Name = "groupBoxZilPrice";
+            this.groupBoxZilPrice.Size = new System.Drawing.Size(150, 160);
+            this.groupBoxZilPrice.TabIndex = 2;
+            this.groupBoxZilPrice.TabStop = false;
+            this.groupBoxZilPrice.Text = "Zilliqa Market Data";
             // 
             // groupBoxStatus
             // 
@@ -507,6 +534,15 @@
             this.timerInit.Interval = 10;
             this.timerInit.Tick += new System.EventHandler(this.timerInit_Tick);
             // 
+            // bottomZilPrice
+            // 
+            this.bottomZilPrice.BackColor = System.Drawing.Color.White;
+            this.bottomZilPrice.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.bottomZilPrice.Location = new System.Drawing.Point(3, 19);
+            this.bottomZilPrice.Name = "bottomZilPrice";
+            this.bottomZilPrice.Size = new System.Drawing.Size(144, 138);
+            this.bottomZilPrice.TabIndex = 0;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -526,6 +562,7 @@
             this.panelMain.ResumeLayout(false);
             this.panelBottom.ResumeLayout(false);
             this.groupBoxNotifications.ResumeLayout(false);
+            this.groupBoxZilPrice.ResumeLayout(false);
             this.groupBoxStatus.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -581,5 +618,8 @@
         private ToolStripMenuItem settingMenuWhale100K;
         private ToolStripMenuItem settingMenuWhale500K;
         private ToolStripMenuItem buttonToolsSearchWindow;
+        private ToolStripButton buttonStatistics;
+        private GroupBox groupBoxZilPrice;
+        private Controls.Main.BottomZilPriceControl bottomZilPrice;
     }
 }

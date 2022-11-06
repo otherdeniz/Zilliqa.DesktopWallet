@@ -87,6 +87,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                     if (resultControl != null)
                     {
                         resultControl.Dock = DockStyle.Fill;
+                        resultControl.Height = panelResult.Height;
                         panelResult.Controls.Add(resultControl);
                     }
                     if (resultControl is DetailsBaseControl drillDownBaseControl)
