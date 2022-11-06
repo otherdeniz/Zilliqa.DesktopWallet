@@ -78,7 +78,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             foreach (var notificationControl in panelLevel.Controls.OfType<NotificationBaseControl>().ToList())
             {
                 notificationControl.RefreshTimeInfo();
-                if (notificationControl.DisplayTicks >= 1200)
+                if (notificationControl.DisplayTicks >= 7200)
                 {
                     panelLevel.Controls.Remove(notificationControl);
                     notificationControl.Dispose();

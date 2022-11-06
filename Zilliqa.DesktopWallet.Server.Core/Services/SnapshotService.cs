@@ -2,6 +2,7 @@
 using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Data.Files;
+using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.ZilligraphDb;
 using Zilliqa.DesktopWallet.Server.Core.Files;
 using Zilliqa.DesktopWallet.Server.Core.Model;
@@ -62,7 +63,7 @@ namespace Zilliqa.DesktopWallet.Server.Core.Services
                         else
                         {
                             CreateSnapshot();
-                            await Task.Delay(TimeSpan.FromMinutes(1), cancellationToken);
+                            await Task.Delay(TimeSpan.FromMinutes(30), cancellationToken);
                         }
                     }
                 }
@@ -115,6 +116,9 @@ namespace Zilliqa.DesktopWallet.Server.Core.Services
                     snapshotVersionsFile.Snapshots.Add(snapshotEntry);
                     snapshotVersionsFile.Save();
                     Logging.LogInfo($"CreateSnapshot created file: {zipFileInfo.Name}");
+
+                    // we start the refresh of Cryptometa data after each snapshot
+                    TokenDataService.Instance.StartLoadTokens(true);
                 }
                 catch (Exception e)
                 {

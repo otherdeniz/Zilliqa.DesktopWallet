@@ -18,7 +18,11 @@ namespace Zilliqa.DesktopWallet.Core.Repository
         private const int CoinNumberZilliqa = 2687;
         private static readonly string[] CoinIdsWhiteList = new[]
         {
-            "governance-zil"
+            "governance-zil",
+            "bitcoin",
+            "wrapped-bitcoin",
+            "ethereum",
+            "tether"
         };
 
         private readonly CoingeckoApiClient _apiClient;
