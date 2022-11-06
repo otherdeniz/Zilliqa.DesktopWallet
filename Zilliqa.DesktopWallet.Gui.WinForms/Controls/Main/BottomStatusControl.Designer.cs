@@ -67,10 +67,11 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label1.Location = new System.Drawing.Point(3, 3);
             this.label1.Name = "label1";
             this.label1.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.label1.Size = new System.Drawing.Size(52, 15);
+            this.label1.Size = new System.Drawing.Size(52, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Status:";
             // 
@@ -83,7 +84,7 @@
             this.panelRowStatus.Location = new System.Drawing.Point(0, 23);
             this.panelRowStatus.Name = "panelRowStatus";
             this.panelRowStatus.Padding = new System.Windows.Forms.Padding(3);
-            this.panelRowStatus.Size = new System.Drawing.Size(276, 20);
+            this.panelRowStatus.Size = new System.Drawing.Size(276, 19);
             this.panelRowStatus.TabIndex = 1;
             // 
             // textStatus
@@ -103,17 +104,17 @@
             this.panelRowDbSize.Controls.Add(this.textDbSize);
             this.panelRowDbSize.Controls.Add(this.label3);
             this.panelRowDbSize.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelRowDbSize.Location = new System.Drawing.Point(0, 43);
+            this.panelRowDbSize.Location = new System.Drawing.Point(0, 42);
             this.panelRowDbSize.Name = "panelRowDbSize";
             this.panelRowDbSize.Padding = new System.Windows.Forms.Padding(3);
-            this.panelRowDbSize.Size = new System.Drawing.Size(276, 20);
+            this.panelRowDbSize.Size = new System.Drawing.Size(276, 19);
             this.panelRowDbSize.TabIndex = 2;
             // 
             // textDbSize
             // 
             this.textDbSize.AutoSize = true;
             this.textDbSize.Dock = System.Windows.Forms.DockStyle.Left;
-            this.textDbSize.Location = new System.Drawing.Point(92, 3);
+            this.textDbSize.Location = new System.Drawing.Point(89, 3);
             this.textDbSize.Name = "textDbSize";
             this.textDbSize.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.textDbSize.Size = new System.Drawing.Size(26, 15);
@@ -124,10 +125,11 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label3.Location = new System.Drawing.Point(3, 3);
             this.label3.Name = "label3";
             this.label3.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.label3.Size = new System.Drawing.Size(89, 15);
+            this.label3.Size = new System.Drawing.Size(86, 13);
             this.label3.TabIndex = 0;
             this.label3.Text = "Local DB Size:";
             // 
@@ -139,17 +141,17 @@
             this.panel2.Controls.Add(this.textDbBlocksCount);
             this.panel2.Controls.Add(this.labelBlocksCount);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 63);
+            this.panel2.Location = new System.Drawing.Point(0, 61);
             this.panel2.Name = "panel2";
             this.panel2.Padding = new System.Windows.Forms.Padding(3);
-            this.panel2.Size = new System.Drawing.Size(276, 20);
+            this.panel2.Size = new System.Drawing.Size(276, 19);
             this.panel2.TabIndex = 3;
             // 
             // textBlocksCount
             // 
             this.textBlocksCount.AutoSize = true;
             this.textBlocksCount.Dock = System.Windows.Forms.DockStyle.Left;
-            this.textBlocksCount.Location = new System.Drawing.Point(146, 3);
+            this.textBlocksCount.Location = new System.Drawing.Point(141, 3);
             this.textBlocksCount.Name = "textBlocksCount";
             this.textBlocksCount.Size = new System.Drawing.Size(16, 15);
             this.textBlocksCount.TabIndex = 1;
@@ -159,7 +161,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label4.Location = new System.Drawing.Point(134, 3);
+            this.label4.Location = new System.Drawing.Point(129, 3);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(12, 15);
             this.label4.TabIndex = 3;
@@ -169,7 +171,7 @@
             // 
             this.textDbBlocksCount.AutoSize = true;
             this.textDbBlocksCount.Dock = System.Windows.Forms.DockStyle.Left;
-            this.textDbBlocksCount.Location = new System.Drawing.Point(118, 3);
+            this.textDbBlocksCount.Location = new System.Drawing.Point(113, 3);
             this.textDbBlocksCount.Name = "textDbBlocksCount";
             this.textDbBlocksCount.Size = new System.Drawing.Size(16, 15);
             this.textDbBlocksCount.TabIndex = 2;
@@ -179,10 +181,11 @@
             // 
             this.labelBlocksCount.AutoSize = true;
             this.labelBlocksCount.Dock = System.Windows.Forms.DockStyle.Left;
+            this.labelBlocksCount.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelBlocksCount.Location = new System.Drawing.Point(3, 3);
             this.labelBlocksCount.Name = "labelBlocksCount";
             this.labelBlocksCount.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.labelBlocksCount.Size = new System.Drawing.Size(115, 15);
+            this.labelBlocksCount.Size = new System.Drawing.Size(110, 13);
             this.labelBlocksCount.TabIndex = 0;
             this.labelBlocksCount.Text = "Number of Blocks:";
             // 
@@ -194,17 +197,17 @@
             this.panel1.Controls.Add(this.textDbTransactionsCount);
             this.panel1.Controls.Add(this.labelTransactionCount);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 83);
+            this.panel1.Location = new System.Drawing.Point(0, 80);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(3);
-            this.panel1.Size = new System.Drawing.Size(276, 20);
+            this.panel1.Size = new System.Drawing.Size(276, 19);
             this.panel1.TabIndex = 4;
             // 
             // textTransactionsCount
             // 
             this.textTransactionsCount.AutoSize = true;
             this.textTransactionsCount.Dock = System.Windows.Forms.DockStyle.Left;
-            this.textTransactionsCount.Location = new System.Drawing.Point(177, 3);
+            this.textTransactionsCount.Location = new System.Drawing.Point(173, 3);
             this.textTransactionsCount.Name = "textTransactionsCount";
             this.textTransactionsCount.Size = new System.Drawing.Size(16, 15);
             this.textTransactionsCount.TabIndex = 1;
@@ -214,7 +217,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label5.Location = new System.Drawing.Point(165, 3);
+            this.label5.Location = new System.Drawing.Point(161, 3);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(12, 15);
             this.label5.TabIndex = 4;
@@ -224,7 +227,7 @@
             // 
             this.textDbTransactionsCount.AutoSize = true;
             this.textDbTransactionsCount.Dock = System.Windows.Forms.DockStyle.Left;
-            this.textDbTransactionsCount.Location = new System.Drawing.Point(149, 3);
+            this.textDbTransactionsCount.Location = new System.Drawing.Point(145, 3);
             this.textDbTransactionsCount.Name = "textDbTransactionsCount";
             this.textDbTransactionsCount.Size = new System.Drawing.Size(16, 15);
             this.textDbTransactionsCount.TabIndex = 5;
@@ -234,10 +237,11 @@
             // 
             this.labelTransactionCount.AutoSize = true;
             this.labelTransactionCount.Dock = System.Windows.Forms.DockStyle.Left;
+            this.labelTransactionCount.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelTransactionCount.Location = new System.Drawing.Point(3, 3);
             this.labelTransactionCount.Name = "labelTransactionCount";
             this.labelTransactionCount.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.labelTransactionCount.Size = new System.Drawing.Size(146, 15);
+            this.labelTransactionCount.Size = new System.Drawing.Size(142, 13);
             this.labelTransactionCount.TabIndex = 0;
             this.labelTransactionCount.Text = "Number of Transactions:";
             // 
@@ -297,17 +301,17 @@
             this.panel3.Controls.Add(this.labelLastBlockdate);
             this.panel3.Controls.Add(this.label6);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(0, 103);
+            this.panel3.Location = new System.Drawing.Point(0, 99);
             this.panel3.Name = "panel3";
             this.panel3.Padding = new System.Windows.Forms.Padding(3);
-            this.panel3.Size = new System.Drawing.Size(276, 20);
+            this.panel3.Size = new System.Drawing.Size(276, 34);
             this.panel3.TabIndex = 6;
             // 
             // labelLastBlockdate
             // 
             this.labelLastBlockdate.AutoSize = true;
             this.labelLastBlockdate.Dock = System.Windows.Forms.DockStyle.Left;
-            this.labelLastBlockdate.Location = new System.Drawing.Point(168, 3);
+            this.labelLastBlockdate.Location = new System.Drawing.Point(165, 3);
             this.labelLastBlockdate.Name = "labelLastBlockdate";
             this.labelLastBlockdate.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.labelLastBlockdate.Size = new System.Drawing.Size(22, 15);
@@ -318,10 +322,11 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label6.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label6.Location = new System.Drawing.Point(3, 3);
             this.label6.Name = "label6";
             this.label6.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.label6.Size = new System.Drawing.Size(165, 15);
+            this.label6.Size = new System.Drawing.Size(162, 13);
             this.label6.TabIndex = 0;
             this.label6.Text = "Last downloaded Blockdate:";
             // 

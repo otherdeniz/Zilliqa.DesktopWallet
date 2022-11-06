@@ -51,6 +51,30 @@ namespace Zillifriends.Shared.Common
             return bech32;
         }
 
+
+        public static string GetTimeAgoText(this DateTime utcDateTime)
+        {
+            var diffTime = DateTime.UtcNow - utcDateTime;
+            string timeAgoText;
+            if (diffTime.TotalDays > 1)
+            {
+                timeAgoText = $"{diffTime.TotalDays:0.0} days";
+            }
+            else if (diffTime.TotalHours > 1)
+            {
+                timeAgoText = $"{diffTime.TotalHours:0.0} hours";
+            }
+            else if (diffTime.TotalMinutes > 1)
+            {
+                timeAgoText = $"{diffTime.TotalMinutes:0.0} minutes";
+            }
+            else
+            {
+                timeAgoText = $"{diffTime.TotalSeconds:0} seconds";
+            }
+            return timeAgoText;
+        }
+
         public static string FromTransactionHexToShortReadable(this string transactionHex)
         {
             if (transactionHex.Length == 64)

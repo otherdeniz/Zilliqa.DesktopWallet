@@ -10,7 +10,7 @@ namespace Zilliqa.DesktopWallet.Server.Core.Services
 {
     public class SnapshotService
     {
-        private const int SNAPSHOT_INTERVALL_HOURS = 8;
+        private const int SNAPSHOT_INTERVALL_HOURS = 12;
 
         public static SnapshotService Instance { get; } = new();
 

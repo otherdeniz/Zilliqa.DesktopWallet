@@ -9,6 +9,7 @@ namespace Zilliqa.DesktopWallet.Core.Api.Coingecko
     public class CoingeckoApiClient
     {
         private static readonly string BaseUrl = "https://api.coingecko.com/api/v3/";
+        private static readonly string WebUrl = "https://www.coingecko.com/";
         private readonly object _callLock = new();
         private DateTime _lastCall = DateTime.Now.AddSeconds(-3);
 
@@ -25,6 +26,28 @@ namespace Zilliqa.DesktopWallet.Core.Api.Coingecko
         public CoinHistory GetCoinHistory(string coinId, DateTime date)
         {
             return CallApi<CoinHistory>($"coins/{coinId}/history?date={date:dd-MM-yyyy}");
+        }
+
+        public byte[]? GetCoinSparkline(string coinNumber)
+        {
+            try
+            {
+                using (var client = new RestClient(WebUrl))
+                {
+                    var imageRequest = new RestRequest($"coins/{coinNumber}/sparkline");
+                    var imageResponse = client.Execute(imageRequest);
+                    if (imageResponse.IsSuccessful)
+                    {
+                        return imageResponse.RawBytes;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logging.LogError("Failed to download sparkline from Coingecko", e);
+            }
+
+            return null;
         }
 
         private TResult CallApi<TResult>(string urlPath)
