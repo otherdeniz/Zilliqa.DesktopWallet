@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.ComponentModel;
 using System.Reflection;
+using Newtonsoft.Json.Linq;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Data.Model;
@@ -269,9 +270,18 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Details
                 PropertyRowBase? rowControl = null;
                 if (viewModelItem is DataParam dataParam)
                 {
-                    var textControl = new PropertyRowText();
-                    textControl.LoadValue(dataParam.Vname, $"[{dataParam.Type}] {dataParam.ResolvedValue}");
-                    rowControl = textControl;
+                    if (dataParam.Value is JToken rawJson)
+                    {
+                        var textControl = new PropertyRowTextRawJson();
+                        textControl.LoadValue(dataParam.Vname, $"[{dataParam.Type}] {dataParam.ResolvedValue}", rawJson);
+                        rowControl = textControl;
+                    }
+                    else
+                    {
+                        var textControl = new PropertyRowText();
+                        textControl.LoadValue(dataParam.Vname, $"[{dataParam.Type}] {dataParam.ResolvedValue}");
+                        rowControl = textControl;
+                    }
                 }
                 if (rowControl != null)
                 {

@@ -3,6 +3,7 @@ using System.Drawing;
 using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
+using Zilliqa.DesktopWallet.DatabaseSchema;
 using Zilliqa.DesktopWallet.ViewModelAttributes;
 
 namespace Zilliqa.DesktopWallet.Core.ViewModel
@@ -34,6 +35,23 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [DisplayName("Symbol")]
         [ColumnWidth(60)]
         public string? Symbol => _model.Symbol;
+
+        public string Type
+        {
+            get
+            {
+                switch (_model.ContractType)
+                {
+                    case SmartContractType.FungibleToken:
+                        return "Fungible";
+                    case SmartContractType.NonfungibleToken:
+                        return "NFT";
+                    case SmartContractType.GenericDapp:
+                        return "DApp";
+                }
+                return "";
+            }
+        }
 
         [DisplayName("Created")]
         [GridViewFormat("d")]

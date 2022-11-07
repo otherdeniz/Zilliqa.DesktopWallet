@@ -84,7 +84,8 @@ namespace Zilliqa.DesktopWallet.Core.Services
                     foreach (var coinPrice in TokenPriceFile.Instance.CoinPrices)
                     {
                         var symbolLowered = coinPrice.Symbol.ToLower();
-                        tokenModels.FirstOrDefault(t => t.Symbol.ToLower() == symbolLowered)
+                        tokenModels.FirstOrDefault(t => t.GetCoinPriceSymbolLowered() == symbolLowered 
+                                                        && t.CryptometaAsset != null)
                             ?.LoadPriceProperties(coinPrice);
                     }
 
@@ -114,7 +115,8 @@ namespace Zilliqa.DesktopWallet.Core.Services
                     {
                         refreshExisting = true;
                         refreshAssets = _tokenModels.Where(t => 
-                            TokenPriceFile.Instance.CoinPrices.Any(cp => cp.Symbol.ToLower() == t.Symbol.ToLower()))
+                            TokenPriceFile.Instance.CoinPrices.Any(cp => cp.Symbol.ToLower() == t.Symbol.ToLower() 
+                                                                         && t.CryptometaAsset != null))
                             .ToList();
                     }
                     if (refreshNew || refreshExisting)
@@ -127,13 +129,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                         {
                             try
                             {
-                                var resolveSymbol = tokenModel.Symbol;
-                                if (tokenModel.CryptometaAsset?.Gen.Score == 100 
-                                    && (resolveSymbol.StartsWith("z") || resolveSymbol.StartsWith("w")))
-                                {
-                                    resolveSymbol = resolveSymbol.Substring(1);
-                                }
-                                RepositoryManager.Instance.CoingeckoRepository.GetCoinPrice(resolveSymbol, cp =>
+                                RepositoryManager.Instance.CoingeckoRepository.GetCoinPrice(tokenModel.GetCoinPriceSymbolLowered(), cp =>
                                 {
                                     tokenModel.LoadPriceProperties(cp);
                                     coinPrices.Add(cp);

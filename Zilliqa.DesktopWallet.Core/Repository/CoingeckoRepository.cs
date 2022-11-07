@@ -163,8 +163,9 @@ namespace Zilliqa.DesktopWallet.Core.Repository
             return null;
         }
 
-        public void GetCoinPrice(string symbol, Action<CoinPrice> afterDataReceived, bool loadInBackground = true)
+        public void GetCoinPrice(string? symbol, Action<CoinPrice> afterDataReceived, bool loadInBackground = true)
         {
+            if (symbol == null) return;
             var symbolLowered = symbol.ToLower();
             if (symbolLowered == "zil" 
                 && ZilCoinPrice != null)

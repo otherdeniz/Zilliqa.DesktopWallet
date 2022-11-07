@@ -11,8 +11,8 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
             SmartContract = smartContract;
             ConstructorArguments = smartContract.ConstructorValues;
             var parser = new ScillaParser(smartContract.DeploymentTransaction.Value?.Code ?? "");
-            Fields = parser.ParseFields();
-            CodeTransitions = parser.ParseTransitions();
+            Fields = parser.Fields;
+            CodeTransitions = parser.Transitions;
         }
 
         public SmartContract SmartContract { get; }

@@ -127,8 +127,10 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
             return dataSource;
         }
 
-        [Browsable(false)] 
-        public bool HasHolders => Code.ScillaParser.ParseFields().Any(f => f == "balances");
+        [Browsable(false)]
+        public bool HasHolders => Code.ScillaParser.Fields.Any(f => f == "balances")
+                                  && (SmartContractModel.SmartContractTypeEnum == SmartContractType.FungibleToken
+                                      || SmartContractModel.SmartContractTypeEnum == SmartContractType.NonfungibleToken);
 
         [DetailsGridView("Holders", nameof(HasHolders))]
         public PageableDataSource<AddressAmountRowViewModel> GetHolders()

@@ -25,7 +25,7 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         [DisplayName("Address")] 
         public string AddressText { get; }
 
-        [GridViewFormat("#,##0.0000")] 
+        [GridViewFormat("#,##0.####")] 
         public decimal Amount { get; }
 
         [GridViewFormat("0.000 '%'")]

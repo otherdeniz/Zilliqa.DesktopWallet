@@ -7,11 +7,12 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel.ValueModel
         public ScillaCodeValue(string code)
         {
             Code = code;
+            ScillaParser = new ScillaParser(Code);
         }
 
         public string Code { get; }
 
-        public ScillaParser ScillaParser => new ScillaParser(Code);
+        public ScillaParser ScillaParser { get; }
 
         public override string ToString()
         {

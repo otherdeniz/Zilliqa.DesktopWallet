@@ -69,7 +69,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             if (base.OnOk())
             {
                 var scillaParser = new ScillaParser(scillaCodeText.Text!);
-                if (scillaParser.ParseContractName() == null)
+                if (scillaParser.ContractName == null)
                 {
                     MessageBox.Show("Could not read the contract name from scilla code", "Incomplete Scilla Code",
                         MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -90,7 +90,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             if (refreshArguments == null)
             {
                 var codeConstructorArguments = new ScillaParser(scillaCodeText.Text ?? "")
-                    .ParseContractName()?.ParseArguments();
+                    .ContractName?.ParseArguments();
                 if (codeConstructorArguments == null)
                 {
                     return;

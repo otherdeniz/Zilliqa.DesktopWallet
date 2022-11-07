@@ -125,7 +125,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
             List<DataParam>? constructorArguments = null,
             int? gasLimit = null)
         {
-            var contractName = new ScillaParser(scillaCode).ParseContractName()?.Name;
+            var contractName = new ScillaParser(scillaCode).ContractName?.Name;
             var result = new SendTransactionResult(senderAccount.Address, new Address(ContractDeploymentAddress),
                 $"Deploy Smart Contract '{contractName}'");
             gasLimit ??= GasLimitDefaultContractCall;
