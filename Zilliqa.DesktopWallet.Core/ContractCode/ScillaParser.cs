@@ -11,9 +11,9 @@ namespace Zilliqa.DesktopWallet.Core.ContractCode
         public static readonly Regex FieldRegEx =
             new Regex(@"^\s*field\s+(\w+)\s*:", RegexOptions.Multiline | RegexOptions.Compiled);
         public static readonly Regex TransitionRegEx =
-            new Regex(@"transition\s+([A-z]+)\s*\(((?:[A-z\d:\s,]|\([A-z\d:\s,]*\))*)\)", RegexOptions.Multiline | RegexOptions.Compiled);
+            new Regex(@"transition\s+([A-z]+)\s*\(((?:[A-z\d:\s,]|\([A-z\d\s\(\)]*\)|\(\*.+\*\))*)\)", RegexOptions.Multiline | RegexOptions.Compiled);
         public static readonly Regex ArgumentRegEx =
-            new Regex(@"([A-z]*)\s*:\s*((?:[A-z\d:\s]|\([A-z\d:\s]*\))*)", RegexOptions.Multiline | RegexOptions.Compiled);
+            new Regex(@"([A-z\d]*)\s*:\s*((?:[A-z\d:\s]|\([A-z\d\s\(\)]*\))*)", RegexOptions.Multiline | RegexOptions.Compiled);
 
         private string[]? _fields;
         private List<CodeTransition>? _transitions;
