@@ -27,6 +27,8 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
 
         public CryptometaAsset? CryptometaAsset { get; set; }
 
+        public SmartContractType? ContractType => SmartContractModels.LastOrDefault()?.SmartContractTypeEnum;
+
         public DateTime? CreatedDate => SmartContractModels.Any() 
             ? SmartContractModels.Min(s => s.Timestamp) : null;
 
@@ -55,6 +57,18 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
             {
                 MaxSupply = coinPrice.MarketData.MaxSupply ?? coinPrice.MarketData.TotalSupply;
             }
+        }
+
+        public string? GetCoinPriceSymbolLowered()
+        {
+            if (CryptometaAsset == null) return null;
+            var resolveSymbol = Symbol;
+            if (CryptometaAsset.Gen.Score == 100
+                && (resolveSymbol.StartsWith("z") || resolveSymbol.StartsWith("w")))
+            {
+                resolveSymbol = resolveSymbol.Substring(1);
+            }
+            return resolveSymbol.ToLower();
         }
 
         public string GetUniqueId()

@@ -40,13 +40,13 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                 smartContract.OwnerAddress = ownerAddress ?? deploymentTransaction.SenderAddress;
 
                 var scillaParser = new ScillaParser(deploymentTransaction.GetPatchedCode() ?? string.Empty);
-                var contratName = scillaParser.ParseContractName();
+                var contratName = scillaParser.ContractName;
                 if (contratName != null)
                 {
                     smartContract.ContractName = contratName.Name;
                 }
 
-                smartContract.StateFields = scillaParser.ParseFields();
+                smartContract.StateFields = scillaParser.Fields;
 
                 var contractAddress = ApiRetryCalls.RetryTaskTillCompleted<Address>(() =>
                         ZilliqaClient.DefaultInstance

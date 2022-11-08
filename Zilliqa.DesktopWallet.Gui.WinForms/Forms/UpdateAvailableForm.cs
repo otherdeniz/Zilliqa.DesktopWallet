@@ -25,7 +25,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         private void LoadRelease(GithubReleaseInfo releaseInfo)
         {
             _releaseInfo = releaseInfo;
-            labelCurrentVersion.Text = ApplicationInfo.ApplicationVersionText;
+            labelCurrentVersion.Text = $"v{ApplicationInfo.ApplicationVersionText.ToLower()}";
             labelNewVersion.Text = releaseInfo.Name;
             labelReleaseDate.Text = releaseInfo.CreatedAt.ToString("g");
             labelDownloadSize.Text = releaseInfo.FileSize.BytesToReadable();

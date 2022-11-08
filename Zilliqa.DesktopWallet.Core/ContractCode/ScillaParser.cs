@@ -11,9 +11,13 @@ namespace Zilliqa.DesktopWallet.Core.ContractCode
         public static readonly Regex FieldRegEx =
             new Regex(@"^\s*field\s+(\w+)\s*:", RegexOptions.Multiline | RegexOptions.Compiled);
         public static readonly Regex TransitionRegEx =
-            new Regex(@"transition\s+([A-z]+)\s*\(((?:[A-z\d:\s,]|\([A-z\d:\s,]*\))*)\)", RegexOptions.Multiline | RegexOptions.Compiled);
+            new Regex(@"transition\s+([A-z]+)\s*\(((?:[A-z\d:\s,]|\([A-z\d\s\(\)]*\)|\(\*.+\*\))*)\)", RegexOptions.Multiline | RegexOptions.Compiled);
         public static readonly Regex ArgumentRegEx =
-            new Regex(@"([A-z]*)\s*:\s*((?:[A-z\d:\s]|\([A-z\d:\s]*\))*)", RegexOptions.Multiline | RegexOptions.Compiled);
+            new Regex(@"([A-z\d]*)\s*:\s*((?:[A-z\d:\s]|\([A-z\d\s\(\)]*\))*)", RegexOptions.Multiline | RegexOptions.Compiled);
+
+        private string[]? _fields;
+        private List<CodeTransition>? _transitions;
+        private (bool, CodeContract?)? _contractName;
 
         public ScillaParser(string code)
         {
@@ -22,7 +26,23 @@ namespace Zilliqa.DesktopWallet.Core.ContractCode
 
         public string Code { get; }
 
-        public CodeContract? ParseContractName()
+        public CodeContract? ContractName
+        {
+            get
+            {
+                if (_contractName == null)
+                {
+                    _contractName = (true, ParseContractName());
+                }
+                return _contractName.Value.Item2;
+            }
+        }
+
+        public string[] Fields => _fields ??= ParseFields();
+
+        public List<CodeTransition> Transitions => _transitions ??= ParseTransitions();
+
+        private CodeContract? ParseContractName()
         {
             var contractNameMatch1 = ContractNameRegEx.Match(Code);
             if (contractNameMatch1.Success)
@@ -37,7 +57,14 @@ namespace Zilliqa.DesktopWallet.Core.ContractCode
             return null;
         }
 
-        public string[] ParseFields()
+        private List<CodeTransition> ParseTransitions()
+        {
+            return TransitionRegEx.Matches(Code)
+                .Select(t => new CodeTransition(t.Groups[1].Value, t.Groups[2].Value))
+                .ToList();
+        }
+
+        private string[] ParseFields()
         {
             return FieldRegEx.Matches(Code)
                 .Select(f => f.Groups[1].Value)
@@ -45,12 +72,6 @@ namespace Zilliqa.DesktopWallet.Core.ContractCode
                 .ToArray();
         }
 
-        public List<CodeTransition> ParseTransitions()
-        {
-            return TransitionRegEx.Matches(Code)
-                .Select(t => new CodeTransition(t.Groups[1].Value, t.Groups[2].Value))
-                .ToList();
-        }
     }
 
     public class CodeContract
