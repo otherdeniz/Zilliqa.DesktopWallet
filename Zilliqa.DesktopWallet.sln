@@ -78,6 +78,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.Serve
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.Server.Core", "Zilliqa.DesktopWallet.Server.Core\Zilliqa.DesktopWallet.Server.Core.csproj", "{A2C44130-91B8-4401-A5B5-D26A57C3D130}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.Device.Ledger", "Zilliqa.DesktopWallet.Device.Ledger\Zilliqa.DesktopWallet.Device.Ledger.csproj", "{C0DC31A6-04E4-4C55-AA19-C2DCBEC637B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zilliqa.DesktopWallet.Device.Test", "Zilliqa.DesktopWallet.Device.Test\Zilliqa.DesktopWallet.Device.Test.csproj", "{2ED0967B-3617-4630-B820-E7BD106939C2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ledger.Net", "Ledger.Net\Ledger.Net.csproj", "{CFEA69A1-BE89-4D4E-83DF-BCEE3D24BDF0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ledger.Net.Tests", "Ledger.Net.Tests\Ledger.Net.Tests.csproj", "{E672E9F5-2E32-493E-8A4E-71D87D22CCF7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -183,6 +191,22 @@ Global
 		{A2C44130-91B8-4401-A5B5-D26A57C3D130}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2C44130-91B8-4401-A5B5-D26A57C3D130}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2C44130-91B8-4401-A5B5-D26A57C3D130}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0DC31A6-04E4-4C55-AA19-C2DCBEC637B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0DC31A6-04E4-4C55-AA19-C2DCBEC637B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0DC31A6-04E4-4C55-AA19-C2DCBEC637B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0DC31A6-04E4-4C55-AA19-C2DCBEC637B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2ED0967B-3617-4630-B820-E7BD106939C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2ED0967B-3617-4630-B820-E7BD106939C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2ED0967B-3617-4630-B820-E7BD106939C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2ED0967B-3617-4630-B820-E7BD106939C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFEA69A1-BE89-4D4E-83DF-BCEE3D24BDF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFEA69A1-BE89-4D4E-83DF-BCEE3D24BDF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFEA69A1-BE89-4D4E-83DF-BCEE3D24BDF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFEA69A1-BE89-4D4E-83DF-BCEE3D24BDF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E672E9F5-2E32-493E-8A4E-71D87D22CCF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E672E9F5-2E32-493E-8A4E-71D87D22CCF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E672E9F5-2E32-493E-8A4E-71D87D22CCF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E672E9F5-2E32-493E-8A4E-71D87D22CCF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -214,6 +238,10 @@ Global
 		{FB5202D1-9090-4C60-8F79-1F43033FD686} = {190B12E0-B5AD-4933-99B6-5613E340A9E0}
 		{D13C4026-F187-4D9D-B765-4F8DDF637CC1} = {190B12E0-B5AD-4933-99B6-5613E340A9E0}
 		{A2C44130-91B8-4401-A5B5-D26A57C3D130} = {190B12E0-B5AD-4933-99B6-5613E340A9E0}
+		{C0DC31A6-04E4-4C55-AA19-C2DCBEC637B9} = {7F110258-3BCE-4E17-836E-E784317FBB40}
+		{2ED0967B-3617-4630-B820-E7BD106939C2} = {7F110258-3BCE-4E17-836E-E784317FBB40}
+		{CFEA69A1-BE89-4D4E-83DF-BCEE3D24BDF0} = {989718DB-B00E-4B38-8F84-27E3E3C9D545}
+		{E672E9F5-2E32-493E-8A4E-71D87D22CCF7} = {989718DB-B00E-4B38-8F84-27E3E3C9D545}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33F6C299-4831-4DA4-9B5F-65B8F3094132}
