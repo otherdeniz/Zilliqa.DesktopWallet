@@ -29,7 +29,6 @@
             this.walletListItemControl1 = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet.WalletListItemControl();
             this.toolStripWalletList = new System.Windows.Forms.ToolStrip();
             this.buttonCreate = new System.Windows.Forms.ToolStripButton();
-            this.toolImport = new System.Windows.Forms.ToolStripButton();
             this.groupAccountDetails = new System.Windows.Forms.GroupBox();
             this.panelAccountDetails = new System.Windows.Forms.Panel();
             this.accountContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -91,7 +90,6 @@
             this.walletListItemControl2.BackColor = System.Drawing.Color.White;
             this.walletListItemControl2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.walletListItemControl2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.walletListItemControl2.IsSelected = false;
             this.walletListItemControl2.Location = new System.Drawing.Point(0, 0);
             this.walletListItemControl2.Name = "walletListItemControl2";
             this.walletListItemControl2.Size = new System.Drawing.Size(238, 56);
@@ -151,7 +149,6 @@
             this.walletListItemControl1.BackColor = System.Drawing.Color.White;
             this.walletListItemControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.walletListItemControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.walletListItemControl1.IsSelected = false;
             this.walletListItemControl1.Location = new System.Drawing.Point(0, 0);
             this.walletListItemControl1.Name = "walletListItemControl1";
             this.walletListItemControl1.Size = new System.Drawing.Size(238, 56);
@@ -161,8 +158,7 @@
             // 
             this.toolStripWalletList.CanOverflow = false;
             this.toolStripWalletList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.buttonCreate,
-            this.toolImport});
+            this.buttonCreate});
             this.toolStripWalletList.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStripWalletList.Location = new System.Drawing.Point(3, 21);
             this.toolStripWalletList.Name = "toolStripWalletList";
@@ -174,18 +170,9 @@
             this.buttonCreate.Image = ((System.Drawing.Image)(resources.GetObject("buttonCreate.Image")));
             this.buttonCreate.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonCreate.Name = "buttonCreate";
-            this.buttonCreate.Size = new System.Drawing.Size(88, 20);
-            this.buttonCreate.Text = "Create New";
+            this.buttonCreate.Size = new System.Drawing.Size(97, 20);
+            this.buttonCreate.Text = "Add Account";
             this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
-            // 
-            // toolImport
-            // 
-            this.toolImport.Image = ((System.Drawing.Image)(resources.GetObject("toolImport.Image")));
-            this.toolImport.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolImport.Name = "toolImport";
-            this.toolImport.Size = new System.Drawing.Size(113, 20);
-            this.toolImport.Text = "Import / Restore";
-            this.toolImport.Click += new System.EventHandler(this.toolImport_Click);
             // 
             // groupAccountDetails
             // 
@@ -265,7 +252,6 @@
         private Panel panelWalletList;
         private ToolStrip toolStripWalletList;
         private ToolStripButton buttonCreate;
-        private ToolStripButton toolImport;
         private Panel panelWatchedAccounts;
         private Wallet.WalletListItemControl walletListItemControl2;
         private Panel panelMyAccounts;

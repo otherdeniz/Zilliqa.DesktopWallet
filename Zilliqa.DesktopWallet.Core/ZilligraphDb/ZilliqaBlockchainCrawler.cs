@@ -155,7 +155,10 @@ namespace Zilliqa.DesktopWallet.Core.ZilligraphDb
                             processBlockNumber = 0;
                         }
                     }
-                    IsCompleted = CrawlerStateDat.Instance.TransactionCrawler.HighestBlock >= newestBlock - 1;
+
+                    IsCompleted = CrawlerStateDat.Instance.TransactionCrawler.HighestBlock >= newestBlock - 1
+                                  && CrawlerStateDat.Instance.TransactionCrawler.LowestBlock == 1;
+
                     if (processBlockNumber > 0)
                     {
                         var blockModel =

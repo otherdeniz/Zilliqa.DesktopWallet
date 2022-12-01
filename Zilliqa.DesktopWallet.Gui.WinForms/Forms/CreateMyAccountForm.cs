@@ -1,12 +1,11 @@
-﻿using Zilliqa.DesktopWallet.Core.Cryptography;
-using Zilliqa.DesktopWallet.Core.Data.Files;
+﻿using Zilliqa.DesktopWallet.ApiClient.Utils;
 using Zilliqa.DesktopWallet.Core.ViewModel;
-using Zilliqa.DesktopWallet.Gui.WinForms.Properties;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet;
 using Zilliqa.DesktopWallet.Gui.WinForms.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 {
-    public partial class CreateMyAccountForm : DialogBaseForm
+    public partial class CreateMyAccountForm : DialogWithPasswordBaseForm
     {
         public CreateMyAccountForm()
         {
@@ -14,8 +13,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         }
 
         public string AccountName { get; private set; } = string.Empty;
-
-        public string Password { get; private set; } = string.Empty;
 
         public static CreateAccountResult? Execute(Form parentForm)
         {
@@ -26,7 +23,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                     return new CreateAccountResult
                     {
                         Password = new PasswordInfo(form.Password),
-                        AccountName = form.AccountName
+                        AccountName = form.AccountName,
+                        AddWalletType = form.addAccountControl.AddType,
+                        PrivateKey = form.addAccountControl.PrivateKey
                     };
                 }
             }
@@ -36,41 +35,33 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         protected override bool OnOk()
         {
-            if (CheckFields(true))
+            if (base.OnOk())
             {
-                AccountName = textWalletName.Text;
-                Password = textPassword1.Text;
+                if (addAccountControl.AddType == AddAccountControl.AddWalletType.ImportPrivateKey
+                    && !CryptoUtil.IsPrivateKeyValid(addAccountControl.PrivateKey))
+                {
+                    MessageBox.Show("Invalid Private Key", "The Private Key is not valid",
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                    return false;
+                }
+
+                AccountName = addAccountControl.Title;
 
                 return true;
             }
             return false;
         }
 
-        private bool CheckFields(bool validatePassword)
+        protected override bool CheckFields()
         {
-            if (validatePassword &&
-                !EncryptionUtils.ValidatePasswordHash(textPassword1.Text, WalletDat.Instance.PasswordHash))
-            {
-                MessageBox.Show(Resources.EnterPasswordForm_WrongPassword_Text, Resources.EnterPasswordForm_WrongPassword_Title,
-                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
-                return false;
-            }
-
-            var ok = textWalletName.Text.Length >= 1
-                     && textPassword1.Text.Length >= 1;
-            buttonOk.Enabled = ok;
-            return ok;
+            return base.CheckFields()
+                   && addAccountControl.CheckFields();
         }
 
-        private void textWalletName_TextChanged(object sender, EventArgs e)
+        private void addAccountControl1_ValueChanged(object sender, EventArgs e)
         {
-            CheckFields(false);
-        }
-
-        private void textPassword1_TextChanged(object sender, EventArgs e)
-        {
-            CheckFields(false);
+            RefreshOkButton();
         }
     }
 }

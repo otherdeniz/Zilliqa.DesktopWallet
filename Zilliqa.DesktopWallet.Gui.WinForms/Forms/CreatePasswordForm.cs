@@ -1,5 +1,7 @@
-﻿using Zilliqa.DesktopWallet.Core.Data.Files;
+﻿using Zilliqa.DesktopWallet.ApiClient.Utils;
+using Zilliqa.DesktopWallet.Core.Data.Files;
 using Zilliqa.DesktopWallet.Core.ViewModel;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet;
 using Zilliqa.DesktopWallet.Gui.WinForms.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
@@ -26,7 +28,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                         return new CreateAccountResult
                         {
                             Password = new PasswordInfo(form.Password),
-                            AccountName = form.AccountName
+                            AccountName = form.AccountName,
+                            AddWalletType = form.radioButtonCreateNow.Checked
+                                ? form.addAccountControl.AddType
+                                : AddAccountControl.AddWalletType.NotSelected,
+                            PrivateKey = form.addAccountControl.PrivateKey
                         };
                     }
                 }
@@ -39,49 +45,55 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             return null;
         }
 
-        //protected override bool OnCancel()
-        //{
-        //    if (MessageBox.Show("If you cancel, the application will exit.", "Exit application?",
-        //            MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
-        //    {
-        //        Application.Exit();
-        //    }
-
-        //    return false;
-        //}
-
         protected override bool OnOk()
         {
-            if (CheckPassword())
+            if (CheckFields())
             {
-                AccountName = textWalletName.Text;
+                if (radioButtonCreateNow.Checked
+                    && addAccountControl.AddType == AddAccountControl.AddWalletType.ImportPrivateKey
+                    && !CryptoUtil.IsPrivateKeyValid(addAccountControl.PrivateKey))
+                {
+                    MessageBox.Show("Invalid Private Key", "The Private Key is not valid",
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                    return false;
+                }
+
+                AccountName = addAccountControl.Title;
                 Password = textPassword1.Text;
             }
             return true;
         }
 
-        private bool CheckPassword()
+        private bool CheckFields()
         {
-            var nameOk = textWalletName.Text.Length >= 1;
+            var walletOk = radioButtonNotCreate.Checked
+                           || addAccountControl.CheckFields();
             var passwordOk = textPassword1.Text.Length >= WalletDat.MinPasswordLength 
                                && textPassword1.Text == textPassword2.Text;
-            buttonOk.Enabled = passwordOk && nameOk;
-            return passwordOk && nameOk;
+            buttonOk.Enabled = passwordOk && walletOk;
+            return passwordOk && walletOk;
         }
 
         private void textPassword1_TextChanged(object sender, EventArgs e)
         {
-            CheckPassword();
+            CheckFields();
         }
 
         private void textPassword2_TextChanged(object sender, EventArgs e)
         {
-            CheckPassword();
+            CheckFields();
         }
 
-        private void textWalletName_TextChanged(object sender, EventArgs e)
+        private void radioButtonCreateNow_CheckedChanged(object sender, EventArgs e)
         {
-            CheckPassword();
+            addAccountControl.Visible = radioButtonCreateNow.Checked;
+            CheckFields();
+        }
+
+        private void addAccountControl_ValueChanged(object sender, EventArgs e)
+        {
+            CheckFields();
         }
     }
 }

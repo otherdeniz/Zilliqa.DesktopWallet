@@ -4,6 +4,7 @@ using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet;
 using Zilliqa.DesktopWallet.Gui.WinForms.Forms;
+using Zilliqa.DesktopWallet.Gui.WinForms.ViewModel;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 {
@@ -180,18 +181,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
         private void buttonCreate_Click(object sender, EventArgs e)
         {
             var result = CreateMyAccountForm.Execute(this.ParentForm!);
-            if (result != null)
+            if (result?.AddWalletType == AddAccountControl.AddWalletType.AddNew)
             {
                 _repository?.AddAccount(MyAccount.Create(result.AccountName, result.Password.Password));
             }
-        }
-
-        private void toolImport_Click(object sender, EventArgs e)
-        {
-            var result = ImportMyAccountForm.Execute(this.ParentForm!);
-            if (result != null)
+            else if (result?.AddWalletType == AddAccountControl.AddWalletType.ImportPrivateKey)
             {
-                _repository?.AddAccount(MyAccount.Import(result.AccountName, result.PrivateKey, result.Password.Password));
+                _repository?.AddAccount(MyAccount.Import(result.AccountName, result.PrivateKey!, result.Password.Password));
             }
         }
 
