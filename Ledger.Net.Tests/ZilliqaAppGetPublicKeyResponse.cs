@@ -1,35 +1,17 @@
-﻿using System;
-using System.Security.Cryptography;
+﻿using System.Linq;
 using System.Text;
-using Zilliqa.DesktopWallet.ApiClient.Utils;
 
 namespace Ledger.Net.Responses
 {
-    public class ZilliqaAppGetPublicKeyResponse : GetPublicKeyResponseBase
+    public class ZilliqaAppGetPublicKeyResponse : ResponseBase
     {
-        private string _addressHex;
-        private string _publicKeyHex;
+        private string _addressBech32;
 
         public ZilliqaAppGetPublicKeyResponse(byte[] data) : base(data)
         {
-            string addressHex;
-            using (SHA256 sha = SHA256.Create())
-            {
-                var addressByteArray = sha.ComputeHash(data);
-                addressHex = ByteUtil.ByteArrayToHexString(addressByteArray);
-            }
-            _addressHex = addressHex.Substring(24).ToLower();
-            _publicKeyHex = ByteUtil.ByteArrayToHexString(data);
+            _addressBech32 = Encoding.ASCII.GetString(data.Skip(data.Length - 44).Take(42).ToArray());
         }
 
-        protected override string GetAddressString(byte[] addressData)
-        {
-            return _addressHex;
-        }
-
-        protected override string GetPublicKeyString(byte[] publicKeyData)
-        {
-            return $"0x{_publicKeyHex}";
-        }
+        public string AddressBech32 => _addressBech32;
     }
 }

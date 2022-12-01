@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Hardwarewallets.Net;
 using Hardwarewallets.Net.AddressManagement;
@@ -6,6 +7,7 @@ using Hardwarewallets.Net.Model;
 using Ledger.Net.Exceptions;
 using Ledger.Net.Requests;
 using Ledger.Net.Responses;
+using Ledger.Net.Tests;
 
 namespace Ledger.Net
 {
@@ -13,8 +15,24 @@ namespace Ledger.Net
     {
         private bool _IsDisposed;
 
+        private static byte[] GetByteData(uint[] indices)
+        {
+            byte[] addressIndicesData;
+            using (var memoryStream = new MemoryStream())
+            {
+                memoryStream.WriteByte((byte)indices.Length);
+                for (var i = 0; i < indices.Length; i++)
+                {
+                    var data = BitConverter.GetBytes(indices[i]);
+                    memoryStream.Write(data, 0, data.Length);
+                }
+                addressIndicesData = memoryStream.ToArray();
+            }
 
-        private readonly Func<ZilCallAndPromptArgs<GetAddressArgs>, Task<GetPublicKeyResponseBase>> _GetAddressFunc = async s =>
+            return addressIndicesData;
+        }
+
+        private readonly Func<ZilCallAndPromptArgs<GetAddressArgs>, Task<ResponseBase>> _GetAddressFunc = async s =>
         {
             var lm = s.LedgerManager;
 
@@ -56,14 +74,13 @@ namespace Ledger.Net
 
         public void SetCoinNumber(uint coinNumber)
         {
+            //its always ZIL
         }
 
         public Task<ResponseBase> CallAndPrompt<T, T2>(Func<CallAndPromptArgs<T2>, Task<T>> func, CallAndPromptArgs<T2> state) where T : ResponseBase
         {
             throw new NotSupportedException();
         }
-
-        //public ICoinInfo CurrentCoin { get; private set; }
 
         public ZilLedgerManager(IHandlesRequest ledgerManagerTransport) : this(ledgerManagerTransport, null, null)
         {
@@ -88,25 +105,23 @@ namespace Ledger.Net
 
         public Task<string> GetAddressAsync(uint account, bool isChange, uint index, bool showDisplay)
         {
-            return GetAddressAsync(new BIP44AddressPath(false, 313U, account, isChange, index), false, showDisplay);
+            return GetAddressAsync(new ZilliqaBIP32AddressPath(false, 313U, account, isChange, index), false, showDisplay);
         }
 
         public async Task<string> GetAddressAsync(IAddressPath addressPath, bool isPublicKey, bool display)
         {
             CheckForDisposed();
-
-            var returnResponse = (GetPublicKeyResponseBase)await ZilCallAndPrompt(_GetAddressFunc,
+            var returnResponse = (ZilliqaAppGetPublicKeyResponse)await ZilCallAndPrompt(_GetAddressFunc,
                 new ZilCallAndPromptArgs<GetAddressArgs>
                 {
                     LedgerManager = this,
                     MemberName = nameof(GetAddressAsync),
                     Args = new GetAddressArgs(addressPath, display)
                 });
-
-            return isPublicKey ? returnResponse.PublicKey : returnResponse.Address;
+            return returnResponse.AddressBech32;
         }
 
-        public async Task<ResponseBase> ZilCallAndPrompt<T, T2>(Func<ZilCallAndPromptArgs<T2>, Task<T>> func, ZilCallAndPromptArgs<T2> state) where T : ResponseBase
+        public async Task<ResponseBase> ZilCallAndPrompt<TResponse, TGetArgs>(Func<ZilCallAndPromptArgs<TGetArgs>, Task<TResponse>> func, ZilCallAndPromptArgs<TGetArgs> state) where TResponse : ResponseBase
         {
             for (var i = 0; i < PromptRetryCount; i++)
             {
@@ -169,4 +184,17 @@ namespace Ledger.Net
         }
 
     }
+
+    public class ZilliqaGetAddressArgs
+    {
+        public ZilliqaBIP32AddressPath AddressPath { get; set; }
+        public bool ShowDisplay { get; set; }
+
+        public ZilliqaGetAddressArgs(ZilliqaBIP32AddressPath addressPath, bool showDisplay)
+        {
+            AddressPath = addressPath;
+            ShowDisplay = showDisplay;
+        }
+    }
+
 }

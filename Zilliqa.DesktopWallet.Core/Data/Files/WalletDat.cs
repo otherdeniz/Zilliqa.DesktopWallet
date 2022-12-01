@@ -20,12 +20,11 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
 
         public static string WalletDatFilePath => _walletDatFilePath ??= DataPathBuilder.UserDataRoot.GetFilePath("wallet.dat");
 
-        public static WalletDat CreateNew(PasswordInfo password, string firstAccountName)
+        public static WalletDat CreateNew(PasswordInfo password)
         {
             var wallet = new WalletDat();
             wallet.CreatedDateUtc = DateTime.UtcNow;
             wallet.PasswordHash = password.Hash;
-            wallet.MyAccounts.Add(MyAccount.Create(firstAccountName, password.Password));
             return wallet;
         }
 

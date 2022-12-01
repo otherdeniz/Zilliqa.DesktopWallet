@@ -3,8 +3,10 @@ using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Data.Files;
+using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main;
+using Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet;
 using Zilliqa.DesktopWallet.Gui.WinForms.Forms;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms
@@ -44,7 +46,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
                 {
                     return false;
                 }
-                var wallet = WalletDat.CreateNew(createWalletResult.Password, createWalletResult.AccountName);
+                var wallet = WalletDat.CreateNew(createWalletResult.Password);
+                if (createWalletResult.AddWalletType == AddAccountControl.AddWalletType.AddNew)
+                {
+                    wallet.MyAccounts.Add(MyAccount.Create(createWalletResult.AccountName, createWalletResult.Password.Password));
+                }
+                else if (createWalletResult.AddWalletType == AddAccountControl.AddWalletType.ImportPrivateKey)
+                {
+                    wallet.MyAccounts.Add(MyAccount.Import(createWalletResult.AccountName, createWalletResult.PrivateKey!, createWalletResult.Password.Password));
+                }
+
                 wallet.Save();
             }
             else

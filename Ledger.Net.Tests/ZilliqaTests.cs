@@ -113,7 +113,11 @@ namespace Ledger.Net.Tests
         [TestMethod]
         public async Task GetZilliqaWalletInfo()
         {
-            var address = await LedgerManager.GetAddressAsync(0, 0);
+            var path = $"m/44'/313'/1'/0/0";
+            var addressPath = AddressPathBase.Parse<BIP44AddressPath>(path);
+            var address = await LedgerManager.GetAddressAsync(addressPath, false, true);
+
+            //var address = await LedgerManager.GetAddressAsync(10000, false, 10000, true);
             Assert.IsTrue(!string.IsNullOrEmpty(address));
 
         }

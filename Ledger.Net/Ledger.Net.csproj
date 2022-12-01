@@ -4,7 +4,6 @@
     <TargetFrameworks>net6.0</TargetFrameworks>
     <Description>A cross platform C# library for the Ledger hardwarewallet. To see the samples, please clone the repo at the project Url.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/MelbourneDeveloper/Ledger.Net</PackageProjectUrl>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
@@ -18,8 +17,7 @@
     <Summary>A cross platform C# library for the Ledger hardwarewallet.</Summary>
     <LangVersion>7.3</LangVersion>
     <PackageTags>C# USB Hid Ledger Hardwarewallet Bitcoin Ethereum BitcoinCash Litecoin Cryptocurrency Security Tron</PackageTags>
-    <CodeAnalysisRuleSet>CodeRules.ruleset</CodeAnalysisRuleSet>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>     
+    <CodeAnalysisRuleSet>CodeRules.ruleset</CodeAnalysisRuleSet>     
   </PropertyGroup>
 
   <ItemGroup>
