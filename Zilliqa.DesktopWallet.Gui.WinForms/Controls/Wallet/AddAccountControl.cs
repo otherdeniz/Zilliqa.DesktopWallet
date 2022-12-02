@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel;
+using Zilliqa.DesktopWallet.Core;
+using Zilliqa.DesktopWallet.Core.Services;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 {
@@ -8,6 +10,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         {
             InitializeComponent();
             panelPrivateKey.Dock = DockStyle.Fill;
+            panelLedger.Dock = DockStyle.Fill;
         }
 
         public event EventHandler<EventArgs>? ValueChanged;
@@ -39,6 +42,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         [Browsable(false)]
         public string PrivateKey => textPrivateKey.Text;
 
+        [Browsable(false)]
+        public string? LedgerAddressBech32 { get; private set; }
+
         public bool CheckFields()
         {
             if (AddType == AddWalletType.NotSelected
@@ -49,6 +55,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             if (AddType == AddWalletType.ImportPrivateKey)
             {
                 return !string.IsNullOrEmpty(PrivateKey);
+            }
+            if (AddType == AddWalletType.ConnectLedger)
+            {
+                return !string.IsNullOrEmpty(LedgerAddressBech32);
             }
             return true;
         }
@@ -66,24 +76,70 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         private void radioButtonNew_Click(object sender, EventArgs e)
         {
             panelPrivateKey.Visible = false;
+            panelLedger.Visible = false;
             OnValueChanged();
         }
 
-        private void radioButtonImportPrivateKey_CheckedChanged(object sender, EventArgs e)
+        private void radioButtonImportPrivateKey_Click(object sender, EventArgs e)
         {
             panelPrivateKey.Visible = true;
+            panelLedger.Visible = false;
             OnValueChanged();
         }
 
-        private void radioButtonLedger_CheckedChanged(object sender, EventArgs e)
+        private void radioButtonLedger_Click(object sender, EventArgs e)
         {
             panelPrivateKey.Visible = false;
+            panelLedger.Visible = true;
             OnValueChanged();
         }
 
         private void textPrivateKey_TextChanged(object sender, EventArgs e)
         {
             OnValueChanged();
+        }
+
+        private void buttonGetLedgerAddress_Click(object sender, EventArgs e)
+        {
+            buttonGetLedgerAddress.Enabled = false;
+            labelQueryLedger.Visible = true;
+            labelLedgerError.Visible = false;
+            textLedgerAddress.Visible = false;
+            textLedgerAddress.ForeColor = Color.Blue;
+            LedgerAddressBech32 = null;
+            OnValueChanged();
+            Task.Run(async () =>
+            {
+                using (var ledgerService = new LedgerWalletService())
+                {
+                    try
+                    {
+                        var bech32Address = await ledgerService.ReadAddressBech32Async();
+                        LedgerAddressBech32 = bech32Address;
+                        WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                        {
+                            textLedgerAddress.Text = bech32Address;
+                            labelQueryLedger.Visible = false;
+                            labelLedgerError.Visible = false;
+                            textLedgerAddress.Visible = true;
+                            OnValueChanged();
+                            buttonGetLedgerAddress.Enabled = true;
+                        });
+                    }
+                    catch (Exception exception)
+                    {
+                        WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                        {
+                            labelLedgerError.Text = exception.Message;
+                            labelQueryLedger.Visible = false;
+                            labelLedgerError.Visible = true;
+                            textLedgerAddress.Visible = false;
+                            OnValueChanged();
+                            buttonGetLedgerAddress.Enabled = true;
+                        });
+                    }
+                }
+            });
         }
 
         public enum AddWalletType

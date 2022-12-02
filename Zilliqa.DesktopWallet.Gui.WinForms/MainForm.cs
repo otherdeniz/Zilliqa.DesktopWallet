@@ -55,6 +55,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
                 {
                     wallet.MyAccounts.Add(MyAccount.Import(createWalletResult.AccountName, createWalletResult.PrivateKey!, createWalletResult.Password.Password));
                 }
+                else if (createWalletResult.AddWalletType == AddAccountControl.AddWalletType.ConnectLedger)
+                {
+                    wallet.MyAccounts.Add(MyAccount.CreateLedger(createWalletResult.AccountName, createWalletResult.LedgerAddressBech32!));
+                }
 
                 wallet.Save();
             }

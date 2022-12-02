@@ -44,6 +44,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textPrivateKey = new System.Windows.Forms.TextBox();
             this.panelOptions = new System.Windows.Forms.Panel();
+            this.panelLedger = new System.Windows.Forms.Panel();
+            this.buttonGetLedgerAddress = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textLedgerAddress = new System.Windows.Forms.TextBox();
+            this.labelLedgerError = new System.Windows.Forms.Label();
+            this.labelQueryLedger = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -51,6 +57,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelPrivateKey.SuspendLayout();
             this.panelOptions.SuspendLayout();
+            this.panelLedger.SuspendLayout();
             this.SuspendLayout();
             // 
             // textWalletName
@@ -141,15 +148,14 @@
             // radioButtonLedger
             // 
             this.radioButtonLedger.AutoSize = true;
-            this.radioButtonLedger.Enabled = false;
             this.radioButtonLedger.Location = new System.Drawing.Point(23, 61);
             this.radioButtonLedger.Name = "radioButtonLedger";
-            this.radioButtonLedger.Size = new System.Drawing.Size(287, 19);
+            this.radioButtonLedger.Size = new System.Drawing.Size(195, 19);
             this.radioButtonLedger.TabIndex = 2;
             this.radioButtonLedger.TabStop = true;
-            this.radioButtonLedger.Text = "Connect Ledger hardware wallet (comming soon)";
+            this.radioButtonLedger.Text = "Connect Ledger hardware wallet";
             this.radioButtonLedger.UseVisualStyleBackColor = true;
-            this.radioButtonLedger.CheckedChanged += new System.EventHandler(this.radioButtonLedger_CheckedChanged);
+            this.radioButtonLedger.Click += new System.EventHandler(this.radioButtonLedger_Click);
             // 
             // radioButtonImportPrivateKey
             // 
@@ -161,7 +167,7 @@
             this.radioButtonImportPrivateKey.TabStop = true;
             this.radioButtonImportPrivateKey.Text = "Import private key";
             this.radioButtonImportPrivateKey.UseVisualStyleBackColor = true;
-            this.radioButtonImportPrivateKey.CheckedChanged += new System.EventHandler(this.radioButtonImportPrivateKey_CheckedChanged);
+            this.radioButtonImportPrivateKey.Click += new System.EventHandler(this.radioButtonImportPrivateKey_Click);
             // 
             // radioButtonNew
             // 
@@ -181,7 +187,7 @@
             this.panelPrivateKey.Controls.Add(this.textPrivateKey);
             this.panelPrivateKey.Location = new System.Drawing.Point(3, 22);
             this.panelPrivateKey.Name = "panelPrivateKey";
-            this.panelPrivateKey.Size = new System.Drawing.Size(192, 49);
+            this.panelPrivateKey.Size = new System.Drawing.Size(141, 49);
             this.panelPrivateKey.TabIndex = 2;
             this.panelPrivateKey.Visible = false;
             // 
@@ -200,18 +206,84 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textPrivateKey.Location = new System.Drawing.Point(0, 18);
             this.textPrivateKey.Name = "textPrivateKey";
-            this.textPrivateKey.Size = new System.Drawing.Size(192, 23);
+            this.textPrivateKey.Size = new System.Drawing.Size(141, 23);
             this.textPrivateKey.TabIndex = 12;
             this.textPrivateKey.TextChanged += new System.EventHandler(this.textPrivateKey_TextChanged);
             // 
             // panelOptions
             // 
+            this.panelOptions.Controls.Add(this.panelLedger);
             this.panelOptions.Controls.Add(this.panelPrivateKey);
             this.panelOptions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelOptions.Location = new System.Drawing.Point(0, 153);
             this.panelOptions.Name = "panelOptions";
             this.panelOptions.Size = new System.Drawing.Size(431, 101);
             this.panelOptions.TabIndex = 1;
+            // 
+            // panelLedger
+            // 
+            this.panelLedger.Controls.Add(this.labelQueryLedger);
+            this.panelLedger.Controls.Add(this.labelLedgerError);
+            this.panelLedger.Controls.Add(this.buttonGetLedgerAddress);
+            this.panelLedger.Controls.Add(this.label3);
+            this.panelLedger.Controls.Add(this.textLedgerAddress);
+            this.panelLedger.Location = new System.Drawing.Point(150, 22);
+            this.panelLedger.Name = "panelLedger";
+            this.panelLedger.Size = new System.Drawing.Size(254, 49);
+            this.panelLedger.TabIndex = 3;
+            this.panelLedger.Visible = false;
+            // 
+            // buttonGetLedgerAddress
+            // 
+            this.buttonGetLedgerAddress.Location = new System.Drawing.Point(0, 18);
+            this.buttonGetLedgerAddress.Name = "buttonGetLedgerAddress";
+            this.buttonGetLedgerAddress.Size = new System.Drawing.Size(133, 23);
+            this.buttonGetLedgerAddress.TabIndex = 14;
+            this.buttonGetLedgerAddress.Text = "Read Address";
+            this.buttonGetLedgerAddress.UseVisualStyleBackColor = true;
+            this.buttonGetLedgerAddress.Click += new System.EventHandler(this.buttonGetLedgerAddress_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(0, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(88, 15);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Ledger Address";
+            // 
+            // textLedgerAddress
+            // 
+            this.textLedgerAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textLedgerAddress.Location = new System.Drawing.Point(132, 18);
+            this.textLedgerAddress.Name = "textLedgerAddress";
+            this.textLedgerAddress.ReadOnly = true;
+            this.textLedgerAddress.Size = new System.Drawing.Size(122, 23);
+            this.textLedgerAddress.TabIndex = 12;
+            this.textLedgerAddress.Visible = false;
+            // 
+            // labelLedgerError
+            // 
+            this.labelLedgerError.AutoSize = true;
+            this.labelLedgerError.ForeColor = System.Drawing.Color.Red;
+            this.labelLedgerError.Location = new System.Drawing.Point(136, 22);
+            this.labelLedgerError.Name = "labelLedgerError";
+            this.labelLedgerError.Size = new System.Drawing.Size(32, 15);
+            this.labelLedgerError.TabIndex = 15;
+            this.labelLedgerError.Text = "Error";
+            this.labelLedgerError.Visible = false;
+            // 
+            // labelQueryLedger
+            // 
+            this.labelQueryLedger.AutoSize = true;
+            this.labelQueryLedger.ForeColor = System.Drawing.Color.Blue;
+            this.labelQueryLedger.Location = new System.Drawing.Point(136, 22);
+            this.labelQueryLedger.Name = "labelQueryLedger";
+            this.labelQueryLedger.Size = new System.Drawing.Size(130, 15);
+            this.labelQueryLedger.TabIndex = 16;
+            this.labelQueryLedger.Text = "Query Ledger address...";
+            this.labelQueryLedger.Visible = false;
             // 
             // AddAccountControl
             // 
@@ -232,6 +304,8 @@
             this.panelPrivateKey.ResumeLayout(false);
             this.panelPrivateKey.PerformLayout();
             this.panelOptions.ResumeLayout(false);
+            this.panelLedger.ResumeLayout(false);
+            this.panelLedger.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -252,5 +326,11 @@
         private Panel panelOptions;
         private Label label1;
         private TextBox textPrivateKey;
+        private Panel panelLedger;
+        private Button buttonGetLedgerAddress;
+        private Label label3;
+        private TextBox textLedgerAddress;
+        private Label labelQueryLedger;
+        private Label labelLedgerError;
     }
 }

@@ -32,7 +32,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                             AddWalletType = form.radioButtonCreateNow.Checked
                                 ? form.addAccountControl.AddType
                                 : AddAccountControl.AddWalletType.NotSelected,
-                            PrivateKey = form.addAccountControl.PrivateKey
+                            PrivateKey = form.addAccountControl.PrivateKey,
+                            LedgerAddressBech32 = form.addAccountControl.LedgerAddressBech32
                         };
                     }
                 }

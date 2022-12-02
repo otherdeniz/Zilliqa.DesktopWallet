@@ -38,45 +38,16 @@ namespace Ledger.Net.Tests
             }
         }
 
-        /// <summary>
-        /// This func is not necessary, but it is an example of how to make a call so that the user can be prompted with UI prompts based on the current state of the Ledger device
-        /// </summary>
-        private readonly Func<CallAndPromptArgs<GetAddressArgs>, Task<GetPublicKeyResponseBase>> _GetPublicKeyFunc = new Func<CallAndPromptArgs<GetAddressArgs>, Task<GetPublicKeyResponseBase>>(async (s) =>
-        {
-            var lm = s.LedgerManager;
-
-            var data = Helpers.GetDerivationPathData(s.Args.AddressPath);
-
-            GetPublicKeyResponseBase response;
-
-            switch (lm.CurrentCoin.App)
-            {
-                case App.Ethereum:
-                    //TODO: don't use the RequestHandler directly.
-                    response = await lm.RequestHandler.SendRequestAsync<EthereumAppGetPublicKeyResponse, EthereumAppGetPublicKeyRequest>(new EthereumAppGetPublicKeyRequest(s.Args.ShowDisplay, false, data));
-                    break;
-                case App.Bitcoin:
-                    //TODO: Should we use the Coin's IsSegwit here?
-                    //TODO: don't use the RequestHandler directly.
-                    response = await lm.RequestHandler.SendRequestAsync<BitcoinAppGetPublicKeyResponse, BitcoinAppGetPublicKeyRequest>(new BitcoinAppGetPublicKeyRequest(s.Args.ShowDisplay, BitcoinAddressType.Segwit, data));
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-
-            return response;
-        });
-
         [TestInitialize]
         public void Initialize()
         {
             WindowsHidDeviceFactory.Register(new DebugLogger(), new DebugTracer());
             WindowsUsbDeviceFactory.Register(new DebugLogger(), new DebugTracer());
-            _LedgerManagerBroker = new LedgerManagerBroker(3000, null, Prompt, new ZilliqaLedgerManagerFactory());
+            _LedgerManagerBroker = new LedgerManagerBroker(3000, null, OnErrorPrompt, new ZilliqaLedgerManagerFactory());
             _LedgerManagerBroker.Start();
         }
 
-        protected static async Task Prompt(int? returnCode, Exception exception, string member)
+        protected static async Task OnErrorPrompt(int? returnCode, Exception exception, string member)
         {
             if (returnCode.HasValue)
             {
@@ -113,7 +84,7 @@ namespace Ledger.Net.Tests
         [TestMethod]
         public async Task GetZilliqaWalletInfo()
         {
-            var address = await LedgerManager.GetAddressAsync(1, 1);
+            var address = await LedgerManager.GetAddressAsync(1, true);
             Assert.IsTrue(!string.IsNullOrEmpty(address));
 
         }

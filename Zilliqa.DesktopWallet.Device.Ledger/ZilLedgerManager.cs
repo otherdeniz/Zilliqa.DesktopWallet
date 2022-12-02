@@ -7,6 +7,7 @@ using Hardwarewallets.Net.Model;
 using Ledger.Net.Exceptions;
 using Ledger.Net.Requests;
 using Ledger.Net.Responses;
+using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Exceptions;
 
 namespace Ledger.Net
 {
@@ -77,36 +78,25 @@ namespace Ledger.Net
             if (_IsDisposed) throw new ObjectDisposedException($"The {nameof(ZilLedgerManager)} is Disposed. It can not longer function.", nameof(ZilLedgerManager));
         }
 
-        public async Task<string> GetAddressAsync(uint account, uint index)
+        public async Task<string> GetAddressAsync(uint index, bool showDisplay)
         {
-            return await GetAddressAsync(account, false, index, false);
-        }
+            CheckForDisposed();
 
-        public Task<string> GetAddressAsync(uint account, bool isChange, uint index, bool showDisplay)
-        {
-            var indexBytes = BitConverter.GetBytes(index).Reverse().ToArray();
-            var indexLE = BitConverter.ToUInt32(indexBytes);
-            return GetAddressAsync(new BIP44AddressPath(false, 313U, account, isChange, indexLE), false, showDisplay);
+            var data = BitConverter.GetBytes(index);
+
+            var response = await RequestHandler.SendRequestAsync<ZilliqaAppGetAddressResponse, ZilliqaAppGetAddressRequest>(new ZilliqaAppGetAddressRequest(showDisplay, data, false));
+
+            var addressBech32 = response.ReadAddressBech32();
+            if (!addressBech32.StartsWith("zil1"))
+            {
+                throw new LedgerAppException("Could not read ZIL address. Ensure Zilliqa app is open.");
+            }
+            return addressBech32;
         }
 
         public async Task<string> GetAddressAsync(IAddressPath addressPath, bool isPublicKey, bool showDisplay)
         {
-            CheckForDisposed();
-
-            //var data = Helpers.GetDerivationPathData(addressPath);
-            var data = BitConverter.GetBytes(Convert.ToUInt32(1));
-
-            var response = await RequestHandler.SendRequestAsync<ZilliqaAppGetAddressResponse, ZilliqaAppGetAddressRequest>(new ZilliqaAppGetAddressRequest(showDisplay, data, isPublicKey));
-
-            //var returnResponse = (GetPublicKeyResponseBase)await ZilCallAndPrompt(_GetAddressFunc,
-            //    new ZilCallAndPromptArgs<GetAddressArgs>
-            //    {
-            //        LedgerManager = this,
-            //        MemberName = nameof(GetAddressAsync),
-            //        Args = new GetAddressArgs(addressPath, display)
-            //    });
-
-            return isPublicKey ? response.ReadPublicKey() : response.ReadAddress();
+            throw new NotSupportedException();
         }
 
         public async Task<ResponseBase> ZilCallAndPrompt<T, T2>(Func<ZilCallAndPromptArgs<T2>, Task<T>> func, ZilCallAndPromptArgs<T2> state) where T : ResponseBase

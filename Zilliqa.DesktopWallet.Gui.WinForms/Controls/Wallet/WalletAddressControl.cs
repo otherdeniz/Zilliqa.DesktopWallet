@@ -28,15 +28,15 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         {
             _account = account;
             SetMainValueUniqueId(account.Address);
-            if (account.AccountData is MyAccount)
+            if (account.AccountData is MyAccount myAccount)
             {
                 buttonSend.Visible = true;
                 buttonSendToken.Visible = true;
                 menuStaking.Visible = true;
                 menuSmartContracts.Visible = true;
                 separatorSend.Visible = true;
-                buttonBackupPrivateKey.Visible = true;
-                separatorBackup.Visible = true;
+                buttonBackupPrivateKey.Visible = myAccount.Type == MyAccountType.EncryptedPrivateKey;
+                separatorBackup.Visible = myAccount.Type == MyAccountType.EncryptedPrivateKey;
                 buttonRemoveAccount.Enabled = !_account.HasFunds;
             }
             else

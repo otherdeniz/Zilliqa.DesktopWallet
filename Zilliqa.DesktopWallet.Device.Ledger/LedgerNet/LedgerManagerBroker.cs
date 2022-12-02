@@ -21,10 +21,10 @@ namespace Ledger.Net
             new FilterDeviceDefinition{ DeviceType= DeviceType.Hid, VendorId= 0x2c97, ProductId=0x0004, Label="Ledger Nano X"  }
         };
 
-        private DeviceListener _DeviceListener;
-        private SemaphoreSlim _Lock = new SemaphoreSlim(1, 1);
-        private TaskCompletionSource<IManagesLedger> _FirstLedgerTaskCompletionSource = new TaskCompletionSource<IManagesLedger>();
-        private bool disposed;
+        private DeviceListener _deviceListener;
+        private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
+        private TaskCompletionSource<IManagesLedger> _firstLedgerTaskCompletionSource = new TaskCompletionSource<IManagesLedger>();
+        private bool _disposed;
 
         /// <summary>
         /// Occurs after the LedgerManagerBroker notices that a device hasbeen connected, and initialized
@@ -54,33 +54,33 @@ namespace Ledger.Net
         {
             try
             {
-                await _Lock.WaitAsync();
+                await _lock.WaitAsync();
 
-                var LedgerManager = LedgerManagers.FirstOrDefault(t =>
+                var ledgerManager = LedgerManagers.FirstOrDefault(t =>
                 {
                     var ledgerManagerTransport = t.RequestHandler as LedgerManagerTransport;
                     return ReferenceEquals(ledgerManagerTransport?.LedgerHidDevice, e.Device);
                 });
 
-                if (LedgerManager == null)
+                if (ledgerManager == null)
                 {
-                    LedgerManager = LedgerManagerFactory.GetNewLedgerManager(e.Device, CoinUtility, ErrorPromptDelegate);
+                    ledgerManager = LedgerManagerFactory.GetNewLedgerManager(e.Device, CoinUtility, ErrorPromptDelegate);
 
                     var tempList = new List<IManagesLedger>(LedgerManagers)
                     {
-                        LedgerManager
+                        ledgerManager
                     };
 
                     LedgerManagers = new ReadOnlyCollection<IManagesLedger>(tempList);
 
-                    if (_FirstLedgerTaskCompletionSource.Task.Status == TaskStatus.WaitingForActivation) _FirstLedgerTaskCompletionSource.SetResult(LedgerManager);
+                    if (_firstLedgerTaskCompletionSource.Task.Status == TaskStatus.WaitingForActivation) _firstLedgerTaskCompletionSource.SetResult(ledgerManager);
 
-                    LedgerInitialized?.Invoke(this, new LedgerManagerConnectionEventArgs(LedgerManager));
+                    LedgerInitialized?.Invoke(this, new LedgerManagerConnectionEventArgs(ledgerManager));
                 }
             }
             finally
             {
-                _Lock.Release();
+                _lock.Release();
             }
         }
 
@@ -88,30 +88,30 @@ namespace Ledger.Net
         {
             try
             {
-                await _Lock.WaitAsync();
+                await _lock.WaitAsync();
 
-                var LedgerManager = LedgerManagers.FirstOrDefault(t =>
+                var ledgerManager = LedgerManagers.FirstOrDefault(t =>
                 {
                     var ledgerManagerTransport = t.RequestHandler as LedgerManagerTransport;
                     return ReferenceEquals(ledgerManagerTransport?.LedgerHidDevice, e.Device);
                 });
 
-                if (LedgerManager != null)
+                if (ledgerManager != null)
                 {
-                    LedgerDisconnected?.Invoke(this, new LedgerManagerConnectionEventArgs(LedgerManager));
+                    LedgerDisconnected?.Invoke(this, new LedgerManagerConnectionEventArgs(ledgerManager));
 
-                    LedgerManager.Dispose();
+                    ledgerManager.Dispose();
 
                     var tempList = new List<IManagesLedger>(LedgerManagers);
 
-                    tempList.Remove(LedgerManager);
+                    tempList.Remove(ledgerManager);
 
                     LedgerManagers = new ReadOnlyCollection<IManagesLedger>(tempList);
                 }
             }
             finally
             {
-                _Lock.Release();
+                _lock.Release();
             }
         }
 
@@ -128,31 +128,31 @@ namespace Ledger.Net
         /// </summary>
         public void Start(bool restart)
         {
-            if (restart && _DeviceListener != null)
+            if (restart && _deviceListener != null)
             {
                 LedgerManagers = new ReadOnlyCollection<IManagesLedger>(new List<IManagesLedger>());
-                _DeviceListener.DeviceDisconnected -= DevicePoller_DeviceDisconnected;
-                _DeviceListener.DeviceInitialized -= DevicePoller_DeviceInitialized;
-                _DeviceListener.Dispose();
-                _DeviceListener = null;
+                _deviceListener.DeviceDisconnected -= DevicePoller_DeviceDisconnected;
+                _deviceListener.DeviceInitialized -= DevicePoller_DeviceInitialized;
+                _deviceListener.Dispose();
+                _deviceListener = null;
             }
 
-            if (_DeviceListener == null)
+            if (_deviceListener == null)
             {
-                _DeviceListener = new DeviceListener(DeviceDefinitions, PollInterval)
+                _deviceListener = new DeviceListener(DeviceDefinitions, PollInterval)
                 {
                     Logger = new DebugLogger()
                 };
 
-                _DeviceListener.DeviceDisconnected += DevicePoller_DeviceDisconnected;
-                _DeviceListener.DeviceInitialized += DevicePoller_DeviceInitialized;
-                _DeviceListener.Start();
+                _deviceListener.DeviceDisconnected += DevicePoller_DeviceDisconnected;
+                _deviceListener.DeviceInitialized += DevicePoller_DeviceInitialized;
+                _deviceListener.Start();
             }
         }
 
         public void Stop()
         {
-            _DeviceListener?.Stop();
+            _deviceListener?.Stop();
         }
 
         /// <summary>
@@ -162,13 +162,12 @@ namespace Ledger.Net
         {
             try
             {
-                await _DeviceListener.CheckForDevicesAsync();
+                await _deviceListener.CheckForDevicesAsync();
             }
-#pragma warning disable CA1031 
             catch
             {
+                // skip
             }
-#pragma warning restore CA1031 
         }
 
         /// <summary>
@@ -177,23 +176,23 @@ namespace Ledger.Net
         /// <returns></returns>
         public async Task<IManagesLedger> WaitForFirstDeviceAsync()
         {
-            if (_DeviceListener == null) Start();
-            await _DeviceListener.CheckForDevicesAsync();
-            return await _FirstLedgerTaskCompletionSource.Task;
+            if (_deviceListener == null) Start();
+            await _deviceListener.CheckForDevicesAsync();
+            return await _firstLedgerTaskCompletionSource.Task;
         }
 
         public void Dispose()
         {
-            if (disposed) return;
-            disposed = true;
+            if (_disposed) return;
+            _disposed = true;
 
-            _Lock.Dispose();
-            _DeviceListener.Stop();
-            _DeviceListener.Dispose();
+            _lock.Dispose();
+            _deviceListener?.Stop();
+            _deviceListener?.Dispose();
 
-            foreach (var LedgerManager in LedgerManagers)
+            foreach (var ledgerManager in LedgerManagers)
             {
-                LedgerManager.Dispose();
+                ledgerManager.Dispose();
             }
 
             GC.SuppressFinalize(this);
