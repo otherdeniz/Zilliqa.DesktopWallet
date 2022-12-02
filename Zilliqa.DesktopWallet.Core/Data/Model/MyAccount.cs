@@ -12,14 +12,15 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
         private string? _addressHex;
         private Address? _address;
 
-        public static MyAccount CreateLedger(string name, string bech32Address)
+        public static MyAccount CreateLedger(string name, string bech32Address, string publicKey)
         {
             var result = new MyAccount
             {
                 Id = Guid.NewGuid().ToString(),
                 Type = MyAccountType.LedgerWallet,
                 Name = name,
-                AddressBech32 = bech32Address
+                AddressBech32 = bech32Address,
+                PublicKey = publicKey
             };
             return result;
         }

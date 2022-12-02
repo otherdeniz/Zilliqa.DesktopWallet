@@ -45,6 +45,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         [Browsable(false)]
         public string? LedgerAddressBech32 { get; private set; }
 
+        [Browsable(false)]
+        public string? LedgerPublicKey { get; private set; }
+
         public bool CheckFields()
         {
             if (AddType == AddWalletType.NotSelected
@@ -114,11 +117,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                 {
                     try
                     {
-                        var bech32Address = await ledgerService.ReadAddressBech32Async();
-                        LedgerAddressBech32 = bech32Address;
+                        var ledgerAddress = await ledgerService.ReadAddressBech32Async();
+                        LedgerAddressBech32 = ledgerAddress.AddressBech32;
+                        LedgerPublicKey = ledgerAddress.PublicKey;
                         WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                         {
-                            textLedgerAddress.Text = bech32Address;
+                            textLedgerAddress.Text = ledgerAddress.AddressBech32;
                             labelQueryLedger.Visible = false;
                             labelLedgerError.Visible = false;
                             textLedgerAddress.Visible = true;

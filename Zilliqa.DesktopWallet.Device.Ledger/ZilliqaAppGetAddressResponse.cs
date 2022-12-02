@@ -9,20 +9,14 @@ namespace Ledger.Net.Responses
 
         public ZilliqaAppGetAddressResponse(byte[] data) : base(data)
         {
-
+            ReadData(data);
         }
 
-        public string ReadAddressBech32()
-        {
-            using (var memoryStream = new MemoryStream(Data))
-            {
-                memoryStream.Seek(PubKeyByteLen, SeekOrigin.Begin);
-                var addressData = memoryStream.ReadAllBytes(Bech32AddrLen);
-                return Encoding.ASCII.GetString(addressData).ToLower();
-            }
-        }
+        public string AddressBech32 { get; private set; }
 
-        public string ReadPublicKey()
+        public string PublicKey { get; private set; }
+
+        private void ReadData(byte[] data)
         {
             using (var memoryStream = new MemoryStream(Data))
             {
@@ -30,10 +24,12 @@ namespace Ledger.Net.Responses
                 var sb = new StringBuilder();
                 foreach (var @byte in publicKeyData)
                 {
-                    sb.Append(@byte.ToString("X").ToLower());
+                    sb.Append(@byte.ToString("X").ToUpperInvariant());
                 }
+                PublicKey = sb.ToString();
 
-                return $"0x{sb}";
+                var addressData = memoryStream.ReadAllBytes(Bech32AddrLen);
+                AddressBech32 = Encoding.ASCII.GetString(addressData).ToLower();
             }
         }
 

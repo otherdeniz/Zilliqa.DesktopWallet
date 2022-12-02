@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Device.Net;
 using Hardwarewallets.Net.AddressManagement;
 using Hid.Net.Windows;
 using Ledger.Net.Requests;
 using Ledger.Net.Responses;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Usb.Net.Windows;
 
 namespace Ledger.Net.Tests
@@ -85,10 +78,8 @@ namespace Ledger.Net.Tests
         public async Task GetZilliqaWalletInfo()
         {
             var address = await LedgerManager.GetAddressAsync(1, true);
-            Assert.IsTrue(!string.IsNullOrEmpty(address));
-
+            Assert.IsTrue(!string.IsNullOrEmpty(address.AddressBech32));
         }
-
 
         private async Task<string> SignZilTransaction(string transactionRaw, string path, int? expectedDataLength = null)
         {

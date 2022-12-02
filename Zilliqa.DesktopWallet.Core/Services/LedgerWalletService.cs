@@ -1,6 +1,7 @@
 ﻿using Device.Net;
 using Hid.Net.Windows;
 using Ledger.Net;
+using Ledger.Net.Responses;
 using Usb.Net.Windows;
 using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Exceptions;
 
@@ -22,7 +23,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
             _ledgerManagerBroker.Start();
         }
 
-        public async Task<string> ReadAddressBech32Async()
+        public async Task<ZilliqaAppGetAddressResponse> ReadAddressBech32Async()
         {
             return await GetLedgerManager().GetAddressAsync(1, true);
         }

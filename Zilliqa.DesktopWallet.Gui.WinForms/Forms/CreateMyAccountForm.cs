@@ -26,7 +26,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                         AccountName = form.AccountName,
                         AddWalletType = form.addAccountControl.AddType,
                         PrivateKey = form.addAccountControl.PrivateKey,
-                        LedgerAddressBech32 = form.addAccountControl.LedgerAddressBech32
+                        LedgerAddressBech32 = form.addAccountControl.LedgerAddressBech32,
+                        LedgerPublicKey = form.addAccountControl.LedgerPublicKey
                     };
                 }
             }
