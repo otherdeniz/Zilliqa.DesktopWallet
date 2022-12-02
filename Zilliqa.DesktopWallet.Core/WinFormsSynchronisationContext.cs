@@ -15,5 +15,17 @@
                 action();
             }
         }
+
+        public static void ExecuteSynchronizedAndWait(Action action)
+        {
+            if (WinFormsMainContext != null && WinFormsMainContext != SynchronizationContext.Current)
+            {
+                WinFormsMainContext.Post(args => action(), null);
+            }
+            else
+            {
+                action();
+            }
+        }
     }
 }

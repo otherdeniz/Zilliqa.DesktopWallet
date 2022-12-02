@@ -24,7 +24,7 @@ namespace Ledger.Net.Responses
                 var sb = new StringBuilder();
                 foreach (var @byte in publicKeyData)
                 {
-                    sb.Append(@byte.ToString("X").ToUpperInvariant());
+                    sb.Append(@byte.ToString("X2").ToUpperInvariant());
                 }
                 PublicKey = sb.ToString();
 

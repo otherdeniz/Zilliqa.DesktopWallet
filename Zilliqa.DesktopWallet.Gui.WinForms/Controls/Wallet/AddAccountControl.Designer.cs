@@ -45,11 +45,12 @@
             this.textPrivateKey = new System.Windows.Forms.TextBox();
             this.panelOptions = new System.Windows.Forms.Panel();
             this.panelLedger = new System.Windows.Forms.Panel();
+            this.labelQueryLedger = new System.Windows.Forms.Label();
+            this.labelLedgerError = new System.Windows.Forms.Label();
             this.buttonGetLedgerAddress = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.textLedgerAddress = new System.Windows.Forms.TextBox();
-            this.labelLedgerError = new System.Windows.Forms.Label();
-            this.labelQueryLedger = new System.Windows.Forms.Label();
+            this.labelConnectHint = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -222,6 +223,7 @@
             // 
             // panelLedger
             // 
+            this.panelLedger.Controls.Add(this.labelConnectHint);
             this.panelLedger.Controls.Add(this.labelQueryLedger);
             this.panelLedger.Controls.Add(this.labelLedgerError);
             this.panelLedger.Controls.Add(this.buttonGetLedgerAddress);
@@ -229,9 +231,31 @@
             this.panelLedger.Controls.Add(this.textLedgerAddress);
             this.panelLedger.Location = new System.Drawing.Point(150, 22);
             this.panelLedger.Name = "panelLedger";
-            this.panelLedger.Size = new System.Drawing.Size(254, 49);
+            this.panelLedger.Size = new System.Drawing.Size(278, 67);
             this.panelLedger.TabIndex = 3;
             this.panelLedger.Visible = false;
+            // 
+            // labelQueryLedger
+            // 
+            this.labelQueryLedger.AutoSize = true;
+            this.labelQueryLedger.ForeColor = System.Drawing.Color.Blue;
+            this.labelQueryLedger.Location = new System.Drawing.Point(136, 22);
+            this.labelQueryLedger.Name = "labelQueryLedger";
+            this.labelQueryLedger.Size = new System.Drawing.Size(130, 15);
+            this.labelQueryLedger.TabIndex = 16;
+            this.labelQueryLedger.Text = "Query Ledger address...";
+            this.labelQueryLedger.Visible = false;
+            // 
+            // labelLedgerError
+            // 
+            this.labelLedgerError.AutoSize = true;
+            this.labelLedgerError.ForeColor = System.Drawing.Color.Red;
+            this.labelLedgerError.Location = new System.Drawing.Point(136, 22);
+            this.labelLedgerError.Name = "labelLedgerError";
+            this.labelLedgerError.Size = new System.Drawing.Size(32, 15);
+            this.labelLedgerError.TabIndex = 15;
+            this.labelLedgerError.Text = "Error";
+            this.labelLedgerError.Visible = false;
             // 
             // buttonGetLedgerAddress
             // 
@@ -259,31 +283,19 @@
             this.textLedgerAddress.Location = new System.Drawing.Point(132, 18);
             this.textLedgerAddress.Name = "textLedgerAddress";
             this.textLedgerAddress.ReadOnly = true;
-            this.textLedgerAddress.Size = new System.Drawing.Size(122, 23);
+            this.textLedgerAddress.Size = new System.Drawing.Size(146, 23);
             this.textLedgerAddress.TabIndex = 12;
             this.textLedgerAddress.Visible = false;
             // 
-            // labelLedgerError
+            // labelConnectHint
             // 
-            this.labelLedgerError.AutoSize = true;
-            this.labelLedgerError.ForeColor = System.Drawing.Color.Red;
-            this.labelLedgerError.Location = new System.Drawing.Point(136, 22);
-            this.labelLedgerError.Name = "labelLedgerError";
-            this.labelLedgerError.Size = new System.Drawing.Size(32, 15);
-            this.labelLedgerError.TabIndex = 15;
-            this.labelLedgerError.Text = "Error";
-            this.labelLedgerError.Visible = false;
-            // 
-            // labelQueryLedger
-            // 
-            this.labelQueryLedger.AutoSize = true;
-            this.labelQueryLedger.ForeColor = System.Drawing.Color.Blue;
-            this.labelQueryLedger.Location = new System.Drawing.Point(136, 22);
-            this.labelQueryLedger.Name = "labelQueryLedger";
-            this.labelQueryLedger.Size = new System.Drawing.Size(130, 15);
-            this.labelQueryLedger.TabIndex = 16;
-            this.labelQueryLedger.Text = "Query Ledger address...";
-            this.labelQueryLedger.Visible = false;
+            this.labelConnectHint.AutoSize = true;
+            this.labelConnectHint.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.labelConnectHint.Location = new System.Drawing.Point(136, 15);
+            this.labelConnectHint.Name = "labelConnectHint";
+            this.labelConnectHint.Size = new System.Drawing.Size(240, 30);
+            this.labelConnectHint.TabIndex = 17;
+            this.labelConnectHint.Text = "Connect Ledger to USB and open Zilliqa app\r\nBefore clicking this button";
             // 
             // AddAccountControl
             // 
@@ -332,5 +344,6 @@
         private TextBox textLedgerAddress;
         private Label labelQueryLedger;
         private Label labelLedgerError;
+        private Label labelConnectHint;
     }
 }
