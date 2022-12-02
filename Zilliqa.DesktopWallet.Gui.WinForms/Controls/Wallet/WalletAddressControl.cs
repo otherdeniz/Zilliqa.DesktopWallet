@@ -146,7 +146,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                 if (stakeResult != null)
                 {
                     var sendResult = StakingService.Instance.SendTransactionStake(
-                        myAccount.AccountDetails,
+                        myAccount.GetSenderAccount(),
                         stakeResult.SsnAddress,
                         stakeResult.Amount);
                     TransactionSendResultForm.ExecuteShow(this.ParentForm!, sendResult);
@@ -163,7 +163,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                 {
                     var sendResultList = claimResult.SsnAddressList.Select(ssnAddr =>
                         StakingService.Instance.SendTransactionClaim(
-                            myAccount.AccountDetails,
+                            myAccount.GetSenderAccount(),
                             ssnAddr)
                         ).ToList();
                     TransactionSendResultForm.ExecuteShow(this.ParentForm!, sendResultList);
@@ -179,7 +179,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                 if (stakeResult != null)
                 {
                     var sendResult = StakingService.Instance.SendTransactionUnstake(
-                        myAccount.AccountDetails,
+                        myAccount.GetSenderAccount(),
                         stakeResult.SsnAddress,
                         stakeResult.Amount);
                     TransactionSendResultForm.ExecuteShow(this.ParentForm!, sendResult);
@@ -195,7 +195,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                 if (completeWithdrawResult != null)
                 {
                     var sendResult = StakingService.Instance.SendTransactionCompleteWithdrawal(
-                        myAccount.AccountDetails);
+                        myAccount.GetSenderAccount());
                     TransactionSendResultForm.ExecuteShow(this.ParentForm!, sendResult);
                 }
             }

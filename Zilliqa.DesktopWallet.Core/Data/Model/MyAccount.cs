@@ -2,6 +2,7 @@
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.ApiClient.Accounts;
 using Zilliqa.DesktopWallet.ApiClient.Crypto;
+using Zilliqa.DesktopWallet.Core.Services.Model;
 
 namespace Zilliqa.DesktopWallet.Core.Data.Model
 {
@@ -77,6 +78,19 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
 
         [JsonIgnore]
         public override Address Address => _address ??= AccountDetails.Address;
+
+        public ISenderAccount GetSenderAccount()
+        {
+            if (Type == MyAccountType.EncryptedPrivateKey)
+            {
+                return new PrivateKeySenderAccount(this);
+            }
+            if (Type == MyAccountType.LedgerWallet)
+            {
+                return new LedgerSenderAccount(this);
+            }
+            throw new NotSupportedException("MyAccount.Type not supported as 'SenderAccount'");
+        }
 
         public override string GetAddressBech32()
         {

@@ -22,6 +22,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
         {
             InitializeComponent();
             Instance = this;
+            LedgerSignTransactionForm.Initialise(this);
         }
 
         /// <summary>

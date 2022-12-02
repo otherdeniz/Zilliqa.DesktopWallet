@@ -31,7 +31,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         protected override void ExecuteResult()
         {
             var sendResult = SendTransactionService.Instance.SendZilToAddress(
-                SenderAccount!.AccountDetails,
+                SenderAccount!.GetSenderAccount(),
                 new AddressValue(ToAddress),
                 Amount);
             TransactionSendResultForm.ExecuteShow(this.Owner, sendResult);

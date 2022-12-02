@@ -49,7 +49,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                     Value = c.ArgumentValue
                 }).ToList();
             var sendResult = SendTransactionService.Instance.DeployContract(
-                SenderAccount!.AccountDetails,
+                SenderAccount!.GetSenderAccount(),
                 scillaCodeText.Text!,
                 parameters);
             TransactionSendResultForm.ExecuteShow(this.Owner, sendResult);

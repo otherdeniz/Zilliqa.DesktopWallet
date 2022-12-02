@@ -48,7 +48,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                 Value = c.ArgumentValue
             }).ToList();
             var sendResult = SendTransactionService.Instance.CallContract(
-                SenderAccount!.AccountDetails,
+                SenderAccount!.GetSenderAccount(),
                 addressTextBox.Address!,
                 methodName,
                 parameters,
