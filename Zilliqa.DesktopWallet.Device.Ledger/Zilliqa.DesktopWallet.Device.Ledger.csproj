@@ -12,7 +12,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ledger.Net" Version="4.0.0" />
+    <Folder Include="LedgerNet\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hardwarewallets.Net" Version="1.2.0" />
+    <PackageReference Include="Hid.Net" Version="3.1.0" />
+    <PackageReference Include="Usb.Net" Version="3.1.0" />
   </ItemGroup>
 
 </Project>
