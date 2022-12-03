@@ -7,9 +7,9 @@ namespace Zilliqa.DesktopWallet.Core.Services.Model
     public class LedgerSenderAccount : ISenderAccount
     {
         /// <summary>
-        /// void SignTransactionDelegate(MyAccount account, TransactionPayload transaction, string recipient, string details)
+        /// void SignTransactionDelegate(MyAccount account, TransactionPayload transaction, string recipient, string transactionPayload)
         /// </summary>
-        public static Action<MyAccount, TransactionPayload, string, string>? SignTransactionDelegate;
+        public static Action<MyAccount, TransactionPayload, string, string>? SignTransactionDelegate { get; set; }
 
         public LedgerSenderAccount(MyAccount account)
         {
@@ -22,10 +22,10 @@ namespace Zilliqa.DesktopWallet.Core.Services.Model
 
         public MyAccount Account { get; }
 
-        public void Sign(TransactionPayload transaction, string recipient, string details)
+        public void Sign(TransactionPayload transaction, string recipient, string transactionPayload)
         {
             transaction.PubKey = Account.PublicKey;
-            SignTransactionDelegate?.Invoke(Account, transaction, recipient, details);
+            SignTransactionDelegate?.Invoke(Account, transaction, recipient, transactionPayload);
         }
     }
 }

@@ -74,7 +74,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 }
             };
             return SendTransactionService.Instance.CallContract(senderAccount, new AddressValue(CurrentProxy.Address),
-                contractCall);
+                contractCall, payloadInfo: $"Unstake amount '{zilAmount:#,##0.####}' from Seed Node '{ssnAddress}'");
         }
 
         public SendTransactionResult SendTransactionClaim(ISenderAccount senderAccount, AddressValue ssnAddress)
@@ -88,7 +88,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 }
             };
             return SendTransactionService.Instance.CallContract(senderAccount, new AddressValue(CurrentProxy.Address), 
-                contractCall);
+                contractCall, payloadInfo: $"Withdraw stake rewards from Seed Node '{ssnAddress}'");
         }
 
         public SendTransactionResult SendTransactionCompleteWithdrawal(ISenderAccount senderAccount)

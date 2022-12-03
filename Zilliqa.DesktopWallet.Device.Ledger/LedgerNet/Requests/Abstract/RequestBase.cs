@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Ledger.Net.Requests
+﻿namespace Ledger.Net.Requests
 {
     public abstract class RequestBase
     {
+        //TODO: This is wrong! This needs a rethink. This parameter is used to tell the ledger whether more data is coming or not. This probably needs to be removed from the base class
         public abstract byte Argument1 { get; }
         public abstract byte Argument2 { get; }
         public abstract byte Cla { get; }

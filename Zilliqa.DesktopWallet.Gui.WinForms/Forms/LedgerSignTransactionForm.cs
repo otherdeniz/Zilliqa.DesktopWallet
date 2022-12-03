@@ -1,6 +1,7 @@
 ﻿using Zilliqa.DesktopWallet.ApiClient.Model;
 using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Data.Model;
+using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Services;
 using Zilliqa.DesktopWallet.Core.Services.Model;
 
@@ -9,6 +10,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
     public partial class LedgerSignTransactionForm : Form
     {
         private static Form? MainForm;
+        private TransactionPayload _transaction = null!;
 
         public static void Initialise(Form mainForm)
         {
@@ -19,9 +21,19 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         private static void OnSignTransaction(MyAccount account,
             TransactionPayload transaction,
             string recipient,
-            string details)
+            string transactionPayload)
         {
-
+            using (var form = new LedgerSignTransactionForm())
+            {
+                form.labelRecipient.Text = recipient;
+                form.labelTransactionPayload.Text = transactionPayload;
+                form.textExpectedAddress.Text = account.GetAddressBech32();
+                form._transaction = transaction;
+                if (form.ShowDialog(MainForm!) != DialogResult.OK)
+                {
+                    throw new TransactionCanceledException();
+                }
+            }
         }
 
         public LedgerSignTransactionForm()
@@ -70,7 +82,39 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         private void buttonSign_Click(object sender, EventArgs e)
         {
-
+            buttonSign.Enabled = false;
+            labelSignHint.Visible = false;
+            labelSignQuery.Visible = true;
+            labelSignError.Visible = false;
+            Task.Run(async () =>
+            {
+                using (var ledgerService = new LedgerWalletService())
+                {
+                    try
+                    {
+                        var signed = await ledgerService.SignTransactionAsync(_transaction);
+                        WinFormsSynchronisationContext.ExecuteSynchronizedAndWait(() =>
+                        {
+                            labelSignQuery.Visible = false;
+                            labelSignError.Visible = false;
+                            DialogResult = signed 
+                                ? DialogResult.OK
+                                : DialogResult.Cancel;
+                            Close();
+                        });
+                    }
+                    catch (Exception exception)
+                    {
+                        WinFormsSynchronisationContext.ExecuteSynchronizedAndWait(() =>
+                        {
+                            labelSignError.Text = exception.Message;
+                            labelSignQuery.Visible = false;
+                            labelSignError.Visible = true;
+                            buttonSign.Enabled = true;
+                        });
+                    }
+                }
+            });
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)

@@ -4,10 +4,6 @@
     {
         public ZilliqaAppSignatureResponse(byte[] data) : base(data)
         {
-            if (!IsSuccess)
-            {
-                return;
-            }
         }
     }
 }

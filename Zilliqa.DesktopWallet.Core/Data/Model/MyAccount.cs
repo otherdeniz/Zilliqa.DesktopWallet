@@ -60,6 +60,9 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
 
         public string PublicKey { get; set; }
 
+        /// <summary>
+        /// only for Json synchronization, use GetAddressBech32() in code
+        /// </summary>
         public string AddressBech32 {
             get => _addressBech32!;
             set

@@ -7,6 +7,6 @@ namespace Zilliqa.DesktopWallet.Core.Services.Model
     {
         MyAccount Account { get; }
 
-        void Sign(TransactionPayload transaction, string recipient, string details);
+        void Sign(TransactionPayload transaction, string recipient, string transactionPayload);
     }
 }

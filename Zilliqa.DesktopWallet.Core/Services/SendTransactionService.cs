@@ -12,6 +12,7 @@ using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.Services.Model;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace Zilliqa.DesktopWallet.Core.Services
 {
@@ -73,24 +74,26 @@ namespace Zilliqa.DesktopWallet.Core.Services
             string method,
             List<DataParam>? parameters = null,
             decimal zilAmount = 0,
-            int? gasLimit = null)
+            int? gasLimit = null,
+            string? payloadInfo = null)
         {
             var contractCall = new DataContractCall
             {
                 Tag = method,
                 Params = parameters ?? new List<DataParam>()
             };
-            return CallContract(senderAccount, contractAddress, contractCall, zilAmount, gasLimit);
+            return CallContract(senderAccount, contractAddress, contractCall, zilAmount, gasLimit, payloadInfo);
         }
 
         public SendTransactionResult CallContract(ISenderAccount senderAccount, 
             AddressValue contractAddress, 
             DataContractCall contractCall, 
             decimal zilAmount = 0, 
-            int? gasLimit = null)
+            int? gasLimit = null,
+            string? payloadInfo = null)
         {
             var result = new SendTransactionResult(senderAccount.Account.Address, contractAddress.Address,
-                $"Call contract method '{contractCall.Tag}'");
+                payloadInfo ?? $"Call contract method '{contractCall.Tag}'");
             gasLimit ??= GasLimitDefaultContractCall;
             Task.Run(async () =>
             {
@@ -112,6 +115,10 @@ namespace Zilliqa.DesktopWallet.Core.Services
                     result.Success = true;
                     result.Message = info.InfoMessage;
                     result.TransactionId = info.TransactionId;
+                }
+                catch (TransactionCanceledException)
+                {
+                    result.Canceled = true;
                 }
                 catch (Exception e)
                 {
@@ -151,6 +158,10 @@ namespace Zilliqa.DesktopWallet.Core.Services
                     result.Success = true;
                     result.Message = info.InfoMessage;
                     result.TransactionId = info.TransactionId;
+                }
+                catch (TransactionCanceledException)
+                {
+                    result.Canceled = true;
                 }
                 catch (Exception e)
                 {
@@ -210,6 +221,10 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 result.Success = true;
                 result.Message = info.InfoMessage;
                 result.TransactionId = info.TransactionId;
+            }
+            catch (TransactionCanceledException)
+            {
+                result.Canceled = true;
             }
             catch (Exception e)
             {
@@ -277,6 +292,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
         public Address Sender { get; }
         public Address Recipient { get; }
         public string PayloadInfo { get; }
+        public bool Canceled { get; set; }
         public bool Success { get; set; }
         public string? Message { get; set; }
         public string? TransactionId { get; set; }

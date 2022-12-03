@@ -18,7 +18,7 @@ namespace Zilliqa.DesktopWallet.Core.Services.Model
 
         public MyAccount Account { get; }
 
-        public void Sign(TransactionPayload transaction, string recipient, string details)
+        public void Sign(TransactionPayload transaction, string recipient, string transactionPayload)
         {
             transaction.PubKey = Account.AccountDetails.GetPublicKey();
             byte[] message = transaction.Encode();

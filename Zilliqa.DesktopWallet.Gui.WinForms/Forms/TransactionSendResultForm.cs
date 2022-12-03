@@ -41,6 +41,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         public static void ExecuteShow(Form parentForm, SendTransactionResult sendTransactionResult)
         {
+            if (sendTransactionResult.Canceled) return;
             var form = new TransactionSendResultForm();
             form.labelSender.Text = new AddressValue(sendTransactionResult.Sender).ToString();
             form.labelRecipient.Text = new AddressValue(sendTransactionResult.Recipient).ToString();

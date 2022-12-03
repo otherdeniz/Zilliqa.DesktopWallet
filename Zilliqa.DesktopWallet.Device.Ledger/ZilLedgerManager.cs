@@ -1,3 +1,4 @@
+using System.Text;
 using Hardwarewallets.Net;
 using Hardwarewallets.Net.Model;
 using Ledger.Net.Requests;
@@ -48,6 +49,18 @@ namespace Ledger.Net
             if (_IsDisposed) throw new ObjectDisposedException($"The {nameof(ZilLedgerManager)} is Disposed. It can not longer function.", nameof(ZilLedgerManager));
         }
 
+        public async Task<string> GetTransactionSignatureAsync(uint index, bool showDisplay, byte[] transactionMessage)
+        {
+            CheckForDisposed();
+
+            var indexData = BitConverter.GetBytes(index);
+            var signatureRequest = new ZilliqaAppSignatureRequest(indexData.Concat(transactionMessage).ToArray());
+
+            var response = await RequestHandler.SendRequestAsync<ZilliqaAppSignatureResponse, ZilliqaAppSignatureRequest>(signatureRequest);
+
+            return HexDataToString(response.Data);
+        }
+
         public async Task<ZilliqaAppGetAddressResponse> GetAddressAsync(uint index, bool showDisplay)
         {
             CheckForDisposed();
@@ -77,6 +90,16 @@ namespace Ledger.Net
         ~ZilLedgerManager()
         {
             Dispose();
+        }
+
+        private static string HexDataToString(byte[] data)
+        {
+            var sb = new StringBuilder();
+            for (var i = 0; i < data.Length; i++)
+            {
+                sb.Append(data[i].ToString("X2"));
+            }
+            return sb.ToString();
         }
 
     }

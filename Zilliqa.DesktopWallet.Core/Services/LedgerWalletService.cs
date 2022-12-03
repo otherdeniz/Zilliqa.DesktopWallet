@@ -3,6 +3,7 @@ using Hid.Net.Windows;
 using Ledger.Net;
 using Ledger.Net.Responses;
 using Usb.Net.Windows;
+using Zilliqa.DesktopWallet.ApiClient.Model;
 using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Exceptions;
 
 namespace Zilliqa.DesktopWallet.Core.Services
@@ -26,6 +27,17 @@ namespace Zilliqa.DesktopWallet.Core.Services
         public async Task<ZilliqaAppGetAddressResponse> ReadAddressBech32Async()
         {
             return await GetLedgerManager().GetAddressAsync(1, true);
+        }
+
+        public async Task<bool> SignTransactionAsync(TransactionPayload transaction)
+        {
+            var signature = await GetLedgerManager().GetTransactionSignatureAsync(1, true, transaction.Encode());
+            if (string.IsNullOrEmpty(signature))
+            {
+                return false;
+            }
+            transaction.Signature = signature;
+            return true;
         }
 
         public void Dispose()
