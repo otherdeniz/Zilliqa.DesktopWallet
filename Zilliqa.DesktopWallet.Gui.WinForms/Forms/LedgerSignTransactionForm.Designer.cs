@@ -117,7 +117,7 @@
             this.groupBoxSign.Location = new System.Drawing.Point(3, 100);
             this.groupBoxSign.Name = "groupBoxSign";
             this.groupBoxSign.Size = new System.Drawing.Size(551, 109);
-            this.groupBoxSign.TabIndex = 1;
+            this.groupBoxSign.TabIndex = 0;
             this.groupBoxSign.TabStop = false;
             this.groupBoxSign.Text = "Sign transaction";
             // 
@@ -214,7 +214,7 @@
             this.groupBoxValidate.Location = new System.Drawing.Point(3, 3);
             this.groupBoxValidate.Name = "groupBoxValidate";
             this.groupBoxValidate.Size = new System.Drawing.Size(551, 97);
-            this.groupBoxValidate.TabIndex = 0;
+            this.groupBoxValidate.TabIndex = 1;
             this.groupBoxValidate.TabStop = false;
             this.groupBoxValidate.Text = "Validate Ledger device (optional)";
             // 

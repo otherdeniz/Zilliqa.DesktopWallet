@@ -54,25 +54,29 @@ namespace Zilliqa.DesktopWallet.Device.Ledger
         {
             CheckForDisposed();
 
-            var indexData = BitConverter.GetBytes(index);
-            var signatureRequest = new ZilliqaAppSignatureRequest(indexData.Concat(transactionMessage).ToArray());
+            var signatureRequest = new ZilliqaAppSignatureRequest(index, transactionMessage);
 
             var response = await RequestHandler.SendRequestAsync<ZilliqaAppSignatureResponse, ZilliqaAppSignatureRequest>(signatureRequest);
             if (!response.IsSuccess)
             {
                 throw new LedgerAppException($"Ledger error: {response.StatusMessage}");
             }
-            return HexDataToString(response.Data);
+            if (string.IsNullOrEmpty(response.Signature))
+            {
+                throw new LedgerAppException("Could not read signature from device. Ensure Zilliqa app is open");
+            }
+            return response.Signature;
         }
 
         public async Task<ZilliqaAppGetAddressResponse> GetAddressAsync(uint index, bool showDisplay)
         {
             CheckForDisposed();
             var data = BitConverter.GetBytes(index);
-            var response = await RequestHandler.SendRequestAsync<ZilliqaAppGetAddressResponse, ZilliqaAppGetAddressRequest>(new ZilliqaAppGetAddressRequest(showDisplay, data, false));
+            var addressRequest = new ZilliqaAppGetAddressRequest(showDisplay, data, false);
+            var response = await RequestHandler.SendRequestAsync<ZilliqaAppGetAddressResponse, ZilliqaAppGetAddressRequest>(addressRequest);
             if (!response.AddressBech32.StartsWith("zil1"))
             {
-                throw new LedgerAppException("Could not read ZIL address. Ensure Zilliqa app is open.");
+                throw new LedgerAppException("Could not read ZIL address. Ensure Zilliqa app is open");
             }
             return response;
         }
@@ -94,16 +98,6 @@ namespace Zilliqa.DesktopWallet.Device.Ledger
         ~ZilLedgerManager()
         {
             Dispose();
-        }
-
-        private static string HexDataToString(byte[] data)
-        {
-            var sb = new StringBuilder();
-            for (var i = 0; i < data.Length; i++)
-            {
-                sb.Append(data[i].ToString("X2"));
-            }
-            return sb.ToString();
         }
 
     }

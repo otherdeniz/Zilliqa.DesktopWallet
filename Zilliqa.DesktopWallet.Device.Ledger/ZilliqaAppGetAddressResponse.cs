@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet;
 using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Responses.Abstract;
 
 namespace Zilliqa.DesktopWallet.Device.Ledger
@@ -19,7 +20,7 @@ namespace Zilliqa.DesktopWallet.Device.Ledger
 
         private void ReadData(byte[] data)
         {
-            using (var memoryStream = new MemoryStream(Data))
+            using (var memoryStream = new MemoryStream(data))
             {
                 var publicKeyData = memoryStream.ReadAllBytes(PubKeyByteLen);
                 var sb = new StringBuilder();

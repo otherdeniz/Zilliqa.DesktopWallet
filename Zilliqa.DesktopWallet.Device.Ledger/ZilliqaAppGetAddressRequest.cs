@@ -15,7 +15,7 @@ namespace Zilliqa.DesktopWallet.Device.Ledger
             : (byte)0x01; // display bech32 address in Ledger
 
         public override byte Cla => Constants.CLA;
-        public override byte Ins => Constants.ETHEREUM_GET_WALLET_PUBLIC_KEY;
+        public override byte Ins => Constants.COMMAND_GET_WALLET_PUBLIC_KEY;
 
         public bool Display { get; }
 

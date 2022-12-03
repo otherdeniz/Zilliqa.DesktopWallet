@@ -12,7 +12,7 @@ namespace Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Requests.Concrete
         public override byte Argument1 => Display ? P1_CONFIRM : P1_NON_CONFIRM;
         public override byte Argument2 => UseChainCode ? P2_CHAINCODE : P2_NO_CHAINCODE;
         public override byte Cla => Constants.CLA;
-        public override byte Ins => Constants.ETHEREUM_GET_WALLET_PUBLIC_KEY;
+        public override byte Ins => Constants.COMMAND_GET_WALLET_PUBLIC_KEY;
 
         public bool Display { get; }
         public bool UseChainCode { get; }

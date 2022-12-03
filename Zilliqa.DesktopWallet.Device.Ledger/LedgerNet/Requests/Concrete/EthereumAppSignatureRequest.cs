@@ -7,7 +7,7 @@ namespace Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Requests.Concrete
         public override byte Argument1 => 0;
         public override byte Argument2 => 0;
         public override byte Cla => Constants.CLA;
-        public override byte Ins => SignTransaction ? Constants.ETHEREUM_SIGN_TX : Constants.ETHEREUM_SIGN_MESSAGE;
+        public override byte Ins => SignTransaction ? Constants.COMMAND_SIGN_TX : Constants.COMMAND_SIGN_MESSAGE;
 
         public bool SignTransaction { get; }
 

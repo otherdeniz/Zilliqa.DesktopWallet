@@ -77,6 +77,6 @@ namespace Zilliqa.DesktopWallet.ApiClient.Model
 
             return info.ToByteArray();
         }
-       
+
     }
 }

@@ -1,18 +1,15 @@
 ﻿using Newtonsoft.Json;
+using Zillifriends.Shared.Common;
 using Zilligraph.Database.Storage.FilterQuery;
 using Zilliqa.DesktopWallet.ApiClient;
-using Zilliqa.DesktopWallet.ApiClient.Accounts;
-using Zilliqa.DesktopWallet.ApiClient.Crypto;
 using Zilliqa.DesktopWallet.ApiClient.Model;
 using Zilliqa.DesktopWallet.Core.ContractCode;
-using Zilliqa.DesktopWallet.Core.Data;
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.Services.Model;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
-using OperationCanceledException = System.OperationCanceledException;
 
 namespace Zilliqa.DesktopWallet.Core.Services
 {
@@ -247,7 +244,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
 
             if (senderAccount == null)
             {
-                throw new Exception("account not exists");
+                throw new RuntimeException("account not exists");
             }
             try
             {
@@ -269,7 +266,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
             }
             catch (Exception e)
             {
-                throw new Exception("cannot get nonce", e);
+                throw new RuntimeException("cannot get nonce", e);
             }
 
             senderAccount.Sign(transaction, toAddress.ToString(), details);

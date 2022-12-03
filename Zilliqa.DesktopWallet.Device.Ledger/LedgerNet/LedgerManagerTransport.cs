@@ -26,31 +26,33 @@ namespace Zilliqa.DesktopWallet.Device.Ledger.LedgerNet
             {
                 var apduCommandChunk = apduChunks[i];
 
-                if (apduChunks.Count == 1)
-                {
-                    //There is only one chunk so use the argument from the request (e.g P1_SIGN)
-                    apduCommandChunk[2] = request.Argument1;
-                }
-                else if (apduChunks.Count > 1)
-                {
-                    //There are multiple chunks so the assumption is that this is probably a transaction
+                //if (apduChunks.Count == 1)
+                //{
+                //    //There is only one chunk so use the argument from the request (e.g P1_SIGN)
+                //    apduCommandChunk[2] = request.Argument1;
+                //}
+                //if (apduChunks.Count > 1)
+                //{
+                //    // hmmm, but they say: on additional chunks, Except for the payload, all other parameters are ignored in the device.
+                //    // i think this is garbage code anyway and has no effect, i will keep it for now
 
-                    if (i == 0)
-                    {
-                        //This is the first chunk of the transaction
-                        apduCommandChunk[2] = Constants.P1_FIRST;
-                    }
-                    else if (i == (apduChunks.Count - 1))
-                    {
-                        //This is the last chunk of the transaction
-                        apduCommandChunk[2] = Constants.P1_LAST;
-                    }
-                    else
-                    {
-                        //This is one of the middle chunks and there is more coming
-                        apduCommandChunk[2] = Constants.P1_MORE;
-                    }
-                }
+                //    //There are multiple chunks so the assumption is that this is probably a transaction
+                //    if (i == 0)
+                //    {
+                //        //This is the first chunk of the transaction
+                //        apduCommandChunk[2] = Constants.P1_FIRST;
+                //    }
+                //    else if (i == (apduChunks.Count - 1))
+                //    {
+                //        //This is the last chunk of the transaction
+                //        apduCommandChunk[2] = Constants.P1_LAST;
+                //    }
+                //    else
+                //    {
+                //        //This is one of the middle chunks and there is more coming
+                //        apduCommandChunk[2] = Constants.P1_MORE;
+                //    }
+                //}
 
                 var packetIndex = 0;
                 byte[] data;
