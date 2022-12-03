@@ -57,7 +57,10 @@ namespace Ledger.Net
             var signatureRequest = new ZilliqaAppSignatureRequest(indexData.Concat(transactionMessage).ToArray());
 
             var response = await RequestHandler.SendRequestAsync<ZilliqaAppSignatureResponse, ZilliqaAppSignatureRequest>(signatureRequest);
-
+            if (!response.IsSuccess)
+            {
+                throw new LedgerAppException($"Ledger error: {response.StatusMessage}");
+            }
             return HexDataToString(response.Data);
         }
 
