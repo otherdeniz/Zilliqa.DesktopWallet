@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Responses.Abstract;
 
-namespace Ledger.Net.Responses
+namespace Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Responses.Concrete
 {
     public class EthereumAppSignatureResponse : ResponseBase
     {

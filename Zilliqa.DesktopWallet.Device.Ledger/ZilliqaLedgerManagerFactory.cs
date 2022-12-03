@@ -1,6 +1,7 @@
 ﻿using Device.Net;
+using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet;
 
-namespace Ledger.Net
+namespace Zilliqa.DesktopWallet.Device.Ledger
 {
     public class ZilliqaLedgerManagerFactory : ILedgerManagerFactory
     {

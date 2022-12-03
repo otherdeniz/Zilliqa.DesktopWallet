@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
+using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Responses.Abstract;
 
-namespace Ledger.Net.Responses
+namespace Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Responses.Concrete
 {
 	public class GetCoinVersionResponse: ResponseBase
 	{

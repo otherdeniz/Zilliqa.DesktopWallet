@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Ledger.Net.Exceptions
+﻿namespace Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Exceptions
 {
     public class TooManyPromptsException : Exception
     {

@@ -1,15 +1,15 @@
 using Hardwarewallets.Net;
 using Hardwarewallets.Net.AddressManagement;
 using Hardwarewallets.Net.Model;
-using Ledger.Net.Exceptions;
-using Ledger.Net.Requests;
-using Ledger.Net.Responses;
-using System;
-using System.Threading.Tasks;
+using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Exceptions;
+using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Requests.Concrete;
+using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Responses.Abstract;
+using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Responses.Concrete;
+
 #pragma warning disable IDE0008 // Use explicit type
 #pragma warning disable CA1062 // Validate arguments of public methods
 
-namespace Ledger.Net
+namespace Zilliqa.DesktopWallet.Device.Ledger.LedgerNet
 {
     public class LedgerManager : IAddressDeriver, IDisposable, IManagesLedger
     {

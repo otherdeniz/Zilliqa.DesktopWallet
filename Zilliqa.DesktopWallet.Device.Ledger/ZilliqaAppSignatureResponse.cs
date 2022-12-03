@@ -1,4 +1,6 @@
-﻿namespace Ledger.Net.Responses
+﻿using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Responses.Abstract;
+
+namespace Zilliqa.DesktopWallet.Device.Ledger
 {
     public class ZilliqaAppSignatureResponse : ResponseBase
     {

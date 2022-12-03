@@ -1,4 +1,4 @@
-﻿namespace Ledger.Net.Requests
+﻿namespace Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Requests.Abstract
 {
     public abstract class RequestBase
     {

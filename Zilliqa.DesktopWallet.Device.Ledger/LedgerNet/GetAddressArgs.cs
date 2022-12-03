@@ -1,6 +1,6 @@
 ﻿using Hardwarewallets.Net.Model;
 
-namespace Ledger.Net
+namespace Zilliqa.DesktopWallet.Device.Ledger.LedgerNet
 {
     public class GetAddressArgs
     {

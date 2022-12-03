@@ -1,6 +1,7 @@
 ﻿using System.Text;
+using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Responses.Abstract;
 
-namespace Ledger.Net.Responses
+namespace Zilliqa.DesktopWallet.Device.Ledger
 {
     public class ZilliqaAppGetAddressResponse : ResponseBase
     {

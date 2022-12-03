@@ -1,8 +1,6 @@
-﻿using Ledger.Net.Responses;
-using System;
-using System.Threading.Tasks;
+﻿using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Responses.Abstract;
 
-namespace Ledger.Net
+namespace Zilliqa.DesktopWallet.Device.Ledger.LedgerNet
 {
     public interface IManagesLedger : IDisposable
     {

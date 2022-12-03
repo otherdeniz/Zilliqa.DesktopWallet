@@ -1,9 +1,9 @@
 ﻿using Device.Net;
 using Hid.Net.Windows;
-using Ledger.Net;
-using Ledger.Net.Responses;
 using Usb.Net.Windows;
 using Zilliqa.DesktopWallet.ApiClient.Model;
+using Zilliqa.DesktopWallet.Device.Ledger;
+using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet;
 using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Exceptions;
 
 namespace Zilliqa.DesktopWallet.Core.Services

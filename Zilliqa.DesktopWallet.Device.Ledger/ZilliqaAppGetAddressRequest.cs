@@ -1,4 +1,7 @@
-﻿namespace Ledger.Net.Requests
+﻿using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet;
+using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Requests.Abstract;
+
+namespace Zilliqa.DesktopWallet.Device.Ledger
 {
     public class ZilliqaAppGetAddressRequest : RequestBase
     {

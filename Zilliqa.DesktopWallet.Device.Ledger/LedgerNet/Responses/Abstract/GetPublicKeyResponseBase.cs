@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Ledger.Net.Responses
+﻿namespace Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Responses.Abstract
 {
     public abstract class GetPublicKeyResponseBase : ResponseBase
     {

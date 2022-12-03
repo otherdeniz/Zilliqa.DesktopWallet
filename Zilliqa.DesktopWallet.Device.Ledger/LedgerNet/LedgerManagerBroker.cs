@@ -1,12 +1,7 @@
-﻿using Device.Net;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
+using Device.Net;
 
-namespace Ledger.Net
+namespace Zilliqa.DesktopWallet.Device.Ledger.LedgerNet
 {
     public class LedgerManagerBroker : IDisposable
     {

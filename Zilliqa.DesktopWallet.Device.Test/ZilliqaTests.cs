@@ -3,11 +3,12 @@ using System.Text;
 using Device.Net;
 using Hardwarewallets.Net.AddressManagement;
 using Hid.Net.Windows;
-using Ledger.Net.Requests;
-using Ledger.Net.Responses;
 using Usb.Net.Windows;
+using Zilliqa.DesktopWallet.Device.Ledger;
+using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet;
+using Helpers = Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Helpers;
 
-namespace Ledger.Net.Tests
+namespace Zilliqa.DesktopWallet.Device.Test
 {
     [TestClass]
     public class ZilliqaTests

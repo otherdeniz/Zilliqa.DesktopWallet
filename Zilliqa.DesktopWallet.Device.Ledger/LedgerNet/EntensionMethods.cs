@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Ledger.Net
+﻿namespace Zilliqa.DesktopWallet.Device.Ledger.LedgerNet
 {
     public static class EntensionMethods
     {

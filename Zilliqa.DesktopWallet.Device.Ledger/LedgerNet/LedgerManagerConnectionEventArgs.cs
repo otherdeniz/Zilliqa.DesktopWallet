@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Ledger.Net
+﻿namespace Zilliqa.DesktopWallet.Device.Ledger.LedgerNet
 {
     public class LedgerManagerConnectionEventArgs : EventArgs
     {

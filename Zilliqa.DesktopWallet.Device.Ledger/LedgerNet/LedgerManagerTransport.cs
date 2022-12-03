@@ -1,8 +1,8 @@
 ﻿using Device.Net;
-using Ledger.Net.Requests;
-using Ledger.Net.Responses;
+using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Requests.Abstract;
+using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Responses.Abstract;
 
-namespace Ledger.Net
+namespace Zilliqa.DesktopWallet.Device.Ledger.LedgerNet
 {
     public class LedgerManagerTransport : IHandlesRequest, IDisposable
     {

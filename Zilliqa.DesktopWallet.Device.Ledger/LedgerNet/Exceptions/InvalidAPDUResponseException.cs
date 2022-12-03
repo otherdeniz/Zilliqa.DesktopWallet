@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Ledger.Net.Exceptions
+﻿namespace Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Exceptions
 {
     public class InvalidAPDUResponseException : ResponseBaseException
     {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace Ledger.Net
+﻿namespace Zilliqa.DesktopWallet.Device.Ledger.LedgerNet
 {
     public delegate Task ErrorPromptDelegate(int? returnCode, Exception exception, string member);
 }

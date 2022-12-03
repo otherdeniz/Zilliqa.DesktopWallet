@@ -1,4 +1,6 @@
-﻿namespace Ledger.Net.Requests
+﻿using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Requests.Abstract;
+
+namespace Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Requests.Concrete
 {
     public class GetCoinVersionRequest : RequestBase
     {

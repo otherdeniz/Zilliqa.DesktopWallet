@@ -1,11 +1,12 @@
 using System.Text;
 using Hardwarewallets.Net;
 using Hardwarewallets.Net.Model;
-using Ledger.Net.Requests;
-using Ledger.Net.Responses;
+using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet;
 using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Exceptions;
+using Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.Responses.Abstract;
+using ICoinUtility = Zilliqa.DesktopWallet.Device.Ledger.LedgerNet.ICoinUtility;
 
-namespace Ledger.Net
+namespace Zilliqa.DesktopWallet.Device.Ledger
 {
     public class ZilLedgerManager : IAddressDeriver, IManagesLedger
     {

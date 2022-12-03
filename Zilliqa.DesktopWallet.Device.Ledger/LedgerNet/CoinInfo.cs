@@ -1,4 +1,4 @@
-﻿namespace Ledger.Net
+﻿namespace Zilliqa.DesktopWallet.Device.Ledger.LedgerNet
 {
     public class CoinInfo : ICoinInfo
     {
