@@ -1,12 +1,6 @@
 ﻿using Device.Net;
 using Ledger.Net.Requests;
 using Ledger.Net.Responses;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Ledger.Net
 {
@@ -59,7 +53,7 @@ namespace Ledger.Net
                 }
 
                 var packetIndex = 0;
-                byte[] data = null;
+                byte[] data;
                 using (var memoryStream = new MemoryStream(apduCommandChunk))
                 {
                     do
@@ -117,7 +111,11 @@ namespace Ledger.Net
             try
             {
                 var responseDataChunks = await WriteRequestAndReadAsync(request);
+#pragma warning disable CS8603
+#pragma warning disable CS8600
                 return (TResponse)Activator.CreateInstance(typeof(TResponse), responseDataChunks.Last());
+#pragma warning restore CS8600
+#pragma warning restore CS8603
             }
             finally
             {
@@ -126,13 +124,10 @@ namespace Ledger.Net
         }
 
         public async Task<TResponse> SendRequestAsync<TResponse, TRequest>(TRequest request)
-    where TResponse : ResponseBase
-    where TRequest : RequestBase
+            where TResponse : ResponseBase
+            where TRequest : RequestBase
         {
             var response = await SendRequestAsync<TResponse>(request);
-
-            //var data = string.Join(", ", response.Data.Select(b => b.ToString()));
-
             return response;
         }
 

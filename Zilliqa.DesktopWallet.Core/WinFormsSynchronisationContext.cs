@@ -8,19 +8,9 @@
         {
             if (WinFormsMainContext != null && WinFormsMainContext != SynchronizationContext.Current)
             {
+                //Send - synchronous: wait for answer(or action completed)
+                //Post - asynchronous: drop off and continue
                 WinFormsMainContext.Send(args => action(), null);
-            }
-            else
-            {
-                action();
-            }
-        }
-
-        public static void ExecuteSynchronizedAndWait(Action action)
-        {
-            if (WinFormsMainContext != null && WinFormsMainContext != SynchronizationContext.Current)
-            {
-                WinFormsMainContext.Post(args => action(), null);
             }
             else
             {

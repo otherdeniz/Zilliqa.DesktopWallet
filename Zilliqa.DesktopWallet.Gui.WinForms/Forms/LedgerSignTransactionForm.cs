@@ -23,17 +23,20 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             string recipient,
             string transactionPayload)
         {
-            using (var form = new LedgerSignTransactionForm())
+            WinFormsSynchronisationContext.ExecuteSynchronized(() =>
             {
-                form.labelRecipient.Text = recipient;
-                form.labelTransactionPayload.Text = transactionPayload;
-                form.textExpectedAddress.Text = account.GetAddressBech32();
-                form._transaction = transaction;
-                if (form.ShowDialog(MainForm!) != DialogResult.OK)
+                using (var form = new LedgerSignTransactionForm())
                 {
-                    throw new TransactionCanceledException();
+                    form.labelRecipient.Text = recipient;
+                    form.labelTransactionPayload.Text = transactionPayload;
+                    form.textExpectedAddress.Text = account.GetAddressBech32();
+                    form._transaction = transaction;
+                    if (form.ShowDialog(MainForm!) != DialogResult.OK)
+                    {
+                        throw new TransactionCanceledException();
+                    }
                 }
-            }
+            });
         }
 
         public LedgerSignTransactionForm()
@@ -56,7 +59,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                     try
                     {
                         var ledgerAddress = await ledgerService.ReadAddressBech32Async();
-                        WinFormsSynchronisationContext.ExecuteSynchronizedAndWait(() =>
+                        WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                         {
                             textLedgerAddress.Text = ledgerAddress.AddressBech32;
                             labelQueryLedger.Visible = false;
@@ -67,7 +70,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                     }
                     catch (Exception exception)
                     {
-                        WinFormsSynchronisationContext.ExecuteSynchronizedAndWait(() =>
+                        WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                         {
                             labelLedgerError.Text = exception.Message;
                             labelQueryLedger.Visible = false;
@@ -93,7 +96,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                     try
                     {
                         var signed = await ledgerService.SignTransactionAsync(_transaction);
-                        WinFormsSynchronisationContext.ExecuteSynchronizedAndWait(() =>
+                        WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                         {
                             labelSignQuery.Visible = false;
                             labelSignError.Visible = false;
@@ -105,7 +108,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                     }
                     catch (Exception exception)
                     {
-                        WinFormsSynchronisationContext.ExecuteSynchronizedAndWait(() =>
+                        WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                         {
                             labelSignError.Text = exception.Message;
                             labelSignQuery.Visible = false;

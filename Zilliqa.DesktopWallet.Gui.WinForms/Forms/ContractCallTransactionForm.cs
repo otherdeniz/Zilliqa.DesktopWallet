@@ -47,13 +47,18 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                 Type = c.ArgumentType,
                 Value = c.ArgumentValue
             }).ToList();
-            var sendResult = SendTransactionService.Instance.CallContract(
-                SenderAccount!.GetSenderAccount(),
-                addressTextBox.Address!,
-                methodName,
-                parameters,
-                zilAmount);
-            TransactionSendResultForm.ExecuteShow(this.Owner, sendResult);
+            var addressText = addressTextBox.Address!;
+            Task.Run(() =>
+            {
+                var sendResult = SendTransactionService.Instance.CallContract(
+                    SenderAccount!.GetSenderAccount(),
+                    addressText,
+                    methodName,
+                    parameters,
+                    zilAmount);
+                WinFormsSynchronisationContext.ExecuteSynchronized(() => 
+                    TransactionSendResultForm.ExecuteShow(this.Owner, sendResult));
+            });
         }
 
         protected override bool CheckFields()

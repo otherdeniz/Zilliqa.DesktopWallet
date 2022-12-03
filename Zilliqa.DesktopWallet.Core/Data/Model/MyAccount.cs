@@ -107,7 +107,10 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
 
         public void Load(string password)
         {
-            _accountDetails = new Account(KeyEncrypted, password);
+            if (KeyEncrypted != null)
+            {
+                _accountDetails = new Account(KeyEncrypted, password);
+            }
         }
     }
 

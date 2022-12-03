@@ -48,11 +48,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                     Type = c.ArgumentType,
                     Value = c.ArgumentValue
                 }).ToList();
-            var sendResult = SendTransactionService.Instance.DeployContract(
-                SenderAccount!.GetSenderAccount(),
-                scillaCodeText.Text!,
-                parameters);
-            TransactionSendResultForm.ExecuteShow(this.Owner, sendResult);
+            var scillaCode = scillaCodeText.Text!;
+            Task.Run(() =>
+            {
+                var sendResult = SendTransactionService.Instance.DeployContract(
+                    SenderAccount!.GetSenderAccount(),
+                    scillaCode,
+                    parameters);
+                WinFormsSynchronisationContext.ExecuteSynchronized(() => 
+                    TransactionSendResultForm.ExecuteShow(this.Owner, sendResult));
+            });
         }
 
         protected override bool CheckFields()

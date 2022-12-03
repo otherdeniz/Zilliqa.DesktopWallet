@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
+using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.Services;
@@ -87,7 +88,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
 
         private void buttonBackupPrivateKey_Click(object sender, EventArgs e)
         {
-            if (_account?.AccountData is MyAccount myAccount)
+            if (_account?.AccountData is MyAccount myAccount
+                && myAccount.Type == MyAccountType.EncryptedPrivateKey)
             {
                 var exportKeyResult = ExportPrivateKeyForm.Execute(this.ParentForm!, myAccount.Address.GetBech32());
                 if (exportKeyResult != null)
@@ -145,11 +147,15 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                 var stakeResult = StakingStakeForm.Execute(this.ParentForm!, _account);
                 if (stakeResult != null)
                 {
-                    var sendResult = StakingService.Instance.SendTransactionStake(
-                        myAccount.GetSenderAccount(),
-                        stakeResult.SsnAddress,
-                        stakeResult.Amount);
-                    TransactionSendResultForm.ExecuteShow(this.ParentForm!, sendResult);
+                    Task.Run(() =>
+                    {
+                        var sendResult = StakingService.Instance.SendTransactionStake(
+                            myAccount.GetSenderAccount(),
+                            stakeResult.SsnAddress,
+                            stakeResult.Amount);
+                        WinFormsSynchronisationContext.ExecuteSynchronized(() => 
+                            TransactionSendResultForm.ExecuteShow(this.ParentForm!, sendResult));
+                    });
                 }
             }
         }
@@ -161,12 +167,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                 var claimResult = StakingClaimForm.Execute(this.ParentForm!, _account);
                 if (claimResult != null)
                 {
-                    var sendResultList = claimResult.SsnAddressList.Select(ssnAddr =>
-                        StakingService.Instance.SendTransactionClaim(
-                            myAccount.GetSenderAccount(),
-                            ssnAddr)
+                    Task.Run(() =>
+                    {
+                        var sendResultList = claimResult.SsnAddressList.Select(ssnAddr =>
+                            StakingService.Instance.SendTransactionClaim(
+                                myAccount.GetSenderAccount(),
+                                ssnAddr)
                         ).ToList();
-                    TransactionSendResultForm.ExecuteShow(this.ParentForm!, sendResultList);
+                        WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                            TransactionSendResultForm.ExecuteShow(this.ParentForm!, sendResultList));
+                    });
                 }
             }
         }
@@ -178,11 +188,15 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                 var stakeResult = StakingUnstakeForm.Execute(this.ParentForm!, _account);
                 if (stakeResult != null)
                 {
-                    var sendResult = StakingService.Instance.SendTransactionUnstake(
-                        myAccount.GetSenderAccount(),
-                        stakeResult.SsnAddress,
-                        stakeResult.Amount);
-                    TransactionSendResultForm.ExecuteShow(this.ParentForm!, sendResult);
+                    Task.Run(() =>
+                    {
+                        var sendResult = StakingService.Instance.SendTransactionUnstake(
+                            myAccount.GetSenderAccount(),
+                            stakeResult.SsnAddress,
+                            stakeResult.Amount);
+                        WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                            TransactionSendResultForm.ExecuteShow(this.ParentForm!, sendResult));
+                    });
                 }
             }
         }
@@ -194,9 +208,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                 var completeWithdrawResult = StakingCompleteWithdrawForm.Execute(this.ParentForm!);
                 if (completeWithdrawResult != null)
                 {
-                    var sendResult = StakingService.Instance.SendTransactionCompleteWithdrawal(
-                        myAccount.GetSenderAccount());
-                    TransactionSendResultForm.ExecuteShow(this.ParentForm!, sendResult);
+                    Task.Run(() =>
+                    {
+                        var sendResult = StakingService.Instance.SendTransactionCompleteWithdrawal(
+                            myAccount.GetSenderAccount());
+                        WinFormsSynchronisationContext.ExecuteSynchronized(() =>
+                            TransactionSendResultForm.ExecuteShow(this.ParentForm!, sendResult));
+                    });
                 }
             }
         }

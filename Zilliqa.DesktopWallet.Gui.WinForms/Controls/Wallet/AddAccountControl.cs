@@ -121,7 +121,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                         var ledgerAddress = await ledgerService.ReadAddressBech32Async();
                         LedgerAddressBech32 = ledgerAddress.AddressBech32;
                         LedgerPublicKey = ledgerAddress.PublicKey;
-                        WinFormsSynchronisationContext.ExecuteSynchronizedAndWait(() =>
+                        WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                         {
                             textLedgerAddress.Text = LedgerAddressBech32;
                             labelQueryLedger.Visible = false;
@@ -133,7 +133,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                     }
                     catch (Exception exception)
                     {
-                        WinFormsSynchronisationContext.ExecuteSynchronizedAndWait(() =>
+                        WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                         {
                             labelLedgerError.Text = exception.Message;
                             labelQueryLedger.Visible = false;

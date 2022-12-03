@@ -2,7 +2,7 @@
 {
     public class ZilliqaAppSignatureRequest : RequestBase
     {
-        public override byte Argument1 => 0;
+        public override byte Argument1 => Constants.P1_SIGN;
         public override byte Argument2 => 0;
         public override byte Cla => Constants.CLA;
         public override byte Ins =>  Constants.TRON_SIGN_TX;

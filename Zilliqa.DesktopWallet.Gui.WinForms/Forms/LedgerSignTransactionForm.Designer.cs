@@ -30,9 +30,18 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LedgerSignTransactionForm));
             this.panelButtons = new System.Windows.Forms.Panel();
-            this.buttonSign = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.buttonSign = new System.Windows.Forms.Button();
             this.panelMain = new System.Windows.Forms.Panel();
+            this.groupBoxSign = new System.Windows.Forms.GroupBox();
+            this.panelSign = new System.Windows.Forms.Panel();
+            this.labelSignError = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.labelRecipient = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.labelTransactionPayload = new System.Windows.Forms.Label();
+            this.labelSignHint = new System.Windows.Forms.Label();
+            this.labelSignQuery = new System.Windows.Forms.Label();
             this.groupBoxValidate = new System.Windows.Forms.GroupBox();
             this.panelLedger = new System.Windows.Forms.Panel();
             this.labelConnectHint = new System.Windows.Forms.Label();
@@ -40,23 +49,14 @@
             this.labelLedgerError = new System.Windows.Forms.Label();
             this.buttonGetLedgerAddress = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.textLedgerAddress = new System.Windows.Forms.TextBox();
             this.textExpectedAddress = new System.Windows.Forms.TextBox();
-            this.groupBoxSign = new System.Windows.Forms.GroupBox();
-            this.panelSign = new System.Windows.Forms.Panel();
-            this.label11 = new System.Windows.Forms.Label();
-            this.labelRecipient = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.labelTransactionPayload = new System.Windows.Forms.Label();
-            this.labelSignHint = new System.Windows.Forms.Label();
-            this.labelSignQuery = new System.Windows.Forms.Label();
-            this.labelSignError = new System.Windows.Forms.Label();
+            this.textLedgerAddress = new System.Windows.Forms.TextBox();
             this.panelButtons.SuspendLayout();
             this.panelMain.SuspendLayout();
-            this.groupBoxValidate.SuspendLayout();
-            this.panelLedger.SuspendLayout();
             this.groupBoxSign.SuspendLayout();
             this.panelSign.SuspendLayout();
+            this.groupBoxValidate.SuspendLayout();
+            this.panelLedger.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelButtons
@@ -68,20 +68,6 @@
             this.panelButtons.Padding = new System.Windows.Forms.Padding(6);
             this.panelButtons.Size = new System.Drawing.Size(557, 37);
             this.panelButtons.TabIndex = 100;
-            // 
-            // buttonSign
-            // 
-            this.buttonSign.Image = ((System.Drawing.Image)(resources.GetObject("buttonSign.Image")));
-            this.buttonSign.Location = new System.Drawing.Point(0, 47);
-            this.buttonSign.Margin = new System.Windows.Forms.Padding(8);
-            this.buttonSign.Name = "buttonSign";
-            this.buttonSign.Size = new System.Drawing.Size(133, 25);
-            this.buttonSign.TabIndex = 0;
-            this.buttonSign.Text = "Sign";
-            this.buttonSign.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.buttonSign.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.buttonSign.UseVisualStyleBackColor = true;
-            this.buttonSign.Click += new System.EventHandler(this.buttonSign_Click);
             // 
             // buttonCancel
             // 
@@ -98,6 +84,20 @@
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
+            // buttonSign
+            // 
+            this.buttonSign.Image = ((System.Drawing.Image)(resources.GetObject("buttonSign.Image")));
+            this.buttonSign.Location = new System.Drawing.Point(0, 47);
+            this.buttonSign.Margin = new System.Windows.Forms.Padding(8);
+            this.buttonSign.Name = "buttonSign";
+            this.buttonSign.Size = new System.Drawing.Size(133, 25);
+            this.buttonSign.TabIndex = 0;
+            this.buttonSign.Text = "Sign";
+            this.buttonSign.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.buttonSign.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.buttonSign.UseVisualStyleBackColor = true;
+            this.buttonSign.Click += new System.EventHandler(this.buttonSign_Click);
+            // 
             // panelMain
             // 
             this.panelMain.Controls.Add(this.groupBoxSign);
@@ -108,108 +108,6 @@
             this.panelMain.Padding = new System.Windows.Forms.Padding(3);
             this.panelMain.Size = new System.Drawing.Size(557, 212);
             this.panelMain.TabIndex = 0;
-            // 
-            // groupBoxValidate
-            // 
-            this.groupBoxValidate.Controls.Add(this.panelLedger);
-            this.groupBoxValidate.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBoxValidate.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.groupBoxValidate.Location = new System.Drawing.Point(3, 3);
-            this.groupBoxValidate.Name = "groupBoxValidate";
-            this.groupBoxValidate.Size = new System.Drawing.Size(551, 97);
-            this.groupBoxValidate.TabIndex = 0;
-            this.groupBoxValidate.TabStop = false;
-            this.groupBoxValidate.Text = "Validate Ledger device (optional)";
-            // 
-            // panelLedger
-            // 
-            this.panelLedger.Controls.Add(this.labelConnectHint);
-            this.panelLedger.Controls.Add(this.labelQueryLedger);
-            this.panelLedger.Controls.Add(this.labelLedgerError);
-            this.panelLedger.Controls.Add(this.buttonGetLedgerAddress);
-            this.panelLedger.Controls.Add(this.label3);
-            this.panelLedger.Controls.Add(this.textExpectedAddress);
-            this.panelLedger.Controls.Add(this.textLedgerAddress);
-            this.panelLedger.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelLedger.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.panelLedger.Location = new System.Drawing.Point(3, 19);
-            this.panelLedger.Name = "panelLedger";
-            this.panelLedger.Size = new System.Drawing.Size(545, 75);
-            this.panelLedger.TabIndex = 4;
-            this.panelLedger.Visible = false;
-            // 
-            // labelConnectHint
-            // 
-            this.labelConnectHint.AutoSize = true;
-            this.labelConnectHint.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.labelConnectHint.Location = new System.Drawing.Point(136, 30);
-            this.labelConnectHint.Name = "labelConnectHint";
-            this.labelConnectHint.Size = new System.Drawing.Size(240, 30);
-            this.labelConnectHint.TabIndex = 17;
-            this.labelConnectHint.Text = "Connect Ledger to USB and open Zilliqa app\r\nBefore clicking this button";
-            // 
-            // labelQueryLedger
-            // 
-            this.labelQueryLedger.AutoSize = true;
-            this.labelQueryLedger.ForeColor = System.Drawing.Color.Blue;
-            this.labelQueryLedger.Location = new System.Drawing.Point(136, 37);
-            this.labelQueryLedger.Name = "labelQueryLedger";
-            this.labelQueryLedger.Size = new System.Drawing.Size(130, 15);
-            this.labelQueryLedger.TabIndex = 16;
-            this.labelQueryLedger.Text = "Query Ledger address...";
-            this.labelQueryLedger.Visible = false;
-            // 
-            // labelLedgerError
-            // 
-            this.labelLedgerError.AutoSize = true;
-            this.labelLedgerError.ForeColor = System.Drawing.Color.Red;
-            this.labelLedgerError.Location = new System.Drawing.Point(136, 37);
-            this.labelLedgerError.Name = "labelLedgerError";
-            this.labelLedgerError.Size = new System.Drawing.Size(32, 15);
-            this.labelLedgerError.TabIndex = 15;
-            this.labelLedgerError.Text = "Error";
-            this.labelLedgerError.Visible = false;
-            // 
-            // buttonGetLedgerAddress
-            // 
-            this.buttonGetLedgerAddress.Location = new System.Drawing.Point(0, 33);
-            this.buttonGetLedgerAddress.Name = "buttonGetLedgerAddress";
-            this.buttonGetLedgerAddress.Size = new System.Drawing.Size(133, 23);
-            this.buttonGetLedgerAddress.TabIndex = 14;
-            this.buttonGetLedgerAddress.Text = "Validate Address";
-            this.buttonGetLedgerAddress.UseVisualStyleBackColor = true;
-            this.buttonGetLedgerAddress.Click += new System.EventHandler(this.buttonGetLedgerAddress_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 3);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(103, 15);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "Expected Address:";
-            // 
-            // textLedgerAddress
-            // 
-            this.textLedgerAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textLedgerAddress.Location = new System.Drawing.Point(132, 33);
-            this.textLedgerAddress.Name = "textLedgerAddress";
-            this.textLedgerAddress.ReadOnly = true;
-            this.textLedgerAddress.Size = new System.Drawing.Size(413, 23);
-            this.textLedgerAddress.TabIndex = 12;
-            this.textLedgerAddress.Visible = false;
-            // 
-            // textExpectedAddress
-            // 
-            this.textExpectedAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textExpectedAddress.Location = new System.Drawing.Point(132, 0);
-            this.textExpectedAddress.Name = "textExpectedAddress";
-            this.textExpectedAddress.ReadOnly = true;
-            this.textExpectedAddress.Size = new System.Drawing.Size(413, 23);
-            this.textExpectedAddress.TabIndex = 12;
-            this.textExpectedAddress.Visible = false;
             // 
             // groupBoxSign
             // 
@@ -239,6 +137,17 @@
             this.panelSign.Name = "panelSign";
             this.panelSign.Size = new System.Drawing.Size(545, 87);
             this.panelSign.TabIndex = 0;
+            // 
+            // labelSignError
+            // 
+            this.labelSignError.AutoSize = true;
+            this.labelSignError.ForeColor = System.Drawing.Color.Red;
+            this.labelSignError.Location = new System.Drawing.Point(136, 51);
+            this.labelSignError.Name = "labelSignError";
+            this.labelSignError.Size = new System.Drawing.Size(32, 15);
+            this.labelSignError.TabIndex = 20;
+            this.labelSignError.Text = "Error";
+            this.labelSignError.Visible = false;
             // 
             // label11
             // 
@@ -297,16 +206,105 @@
             this.labelSignQuery.Text = "Query Ledger address...";
             this.labelSignQuery.Visible = false;
             // 
-            // labelSignError
+            // groupBoxValidate
             // 
-            this.labelSignError.AutoSize = true;
-            this.labelSignError.ForeColor = System.Drawing.Color.Red;
-            this.labelSignError.Location = new System.Drawing.Point(136, 51);
-            this.labelSignError.Name = "labelSignError";
-            this.labelSignError.Size = new System.Drawing.Size(32, 15);
-            this.labelSignError.TabIndex = 20;
-            this.labelSignError.Text = "Error";
-            this.labelSignError.Visible = false;
+            this.groupBoxValidate.Controls.Add(this.panelLedger);
+            this.groupBoxValidate.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBoxValidate.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.groupBoxValidate.Location = new System.Drawing.Point(3, 3);
+            this.groupBoxValidate.Name = "groupBoxValidate";
+            this.groupBoxValidate.Size = new System.Drawing.Size(551, 97);
+            this.groupBoxValidate.TabIndex = 0;
+            this.groupBoxValidate.TabStop = false;
+            this.groupBoxValidate.Text = "Validate Ledger device (optional)";
+            // 
+            // panelLedger
+            // 
+            this.panelLedger.Controls.Add(this.labelConnectHint);
+            this.panelLedger.Controls.Add(this.labelQueryLedger);
+            this.panelLedger.Controls.Add(this.labelLedgerError);
+            this.panelLedger.Controls.Add(this.buttonGetLedgerAddress);
+            this.panelLedger.Controls.Add(this.label3);
+            this.panelLedger.Controls.Add(this.textExpectedAddress);
+            this.panelLedger.Controls.Add(this.textLedgerAddress);
+            this.panelLedger.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelLedger.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.panelLedger.Location = new System.Drawing.Point(3, 19);
+            this.panelLedger.Name = "panelLedger";
+            this.panelLedger.Size = new System.Drawing.Size(545, 75);
+            this.panelLedger.TabIndex = 4;
+            // 
+            // labelConnectHint
+            // 
+            this.labelConnectHint.AutoSize = true;
+            this.labelConnectHint.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.labelConnectHint.Location = new System.Drawing.Point(136, 30);
+            this.labelConnectHint.Name = "labelConnectHint";
+            this.labelConnectHint.Size = new System.Drawing.Size(240, 30);
+            this.labelConnectHint.TabIndex = 17;
+            this.labelConnectHint.Text = "Connect Ledger to USB and open Zilliqa app\r\nBefore clicking this button";
+            // 
+            // labelQueryLedger
+            // 
+            this.labelQueryLedger.AutoSize = true;
+            this.labelQueryLedger.ForeColor = System.Drawing.Color.Blue;
+            this.labelQueryLedger.Location = new System.Drawing.Point(136, 37);
+            this.labelQueryLedger.Name = "labelQueryLedger";
+            this.labelQueryLedger.Size = new System.Drawing.Size(130, 15);
+            this.labelQueryLedger.TabIndex = 16;
+            this.labelQueryLedger.Text = "Query Ledger address...";
+            this.labelQueryLedger.Visible = false;
+            // 
+            // labelLedgerError
+            // 
+            this.labelLedgerError.AutoSize = true;
+            this.labelLedgerError.ForeColor = System.Drawing.Color.Red;
+            this.labelLedgerError.Location = new System.Drawing.Point(136, 37);
+            this.labelLedgerError.Name = "labelLedgerError";
+            this.labelLedgerError.Size = new System.Drawing.Size(32, 15);
+            this.labelLedgerError.TabIndex = 15;
+            this.labelLedgerError.Text = "Error";
+            this.labelLedgerError.Visible = false;
+            // 
+            // buttonGetLedgerAddress
+            // 
+            this.buttonGetLedgerAddress.Location = new System.Drawing.Point(0, 33);
+            this.buttonGetLedgerAddress.Name = "buttonGetLedgerAddress";
+            this.buttonGetLedgerAddress.Size = new System.Drawing.Size(133, 23);
+            this.buttonGetLedgerAddress.TabIndex = 14;
+            this.buttonGetLedgerAddress.Text = "Validate Address";
+            this.buttonGetLedgerAddress.UseVisualStyleBackColor = true;
+            this.buttonGetLedgerAddress.Click += new System.EventHandler(this.buttonGetLedgerAddress_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 3);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(103, 15);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Expected Address:";
+            // 
+            // textExpectedAddress
+            // 
+            this.textExpectedAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textExpectedAddress.Location = new System.Drawing.Point(132, 0);
+            this.textExpectedAddress.Name = "textExpectedAddress";
+            this.textExpectedAddress.ReadOnly = true;
+            this.textExpectedAddress.Size = new System.Drawing.Size(413, 23);
+            this.textExpectedAddress.TabIndex = 12;
+            // 
+            // textLedgerAddress
+            // 
+            this.textLedgerAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textLedgerAddress.Location = new System.Drawing.Point(132, 33);
+            this.textLedgerAddress.Name = "textLedgerAddress";
+            this.textLedgerAddress.ReadOnly = true;
+            this.textLedgerAddress.Size = new System.Drawing.Size(413, 23);
+            this.textLedgerAddress.TabIndex = 12;
+            this.textLedgerAddress.Visible = false;
             // 
             // LedgerSignTransactionForm
             // 
@@ -322,15 +320,16 @@
             this.MinimizeBox = false;
             this.Name = "LedgerSignTransactionForm";
             this.Padding = new System.Windows.Forms.Padding(8);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Sign transaction with Ledger device";
             this.panelButtons.ResumeLayout(false);
             this.panelMain.ResumeLayout(false);
-            this.groupBoxValidate.ResumeLayout(false);
-            this.panelLedger.ResumeLayout(false);
-            this.panelLedger.PerformLayout();
             this.groupBoxSign.ResumeLayout(false);
             this.panelSign.ResumeLayout(false);
             this.panelSign.PerformLayout();
+            this.groupBoxValidate.ResumeLayout(false);
+            this.panelLedger.ResumeLayout(false);
+            this.panelLedger.PerformLayout();
             this.ResumeLayout(false);
 
         }
