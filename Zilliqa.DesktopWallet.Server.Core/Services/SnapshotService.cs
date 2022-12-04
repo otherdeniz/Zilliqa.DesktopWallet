@@ -145,7 +145,7 @@ namespace Zilliqa.DesktopWallet.Server.Core.Services
         {
             var zipFileName =
                 $"Snapshot_{CrawlerStateDat.Instance.TransactionCrawler.HighestBlock}_{ApplicationInfo.ApplicationVersion:0.00}_{DateTime.UtcNow:yyyyMMdd-HHmm}.zip";
-            var zipFilePath = DataPathBuilder.AppDataRoot.GetFilePath(zipFileName);
+            var zipFilePath = GetFilePath(zipFileName);
             using (var fileStream = new FileStream(zipFilePath, FileMode.CreateNew))
             {
                 using (var zipArchive = new ZipArchive(fileStream, ZipArchiveMode.Create, true))
