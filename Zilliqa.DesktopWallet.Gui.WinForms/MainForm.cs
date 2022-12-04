@@ -22,6 +22,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
         {
             InitializeComponent();
             Instance = this;
+            LedgerSignTransactionForm.Initialise(this);
         }
 
         /// <summary>
@@ -54,6 +55,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
                 else if (createWalletResult.AddWalletType == AddAccountControl.AddWalletType.ImportPrivateKey)
                 {
                     wallet.MyAccounts.Add(MyAccount.Import(createWalletResult.AccountName, createWalletResult.PrivateKey!, createWalletResult.Password.Password));
+                }
+                else if (createWalletResult.AddWalletType == AddAccountControl.AddWalletType.ConnectLedger)
+                {
+                    wallet.MyAccounts.Add(MyAccount.CreateLedger(createWalletResult.AccountName, 
+                        createWalletResult.LedgerAddressBech32!, createWalletResult.LedgerPublicKey!, createWalletResult.LedgerKeyIndex));
                 }
 
                 wallet.Save();

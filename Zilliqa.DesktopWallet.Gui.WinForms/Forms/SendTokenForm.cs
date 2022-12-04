@@ -34,12 +34,16 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         protected override void ExecuteResult()
         {
-            var sendResult = SendTransactionService.Instance.SendTokenToAddress(
-                SenderAccount!.AccountDetails,
-                new AddressValue(ToAddress),
-                TokenModelByAddress,
-                Amount);
-            TransactionSendResultForm.ExecuteShow(this.Owner, sendResult);
+            Task.Run(() =>
+            {
+                var sendResult = SendTransactionService.Instance.SendTokenToAddress(
+                    SenderAccount!.GetSenderAccount(),
+                    new AddressValue(ToAddress),
+                    TokenModelByAddress,
+                    Amount);
+                WinFormsSynchronisationContext.ExecuteSynchronized(() => 
+                    TransactionSendResultForm.ExecuteShow(this.Owner, sendResult));
+            });
         }
 
         protected override bool OnOk()

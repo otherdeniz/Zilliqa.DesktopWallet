@@ -6,6 +6,7 @@ using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.ApiClient.Accounts;
 using Zilliqa.DesktopWallet.Core.Extensions;
+using Zilliqa.DesktopWallet.Core.Services.Model;
 using Zilliqa.DesktopWallet.Core.ViewModel.ValueModel;
 using Zilliqa.DesktopWallet.DatabaseSchema.ParsedData;
 
@@ -45,7 +46,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
         public string ImplementationAddress =>
             _currentImplementationAddress ??= GetImplementationAddress(CurrentProxy.Address);
 
-        public SendTransactionResult SendTransactionStake(Account senderAccount, AddressValue ssnAddress, 
+        public SendTransactionResult SendTransactionStake(ISenderAccount senderAccount, AddressValue ssnAddress, 
             decimal zilAmount)
         {
             var contractCall = new DataContractCall
@@ -60,7 +61,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 contractCall, zilAmount);
         }
 
-        public SendTransactionResult SendTransactionUnstake(Account senderAccount, AddressValue ssnAddress,
+        public SendTransactionResult SendTransactionUnstake(ISenderAccount senderAccount, AddressValue ssnAddress,
             decimal zilAmount)
         {
             var contractCall = new DataContractCall
@@ -73,10 +74,10 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 }
             };
             return SendTransactionService.Instance.CallContract(senderAccount, new AddressValue(CurrentProxy.Address),
-                contractCall);
+                contractCall, payloadInfo: $"Unstake amount '{zilAmount:#,##0.####}' from Seed Node '{ssnAddress}'");
         }
 
-        public SendTransactionResult SendTransactionClaim(Account senderAccount, AddressValue ssnAddress)
+        public SendTransactionResult SendTransactionClaim(ISenderAccount senderAccount, AddressValue ssnAddress)
         {
             var contractCall = new DataContractCall
             {
@@ -87,10 +88,10 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 }
             };
             return SendTransactionService.Instance.CallContract(senderAccount, new AddressValue(CurrentProxy.Address), 
-                contractCall);
+                contractCall, payloadInfo: $"Withdraw stake rewards from Seed Node '{ssnAddress}'");
         }
 
-        public SendTransactionResult SendTransactionCompleteWithdrawal(Account senderAccount)
+        public SendTransactionResult SendTransactionCompleteWithdrawal(ISenderAccount senderAccount)
         {
             var contractCall = new DataContractCall
             {

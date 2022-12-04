@@ -45,7 +45,7 @@
             this.addAccountControl.Location = new System.Drawing.Point(8, 8);
             this.addAccountControl.Name = "addAccountControl";
             this.addAccountControl.Padding = new System.Windows.Forms.Padding(3);
-            this.addAccountControl.Size = new System.Drawing.Size(615, 212);
+            this.addAccountControl.Size = new System.Drawing.Size(615, 258);
             this.addAccountControl.TabIndex = 101;
             this.addAccountControl.ValueChanged += new System.EventHandler<System.EventArgs>(this.addAccountControl1_ValueChanged);
             // 
@@ -53,7 +53,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(631, 349);
+            this.ClientSize = new System.Drawing.Size(631, 395);
             this.Controls.Add(this.addAccountControl);
             this.DisplaySenderAccount = false;
             this.Name = "CreateMyAccountForm";

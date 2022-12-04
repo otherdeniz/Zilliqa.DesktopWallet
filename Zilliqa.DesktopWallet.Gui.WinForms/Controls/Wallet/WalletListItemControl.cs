@@ -22,7 +22,14 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             _accountViewModel = account;
             if (_accountViewModel.AccountData is MyAccount myAccountData)
             {
-                pictureIcon.Image = ImageResources.key_icon_16;
+                if (myAccountData.Type == MyAccountType.EncryptedPrivateKey)
+                {
+                    pictureIcon.Image = ImageResources.key_icon_16;
+                }
+                else if (myAccountData.Type == MyAccountType.LedgerWallet)
+                {
+                    pictureIcon.Image = ImageResources.ledger_16;
+                }
             }
             else if (_accountViewModel.AccountData is WatchedAccount watchedAccountData)
             {

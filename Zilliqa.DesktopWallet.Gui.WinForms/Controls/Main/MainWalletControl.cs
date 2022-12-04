@@ -189,6 +189,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
             {
                 _repository?.AddAccount(MyAccount.Import(result.AccountName, result.PrivateKey!, result.Password.Password));
             }
+            else if (result?.AddWalletType == AddAccountControl.AddWalletType.ConnectLedger)
+            {
+                _repository?.AddAccount(MyAccount.CreateLedger(result.AccountName, result.LedgerAddressBech32!, result.LedgerPublicKey!, result.LedgerKeyIndex));
+            }
         }
 
         private void buttonAddWatched_Click(object sender, EventArgs e)

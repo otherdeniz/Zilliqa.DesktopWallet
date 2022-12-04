@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.Extensions;
 using Zilliqa.DesktopWallet.Core.Repository;
@@ -30,11 +31,15 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
 
         protected override void ExecuteResult()
         {
-            var sendResult = SendTransactionService.Instance.SendZilToAddress(
-                SenderAccount!.AccountDetails,
-                new AddressValue(ToAddress),
-                Amount);
-            TransactionSendResultForm.ExecuteShow(this.Owner, sendResult);
+            Task.Run(() =>
+            {
+                var sendResult = SendTransactionService.Instance.SendZilToAddress(
+                    SenderAccount!.GetSenderAccount(),
+                    new AddressValue(ToAddress),
+                    Amount);
+                WinFormsSynchronisationContext.ExecuteSynchronized(() => 
+                    TransactionSendResultForm.ExecuteShow(this.Owner, sendResult));
+            });
         }
 
         protected override bool OnOk()
@@ -69,11 +74,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             var currentFee = RepositoryManager.Instance.BlockchainBrowserRepository.MinimumGasPrice *
                           SendTransactionService.GasLimitZilTransfer;
             textFee.Text = currentFee.ZilSatoshisToZil().ToString(CultureInfo.CurrentCulture);
-        }
-
-        private void textToAddress_TextChanged(object sender, EventArgs e)
-        {
-            RefreshOkButton();
         }
 
         private void textAmount_TextChanged(object sender, EventArgs e)

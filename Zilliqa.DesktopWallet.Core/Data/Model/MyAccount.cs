@@ -2,7 +2,7 @@
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.ApiClient.Accounts;
 using Zilliqa.DesktopWallet.ApiClient.Crypto;
-using Zilliqa.DesktopWallet.ApiClient.Utils;
+using Zilliqa.DesktopWallet.Core.Services.Model;
 
 namespace Zilliqa.DesktopWallet.Core.Data.Model
 {
@@ -11,6 +11,21 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
         private Account? _accountDetails;
         private string? _addressBech32;
         private string? _addressHex;
+        private Address? _address;
+
+        public static MyAccount CreateLedger(string name, string bech32Address, string publicKey, int keyIndex)
+        {
+            var result = new MyAccount
+            {
+                Id = Guid.NewGuid().ToString(),
+                Type = MyAccountType.LedgerWallet,
+                Name = name,
+                AddressBech32 = bech32Address,
+                PublicKey = publicKey,
+                KeyIndex = keyIndex
+            };
+            return result;
+        }
 
         public static MyAccount Create(string name, string pasword)
         {
@@ -40,9 +55,25 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
             return result;
         }
 
+        public MyAccountType Type { get; set; } = MyAccountType.EncryptedPrivateKey;
+
         public string KeyEncrypted { get; set; }
 
         public string PublicKey { get; set; }
+
+        public int? KeyIndex { get; set; }
+
+        /// <summary>
+        /// only for Json synchronization, use GetAddressBech32() in code
+        /// </summary>
+        public string AddressBech32 {
+            get => _addressBech32!;
+            set
+            {
+                _addressBech32 = value;
+                _address = new Address(value);
+            }
+        }
 
         [JsonIgnore]
         public Account AccountDetails
@@ -52,21 +83,43 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
         }
 
         [JsonIgnore]
-        public override Address Address => AccountDetails.Address;
+        public override Address Address => _address ??= AccountDetails.Address;
+
+        public ISenderAccount GetSenderAccount()
+        {
+            if (Type == MyAccountType.EncryptedPrivateKey)
+            {
+                return new PrivateKeySenderAccount(this);
+            }
+            if (Type == MyAccountType.LedgerWallet)
+            {
+                return new LedgerSenderAccount(this);
+            }
+            throw new NotSupportedException("MyAccount.Type not supported as 'SenderAccount'");
+        }
 
         public override string GetAddressBech32()
         {
-            return _addressBech32 ??= AccountDetails.Address.GetBech32();
+            return _addressBech32 ??= Address.GetBech32();
         }
 
         public override string GetAddressHex()
         {
-            return _addressHex ??= AccountDetails.Address.GetBase16(false);
+            return _addressHex ??= Address.GetBase16(false);
         }
 
         public void Load(string password)
         {
-            _accountDetails = new Account(KeyEncrypted, password);
+            if (KeyEncrypted != null)
+            {
+                _accountDetails = new Account(KeyEncrypted, password);
+            }
         }
+    }
+
+    public enum MyAccountType
+    {
+        EncryptedPrivateKey = 1,
+        LedgerWallet = 2
     }
 }
