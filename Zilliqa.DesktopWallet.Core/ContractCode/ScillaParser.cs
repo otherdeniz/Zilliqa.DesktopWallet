@@ -5,9 +5,9 @@ namespace Zilliqa.DesktopWallet.Core.ContractCode
     public class ScillaParser
     {
         public static readonly Regex ContractNameRegEx =
-            new Regex(@"^\s*contract\s+(\w+)\s*\(((?:[A-z\d:\s,]|\([A-z\d:\s,]*\))*)\)", RegexOptions.Multiline | RegexOptions.Compiled);
+            new Regex(@"^\s*contract\s+(\w+)\s*\(((?:[A-z\d:\s,]|\([A-z\d:\s,]*\)|\(\*.+\*\))*)\)", RegexOptions.Multiline | RegexOptions.Compiled);
         public static readonly Regex ContractNameSingleLineRegEx =
-            new Regex(@"\s+contract\s+(\w+)\s*\(((?:[A-z\d:\s,]|\([A-z\d:\s,]*\))*)\)", RegexOptions.Multiline | RegexOptions.Compiled);
+            new Regex(@"\s+contract\s+(\w+)\s*\(((?:[A-z\d:\s,]|\([A-z\d:\s,]*\)|\(\*.+\*\))*)\)", RegexOptions.Multiline | RegexOptions.Compiled);
         public static readonly Regex FieldRegEx =
             new Regex(@"^\s*field\s+(\w+)\s*:", RegexOptions.Multiline | RegexOptions.Compiled);
         public static readonly Regex TransitionRegEx =
