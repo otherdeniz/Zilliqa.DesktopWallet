@@ -2,7 +2,7 @@
   "profiles": {
     "Zilliqa.DesktopWallet.Gui.WinForms": {
       "commandName": "Project",
-      "commandLineArgs": "datapath=DebugTest network=testnet"
+      "commandLineArgs": "datapath=Debug network=mainnet"
     }
   }
 }

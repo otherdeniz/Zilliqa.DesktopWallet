@@ -27,6 +27,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
             Refresh();
             try
             {
+                AutoUpdateService.Instance.CleanupDownload();
                 var latestRelease = AutoUpdateService.Instance.GetLatestRelease();
                 if (latestRelease != null && latestRelease.Version > ApplicationInfo.ApplicationVersion)
                 {

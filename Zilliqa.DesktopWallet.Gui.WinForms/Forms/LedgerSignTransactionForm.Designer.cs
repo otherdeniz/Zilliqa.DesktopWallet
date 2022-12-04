@@ -161,7 +161,7 @@
             // labelRecipient
             // 
             this.labelRecipient.AutoSize = true;
-            this.labelRecipient.Location = new System.Drawing.Point(96, 4);
+            this.labelRecipient.Location = new System.Drawing.Point(136, 4);
             this.labelRecipient.Name = "labelRecipient";
             this.labelRecipient.Size = new System.Drawing.Size(16, 15);
             this.labelRecipient.TabIndex = 10;
@@ -179,7 +179,7 @@
             // labelTransactionPayload
             // 
             this.labelTransactionPayload.AutoSize = true;
-            this.labelTransactionPayload.Location = new System.Drawing.Point(96, 23);
+            this.labelTransactionPayload.Location = new System.Drawing.Point(136, 23);
             this.labelTransactionPayload.Name = "labelTransactionPayload";
             this.labelTransactionPayload.Size = new System.Drawing.Size(16, 15);
             this.labelTransactionPayload.TabIndex = 11;
@@ -201,9 +201,9 @@
             this.labelSignQuery.ForeColor = System.Drawing.Color.Blue;
             this.labelSignQuery.Location = new System.Drawing.Point(136, 51);
             this.labelSignQuery.Name = "labelSignQuery";
-            this.labelSignQuery.Size = new System.Drawing.Size(130, 15);
+            this.labelSignQuery.Size = new System.Drawing.Size(139, 15);
             this.labelSignQuery.TabIndex = 21;
-            this.labelSignQuery.Text = "Query Ledger address...";
+            this.labelSignQuery.Text = "Query Ledger signature...";
             this.labelSignQuery.Visible = false;
             // 
             // groupBoxValidate
@@ -271,7 +271,7 @@
             this.buttonGetLedgerAddress.Location = new System.Drawing.Point(0, 33);
             this.buttonGetLedgerAddress.Name = "buttonGetLedgerAddress";
             this.buttonGetLedgerAddress.Size = new System.Drawing.Size(133, 23);
-            this.buttonGetLedgerAddress.TabIndex = 14;
+            this.buttonGetLedgerAddress.TabIndex = 0;
             this.buttonGetLedgerAddress.Text = "Validate Address";
             this.buttonGetLedgerAddress.UseVisualStyleBackColor = true;
             this.buttonGetLedgerAddress.Click += new System.EventHandler(this.buttonGetLedgerAddress_Click);
@@ -293,7 +293,7 @@
             this.textExpectedAddress.Name = "textExpectedAddress";
             this.textExpectedAddress.ReadOnly = true;
             this.textExpectedAddress.Size = new System.Drawing.Size(413, 23);
-            this.textExpectedAddress.TabIndex = 12;
+            this.textExpectedAddress.TabIndex = 1;
             // 
             // textLedgerAddress
             // 
@@ -303,7 +303,7 @@
             this.textLedgerAddress.Name = "textLedgerAddress";
             this.textLedgerAddress.ReadOnly = true;
             this.textLedgerAddress.Size = new System.Drawing.Size(413, 23);
-            this.textLedgerAddress.TabIndex = 12;
+            this.textLedgerAddress.TabIndex = 2;
             this.textLedgerAddress.Visible = false;
             // 
             // LedgerSignTransactionForm
