@@ -24,14 +24,14 @@ namespace Zilliqa.DesktopWallet.Core.Services
             _ledgerManagerBroker.Start();
         }
 
-        public async Task<ZilliqaAppGetAddressResponse> ReadAddressBech32Async()
+        public async Task<ZilliqaAppGetAddressResponse> ReadAddressBech32Async(int keyIndex)
         {
-            return await GetLedgerManager().GetAddressAsync(1, true);
+            return await GetLedgerManager().GetAddressAsync(Convert.ToUInt32(keyIndex), true);
         }
 
-        public async Task<bool> SignTransactionAsync(TransactionPayload transaction)
+        public async Task<bool> SignTransactionAsync(int keyIndex, TransactionPayload transaction)
         {
-            var signature = await GetLedgerManager().GetTransactionSignatureAsync(1, true, transaction.Encode());
+            var signature = await GetLedgerManager().GetTransactionSignatureAsync(Convert.ToUInt32(keyIndex), true, transaction.Encode());
             if (string.IsNullOrEmpty(signature))
             {
                 return false;

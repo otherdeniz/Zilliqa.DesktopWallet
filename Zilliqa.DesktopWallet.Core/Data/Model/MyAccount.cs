@@ -13,7 +13,7 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
         private string? _addressHex;
         private Address? _address;
 
-        public static MyAccount CreateLedger(string name, string bech32Address, string publicKey)
+        public static MyAccount CreateLedger(string name, string bech32Address, string publicKey, int keyIndex)
         {
             var result = new MyAccount
             {
@@ -21,7 +21,8 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
                 Type = MyAccountType.LedgerWallet,
                 Name = name,
                 AddressBech32 = bech32Address,
-                PublicKey = publicKey
+                PublicKey = publicKey,
+                KeyIndex = keyIndex
             };
             return result;
         }
@@ -59,6 +60,8 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
         public string KeyEncrypted { get; set; }
 
         public string PublicKey { get; set; }
+
+        public int? KeyIndex { get; set; }
 
         /// <summary>
         /// only for Json synchronization, use GetAddressBech32() in code

@@ -19,13 +19,13 @@
         {
             var chunkSize = offset + Constants.LEDGER_STREAM_DATA_SIZE > Data.Length ? Data.Length - offset : Constants.LEDGER_STREAM_DATA_SIZE;
 
-            var buffer = new byte[4 + chunkSize];
+            var buffer = new byte[5 + chunkSize];
             buffer[0] = Cla;
             buffer[1] = Ins;
-            buffer[2] = Argument1;
-            // buffer[2] will be updated in later when we know how many chunks there are ....
+            buffer[2] = Argument1; // buffer[2] may be updated in later when we know how many chunks there are ....
             buffer[3] = Argument2;
-            Array.Copy(Data, offset, buffer, 4, chunkSize);
+            buffer[4] = (byte)chunkSize;
+            Array.Copy(Data, offset, buffer, 5, chunkSize);
 
             offset += chunkSize;
             return buffer;

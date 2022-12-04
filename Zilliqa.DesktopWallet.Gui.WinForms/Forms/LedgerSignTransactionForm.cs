@@ -11,6 +11,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
     {
         private static Form? MainForm;
         private TransactionPayload _transaction = null!;
+        private MyAccount _senderAccount = null!;
 
         public static void Initialise(Form mainForm)
         {
@@ -30,6 +31,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                     form.labelRecipient.Text = recipient;
                     form.labelTransactionPayload.Text = transactionPayload;
                     form.textExpectedAddress.Text = account.GetAddressBech32();
+                    form._senderAccount = account;
                     form._transaction = transaction;
                     if (form.ShowDialog(MainForm!) != DialogResult.OK)
                     {
@@ -58,7 +60,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                 {
                     try
                     {
-                        var ledgerAddress = await ledgerService.ReadAddressBech32Async();
+                        var ledgerAddress = await ledgerService.ReadAddressBech32Async(_senderAccount.KeyIndex.GetValueOrDefault());
                         WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                         {
                             textLedgerAddress.Text = ledgerAddress.AddressBech32;
@@ -95,7 +97,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                 {
                     try
                     {
-                        var signed = await ledgerService.SignTransactionAsync(_transaction);
+                        var signed = await ledgerService.SignTransactionAsync(_senderAccount.KeyIndex.GetValueOrDefault(), _transaction);
                         WinFormsSynchronisationContext.ExecuteSynchronized(() =>
                         {
                             labelSignQuery.Visible = false;

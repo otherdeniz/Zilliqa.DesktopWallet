@@ -61,7 +61,7 @@
             this.panelPage1.Controls.Add(this.textPassword1);
             this.panelPage1.Controls.Add(this.label1);
             this.panelPage1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelPage1.Location = new System.Drawing.Point(8, 270);
+            this.panelPage1.Location = new System.Drawing.Point(8, 288);
             this.panelPage1.Name = "panelPage1";
             this.panelPage1.Size = new System.Drawing.Size(588, 124);
             this.panelPage1.TabIndex = 0;
@@ -112,9 +112,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(5, 3);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(93, 15);
+            this.label1.Size = new System.Drawing.Size(112, 15);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Wallet Password";
+            this.label1.Text = "Set Wallet Password";
             // 
             // panel1
             // 
@@ -156,7 +156,7 @@
             this.panel2.Location = new System.Drawing.Point(8, 61);
             this.panel2.Name = "panel2";
             this.panel2.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.panel2.Size = new System.Drawing.Size(588, 209);
+            this.panel2.Size = new System.Drawing.Size(588, 227);
             this.panel2.TabIndex = 8;
             // 
             // addAccountControl
@@ -165,7 +165,7 @@
             this.addAccountControl.Location = new System.Drawing.Point(5, 0);
             this.addAccountControl.Name = "addAccountControl";
             this.addAccountControl.Padding = new System.Windows.Forms.Padding(3);
-            this.addAccountControl.Size = new System.Drawing.Size(583, 209);
+            this.addAccountControl.Size = new System.Drawing.Size(583, 227);
             this.addAccountControl.TabIndex = 0;
             this.addAccountControl.Visible = false;
             this.addAccountControl.ValueChanged += new System.EventHandler<System.EventArgs>(this.addAccountControl_ValueChanged);
@@ -174,7 +174,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(604, 439);
+            this.ClientSize = new System.Drawing.Size(604, 457);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelPage1);

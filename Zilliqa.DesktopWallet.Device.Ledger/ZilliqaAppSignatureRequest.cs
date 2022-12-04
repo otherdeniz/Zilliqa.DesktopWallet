@@ -36,13 +36,15 @@ namespace Zilliqa.DesktopWallet.Device.Ledger
             var firstDataByteCount = Data.Length > Constants.LEDGER_STREAM_DATA_SIZE
                 ? Constants.LEDGER_STREAM_DATA_SIZE
                 : Data.Length;
-            var firstChunk = header
-                .Concat(BitConverter.GetBytes(AccountIndex))
-                .Concat(BitConverter.GetBytes(Convert.ToUInt32(Data.Length)))
+            var firstChunk = BitConverter.GetBytes(AccountIndex)
+                .Concat(BitConverter.GetBytes(Convert.ToUInt32(Data.Length - firstDataByteCount)))
                 .Concat(BitConverter.GetBytes(Convert.ToUInt32(firstDataByteCount)))
                 .Concat(Data.Take(firstDataByteCount))
                 .ToArray();
-            chunks.Add(firstChunk);
+            chunks.Add(header
+                .Concat(new[] { Convert.ToByte(firstChunk.Length) })
+                .Concat(firstChunk)
+                .ToArray());
 
             // MORE CHUNKS Payload
             // Keep streaming data into the device till we run out of it.
@@ -58,12 +60,14 @@ namespace Zilliqa.DesktopWallet.Device.Ledger
                 var nextDataByteCount = dataBytesLeft > Constants.LEDGER_STREAM_DATA_SIZE
                     ? Constants.LEDGER_STREAM_DATA_SIZE
                     : dataBytesLeft;
-                var nextChunk = header
-                    .Concat(BitConverter.GetBytes(Convert.ToUInt32(dataBytesLeft)))
+                var nextChunk = BitConverter.GetBytes(Convert.ToUInt32(dataBytesLeft - nextDataByteCount))
                     .Concat(BitConverter.GetBytes(Convert.ToUInt32(nextDataByteCount)))
                     .Concat(Data.Skip(dataStartIndex).Take(nextDataByteCount))
                     .ToArray();
-                chunks.Add(nextChunk);
+                chunks.Add(header
+                    .Concat(new[] { Convert.ToByte(nextChunk.Length) })
+                    .Concat(nextChunk)
+                    .ToArray());
                 dataStartIndex += nextDataByteCount;
             }
 

@@ -43,6 +43,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
         public string PrivateKey => textPrivateKey.Text;
 
         [Browsable(false)]
+        public int LedgerKeyIndex { get; private set; }
+
+        [Browsable(false)]
         public string? LedgerAddressBech32 { get; private set; }
 
         [Browsable(false)]
@@ -102,6 +105,18 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             OnValueChanged();
         }
 
+        private void numKeyIndex_ValueChanged(object sender, EventArgs e)
+        {
+            LedgerKeyIndex = Convert.ToInt32(numKeyIndex.Value);
+            LedgerAddressBech32 = null;
+            textLedgerAddress.Text = "";
+            labelConnectHint.Visible = true;
+            labelQueryLedger.Visible = false;
+            labelLedgerError.Visible = false;
+            textLedgerAddress.Visible = false;
+            OnValueChanged();
+        }
+
         private void buttonGetLedgerAddress_Click(object sender, EventArgs e)
         {
             buttonGetLedgerAddress.Enabled = false;
@@ -109,7 +124,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
             labelQueryLedger.Visible = true;
             labelLedgerError.Visible = false;
             textLedgerAddress.Visible = false;
-            textLedgerAddress.ForeColor = Color.Blue;
             LedgerAddressBech32 = null;
             OnValueChanged();
             Task.Run(async () =>
@@ -118,7 +132,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Wallet
                 {
                     try
                     {
-                        var ledgerAddress = await ledgerService.ReadAddressBech32Async();
+                        var ledgerAddress = await ledgerService.ReadAddressBech32Async(LedgerKeyIndex);
                         LedgerAddressBech32 = ledgerAddress.AddressBech32;
                         LedgerPublicKey = ledgerAddress.PublicKey;
                         WinFormsSynchronisationContext.ExecuteSynchronized(() =>

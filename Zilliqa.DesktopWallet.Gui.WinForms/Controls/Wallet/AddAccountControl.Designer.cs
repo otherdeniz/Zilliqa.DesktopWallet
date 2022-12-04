@@ -45,12 +45,14 @@
             this.textPrivateKey = new System.Windows.Forms.TextBox();
             this.panelOptions = new System.Windows.Forms.Panel();
             this.panelLedger = new System.Windows.Forms.Panel();
+            this.labelConnectHint = new System.Windows.Forms.Label();
             this.labelQueryLedger = new System.Windows.Forms.Label();
             this.labelLedgerError = new System.Windows.Forms.Label();
             this.buttonGetLedgerAddress = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.textLedgerAddress = new System.Windows.Forms.TextBox();
-            this.labelConnectHint = new System.Windows.Forms.Label();
+            this.numKeyIndex = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -59,6 +61,7 @@
             this.panelPrivateKey.SuspendLayout();
             this.panelOptions.SuspendLayout();
             this.panelLedger.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numKeyIndex)).BeginInit();
             this.SuspendLayout();
             // 
             // textWalletName
@@ -186,9 +189,9 @@
             // 
             this.panelPrivateKey.Controls.Add(this.label1);
             this.panelPrivateKey.Controls.Add(this.textPrivateKey);
-            this.panelPrivateKey.Location = new System.Drawing.Point(3, 22);
+            this.panelPrivateKey.Location = new System.Drawing.Point(3, 6);
             this.panelPrivateKey.Name = "panelPrivateKey";
-            this.panelPrivateKey.Size = new System.Drawing.Size(141, 49);
+            this.panelPrivateKey.Size = new System.Drawing.Size(278, 49);
             this.panelPrivateKey.TabIndex = 2;
             this.panelPrivateKey.Visible = false;
             // 
@@ -207,7 +210,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textPrivateKey.Location = new System.Drawing.Point(0, 18);
             this.textPrivateKey.Name = "textPrivateKey";
-            this.textPrivateKey.Size = new System.Drawing.Size(141, 23);
+            this.textPrivateKey.Size = new System.Drawing.Size(278, 23);
             this.textPrivateKey.TabIndex = 12;
             this.textPrivateKey.TextChanged += new System.EventHandler(this.textPrivateKey_TextChanged);
             // 
@@ -218,28 +221,40 @@
             this.panelOptions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelOptions.Location = new System.Drawing.Point(0, 153);
             this.panelOptions.Name = "panelOptions";
-            this.panelOptions.Size = new System.Drawing.Size(431, 101);
+            this.panelOptions.Size = new System.Drawing.Size(431, 185);
             this.panelOptions.TabIndex = 1;
             // 
             // panelLedger
             // 
+            this.panelLedger.Controls.Add(this.numKeyIndex);
+            this.panelLedger.Controls.Add(this.label4);
             this.panelLedger.Controls.Add(this.labelConnectHint);
             this.panelLedger.Controls.Add(this.labelQueryLedger);
             this.panelLedger.Controls.Add(this.labelLedgerError);
             this.panelLedger.Controls.Add(this.buttonGetLedgerAddress);
             this.panelLedger.Controls.Add(this.label3);
             this.panelLedger.Controls.Add(this.textLedgerAddress);
-            this.panelLedger.Location = new System.Drawing.Point(150, 22);
+            this.panelLedger.Location = new System.Drawing.Point(3, 61);
             this.panelLedger.Name = "panelLedger";
-            this.panelLedger.Size = new System.Drawing.Size(278, 67);
+            this.panelLedger.Size = new System.Drawing.Size(425, 67);
             this.panelLedger.TabIndex = 3;
             this.panelLedger.Visible = false;
+            // 
+            // labelConnectHint
+            // 
+            this.labelConnectHint.AutoSize = true;
+            this.labelConnectHint.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.labelConnectHint.Location = new System.Drawing.Point(136, 28);
+            this.labelConnectHint.Name = "labelConnectHint";
+            this.labelConnectHint.Size = new System.Drawing.Size(240, 30);
+            this.labelConnectHint.TabIndex = 17;
+            this.labelConnectHint.Text = "Connect Ledger to USB and open Zilliqa app\r\nBefore clicking this button";
             // 
             // labelQueryLedger
             // 
             this.labelQueryLedger.AutoSize = true;
             this.labelQueryLedger.ForeColor = System.Drawing.Color.Blue;
-            this.labelQueryLedger.Location = new System.Drawing.Point(136, 22);
+            this.labelQueryLedger.Location = new System.Drawing.Point(136, 35);
             this.labelQueryLedger.Name = "labelQueryLedger";
             this.labelQueryLedger.Size = new System.Drawing.Size(130, 15);
             this.labelQueryLedger.TabIndex = 16;
@@ -250,7 +265,7 @@
             // 
             this.labelLedgerError.AutoSize = true;
             this.labelLedgerError.ForeColor = System.Drawing.Color.Red;
-            this.labelLedgerError.Location = new System.Drawing.Point(136, 22);
+            this.labelLedgerError.Location = new System.Drawing.Point(136, 35);
             this.labelLedgerError.Name = "labelLedgerError";
             this.labelLedgerError.Size = new System.Drawing.Size(32, 15);
             this.labelLedgerError.TabIndex = 15;
@@ -259,10 +274,10 @@
             // 
             // buttonGetLedgerAddress
             // 
-            this.buttonGetLedgerAddress.Location = new System.Drawing.Point(0, 18);
+            this.buttonGetLedgerAddress.Location = new System.Drawing.Point(0, 31);
             this.buttonGetLedgerAddress.Name = "buttonGetLedgerAddress";
             this.buttonGetLedgerAddress.Size = new System.Drawing.Size(133, 23);
-            this.buttonGetLedgerAddress.TabIndex = 14;
+            this.buttonGetLedgerAddress.TabIndex = 1;
             this.buttonGetLedgerAddress.Text = "Read Address";
             this.buttonGetLedgerAddress.UseVisualStyleBackColor = true;
             this.buttonGetLedgerAddress.Click += new System.EventHandler(this.buttonGetLedgerAddress_Click);
@@ -270,32 +285,45 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(0, 0);
+            this.label3.Location = new System.Drawing.Point(0, 5);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(88, 15);
+            this.label3.Size = new System.Drawing.Size(99, 15);
             this.label3.TabIndex = 13;
-            this.label3.Text = "Ledger Address";
+            this.label3.Text = "Ledger key index:";
             // 
             // textLedgerAddress
             // 
             this.textLedgerAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textLedgerAddress.Location = new System.Drawing.Point(132, 18);
+            this.textLedgerAddress.Location = new System.Drawing.Point(132, 31);
             this.textLedgerAddress.Name = "textLedgerAddress";
             this.textLedgerAddress.ReadOnly = true;
-            this.textLedgerAddress.Size = new System.Drawing.Size(146, 23);
+            this.textLedgerAddress.Size = new System.Drawing.Size(293, 23);
             this.textLedgerAddress.TabIndex = 12;
             this.textLedgerAddress.Visible = false;
             // 
-            // labelConnectHint
+            // numKeyIndex
             // 
-            this.labelConnectHint.AutoSize = true;
-            this.labelConnectHint.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.labelConnectHint.Location = new System.Drawing.Point(136, 15);
-            this.labelConnectHint.Name = "labelConnectHint";
-            this.labelConnectHint.Size = new System.Drawing.Size(240, 30);
-            this.labelConnectHint.TabIndex = 17;
-            this.labelConnectHint.Text = "Connect Ledger to USB and open Zilliqa app\r\nBefore clicking this button";
+            this.numKeyIndex.Location = new System.Drawing.Point(132, 3);
+            this.numKeyIndex.Maximum = new decimal(new int[] {
+            32767,
+            0,
+            0,
+            0});
+            this.numKeyIndex.Name = "numKeyIndex";
+            this.numKeyIndex.Size = new System.Drawing.Size(83, 23);
+            this.numKeyIndex.TabIndex = 0;
+            this.numKeyIndex.ValueChanged += new System.EventHandler(this.numKeyIndex_ValueChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label4.Location = new System.Drawing.Point(221, 5);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(121, 15);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "First key number is \'0\'";
             // 
             // AddAccountControl
             // 
@@ -305,7 +333,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "AddAccountControl";
-            this.Size = new System.Drawing.Size(431, 254);
+            this.Size = new System.Drawing.Size(431, 338);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -318,6 +346,7 @@
             this.panelOptions.ResumeLayout(false);
             this.panelLedger.ResumeLayout(false);
             this.panelLedger.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numKeyIndex)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -345,5 +374,7 @@
         private Label labelQueryLedger;
         private Label labelLedgerError;
         private Label labelConnectHint;
+        private NumericUpDown numKeyIndex;
+        private Label label4;
     }
 }

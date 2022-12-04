@@ -10,6 +10,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.ViewModel
 
         public string? PrivateKey { get; set; }
 
+        public int LedgerKeyIndex { get; set; }
+
         public string? LedgerPublicKey { get; set; }
 
         public string? LedgerAddressBech32 { get; set; }

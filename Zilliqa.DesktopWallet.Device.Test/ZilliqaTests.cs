@@ -78,7 +78,7 @@ namespace Zilliqa.DesktopWallet.Device.Test
         [TestMethod]
         public async Task GetZilliqaWalletInfo()
         {
-            var address = await LedgerManager.GetAddressAsync(1, true);
+            var address = await LedgerManager.GetAddressAsync(2, true);
             Assert.IsTrue(!string.IsNullOrEmpty(address.AddressBech32));
         }
 
@@ -94,10 +94,10 @@ namespace Zilliqa.DesktopWallet.Device.Test
                 transactionData.Add(Convert.ToByte(byteInHex, 16));
             }
 
-            var zilAddressPath = new BIP44AddressPath(false, 313U, 0U, false, 0U);
-            var derivationData = Helpers.GetDerivationPathData(zilAddressPath);
+            //var zilAddressPath = new BIP44AddressPath(false, 313U, 0U, false, 0U);
+            //var derivationData = Helpers.GetDerivationPathData(zilAddressPath);
 
-            var firstRequest = new ZilliqaAppSignatureRequest(derivationData.Concat(transactionData).ToArray());
+            var firstRequest = new ZilliqaAppSignatureRequest(0, transactionData.ToArray());
 
             //TODO: don't use the RequestHandler directly.
             var response = await LedgerManager.RequestHandler.SendRequestAsync<ZilliqaAppSignatureResponse, ZilliqaAppSignatureRequest>(firstRequest);
