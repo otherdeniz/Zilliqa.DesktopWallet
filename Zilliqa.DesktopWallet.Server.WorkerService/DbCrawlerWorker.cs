@@ -25,6 +25,12 @@ namespace Zilliqa.DesktopWallet.Server.WorkerService
             DataPathBuilder.Setup(Path.Combine(rootPath, "Server-Mainnet"), true);
             Logging.Setup(Path.Combine(DataPathBuilder.UserDataRoot.FullPath, "Log"));
 
+            var archivePathEnvVariable = Environment.GetEnvironmentVariable("ZILARCHIVEPATH");
+            if (!string.IsNullOrEmpty(archivePathEnvVariable))
+            {
+                SnapshotService.Instance.ArchiveRootFolder = new DataPathBuilder(archivePathEnvVariable);
+            }
+
             Logging.LogInfo("Service startup");
 
             AppDomain.CurrentDomain.UnhandledException +=

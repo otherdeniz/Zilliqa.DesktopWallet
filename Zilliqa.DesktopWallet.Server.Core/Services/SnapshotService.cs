@@ -24,6 +24,14 @@ namespace Zilliqa.DesktopWallet.Server.Core.Services
         {
         }
 
+        public DataPathBuilder? ArchiveRootFolder { get; set; }
+
+        public string GetFilePath(string zipFileName)
+        {
+            return (ArchiveRootFolder ?? DataPathBuilder.AppDataRoot)
+                .GetFilePath(zipFileName);
+        }
+
         public bool SnapshotCreationRunning => _createSnapshotTask != null;
 
         public void StartSnapshotTimer()
@@ -41,7 +49,7 @@ namespace Zilliqa.DesktopWallet.Server.Core.Services
                         var snapshotEntries = snapshotVersionsFile.Snapshots;
                         if (snapshotEntries.Count >= 3)
                         {
-                            var zipFilePath = DataPathBuilder.AppDataRoot.GetFilePath(snapshotEntries[0].ZipFilename);
+                            var zipFilePath = GetFilePath(snapshotEntries[0].ZipFilename);
                             try
                             {
                                 File.Delete(zipFilePath);
