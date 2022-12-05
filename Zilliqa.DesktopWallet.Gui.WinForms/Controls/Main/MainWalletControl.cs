@@ -88,6 +88,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                     };
                     control.ButtonClicked += (sender, args) => ShowWalletAccount(control);
                     control.EditClicked += (sender, args) => EditWalletTitle(control);
+                    control.MoveUpClicked += (sender, args) => MoveWalletPosition(control, 1);
+                    control.MoveDownClicked += (sender, args) => MoveWalletPosition(control, -1);
                     control.AssignAccount(a);
                     panelMyAccounts.Controls.Add(control);
                 }
@@ -112,10 +114,29 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                     };
                     control.ButtonClicked += (sender, args) => ShowWalletAccount(control);
                     control.EditClicked += (sender, args) => EditWalletTitle(control);
+                    control.MoveUpClicked += (sender, args) => MoveWalletPosition(control, 1);
+                    control.MoveDownClicked += (sender, args) => MoveWalletPosition(control, -1);
                     control.AssignAccount(a);
                     panelWatchedAccounts.Controls.Add(control);
                 }
             });
+            RefreshUpDownButtons();
+        }
+
+        private void RefreshUpDownButtons()
+        {
+            var myAccountControls = panelMyAccounts.Controls.OfType<WalletListItemControl>().ToList();
+            for (int i = 0; i < myAccountControls.Count; i++)
+            {
+                myAccountControls[i].CanMoveDown = i > 0;
+                myAccountControls[i].CanMoveUp = i < myAccountControls.Count - 1;
+            }
+            var watchedAccountControls = panelWatchedAccounts.Controls.OfType<WalletListItemControl>().ToList();
+            for (int i = 0; i < watchedAccountControls.Count; i++)
+            {
+                watchedAccountControls[i].CanMoveDown = i > 0;
+                watchedAccountControls[i].CanMoveUp = i < watchedAccountControls.Count - 1;
+            }
         }
 
         private void RefreshAccountDetails(AccountViewModel accountViewModel)
@@ -158,6 +179,22 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                 walletListItemControl.AssignAccount(walletListItemControl.Account);
                 WalletDat.Instance.Save();
             }
+        }
+
+        private void MoveWalletPosition(WalletListItemControl walletListItemControl, int offset)
+        {
+            _repository!.MoveAccount(walletListItemControl.Account.AccountData.Id, offset);
+            var myAccountIndex = panelMyAccounts.Controls.IndexOf(walletListItemControl);
+            if (myAccountIndex > -1)
+            {
+                panelMyAccounts.Controls.SetChildIndex(walletListItemControl, myAccountIndex + offset);
+            }
+            var watchedAccountIndex = panelWatchedAccounts.Controls.IndexOf(walletListItemControl);
+            if (watchedAccountIndex > -1)
+            {
+                panelWatchedAccounts.Controls.SetChildIndex(walletListItemControl, watchedAccountIndex + offset);
+            }
+            RefreshUpDownButtons();
         }
 
         private void ShowWalletAccount(WalletListItemControl walletListItemControl)

@@ -65,11 +65,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls
         private void SetBackColor()
         {
             var isMouseOver = ClientRectangle.Contains(PointToClient(MousePosition));
-            if (isMouseOver && !IsHover)
+            if (isMouseOver)
             {
                 OnMouseHoverEnter();
             }
-            else if (!isMouseOver && IsHover)
+            else
             {
                 OnMouseHoverLeave();
             }
@@ -92,6 +92,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls
                 IsHover = false;
                 BackColor = UnselectedBackColor ?? GuiColors.DefaultBackColor;
             }
+            OnMouseHoverLeave();
         }
 
         private void AddEventHandlers(IList controls)
