@@ -110,6 +110,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             buttonBlockchain.Checked = false;
             buttonWallet.Checked = false;
             buttonTokens.Checked = false;
+            buttonNfts.Checked = false;
             buttonSmartContracts.Checked = false;
             buttonEcosystem.Checked = false;
             buttonStakingNodes.Checked = false;
@@ -253,7 +254,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
 
         private void buttonNfts_Click(object sender, EventArgs e)
         {
-
+            ShowMainControl(() => new MainNftsControl(), buttonNfts, true);
         }
 
         private void buttonEcosystem_Click(object sender, EventArgs e)
