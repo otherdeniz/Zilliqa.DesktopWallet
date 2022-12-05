@@ -1,4 +1,5 @@
 ﻿using Zillifriends.Shared.Common;
+using Zilliqa.DesktopWallet.Core.Data.Files;
 using Zilliqa.DesktopWallet.Core.Data.Model;
 using Zilliqa.DesktopWallet.Core.Repository;
 using Zilliqa.DesktopWallet.Core.ViewModel;
@@ -86,6 +87,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                         Dock = DockStyle.Top
                     };
                     control.ButtonClicked += (sender, args) => ShowWalletAccount(control);
+                    control.EditClicked += (sender, args) => EditWalletTitle(control);
                     control.AssignAccount(a);
                     panelMyAccounts.Controls.Add(control);
                 }
@@ -109,6 +111,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                         Dock = DockStyle.Top
                     };
                     control.ButtonClicked += (sender, args) => ShowWalletAccount(control);
+                    control.EditClicked += (sender, args) => EditWalletTitle(control);
                     control.AssignAccount(a);
                     panelWatchedAccounts.Controls.Add(control);
                 }
@@ -127,7 +130,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                     walletAddressControl.AddressDetailsControl.RefreshAccountSummaries();
                 }
             }
-
         }
 
         private WalletListItemControl? GetAccountControl(string id)
@@ -145,6 +147,17 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
         {
             return panelWatchedAccounts.Controls.OfType<WalletListItemControl>()
                 .FirstOrDefault(c => ((AccountViewModel)c.Tag).AccountData.Id == id);
+        }
+
+        private void EditWalletTitle(WalletListItemControl walletListItemControl)
+        {
+            var newTitle = EditTitleForm.ExecuteEdit(this.ParentForm!, walletListItemControl.Account.AccountData.Name);
+            if (newTitle != null)
+            {
+                walletListItemControl.Account.AccountData.Name = newTitle;
+                walletListItemControl.AssignAccount(walletListItemControl.Account);
+                WalletDat.Instance.Save();
+            }
         }
 
         private void ShowWalletAccount(WalletListItemControl walletListItemControl)

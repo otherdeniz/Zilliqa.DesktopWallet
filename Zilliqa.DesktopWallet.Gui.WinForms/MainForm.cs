@@ -100,78 +100,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             }
         }
 
-        private void timerInit_Tick(object sender, EventArgs e)
-        {
-            timerInit.Enabled = false;
-            StartupGui();
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            WinFormsSynchronisationContext.WinFormsMainContext = SynchronizationContext.Current;
-            this.Text = ApplicationInfo.MainFormTitle;
-            if (ZilliqaClient.UseTestnet)
-            {
-                Icon = ImageResources.Zilliqa_icon_testnet;
-                panelMain.BackgroundImage = ImageResources.Zilliqa_icon_512_testnet;
-            }
-            InitDisplayedCurrencies();
-            LoadSettingIncomingSound();
-            LoadSettingWhales();
-            var screen = Screen.FromControl(this);
-            var formWidth = Convert.ToInt32(Convert.ToDecimal(screen.Bounds.Width) * 0.85m);
-            if (formWidth > 2000)
-            {
-                formWidth = 2000;
-            }
-            var formHeight = Convert.ToInt32(Convert.ToDecimal(screen.Bounds.Height) * 0.85m);
-            if (formHeight > 1000)
-            {
-                formHeight = 1000;
-            }
-            Top = Convert.ToInt32(Convert.ToDecimal(screen.Bounds.Height - formHeight) / 2m);
-            var left = Convert.ToInt32(Convert.ToDecimal(screen.Bounds.Width - formWidth) / 2m);
-            Left = left < 250 ? left : 250;
-            Height = formHeight;
-            Width = formWidth;
-        }
-
-        private void buttonWallet_Click(object sender, EventArgs e)
-        {
-            mainWalletControl.Initialize();
-            ShowMainControl(() => mainWalletControl, buttonWallet);
-        }
-
-        private void buttonBlockchain_Click(object sender, EventArgs e)
-        {
-            ShowMainControl(() => new MainBlockExplorerControl(), buttonBlockchain, true);
-        }
-
-        private void buttonSmartContracts_Click(object sender, EventArgs e)
-        {
-            ShowMainControl(() => new MainContractsControl(), buttonSmartContracts, true);
-        }
-
-        private void buttonTokens_Click(object sender, EventArgs e)
-        {
-            ShowMainControl(() => new MainTokensControl(), buttonTokens, true);
-        }
-
-        private void buttonEcosystem_Click(object sender, EventArgs e)
-        {
-            ShowMainControl(() => new MainEcosystemControl(), buttonEcosystem, true);
-        }
-
-        private void buttonStakingNodes_Click(object sender, EventArgs e)
-        {
-            ShowMainControl(() => new MainStakingNodesControl(), buttonStakingNodes, true);
-        }
-
-        private void buttonExit_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
         private void ShowMainControl(Func<Control> getMainControl, ToolStripButton button, bool isTransient = false)
         {
             if (button.Checked)
@@ -263,6 +191,84 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             settingMenuWhale50K.Checked = currentWhaleNotification == 50000;
             settingMenuWhale100K.Checked = currentWhaleNotification == 100000;
             settingMenuWhale500K.Checked = currentWhaleNotification == 500000;
+        }
+
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            WinFormsSynchronisationContext.WinFormsMainContext = SynchronizationContext.Current;
+            this.Text = ApplicationInfo.MainFormTitle;
+            if (ZilliqaClient.UseTestnet)
+            {
+                Icon = ImageResources.Zilliqa_icon_testnet;
+                panelMain.BackgroundImage = ImageResources.Zilliqa_icon_512_testnet;
+            }
+            InitDisplayedCurrencies();
+            LoadSettingIncomingSound();
+            LoadSettingWhales();
+            var screen = Screen.FromControl(this);
+            var formWidth = Convert.ToInt32(Convert.ToDecimal(screen.Bounds.Width) * 0.85m);
+            if (formWidth > 2000)
+            {
+                formWidth = 2000;
+            }
+            var formHeight = Convert.ToInt32(Convert.ToDecimal(screen.Bounds.Height) * 0.85m);
+            if (formHeight > 1000)
+            {
+                formHeight = 1000;
+            }
+            Top = Convert.ToInt32(Convert.ToDecimal(screen.Bounds.Height - formHeight) / 2m);
+            var left = Convert.ToInt32(Convert.ToDecimal(screen.Bounds.Width - formWidth) / 2m);
+            Left = left < 250 ? left : 250;
+            Height = formHeight;
+            Width = formWidth;
+        }
+
+        private void timerInit_Tick(object sender, EventArgs e)
+        {
+            timerInit.Enabled = false;
+            StartupGui();
+        }
+
+        private void buttonWallet_Click(object sender, EventArgs e)
+        {
+            mainWalletControl.Initialize();
+            ShowMainControl(() => mainWalletControl, buttonWallet);
+        }
+
+        private void buttonBlockchain_Click(object sender, EventArgs e)
+        {
+            ShowMainControl(() => new MainBlockExplorerControl(), buttonBlockchain, true);
+        }
+
+        private void buttonSmartContracts_Click(object sender, EventArgs e)
+        {
+            ShowMainControl(() => new MainContractsControl(), buttonSmartContracts, true);
+        }
+
+        private void buttonTokens_Click(object sender, EventArgs e)
+        {
+            ShowMainControl(() => new MainTokensControl(), buttonTokens, true);
+        }
+
+        private void buttonNfts_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonEcosystem_Click(object sender, EventArgs e)
+        {
+            ShowMainControl(() => new MainEcosystemControl(), buttonEcosystem, true);
+        }
+
+        private void buttonStakingNodes_Click(object sender, EventArgs e)
+        {
+            ShowMainControl(() => new MainStakingNodesControl(), buttonStakingNodes, true);
+        }
+
+        private void buttonExit_Click(object sender, EventArgs e)
+        {
+            Close();
         }
 
         private void menuDisplayCurrencyEur_Click(object sender, EventArgs e)
@@ -437,5 +443,6 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             SettingsFile.Instance.Save();
             LoadSettingWhales();
         }
+
     }
 }
