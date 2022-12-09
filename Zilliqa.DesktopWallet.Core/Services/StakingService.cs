@@ -398,7 +398,11 @@ namespace Zilliqa.DesktopWallet.Core.Services
                 {
                     _apyLast10D = ssnRewards.RewardsPerCycle
                         .Where(r => r.Cycle > aboveCycle)
-                        .TakeLast(10).Sum(r => r.RewardPercent) * 36.5m;
+                        .TakeLast(10).Sum(r => r.RewardPercent) * 36.5m; // each cycle lasts 24 hours
+                    if (ZilliqaClient.UseTestnet)
+                    {
+                        _apyLast10D *= 12; // testnet cycle is 12 times faster than mainnet (2 hours per cycle)
+                    }
                 }
                 else
                 {
