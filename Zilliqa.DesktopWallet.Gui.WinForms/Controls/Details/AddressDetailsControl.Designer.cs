@@ -686,9 +686,9 @@
             this.panelTabPagesHoldings.Controls.Add(this.gridViewStakes);
             this.panelTabPagesHoldings.Controls.Add(this.gridViewTokenBalances);
             this.panelTabPagesHoldings.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelTabPagesHoldings.Location = new System.Drawing.Point(0, 24);
+            this.panelTabPagesHoldings.Location = new System.Drawing.Point(0, 25);
             this.panelTabPagesHoldings.Name = "panelTabPagesHoldings";
-            this.panelTabPagesHoldings.Size = new System.Drawing.Size(735, 112);
+            this.panelTabPagesHoldings.Size = new System.Drawing.Size(735, 111);
             this.panelTabPagesHoldings.TabIndex = 1;
             // 
             // gridViewOwnedContracts
@@ -725,7 +725,7 @@
             this.toolStripHoldings.Location = new System.Drawing.Point(0, 0);
             this.toolStripHoldings.Name = "toolStripHoldings";
             this.toolStripHoldings.Padding = new System.Windows.Forms.Padding(4, 2, 1, 0);
-            this.toolStripHoldings.Size = new System.Drawing.Size(735, 24);
+            this.toolStripHoldings.Size = new System.Drawing.Size(735, 25);
             this.toolStripHoldings.TabIndex = 0;
             this.toolStripHoldings.Text = "toolStrip1";
             // 

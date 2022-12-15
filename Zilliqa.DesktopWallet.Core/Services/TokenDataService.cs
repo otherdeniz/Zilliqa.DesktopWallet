@@ -81,7 +81,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                                 var cryptometaAsset = cryptometaAssets.FirstOrDefault(a => a.Symbol.ToLower() == contractSymbol.ToLower());
                                 tokenModel = new TokenModel
                                              {
-                                                 Symbol = contractSymbol!,
+                                                 Symbol = contractSymbol,
                                                  Name = smartContract.TokenName() ?? string.Empty,
                                                  Icon = LogoImages.Instance.GetImage(cryptometaAsset != null
                                                      ? cryptometaAsset.Bech32Address
@@ -104,7 +104,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                                 var cryptometaAsset = cryptometaAssets.FirstOrDefault(a => a.Symbol.ToLower() == contractSymbol.ToLower());
                                 nftModel = new TokenModel
                                            {
-                                               Symbol = contractSymbol!,
+                                               Symbol = contractSymbol,
                                                Name = smartContract.TokenName() ?? string.Empty,
                                                Icon = LogoImages.Instance.GetImage(cryptometaAsset != null
                                                    ? cryptometaAsset.Bech32Address

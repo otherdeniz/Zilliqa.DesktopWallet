@@ -32,14 +32,16 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStripMain = new System.Windows.Forms.ToolStrip();
             this.buttonWallet = new System.Windows.Forms.ToolStripButton();
+            this.buttonStatistics = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparatorWallet = new System.Windows.Forms.ToolStripSeparator();
             this.buttonTokens = new System.Windows.Forms.ToolStripButton();
             this.buttonExit = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonNfts = new System.Windows.Forms.ToolStripButton();
             this.buttonSmartContracts = new System.Windows.Forms.ToolStripButton();
-            this.buttonEcosystem = new System.Windows.Forms.ToolStripButton();
             this.buttonStakingNodes = new System.Windows.Forms.ToolStripButton();
-            this.buttonStatistics = new System.Windows.Forms.ToolStripButton();
+            this.buttonEcosystem = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparatorSearch = new System.Windows.Forms.ToolStripSeparator();
             this.buttonBlockchain = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonSettings = new System.Windows.Forms.ToolStripDropDownButton();
@@ -81,8 +83,6 @@
             this.groupBoxStatus = new System.Windows.Forms.GroupBox();
             this.bottomStatus = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.BottomStatusControl();
             this.timerInit = new System.Windows.Forms.Timer(this.components);
-            this.toolStripSeparatorWallet = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparatorSearch = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMain.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.panelBottom.SuspendLayout();
@@ -98,11 +98,11 @@
             this.buttonWallet,
             this.buttonStatistics,
             this.toolStripSeparatorWallet,
+            this.buttonSmartContracts,
             this.buttonTokens,
             this.buttonExit,
             this.toolStripSeparator2,
             this.buttonNfts,
-            this.buttonSmartContracts,
             this.buttonStakingNodes,
             this.buttonEcosystem,
             this.toolStripSeparatorSearch,
@@ -126,6 +126,20 @@
             this.buttonWallet.Text = "Wallet";
             this.buttonWallet.Click += new System.EventHandler(this.buttonWallet_Click);
             // 
+            // buttonStatistics
+            // 
+            this.buttonStatistics.Image = ((System.Drawing.Image)(resources.GetObject("buttonStatistics.Image")));
+            this.buttonStatistics.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonStatistics.Name = "buttonStatistics";
+            this.buttonStatistics.Size = new System.Drawing.Size(81, 28);
+            this.buttonStatistics.Text = "Statistics";
+            this.buttonStatistics.Visible = false;
+            // 
+            // toolStripSeparatorWallet
+            // 
+            this.toolStripSeparatorWallet.Name = "toolStripSeparatorWallet";
+            this.toolStripSeparatorWallet.Size = new System.Drawing.Size(6, 31);
+            // 
             // buttonTokens
             // 
             this.buttonTokens.Image = ((System.Drawing.Image)(resources.GetObject("buttonTokens.Image")));
@@ -133,6 +147,7 @@
             this.buttonTokens.Name = "buttonTokens";
             this.buttonTokens.Size = new System.Drawing.Size(120, 28);
             this.buttonTokens.Text = "Fungible Tokens";
+            this.buttonTokens.Visible = false;
             this.buttonTokens.Click += new System.EventHandler(this.buttonTokens_Click);
             // 
             // buttonExit
@@ -158,6 +173,7 @@
             this.buttonNfts.Name = "buttonNfts";
             this.buttonNfts.Size = new System.Drawing.Size(64, 28);
             this.buttonNfts.Text = "NFT\'s";
+            this.buttonNfts.Visible = false;
             this.buttonNfts.Click += new System.EventHandler(this.buttonNfts_Click);
             // 
             // buttonSmartContracts
@@ -165,18 +181,9 @@
             this.buttonSmartContracts.Image = ((System.Drawing.Image)(resources.GetObject("buttonSmartContracts.Image")));
             this.buttonSmartContracts.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonSmartContracts.Name = "buttonSmartContracts";
-            this.buttonSmartContracts.Size = new System.Drawing.Size(120, 28);
-            this.buttonSmartContracts.Text = "Smart Contracts";
+            this.buttonSmartContracts.Size = new System.Drawing.Size(167, 28);
+            this.buttonSmartContracts.Text = "Smart Contracts / Tokens";
             this.buttonSmartContracts.Click += new System.EventHandler(this.buttonSmartContracts_Click);
-            // 
-            // buttonEcosystem
-            // 
-            this.buttonEcosystem.Image = ((System.Drawing.Image)(resources.GetObject("buttonEcosystem.Image")));
-            this.buttonEcosystem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.buttonEcosystem.Name = "buttonEcosystem";
-            this.buttonEcosystem.Size = new System.Drawing.Size(91, 28);
-            this.buttonEcosystem.Text = "Ecosystem";
-            this.buttonEcosystem.Click += new System.EventHandler(this.buttonEcosystem_Click);
             // 
             // buttonStakingNodes
             // 
@@ -187,14 +194,19 @@
             this.buttonStakingNodes.Text = "Staking Nodes";
             this.buttonStakingNodes.Click += new System.EventHandler(this.buttonStakingNodes_Click);
             // 
-            // buttonStatistics
+            // buttonEcosystem
             // 
-            this.buttonStatistics.Image = ((System.Drawing.Image)(resources.GetObject("buttonStatistics.Image")));
-            this.buttonStatistics.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.buttonStatistics.Name = "buttonStatistics";
-            this.buttonStatistics.Size = new System.Drawing.Size(81, 28);
-            this.buttonStatistics.Text = "Statistics";
-            this.buttonStatistics.Visible = false;
+            this.buttonEcosystem.Image = ((System.Drawing.Image)(resources.GetObject("buttonEcosystem.Image")));
+            this.buttonEcosystem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonEcosystem.Name = "buttonEcosystem";
+            this.buttonEcosystem.Size = new System.Drawing.Size(91, 28);
+            this.buttonEcosystem.Text = "Ecosystem";
+            this.buttonEcosystem.Click += new System.EventHandler(this.buttonEcosystem_Click);
+            // 
+            // toolStripSeparatorSearch
+            // 
+            this.toolStripSeparatorSearch.Name = "toolStripSeparatorSearch";
+            this.toolStripSeparatorSearch.Size = new System.Drawing.Size(6, 31);
             // 
             // buttonBlockchain
             // 
@@ -557,16 +569,6 @@
             this.timerInit.Enabled = true;
             this.timerInit.Interval = 10;
             this.timerInit.Tick += new System.EventHandler(this.timerInit_Tick);
-            // 
-            // toolStripSeparatorWallet
-            // 
-            this.toolStripSeparatorWallet.Name = "toolStripSeparatorWallet";
-            this.toolStripSeparatorWallet.Size = new System.Drawing.Size(6, 31);
-            // 
-            // toolStripSeparatorSearch
-            // 
-            this.toolStripSeparatorSearch.Name = "toolStripSeparatorSearch";
-            this.toolStripSeparatorSearch.Size = new System.Drawing.Size(6, 31);
             // 
             // MainForm
             // 
