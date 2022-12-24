@@ -8,12 +8,15 @@ namespace Zilligraph.Database.Storage
     public class ZilligraphMutableTable<TRecordModel> 
         : ZilligraphTable<TRecordModel> where TRecordModel : class, new()
     {
-        private readonly List<MutableFieldInfo> _fields;
+        private readonly List<MutableFieldInfo> _fieldInfos;
+        private readonly PropertyInfo _primaryKeyProperty;
 
         public ZilligraphMutableTable(ZilligraphDatabase database)
             : base(database)
         {
-            _fields = GetFields();
+            var fields = GetFields();
+            _fieldInfos = fields.Fields;
+            _primaryKeyProperty = fields.PrimaryKey;
         }
 
         public override List<DataFile> CompressedDataFiles { get; } = new();
@@ -33,9 +36,10 @@ namespace Zilligraph.Database.Storage
             throw new NotImplementedException();
         }
 
-        private List<MutableFieldInfo> GetFields()
+        private (PropertyInfo PrimaryKey, List<MutableFieldInfo> Fields) GetFields()
         {
             var fields = new List<MutableFieldInfo>();
+            PropertyInfo? primaryKey = null;
             var recordType = typeof(TRecordModel);
             var pos = 0;
             foreach (var fieldProperty in recordType.GetProperties())
@@ -48,9 +52,17 @@ namespace Zilligraph.Database.Storage
                     ValueType = fieldProperty.PropertyType,
                     PropertyName = fieldProperty.Name
                 });
+                if (fieldProperty.GetCustomAttribute<PrimaryKeyAttribute>() != null)
+                {
+                    primaryKey = fieldProperty;
+                }
             }
-
-            return fields;
+            if (primaryKey == null)
+            {
+                throw new RuntimeException(
+                    $"Table '{TableName}' must have a field notated with PrimaryKeyAttribute");
+            }
+            return (primaryKey, fields);
         }
 
         private int GetFieldLength(PropertyInfo propertyInfo)
@@ -58,6 +70,8 @@ namespace Zilligraph.Database.Storage
             if (propertyInfo.PropertyType == typeof(bool)) return 1;
             if (propertyInfo.PropertyType == typeof(int)) return 4;
             if (propertyInfo.PropertyType == typeof(long)) return 8;
+            if (propertyInfo.PropertyType == typeof(decimal)) return 24;
+            if (propertyInfo.PropertyType == typeof(DateTime)) return 8;
             if (propertyInfo.PropertyType == typeof(string))
             {
                 return propertyInfo.GetCustomAttribute<FieldLengthAttribute>()?.Length

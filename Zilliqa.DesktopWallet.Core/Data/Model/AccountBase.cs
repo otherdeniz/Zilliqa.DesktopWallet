@@ -9,6 +9,8 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
 
         public string Name { get; set; }
 
+        public virtual bool PlaySoundOnIncomingTransaction => true;
+
         [JsonIgnore]
         public abstract Address Address { get; }
 
