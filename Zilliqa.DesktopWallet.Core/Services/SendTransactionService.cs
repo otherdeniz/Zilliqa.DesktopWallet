@@ -18,6 +18,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
         public static readonly string ContractDeploymentAddress = "0000000000000000000000000000000000000000";
         public static readonly int GasLimitZilTransfer = 50;
         public static readonly int GasLimitDefaultContractCall = 30000;
+        public static readonly int GasLimitDefaultContractDeploy = 60000;
         private static int? _gasLimitDefaultTokenTransfer;
         private static int? _gasLimitDefaultDeployContract;
         public static int GasLimitDefaultTokenTransfer
@@ -134,7 +135,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
             var contractName = new ScillaParser(scillaCode).ContractName?.Name;
             var result = new SendTransactionResult(senderAccount.Account.Address, new Address(ContractDeploymentAddress),
                 $"Deploy Smart Contract '{contractName}'");
-            gasLimit ??= GasLimitDefaultContractCall;
+            gasLimit ??= GasLimitDefaultContractDeploy;
             Task.Run(async () =>
             {
                 try
