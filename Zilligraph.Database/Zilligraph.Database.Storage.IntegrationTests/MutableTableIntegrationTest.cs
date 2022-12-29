@@ -24,7 +24,7 @@ public class MutableTableIntegrationTest
                 dbTable.AddRecord(sourceRecord);
             }
 
-            foreach (var iPk in new int[] {1,2,3,9})
+            foreach (var iPk in new int[] {1,2,3,9,100})
             {
                 // get original record
                 var originalRecord = dbTable.FindRecord(nameof(MutableRecord.PrimaryKey), iPk)

@@ -7,7 +7,7 @@ namespace Zilligraph.Database.Storage.Extensions
 {
     public static class CompressionExtensions
     {
-        private static readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
+        private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
         {
             NullValueHandling = NullValueHandling.Ignore,
             TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
@@ -21,7 +21,7 @@ namespace Zilligraph.Database.Storage.Extensions
             {
                 using (var reader = new StreamReader(gZipStream, Encoding.UTF8, leaveOpen: true))
                 {
-                    return JsonConvert.DeserializeObject<TResult>(reader.ReadToEnd(), _serializerSettings)
+                    return JsonConvert.DeserializeObject<TResult>(reader.ReadToEnd(), SerializerSettings)
                         ?? throw new RuntimeException("DecompressObjectFromStream has returned null on DeserializeObject");
                 }
             }
@@ -33,7 +33,7 @@ namespace Zilligraph.Database.Storage.Extensions
             {
                 using (var writer = new StreamWriter(gZipStream, Encoding.UTF8, leaveOpen: true))
                 {
-                    writer.Write(JsonConvert.SerializeObject(item, _serializerSettings));
+                    writer.Write(JsonConvert.SerializeObject(item, SerializerSettings));
                 }
             }
         }
