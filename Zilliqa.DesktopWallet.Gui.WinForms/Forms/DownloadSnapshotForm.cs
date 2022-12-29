@@ -25,6 +25,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         private DateTime? _downloadStart;
         private int _extractFilesTotal;
         private int _extractFilesDone;
+        private Stream? _extractStream;
         private bool _cancelDownload;
 
         public DownloadSnapshotForm()
@@ -122,7 +123,9 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                     CleanupDirectory("Images");
                     CleanupDirectory("ZilliqaDB");
                     var extractionPath = DataPathBuilder.AppDataRoot.FullPath;
-                    using (var archive = ZipFile.OpenRead(downloadFile))
+                    var archiveAndStream = OpenZipArchive(downloadFile);
+                    _extractStream = archiveAndStream.Stream;
+                    using (var archive = archiveAndStream.Archive)
                     {
                         _extractFilesTotal = archive.Entries.Count;
                         foreach (var entry in archive.Entries)
@@ -137,6 +140,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                             entry.ExtractToFile(targetFile, true);
                             _extractFilesDone++;
                         }
+                        _extractStream = null;
                     }
                     File.Delete(downloadFile);
 
@@ -153,6 +157,7 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                 }
                 catch (Exception e)
                 {
+                    _extractStream = null;
                     if (File.Exists(downloadFile))
                     {
                         File.Delete(downloadFile);
@@ -166,6 +171,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                     });
                 }
             });
+        }
+
+        private (ZipArchive Archive, Stream Stream) OpenZipArchive(string archiveFileName)
+        {
+            var fs = new FileStream(archiveFileName, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 0x1000, useAsync: false);
+            var archive = new ZipArchive(fs, ZipArchiveMode.Read, leaveOpen: false);
+            return (archive, fs);
         }
 
         private void CleanupDirectory(string folderName)
@@ -226,10 +238,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
         private void timerExtract_Tick(object sender, EventArgs e)
         {
             labelExtractedFiles.Text = $"{_extractFilesDone:#,##0} / {_extractFilesTotal:#,##0}";
-            if (_extractFilesTotal > 0)
+            if (_extractFilesTotal > 0 && _extractStream != null)
             {
                 labelExtractedProgress.Text =
-                    $"{(100m / Convert.ToDecimal(_extractFilesTotal) * Convert.ToDecimal(_extractFilesDone)):0.00} %";
+                    $"{100m / Convert.ToDecimal(_extractStream.Length) * Convert.ToDecimal(_extractStream.Position):0.00} %";
             }
         }
     }
