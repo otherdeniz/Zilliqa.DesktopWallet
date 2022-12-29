@@ -80,7 +80,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.Serve
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.Device.Ledger", "Zilliqa.DesktopWallet.Device.Ledger\Zilliqa.DesktopWallet.Device.Ledger.csproj", "{C0DC31A6-04E4-4C55-AA19-C2DCBEC637B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zilliqa.DesktopWallet.Device.Test", "Zilliqa.DesktopWallet.Device.Test\Zilliqa.DesktopWallet.Device.Test.csproj", "{2ED0967B-3617-4630-B820-E7BD106939C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zilliqa.DesktopWallet.Device.Test", "Zilliqa.DesktopWallet.Device.Test\Zilliqa.DesktopWallet.Device.Test.csproj", "{2ED0967B-3617-4630-B820-E7BD106939C2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ledger.Net", "Ledger.Net\Ledger.Net.csproj", "{CFEA69A1-BE89-4D4E-83DF-BCEE3D24BDF0}"
 EndProject
