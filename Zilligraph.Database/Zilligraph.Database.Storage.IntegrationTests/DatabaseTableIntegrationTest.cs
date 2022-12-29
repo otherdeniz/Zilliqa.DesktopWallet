@@ -10,10 +10,11 @@ namespace Zilligraph.Database.Storage.IntegrationTests
         private readonly string _dbPath = Path.Combine(Path.GetTempPath(), "Zilligraph_DatabaseTableTest");
 
         //TODO: add new features and tests:
-        // - CalculatedIndex
-        // - add Index later after records exist and recalculate (use v1 and v2 model)
         // - number indexes sortable and greater/lower comperable
         // - transactions (to ensure all data is correctly written down, and to rollback uncomplete or failed data)
+        //DONE: implemented, but no tests yet:
+        // - CalculatedIndex
+        // - add Index later after records exist and recalculate (use v1 and v2 model)
         // - ChangeNotifications to get notified on additions by filter
 
         [TestMethod]

@@ -52,8 +52,27 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls
             // to override
         }
 
+        protected virtual void OnMouseHoverEnter()
+        {
+            // to override
+        }
+
+        protected virtual void OnMouseHoverLeave()
+        {
+            // to override
+        }
+
         private void SetBackColor()
         {
+            var isMouseOver = ClientRectangle.Contains(PointToClient(MousePosition));
+            if (isMouseOver)
+            {
+                OnMouseHoverEnter();
+            }
+            else
+            {
+                OnMouseHoverLeave();
+            }
             if (_isSelected)
             {
                 IsHover = false;
@@ -61,10 +80,19 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls
             }
             else
             {
-                var isMouseOver = ClientRectangle.Contains(PointToClient(MousePosition));
                 IsHover = isMouseOver;
                 BackColor = isMouseOver ? GuiColors.HoverBackColor : UnselectedBackColor ?? GuiColors.DefaultBackColor;
             }
+        }
+
+        protected void UnHover()
+        {
+            if (!_isSelected)
+            {
+                IsHover = false;
+                BackColor = UnselectedBackColor ?? GuiColors.DefaultBackColor;
+            }
+            OnMouseHoverLeave();
         }
 
         private void AddEventHandlers(IList controls)
@@ -73,8 +101,11 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls
             {
                 control.MouseEnter += Control_MouseMovement;
                 control.MouseLeave += Control_MouseMovement;
-                control.Click += Control_Click;
-                AddEventHandlers(control.Controls);
+                if (control is not Button)
+                {
+                    control.Click += Control_Click;
+                    AddEventHandlers(control.Controls);
+                }
             }
         }
 

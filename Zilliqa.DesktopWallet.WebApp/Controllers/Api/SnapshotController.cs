@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.Core;
 using Zilliqa.DesktopWallet.Server.Core.Files;
+using Zilliqa.DesktopWallet.Server.Core.Services;
 using Zilliqa.DesktopWallet.WebContract;
 
 namespace Zilliqa.DesktopWallet.WebApp.Controllers.Api
@@ -31,7 +31,7 @@ namespace Zilliqa.DesktopWallet.WebApp.Controllers.Api
             var snapshotInfo = SnapshotVersionsFile.Load().Snapshots.FirstOrDefault(s => s.Id == id);
             if (snapshotInfo != null)
             {
-                var zipStream = new FileInfo(DataPathBuilder.AppDataRoot.GetFilePath(snapshotInfo.ZipFilename))
+                var zipStream = new FileInfo(SnapshotService.Instance.GetFilePath(snapshotInfo.ZipFilename))
                     .OpenRead();
                 return File(zipStream, "application/zip", snapshotInfo.ZipFilename);
             }

@@ -8,6 +8,8 @@ namespace Zilliqa.DesktopWallet.Core.ContractCode
             new Regex(@"^\s*contract\s+(\w+)\s*\(((?:[A-z\d:\s,]|\([A-z\d:\s,]*\)|\(\*.+\*\))*)\)", RegexOptions.Multiline | RegexOptions.Compiled);
         public static readonly Regex ContractNameSingleLineRegEx =
             new Regex(@"\s+contract\s+(\w+)\s*\(((?:[A-z\d:\s,]|\([A-z\d:\s,]*\)|\(\*.+\*\))*)\)", RegexOptions.Multiline | RegexOptions.Compiled);
+        public static readonly Regex ContractNameParametersIgnoredRegEx =
+            new Regex(@"^\s*contract\s+(\w+)\s*\(", RegexOptions.Multiline | RegexOptions.Compiled);
         public static readonly Regex FieldRegEx =
             new Regex(@"^\s*field\s+(\w+)\s*:", RegexOptions.Multiline | RegexOptions.Compiled);
         public static readonly Regex TransitionRegEx =
@@ -53,6 +55,11 @@ namespace Zilliqa.DesktopWallet.Core.ContractCode
             if (contractNameMatch2.Success)
             {
                 return new CodeContract(contractNameMatch2.Groups[1].Value, contractNameMatch2.Groups[2].Value);
+            }
+            var contractNameMatch3 = ContractNameParametersIgnoredRegEx.Match(Code);
+            if (contractNameMatch3.Success)
+            {
+                return new CodeContract(contractNameMatch3.Groups[1].Value, "");
             }
             return null;
         }
