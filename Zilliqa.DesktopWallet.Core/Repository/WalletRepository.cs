@@ -103,6 +103,39 @@ namespace Zilliqa.DesktopWallet.Core.Repository
             }
         }
 
+        public void MoveAccount(string id, int offset)
+        {
+            for (int i = 0; i < _myAccountsList.Count; i++)
+            {
+                if (_myAccountsList[i].AccountData.Id == id)
+                {
+                    var itemVm = _myAccountsList[i];
+                    _myAccountsList.RemoveAt(i);
+                    _myAccountsList.Insert(i + offset, itemVm);
+                    var item = WalletDat.Instance.MyAccounts[i];
+                    WalletDat.Instance.MyAccounts.RemoveAt(i);
+                    WalletDat.Instance.MyAccounts.Insert(i + offset, item);
+                    WalletDat.Instance.Save();
+                    return;
+                }
+            }
+
+            for (int i = 0; i < _watchedAccountsList.Count; i++)
+            {
+                if (_watchedAccountsList[i].AccountData.Id == id)
+                {
+                    var itemVm = _watchedAccountsList[i];
+                    _watchedAccountsList.RemoveAt(i);
+                    _watchedAccountsList.Insert(i + offset, itemVm);
+                    var item = WalletDat.Instance.WatchedAccounts[i];
+                    WalletDat.Instance.WatchedAccounts.RemoveAt(i);
+                    WalletDat.Instance.WatchedAccounts.Insert(i + offset, item);
+                    WalletDat.Instance.Save();
+                    return;
+                }
+            }
+        }
+
         private void RemoveAccountFromDictionary(AccountViewModel accountViewModel)
         {
             if (_accountsByAddress.ContainsKey(accountViewModel.AddressHex))

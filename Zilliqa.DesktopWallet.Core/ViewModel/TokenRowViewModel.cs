@@ -23,18 +23,18 @@ namespace Zilliqa.DesktopWallet.Core.ViewModel
         public TokenModel Model => _model;
 
         [Browsable(false)] 
-        public string SearchTerm => $"{Name?.ToLower()}|{Symbol?.ToLower()}";
+        public string SearchTerm => $"{Name?.ToLower()}|{Symbol.ToLower()}";
 
         [DisplayName(" ")]
         public Image? Icon => _icon ??= _model.Icon.Icon16;
 
         [DisplayName("Name")]
         [ColumnWidth(120)]
-        public string? Name => _model.Name;
+        public string Name => _model.Name;
 
         [DisplayName("Symbol")]
         [ColumnWidth(60)]
-        public string? Symbol => _model.Symbol;
+        public string Symbol => _model.Symbol;
 
         public string Type
         {

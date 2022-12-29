@@ -2,6 +2,7 @@
 
 namespace Zilligraph.Database.Storage.IntegrationTests.Model
 {
+    [TableModel(TableKind.NotMutable)]
     public class SimpleRecord
     {
         public static List<SimpleRecord> Generate(int number)

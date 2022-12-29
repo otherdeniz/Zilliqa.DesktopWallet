@@ -65,9 +65,9 @@
             this.checkBoxMyAddress.AutoSize = true;
             this.checkBoxMyAddress.Location = new System.Drawing.Point(8, 136);
             this.checkBoxMyAddress.Name = "checkBoxMyAddress";
-            this.checkBoxMyAddress.Size = new System.Drawing.Size(178, 19);
+            this.checkBoxMyAddress.Size = new System.Drawing.Size(380, 19);
             this.checkBoxMyAddress.TabIndex = 12;
-            this.checkBoxMyAddress.Text = "This Address is owned by me";
+            this.checkBoxMyAddress.Text = "This Address is owned by me (play sound on incoming transaction)";
             this.checkBoxMyAddress.UseVisualStyleBackColor = true;
             // 
             // textAddress

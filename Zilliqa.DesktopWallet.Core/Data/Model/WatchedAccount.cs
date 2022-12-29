@@ -39,6 +39,8 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
 
         public bool IsMyAccount { get; set; }
 
+        public override bool PlaySoundOnIncomingTransaction => IsMyAccount;
+
         [JsonIgnore] 
         public override Address Address => _address ??= new Address(AddressBech32);
 

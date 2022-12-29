@@ -16,11 +16,14 @@ namespace Zilliqa.DesktopWallet.Core.Services
         public static TokenDataService Instance { get; } = new();
 
         private List<TokenModel>? _tokenModels;
+        private List<TokenModel>? _nftModels;
         private Dictionary<string, TokenModel>? _tokenAddressDictionary;
         private bool _loading;
         private bool _tokenModelsLoaded;
 
         public List<TokenModel> TokenModels => _tokenModels ?? new List<TokenModel>();
+
+        public List<TokenModel> NftModels => _nftModels ?? new List<TokenModel>();
 
         public bool LoadCompleted => _tokenModelsLoaded;
 
@@ -34,29 +37,34 @@ namespace Zilliqa.DesktopWallet.Core.Services
             Task.Run(() =>
             {
                 var tokenModels = new List<TokenModel>();
+                var nftModels = new List<TokenModel>();
                 try
                 {
-                    LoadingStatus = "Loading Tokens from Cryptometa data";
-                    Logging.LogInfo("TokenDataService.StartLoadTokens: loading all Tokens from Cryptometa Assets");
-                    foreach (var cryptometaAsset in CryptometaFile.Instance.Assets
-                                 .Where(a => !string.IsNullOrEmpty(a.Symbol)
-                                             && !string.IsNullOrEmpty(a.Name)
-                                             && a.Symbol.ToLower() != "zil"))
-                    {
-                        var tokenModel = tokenModels.FirstOrDefault(t => t.Symbol.ToLower() == cryptometaAsset.Symbol.ToLower());
-                        if (tokenModel == null)
-                        {
-                            tokenModel = new TokenModel
-                            {
-                                Symbol = cryptometaAsset.Symbol,
-                                Name = cryptometaAsset.Name,
-                                Icon = LogoImages.Instance.GetImage(cryptometaAsset.Bech32Address),
-                                CryptometaAsset = cryptometaAsset
-                            };
-                            tokenModels.Add(tokenModel);
-                        }
-                    }
                     LoadingStatus = "Loading Tokens from Smart Contracts";
+                    Logging.LogInfo("TokenDataService.StartLoadTokens: loading all Tokens from Cryptometa Assets");
+                    var cryptometaAssets = CryptometaFile.Instance.Assets
+                        .Where(a => !string.IsNullOrEmpty(a.Symbol)
+                                    && !string.IsNullOrEmpty(a.Name)
+                                    && a.Symbol.ToLower() != "zil")
+                        .ToList();
+                    //foreach (var cryptometaAsset in CryptometaFile.Instance.Assets
+                    //             .Where(a => !string.IsNullOrEmpty(a.Symbol)
+                    //                         && !string.IsNullOrEmpty(a.Name)
+                    //                         && a.Symbol.ToLower() != "zil"))
+                    //{
+                    //    var cryptometaModel = cryptometaTokens.FirstOrDefault(t => t.Symbol.ToLower() == cryptometaAsset.Symbol.ToLower());
+                    //    if (cryptometaModel == null)
+                    //    {
+                    //        cryptometaModel = new TokenModel
+                    //        {
+                    //            Symbol = cryptometaAsset.Symbol,
+                    //            Name = cryptometaAsset.Name,
+                    //            Icon = LogoImages.Instance.GetImage(cryptometaAsset.Bech32Address),
+                    //            CryptometaAsset = cryptometaAsset
+                    //        };
+                    //        cryptometaTokens.Add(cryptometaModel);
+                    //    }
+                    //}
                     Logging.LogInfo("TokenDataService.StartLoadTokens: loading all Tokens from Smart Contracts");
                     foreach (var smartContract in RepositoryManager.Instance.DatabaseRepository.Database
                                  .GetTable<SmartContract>().EnumerateAllRecords()
@@ -64,21 +72,53 @@ namespace Zilliqa.DesktopWallet.Core.Services
                                               && sc.TokenSymbol()?.ToLower() != "zil"))
                     {
                         var contractSymbol = smartContract.TokenSymbol()!;
-                        var tokenModel = tokenModels.FirstOrDefault(t => t.Symbol.ToLower() == contractSymbol.ToLower());
-                        if (tokenModel == null)
+
+                        if (smartContract.SmartContractTypeEnum == SmartContractType.FungibleToken)
                         {
-                            tokenModel = new TokenModel
+                            var tokenModel = tokenModels.FirstOrDefault(t => t.Symbol.ToLower() == contractSymbol.ToLower());
+                            if (tokenModel == null)
                             {
-                                Symbol = contractSymbol!,
-                                Name = smartContract.TokenName() ?? string.Empty,
-                                Icon = LogoImages.Instance.GetImage(smartContract.ContractAddress.FromBase16ToBech32Address())
-                            };
-                            tokenModels.Add(tokenModel);
-                            tokenModel.SmartContractModels.Add(smartContract);
+                                var cryptometaAsset = cryptometaAssets.FirstOrDefault(a => a.Symbol.ToLower() == contractSymbol.ToLower());
+                                tokenModel = new TokenModel
+                                             {
+                                                 Symbol = contractSymbol,
+                                                 Name = smartContract.TokenName() ?? string.Empty,
+                                                 Icon = LogoImages.Instance.GetImage(cryptometaAsset != null
+                                                     ? cryptometaAsset.Bech32Address
+                                                     : smartContract.ContractAddress.FromBase16ToBech32Address()),
+                                                 CryptometaAsset = cryptometaAsset
+                                };
+                                tokenModels.Add(tokenModel);
+                                tokenModel.SmartContractModels.Add(smartContract);
+                            }
+                            else
+                            {
+                                tokenModel.SmartContractModels.Add(smartContract);
+                            }
                         }
-                        else
+                        else if (smartContract.SmartContractTypeEnum == SmartContractType.NonfungibleToken)
                         {
-                            tokenModel.SmartContractModels.Add(smartContract);
+                            var nftModel = nftModels.FirstOrDefault(t => t.Symbol.ToLower() == contractSymbol.ToLower());
+                            if (nftModel == null)
+                            {
+                                var cryptometaAsset = cryptometaAssets.FirstOrDefault(a => a.Symbol.ToLower() == contractSymbol.ToLower());
+                                nftModel = new TokenModel
+                                           {
+                                               Symbol = contractSymbol,
+                                               Name = smartContract.TokenName() ?? string.Empty,
+                                               Icon = LogoImages.Instance.GetImage(cryptometaAsset != null
+                                                   ? cryptometaAsset.Bech32Address
+                                                   : smartContract.ContractAddress.FromBase16ToBech32Address()),
+                                               CryptometaAsset = cryptometaAsset
+                                };
+                                nftModels.Add(nftModel);
+                                nftModel.SmartContractModels.Add(smartContract);
+                            }
+                            else
+                            {
+                                nftModel.SmartContractModels.Add(smartContract);
+                            }
+
                         }
                     }
                     foreach (var coinPrice in TokenPriceFile.Instance.CoinPrices)
@@ -88,6 +128,10 @@ namespace Zilliqa.DesktopWallet.Core.Services
                                                         && t.CryptometaAsset != null)
                             ?.LoadPriceProperties(coinPrice);
                     }
+                    _nftModels = nftModels
+                        .OrderByDescending(t => t.CryptometaAsset?.Gen.Score ?? -1)
+                        .ThenByDescending(t => t.CreatedDate ?? DateTime.MinValue)
+                        .ToList();
 
                     _tokenModels = tokenModels
                         .OrderByDescending(t => t.MarketCapUsd ?? -1)
@@ -176,6 +220,14 @@ namespace Zilliqa.DesktopWallet.Core.Services
             //TODO: caching? (lets have a look, how long it takes to load)
             var dataSource = new PageableDataSource<TokenRowViewModel>();
             dataSource.Load(TokenModels.Select(t => new TokenRowViewModel(t)).ToList());
+            return dataSource;
+        }
+
+        public IPageableDataSource GetNftsDataSource()
+        {
+            //TODO: caching? (lets have a look, how long it takes to load)
+            var dataSource = new PageableDataSource<TokenRowViewModel>();
+            dataSource.Load(NftModels.Select(t => new TokenRowViewModel(t)).ToList());
             return dataSource;
         }
 

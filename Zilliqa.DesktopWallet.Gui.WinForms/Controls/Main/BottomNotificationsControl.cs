@@ -40,7 +40,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                 var control = new IncomingTokenNotificationControl();
                 control.LoadData(e.AccountViewModel, e.TransactionViewModel);
                 AddNotificationControl(control, panelLevel1);
-                SoundPlayer.PlaySound(SettingsFile.Instance.IncomingSound);
+                if (e.AccountViewModel.AccountData.PlaySoundOnIncomingTransaction)
+                {
+                    SoundPlayer.PlaySound(SettingsFile.Instance.IncomingSound);
+                }
             });
         }
 
@@ -51,7 +54,10 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
                 var control = new IncomingZilNotificationControl();
                 control.LoadData(e.AccountViewModel, e.TransactionViewModel);
                 AddNotificationControl(control, panelLevel1);
-                SoundPlayer.PlaySound(SettingsFile.Instance.IncomingSound);
+                if (e.AccountViewModel.AccountData.PlaySoundOnIncomingTransaction)
+                {
+                    SoundPlayer.PlaySound(SettingsFile.Instance.IncomingSound);
+                }
             });
         }
 

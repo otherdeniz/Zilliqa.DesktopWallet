@@ -87,11 +87,12 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms.Forms
                 && _codeTransitions != null 
                 && comboBoxMethod.SelectedIndex > -1)
             {
+                var contractAddress = addressTextBox.Address;
+                var methodName = _codeTransitions[comboBoxMethod.SelectedIndex].Name;
                 Task.Run(() =>
                 {
                     var dbRepo = RepositoryManager.Instance.DatabaseRepository;
-                    var lastContractTransaction = dbRepo.GetLatestContractCallTransaction(
-                        addressTextBox.Address, _codeTransitions[comboBoxMethod.SelectedIndex].Name);
+                    var lastContractTransaction = dbRepo.GetLatestContractCallTransaction(contractAddress, methodName);
                     var gasLimit = lastContractTransaction?.Receipt.CumulativeGas ??
                                    SendTransactionService.GasLimitDefaultContractCall / 5;
                     var expectedFee = RepositoryManager.Instance.BlockchainBrowserRepository.MinimumGasPrice *

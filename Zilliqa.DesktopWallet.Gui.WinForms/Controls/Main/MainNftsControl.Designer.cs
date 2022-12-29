@@ -1,6 +1,6 @@
 ﻿namespace Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main
 {
-    partial class MainTokensControl
+    partial class MainNftsControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,11 +29,16 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.timerStartLoading = new System.Windows.Forms.Timer(this.components);
             this.groupBoxTokensList = new System.Windows.Forms.GroupBox();
             this.gridViewTokens = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.GridView.GridViewControl();
-            this.timerStartLoading = new System.Windows.Forms.Timer(this.components);
             this.groupBoxTokensList.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // timerStartLoading
+            // 
+            this.timerStartLoading.Interval = 10;
+            this.timerStartLoading.Tick += new System.EventHandler(this.timerStartLoading_Tick);
             // 
             // groupBoxTokensList
             // 
@@ -42,10 +47,10 @@
             this.groupBoxTokensList.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.groupBoxTokensList.Location = new System.Drawing.Point(0, 0);
             this.groupBoxTokensList.Name = "groupBoxTokensList";
-            this.groupBoxTokensList.Size = new System.Drawing.Size(299, 422);
-            this.groupBoxTokensList.TabIndex = 2;
+            this.groupBoxTokensList.Size = new System.Drawing.Size(319, 513);
+            this.groupBoxTokensList.TabIndex = 3;
             this.groupBoxTokensList.TabStop = false;
-            this.groupBoxTokensList.Text = "Fungible Tokens";
+            this.groupBoxTokensList.Text = "Nonfungible Tokens";
             // 
             // gridViewTokens
             // 
@@ -54,23 +59,18 @@
             this.gridViewTokens.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.gridViewTokens.Location = new System.Drawing.Point(3, 19);
             this.gridViewTokens.Name = "gridViewTokens";
-            this.gridViewTokens.Size = new System.Drawing.Size(293, 400);
+            this.gridViewTokens.Size = new System.Drawing.Size(313, 491);
             this.gridViewTokens.TabIndex = 1;
             // 
-            // timerStartLoading
-            // 
-            this.timerStartLoading.Interval = 10;
-            this.timerStartLoading.Tick += new System.EventHandler(this.timerStartLoading_Tick);
-            // 
-            // MainTokensControl
+            // MainNftsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.groupBoxTokensList);
-            this.Name = "MainTokensControl";
-            this.Size = new System.Drawing.Size(669, 422);
-            this.Load += new System.EventHandler(this.MainTokensControl_Load);
+            this.Name = "MainNftsControl";
+            this.Size = new System.Drawing.Size(689, 513);
+            this.Load += new System.EventHandler(this.MainNftsControl_Load);
             this.Controls.SetChildIndex(this.groupBoxTokensList, 0);
             this.groupBoxTokensList.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -78,8 +78,9 @@
         }
 
         #endregion
+
         private System.Windows.Forms.Timer timerStartLoading;
-        private GridView.GridViewControl gridViewTokens;
         private GroupBox groupBoxTokensList;
+        private GridView.GridViewControl gridViewTokens;
     }
 }
