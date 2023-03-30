@@ -54,7 +54,13 @@ namespace Zilliqa.DesktopWallet.Core.Data.Files
 
         public void InitialiseLoad(PasswordInfo password)
         {
-            Instance.MyAccounts.ForEach(a => a.Load(password.Password));
+            Instance.MyAccounts.ForEach(a => a.DecryptAccountDetailsFromKey(password.Password));
+        }
+
+        public void SetPassword(PasswordInfo newPassword)
+        {
+            PasswordHash = newPassword.Hash;
+            Instance.MyAccounts.ForEach(a => a.EncryptAccountDetailsToKey(newPassword.Password));
         }
 
         public override void Save()

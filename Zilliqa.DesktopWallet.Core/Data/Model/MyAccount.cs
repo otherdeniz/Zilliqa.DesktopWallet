@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Zillifriends.Shared.Common;
 using Zilliqa.DesktopWallet.ApiClient;
 using Zilliqa.DesktopWallet.ApiClient.Accounts;
 using Zilliqa.DesktopWallet.ApiClient.Crypto;
@@ -108,12 +109,18 @@ namespace Zilliqa.DesktopWallet.Core.Data.Model
             return _addressHex ??= Address.GetBase16(false);
         }
 
-        public void Load(string password)
+        public void DecryptAccountDetailsFromKey(string password)
         {
             if (KeyEncrypted != null)
             {
                 _accountDetails = new Account(KeyEncrypted, password);
             }
+        }
+
+        public void EncryptAccountDetailsToKey(string newPassword)
+        {
+            if (_accountDetails == null) return;
+            KeyEncrypted = _accountDetails.ToJson(newPassword, KDFType.PBKDF2);
         }
     }
 

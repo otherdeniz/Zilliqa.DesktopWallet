@@ -445,5 +445,13 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             LoadSettingWhales();
         }
 
+        private void settingMenuChangePassword_Click(object sender, EventArgs e)
+        {
+            if (ChangePasswordForm.Execute(this))
+            {
+                MessageBox.Show("The wallet password was changed successfully", ApplicationInfo.ApplicationName,
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
     }
 }
