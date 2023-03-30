@@ -15,7 +15,7 @@ namespace Zilliqa.DesktopWallet.ApiClient.ViewblockApi
         private const string GithubUserAgent = "Zillifriends.ZilliqaDesktopWallet";
         private const string GithubBaseUrl = "https://raw.githubusercontent.com/ViewBlock/cryptometa/master/data/zilliqa";
 
-        public List<CryptometaAssetResult> AllAssets()
+        public List<CryptometaAssetResult> AllAssets(StatusProgressText statusProgressText = null)
         {
             var github = new GitHubClient(new ProductHeaderValue(GithubUserAgent));
 
@@ -23,11 +23,22 @@ namespace Zilliqa.DesktopWallet.ApiClient.ViewblockApi
             {
                 var githubFolders = await github.Repository.Content
                     .GetAllContents("ViewBlock", "cryptometa", "data/zilliqa/assets");
-                return githubFolders.Select(folder => GetAsset(folder.Name)).ToList();
+                if (statusProgressText != null)
+                {
+                    statusProgressText.ItemCount = githubFolders.Count;
+                }
+                return githubFolders.Select(folder =>
+                {
+                    if (statusProgressText != null)
+                    {
+                        statusProgressText.CurrentItem++;
+                    }
+                    return GetAsset(folder.Name);
+                }).ToList();
             }).GetAwaiter().GetResult();
         }
 
-        public List<CryptometaEcosystemResult> AllEcosystems()
+        public List<CryptometaEcosystemResult> AllEcosystems(StatusProgressText statusProgressText = null)
         {
             var github = new GitHubClient(new ProductHeaderValue(GithubUserAgent));
 
@@ -35,7 +46,18 @@ namespace Zilliqa.DesktopWallet.ApiClient.ViewblockApi
             {
                 var githubFolders = await github.Repository.Content
                     .GetAllContents("ViewBlock", "cryptometa", "data/zilliqa/ecosystem");
-                return githubFolders.Select(folder => GetEcosystem(folder.Name)).ToList();
+                if (statusProgressText != null)
+                {
+                    statusProgressText.ItemCount = githubFolders.Count;
+                }
+                return githubFolders.Select(folder =>
+                {
+                    if (statusProgressText != null)
+                    {
+                        statusProgressText.CurrentItem++;
+                    }
+                    return GetEcosystem(folder.Name);
+                }).ToList();
             }).GetAwaiter().GetResult();
         }
 
