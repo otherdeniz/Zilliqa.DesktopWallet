@@ -1,4 +1,5 @@
-﻿using Zilliqa.DesktopWallet.ApiClient.ViewblockApi;
+﻿using Zillifriends.Shared.Common;
+using Zilliqa.DesktopWallet.ApiClient.ViewblockApi;
 using Zilliqa.DesktopWallet.Core.Data.Files;
 using Zilliqa.DesktopWallet.Core.Data.Images;
 
@@ -10,6 +11,8 @@ namespace Zilliqa.DesktopWallet.Core.Services
         private readonly CancellationTokenSource _loadCancelTokenSource = new();
         private bool _loadStarted;
         private bool _loadCompleted;
+        private string _loadingStatus = "";
+        private StatusProgressText? _loadingStatusProgressText;
 
         public static CryptometaDownloadService Instance { get; } = new();
 
@@ -21,7 +24,10 @@ namespace Zilliqa.DesktopWallet.Core.Services
 
         public bool LoadCompleted => _loadCompleted;
 
-        public string LoadingStatus { get; private set; } = "";
+        public string LoadingStatus
+        {
+            get => _loadingStatusProgressText?.ToString() ?? _loadingStatus;
+        }
 
         public void CancelLoad()
         {
@@ -40,11 +46,12 @@ namespace Zilliqa.DesktopWallet.Core.Services
                     var cancellationToken = _loadCancelTokenSource.Token;
                     try
                     {
-                        LoadingStatus = "Downloading assets from Github repository";
+                        _loadingStatus = "Downloading assets from Github repository";
+                        _loadingStatusProgressText = new StatusProgressText(_loadingStatus);
                         Logging.LogInfo($"CryptometaDownloadService LoadOrRefresh: {LoadingStatus}");
                         var logoImages = LogoImages.Instance;
                         var cryptometaClient = new ViewblockCryptometaClient();
-                        var allAssets = cryptometaClient.AllAssets();
+                        var allAssets = cryptometaClient.AllAssets(_loadingStatusProgressText);
                         foreach (var asset in allAssets)
                         {
                             if (asset.Asset != null && asset.Image != null)
@@ -56,9 +63,10 @@ namespace Zilliqa.DesktopWallet.Core.Services
 
                         if (cancellationToken.IsCancellationRequested) return;
 
-                        LoadingStatus = "Downloading ecosystems from Github repository";
+                        _loadingStatus = "Downloading ecosystems from Github repository";
+                        _loadingStatusProgressText = new StatusProgressText(_loadingStatus);
                         Logging.LogInfo($"CryptometaDownloadService LoadOrRefresh: {LoadingStatus}");
-                        var allEcosystems = cryptometaClient.AllEcosystems();
+                        var allEcosystems = cryptometaClient.AllEcosystems(_loadingStatusProgressText);
                         foreach (var ecosystem in allEcosystems)
                         {
                             if (ecosystem.Ecosystem != null && ecosystem.Image != null)
@@ -71,18 +79,21 @@ namespace Zilliqa.DesktopWallet.Core.Services
                         CryptometaFile.Instance.Save();
 
                         _loadCompleted = true;
-                        LoadingStatus = "Download completed";
+                        _loadingStatusProgressText = null;
+                        _loadingStatus = "Download completed";
                         Logging.LogInfo($"CryptometaDownloadService LoadOrRefresh: {LoadingStatus}");
                         AfterLoadCompleted();
                     }
                     catch (TaskCanceledException)
                     {
-                        LoadingStatus = "Download aborted";
+                        _loadingStatusProgressText = null;
+                        _loadingStatus = "Download aborted";
                         Logging.LogInfo("CryptometaDownloadService LoadOrRefresh: aborted");
                     }
                     catch (Exception e)
                     {
-                        LoadingStatus = "Download failed";
+                        _loadingStatusProgressText = null;
+                        _loadingStatus = "Download failed";
                         Logging.LogError($"CryptometaDownloadService LoadOrRefresh: failed: {e.Message}", e);
                     }
                     _loadCompleted = true;

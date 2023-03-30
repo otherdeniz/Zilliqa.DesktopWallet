@@ -10,6 +10,7 @@
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <FileVersion></FileVersion>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,4 +1,5 @@
-﻿using Zilliqa.DesktopWallet.ApiClient;
+﻿using System.Globalization;
+using Zilliqa.DesktopWallet.ApiClient;
 
 namespace Zilliqa.DesktopWallet.Gui.WinForms
 {
@@ -9,7 +10,8 @@ namespace Zilliqa.DesktopWallet.Gui.WinForms
             var assemblyName = typeof(ApplicationInfo).Assembly.GetName();
             return assemblyName.Version == null 
                 ? 0.01m 
-                : decimal.Parse($"{assemblyName.Version.Major}.{assemblyName.Version.Minor:00}");
+                : Convert.ToDecimal(assemblyName.Version.Major) 
+                  + Convert.ToDecimal(assemblyName.Version.Minor) / 100;
         });
 
         public static string ApplicationName => "Zilliqa Desktop Wallet";

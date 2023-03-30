@@ -34,11 +34,11 @@
             this.buttonWallet = new System.Windows.Forms.ToolStripButton();
             this.buttonStatistics = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparatorWallet = new System.Windows.Forms.ToolStripSeparator();
+            this.buttonSmartContracts = new System.Windows.Forms.ToolStripButton();
             this.buttonTokens = new System.Windows.Forms.ToolStripButton();
             this.buttonExit = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonNfts = new System.Windows.Forms.ToolStripButton();
-            this.buttonSmartContracts = new System.Windows.Forms.ToolStripButton();
             this.buttonStakingNodes = new System.Windows.Forms.ToolStripButton();
             this.buttonEcosystem = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparatorSearch = new System.Windows.Forms.ToolStripSeparator();
@@ -83,6 +83,8 @@
             this.groupBoxStatus = new System.Windows.Forms.GroupBox();
             this.bottomStatus = new Zilliqa.DesktopWallet.Gui.WinForms.Controls.Main.BottomStatusControl();
             this.timerInit = new System.Windows.Forms.Timer(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.settingMenuChangePassword = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMain.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.panelBottom.SuspendLayout();
@@ -140,6 +142,15 @@
             this.toolStripSeparatorWallet.Name = "toolStripSeparatorWallet";
             this.toolStripSeparatorWallet.Size = new System.Drawing.Size(6, 31);
             // 
+            // buttonSmartContracts
+            // 
+            this.buttonSmartContracts.Image = ((System.Drawing.Image)(resources.GetObject("buttonSmartContracts.Image")));
+            this.buttonSmartContracts.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonSmartContracts.Name = "buttonSmartContracts";
+            this.buttonSmartContracts.Size = new System.Drawing.Size(167, 28);
+            this.buttonSmartContracts.Text = "Smart Contracts / Tokens";
+            this.buttonSmartContracts.Click += new System.EventHandler(this.buttonSmartContracts_Click);
+            // 
             // buttonTokens
             // 
             this.buttonTokens.Image = ((System.Drawing.Image)(resources.GetObject("buttonTokens.Image")));
@@ -175,15 +186,6 @@
             this.buttonNfts.Text = "NFT\'s";
             this.buttonNfts.Visible = false;
             this.buttonNfts.Click += new System.EventHandler(this.buttonNfts_Click);
-            // 
-            // buttonSmartContracts
-            // 
-            this.buttonSmartContracts.Image = ((System.Drawing.Image)(resources.GetObject("buttonSmartContracts.Image")));
-            this.buttonSmartContracts.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.buttonSmartContracts.Name = "buttonSmartContracts";
-            this.buttonSmartContracts.Size = new System.Drawing.Size(167, 28);
-            this.buttonSmartContracts.Text = "Smart Contracts / Tokens";
-            this.buttonSmartContracts.Click += new System.EventHandler(this.buttonSmartContracts_Click);
             // 
             // buttonStakingNodes
             // 
@@ -227,7 +229,9 @@
             this.buttonSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingMenuDisplayCurrencies,
             this.settingMenuIncomingSound,
-            this.settingMenuWhale});
+            this.settingMenuWhale,
+            this.toolStripMenuItem1,
+            this.settingMenuChangePassword});
             this.buttonSettings.Image = ((System.Drawing.Image)(resources.GetObject("buttonSettings.Image")));
             this.buttonSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonSettings.Name = "buttonSettings";
@@ -246,7 +250,7 @@
             this.menuDisplayCurrencyEth,
             this.menuDisplayCurrencyLtc});
             this.settingMenuDisplayCurrencies.Name = "settingMenuDisplayCurrencies";
-            this.settingMenuDisplayCurrencies.Size = new System.Drawing.Size(233, 22);
+            this.settingMenuDisplayCurrencies.Size = new System.Drawing.Size(241, 30);
             this.settingMenuDisplayCurrencies.Text = "Display additional Currencies";
             // 
             // toolStripMenuFiat
@@ -254,27 +258,27 @@
             this.toolStripMenuFiat.BackColor = System.Drawing.SystemColors.ControlLight;
             this.toolStripMenuFiat.Enabled = false;
             this.toolStripMenuFiat.Name = "toolStripMenuFiat";
-            this.toolStripMenuFiat.Size = new System.Drawing.Size(178, 22);
+            this.toolStripMenuFiat.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuFiat.Text = "Fiat";
             // 
             // menuDisplayCurrencyEur
             // 
             this.menuDisplayCurrencyEur.Name = "menuDisplayCurrencyEur";
-            this.menuDisplayCurrencyEur.Size = new System.Drawing.Size(178, 22);
+            this.menuDisplayCurrencyEur.Size = new System.Drawing.Size(180, 22);
             this.menuDisplayCurrencyEur.Text = "Euro (EUR)";
             this.menuDisplayCurrencyEur.Click += new System.EventHandler(this.menuDisplayCurrencyEur_Click);
             // 
             // menuDisplayCurrencyChf
             // 
             this.menuDisplayCurrencyChf.Name = "menuDisplayCurrencyChf";
-            this.menuDisplayCurrencyChf.Size = new System.Drawing.Size(178, 22);
+            this.menuDisplayCurrencyChf.Size = new System.Drawing.Size(180, 22);
             this.menuDisplayCurrencyChf.Text = "Swiss Franc (CHF)";
             this.menuDisplayCurrencyChf.Click += new System.EventHandler(this.menuDisplayCurrencyChf_Click);
             // 
             // menuDisplayCurrencyGbp
             // 
             this.menuDisplayCurrencyGbp.Name = "menuDisplayCurrencyGbp";
-            this.menuDisplayCurrencyGbp.Size = new System.Drawing.Size(178, 22);
+            this.menuDisplayCurrencyGbp.Size = new System.Drawing.Size(180, 22);
             this.menuDisplayCurrencyGbp.Text = "British Pound (GBP)";
             this.menuDisplayCurrencyGbp.Click += new System.EventHandler(this.menuDisplayCurrencyGbp_Click);
             // 
@@ -283,27 +287,27 @@
             this.toolStripMenuCrypto.BackColor = System.Drawing.SystemColors.ControlLight;
             this.toolStripMenuCrypto.Enabled = false;
             this.toolStripMenuCrypto.Name = "toolStripMenuCrypto";
-            this.toolStripMenuCrypto.Size = new System.Drawing.Size(178, 22);
+            this.toolStripMenuCrypto.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuCrypto.Text = "Crypto";
             // 
             // menuDisplayCurrencyBtc
             // 
             this.menuDisplayCurrencyBtc.Name = "menuDisplayCurrencyBtc";
-            this.menuDisplayCurrencyBtc.Size = new System.Drawing.Size(178, 22);
+            this.menuDisplayCurrencyBtc.Size = new System.Drawing.Size(180, 22);
             this.menuDisplayCurrencyBtc.Text = "Bitcoin (BTC)";
             this.menuDisplayCurrencyBtc.Click += new System.EventHandler(this.menuDisplayCurrencyBtc_Click);
             // 
             // menuDisplayCurrencyEth
             // 
             this.menuDisplayCurrencyEth.Name = "menuDisplayCurrencyEth";
-            this.menuDisplayCurrencyEth.Size = new System.Drawing.Size(178, 22);
+            this.menuDisplayCurrencyEth.Size = new System.Drawing.Size(180, 22);
             this.menuDisplayCurrencyEth.Text = "Ethereum (ETH)";
             this.menuDisplayCurrencyEth.Click += new System.EventHandler(this.menuDisplayCurrencyEth_Click);
             // 
             // menuDisplayCurrencyLtc
             // 
             this.menuDisplayCurrencyLtc.Name = "menuDisplayCurrencyLtc";
-            this.menuDisplayCurrencyLtc.Size = new System.Drawing.Size(178, 22);
+            this.menuDisplayCurrencyLtc.Size = new System.Drawing.Size(180, 22);
             this.menuDisplayCurrencyLtc.Text = "Litecoin (LTC)";
             this.menuDisplayCurrencyLtc.Click += new System.EventHandler(this.menuDisplayCurrencyLtc_Click);
             // 
@@ -315,7 +319,7 @@
             this.menuIncomingSoundKaChing,
             this.menuIncomingSoundCoinDrop});
             this.settingMenuIncomingSound.Name = "settingMenuIncomingSound";
-            this.settingMenuIncomingSound.Size = new System.Drawing.Size(233, 22);
+            this.settingMenuIncomingSound.Size = new System.Drawing.Size(241, 30);
             this.settingMenuIncomingSound.Text = "Incoming transaction sound";
             // 
             // menuIncomingSoundNone
@@ -355,7 +359,7 @@
             this.settingMenuWhale100K,
             this.settingMenuWhale500K});
             this.settingMenuWhale.Name = "settingMenuWhale";
-            this.settingMenuWhale.Size = new System.Drawing.Size(233, 22);
+            this.settingMenuWhale.Size = new System.Drawing.Size(241, 30);
             this.settingMenuWhale.Text = "Whale transaction notification";
             // 
             // settingMenuWhaleNone
@@ -430,7 +434,7 @@
             // 
             this.buttonToolsAddressConverter.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsAddressConverter.Image")));
             this.buttonToolsAddressConverter.Name = "buttonToolsAddressConverter";
-            this.buttonToolsAddressConverter.Size = new System.Drawing.Size(247, 22);
+            this.buttonToolsAddressConverter.Size = new System.Drawing.Size(255, 30);
             this.buttonToolsAddressConverter.Text = "Zilliqa Address Format Converter";
             this.buttonToolsAddressConverter.Click += new System.EventHandler(this.buttonToolsAddressConverter_Click);
             // 
@@ -438,20 +442,20 @@
             // 
             this.buttonToolsSearchWindow.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsSearchWindow.Image")));
             this.buttonToolsSearchWindow.Name = "buttonToolsSearchWindow";
-            this.buttonToolsSearchWindow.Size = new System.Drawing.Size(247, 22);
+            this.buttonToolsSearchWindow.Size = new System.Drawing.Size(255, 30);
             this.buttonToolsSearchWindow.Text = "Blockchain Search Window";
             this.buttonToolsSearchWindow.Click += new System.EventHandler(this.buttonToolsSearchWindow_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(244, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(252, 6);
             // 
             // buttonToolsOpenWalletFolder
             // 
             this.buttonToolsOpenWalletFolder.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsOpenWalletFolder.Image")));
             this.buttonToolsOpenWalletFolder.Name = "buttonToolsOpenWalletFolder";
-            this.buttonToolsOpenWalletFolder.Size = new System.Drawing.Size(247, 22);
+            this.buttonToolsOpenWalletFolder.Size = new System.Drawing.Size(255, 30);
             this.buttonToolsOpenWalletFolder.Text = "Open Users Wallet Folder";
             this.buttonToolsOpenWalletFolder.Click += new System.EventHandler(this.buttonToolsOpenWalletFolder_Click);
             // 
@@ -459,7 +463,7 @@
             // 
             this.buttonToolsOpenDbFolder.Image = ((System.Drawing.Image)(resources.GetObject("buttonToolsOpenDbFolder.Image")));
             this.buttonToolsOpenDbFolder.Name = "buttonToolsOpenDbFolder";
-            this.buttonToolsOpenDbFolder.Size = new System.Drawing.Size(247, 22);
+            this.buttonToolsOpenDbFolder.Size = new System.Drawing.Size(255, 30);
             this.buttonToolsOpenDbFolder.Text = "Open Program Database Folder";
             this.buttonToolsOpenDbFolder.Click += new System.EventHandler(this.buttonToolsOpenDbFolder_Click);
             // 
@@ -570,6 +574,19 @@
             this.timerInit.Interval = 10;
             this.timerInit.Tick += new System.EventHandler(this.timerInit_Tick);
             // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(238, 6);
+            // 
+            // settingMenuChangePassword
+            // 
+            this.settingMenuChangePassword.Image = ((System.Drawing.Image)(resources.GetObject("settingMenuChangePassword.Image")));
+            this.settingMenuChangePassword.Name = "settingMenuChangePassword";
+            this.settingMenuChangePassword.Size = new System.Drawing.Size(241, 30);
+            this.settingMenuChangePassword.Text = "Change wallet password";
+            this.settingMenuChangePassword.Click += new System.EventHandler(this.settingMenuChangePassword_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -651,5 +668,7 @@
         private ToolStripButton buttonNfts;
         private ToolStripSeparator toolStripSeparatorWallet;
         private ToolStripSeparator toolStripSeparatorSearch;
+        private ToolStripSeparator toolStripMenuItem1;
+        private ToolStripMenuItem settingMenuChangePassword;
     }
 }
