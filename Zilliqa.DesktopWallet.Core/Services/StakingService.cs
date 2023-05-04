@@ -247,7 +247,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
                                 .Where(rc => rc.Cycle > cycleAmount.cycle).ToList();
                             if (rewardCycles.Any())
                             {
-                                rewardAmount = cycleAmount.amount * rewardCycles.Sum(rc => rc.RewardPercent / 100m);
+                                rewardAmount += cycleAmount.amount * rewardCycles.Sum(rc => rc.RewardPercent / 100m);
                             }
                         }
                         ssnReward = new StakingDelegatorAmount(kv.Key, rewardAmount);
