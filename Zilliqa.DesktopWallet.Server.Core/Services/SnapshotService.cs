@@ -126,7 +126,7 @@ namespace Zilliqa.DesktopWallet.Server.Core.Services
                     Logging.LogInfo($"CreateSnapshot created file: {zipFileInfo.Name}");
 
                     // we start the refresh of Cryptometa data after each snapshot
-                    TokenDataService.Instance.StartLoadTokens(true);
+                    CryptometaDownloadService.Instance.BeginRefresh();
                 }
                 catch (Exception e)
                 {

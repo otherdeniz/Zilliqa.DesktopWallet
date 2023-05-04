@@ -38,72 +38,93 @@ namespace Zilliqa.DesktopWallet.Core.Services
         {
             if (_loadStarted) return;
             _loadStarted = true;
-            if (CryptometaFile.Instance.ModifiedDate == null
-                || CryptometaFile.Instance.ModifiedDate.Value.AddDays(_refreshAfterDays) < DateTime.Today)
-            {
-                Task.Run(() =>
-                {
-                    var cancellationToken = _loadCancelTokenSource.Token;
-                    try
-                    {
-                        _loadingStatus = "Downloading assets from Github repository";
-                        _loadingStatusProgressText = new StatusProgressText(_loadingStatus);
-                        Logging.LogInfo($"CryptometaDownloadService LoadOrRefresh: {LoadingStatus}");
-                        var logoImages = LogoImages.Instance;
-                        var cryptometaClient = new ViewblockCryptometaClient();
-                        var allAssets = cryptometaClient.AllAssets(_loadingStatusProgressText);
-                        foreach (var asset in allAssets)
-                        {
-                            if (asset.Asset != null && asset.Image != null)
-                            {
-                                logoImages.SaveImage(asset.Asset.Bech32Address, asset.Image);
-                            }
-                        }
-                        CryptometaFile.Instance.Assets = allAssets.Select(a => a.Asset!).ToList();
-
-                        if (cancellationToken.IsCancellationRequested) return;
-
-                        _loadingStatus = "Downloading ecosystems from Github repository";
-                        _loadingStatusProgressText = new StatusProgressText(_loadingStatus);
-                        Logging.LogInfo($"CryptometaDownloadService LoadOrRefresh: {LoadingStatus}");
-                        var allEcosystems = cryptometaClient.AllEcosystems(_loadingStatusProgressText);
-                        foreach (var ecosystem in allEcosystems)
-                        {
-                            if (ecosystem.Ecosystem != null && ecosystem.Image != null)
-                            {
-                                logoImages.SaveImage(ecosystem.Ecosystem.Key, ecosystem.Image);
-                            }
-                        }
-                        CryptometaFile.Instance.Ecosystems = allEcosystems.Select(a => a.Ecosystem!).ToList();
-                        CryptometaFile.Instance.ModifiedDate = DateTime.Today;
-                        CryptometaFile.Instance.Save();
-
-                        _loadCompleted = true;
-                        _loadingStatusProgressText = null;
-                        _loadingStatus = "Download completed";
-                        Logging.LogInfo($"CryptometaDownloadService LoadOrRefresh: {LoadingStatus}");
-                        AfterLoadCompleted();
-                    }
-                    catch (TaskCanceledException)
-                    {
-                        _loadingStatusProgressText = null;
-                        _loadingStatus = "Download aborted";
-                        Logging.LogInfo("CryptometaDownloadService LoadOrRefresh: aborted");
-                    }
-                    catch (Exception e)
-                    {
-                        _loadingStatusProgressText = null;
-                        _loadingStatus = "Download failed";
-                        Logging.LogError($"CryptometaDownloadService LoadOrRefresh: failed: {e.Message}", e);
-                    }
-                    _loadCompleted = true;
-                });
-            }
-            else
+            if (!BeginRefreshIfNeeded())
             {
                 _loadCompleted = true;
                 AfterLoadCompleted();
             }
+        }
+
+        /// <summary>
+        /// returns true if refresh is needed
+        /// </summary>
+        public bool BeginRefreshIfNeeded()
+        {
+            if (CryptometaFile.Instance.ModifiedDate == null
+                || CryptometaFile.Instance.ModifiedDate.Value.AddDays(_refreshAfterDays) < DateTime.Today)
+            {
+                BeginRefresh();
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        ///  Download Data And Save To File
+        /// </summary>
+        public void BeginRefresh()
+        {
+            Task.Run(() =>
+            {
+                var cancellationToken = _loadCancelTokenSource.Token;
+                try
+                {
+                    _loadingStatus = "Downloading assets from Github repository";
+                    _loadingStatusProgressText = new StatusProgressText(_loadingStatus);
+                    Logging.LogInfo($"CryptometaDownloadService LoadOrRefresh: {LoadingStatus}");
+                    var logoImages = LogoImages.Instance;
+                    var cryptometaClient = new ViewblockCryptometaClient();
+                    var allAssets = cryptometaClient.AllAssets(_loadingStatusProgressText);
+                    foreach (var asset in allAssets)
+                    {
+                        if (asset.Asset != null && asset.Image != null)
+                        {
+                            logoImages.SaveImage(asset.Asset.Bech32Address, asset.Image);
+                        }
+                    }
+
+                    CryptometaFile.Instance.Assets = allAssets.Select(a => a.Asset!).ToList();
+
+                    if (cancellationToken.IsCancellationRequested) return;
+
+                    _loadingStatus = "Downloading ecosystems from Github repository";
+                    _loadingStatusProgressText = new StatusProgressText(_loadingStatus);
+                    Logging.LogInfo($"CryptometaDownloadService LoadOrRefresh: {LoadingStatus}");
+                    var allEcosystems = cryptometaClient.AllEcosystems(_loadingStatusProgressText);
+                    foreach (var ecosystem in allEcosystems)
+                    {
+                        if (ecosystem.Ecosystem != null && ecosystem.Image != null)
+                        {
+                            logoImages.SaveImage(ecosystem.Ecosystem.Key, ecosystem.Image);
+                        }
+                    }
+
+                    CryptometaFile.Instance.Ecosystems = allEcosystems.Select(a => a.Ecosystem!).ToList();
+                    CryptometaFile.Instance.ModifiedDate = DateTime.Today;
+                    CryptometaFile.Instance.Save();
+
+                    _loadCompleted = true;
+                    _loadingStatusProgressText = null;
+                    _loadingStatus = "Download completed";
+                    Logging.LogInfo($"CryptometaDownloadService LoadOrRefresh: {LoadingStatus}");
+                    AfterLoadCompleted();
+                }
+                catch (TaskCanceledException)
+                {
+                    _loadingStatusProgressText = null;
+                    _loadingStatus = "Download aborted";
+                    Logging.LogInfo("CryptometaDownloadService LoadOrRefresh: aborted");
+                }
+                catch (Exception e)
+                {
+                    _loadingStatusProgressText = null;
+                    _loadingStatus = "Download failed";
+                    Logging.LogError($"CryptometaDownloadService LoadOrRefresh: failed: {e.Message}", e);
+                }
+
+                _loadCompleted = true;
+            });
         }
 
         private void AfterLoadCompleted()
@@ -123,7 +144,7 @@ namespace Zilliqa.DesktopWallet.Core.Services
             }
 
             // load token models
-            TokenDataService.Instance.StartLoadTokens();
+            TokenDataService.Instance.StartLoadTokens(true);
         }
     }
 }
