@@ -56,6 +56,38 @@
     <Content Include="App_Plugins\Contentment\Lang\nl.xml" />
     <Content Include="App_Plugins\Contentment\Lang\pt.xml" />
     <Content Include="App_Plugins\Contentment\Lang\sv.xml" />
+    <Content Include="wwwroot\media\00yoayrr\zilliqa-desktop-wallet-by-zillifriends-v050-beta-2023-09-04-21_47_43.png" />
+    <Content Include="wwwroot\media\0iuo02d5\zilliqa-desktop-wallet-by-zillifriends-v050-beta-2023-09-04-21_49_32.png" />
+    <Content Include="wwwroot\media\4mkdkbnm\zilliqa-desktop-wallet-by-zillifriends-v050-beta-2023-09-04-21_41_57.png" />
+    <Content Include="wwwroot\media\bgapfo4f\phone-pen-binder.jpg" />
+    <Content Include="wwwroot\media\cmrisdxw\zilliqa-desktop-wallet-by-zillifriends-v050-beta-2023-09-04-21_46_33.png" />
+    <Content Include="wwwroot\media\cpth2fx5\community-front-row.jpg" />
+    <Content Include="wwwroot\media\ekpdgscq\triangle-table-chairs.jpg" />
+    <Content Include="wwwroot\media\eqnb3sat\zilliqa_desktop_wallet_2022-10-09_ecosystem.png" />
+    <Content Include="wwwroot\media\f01jqvmq\bluetooth-white-keyboard.jpg" />
+    <Content Include="wwwroot\media\fkadbwt3\umbracoffee-codegarden.jpg" />
+    <Content Include="wwwroot\media\gsnjjwq4\authors.jpg" />
+    <Content Include="wwwroot\media\k2xh4v5g\zilliqa_desktop_wallet_2022-10-09.png" />
+    <Content Include="wwwroot\media\kfrm2wll\diary.jpg" />
+    <Content Include="wwwroot\media\l0vicqwg\24-days-people-at-codegarden.jpg" />
+    <Content Include="wwwroot\media\lclf3ry1\tutorials.jpg" />
+    <Content Include="wwwroot\media\ljahypfa\chairs-lamps.jpg" />
+    <Content Include="wwwroot\media\m4sdnzdu\windows-10-logo-onscreen.jpg" />
+    <Content Include="wwwroot\media\n43dfw3o\first-timers-at-codegarden.jpg" />
+    <Content Include="wwwroot\media\oo4jm5ni\candid-contributions.jpg" />
+    <Content Include="wwwroot\media\pcmdjq3h\package-manifest.jpg" />
+    <Content Include="wwwroot\media\q4xbztkq\10319_1211220352995_623928_n.jpg" />
+    <Content Include="wwwroot\media\q4xbztkq\profile-pic-2023.png" />
+    <Content Include="wwwroot\media\qo0ccbnw\codegarden-keynote.jpg" />
+    <Content Include="wwwroot\media\rbwdyapk\zilliqa_desktop_wallet_2022-10-09_stakenodes.png" />
+    <Content Include="wwwroot\media\tu4lsswi\podcast-coffee.jpg" />
+    <Content Include="wwwroot\media\uv2bljv1\meetup-organizers-at-codegarden.jpg" />
+    <Content Include="wwwroot\media\uxcbvbvf\desktop-notebook-glasses.jpg" />
+    <Content Include="wwwroot\media\wvadrxjb\front-row-audience-smiles.jpg" />
+    <Content Include="wwwroot\media\xldnfcwl\friendly-chair.jpg" />
+    <Content Include="wwwroot\media\xu5ome2c\say-cheese.jpg" />
+    <Content Include="wwwroot\media\yfknqdaf\10319_1211220352995_623928_n.jpg" />
+    <Content Include="wwwroot\media\z4ocpnjy\skrift-at-codegarden.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App_Plugins\Contentment\backoffice\contentment\kilroy.svg" />
@@ -72,6 +104,16 @@
     <None Include="App_Plugins\Contentment\package.manifest" />
     <None Include="App_Plugins\Contentment\render\ContentBlockPreview.cshtml" />
     <None Include="App_Plugins\Contentment\render\_ViewImports.cshtml" />
+    <Content Include="wwwroot\media\0s1i3qfx\twitter.svg" />
+    <None Include="wwwroot\media\4esfh0cz\square-twitter.svg" />
+    <Content Include="wwwroot\media\cyybnb0n\discord.svg" />
+    <Content Include="wwwroot\media\iuln540y\paypal.svg" />
+    <Content Include="wwwroot\media\mbdjmcj4\github.svg" />
+    <Content Include="wwwroot\media\pwtlngdw\cc-paypal.svg" />
+    <Content Include="wwwroot\media\qwtcc0ic\github-alt.svg" />
+    <Content Include="wwwroot\media\tgcltm3u\square-github.svg" />
+    <Content Include="wwwroot\media\tj5lysa0\share-nodes.svg" />
+    <Content Include="wwwroot\media\ug3ds3ve\umbraco.svg" />
   </ItemGroup>
 
   <ItemGroup>
