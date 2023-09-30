@@ -348,3 +348,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/Zilliqa.DesktopWallet.PublicWebsite/Properties/PublishProfiles/FTP to test.zillifriends.com.pubxml
+/Zilliqa.DesktopWallet.PublicWebsite/umbraco/Data/Umbraco.sqlite.db
+/Zilliqa.DesktopWallet.PublicWebsite/umbraco/Data/Umbraco.sqlite.db-shm
+/Zilliqa.DesktopWallet.PublicWebsite/umbraco/Data/Umbraco.sqlite.db-wal
